@@ -640,7 +640,7 @@ const CLOUDT=[0,1,2].map(v=>{const c=document.createElement('canvas');c.width=51
 /* ================= Tripo で作った3Dモデル（models\manifest.json があれば使う） ================= */
 const MODEL={},MIX=[];
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1114k';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1114l';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1682,7 +1682,7 @@ let ultTm=0,ultFn=null,ultT=0,ultQ=-1e9,ultOnoT=-1e9;
 /* ---- 見せ場のカメラ（表紙の4コマと同じ向き）：1＝必殺技を下から見上げる／2＝敵軍の登場を肩ごしに望遠で／3＝ボスを倒す所を真横から ---- */
 const CINE={k:0,t:0,d:0,fov:0,tg:null,p:new V3(),l:new V3()},GCAM=new V3(),FALL=[],UPV=new V3(0,1,0),ROCKY=['golem','biggolem','bigcannon','wooddragon','walker','airship','ship','battleship','bigairship'];let cineOn=false,cineUltAt=-1e9;
 function cine(k,d,tg){if(state!=='play'||window.NOCINE)return;
-  if(k===1){const n=performance.now();if(CINE.k>1||n-cineUltAt<(window.CINE_CD===undefined?6000:CINE_CD))return;cineUltAt=n;}
+  if(k===1){const n=performance.now(),ok=n-cineUltAt>=(window.CINE_CD===undefined?8000:CINE_CD);cineUltAt=n;if(CINE.k||!ok)return;}
   CINE.k=k;CINE.t=0;CINE.d=d;CINE.tg=tg||null;if(k>1)document.body.classList.add('lbx');
   // 必殺技：キャラの大きさ（かこむ箱）を測って、どのキャラでも画面の上半分に大きく入る距離にする
   if(k===1){D.g.updateMatrixWorld(true);const bb=new THREE.Box3().setFromObject(D.g),s=bb.getSize(new V3()),c=bb.getCenter(new V3()),rw=Math.min(s.x,s.z)*0.5;
@@ -1705,10 +1705,13 @@ function cinePose(){const S=(C.camB||(charKey==='army'?34:C.fly?24:20))/24,p=CIN
   const fl=Math.max(floorAt(p.x,p.z),WATER)+1.4;if(p.y<fl)p.y=fl;}
 function cineCam(rdt){if(!CINE.k){cineOn=false;return;}if(state!=='play'){cineEnd();cineOn=false;return;}
   GCAM.copy(cam.position);if(!PAUSED&&!LVUP)CINE.t+=rdt;if(CINE.t>=CINE.d){cineEnd();cineOn=false;return;}
-  cinePose();const a=Math.min(1,CINE.t/0.14),b=Math.min(1,(CINE.d-CINE.t)/0.32),w=Math.min(a*a*(3-2*a),b*b*(3-2*b));
-  cam.position.lerpVectors(GCAM,CINE.p,w);tmp3.lerpVectors(camLook,CINE.l,w);cam.lookAt(tmp3);cineOn=true;
+  cinePose();const one=CINE.k===1,a=Math.min(1,CINE.t/(one?0.7:0.14)),b=Math.min(1,(CINE.d-CINE.t)/(one?0.8:0.4)),w=Math.min(a*a*(3-2*a),b*b*(3-2*b));
+  if(one){const ox=GCAM.x-P.pos.x,oz=GCAM.z-P.pos.z,px=CINE.p.x-P.pos.x,pz=CINE.p.z-P.pos.z,a0=Math.atan2(ox,oz);let da=Math.atan2(px,pz)-a0;da=Math.atan2(Math.sin(da),Math.cos(da));
+    const an=a0+da*w,r=Math.hypot(ox,oz)*(1-w)+Math.hypot(px,pz)*w;cam.position.set(P.pos.x+Math.sin(an)*r,GCAM.y+(CINE.p.y-GCAM.y)*w,P.pos.z+Math.cos(an)*r);
+    const fl=Math.max(floorAt(cam.position.x,cam.position.z),WATER)+1.4;if(cam.position.y<fl)cam.position.y=fl;}
+  else cam.position.lerpVectors(GCAM,CINE.p,w);tmp3.lerpVectors(camLook,CINE.l,one?Math.min(1,w*1.8):w);cam.lookAt(tmp3);cineOn=true;
   // 必殺技：出した直後は口から炎がふき出す
-  if(CINE.k===1&&ultT<=0&&CINE.t<1.05&&!PAUSED&&!LVUP&&D.human!=='army'){const m=mouthPos(),ad=aimDir();flame(m.addScaledVector(ad,1.2),2,2.2,0.4,ad.multiplyScalar(26),0,4);}}
+  if(CINE.k===1&&ultT<=0&&CINE.t<1.7&&!PAUSED&&!LVUP&&D.human!=='army'){const m=mouthPos(),ad=aimDir();flame(m.addScaledVector(ad,1.2),2,2.2,0.4,ad.multiplyScalar(26),0,4);}}
 // ボスはすぐ消さない：炎をあびて、ゆれて、崩れてから爆発する
 const RAYC=new THREE.Ray(),RAYH=new V3();
 // カメラ p から a までの間にある建物・柱の数（少ない側から撮る）
@@ -1727,7 +1730,7 @@ function ult(nm,line,fire){const u=$('ult');u.style.display='none';void u.offset
   u.querySelector('.nm').textContent=nm;u.querySelector('.tg').textContent=nm;u.classList.remove('fired');u.querySelector('.sb').textContent=`${C.name}「${line||''}」`;u.classList.toggle('two',nm===SKINFO[P.sp2].n);u.style.display='block';
   clearTimeout(ultTm);ultTm=setTimeout(()=>{u.style.display='none';},2200);
   if(ultFn){const f=ultFn;ultFn=null;f();}
-  TS=0.05;tsT=0.6;sfx('charge',null,0.9);if(!voice('ME',line))sfx('roar',null,0.3);ultFn=fire||null;ultT=0.45;cine(1,1.05);u.classList.toggle('cine',CINE.k===1);}
+  TS=0.05;tsT=0.6;sfx('charge',null,0.9);if(!voice('ME',line))sfx('roar',null,0.3);ultFn=fire||null;ultT=0.45;cine(1,2.3);if(CINE.k===1&&CINE.t===0){ultT=1.0;tsT=1.2;}u.classList.toggle('cine',CINE.k===1);}
 function updUlt(rdt){if(ultT<=0)return;ultT-=rdt;if(ultT>0)return;const f=ultFn;ultFn=null;TS=1;tsT=0;ultQ=performance.now();{const u=$('ult');u.classList.add('fired');clearTimeout(ultTm);ultTm=setTimeout(()=>{u.style.display='none';},1250);}if(f&&state==='play'){flashV=Math.max(flashV,0.75);shake(0.6);sfx('release');f();if(CINE.k===1){TS=0.4;tsT=0.45;}}}
 const FXL=[],FXTX={};
 function fxAdd(m,life,upd){scene.add(m);FXL.push({m,t:0,life,upd});return m;}
