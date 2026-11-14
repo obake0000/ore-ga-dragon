@@ -781,7 +781,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116o';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116p';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -3745,7 +3745,7 @@ function updSw(dt,t){if(!SW.on)return;SW.uT.value=t;if(state!=='play'){return;}c
     if(dead){swKill(u);im.setMatrixAt(i,SWZ);continue;}
     o.position.set(u.x,u.y,u.z);o.rotation.set(0,u.yaw,0);o.scale.setScalar(u.s);o.updateMatrix();im.setMatrixAt(i,o.matrix);}
   im.instanceMatrix.needsUpdate=true;if(SW.alive<=0)swClear();}
-function startWave(i){wave=i;const w=curWaves()[i];moodT=MOODS[w.mood];w.go();banner(w.msg,3);const tl=(TALKS[STAGES[stage].key]||{}).w;{const ti=i-(curWaves()[0].cave?1:0);if(tl&&tl[ti]&&ti>0)talk(tl[ti]);}thinWave();cineWave();swWave(i);}
+function startWave(i){wave=i;const w=curWaves()[i];moodT=MOODS[w.mood];w.go();banner(w.msg,3);const tl=(TALKS[STAGES[stage].key]||{}).w;{const ti=i-(curWaves()[0].cave?1:0);if(tl&&tl[ti]&&ti>0)talk(tl[ti]);}thinWave();armyMore();cineWave();swWave(i);}
 function cineWave(){const L=EN.filter(e=>!e.dead);if(!L.length)return;
   {const wv=L.find(e=>e.wyv&&e.boss);if(wv){cine(5,2.4,{e:wv,k:6,fov:32,dy:9});if(CINE.k===5){TS=0.3;tsT=2.25;}return;}}
   if(CAVE.on&&L.some(e=>e.cave)){const G=L.filter(e=>e.cave);let x=0,z=0;G.forEach(e=>{x+=e.mesh.position.x/G.length;z+=e.mesh.position.z/G.length;});cine(4,2.8,{x,y:CAVE.y,z});if(CINE.k===4){TS=0.1;tsT=2.65;}return;}const b=L.find(e=>e.boss);let x=0,y=0,z=0,r=26,n=0;
@@ -3755,6 +3755,21 @@ function cineWave(){const L=EN.filter(e=>!e.dead);if(!L.length)return;
   if(RANKS.n)r=Math.max(r,72);const far=Math.hypot(x-P.pos.x,z-P.pos.z)>110;cine(2,far?2.3:1.6,{x,y,z,r,cut:far?0.95:0});if(CINE.k===2){TS=0.12;tsT=far?2.15:1.45;}}
 // 初心者モード：ボス以外の敵を4割へらす（短い時間で終わるように）
 const ARMYT=['soldier','archer','goblin','redcap','skel','devilsol','imp'];
+/* ---- 軍勢を増やす（シナリオ2〜7。波の始まりに、軍勢の敵を同じ見た目でまわりに足す） ---- */
+{const ae=addEnemy;addEnemy=function(type,x,z,y,o){const n=EN.length,r=ae(type,x,z,y,o);try{const e=EN[EN.length-1];if(EN.length>n&&e&&o&&!e._o)e._o=o;}catch(_){}return r;};}
+const ARMYK={n:1.6,cap:84,min:30},ARMYX=['ballista','cannon','bigcannon','orctank','orcfort','skyfort'];
+function armyMore(){try{
+  if(typeof ARMYT==='undefined'||typeof SCN==='undefined'||SCN<2)return;
+  const src=EN.filter(e=>!e.dead&&!e.boss&&ARMYT.includes(e.type)&&!(e._o&&(e._o.perch||ARMYX.includes(e._o.model))));
+  if(!src.length)return;
+  const tot=EN.filter(e=>!e.dead).length;
+  let add=Math.round(src.length*(ARMYK.n-1));
+  if(tot+add<ARMYK.min)add=ARMYK.min-tot;
+  add=Math.min(add,ARMYK.cap-tot);
+  for(let i=0;i<add;i++){const e=src[i%src.length],q=e.mesh.position,a=Math.random()*6.283,d=5+Math.random()*9,n=EN.length;
+    addEnemy(e.type,q.x+Math.cos(a)*d,q.z+Math.sin(a)*d,e.fly?q.y+(Math.random()*6-3):undefined,Object.assign({},e._o||{}));
+    const c=EN[EN.length-1];if(EN.length>n&&c){c._cl=1;c.sc=e.sc;c.r=e.r;c.hc=e.hc;c.hp=e.hp;c.maxHp=e.maxHp;c.dmg=e.dmg;c.val=e.val;}}
+}catch(_){}}
 function thinWave(){let k=0;for(let i=EN.length-1;i>=0;i--){const e=EN[i];if(e.boss||e.dead||e.type==='biggolem'||e.type==='bigskel'||e.type==='bigslime'||e.type==='seal'||ARMYT.includes(e.type))continue;k+=EASY?0.4:0.25;if(k>=1){k-=1;scene.remove(e.mesh);EN.splice(i,1);}}}
 // 章の地形・建物を作る
 function addFlags(){const F=[];for(const f of TER.flats){if(f[4])continue;const n=Math.max(4,Math.min(12,Math.round(f[2]/7)));for(let i=0;i<n;i++){const a=i/n*6.283+f[0]*0.01,rr=f[2]*0.85,x=f[0]+Math.cos(a)*rr,z=f[1]+Math.sin(a)*rr,y=H(x,z);if(y<WATER+0.8)continue;F.push([x,y,z]);}}
