@@ -731,13 +731,13 @@ function updMix(dt){for(let i=MIX.length-1;i>=0;i--){const o=MIX[i];if(!o.g.pare
 // 歩き＝骨の動き（Tripo の「歩く」）。羽ばたき・足をたたむ・尻尾・攻撃の首ふり・のけぞりは、骨をこちらで回して、歩きの上に足す。
 // RIGCF＝動きの大きさの調整（角度はラジアン）
 // fold＝地上で翼をたたむ形：[つけ根を下げる, つけ根を後ろへ, 手首を後ろへ, 先を下げる]
-const RIGCF={amp:0.62,tipLag:0.8,tip:0.3,fold:[-0.3,0.95,0.55,-0.25],legF:[0.75,-1.0],legH:[0.95,0.5],tail:0.11,neck:0.13,gy:0,stride:3.4,walk:0.2};
+const RIGCF={tw:1.05,legF3:-0.3,legH3:0.35,nkS:0.9,nkF:0.28,hdF:-0.6,tlS:0.85,tlP:0.15,amp:0.62,tipLag:0.8,tip:0.3,fold:[-0.3,0.95,0.55,-0.25],legF:[1.45,0.3],legH:[1.05,0.5],tail:0.11,neck:0.13,gy:0,stride:3.4,walk:0.2};
 const RQ=new THREE.Quaternion();
 function addRig(g,holder,m,id){const o=g.userData.mix,cf=FLAP_ID[id]||{};g.updateMatrixWorld(true);
   const B={};m.traverse(x=>{if(x.isBone)B[x.name.replace(/[^A-Za-z0-9_]/g,'')]=x;});
   const gq=g.getWorldQuaternion(new THREE.Quaternion()).invert(),gi=new THREE.Matrix4().copy(g.matrixWorld).invert();
   // 骨を「体の向きで見た軸 ax」のまわりに回すために、その軸を親の骨から見た向きに直しておく
-  const J=(name,ax)=>{const b=B[name];if(!b||!b.parent)return null;const pq=b.parent.getWorldQuaternion(new THREE.Quaternion()).premultiply(gq).invert();return {b,ax:ax.clone().applyQuaternion(pq).normalize(),au:new V3(0,1,0).applyQuaternion(pq).normalize(),base:b.quaternion.clone(),out:b.quaternion.clone()};};
+  const J=(name,ax)=>{const b=B[name];if(!b||!b.parent)return null;const pq=b.parent.getWorldQuaternion(new THREE.Quaternion()).premultiply(gq).invert();return {b,ax:ax.clone().applyQuaternion(pq).normalize(),au:new V3(0,1,0).applyQuaternion(pq).normalize(),ar:new V3(1,0,0).applyQuaternion(pq).normalize(),base:b.quaternion.clone(),out:b.quaternion.clone()};};
   const chain=(names,ax)=>names.map(n=>J(n,ax)).filter(Boolean);
   const F=new V3(0,0,1),U=new V3(0,1,0),Rt=new V3(1,0,0);
   const side=n=>{const b=B[n];return b?(Math.sign(b.getWorldPosition(new V3()).applyMatrix4(gi).x)||1):1;};
@@ -745,11 +745,25 @@ function addRig(g,holder,m,id){const o=g.userData.mix,cf=FLAP_ID[id]||{};g.updat
   const f={g,rig:1,fl:1,nw:true,wk:0,ph:Math.random()*6,tp:Math.random()*6,lp:0,gl:0,h:new THREE.Box3().setFromObject(holder).getSize(new V3()).y,holder,cf,amp:RIGCF.amp,last:new V3().copy(g.position),v:0,
     wings:[wing(20),wing(27)],
     legF:chain(['tripo0_Left_Limb_0','tripo0_Right_Limb_0'],Rt),legF2:chain(['tripo0_Left_Limb_1','tripo0_Right_Limb_1'],Rt),
-    legH:chain(['tripo1_Left_Limb_0','tripo1_Right_Limb_0'],Rt),legH2:chain(['tripo1_Left_Limb_1','tripo1_Right_Limb_1'],Rt),
+    legH:chain(['tripo1_Left_Limb_0','tripo1_Right_Limb_0'],Rt),legH2:chain(['tripo1_Left_Limb_1','tripo1_Right_Limb_1'],Rt),legF3:chain(['tripo0_Left_Limb_2','tripo0_Right_Limb_2'],Rt),legH3:chain(['tripo1_Left_Limb_2','tripo1_Right_Limb_2'],Rt),head:chain(['tripoHead_4','tripoHead_5'],Rt),tailX:chain(['bone_41'],U),tail0:chain(['bone_34'],Rt),headB:B.tripoHead_5||null,
     tail:chain(['bone_35','tripoTail_0','tripoTail_1','tripoTail_2','tripoTail_3','bone_40'],U),
     neck:chain(['tripoHead_0','tripoHead_1','tripoHead_2','tripoHead_3'],Rt)};
-  f.all=[].concat(f.wings[0].j,f.wings[1].j,f.legF,f.legF2,f.legH,f.legH2,f.tail,f.neck);
+  f.all=[].concat(f.wings[0].j,f.wings[1].j,f.legF,f.legF2,f.legF3,f.legH,f.legH2,f.legH3,f.tail,f.tailX,f.tail0,f.neck,f.head);
   o.rig=f;g.userData.flap=f;}
+const RQ2=new THREE.Quaternion(),RQ3=new THREE.Quaternion(),RV=new V3(),RY=new V3(0,1,0);
+function rigTw(j,r){if(j&&r)j.b.quaternion.premultiply(RQ.setFromAxisAngle(j.ar,r));}
+function rigStr(j,t){if(!j||t<=0)return;RV.copy(RY).applyQuaternion(j.b.quaternion);RQ2.setFromUnitVectors(RV,RY);j.b.quaternion.premultiply(RQ3.identity().slerp(RQ2,Math.min(1,t)));}
+const ATK={n:0,h:0,w:0,c:0,sd:1};
+function rigSm(x){x=x<0?0:x>1?1:x;return x*x*(3-2*x);}
+// 近接の動きの流れ：0〜0.28 首を引く（マイナス）→ 0.5 で前へ出きる（1）→ もどる
+function rigMel(){const m=1-Math.max(0,P.melA||0)/0.45;return m<0.28?-0.6*Math.sin(m/0.28*1.571):m<0.5?-0.6+1.6*rigSm((m-0.28)/0.22):1-rigSm((m-0.5)/0.5);}
+function rigAtk(f,on,dt){const A=ATK;A.n=A.h=A.w=A.c=0;if(!on)return A;
+  if(P.melA>0){P.melA-=dt;const m=1-Math.max(0,P.melA)/0.45,s=rigMel();A.n+=s*0.3;A.h+=s*0.28;A.w-=s*0.5;A.c=m<0.28?0:m<0.5?rigSm((m-0.28)/0.22):1-rigSm((m-0.5)/0.5);A.sd=P.melS||1;}
+  const uw=ultT>0;if(f.uw&&!uw)P.spM=0.6;f.uw=uw;
+  if(uw){const u=Math.sqrt(1-Math.max(0,ultT)/0.45);A.n-=u*0.3;A.h-=u*0.3;A.w+=u*0.6;}
+  else if(P.spM>0){P.spM-=dt;const u=Math.sin(Math.max(0,P.spM)/0.6*1.571);A.n+=u*0.3;A.h+=u*0.12;A.w-=u*0.55;}
+  if(P.atkM>0){const m=1-Math.max(0,P.atkM)/0.22,s=m<0.25?-0.5*rigSm(m/0.25):m<0.55?-0.5+1.5*rigSm((m-0.25)/0.3):1-rigSm((m-0.55)/0.45);A.n+=s*0.2;A.h-=Math.max(0,s)*0.14;A.w-=s*0.14;}
+  return A;}
 function rigRot(j,a,u){if(!j)return;if(a)j.b.quaternion.premultiply(RQ.setFromAxisAngle(j.ax,a));if(u)j.b.quaternion.premultiply(RQ.setFromAxisAngle(j.au,u));}
 function updRig(o,dt){const f=o.rig,me=(typeof D!=='undefined'&&D&&f.g===D.g),play=typeof state!=='undefined'&&state==='play',K=RIGCF;
   const q=f.g.position,mv=Math.hypot(q.x-f.last.x,q.z-f.last.z)/Math.max(dt,1e-3);f.last.copy(q);f.v=f.v*0.85+Math.min(mv,200)*0.15;
@@ -762,20 +776,24 @@ function updRig(o,dt){const f=o.rig,me=(typeof D!=='undefined'&&D&&f.g===D.g),pl
   else if(me)spd=5.5;
   f.ph+=dt*spd;f.tp+=dt*(2.2+Math.min(4,f.v*0.1));f.gl+=(glide-f.gl)*Math.min(1,dt*4);
   // 歩き（骨の動き）：地上にいる割合だけ効かせる。足の速さは進む速さに合わせ、止まれば足も止まる
-  const v=(me&&play&&f.wk>0.02)?Math.hypot(P.vel.x,P.vel.z):0;o.act.setEffectiveWeight(f.wk);o.act.timeScale=v<0.6?0:Math.min(3,Math.max(0.7,v/K.stride));f.lp+=dt*(1.5+Math.min(9,v*0.22));
+  {const fs=(me&&play)?0.55+0.45*Math.min(1,Math.hypot(P.vel.x,P.vel.z)/Math.max(C.spd,1)/0.5):1;f.st=(f.st||1)+(fs-(f.st||1))*Math.min(1,dt*3);}const v=(me&&play&&f.wk>0.02)?Math.hypot(P.vel.x,P.vel.z):0;o.act.setEffectiveWeight(f.wk);o.act.timeScale=v<0.6?0:Math.min(3,Math.max(0.7,v/K.stride));f.lp+=dt*(1.5+Math.min(9,v*0.22));
   o.mx.update(dt);
   for(const j of f.all){if(!j.b.quaternion.equals(j.out))j.base.copy(j.b.quaternion);j.b.quaternion.copy(j.base);}
   // ここから、骨をこちらで回して足す（毎コマ、歩きの姿か元の姿にもどってから足すので、たまっていかない）
-  const k=1-f.wk,w1=wvDn(f.ph,0.4),w2=wvDn(f.ph-K.tipLag,0.4),md=-0.5*(1-f.gl)-0.25*f.gl,a0=md+amp*0.8*w1,tip=K.tip*amp*(w2-w1*0.5);
+  const A=rigAtk(f,me&&play,dt),k=1-f.wk,ks=k*f.st,w1=wvDn(f.ph,0.4),w2=wvDn(f.ph-K.tipLag,0.4),md=-0.5*(1-f.gl)-0.25*f.gl,a0=md+amp*0.8*w1,tip=K.tip*amp*(w2-w1*0.5);
   for(const W of f.wings){const j=W.j,sd=W.sd,fd=K.fold;
-    rigRot(j[0],sd*(a0*k+fd[0]*f.wk),sd*fd[1]*f.wk);rigRot(j[2],sd*tip*0.35*k);rigRot(j[3],sd*(tip*k+fd[3]*f.wk),sd*fd[2]*f.wk);rigRot(j[4],sd*tip*0.5*k);}
+    rigTw(j[0],K.tw*ks);rigRot(j[0],sd*((a0+A.w)*k+fd[0]*f.wk),sd*fd[1]*f.wk);rigRot(j[2],sd*tip*0.35*k);rigRot(j[3],sd*(tip*k+fd[3]*f.wk),sd*fd[2]*f.wk);rigRot(j[4],sd*tip*0.5*k);}
   // 飛んでいる間は足を後ろへたたむ
-  if(k>0.01){f.legF.forEach(j=>rigRot(j,K.legF[0]*k));f.legF2.forEach(j=>rigRot(j,K.legF[1]*k));f.legH.forEach(j=>rigRot(j,K.legH[0]*k));f.legH2.forEach(j=>rigRot(j,K.legH[1]*k));}
+  if(k>0.01){f.legF.forEach(j=>rigRot(j,K.legF[0]*k));f.legF2.forEach(j=>rigRot(j,K.legF[1]*k));f.legH.forEach(j=>rigRot(j,K.legH[0]*k));f.legH2.forEach(j=>rigRot(j,K.legH[1]*k));f.legF3.forEach(j=>rigRot(j,K.legF3*k));f.legH3.forEach(j=>rigRot(j,K.legH3*k));
+    f.neck.forEach(j=>{rigStr(j,K.nkS*ks);rigRot(j,K.nkF*ks);});f.head.forEach(j=>rigRot(j,K.hdF*ks));
+    f.tail.forEach(j=>rigStr(j,K.tlS*ks));f.tailX.forEach(j=>rigStr(j,K.tlS*ks));f.tail0.forEach(j=>rigRot(j,K.tlP*ks));}
   // 尻尾：ゆっくり左右にゆれる（先ほど遅れる）
   f.tail.forEach((j,i)=>rigRot(j,Math.sin(f.tp-i*0.7)*K.tail*(0.6+i*0.25)));
   // 首：弾を出す時に前へ突き出す。ダメージを受けた時は、のけぞる
-  if(me&&play){const at=P.atkM>0?Math.sin((1-Math.max(0,P.atkM)/0.22)*Math.PI):0,ht=P.hitM>0?Math.sin(Math.max(0,P.hitM)/0.38*Math.PI):0,a=at*K.neck-ht*0.22;if(a)f.neck.forEach(j=>rigRot(j,a));}
+  if(me&&play){const at=P.atkM>0?Math.sin((1-Math.max(0,P.atkM)/0.22)*Math.PI):0,ht=P.hitM>0?Math.sin(Math.max(0,P.hitM)/0.38*Math.PI):0,a=A.n-ht*0.22;if(a)f.neck.forEach(j=>rigRot(j,a));if(A.h)f.head.forEach(j=>rigRot(j,A.h));
+    if(A.c){const i=A.sd>0?0:1,c=A.c;rigRot(f.legF[i],-(1.2+0.8*k)*c);rigRot(f.legF2[i],-0.5*c);}}
   for(const j of f.all)j.out.copy(j.b.quaternion);
+  if(me&&f.headB&&D.mouth&&D.mouth.parent){f.headB.updateWorldMatrix(true,false);D.mouth.position.copy(D.mouth.parent.worldToLocal(f.headB.localToWorld(RV.set(0,K.mth||0.09,0))));}
   f.holder.position.y=-w1*f.h*0.02*k+(K.gy||0)*f.wk;}
 // 竜の体の動き（骨の無い模型でも、形の場所ごとに回して動かす）
 //  ・翼：体の中心から横に離れた所を、肩を軸に上下に回す（羽ばたき）
@@ -1562,7 +1580,7 @@ const SLASH=[];
 function slashFx(col){const g=new THREE.RingGeometry(5,7.5,24,1,-1.2,2.4);const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:col||0xffffff,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));
   m.rotation.order='YXZ';m.rotation.set(-Math.PI/2+0.25,0,0);const h=new THREE.Group();h.add(m);h.position.copy(P.pos);h.rotation.y=P.yaw+Math.PI/2*0;h.scale.setScalar(C.mel.r/7);scene.add(h);SLASH.push({h,m,t:0});}
 function updSlash(dt){for(let i=SLASH.length-1;i>=0;i--){const q=SLASH[i];q.t+=dt;q.h.position.copy(P.pos);q.m.rotation.z=-1.2+q.t*9;q.m.material.opacity=0.9*(1-q.t/0.28);if(q.t>=0.28){scene.remove(q.h);SLASH.splice(i,1);}}}
-function melee(){P.melT=0.3;P.melCd=C.mel.cd;if(D&&D.human==='hero')mixOnce(D.units[0].m.userData.mix,2);if(D&&D.model)mixOnce(D.body.userData.mix,1.8);const ad=aimDir();ad.y=0;ad.normalize();let n=0;
+function melee(){P.melT=0.3;P.melA=0.45;P.melS=-(P.melS||1);P.melCd=C.mel.cd;if(D&&D.human==='hero')mixOnce(D.units[0].m.userData.mix,2);if(D&&D.model)mixOnce(D.body.userData.mix,1.8);const ad=aimDir();ad.y=0;ad.normalize();let n=0;
   for(const e of EN){if(e.dead)continue;const c=cpos(e),v=tmp.subVectors(c,P.pos);if(Math.abs(v.y)>12+e.r)continue;v.y=0;const d=v.length();if(d>C.mel.r+e.r)continue;if(d>3&&v.normalize().dot(ad)<-0.2)continue;
     hitEnemy(e,C.mel.dmg);n++;burst(c,6,SPARK,3,14,0.3);}
   const bt=bldAt(P.pos.x+ad.x*4,P.pos.z+ad.z*4,C.mel.r*0.6);if(bt.hit&&!C.human&&P.pos.y-C.gOff<bt.top)hitBld(bt.hit,C.mel.dmg*0.6);if(!C.human)meleeRock(ad);
@@ -2602,7 +2620,7 @@ function frame(now){
       const want=(1-wk0)*((r<0.25?-0.08:Math.min(1,(r-0.25)/0.6))*(cf.lean||0.5)+(P.dashT>0?0.12:0)-clamp((P.vel.y||0)/80,-0.3,0.5)*0.5);P.lean=(P.lean||0)+(want-(P.lean||0))*Math.min(1,dt*3.5);D.g.rotation.x+=P.lean;
       if(f&&f.fl&&r<0.5)D.g.position.y+=Math.sin(f.ph-0.6)*0.7*(1-r*2)*(1-wk0);}
     if(state==='select')D.g.rotation.y=t*0.4+Math.PI;
-    if(D.human)animHuman(D,t,state==='play');else if(D.model){if(C.fly)D.body.position.y=Math.sin(t*1.3)*0.5;}else{animDragon(D,t,P.dashT>0?16:P.firing?7:5.5,C.fly?0:(state==='play'?(P.dashT>0?16:9):3));if(P.melT>0&&state==='play')D.g.rotation.y+=(1-P.melT/0.3)*Math.PI*2;}
+    if(D.human)animHuman(D,t,state==='play');else if(D.model){if(C.fly)D.body.position.y=Math.sin(t*1.3)*0.5;}else{animDragon(D,t,P.dashT>0?16:P.firing?7:5.5,C.fly?0:(state==='play'?(P.dashT>0?16:9):3));if(D.g.userData.flap&&D.g.userData.flap.rig){if(P.melA>0&&state==='play'){const s=rigMel();D.g.rotation.x+=s*0.2;D.g.translateZ(s*1.8);}}else if(P.melT>0&&state==='play')D.g.rotation.y+=(1-P.melT/0.3)*Math.PI*2;}
     updSlash(rdt);
   }
   updParts(dt);updAirProp(dt);updEmit(dt);updDeb(dt);updMix(dt);updBolts(dt);updShock(dt);updFX(dt);updBld(dt,t);updFall(rdt);
