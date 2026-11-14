@@ -640,7 +640,7 @@ const CLOUDT=[0,1,2].map(v=>{const c=document.createElement('canvas');c.width=51
 /* ================= Tripo で作った3Dモデル（models\manifest.json があれば使う） ================= */
 const MODEL={},MIX=[];
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1114l';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1114m';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -714,8 +714,11 @@ function attachModel(g,id,er=0){if(!id||!MODEL[id])return false;const m=cloneMod
   if(FLAP_ID[id]){if(MODEL[id].skin&&g.userData.mix)addRig(g,holder,m,id);else addFlap(g,holder,m,id);}
   g.position.copy(p);g.rotation.copy(r);g.scale.copy(s);return true;}
 // 攻撃の動き（斬る・魔法を唱える）を1回だけ流して、終わったらもとの動きにもどす
-function mixOnce(o,sp=1.6){if(!o||!o.hit||o.once)return;const a=o.acts[o.hit.name];a.reset();a.setLoop(THREE.LoopOnce,1);a.clampWhenFinished=false;a.timeScale=sp;a.play();o.cur.crossFadeTo(a,0.12,false);o.once=a;
-  const back=o.cur;setTimeout(()=>{if(o.once===a)o.once=null;back.reset().play();a.crossFadeTo(back,0.2,false);o.cur=back;},Math.max(250,o.hit.duration/sp*1000-150));}
+// 攻撃の動き：[始まりの秒, 終わりの秒, 速さ]。手がいちばん速く動く所を実測して決めた
+const HITW={slash:[1.7,2.5,1.5],box_01:[0.12,1.2,1.5],pitch_baseball:[1.3,2.2,1.6],cast_a_spell:[0.4,1.6,1.6]};
+function mixOnce(o,sp=1.6){if(!o||!o.hit||o.once)return;const a=o.acts[o.hit.name],w=HITW[o.hit.name]||[0,o.hit.duration,1.6],k=w[2]*sp/1.6;
+  a.reset();a.setLoop(THREE.LoopOnce,1);a.clampWhenFinished=true;a.timeScale=k;a.time=w[0];a.play();o.cur.crossFadeTo(a,0.07,false);o.once=a;
+  const back=o.cur;setTimeout(()=>{if(o.once===a)o.once=null;back.reset().play();a.crossFadeTo(back,0.18,false);o.cur=back;},Math.max(220,(w[1]-w[0])/k*1000-110));}
 function updMix(dt){for(let i=MIX.length-1;i>=0;i--){const o=MIX[i];if(!o.g.parent){MIX.splice(i,1);continue;}
   if(o.rig){updRig(o,dt);continue;}
   // 歩く速さに合わせて足の動きを速く・遅くする（止まっている時はゆっくり）
@@ -1579,7 +1582,9 @@ function gndOff(d,lx,lz){if(state==='select')return 0;const g=d.g,yw=g.rotation.
 const SLASH=[];
 function slashFx(col){const g=new THREE.RingGeometry(5,7.5,24,1,-1.2,2.4);const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:col||0xffffff,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));
   m.rotation.order='YXZ';m.rotation.set(-Math.PI/2+0.25,0,0);const h=new THREE.Group();h.add(m);h.position.copy(P.pos);h.rotation.y=P.yaw+Math.PI/2*0;h.scale.setScalar(C.mel.r/7);scene.add(h);SLASH.push({h,m,t:0});}
-function updSlash(dt){for(let i=SLASH.length-1;i>=0;i--){const q=SLASH[i];q.t+=dt;q.h.position.copy(P.pos);q.m.rotation.z=-1.2+q.t*9;q.m.material.opacity=0.9*(1-q.t/0.28);if(q.t>=0.28){scene.remove(q.h);SLASH.splice(i,1);}}}
+function slashAt(pos,yaw,col,R){const g=new THREE.RingGeometry(5,7.5,24,1,-1.2,2.4);const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:col||0xffffff,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));
+  m.rotation.order='YXZ';m.rotation.set(-Math.PI/2+0.25,0,0);const h=new THREE.Group();h.add(m);h.position.copy(pos);h.rotation.y=yaw;h.scale.setScalar(R/7);scene.add(h);SLASH.push({h,m,t:0,fix:1});}
+function updSlash(dt){for(let i=SLASH.length-1;i>=0;i--){const q=SLASH[i];q.t+=dt;if(!q.fix)q.h.position.copy(P.pos);q.m.rotation.z=-1.2+q.t*9;q.m.material.opacity=0.9*(1-q.t/0.28);if(q.t>=0.28){scene.remove(q.h);SLASH.splice(i,1);}}}
 function melee(){P.melT=0.3;P.melA=0.45;P.melS=-(P.melS||1);P.melCd=C.mel.cd;if(D&&D.human==='hero')mixOnce(D.units[0].m.userData.mix,2);if(D&&D.model)mixOnce(D.body.userData.mix,1.8);const ad=aimDir();ad.y=0;ad.normalize();let n=0;
   for(const e of EN){if(e.dead)continue;const c=cpos(e),v=tmp.subVectors(c,P.pos);if(Math.abs(v.y)>12+e.r)continue;v.y=0;const d=v.length();if(d>C.mel.r+e.r)continue;if(d>3&&v.normalize().dot(ad)<-0.2)continue;
     hitEnemy(e,C.mel.dmg);n++;burst(c,6,SPARK,3,14,0.3);}
@@ -1954,7 +1959,7 @@ function updPill(dt){for(let i=PILL.length-1;i>=0;i--){const q=PILL[i];
       if(Math.hypot(P.pos.x-q.x,P.pos.z-q.z)<8&&P.pos.y<q.y+150)hurt(22);burst(new V3(q.x,q.y+2,q.z),12,GOLD,4,20,0.6);sfx('zap',q.rm.position,0.7);}}
   else{q.ct+=dt;q.cm.material.opacity=0.85*(1-q.ct/0.5);q.cm.scale.x=q.cm.scale.z=1+q.ct;if(q.ct>=0.5){scene.remove(q.cm);scene.remove(q.rm);PILL.splice(i,1);}}}}
 function startHeroMove(e,dx,dz,p2,force){const p=e.mesh.position,mv=force||e.next;e.mv=mv;e.done=false;
-  if(mv==='leap'){const T=1.0;e.lx=dx/T;e.lz=dz/T;e.vy=((P.pos.y-p.y-e.hc)+0.5*40*T*T)/T;e.mt=1.0;burst(cpos(e),16,SPARK,3,20,0.5);sfx('slash',p);}
+  if(mv==='leap'){const T=1.0;e.lx=dx/T;e.lz=dz/T;e.vy=((P.pos.y-p.y-e.hc)+0.5*40*T*T)/T;e.mt=1.0;burst(cpos(e),16,SPARK,3,20,0.5);sfx('slash',p);slashAt(cpos(e),Math.atan2(dx,dz),0xffffff,8);}
   else if(mv==='beam'){const f=cpos(e).clone();f.y+=2;const n=p2?5:3;const base=tmp.subVectors(P.pos,f).normalize();
     for(let k=0;k<n;k++){const a=(k-(n-1)/2)*0.2;shoot(f,base.clone().applyAxisAngle(new V3(0,1,0),a).multiplyScalar(110),{geo:'beam',mat:MAT.beam,size:1.2,r:2.6,dmg:14,life:1.15,trail:SPARK,col:SPARK});}
     e.mt=0.5;sfx('zap',p);}
@@ -1989,7 +1994,7 @@ function heroAI(e,dt,dx,dz,hd,d3){
       if(e.sub>0){e.sub-=dt;p.x+=e.lx*dt;p.z+=e.lz*dt;e.mesh.rotation.y=Math.atan2(e.lx,e.lz);burst(cpos(e),1,[0xa8f4ff,0xffffff],3,3,0.3);u.armR.rotation.x=-2+Math.sin(e.t*25)*1.4;
         if(!e.done&&d3<e.r+7){e.done=true;hurt(e.dmg*0.7);sfx('slash',p);burst(P.pos,14,SPARK,3,20,0.4);}
         if(e.sub<=0){e.cnt--;e.mt=0.22;}}
-      else if(e.mt<=0){if(e.cnt>0){const d=Math.hypot(dx,dz)||1;e.lx=dx/d*78*sp;e.lz=dz/d*78*sp;e.sub=0.38;e.done=false;sfx('slash',p,0.5);}else{e.mv='run';e.mt=rnd(0.8,1.4)/sp;}}
+      else if(e.mt<=0){if(e.cnt>0){const d=Math.hypot(dx,dz)||1;e.lx=dx/d*78*sp;e.lz=dz/d*78*sp;e.sub=0.38;e.done=false;sfx('slash',p,0.5);{const mx=e.mesh.userData.mix;if(mx){mx.once=null;mixOnce(mx,1.9);}slashAt(cpos(e),Math.atan2(e.lx,e.lz),0xa8f4ff,7);}}else{e.mv='run';e.mt=rnd(0.8,1.4)/sp;}}
       else faceP(e);break;
     case 'pillar':u.armR.rotation.x=-3;if(e.mt<=0){e.mv='run';e.mt=0.8;}break;
     case 'guard':u.shield.visible=true;u.shield.material.opacity=0.35+0.2*Math.sin(e.t*10);faceP(e);if(e.mt<=0){e.guard=false;u.shield.visible=false;e.mv='run';e.mt=0.6;}break;
@@ -2001,7 +2006,7 @@ function heroAI(e,dt,dx,dz,hd,d3){
 
 function updEnemies(dt){
   for(let i=EN.length-1;i>=0;i--){const e=EN[i];if(e.dead){EN.splice(i,1);continue;}
-    e.t+=dt;{const mx=e.mesh.userData.mix,atk=e.cd>(e._pc===undefined?e.cd:e._pc)+0.3;if(mx&&mx.hit){if(atk||(e.mv!==e._pm&&e.mv&&!/run|dodge|power/.test(e.mv)))mixOnce(mx);e._pm=e.mv;}else if(atk)e.atkT=0.35;}e.cd-=dt;e._pc=e.cd;const p=e.mesh.position,dx=P.pos.x-p.x,dz=P.pos.z-p.z,hd=Math.hypot(dx,dz)||1;
+    e.t+=dt;{const mx=e.mesh.userData.mix,atk=e.cd>(e._pc===undefined?e.cd:e._pc)+0.3;if(mx&&mx.hit){if(atk||(e.mv!==e._pm&&e.mv&&!/run|dodge|power|choose|windup|guard/.test(e.mv)))mixOnce(mx,1.9);e._pm=e.mv;}else if(atk)e.atkT=0.35;}e.cd-=dt;e._pc=e.cd;const p=e.mesh.position,dx=P.pos.x-p.x,dz=P.pos.z-p.z,hd=Math.hypot(dx,dz)||1;
     const d3=cpos(e).distanceTo(P.pos);const half=e.hp<e.maxHp/2;
     switch(e.type){
     case 'slime':{const on=grav(e,dt);
@@ -2060,11 +2065,11 @@ function updEnemies(dt){
       else if(!on){p.x+=e.hx*(e.hs||17)*dt;p.z+=e.hz*(e.hs||17)*dt;b.scale.set(0.9,1.1,0.9);}
       if(d3<e.r+4)hurt(e.dmg*dt,true);break;}
     case 'biggolem':{grav(e,dt);
-      if(e.state==='wind'){faceP(e);e.st-=dt;teleSet(e,34,1-Math.max(0,e.st)/1.25,0xff4020);if(Math.random()<0.4)smoke(p,1,5,1.5,0x9a8a68,2);
+      if(e.state==='wind'){faceP(e);e.st-=dt;if(!e.pun&&e.st<0.27){e.pun=1;mixOnce(e.mesh.userData.mix,1.5);}teleSet(e,34,1-Math.max(0,e.st)/1.25,0xff4020);if(Math.random()<0.4)smoke(p,1,5,1.5,0x9a8a68,2);
         if(e.st<=0){teleOff(e);e.state='chase';e.cd=rnd(3.5,5);const g=new V3(p.x,floorAt(p.x,p.z),p.z);shock(g,0xd8c090,34);shock(g,0xff7040,22);shake(0.8);sfx('boom',p,0.7);debris(p,12,[0x7a7468,0x9a8a72],2);smoke(g,8,8,2,0x9a8a68,4);ono(g,'ドゴォン！','#ffd23a',56);
           if(Math.hypot(P.pos.x-p.x,P.pos.z-p.z)<34&&P.pos.y-g.y<14)hurt(e.dmg+4);}}
       else{walk(e,P.pos.x,P.pos.z,hd>16?3.8:0,dt);
-        if(e.cd<=0&&hd<44&&Math.abs(P.pos.y-p.y)<18){e.state='wind';e.st=1.25;sfx('roar',p,0.5);const mx=e.mesh.userData.mix;if(mx&&mx.hit)mixOnce(mx);else e.atkT=0.35;}
+        if(e.cd<=0&&hd<44&&Math.abs(P.pos.y-p.y)<18){e.state='wind';e.st=1.25;e.pun=0;sfx('roar',p,0.5);if(!(e.mesh.userData.mix&&e.mesh.userData.mix.hit))e.atkT=0.35;}
         else if(e.cd<=0&&hd<170){e.cd=rnd(4,6);const f=cpos(e).clone();f.y+=5;shoot(f,lob(f,tmp2.copy(P.pos).addScaledVector(P.vel,0.8),55,30),{geo:'rock',mat:MAT.rock,size:3.4,r:3.6,splash:10,dmg:22,grav:30,life:6,col:[0x999080,0xbbaa90]});}}
       if(d3<e.r+5)hurt(e.dmg*dt,true);break;}
     case 'dknight':{const u=e.mesh.userData;if(u.sm)u.sm.update(dt);e.st-=dt;
@@ -2091,7 +2096,7 @@ function updEnemies(dt){
         if(e.st<=0||(e.done&&hd>50)||(!e.done&&e.st<0.6&&hd>60&&tmp.set(dx,0,dz).dot(e.vel)<0)){e.state='climb';e.st=1.5;e.vel.multiplyScalar(0.4);}}
       break;}
     case 'golem':{grav(e,dt);walk(e,P.pos.x,P.pos.z,hd>10?5.5:0,dt);
-      if(e.cd<=0&&hd<16&&Math.abs(P.pos.y-p.y)<14){e.cd=rnd(2.5,3.5);shock(p,0xb0a080,16);shake(0.4);sfx('small',p);hurt(18);debris(p,6,[0x7a7468],1);}
+      if(e.cd<=0&&hd<16&&Math.abs(P.pos.y-p.y)<14){e.cd=rnd(2.5,3.5);faceP(e);shock(p,0xb0a080,16);shake(0.4);sfx('small',p);hurt(18);debris(p,6,[0x7a7468],1);ono(cpos(e),'ドゴッ！','#ffd23a',40);smoke(p,3,4,1.2,0x9a8a68,3);}
       else if(e.cd<=0&&hd<140){e.cd=rnd(3.5,5);const f=cpos(e).clone();f.y+=3;shoot(f,lob(f,tmp2.copy(P.pos).addScaledVector(P.vel,0.8),55,30),{geo:'rock',mat:MAT.rock,size:2.4,r:2.8,splash:8,dmg:18,grav:30,life:6,col:[0x999080,0xbbaa90]});}
       if(d3<e.r+5)hurt(e.dmg*dt,true);break;}
     case 'airship':{e.ang+=dt*0.25;tmp2.set(P.pos.x+Math.cos(e.ang)*75,Math.max(P.pos.y+28,floorAt(p.x,p.z)+40),P.pos.z+Math.sin(e.ang)*75);fly(e,tmp2,16,dt,0.8);
