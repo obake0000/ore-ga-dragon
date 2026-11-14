@@ -830,7 +830,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116zq';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116zr';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -3157,7 +3157,7 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);
     case 'bat':case 'imp':{const s=e.seed;
       tmp2.set(P.pos.x+Math.sin(e.t*1.8+s)*14,P.pos.y+3+Math.sin(e.t*2.6+s)*5,P.pos.z+Math.cos(e.t*1.8+s)*14);
       fly(e,tmp2,e.type==='imp'?32:27,dt);e.mesh.lookAt(tmp.copy(p).add(e.vel));
-      const w=e.mesh.userData.w,a=Math.sin(e.t*18)*0.9;w.R.rotation.z=a;w.L.rotation.z=-a;
+      const w=e.mesh.userData.w,a=Math.sin(e.t*18)*0.9;w.R.rotation.z=a;w.L.rotation.z=-a;if(e.mesh.userData.bh)s1Flap(e,a);
       if(e.type==='imp'&&e.cd<=0&&hd<90){e.cd=rnd(3,5);shootAtP(p.clone(),70,{mat:MAT.dfire,size:0.8,r:1.2,dmg:6,life:3,trail:PURP,col:PURP});}
       if(d3<e.r+4)hurt(e.dmg*dt,true);break;}
     case 'drak':case 'ogre':case 'gdrake':{if(e.king||e.gen){orcBossAI(e,dt,dx,dz,hd,d3);break;}grav(e,dt);walk(e,P.pos.x,P.pos.z,hd>22?(e.type==='gdrake'?17:6.5):0,dt);animWalk(e,4);
@@ -4224,6 +4224,38 @@ function caveBuild(){caveClear();const [cx,cz]=TER.start,gy=floorAt(cx,cz),R=CAV
     [[0xffa850,1.0,GOLDP.x,GOLDP.y+6,GOLDP.z,110],[0x5fd8ff,0.9,s1.x,s1.y+8,s1.z,95],[0x9a7aff,0.8,s2.x,s2.y+8,s2.z,95]].forEach((a,i)=>{const l=new THREE.PointLight(a[0],a[1],a[5]);l.position.set(a[2],a[3],a[4]);g.add(l);CAVE.lt.push({l,i:a[1],ph:i*2.3});});}
   const gg=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xffc040,transparent:true,opacity:0.25,blending:THREE.AdditiveBlending,depthWrite:false}));gg.scale.set(40,18,1);gg.position.set(cx,gy+4,cz+18);g.add(gg);
   scene.add(g);CAVE.g=g;}
+/* ---- s1_models.py：洞窟の岩・骨・金の山と、こうもり・小悪魔を Tripo のモデルに ---- */
+const S1D={};
+function s1Dim(id){if(S1D[id])return S1D[id];const m=cloneModel(id);if(!m)return null;const h=new THREE.Group();m.rotation.y=MODEL[id].rot;h.add(m);h.updateMatrixWorld(true);const b=new THREE.Box3().setFromObject(h);return S1D[id]={sz:b.getSize(new V3()),mn:b.min.clone(),ct:b.getCenter(new V3())};}
+// モデルを、高さ hh（wd があれば幅 wd の方）に合わせて、足もとを床にぴったり置く
+function s1Put(g,id,x,z,hh,ry,wd){const D=s1Dim(id);if(!D)return null;const m=cloneModel(id);if(!m)return null;const k=wd?wd/Math.max(D.sz.x,D.sz.z):hh/D.sz.y;
+  const h=new THREE.Group();m.rotation.y=MODEL[id].rot;m.scale.setScalar(k);m.position.set(-D.ct.x*k,-D.mn.y*k-0.35,-D.ct.z*k);h.add(m);h.position.set(x,floorAt(x,z),z);h.rotation.y=ry;g.add(h);return h;}
+function s1Cave(){const g=CAVE.g;if(!g||!MODEL.cstalag&&!MODEL.cbones&&!MODEL.choard)return;
+  const cx=CAVE.x,cz=CAVE.z,hide=[],add=[],M=new THREE.Matrix4(),pp=new V3(),qq=new THREE.Quaternion(),ss=new V3();
+  const pos=(im,i)=>{im.getMatrixAt(i,M);M.decompose(pp,qq,ss);return {x:pp.x,y:pp.y,z:pp.z,sx:ss.x,sy:ss.y,sz:ss.z};};
+  const ins=[];g.children.forEach(o=>{if(o.isInstancedMesh)ins.push(o);});
+  const ty=o=>o.geometry.type,pr=o=>o.geometry.parameters||{};
+  const cones=ins.find(o=>ty(o)==='ConeGeometry'&&o.count>=30),pil=ins.find(o=>ty(o)==='CylinderGeometry'&&pr(o).radiusTop===1&&pr(o).radiusBottom===1&&o.count===5),
+    mound=ins.find(o=>ty(o)==='DodecahedronGeometry'&&pr(o).radius===1.3),bn=ins.find(o=>ty(o)==='CylinderGeometry'&&pr(o).radiusTop===0.45),
+    sk=ins.find(o=>ty(o)==='SphereGeometry'&&pr(o).radius===1.2),rb=ins.find(o=>ty(o)==='TorusGeometry');
+  // 床の石のたけのこ → 岩の柱のかたまり（4本おきに1か所）
+  if(MODEL.cstalag&&cones){let n=0;for(let i=0;i<cones.count;i+=4){const q=pos(cones,i),hh=7+((i*37)%11)*1.5;const o=s1Put(g,'cstalag',q.x,q.z,hh,(i*2.399)%6.283);if(o){add.push(o);n++;}}if(n)hide.push(cones);}
+  // かべぎわの太い柱 → 背の高い岩の柱
+  if(MODEL.cstalag&&pil){let n=0;for(let i=0;i<pil.count;i++){const q=pos(pil,i),hh=Math.min(52,q.sy*0.62);const o=s1Put(g,'cstalag',q.x,q.z,hh,i*1.7);if(o){add.push(o);n++;}}if(n)hide.push(pil);}
+  // 金の山 → 金貨と宝の山（正面を一行のほう＝-z へ）
+  if(MODEL.choard&&mound){const o=s1Put(g,'choard',cx,cz+18,0,Math.PI,24);if(o){add.push(o);hide.push(mound);}}
+  // 骨 → 巨大な獣の骨（入口の通り道と金の山をよけた3か所）
+  if(MODEL.cbones&&bn){const sel=[];for(let i=0;i<bn.count&&sel.length<3;i++){const q=pos(bn,i),d=Math.hypot(q.x-cx,q.z-cz);if(d<52||Math.hypot(q.x-cx,q.z-cz-18)<30)continue;if(Math.abs(q.x-cx)<34&&q.z<cz+10)continue;if(sel.some(a=>Math.hypot(a.x-q.x,a.z-q.z)<34))continue;sel.push(q);}
+    let n=0;sel.forEach((q,i)=>{const o=s1Put(g,'cbones',q.x,q.z,0,Math.atan2(cx-q.x,cz-q.z)+(i-1)*0.9,24);if(o){add.push(o);n++;}});if(n){hide.push(bn);if(sk)hide.push(sk);if(rb)hide.push(rb);}}
+  hide.forEach(o=>{o.visible=false;});CAVE.s1=add;}
+{const cb0=caveBuild,cc0=caveClear;
+ caveBuild=function(){cb0.apply(this,arguments);try{s1Cave();}catch(err){console.warn('s1Cave',err);}};
+ caveClear=function(){if(CAVE.g&&CAVE.s1){CAVE.s1.forEach(o=>CAVE.g.remove(o));}CAVE.s1=null;cc0.apply(this,arguments);};}
+// こうもり・小悪魔：かぶせたモデルを、体ごとゆらす（羽ばたき）
+FITK.bat=2.6;FITK.imp=2.0;
+function s1Flap(e,a){const h=e.mesh.userData.bh;if(!h)return;const b=h.userData.b||(h.userData.b={y:h.position.y,im:e.type==='imp'});
+  h.position.y=b.y+a*(b.im?0.1:0.14);h.scale.x=1+a*(b.im?0.1:0.2);h.scale.y=1-Math.abs(a)*0.05;h.rotation.z=a*0.14;h.rotation.x=0.3+Math.sin(e.t*9)*0.05;}
+{const ae0=addEnemy;addEnemy=function(type){const e=ae0.apply(this,arguments);if(e&&(type==='bat'||type==='imp')&&MODEL[type]&&e.mesh){const c=e.mesh.children;e.mesh.userData.bh=c[c.length-1];}return e;};}
 // 勇者の一行：勇者（盾と飛びこみ斬り）・騎士（大きな兵。やりを投げる）・魔法使い（回復と結界）
 function caveParty(){caveBuild();moodT=MOODS[6];updMood(0,true);const cx=CAVE.x,cz=CAVE.z-17;if(C.fly)P.pos.y=CAVE.y+8;P.yaw=Math.PI;P.pitch=0;
   const h=addEnemy('hero',cx,cz);h.cave=1;h.hp=h.maxHp=h.maxHp*0.5;h.dmg*=0.5;h.sum1=1;h.p2=1;h.said=1;h.mt=3.6;h.sc=0.7;h.r=ST.hero.r*0.7;h.hc=ST.hero.hc*0.7;
@@ -5835,11 +5867,11 @@ TPT['緑のワイバーン']='wyvern';TPT['青のワイバーン']='wyvern';TBOS
     midKami([
       {img:'valley_c2',l:'勇者の一行が逃げたあと。ねぐらの入り口に、ひとつの影がおりてきた。'},
       {img:'valley_c2',who:n,l:'見つけましたよ、若。千年の寝ぼうとは、あきれた竜です'},
-      {img:'valley_c2',who:'ME',l:'……だれだ。目覚ましを頼んだ覚えは、ない'},
-      {img:'valley_c2',who:n,l:'若の目付け役です。千年、ここで目覚めを待っておりました'},
-      {img:'valley_c2',who:'ME',l:'（この体には、世話係がいたのか。……福利厚生は、前世よりいいな）'},
-      {img:'wyv_m1',who:n,l:'さあ、寝起きの稽古です。模擬戦を一本！ 手加減はいたしません'},
-      {img:'wyv_m1',who:'ME',l:'起きてすぐ体を動かすやつは、信用しないことにしている。……一本だけだ'}].map(o=>Object.assign(o,D)),
+      {img:'wyv_k_br',who:'ME',l:'……だれだ。目覚ましを頼んだ覚えは、ない'},
+      {img:'wyv_k_bl',who:n,l:'若の目付け役です。千年、ここで目覚めを待っておりました'},
+      {img:'wyv_k_br',who:'ME',l:'（この体には、世話係がいたのか。……福利厚生は、前世よりいいな）'},
+      {img:'wyv_s_tr',who:n,l:'さあ、寝起きの稽古です。模擬戦を一本！ 手加減はいたしません'},
+      {img:'wyv_s_bl',who:'ME',l:'起きてすぐ体を動かすやつは、信用しないことにしている。……一本だけだ'}].map(o=>Object.assign(o,D)),
       ()=>{fight();if(wv)banner(wv.msg,3);cineWave();});};}
 // ② 第1章のしめ（竜の3キャラ）：才能におどろく → 封印の魔王のおどし話 → 竜が食いつく
 {const V=TALKS.valley,o1=V.clear1,K=KIMG.valley,k1=K.c1,C1={};
@@ -5850,7 +5882,7 @@ TPT['緑のワイバーン']='wyvern';TPT['青のワイバーン']='wyvern';TBOS
     ['ME','……封印。魔王。くわしく聞こう。場所は、どこだ'],
     [n,'こ、こわがるところです、若！ ……ねぐらの奥の、古い階段の下ですが'],
     ['ME','人の寝床の下に、危険物か。……大家として、見回りに行く。お前も来い']]);
-  const ki=['wyv_m1','wyv_m1','wyv_m1','wyv_m2','wyv_m2','wyv_m2','dungeon_1'];
+  const ki=['wyv_s_bl','wyv_k_tr','wyv_k_tl','wyv_m2','wyv_m2','wyv_k_bl','dungeon_1'];
   Object.defineProperty(V,'clear1',{configurable:true,enumerable:true,get(){return caveOK()?mk(wyvNm()):o1;}});
   Object.defineProperty(K,'c1',{configurable:true,enumerable:true,get(){return caveOK()?ki:k1;}});}
 // ③ 最終章の始まり：封印ごしの取り引き　④ 魔王戦の掛け合い　⑤ しめの最後の一言
