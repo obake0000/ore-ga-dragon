@@ -770,7 +770,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116e';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116f';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -4563,6 +4563,58 @@ const s6bw2=buildWorld;
 buildWorld=function(L){const r=s6bw2(L);if(L==='skygate'||L==='skytemple'||L==='archangel'){const w=TERRAIN[1],m=w&&w.material;
   if(m&&m.fragmentShader&&!m.userData.s6c){m.fragmentShader=m.fragmentShader.replace('vec3(0.42,0.52,0.74)','vec3(0.76,0.85,0.98)').replace('vec3(0.80,0.85,0.93)','vec3(1.0,0.98,0.93)');m.needsUpdate=true;m.userData.s6c=1;}}
   return r;};
+
+/* ---- シナリオ4：景色の作りこみ（scn4_fit.py） ---- */
+// 空の色（魔界の門＝紫から溶岩の赤／骨の荒野＝うす青から骨色／魔王の城＝明るめの赤）
+const S4M={hell:MOODS.length};MOODS.push(mood(0x3c1470,0xe0603a,0xffb080,0.95,0.68,0.6,[-0.4,0.7,-0.5]));
+S4M.bone=MOODS.length;MOODS.push(mood(0x5a66a8,0xf2dcc0,0xffe2b4,1.05,0.82,0.15,[0.6,0.5,0.3]));
+S4M.hall=MOODS.length;MOODS.push(mood(0x2a0a18,0x8a2a30,0xffa878,0.95,0.92,0,[0.25,0.9,0.3]));
+{const A=(k)=>ALLST.find(q=>q.key===k);
+ A('hellgate').waves.forEach(w=>w.mood=S4M.hell);A('bonefield').waves.forEach(w=>w.mood=S4M.bone);A('maoujo').waves.forEach(w=>w.mood=S4M.hall);
+ // 魔界の門の奥まで、地面を平らな道にする
+ Object.assign(A('hellgate').ter,{ruins:8,ruinC:0x5a4a58,flats:[[0,-150,70,1],[0,-215,50,1]],dirt:[[0,-150,64],[0,-215,46]]});
+ // 骨の荒野：灰白の乾いた土・骨の色の岩・枯れ木
+ Object.assign(A('bonefield').ter,{amp:0.6,grass:0xd8ecff,hill:0xe0dccc,rock:0xe8e2d0,snow:0xf6f2e6,sand:0xf0e8d0,dirtC:0xeae2cc,rockC:0xf0ead8,trees:25,trunk:0x6a5a48,leaf:0x7a6a50,rocks:70,water:0x8aa0aa,stacks:0,spires:0,ruins:6,ruinC:0xe8e0cc});}
+// 建物の仮の箱（モデルが来れば、この箱と同じ大きさに合わせて入れかわる）
+function s4Prox(w,h,d){const g=new THREE.Group(),b=box(w,h,d,mat(0x2a2030));b.position.y=h/2;g.add(b);return g;}
+function s4NoShadow(g){g.traverse(c=>{if(c.isMesh)c.castShadow=false;});}
+// こわせる建物
+function s4Put(id,w,h,d,x,z,rot,hp,val){const g=s4Prox(w,h,d),b=place(g,x,z,rot,hp,val,'tower',id);s4NoShadow(g);b.armor=0.6;return b;}
+// こわせない飾り（遠くの城・広間の飾り）。TERRAIN に入れると、章を変える時に消える
+function s4Deco(id,w,h,d,x,y,z,rot){const g=s4Prox(w,h,d);attachModel(g,id);g.position.set(x,y,z);g.rotation.y=rot||0;scene.add(g);s4NoShadow(g);TERRAIN.push(g);return g;}
+// 同じモデルをまとめ描き：L=[[x,z,向き,高さ],…]。当たりは無い
+function s4Inst(id,L){const M=MODEL[id];if(!M||!L.length)return null;M.scene.updateMatrixWorld(true);
+  const bb=new THREE.Box3().setFromObject(M.scene),c=bb.getCenter(new V3()),sz=bb.getSize(new V3()),grp=new THREE.Group();
+  M.scene.traverse(o=>{if(!o.isMesh)return;const im=new THREE.InstancedMesh(o.geometry,o.material,L.length),m4=new THREE.Matrix4(),q=new THREE.Matrix4();
+    L.forEach(([x,z,rot,h],i)=>{const k=h/sz.y;m4.makeTranslation(x,H(x,z)-0.3,z);q.makeRotationY((rot||0)+M.rot);m4.multiply(q);q.makeScale(k,k,k);m4.multiply(q);q.makeTranslation(-c.x,-bb.min.y,-c.z);m4.multiply(q);m4.multiply(o.matrixWorld);im.setMatrixAt(i,m4);});
+    im.castShadow=false;im.receiveShadow=false;im.frustumCulled=false;grp.add(im);});
+  scene.add(grp);TERRAIN.push(grp);return grp;}
+function s4Gate(T){
+  s4Put('dgate',70,62,30,0,-215,0,3200,900);
+  for(const z of [-30,-90,-150])for(const sx of [-1,1])s4Put('dtower',14,34,12,sx*40,z,sx>0?-0.3:0.3,500,160);
+  s4Deco('dcastle',60,70,40,0,H(0,-430)-0.3,-430,0);
+  for(let i=0;i<6;i++){const a=rnd(0,6.3),r=rnd(90,200);makeRuin(Math.sin(a)*r,-150+Math.cos(a)*r,true);}}
+function s4Bones(T){
+  [[-48,-92,0.3,24],[48,-92,-0.3,24],[-118,-165,0.9,28]].forEach(([x,z,r,h])=>s4Put('bonearch',22*h/24,h,28*h/24,x,z,r,1400,200));
+  s4Put('bonearch',44,44,52,0,-255,0,4000,500);
+  const L=[];for(let i=0,t=0;i<7&&t<200;t++){const x=rnd(-210,210),z=rnd(-270,70);if(Math.abs(x)<30&&z>-200&&z<-60)continue;
+    if(Math.hypot(x,z+115)<28||Math.hypot(x+75,z+125)<28||Math.hypot(x-75,z+155)<28||Math.hypot(x,z+170)<34)continue;L.push([x,z,rnd(0,6.3),rnd(5,12)]);i++;}
+  s4Inst('bonearch',L);
+  s4Deco('dcastle',60,70,40,150,H(150,-400)-0.3,-400,-0.45);}
+function s4Hall(){const y=DUN.y,z0=DUN.z0;
+  s4Deco('dthrone',30,24,24,0,y+8,z0+14,0);
+  for(const sx of [-1,1])for(const z of [-125,-45])s4Deco('dtower',14,36,12,sx*70,y,z,sx>0?-0.3:0.3);}
+// 魔界の門の前の紫の光の柱は消し、光の輪を門の前に移す（門が見えるように）
+const s4ah=addHell;
+addHell=function(){const n0=TERRAIN.length;s4ah();if((STAGES[stage]||{}).key!=='hellgate')return;const L=TERRAIN.slice(n0);if(L.length>=2){L[L.length-2].visible=false;L[L.length-1].position.z=-190;}};
+// 魔王のモデルが外がわの入れ物に包まれた（羽の骨 userData.w が内がわに残る）ため、魔王の動きで「undefined の R」が出ていた。入れ物にも写す
+const s4ae=addEnemy;
+addEnemy=function(type,x,z,y,o){const e=s4ae(type,x,z,y,o);if(type==='demon'&&e&&e.mesh&&!e.mesh.userData.w){const c=e.mesh.children.find(k=>k.userData&&k.userData.w);if(c)Object.assign(e.mesh.userData,c.userData);}return e;};
+const s4bw2=buildWorld;
+buildWorld=function(L){const k=(STAGES[stage]||{}).key;
+  if(k==='maoujo'){s4bw2(L);s4Hall();return;}
+  if(k!=='hellgate'&&k!=='bonefield')return s4bw2(L);
+  CASTLE=null;const T={towers:[]};if(k==='hellgate')s4Gate(T);else s4Bones(T);WORLD=T;};
 /* ---- アクション中の2D：吹き出し・漫画の文字・カットイン ---- */
 const B2=[];const sp2=new V3();
 function scr(v){sp2.copy(v).project(cam);if(sp2.z>1)return null;return [(sp2.x+1)/2*innerWidth,(1-sp2.y)/2*innerHeight];}
