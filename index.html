@@ -770,7 +770,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116d';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116e';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -2548,16 +2548,16 @@ function updEnemies(dt){s3Tick(dt);
         if(!e.done&&d3<e.r+6){e.done=true;hurt(e.dmg);shake(0.6);}if(e.st<=0){e.state='chase';e.cd=half?1.4:2.4;}}
       else{faceP(e);if(e.st<=0){e.state='chase';e.cd=2;}}
       if(d3<e.r+5)hurt(e.dmg*0.3*dt,true);break;}
-    case 'walker':{grav(e,dt);if(!e.said){e.said=1;say('王','城よ、立て！ あの竜を踏みつぶせ！');sfx('roar',p);}
-      walk(e,P.pos.x,P.pos.z,hd>40?(half?7:5):0,dt);e.mesh.rotation.z=Math.sin(e.t*2.2)*0.04;
-      if(Math.abs(Math.sin(e.t*2.2))<0.06&&e.t-(e.lastStep||0)>0.6){e.lastStep=e.t;if(hd<160)shake(0.3);sfx('small',p,0.6);smoke(p,4,6,2,0x9a8a68,4);}
+    case 'walker':{grav(e,dt);if(!e.said){e.said=1;e.big=1;e.sc=2.8;e.r=50;e.hc=56;e.hp=e.maxHp=e.hp*1.5;say('王','城よ、立て！ あの竜を踏みつぶせ！');sfx('roar',p);}
+      walk(e,P.pos.x,P.pos.z,hd>(e.big?80:40)?(half?7:5)*(e.big?1.4:1):0,dt);e.mesh.rotation.z=Math.sin(e.t*2.2)*(e.big?0.025:0.04);
+      if(Math.abs(Math.sin(e.t*2.2))<0.06&&e.t-(e.lastStep||0)>0.6){e.lastStep=e.t;if(hd<(e.big?420:160))shake(e.big?0.45:0.3);sfx('small',p,0.6);smoke(p,e.big?10:4,e.big?14:6,2,0x9a8a68,e.big?16:4);if(e.big)shock(p,0xd8c090,40);}
       e.sub-=dt;if(e.sub<=0&&hd<300){e.sub=half?1.6:2.4;const n=half?6:4;
-        for(let k=0;k<n;k++){const a=k/n*6.283+e.t,m=p.clone();m.x+=Math.cos(a)*14;m.z+=Math.sin(a)*14;m.y+=30+rnd(0,8);const t=m.distanceTo(P.pos)/100;
+        for(let k=0;k<n;k++){const a=k/n*6.283+e.t,m=p.clone();{const S=e.big?2.8:1;m.x+=Math.cos(a)*14*S;m.z+=Math.sin(a)*14*S;m.y+=(30+rnd(0,8))*S;}const t=m.distanceTo(P.pos)/100;
           const tg=tmp2.copy(P.pos).addScaledVector(P.vel,t*0.5);tg.x+=rnd(-8,8);tg.z+=rnd(-8,8);
-          shoot(m,lob(m,tg,100,14),{geo:'fire',mat:MAT.ball,size:1.6,r:2.2,splash:12,dmg:16,grav:14,life:7,smk:true,ball:true,col:[0xff9a30,0xffe080,0x888888]});burst(m,8,FIRE,3,14,0.3);}
+          shoot(m,lob(m,tg,100,14),{geo:'fire',mat:MAT.ball,size:e.big?2.6:1.6,r:2.2,splash:12,dmg:16,grav:14,life:7,smk:true,ball:true,col:[0xff9a30,0xffe080,0x888888]});burst(m,8,FIRE,3,14,0.3);}
         sfx('cannon',p);}
-      e.met-=dt;if(e.met<=0&&hd<50){e.met=4;shock(p,0xd8c090,50);shake(0.8);sfx('boom',p,0.7);if(P.pos.y-p.y<25)hurt(26);}
-      if(half&&!e.p2){e.p2=1;say('王','まだだ！ 全砲門、ひらけ！');for(let k=0;k<6;k++)addEnemy('soldier',p.x+rnd(-25,25),p.z+rnd(-25,25));}
+      e.met-=dt;if(e.met<=0&&hd<(e.big?130:50)){e.met=4;shock(p,0xd8c090,e.big?130:50);if(e.big){shock(p,0xff7040,80);ono(cpos(e),'ズシィン！！','#ffd23a',70);smoke(p,12,16,2.4,0x9a8a68,30);}shake(0.8);sfx('boom',p,0.7);if(P.pos.y-p.y<(e.big?75:25))hurt(26);}
+      if(half&&!e.p2){e.p2=1;say('王','まだだ！ 全砲門、ひらけ！');for(let k=0;k<6;k++)addEnemy('soldier',p.x+(e.big?rnd(-70,70):rnd(-25,25)),p.z+(e.big?rnd(-70,70):rnd(-25,25)));}
       break;}
     case 'elder':case 'dking':{e.st-=dt;if(e.rking)kingStep(e,dt);if(half&&!e.p2){e.p2=1;if(!e.rking){say('古の竜','面白い…。千年ぶりに、本気を出そう。');sfx('roar',p);}}
       if(e.state==='chase'){e.ang+=dt*0.3;tmp2.set(P.pos.x+Math.cos(e.ang)*100,P.pos.y+28+Math.sin(e.t*0.5)*12,P.pos.z+Math.sin(e.ang)*100);fly(e,tmp2,40,dt,1);e.mesh.rotation.y=Math.atan2(e.vel.x,e.vel.z);
