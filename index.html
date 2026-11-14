@@ -781,7 +781,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116s';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116t';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -2335,6 +2335,131 @@ function kr8hit(){const SPZ=(1+0.15*(UP.sp||0))*(EASY?1:0.8),K=SPM(),N=8+(UP.sp|
       for(const b of BLD){if(!b.dead&&b.box.distanceToPoint(c)<R*0.8)hitBld(b,150*K);}},210);},i*110);
   sfx('whoosh');ono(P.pos.clone().add(new V3(0,9,0)),'ドガガガガッ！','#ffb0cc',50);}
 {const sa=skillA;skillA=function(k){if(k==='krvortex')return krVortex();if(k==='kr8hit')return kr8hit();return sa(k);};}
+
+/* ================= クラーケンの骨（kraken2.glb）：足8本を骨で動かす ================= */
+const KRG={rot:0,MAXS:3.2,TUBE:true,sw:null};
+const kgQ=new THREE.Quaternion(),kgQ1=new THREE.Quaternion(),kgQc=new THREE.Quaternion(),kgM=new THREE.Matrix4(),kgS=new THREE.Matrix4(),kgR=new THREE.Matrix4(),kgIv=new THREE.Matrix4(),kgUp=new V3(0,1,0),kgU=new V3(),kgP=new V3(),kgA=new V3(),kgB=new V3(),kgW=new V3(),kgW2=new V3();
+function krgSmooth(x){x=x<0?0:x>1?1:x;return x*x*(3-2*x);}
+// 体から骨を探して、足8本の「元の姿」を覚える（根もとの骨から見た場所と向き）
+function krgSetup(d){try{if(!d.body)return null;const body=d.body,holder=body.children[body.children.length-1];if(!holder||!holder.children[0])return null;const m=holder.children[0];
+  let sm=null;m.traverse(o=>{if(o.isSkinnedMesh)sm=o;});if(!sm)return null;sm.frustumCulled=false;
+  const B={};m.traverse(x=>{if(x.isBone)B[x.name.replace(/[^A-Za-z0-9_]/g,'')]=x;});const root=B.tripoRoot;if(!root)return null;
+  d.g.updateMatrixWorld(true);root.updateWorldMatrix(true,true);const RI=new THREE.Matrix4().copy(root.matrixWorld).invert(),legs=[];
+  ['0_Left','1_Left','2_Left','3_Left','0_Right','1_Right','2_Right','3_Right'].forEach(nm=>{const bs=[];for(let i=0;i<30;i++){const b=B['tripo'+nm+'_Limb_'+i];if(!b)break;bs.push(b);}if(bs.length<3)return;
+    const n=bs.length,RW=[],J=[],Rl=[];for(let i=0;i<n;i++){const w=new THREE.Matrix4().multiplyMatrices(RI,bs[i].matrixWorld);RW.push(w);J.push(new V3().setFromMatrixPosition(w));const l=w.clone();l.setPosition(0,0,0);Rl.push(l);}
+    const r=[],len=[];for(let k=0;k<n-1;k++){const dv=J[k+1].clone().sub(J[k]);len.push(dv.length());r.push(dv.normalize());}
+    const q=J[Math.min(n-1,4)].clone().sub(J[0]);q.y=0;if(q.lengthSq()<1e-8)q.set(0,0,1);const h=q.normalize();
+    bs.forEach(b=>{b.matrixAutoUpdate=false;});
+    legs.push({nm,bs,n,RW,J,Rl,r,len,tot:len.reduce((a,b)=>a+b,0),h,az:Math.atan2(h.x,h.z),pax:new V3().crossVectors(h,kgUp).normalize(),yi:new Float32Array(n),pi:new Float32Array(n),sk:new Float32Array(n).fill(1),
+      pp:bs.map(()=>new V3()),PW:bs.map(()=>new THREE.Matrix4()),atk:null,ph:0,gp:0,tipR:new V3().copy(J[n-1])});});
+  if(legs.length<4)return null;legs.sort((a,b)=>a.az-b.az);let yMin=1e9;legs.forEach((L,i)=>{L.i=i;L.ph=i*0.9;L.gp=(i%2)*Math.PI+(i>>1)*0.5;L.J.forEach(j=>{yMin=Math.min(yMin,j.y);});});
+  let vmin=1e9,jm=1e9;{sm.skeleton.update();const v=new V3(),pa=sm.geometry.attributes.position;for(let i=0;i<pa.count;i+=3){sm.boneTransform(i,v);v.applyMatrix4(sm.matrixWorld);vmin=Math.min(vmin,v.y);}
+    legs.forEach(l=>l.J.forEach(j=>{jm=Math.min(jm,kgP.copy(j).applyMatrix4(root.matrixWorld).y);}));}
+  let rB=jm-vmin;if(!(rB>0.3&&rB<12))rB=3;
+  const hb=B.bone_71?[{b:B.bone_71,q0:B.bone_71.quaternion.clone()}]:[];
+  return {g:d.g,body,holder,m,root,legs,hb,t:0,gait:0,sp:0,w:{W:0,S:0,G:0,V:0},vort:0,vt:0,yFloor:yMin-0.01,sc:1,RI:new THREE.Matrix4(),rB,h0:holder.position.y-rB*0.25,bq:B.bone_71||null};}catch(e){console.warn('krgSetup',e);return null;}}
+// 足1本を組み立てる：向きu・長さs を付け根から順に決め、骨の行列を直接入れる（A＝ねらう向きに引きよせる指示）
+function krgFK(L,A,r){const n=L.n,w=r.w,open=0.5+0.5*Math.sin(r.sp);kgQc.identity();kgP.copy(L.J[0]);L.pp[0].copy(kgP);
+  for(let k=0;k<n-1;k++){
+    if(L.yi[k]){kgQ1.setFromAxisAngle(kgUp,L.yi[k]);kgQc.premultiply(kgQ1);}
+    if(L.pi[k]){kgQ1.setFromAxisAngle(L.pax,L.pi[k]);kgQc.premultiply(kgQ1);}
+    kgU.copy(L.r[k]).applyQuaternion(kgQc);const f=k/Math.max(1,n-2);
+    if(w.S>0.001){const o=0.1+0.8*open;kgA.set(L.h.x*o,0.12,L.h.z*o-1).normalize();kgU.lerp(kgA,w.S*(0.25+0.7*f)).normalize();}
+    if(w.V>0.001){kgA.set(L.h.x,0.22,L.h.z).normalize();kgU.lerp(kgA,w.V*0.85).normalize();}
+    let s=L.sk[k];
+    if(A&&A.a>0.001){kgA.copy(A.dir);kgA.y+=A.arc*(1-2*(k+0.5)/(n-1));kgA.normalize();kgU.lerp(kgA,A.a).normalize();s+=(A.s-s)*A.a;}
+    let ln=s*L.len[k];{const M=r.MW.elements,ysw=M[1]*kgP.x+M[5]*kgP.y+M[9]*kgP.z+M[13];kgW2.copy(kgP).addScaledVector(kgU,ln).applyMatrix4(r.MW);
+      const yew=M[5]*0+kgW2.y,tyw=floorAt(kgW2.x,kgW2.z)+r.rB*0.75*(1-0.85*(k+1)/(n-1));let hug=(A&&A.a>0?1-A.a:1)*0.85*(1-w.S)*(1-0.8*w.V);if(w.S>0.5)hug=0;
+      let ye=yew<tyw&&w.S<0.5?tyw:yew+(tyw-yew)*hug;if(w.S>=0.5&&0)ye=yew;const dy0=kgU.y*ln,dy=Math.max(-ln,Math.min(ln,(ye-ysw)/M[5]));
+      if(Math.abs(dy-dy0)>1e-6){const hx=kgU.x,hz=kgU.z,hl=Math.hypot(hx,hz)||1,hh=Math.sqrt(Math.max(0,ln*ln-dy*dy));kgU.set(hx/hl*hh/ln,dy/ln,hz/hl*hh/ln);}}
+    kgQ.setFromUnitVectors(L.r[k],kgU);kgR.makeRotationFromQuaternion(kgQ);const rr=L.r[k],d=s-1;
+    kgS.set(1+d*rr.x*rr.x,d*rr.x*rr.y,d*rr.x*rr.z,0, d*rr.x*rr.y,1+d*rr.y*rr.y,d*rr.y*rr.z,0, d*rr.x*rr.z,d*rr.y*rr.z,1+d*rr.z*rr.z,0, 0,0,0,1);
+    const PW=L.PW[k];PW.multiplyMatrices(kgR,kgS).multiply(L.Rl[k]);PW.setPosition(kgP);
+    kgP.addScaledVector(kgU,ln);L.pp[k+1].copy(kgP);
+    if(k===n-2){const P2=L.PW[n-1];P2.multiplyMatrices(kgR,kgS).multiply(L.Rl[n-1]);P2.setPosition(kgP);}}
+  L.tipR.copy(kgP);
+  for(let k=0;k<n;k++){const b=L.bs[k];if(k===0)b.matrix.copy(L.PW[0]);else{kgM.copy(L.PW[k-1]).invert().multiply(L.PW[k]);b.matrix.copy(kgM);}b.matrixWorldNeedsUpdate=true;}}
+function krgTipW(r,L,out){return out.copy(L.tipR).applyMatrix4(r.root.matrixWorld);}
+// 攻撃ごとの「どれだけ引きよせるか」の流れ。a＝ねらう向きへの度合い、b＝（たたきつけ用）上→ねらいへの切りかえ
+function krgProf(at,k){const tt=at.t;
+  if(at.kind==='sweep')return {a:Math.max(0,Math.min(1,k*7,(1-k)*5)),b:1};
+  if(at.kind==='slam'){const th=at.ts+0.14,up=krgSmooth(tt/0.22),a=tt<th+0.2?up:1-krgSmooth((tt-th-0.2)/0.3);return {a,b:krgSmooth((tt-at.ts)/0.14)};}
+  const e=k<0.28?k/0.28:k<0.55?1:1-(k-0.55)/0.45;return {a:krgSmooth(e),b:1};}
+function krgAttack(r,L,o){o.L=L;o.t=0;L.atk=o;return o;}
+// 1本の足を選んで、tipFn(k)（世界の場所）へ打たせる。kind＝'reach'（のばして打つ）／'slam'（高く上げてから）
+function krgReach(r,tipFn,life,kind,o){o=o||{};if(!r.legs.length)return null;r.root.updateWorldMatrix(true,false);const T=tipFn(0),w0=kgA.copy(r.legs[0].J[0]).applyMatrix4(r.root.matrixWorld);
+  kgB.copy(T).sub(w0).setY(0).normalize();let L=o.leg;
+  if(!L){const fr=r.legs.filter(l=>!l.atk),pool=(fr.length?fr:r.legs.slice().sort((a,b)=>b.atk.t/b.atk.dur-a.atk.t/a.atk.dur));
+    const hd=new V3(),ang=l=>{hd.copy(l.h).transformDirection(r.root.matrixWorld).setY(0).normalize();return -hd.dot(kgB);};
+    const c=pool.slice().sort((a,b)=>ang(a)-ang(b)).slice(0,Math.min(3,pool.length));L=c[(KRG.rot++)%c.length];}
+  const at=krgAttack(r,L,{kind,tipFn,dur:life,ts:o.ts||0,arc:o.arc===undefined?0.12:o.arc,tube:false});
+  // 骨だけで届かない遠さなら、足の先から足と同じ色の細い筒を足す
+  const sc=r.root.matrixWorld.getMaxScaleOnAxis(),reachW=KRG.MAXS*L.tot*sc;
+  if(KRG.TUBE&&T.distanceTo(w0)>reachW*1.0){at.tube=true;const own=at;
+    krTent(()=>krgTipW(r,L,kgW),k=>tipFn(k),life,{col:0x9b4f86,arc:kind==='slam'?14:5,r:o.tr||0.55,ext:k=>{const tt=k*life;if(kind==='slam')return Math.min(krgSmooth((tt-own.ts)/0.14),krgProf(own,k).a);const pr=krgProf({kind,t:tt,ts:0},k);return Math.max(0,(pr.a-0.35)/0.65);}});}
+  return at;}
+// 毎コマの足の動き
+function krgUpd(dt){const r=(typeof D!=='undefined'&&D)?D.krig:null;if(!r||!r.g.parent)return;dt=Math.min(dt,0.05);const play=state==='play';r.t+=dt;const t=r.t,w=r.w;
+  const sp=play?Math.hypot(P.vel.x,P.vel.z):0,swim=play&&charKey==='kraken'&&H(P.pos.x,P.pos.z)<WATER+0.35&&bridgeY(P.pos.x,P.pos.z)<WATER;
+  const tg={W:(swim||sp<0.8)?0:Math.min(1,sp/Math.max(C.spd,1)),S:swim?1:0,G:(play&&(P.guardT||0)>0)?1:0,V:r.vort>0?1:0};
+  for(const key in tg)w[key]+=(tg[key]-w[key])*Math.min(1,dt*(key==='V'?8:5));
+  r.gait+=dt*(1.6+2.6*w.W);r.sp+=dt*(2.2+2.2*Math.min(1,sp/Math.max(C.spd,1)));
+  if(r.vort>0){r.vt+=dt;r.vort-=dt;const u=Math.min(1,r.vt/2.4);r.holder.rotation.y=4*Math.PI*krgSmooth(u);if(r.vort<=0)r.holder.rotation.y=0;}
+  r.holder.position.y=r.h0-r.rB*0.8*w.S;if(r.bq){r.bq.scale.set(1,0.9,1);}
+  r.root.updateWorldMatrix(true,false);r.MW=r.root.matrixWorld;r.RI.copy(r.MW).invert();r.sc=r.MW.getMaxScaleOnAxis();
+  const wI=Math.max(0.15,1-0.6*w.W-0.8*w.G-0.9*w.V-0.4*w.S);
+  for(const L of r.legs){const n=L.n,m1=n-1;L.yi.fill(0);L.pi.fill(0);L.sk.fill(1);
+    for(let k=0;k<m1;k++){const f=k/Math.max(1,m1-1),am=0.35+0.65*f;L.pi[k]+=wI*0.06*Math.sin(t*1.1-k*0.6+L.ph)*am;L.yi[k]+=wI*0.05*Math.sin(t*0.8-k*0.5+L.ph*1.7)*am;}
+    if(w.W>0.01){const phi=r.gait+L.gp,pos=Math.sin(phi),lift=Math.max(0,Math.cos(phi));for(let k=0;k<m1;k++){if(k<4){L.yi[k]+=w.W*(-L.h.x)*0.16*pos;L.pi[k]+=w.W*0.13*lift;}L.sk[k]*=1+w.W*0.2*L.h.z*pos;}}
+    if(w.G>0.01)for(let k=0;k<m1;k++){L.pi[k]+=w.G*(k>0?0.2:0);L.sk[k]*=1-0.2*w.G;}
+    if(w.V>0.01)for(let k=0;k<m1;k++){L.yi[k]+=k>0?-0.08*w.V:0;L.sk[k]*=1+0.6*w.V;}
+    if(w.S>0.01){const o=0.5+0.5*Math.sin(r.sp);for(let k=0;k<m1;k++)L.sk[k]*=1+w.S*(0.15+0.25*o);}
+    let A=null;const at=L.atk;
+    if(at){at.t+=dt;const k=at.t/at.dur;if(k>=1)L.atk=null;else{
+      kgB.copy(at.tipFn(k)).applyMatrix4(r.RI);kgA.copy(kgB).sub(L.J[0]);const Dd=Math.max(1e-4,kgA.length());kgA.multiplyScalar(1/Dd);
+      const pr=krgProf(at,k),sT=Math.max(1,Math.min(KRG.MAXS,Dd/L.tot));
+      if(at.kind==='slam'){kgU.copy(L.h).multiplyScalar(0.35);kgU.y=1;kgU.normalize();const dir=kgU.clone().lerp(kgA,pr.b).normalize();A={a:pr.a,dir,s:1.7+(sT-1.7)*pr.b,arc:0};}
+      else A={a:pr.a,dir:kgA.clone(),s:sT,arc:at.arc};}}
+    krgFK(L,A,r);}
+  // 頭（外とう）：ゆっくりゆれる／攻撃で前へ少しのめる
+  if(r.hb.length){const h=r.hb[0],nod=0.05*Math.sin(t*1.3)+(P.atkM>0?0.12*Math.sin(Math.max(0,P.atkM)/0.2*Math.PI):0),tl=0.04*Math.sin(t*0.9+1);kgQ1.setFromAxisAngle(kgA.set(1,0,0),nod);kgQ.setFromAxisAngle(kgB.set(0,0,1),tl);h.b.quaternion.copy(h.q0).multiply(kgQ1).multiply(kgQ);}}
+{const um=updMix;updMix=function(dt){um(dt);try{krgUpd(dt);}catch(e){if(!KRG.err){KRG.err=1;console.warn('krgUpd',e);}}};}
+// 体を kraken2 に（読めない時は今の kraken のまま）。骨入りの体には、頂点をゆらす仕組みを当てない
+{const mp2=makePlayerModel;makePlayerModel=function(k){if(k!=='kraken')return mp2(k);const cm=CH.kraken.model,use=!!(typeof MODEL!=='undefined'&&MODEL.kraken2&&MODEL.kraken2.skin&&THREE.SkeletonUtils);
+  if(use){cm.id='kraken2';cm.w=KRG.W||19;cm.h=KRG.H||15;cm.d=KRG.W||19;}else{cm.id='kraken';cm.w=20;cm.h=17;cm.d=20;}
+  let d;const sv=s7Wig;if(use)s7Wig=null;try{d=mp2(k);}finally{if(use)s7Wig=sv;}
+  if(use&&d){const r=krgSetup(d);if(r){d.krig=r;d.wig=null;}else console.warn('クラーケンの骨が見つからない：骨なしの動き');}return d;};}
+// ふつうの攻撃：足の骨を敵へ向けて伸ばす（骨が無い時は、今までの筒）
+const krStrike0=krStrike,krSweep0=krSweep,krVortex0=krVortex,kr8hit0=kr8hit;
+krStrike=function(tg){const r=D&&D.krig;if(!r)return krStrike0(tg);
+  const b=C.br,POWv=POW(),nS=1+(UP.multi||0),L=EN.filter(e=>!e.dead&&!e.rise).map(e=>({e,d:cpos(e).distanceTo(tg)})).sort((a,c)=>a.d-c.d),tl=[];
+  const first=L.length&&L[0].d<L[0].e.r+6?L[0].e:null;tl.push({e:first,p:tg.clone()});
+  for(let i=1;i<nS&&i<L.length;i++){if(L[i].e!==first&&cpos(L[i].e).distanceTo(P.pos)<C.range)tl.push({e:L[i].e,p:cpos(L[i].e).clone()});}
+  tl.forEach((q,i)=>setTimeout(()=>{if(state!=='play')return;const e=q.e,tip=()=>e&&!e.dead?cpos(e):q.p;
+    krgReach(r,()=>tip(),0.5,'reach');
+    setTimeout(()=>{if(state!=='play')return;const c=tip();if(e&&!e.dead){hitEnemy(e,b.dmg*POWv);burst(c,7,[0xffb0cc,0xffffff],3,14,0.35);sfx('slash',null,0.5);}
+      else{const bt=bldAt(c.x,c.z,6);if(bt.hit){hitBld(bt.hit,b.dmg*POWv*0.8);burst(c,5,[0xffb0cc,0xffffff],3,12,0.3);}}},140);},i*90));
+  P.atkM=0.2;if(D.wig){D.wig.state='lunge';setTimeout(()=>{if(D.wig)D.wig.state='';},300);}};
+// 近くの敵：足を地面すれすれにぐるっと回す
+krSweep=function(){const r=D&&D.krig;if(!r)return krSweep0();P.melT=0.3;P.melA=0.45;P.melCd=C.mel.cd;const R=C.mel.r,a0=rnd(0,6.28),dir=P.melS=-(P.melS||1),nT=Math.min(8,4+(UP.multi||0));
+  r.root.updateWorldMatrix(true,false);const used=new Set(),hd=new V3();
+  for(let i=0;i<nT;i++){const ai=a0+i*6.2832/nT;let best=null,bd=9;for(const L of r.legs){if(used.has(L))continue;hd.copy(L.h).transformDirection(r.root.matrixWorld);const wa=Math.atan2(hd.x,hd.z);let df=Math.abs(((wa-ai+9.4248)%6.2832)-3.1416);df=3.1416-df;if(df<bd){bd=df;best=L;}}
+    if(!best)break;used.add(best);
+    krgAttack(r,best,{kind:'sweep',dur:0.4,ts:0,arc:0,tipFn:k=>{const a=ai+k*2.6*dir,x=P.pos.x+Math.sin(a)*R*0.95,z=P.pos.z+Math.cos(a)*R*0.95;return kgW.set(x,floorAt(x,z)+2.2,z);}});}
+  let n=0;for(const e of EN){if(e.dead)continue;const c=cpos(e),v=tmp.subVectors(c,P.pos);if(Math.abs(v.y)>14+e.r)continue;v.y=0;if(v.length()>R+e.r)continue;hitEnemy(e,C.mel.dmg*POW());n++;burst(c,6,[0xffb0cc,0xffffff],3,14,0.3);}
+  sfx('slash',null,0.8);sfx('whoosh',null,0.5);if(n){ono(P.pos.clone().add(new V3(0,8,0)),C.mel.ono,'#ffd0e0',44);shake(0.14);}
+  if(D.wig){D.wig.state='lunge';setTimeout(()=>{if(D.wig)D.wig.state='';},350);}};
+// 大うず：足を広げて体ごと回る（当たりは今のまま）
+krVortex=function(){krVortex0();const r=D&&D.krig;if(r){r.vort=2.6;r.vt=0;}};
+// 八本たたき：8本の足を高く上げてから、前へ次々にたたきつける（今の動きより 0.22秒おそくなる）
+kr8hit=function(){const r=D&&D.krig;if(!r)return kr8hit0();
+  const SPZ=(1+0.15*(UP.sp||0))*(EASY?1:0.8),K=SPM(),N=8+(UP.sp||0),fw=new V3(Math.sin(P.yaw),0,Math.cos(P.yaw)),sd=new V3(fw.z,0,-fw.x),WU=220;
+  for(let i=0;i<N;i++){const d=rnd(18,64)*(0.8+0.2*SPZ),w=rnd(-1,1)*d*0.7,x=P.pos.x+fw.x*d+sd.x*w,z=P.pos.z+fw.z*d+sd.z*w,c=gpos(new V3(x,0,z)),ct=new V3(c.x,c.y+1.5,c.z);
+    krgReach(r,()=>ct,(WU+i*110+140+400)/1000,'slam',{leg:r.legs[i%r.legs.length],ts:(WU+i*110)/1000,tr:0.8});
+    setTimeout(()=>{if(state!=='play')return;const R=14*SPZ;shock(c,0xffb0cc,R);burst(c,18,[0xffb0cc,0xffffff,0x8a3a60],4,22,0.6);debris(c,5,[0x8a7a5a,0x6a5a3a],1.2);shake(0.35);sfx('crash',c,0.5);
+      for(const e of EN){if(e.dead)continue;const q=cpos(e);if(Math.hypot(q.x-c.x,q.z-c.z)<R+e.r&&Math.abs(q.y-c.y)<22+e.r)hitEnemy(e,110*K);}
+      for(const b of BLD){if(!b.dead&&b.box.distanceToPoint(c)<R*0.8)hitBld(b,150*K);}},WU+i*110+140);}
+  sfx('whoosh');ono(P.pos.clone().add(new V3(0,9,0)),'ドガガガガッ！','#ffb0cc',50);};
 // 今つけている技（P.sp＝左クリック・P.sp2＝右クリック）を出す。どの枠にどの技が入っていても同じ
 function useSkill(k){if(state!=='play'||P.en<SPC()||LVUP||PAUSED||!SKINFO[k])return;
   if(k==='quake'&&!P.onGround)return;
