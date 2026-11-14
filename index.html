@@ -646,7 +646,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1114z';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1115a';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -2677,15 +2677,18 @@ function kamiShow(){const k=KAMI,sd=k.sl[k.i],n=k.sl.length,last=k.i>=n-1;
   {const idx=k.i,a=voice(sd.who||'N',sd.l);if(a&&!last)a.addEventListener('ended',()=>{setTimeout(()=>{if(state==='story'&&KAMI===k&&k.i===idx)$('storyGo').click();},500);});}
   $('storyGo').textContent=last?(k.end?'結果を見る':'出撃！'):'次へ ▶';$('storySkip').style.display=last?'none':'';}
 const TALKPIC={valley:2,town:2,castle:2,sea:1,demon:2,peak:2};
+// 掛け合いの1行ごとの絵（w＝章の始まり／c＝クリア後／c1＝シナリオ1のクリア後）と、エピローグの絵。無い所は今までどおりの絵
+const KIMG={maou:{w:['maou_t1','maou_t2'],c:['maou_c1','maou_c2','maou_c3','maou_c']},valley:{c1:['valley_c','valley_c2']}},ENDIMG={1:['end1_1','end1_2','end1_3','end_g'],2:[null,null,null,'end_g']};
+function kimg(D,A){if(A)D.forEach((q,j)=>{if(A[j])q.img=A[j];});return D;}
 function showStory(i,ending,fromClear){state='story';TK.q.length=0;TK.cur=null;const S=STAGES[i];
   const ch=ending?'エピローグ':S.ch+'　'+S.place,t=ending?'空の王':S.title,key=ending?'end':S.key,L=ending?(SCN===1?ENDING1:ENDING):(S.storyN&&!caveOK()?S.storyN:S.story);
-  let sl=L.map((l,j)=>({img:(!ending&&L===S.story&&S.simg&&S.simg[j])||key+'_'+Math.min(j+1,3),ch,t,l}));
+  let sl=L.map((l,j)=>({img:(!ending&&L===S.story&&S.simg&&S.simg[j])||(ending&&ENDIMG[SCN]&&ENDIMG[SCN][j])||key+'_'+Math.min(j+1,3),ch,t,l}));
   const dlg=(L2,img,ch2,t2)=>L2.map(([who,l])=>({img,ch:ch2,t:t2,l,who}));
   // 章のはじめの掛け合い（前は戦いながら出していた1つ目の会話）
-  if(!ending){const w0=((TALKS[S.key]||{}).w||[])[0];if(w0&&!(S.storyN&&caveOK()))sl=sl.concat(dlg(w0,key+'_'+(TALKPIC[key]||3),ch,t));}
+  if(!ending){const w0=((TALKS[S.key]||{}).w||[])[0];if(w0&&!(S.storyN&&caveOK()))sl=sl.concat(kimg(dlg(w0,key+'_'+(TALKPIC[key]||3),ch,t),(KIMG[key]||{}).w));}
   if(!ending&&i===0)sl=PROLOGUE.concat(sl);
   // 前の章をクリアした直後なら、その章のしめの会話を先に見せる（絵は <章>_c）
-  if(fromClear){const PS=STAGES[ending?i:i-1],cl=PS&&((SCN===1&&(TALKS[PS.key]||{}).clear1)||(TALKS[PS.key]||{}).clear);if(cl)sl=dlg(cl,PS.key+'_c',PS.ch+'　'+PS.place,'クリア！').concat(sl);}
+  if(fromClear){const PS=STAGES[ending?i:i-1],cl=PS&&((SCN===1&&(TALKS[PS.key]||{}).clear1)||(TALKS[PS.key]||{}).clear);if(cl)sl=kimg(dlg(cl,PS.key+'_c',PS.ch+'　'+PS.place,'クリア！'),(KIMG[PS.key]||{})[cl===(TALKS[PS.key]||{}).clear1?'c1':'c']).concat(sl);}
   KAMI={sl,i:0,end:!!ending};kamiShow();
   $('storyGo').dataset.end=ending?'1':'';
   $('story').style.display='flex';$('select').style.display='none';$('over').style.display='none';
