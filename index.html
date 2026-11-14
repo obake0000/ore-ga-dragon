@@ -206,10 +206,10 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 @keyframes kvmove{from{transform:scale(1) translate(0,0)}to{transform:scale(1.05) translate(-0.7%,-0.9%)}}
 #title .bg{animation:bgmove 24s ease-in-out infinite alternate}
 @keyframes bgmove{from{transform:scale(1.04) translate(-1.2%,0)}to{transform:scale(1.14) translate(1.6%,-1.2%)}}
-#title .kv video{position:absolute;width:49.6%;height:49.6%;object-fit:cover;pointer-events:none;opacity:0;transition:opacity .9s}
+#title .kv video{position:absolute;width:49.6%;height:49.6%;object-fit:cover;pointer-events:none;opacity:0;transition:opacity .25s}
 #title .kv video.on{opacity:1}
 #title .kv .v1{left:0;top:0;-webkit-mask-image:radial-gradient(ellipse 70% 40% at 100% 100%,transparent 80%,#000 100%);mask-image:radial-gradient(ellipse 70% 40% at 100% 100%,transparent 80%,#000 100%)}
-#title .kv .v2{left:50.4%;top:50.24%;-webkit-mask-image:radial-gradient(ellipse 68% 30% at 0% 0%,transparent 80%,#000 100%);mask-image:radial-gradient(ellipse 68% 30% at 0% 0%,transparent 80%,#000 100%)}
+#title .kv .v2{left:50.4%;top:50.24%;-webkit-mask-image:radial-gradient(ellipse 68% 24.5% at 0% 0%,transparent 84%,#000 100%);mask-image:radial-gradient(ellipse 68% 24.5% at 0% 0%,transparent 84%,#000 100%)}
 @media (prefers-reduced-motion:reduce){#title .kv video{display:none}}
 #title .emb{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 #title .emb i{position:absolute;bottom:-4vh;border-radius:50%;background:radial-gradient(circle,#fff8d0 0%,#ffb030 40%,#ff5a0000 70%);opacity:0;animation:emb linear infinite}
@@ -324,7 +324,7 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
   <div class="b" data-k="sp2" id="tsp2" style="right:128px;bottom:96px;width:82px;height:82px">炎の渦</div>
   <div class="b" data-k="dash" id="tdash" style="right:24px;bottom:30px;width:82px;height:82px">緊急回避</div>
 </div>
-<div id="title" data-layout-ok><div class="bg"></div><div class="kv" role="img" aria-label="俺がドラゴン。転生したらドラゴンだったので勇者も魔王も丸焼きにします。15分で終わる爽快アクションRPG"><video class="v1" muted loop playsinline preload="none" aria-hidden="true" data-src="story/kv_tl.mp4"></video><video class="v2" muted loop playsinline preload="none" aria-hidden="true" data-src="story/kv_br.mp4"></video></div><div class="ray"></div><div class="emb" id="emb"></div><div class="press" id="press">読み込み中… <span id="ldn">0%</span><i class="ldb"><i id="ldp"></i></i></div></div>
+<div id="title" data-layout-ok><div class="bg"></div><div class="kv" role="img" aria-label="俺がドラゴン。転生したらドラゴンだったので勇者も魔王も丸焼きにします。15分で終わる爽快アクションRPG"><video class="v1" muted loop playsinline preload="none" aria-hidden="true" data-src="story/kv_tl2.mp4"></video><video class="v2" muted loop playsinline preload="none" aria-hidden="true" data-src="story/kv_br2.mp4"></video></div><div class="ray"></div><div class="emb" id="emb"></div><div class="press" id="press">読み込み中… <span id="ldn">0%</span><i class="ldb"><i id="ldp"></i></i></div></div>
 <div id="select" class="ov">
   <div class="ttl"><h1 class="logo"><img src="story/logo2.webp" alt="俺がドラゴン。転生したらドラゴンだったので勇者も魔王も丸焼きにします。15分で終わる爽快アクションRPG"></h1><div class="sub">キャラをえらんで、魔物・軍隊・海の怪物・古の竜を倒せ</div></div>
   <div class="cards" id="cards"></div>
