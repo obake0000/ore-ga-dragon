@@ -770,7 +770,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116f';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116g';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1307,12 +1307,12 @@ function dkRide(m){const n0=m.children.length;if(!attachModel(m,'wyvern'))return
   const A=MODEL.soldier.anims;if(A.length){const mx=new THREE.AnimationMixer(sd);const c=A.find(a=>/idle|wait|standing/i.test(a.name))||A[0];mx.clipAction(c).play();m.userData.sm=mx;}
   return true;}
 // 大型スライム：弾や必殺技が当たるたびに、体から普通のスライムが飛び出す（歯止めあり）。倒れた時は残りを2匹だけ
-function slimeSpawn(e,n,quiet){const E=EASY?0.5:1,cap=Math.round(20*E),live=Math.round(12*E);e.kids=(e.kids||[]).filter(k=>!k.dead);e.nsp=e.nsp||0;
+function slimeSpawn(e,n,quiet){const E=EASY?0.5:1,cap=Math.round((e.kcap||20)*E),live=Math.round((e.klive||12)*E);e.kids=(e.kids||[]).filter(k=>!k.dead);e.nsp=e.nsp||0;
   if(e.nsp>=cap||e.kids.length>=live)return;const p=e.mesh.position;
-  for(let k=0;k<n&&e.nsp<cap&&e.kids.length<live;k++){const a=rnd(0,Math.PI*2),r=e.r*0.8,c=addEnemy('slime',p.x+Math.cos(a)*r,p.z+Math.sin(a)*r);c.vy=rnd(14,20);c.hx=Math.cos(a);c.hz=Math.sin(a);e.kids.push(c);e.nsp++;}
-  if(!quiet){burst(cpos(e),10,GOO,4,14,0.5);sfx('small',p,0.6);ono(cpos(e),'ぷるん！','#8cff70',34);
-    if(e.sc>5){const f=0.975;e.sc*=f;e.r*=f;e.hc*=f;}}}
-function slimeSplit(e){slimeSpawn(e,2,true);burst(cpos(e),30,GOO,5,22,0.9);sfx('small',e.mesh.position,0.8);ono(cpos(e),'ぶるるん！','#8cff70',48);}
+  for(let k=0;k<n&&e.nsp<cap&&e.kids.length<live;k++){const a=rnd(0,Math.PI*2),r=e.r*0.8,c=addEnemy('slime',p.x+Math.cos(a)*r,p.z+Math.sin(a)*r);if(e.blue)slBlue(c);c.vy=rnd(14,20);c.hx=Math.cos(a);c.hz=Math.sin(a);e.kids.push(c);e.nsp++;}
+  if(!quiet){burst(cpos(e),10,e.blue?SGOO:GOO,4,14,0.5);sfx('small',p,0.6);ono(cpos(e),'ぷるん！',e.blue?'#8fd0ff':'#8cff70',34);
+    if(e.sc>5){const f=e.shr||0.975;e.sc*=f;e.r*=f;e.hc*=f;}}}
+function slimeSplit(e){slimeSpawn(e,2,true);burst(cpos(e),30,e.blue?SGOO:GOO,5,22,0.9);sfx('small',e.mesh.position,0.8);ono(cpos(e),'ぶるるん！',e.blue?'#8fd0ff':'#8cff70',48);}
 function makeBat(col,horn){const g=new THREE.Group();const m=mat(col);const b=mesh(new THREE.SphereGeometry(0.6,10,8),m);b.scale.z=1.3;g.add(b);
   const em=new THREE.MeshBasicMaterial({color:0xffdd00});[-1,1].forEach(k=>{const e=new THREE.Mesh(new THREE.SphereGeometry(0.1,6,6),em);e.position.set(0.22*k,0.15,0.62);g.add(e);
     const h=mesh(new THREE.ConeGeometry(0.15,0.5,5),horn?mat(0xeeeecc):m);h.position.set(0.25*k,0.6,0.2);g.add(h);});
@@ -2305,7 +2305,7 @@ function addEnemy(type,x,z,y,o={}){
 function hitEnemy(e,n){if(e.dead)return;
   if(e.inv){burst(cpos(e),3,GOLD,2,8,0.2);sfx('clang',e.mesh.position,0.5);return;}
   if(e.guard){n*=0.15;burst(cpos(e),3,[0x80c0ff,0xffffff],2.5,8,0.25);sfx('clang',e.mesh.position,0.4);}
-  if(e.type==='bigslime'&&n>=4&&!(e.spT>e.t)){e.spT=e.t+0.5;slimeSpawn(e,1);}if(e.barT>0){n*=0.25;if(Math.random()<0.3)burst(cpos(e),3,GOLD,2.5,8,0.25);}if(e.cave&&e.type==='hero'&&!CAVE.flee&&e.hp-n<e.maxHp*0.3){e.hp=e.maxHp*0.3;caveFlee();return;}e.hp-=n;e.hitT=0.14;
+  if(e.type==='bigslime'&&n>=4&&!(e.spT>e.t)){e.spT=e.t+(e.spCd||0.5);slimeSpawn(e,1);}if(e.barT>0){n*=0.25;if(Math.random()<0.3)burst(cpos(e),3,GOLD,2.5,8,0.25);}if(e.cave&&e.type==='hero'&&!CAVE.flee&&e.hp-n<e.maxHp*0.3){e.hp=e.maxHp*0.3;caveFlee();return;}e.hp-=n;e.hitT=0.14;
   if(n>=8){if(!(e.flT>0)){e._rx=e.mesh.rotation.x;e._rz=e.mesh.rotation.z;}e.flT=0.26;if(!e.boss&&!e.perch&&e.r<5){const q=e.mesh.position,dx=q.x-P.pos.x,dz=q.z-P.pos.z,d=Math.hypot(dx,dz)||1;e.kx=dx/d*15;e.kz=dz/d*15;}}
   if(e.hp<=0)killEnemy(e);}
 const DIE={orctank:'わ、わしの……デラックス戦車が……！',ogre:'グ……オオ……',drak:'……見事だ。同じ、竜の血か……',biggolem:'……ゴ、ゴゴ……',wizard:'そんな…わしの魔力が…',hero:'すまない…みんな…',demon:'この私が…トカゲごときに…',rival:'…強くなったな。',wooddragon:'……ギギ……ギ……',walker:'城が……ローンが、まだ……',elder:'見事だ、若き竜よ。空はお前のものだ。',battleship:'総員、退艦…！ 泳げる者から…！',bigairship:'空の…王の船が…！',kraken:'ゴボ…ゴボボ……'};
@@ -2450,11 +2450,11 @@ function updEnemies(dt){s3Tick(dt);
       if(half){e.met-=dt;if(e.met<=0){e.met=6;for(let k=0;k<7;k++){const f=new V3(P.pos.x+rnd(-35,35),P.pos.y+90,P.pos.z+rnd(-35,35));shoot(f,new V3(rnd(-4,4),-65,rnd(-4,4)),{mat:MAT.dfire,size:2.2,r:2.6,splash:9,dmg:14,life:5,trail:PURP,col:PURP});}banner('隕石の雨！ 動いてよけろ',1.4);}}
       if(d3<e.r+4)hurt(e.dmg*dt,true);break;}
     case 'bigslime':{const on=grav(e,dt),b=e.mesh.userData.b;
-      if(on&&e.air){e.air=false;const gp=new V3(p.x,floorAt(p.x,p.z),p.z);shock(gp,0x55d040,26);shake(0.35);sfx('small',p,0.7);burst(gp,10,GOO,4,16,0.5);
+      if(on&&e.air){e.air=false;const gp=new V3(p.x,floorAt(p.x,p.z),p.z);shock(gp,e.blue?0x2f8cff:0x55d040,26);shake(0.35);sfx('small',p,0.7);burst(gp,10,e.blue?SGOO:GOO,4,16,0.5);
         if(hd<e.r+10&&Math.abs(P.pos.y-p.y)<16)hurt(e.dmg);e.cd=rnd(1,1.8);}
       if(on&&!e.air){
         if(!(e.crouch>0)&&e.cd<=0&&hd<300)e.crouch=0.6;
-        if(e.crouch>0){e.crouch-=dt;faceP(e);const q=1-e.crouch/0.6;b.scale.set(1+0.4*q,0.75-0.4*q,1+0.4*q);b.material.emissive.setHex(0x1a7a1a);
+        if(e.crouch>0){e.crouch-=dt;faceP(e);const q=1-e.crouch/0.6;b.scale.set(1+0.4*q,0.75-0.4*q,1+0.4*q);b.material.emissive.setHex(e.blue?0x1a4a9a:0x1a7a1a);
           if(e.crouch<=0){e.crouch=0;e.vy=rnd(25,31);e.hx=dx/hd;e.hz=dz/hd;e.hs=clamp(hd/(e.vy/20),5,17);e.air=true;b.material.emissive.setHex(0);sfx('small',p,0.5);}}
         else b.scale.set(1.12,0.7,1.12);}
       else if(!on){p.x+=e.hx*(e.hs||17)*dt;p.z+=e.hz*(e.hs||17)*dt;b.scale.set(0.9,1.1,0.9);}
@@ -4347,6 +4347,19 @@ function s7Props(L){
 {const im=new Image();im.onload=()=>{S7.face=true;TPT['海王']='seaking';if(typeof PTS!=='undefined'&&!PTS.includes('seaking'))PTS.push('seaking');};im.src='chara/seaking.webp';}
 ENDS[7]=['海王は、あわになって、海にもどった。さんごの島も、うずも、もう静かだ。魚人たちは、そっと海の底へ帰っていった。','海は、また青くなった。焼き魚の味は、しばらく忘れられそうにない。','空は、きみのものだ。海も、ちょっとだけ。','遠くの空で、女神が書類をめくった。「罰のつもりが、海まで手に入れるとは……次は、貝がらにします」'];
 ENDT[7]='海の王、あわになる';
+// ---- 青いスライム（slime_sea.py）：海王編に出す。海の大スライムは、当てるたびに青いスライムがふえる ----
+const SGOO=[0x2f8cff,0x8fd0ff,0xffffff];
+function slBlue(e){if(!e||!e.mesh)return e;const b=e.mesh.userData.b;if(b&&b.material){b.material=b.material.clone();b.material.color.setHex(0x2f8cff);}e.blue=1;return e;}
+function s7Slimes(n,water){for(let i=0;i<s7N(n);i++){let x,z;if(water){[x,z]=s7WaterPos(40,95);}else{const fs=TER.flats.slice(1,4),f=fs[(Math.random()*fs.length)|0];[x,z]=s7Land(f,0.8);}slBlue(addEnemy('slime',x,z));}}
+function s7BigSlime(){const f=TER.flats[2]||TER.flats[1],[x,z]=s7Land(f,0.4),e=slBlue(addEnemy('bigslime',x,z)),k=EASY?0.42:0.62;
+  e.hp=e.maxHp=3000*k*(EASY?0.75:1);e.boss='💧 海の大スライム';e.val=1200;e.dmg*=1.2;e.kcap=60;e.klive=30;e.spCd=0.3;e.shr=0.99;e.said=1;
+  e.sc=11;e.r*=1.25;e.hc*=1.25;e.mesh.scale.setScalar(11);e.die='ぶるるる……（はじけて、青いしずくになった）';s7Cut('海の大スライム','💧');return e;}
+{const W=key=>ALLST.find(q=>q.key===key).waves,add=(k,i,f)=>{const g=W(k)[i].go;W(k)[i].go=function(){g.call(this);f();};};
+  add('coralsea',0,()=>s7Slimes(10));
+  add('coralsea',1,()=>{s7BigSlime();s7Slimes(6);});
+  add('deepsea',0,()=>s7Slimes(8,true));
+  add('seaking',1,()=>s7Slimes(10));}
+
 Object.assign(TALKS,{
  coralsea:{w:[[['ME','焼き魚がうまかった。あとは知らん。……海の下で、誰か怒っているのか？'],['海王','わが国民を、串に刺して食うとは。竜よ、勘定は海の底で払ってもらう'],['ME','国民？ ……あれは、ただの昼めしだと思っていた']],
              [['ME','カニまで出てきた。……カニは、焼くより、ゆでるほうが好みだ']],
