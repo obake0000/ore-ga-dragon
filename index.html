@@ -830,7 +830,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116zv';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116zx';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -2301,7 +2301,7 @@ function updDie(dt){for(let i=DIEL.length-1;i>=0;i--){const o=DIEL[i],m=o.m,q=m.
 const INKC=[0x1a1030,0x3a2060,0x000000],INKP=[];
 // 飛空艇：急上下。低い所では上へ、高い所では下へ、弾をかわす高さのずらし（無敵なし）
 function climbAir(){if(state!=='play'||LVUP||PAUSED||(P.dodgeCd||0)>0||P.en<12)return;P.en-=12;P.dodgeCd=1.4;
-  const gh=(DUN.on?DUN.y:floorAt(P.pos.x,P.pos.z))+C.gOff,alt=P.pos.y-gh,up=(alt<60&&P.pos.y<205)||alt<=14;
+  const gh=dunFloorY(P.pos.x,P.pos.z)+C.gOff,alt=P.pos.y-gh,up=(alt<60&&P.pos.y<205)||alt<=14;
   if(!up)P.vel.y=-Math.min(125,(alt-6)*3.2);else P.vel.y=125;
   P.climbDir=P.vel.y>0?1:-1;
   sfx('whoosh',null,0.9);burst(P.pos,16,[0xffffff,0xcfeaff],3,22,0.45);smoke(P.pos,4,6,1.2,0xdddddd,3);
@@ -2641,7 +2641,25 @@ function roarPick(k){ROAR.use=false;if(k!==1||charKey!=='dragon'||!MODEL.roardra
   if(R&&Math.hypot(R.x-P.pos.x,R.z-P.pos.z)>90){let cx=R.x-P.pos.x,cz=R.z-P.pos.z;const L=Math.hypot(cx,cz),th=ROAR_C[5];cx/=L;cz/=L;vx=cx*Math.cos(th)+cz*Math.sin(th);vz=cz*Math.cos(th)-cx*Math.sin(th);}
   else{const a=P.yaw;vx=-(Math.sin(a)*7.6-Math.cos(a)*5.2);vz=-(Math.cos(a)*7.6+Math.sin(a)*5.2);const L=Math.hypot(vx,vz);vx/=L;vz/=L;}
   const rx=-vz,rz=vx,ph=0.42;ROAR.v=[vx,vz];ROAR.yaw=Math.atan2(-vx*Math.cos(ph)+rx*Math.sin(ph),-vz*Math.cos(ph)+rz*Math.sin(ph));}
-function roarUpd(rdt){const want=CINE.k===1&&ROAR.use&&ultT>0&&CINE.t>0.12&&state==='play'&&!!roarMake();
+/* ---- 取っ組み合い（赤い竜とワイバーン） ---- */
+const GRAP={on:false,e:null,t:0,d:1.7,c:new V3(),nx:0,nz:1,sp:0,next:0,o1:0,o2:0};
+function grapStart(e){const now=performance.now();if(GRAP.on||charKey!=='dragon'||e.dead||now<GRAP.next||CINE.k||!roarMake())return false;const p=e.mesh.position;
+  GRAP.on=true;GRAP.e=e;GRAP.t=0;GRAP.sp=0;GRAP.o1=GRAP.o2=0;GRAP.next=now+9000;GRAP.c.copy(p).lerp(P.pos,0.5);GRAP.c.y=Math.max(GRAP.c.y,floorAt(GRAP.c.x,GRAP.c.z)+15);
+  let nx=p.x-P.pos.x,nz=p.z-P.pos.z;const L=Math.hypot(nx,nz)||1;GRAP.nx=nx/L;GRAP.nz=nz/L;
+  const c=GRAP.c,T={x:c.x+GRAP.nx*3,y:c.y,z:c.z+GRAP.nz*3,r:6,sg:1,hi:0,dmin:19};P.pos.set(c.x-GRAP.nx*2.7,c.y,c.z-GRAP.nz*2.7);cine(6,GRAP.d+0.25,T);
+  if(CINE.k===6&&CINE.tg===T){let best=1e9,bs=1;const B=new V3(T.x,T.y,T.z);for(const sg of [1,-1]){T.sg=sg;cinePose();const n=cineBlock(CINE.p,P.pos)+cineBlock(CINE.p,B)+(sg<0?0.5:0);if(n<best){best=n;bs=sg;}}T.sg=bs;TS=0.45;tsT=GRAP.d;}
+  return true;}
+function grapEnd(win){GRAP.on=false;const e=GRAP.e;if(!e||e.dead)return;const m=e.mesh;m.rotation.set(0,m.rotation.y,0);e.state='chase';e.cd=2.6;e.st=0;
+  if(win){const q=cpos(e).clone();e.vel.set(GRAP.nx*80,-26,GRAP.nz*80);burst(q,36,SPARK,5,46,0.6);burst(q,14,WGRN,4,30,0.7);glowFlash(q,0xfff3a0,30,0.4);ono(q,'ドガァッ!!','#fff3a0',64);shake(0.9);sfx('boom',q,0.8);hitEnemy(e,e.maxHp*0.18);}}
+function grapUpd(rdt){if(!GRAP.on)return;const e=GRAP.e;if(e.dead||state!=='play'){grapEnd(false);return;}if(PAUSED||LVUP)return;GRAP.t+=rdt;
+  const k=GRAP.t/GRAP.d,c=GRAP.c,a=k*1.9,ca=Math.cos(a),sa=Math.sin(a),nx=GRAP.nx*ca-GRAP.nz*sa,nz=GRAP.nx*sa+GRAP.nz*ca,sh=Math.sin(GRAP.t*40)*0.16,push=Math.sin(GRAP.t*5.2)*0.7;
+  P.pos.set(c.x-nx*(2.6-push),c.y+sh,c.z-nz*(2.6-push));P.vel.set(0,0,0);P.yaw=Math.atan2(nx,nz);P.pitch=0;ROAR.yaw=P.yaw;
+  const m=e.mesh;m.position.set(c.x+nx*(3.2+push),c.y+0.8-sh,c.z+nz*(3.2+push));m.rotation.set(-0.95+0.1*Math.sin(GRAP.t*7),Math.atan2(-nx,-nz),Math.sin(GRAP.t*31)*0.12,'YXZ');e.vel.set(0,0,0);e.state='grap';e.st=1;e.cd=2;
+  GRAP.sp-=rdt;if(GRAP.sp<=0){GRAP.sp=0.15;const q=tmp.copy(c);q.y+=2+rnd(-2.5,3);q.x+=rnd(-1.5,1.5);q.z+=rnd(-1.5,1.5);burst(q,9,SPARK,3,32,0.4);burst(q,3,WGRN,2.6,20,0.5);glowFlash(q.clone(),0xfff3a0,6,0.18);shake(0.22);sfx('clang',q,0.45);}
+  if(!GRAP.o1&&GRAP.t>0.12){GRAP.o1=1;ono(tmp.copy(c).add(tmp2.set(0,7,0)),'ガブッ!!','#ffd84a',58);sfx('roar',c,0.6);}
+  if(!GRAP.o2&&GRAP.t>0.9){GRAP.o2=1;ono(tmp.copy(c).add(tmp2.set(0,6,0)),'ガリガリッ!','#9cff8a',50);}
+  if(GRAP.t>=GRAP.d)grapEnd(true);}
+function roarUpd(rdt){const want=state==='play'&&(GRAP.on||(CINE.k===1&&ROAR.use&&ultT>0&&CINE.t>0.12))&&!!roarMake();
   if(!want){if(ROAR.on){ROAR.on=false;ROAR.g.visible=false;D.g.visible=true;}return;}
   if(!ROAR.on){ROAR.on=true;ROAR.g.visible=true;ROAR.t=0;ROAR.em=0;}D.g.visible=false;if(!PAUSED&&!LVUP)ROAR.t+=rdt;const g=ROAR.g,k=Math.min(1,ROAR.t/1.5);
   g.position.copy(P.pos);g.position.y+=Math.sin(ROAR.t*7)*0.1;g.rotation.set(-0.16-0.05*Math.sin(ROAR.t*5),ROAR.yaw,0.03*Math.sin(ROAR.t*9),'YXZ');
@@ -2667,7 +2685,7 @@ function cinePose(){if(CINE.k===7){const T=CINE.tg;CINE.p.set(T.px,T.py,T.pz);CI
     if(near)l.set(A.x+dx*0.5,my,A.z+dz*0.5);else l.set(T.x-f.x*T.r*1.2,my,T.z-f.z*T.r*1.2);
     p.copy(l).addScaledVector(n,dist);p.y+=dist*(T.hi?0.42:-0.1);l.y-=T.r*0.12;CINE.fov=50;}
   const fl=Math.max(floorAt(p.x,p.z),WATER)+1.4;if(p.y<fl)p.y=fl;}
-function cineCam(rdt){roarUpd(rdt);if(!CINE.k){cineOn=false;return;}if(state!=='play'){cineEnd();cineOn=false;return;}
+function cineCam(rdt){grapUpd(rdt);roarUpd(rdt);if(!CINE.k){cineOn=false;return;}if(state!=='play'){cineEnd();cineOn=false;return;}
   GCAM.copy(cam.position);if(!PAUSED&&!LVUP)CINE.t+=rdt;if(CINE.t>=CINE.d){cineEnd();cineOn=false;return;}
   cinePose();const one=CINE.k===1,a=Math.min(1,CINE.t/(one?0.7:0.14)),b=Math.min(1,(CINE.d-CINE.t)/(one?(ROAR.use?0.36:0.8):0.4)),w=Math.min(a*a*(3-2*a),b*b*(3-2*b));
   if(one){const ox=GCAM.x-P.pos.x,oz=GCAM.z-P.pos.z,px=CINE.p.x-P.pos.x,pz=CINE.p.z-P.pos.z,a0=Math.atan2(ox,oz);let da=Math.atan2(px,pz)-a0;da=Math.atan2(Math.sin(da),Math.cos(da));
@@ -3078,7 +3096,7 @@ function killEnemy(e,quiet){if(e.dead)return;e.dead=true;if(e.king&&!e.tk2&&stat
   if(['golem','bigcannon','wooddragon','siegecart','walker','airship','ship','battleship','bigairship'].includes(e.type)){debris(c,e.boss?24:10,[0x7a7468,0x6a4a2a,0x9a8a72],e.boss?3:1.5);smoke(c,8,e.boss?10:5,3,0x5a5248,e.boss?8:3);burst(c,e.fall?10:30,FIRE,e.fall?3:e.boss?8:5,30,1);}
   if(e.boss){shake(1);TS=0.25;tsT=1.4;say(e.boss.replace(/^\S+\s/,''),e.die||DIE[e.type]);banner(e.boss.replace(/^\S+\s/,'')+' をたおした！',2.4);addEmit(new V3(c.x,floorAt(c.x,c.z),c.z),6,2);}}
 function walk(e,tx,tz,spd,dt){const p=e.mesh.position;if(e.s7&&spd)spd*=H(p.x,p.z)<WATER-0.3?1.5:0.65;const dx=tx-p.x,dz=tz-p.z,d=Math.hypot(dx,dz);if(d>0.5&&spd){p.x+=dx/d*spd*dt;p.z+=dz/d*spd*dt;}e.mesh.rotation.y=Math.atan2(dx,dz);return d;}
-function grav(e,dt,g=40){const p=e.mesh.position;if(e.perch)return true;const gh=Math.max(H(p.x,p.z),WATER-1.2);e.vy-=g*dt;p.y+=e.vy*dt;if(p.y<=gh){p.y=gh;e.vy=0;return true;}return false;}
+function grav(e,dt,g=40){const p=e.mesh.position;if(e.perch)return true;const gh=Math.max(H(p.x,p.z),WATER-1.2)+(DUN.on?dunSt(p.x,p.z):0);e.vy-=g*dt;p.y+=e.vy*dt;if(p.y<=gh){p.y=gh;e.vy=0;return true;}return false;}
 function fly(e,target,spd,dt,k=2){tmp.subVectors(target,e.mesh.position);const d=tmp.length();if(d>0.01)tmp.multiplyScalar(spd/d);e.vel.lerp(tmp,Math.min(1,dt*k));e.mesh.position.addScaledVector(e.vel,dt);
   const p=e.mesh.position,gh=floorAt(p.x,p.z)+3+e.r*0.5;if(p.y<gh)p.y=gh;}
 // 海の上をすべる（陸には上がらない）。向きは少しずつ変える
@@ -3220,14 +3238,14 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);
         else b.scale.set(1.12,0.7,1.12);}
       else if(!on){p.x+=e.hx*(e.hs||17)*dt;p.z+=e.hz*(e.hs||17)*dt;b.scale.set(0.9,1.1,0.9);}
       if(d3<e.r+4)hurt(e.dmg*dt,true);break;}
-    case 'biggolem':case 'bigskel':{grav(e,dt);
-      if(e.state==='wind'){faceP(e);e.st-=dt;if(!e.pun&&e.st<0.27){e.pun=1;mixOnce(e.mesh.userData.mix,1.5);}teleSet(e,34,1-Math.max(0,e.st)/1.25,0xff4020);if(Math.random()<0.4)smoke(p,1,5,1.5,0x9a8a68,2);
-        if(e.st<=0){teleOff(e);e.state='chase';e.cd=rnd(2.4,3.4);const g=new V3(p.x,floorAt(p.x,p.z),p.z);shock(g,0xd8c090,34);shock(g,0xff7040,22);shake(0.8);sfx('boom',p,0.7);debris(p,12,[0x7a7468,0x9a8a72],2);smoke(g,8,8,2,0x9a8a68,4);ono(g,'ドゴォン！','#ffd23a',56);
-          if(Math.hypot(P.pos.x-p.x,P.pos.z-p.z)<34&&P.pos.y-g.y<14)hurt(e.dmg+4);}}
-      else{walk(e,P.pos.x,P.pos.z,hd>16?7:0,dt);
-        if(e.cd<=0&&hd<44&&Math.abs(P.pos.y-p.y)<18){e.state='wind';e.st=1.25;e.pun=0;sfx('roar',p,0.5);if(!(e.mesh.userData.mix&&e.mesh.userData.mix.hit))e.atkT=0.35;}
+    case 'biggolem':case 'bigskel':{const K=e.gk||1;grav(e,dt);
+      if(e.state==='wind'){faceP(e);e.st-=dt;if(!e.pun&&e.st<0.27){e.pun=1;mixOnce(e.mesh.userData.mix,1.5);}teleSet(e,34*K,1-Math.max(0,e.st)/1.25,0xff4020);if(Math.random()<0.4)smoke(p,1,5,1.5,0x9a8a68,2);
+        if(e.st<=0){teleOff(e);e.state='chase';e.cd=rnd(2.4,3.4);const g=new V3(p.x,floorAt(p.x,p.z),p.z);shock(g,0xd8c090,34*K);shock(g,0xff7040,22*K);shake(0.8);sfx('boom',p,0.7);debris(p,12,[0x7a7468,0x9a8a72],2);smoke(g,8,8,2,0x9a8a68,4);ono(g,'ドゴォン！','#ffd23a',56);
+          if(Math.hypot(P.pos.x-p.x,P.pos.z-p.z)<34*K&&P.pos.y-g.y<14*K)hurt(e.dmg+4);}}
+      else{walk(e,P.pos.x,P.pos.z,hd>16*K?7:0,dt);
+        if(e.cd<=0&&hd<44*K&&Math.abs(P.pos.y-p.y)<18*K){e.state='wind';e.st=1.25;e.pun=0;sfx('roar',p,0.5);if(!(e.mesh.userData.mix&&e.mesh.userData.mix.hit))e.atkT=0.35;}
         else if(e.cd<=0&&hd<170&&(hd>95||P.pos.y-p.y>18)){e.cd=rnd(6,8);const f=cpos(e).clone();f.y+=5;shoot(f,lob(f,tmp2.copy(P.pos).addScaledVector(P.vel,0.8),55,30),{geo:'rock',mat:MAT.rock,size:3.4,r:3.6,splash:10,dmg:22,grav:30,life:6,col:e.type==='bigskel'?[0xe8e4d0,0xcfc8b0]:[0x999080,0xbbaa90]});}}
-      if(d3<e.r+5)hurt(e.dmg*dt,true);break;}
+      if(d3<e.r+5*K)hurt(e.dmg*dt,true);break;}
     case 'dknight':{const u=e.mesh.userData;if(u.sm)u.sm.update(dt);e.st-=dt;
       if(e.state==='chase'){e.ang+=dt*0.5*(e.seed>4.5?1:-1);const R=46+e.seed*3;tmp2.set(P.pos.x+Math.cos(e.ang)*R,Math.max(P.pos.y+18+Math.sin(e.t*1.3+e.seed)*5,floorAt(p.x,p.z)+14),P.pos.z+Math.sin(e.ang)*R);fly(e,tmp2,34,dt,1.4);dkFace(e,dt,e.vel.x,e.vel.z,e.vel.y);
         if(e.cd<=0&&hd<190){e.state='aim';e.st=0.95;e.act=Math.random()<0.7?'lance':'fire';e.vel.multiplyScalar(0.3);sfx('roar',p,0.4);if(e.act==='lance'&&Math.random()<0.5)bubble(e,'いざ、突撃！','shout',1.2);}}
@@ -3396,7 +3414,7 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);
       else if(e.state==='barrage'){fly(e,tmp2.copy(p),5,dt);faceP(e);animDragon(dr,e.t,8);if(e.st<=0){e.state='chase';e.cd=half?1.6:2.4;}}
       else{p.addScaledVector(e.vel,dt);e.mesh.rotation.y=Math.atan2(e.vel.x,e.vel.z);animDragon(dr,e.t,12);if(e.wyv){if(p.y-floorAt(p.x,p.z)<16)burst(gpos(p),3,[0xcbb890,0xa89870,0xe0d4b0],7,10,0.9);if(Math.random()<0.5)burst(p,1,WGRN,4,5,0.4);}else if(Math.random()<0.7)burst(p,1,BLUE,4,5,0.4);
         const gh=floorAt(p.x,p.z)+6;if(p.y<gh)p.y=gh;
-        if(!e.done&&d3<e.r+5){e.done=true;hurt(e.dmg);shake(0.8);if(e.wyv){const c=p.clone().lerp(P.pos,0.5);burst(c,40,SPARK,5,45,0.6);burst(c,16,GOLD,4,30,0.7);glowFlash(c,0xfff3a0,30,0.4);ono(c,'ガキィン!!','#fff3a0',64);flashV=Math.max(flashV,0.6);sfx('clang',p,1);if(!e.c2&&!CINE.k){e.c2=1;cine(3,1.3,{x:p.x,y:p.y,z:p.z,r:e.r,sg:1,hi:0});if(CINE.k===3){TS=0.22;tsT=1.15;}}}}
+        if(!e.done&&d3<e.r+5){e.done=true;hurt(e.dmg);shake(0.8);if(e.wyv){const c=p.clone().lerp(P.pos,0.5);burst(c,40,SPARK,5,45,0.6);burst(c,16,GOLD,4,30,0.7);glowFlash(c,0xfff3a0,30,0.4);ono(c,'ガキィン!!','#fff3a0',64);flashV=Math.max(flashV,0.6);sfx('clang',p,1);grapStart(e);if(!e.c2&&!CINE.k){e.c2=1;cine(3,1.3,{x:p.x,y:p.y,z:p.z,r:e.r,sg:1,hi:0});if(CINE.k===3){TS=0.22;tsT=1.15;}}}}
         if(e.st<=0){e.state='chase';e.cd=half?1.6:2.5;}}
       break;}
     }
@@ -3691,7 +3709,7 @@ const STAGES=[
    ter:{amp:0,ox:0,oz:0,flats:[[0,0,330,3,1]],dirt:[],grass:0x3a3a48,hill:0x3a3a48,rock:0x44444e,sand:0x3a3a48,dirtC:0x33333e,trees:0,rocks:0,start:[0,120]},
    story:['迷宮のいちばん奥、巨人の間。岩のかたまりが、ゆっくりと立ち上がる。','封印の扉を守るために作られた、岩の巨人ゴーレム。千年、ここで待っていたらしい。','番人ごくろう。……退職の手続きは、火でする。'],
    waves:[
-    {name:'岩の巨人ゴーレム',msg:'🗿 岩の巨人が、目をさました！',mood:7,go(){const b=addEnemy('biggolem',0,22);b.boss='🗿 岩の巨人ゴーレム';b.hp=b.maxHp=b.maxHp*1.25;b.sc=(b.sc||1)*1.25;b.r*=1.2;b.hc*=1.25;poseSet(b,1);b.val=1500;for(let i=0;i<2;i++)addEnemy('golem',(i?1:-1)*62,44);}}]},
+    {name:'岩の巨人ゴーレム',msg:'🗿 岩の巨人が、目をさました！',mood:7,go(){const b=addEnemy('biggolem',0,22);b.boss='🗿 岩の巨人ゴーレム';b.hp=b.maxHp=b.maxHp*1.25;b.sc=(b.sc||1)*1.25;b.r*=1.2;b.hc*=1.25;b.gk=0.5;b.sc*=b.gk;b.r*=b.gk;b.hc*=b.gk;poseSet(b,1);b.val=1500;for(let i=0;i<2;i++)addEnemy('golem',(i?1:-1)*62,44);}}]},
   {key:'maou',ch:'最終章',title:'封印の扉',place:'魔王の間',
    ter:{amp:0,ox:0,oz:0,flats:[[0,0,330,3,1]],dirt:[],grass:0x3a3a48,hill:0x3a3a48,rock:0x44444e,sand:0x3a3a48,dirtC:0x33333e,trees:0,rocks:0,start:[0,120]},
    story:['巨人が崩れたその先に、鎖でしばられた大きな扉があった。','扉には赤い封印。千年前、だれかが魔王を閉じこめた。竜が眠ったのも、同じころだ。','封印の石をこわせば、扉は開く。開けて、焼く。それで全部、終わる。'],
@@ -4317,6 +4335,20 @@ function dunTex(k){if(DUN.tex[k])return DUN.tex[k];const c=document.createElemen
   else{x.translate(128,128);x.rotate(Math.PI/4);x.fillStyle='rgba(255,60,50,0.35)';x.fillRect(-72,-72,144,144);x.strokeStyle='#ff6a58';x.lineWidth=14;x.strokeRect(-72,-72,144,144);x.setTransform(1,0,0,1,0,0);x.fillStyle='#ffe0d0';x.beginPath();x.arc(128,110,20,0,6.3);x.fill();x.fillRect(118,116,20,48);}
   const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;return DUN.tex[k]=t;}
 function dunClear(){if(DUN.g){scene.remove(DUN.g);DUN.g.traverse(o=>{if(o.geometry)o.geometry.dispose();});DUN.g=null;}DUN.on=false;DUN.tor=[];DUN.ch=[];DUN.door=null;DUN.gates=[];}
+function dunHm(){if(DUN.hm&&DUN.hm.g===DUN.g)return DUN.hm;const cx=(DUN.x0+DUN.x1)/2,w=DUN.x1-DUN.x0,hw=Math.max(46,w*0.4)/2+3,za=DUN.z0+6,zb=DUN.z0+60,st=1.5,nx=Math.ceil(2*hw/st)+1,nz=Math.ceil((zb-za)/st)+1,a=new Float32Array(nx*nz),H={g:DUN.g,at:(x,z)=>{const i=Math.round((x-(cx-hw))/st),j=Math.round((Math.max(z,za)-za)/st);return i<0||i>=nx||j<0||j>=nz?0:a[j*nx+i];}};
+  try{const rc=new THREE.Raycaster(),M=[],bb=new THREE.Box3(),box=new THREE.Box3(new V3(cx-hw,DUN.y-1,za),new V3(cx+hw,DUN.y+13,zb));DUN.g.updateMatrixWorld(true);
+    DUN.g.traverse(q=>{if(q.isMesh&&q.visible&&q.material&&!q.material.transparent&&bb.setFromObject(q).intersectsBox(box))M.push(q);});
+    for(let j=0;j<nz;j++)for(let i=0;i<nx;i++){rc.set(new V3(cx-hw+i*st,DUN.y+13,za+j*st),new V3(0,-1,0));const h=rc.intersectObjects(M,false);const y=h.length?h[0].point.y-DUN.y:0;a[j*nx+i]=y<1?0:y;}}catch(er){a.fill(0);}
+  return DUN.hm=H;}
+function dunSt(x,z){if(!DUN.on)return 0;if(MODEL.hstairs)return dunHm().at(x,z);const cx=(DUN.x0+DUN.x1)/2,w=DUN.x1-DUN.x0,ax=Math.abs(x-cx),dz=z-DUN.z0;if(dz<0)return 0;
+  if(dz<28)return ax<w*0.25?8:0;if(dz<58&&ax<w*0.15)return 8-Math.floor((dz-28)/5)*1.3;return 0;}
+function dunFloorY(x,z){return DUN.on?DUN.y+dunSt(x,z):floorAt(x,z);}
+function dunPush(){if(!DUN.on)return;const f=P.pos.y-C.gOff,x=P.pos.x,z=P.pos.z;if(DUN.y+dunSt(x,z)-f<=2.2)return;
+  for(let d=0.5;d<45;d+=0.5)for(const q of [[d,0],[-d,0],[0,d],[0,-d]])if(x+q[0]>=DUN.x0+DUN.xm&&x+q[0]<=DUN.x1-DUN.xm&&z+q[1]>=DUN.zmin&&DUN.y+dunSt(x+q[0],z+q[1])-f<=2.2){P.pos.x=x+q[0];P.pos.z=z+q[1];P.vel.x*=0.3;P.vel.z*=0.3;return;}}
+const DFT={t:null,st:0,q:[]};
+function dunFloorTex(m,w,d){const ap=t=>{try{if(!m.parent&&!DUN.g)return;const x=t.clone();x.needsUpdate=true;x.repeat.set(w/56,d/56);const mt=m.material;mt.map=x;mt.color.setHex(0xd0d0e0);mt.emissive.setHex(0x0a0a10);mt.specular.setHex(0x30344c);mt.shininess=18;mt.needsUpdate=true;}catch(er){}};
+  if(DFT.t){ap(DFT.t);return;}DFT.q.push(ap);if(DFT.st)return;DFT.st=1;
+  try{new THREE.TextureLoader().load('ui/dun_floor.webp?v='+ASSET_V,t=>{t.wrapS=t.wrapT=THREE.RepeatWrapping;t.encoding=THREE.LinearEncoding;try{t.anisotropy=R.capabilities.getMaxAnisotropy();}catch(er){}DFT.t=t;DFT.q.forEach(f=>f(t));DFT.q=[];},undefined,()=>{DFT.q=[];});}catch(er){}}
 function dunPos(z0,z1){return [rnd(DUN.x0+24,DUN.x1-24),rnd(z0,z1)];}
 // 奥の扉：石のわく・鉄の2枚とびら。seal の時は赤い封印の印が光る
 function dunDoor(g,x,y,z,seal){const D=new THREE.Group();D.position.set(x,y,z);g.add(D);
@@ -4355,7 +4387,7 @@ function dunBuild(o){dunClear();const g=new THREE.Group(),cx=o.cx,cz=o.cz,w=o.w,
   const T=(k,a,b)=>{const t=dunTex(k).clone();t.needsUpdate=true;t.repeat.set(a,b);return t;},LM=(k,a,b,col,em)=>new THREE.MeshLambertMaterial({map:T(k,a,b),color:col,emissive:em});
   const add=(m,x,y,z)=>{m.position.set(x,y,z);g.add(m);return m;};let m;
   // 床・かべ4枚・天井（内がわだけ見える）
-  m=add(new THREE.Mesh(new THREE.PlaneGeometry(w,d),MA?new THREE.MeshBasicMaterial({map:T('lava',w/44,d/44)}):new THREE.MeshPhongMaterial({map:T('floor',w/20,d/20),color:0xa8a8c4,emissive:0x0e0e18,specular:0x9aa0c8,shininess:70})),cx,gy+0.5,cz);m.rotation.x=-Math.PI/2;
+  m=add(new THREE.Mesh(new THREE.PlaneGeometry(w,d),MA?new THREE.MeshBasicMaterial({map:T('lava',w/44,d/44)}):new THREE.MeshPhongMaterial({map:T('floor',w/20,d/20),color:0xa8a8c4,emissive:0x0e0e18,specular:0x9aa0c8,shininess:70})),cx,gy+0.5,cz);m.rotation.x=-Math.PI/2;if(!MA)dunFloorTex(m,w,d);
   const wm=len=>LM('wall',len/22,h/22,MA?0xe2a8a8:0xd4d4e6,MA?0x220a0c:0x15151f);
   add(new THREE.Mesh(new THREE.PlaneGeometry(w,h),wm(w)),cx,gy+h/2,z0);
   m=add(new THREE.Mesh(new THREE.PlaneGeometry(w,h),wm(w)),cx,gy+h/2,z1);m.rotation.y=Math.PI;
@@ -4388,7 +4420,8 @@ function dunBuild(o){dunClear();const g=new THREE.Group(),cx=o.cx,cz=o.cz,w=o.w,
     for(const k of [-1,0,1])fg(cx+k*w*0.3,z0+84,22,110,0x7ab0ff,0.16);
     if(o.door===2)DUN.fgr=fg(cx,z0+78,60,120,0xff3020,0.42);
     if(MA){fg(cx,z0+84,96,150,0xff2a20,0.45);}}
-  if(o.carpet){m=add(new THREE.Mesh(new THREE.PlaneGeometry(18,d-44),new THREE.MeshLambertMaterial({color:0x8a1a1a,emissive:0x1e0505})),cx,gy+0.62,cz+4);m.rotation.x=-Math.PI/2;}
+  if(o.carpet){m=add(new THREE.Mesh(new THREE.PlaneGeometry(18,d-44),new THREE.MeshLambertMaterial({color:0x741c1c,emissive:0x180505})),cx,gy+0.62,cz+4);m.rotation.x=-Math.PI/2;
+    for(const sx of [-1,1]){const gm=add(new THREE.Mesh(new THREE.PlaneGeometry(0.8,d-44),new THREE.MeshLambertMaterial({color:0xc89a3a,emissive:0x3a2806})),cx+sx*8.6,gy+0.66,cz+4);gm.rotation.x=-Math.PI/2;}}
   // 鉄ごうしの門：その区間の敵を全部倒すと上がる
   (o.gates||[]).forEach(gz=>{const G=new THREE.Group(),im=DUN.gim||(DUN.gim=new THREE.MeshLambertMaterial({color:0x3a3640,emissive:0x0c0a10}));
     for(let bx=-(w/2-13);bx<=w/2-13;bx+=3.4){const b=new THREE.Mesh(new THREE.BoxGeometry(0.7,h*0.66,0.7),im);b.position.set(bx,h*0.33,0);G.add(b);}
@@ -5787,7 +5820,7 @@ function frame(now){
     if(C.fly){
       const spd=P.dashT>0?C.spd*(C.human?2.2:3):slow?14:C.spd*(1+Math.max(0,-ad.y)*0.7)*((P.ringT||0)>0?1.5:1);const mv=(P.dashT>0?ad:ad).clone().multiplyScalar(spd);
       if((charKey==='dragon'||charKey==='wyvern')&&P.onGround&&!(P.dashT>0)){const wk=charKey==='wyvern'?0.24:RIGCF.walk;mv.x*=wk;mv.z*=wk;}P.vel.lerp(mv,1-Math.exp(-(P.dashT>0?10:3.2)*dt));P.pos.addScaledVector(P.vel,dt);
-      const gh=(DUN.on?DUN.y:floorAt(P.pos.x,P.pos.z))+C.gOff;if(P.onGround&&P.pitch<0.1&&!(P.dashT>0)&&P.pos.y<gh+3.5&&P.pos.y>gh&&(DUN.on||H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER)){P.pos.y=gh;if(P.vel.y>0)P.vel.y=0;}
+      dunPush();const gh=dunFloorY(P.pos.x,P.pos.z)+C.gOff;if(P.onGround&&P.pitch<0.1&&!(P.dashT>0)&&P.pos.y<gh+3.5&&P.pos.y>gh&&(DUN.on||H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER)){P.pos.y=gh;if(P.vel.y>0)P.vel.y=0;}
       if(P.pos.y<gh){P.pos.y=gh;if(P.vel.y<-crT()&&(P.crashCd||0)<=0&&!C.human&&H(P.pos.x,P.pos.z)>WATER){P.crashCd=0.8;crash((-P.vel.y-crT()*0.8)*0.5,null,0,0);P.vel.y=20;}else if(P.vel.y<0)P.vel.y=0;}
       bldBlock(dt);const bt={hit:null};if(false){const need=bt.top+C.gOff-P.pos.y;P.pos.y+=Math.min(need,(need>5?24:50)*dt);if(P.vel.y<0)P.vel.y*=0.6;if(need>2.5&&!C.human){{const hv=Math.hypot(P.vel.x,P.vel.z);if(hv>crT()&&(P.crashCd||0)<=0){P.crashCd=0.8;crash((hv-crT()*0.72)*0.5,null,P.vel.x/hv,P.vel.z/hv);P.vel.x*=0.3;P.vel.z*=0.3;}}hitBld(bt.hit,90*dt);if(Math.random()<0.25){debris(P.pos,1,[0x9a8a72,0xa03a2a],0.8);shake(0.1);}}}
       P.onGround=P.pos.y<=gh+0.5&&(DUN.on||H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER);
@@ -5797,7 +5830,7 @@ function frame(now){
       const tn=Math.abs(dz(sx)),spd=(P.dashT>0?C.spd*(C.human?2.2:3):slow?10:C.spd*(1-tn*tn*(({golem:0.75,ground:0.6,army:0.5,hero:0.4})[charKey]||0)))*(smash?0.5:1)*(P.guardT>0?0.35:1)*(charKey==='kraken'?(H(P.pos.x,P.pos.z)<WATER-0.3?1.45:0.7):1);const k=1-Math.exp(-(P.dashT>0?10:9)*dt);
       P.vel.x+=(fx*spd-P.vel.x)*k;P.vel.z+=(fz*spd-P.vel.z)*k;P.vy-=50*dt;
       {const ox=P.pos.x,oz=P.pos.z,nx=ox+P.vel.x*dt,nz=oz+P.vel.z*dt;if(charKey!=='kraken'&&deepAt(nx,nz)&&!deepAt(ox,oz)){if(!deepAt(nx,oz)){P.pos.x=nx;P.vel.z*=0.3;}else if(!deepAt(ox,nz)){P.pos.z=nz;P.vel.x*=0.3;}else{P.vel.x*=-0.2;P.vel.z*=-0.2;}if(!P.wHint||P.wHint<t){P.wHint=t+4;ono(P.pos.clone().add(new V3(0,5,0)),'水だ！ 橋をさがそう','#9fdcff',22);}}else{P.pos.x=nx;P.pos.z=nz;}}P.pos.y+=P.vy*dt;
-      const gh=floorAt(P.pos.x,P.pos.z)+C.gOff;if(P.pos.y<=gh){if(!P.onGround&&P.vy<-12){shake(0.3);smoke(tmp.set(P.pos.x,gh-C.gOff,P.pos.z),6,4,1.2,0x9a8a68,4);sfx('small',null,0.5);}P.pos.y=gh;P.vy=0;P.onGround=true;}else P.onGround=false;
+      dunPush();const gh=dunFloorY(P.pos.x,P.pos.z)+C.gOff;if(P.pos.y<=gh){if(!P.onGround&&P.vy<-12){shake(0.3);smoke(tmp.set(P.pos.x,gh-C.gOff,P.pos.z),6,4,1.2,0x9a8a68,4);sfx('small',null,0.5);}P.pos.y=gh;P.vy=0;P.onGround=true;}else P.onGround=false;
       P.vel.y=P.vy;
       bldBlock(dt);if(P.onGround&&Math.random()<0.15)smoke(tmp.set(P.pos.x,gh-C.gOff+0.5,P.pos.z),1,1.4,0.6,0xa8987a,1.5);
     }
