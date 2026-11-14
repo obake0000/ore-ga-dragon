@@ -311,9 +311,9 @@
  },
  "orctank": {
   "file": "orctank.glb",
-  "h": 9,
-  "ja": "オークの戦車（オークキングが乗る）",
-  "rot": 0
+  "h": 16,
+  "ja": "木製の巨大戦車",
+  "rot": 90
  },
  "mill": {
   "file": "mill.glb",
@@ -367,7 +367,104 @@
  },
  "skytemple": {
   "file": "skytemple.glb",
-  "h": 40,
-  "ja": "空にうかぶ神殿の島"
+  "h": 30,
+  "ja": "天空の神殿",
+  "rot": 0
+ },
+ "troll": {
+  "file": "troll.glb",
+  "h": 5,
+  "ja": "トロール",
+  "rot": 0
+ },
+ "angel": {
+  "file": "angel.glb",
+  "h": 2.4,
+  "ja": "天使の兵",
+  "rot": 0
+ },
+ "archangel": {
+  "file": "archangel.glb",
+  "h": 7,
+  "ja": "大天使",
+  "rot": 0
+ },
+ "angelgeneral": {
+  "file": "angelgeneral.glb",
+  "h": 4,
+  "ja": "天使将軍",
+  "rot": 0
+ },
+ "angelarcher": {
+  "file": "angelarcher.glb",
+  "h": 2.4,
+  "ja": "天使の弓兵",
+  "rot": 0
+ },
+ "angelsword": {
+  "file": "angelsword.glb",
+  "h": 2.4,
+  "ja": "天使の剣士",
+  "rot": 0
+ },
+ "fishman": {
+  "file": "fishman.glb",
+  "h": 2.3,
+  "ja": "魚人の兵",
+  "rot": 0
+ },
+ "fishbow": {
+  "file": "fishbow.glb",
+  "h": 2.3,
+  "ja": "魚人の弓兵",
+  "rot": 0
+ },
+ "redcap": {
+  "file": "redcap.glb",
+  "h": 1.5,
+  "ja": "レッドキャップゴブリン",
+  "rot": 0
+ },
+ "orcknight": {
+  "file": "orcknight.glb",
+  "h": 3.6,
+  "ja": "狼に乗ったオーク",
+  "rot": -90
+ },
+ "skyfort": {
+  "file": "skyfort.glb",
+  "h": 44,
+  "ja": "空中砦",
+  "rot": 0
+ },
+ "pegasus": {
+  "file": "pegasus.glb",
+  "h": 3.6,
+  "ja": "天馬の騎士",
+  "rot": 0
+ },
+ "seaking": {
+  "file": "seaking.glb",
+  "h": 30,
+  "ja": "海王",
+  "rot": 0
+ },
+ "shark": {
+  "file": "shark.glb",
+  "h": 6,
+  "ja": "巨大なサメ",
+  "rot": 90
+ },
+ "crab": {
+  "file": "crab.glb",
+  "h": 6,
+  "ja": "巨大なカニ",
+  "rot": 0
+ },
+ "leviathan": {
+  "file": "leviathan.glb",
+  "h": 34,
+  "ja": "リヴァイアサン",
+  "rot": -90
  }
 }

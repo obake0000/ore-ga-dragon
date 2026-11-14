@@ -734,7 +734,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1115q';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1115r';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -743,7 +743,7 @@ async function loadModels0(){
   try{const r=await fetch('models/manifest.json',{cache:'no-store'});if(!r.ok)return;const mf=await r.json();LOADN=Object.keys(mf).length;const ld=new THREE.GLTFLoader();
     await Promise.all(Object.entries(mf).map(([id,v])=>new Promise(res=>ld.load('models/'+v.file+'?v='+ASSET_V,g=>{
       g.scene.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;(Array.isArray(o.material)?o.material:[o.material]).forEach(mt=>{if(!mt)return;if(mt.map){mt.map.encoding=THREE.LinearEncoding;mt.map.needsUpdate=true;}if(mt.emissiveMap)mt.emissiveMap.encoding=THREE.LinearEncoding;if('metalness' in mt){mt.metalness=0;mt.metalnessMap=null;mt.roughness=0.85;mt.roughnessMap=null;}mt.needsUpdate=true;});}});
-      let sk=false;g.scene.traverse(o=>{if(o.isSkinnedMesh)sk=true;});if(id==='wyvern')fixWyvernLeg(g.scene);MODEL[id]={scene:g.scene,skin:sk,anims:g.animations||[],rot:(v.rot!==undefined?v.rot:-90)*Math.PI/180};if(id==='airship')prepAirProp(g.scene);loadStep();res();},undefined,()=>{loadStep();res();}))));
+      let sk=false;g.scene.traverse(o=>{if(o.isSkinnedMesh)sk=true;});if(id==='wyvern')fixWyvernLeg(g.scene);if(id==='dragon')addJaw(g.scene);MODEL[id]={scene:g.scene,skin:sk,anims:g.animations||[],rot:(v.rot!==undefined?v.rot:-90)*Math.PI/180};if(id==='airship')prepAirProp(g.scene);loadStep();res();},undefined,()=>{loadStep();res();}))));
     mkRival();
     if(Object.keys(MODEL).length){console.log('3Dモデルを読んだ:',Object.keys(MODEL).join(','));if(state==='select'||state==='story'){setupStage(stage);setChar(charKey);}}
   }catch(e){}
@@ -790,6 +790,19 @@ function mkRival(){const M=MODEL.dragon;if(!M||!M.skin||!THREE.SkeletonUtils||MO
     mt.onBeforeCompile=sh=>{sh.fragmentShader=sh.fragmentShader.replace('#include <map_fragment>','#include <map_fragment>\n { vec3 c=diffuseColor.rgb; diffuseColor.rgb=vec3(c.r*0.34+c.g*0.12, c.g*0.2+c.b*0.3, c.r*0.72+c.b*0.6)*0.82; }');};
     mt.customProgramCacheKey=()=>'rivaltint';mt.emissive=new THREE.Color(0x2a0a55);mt.emissiveIntensity=0.35;o.material=mt;});
   MODEL.rival={scene:sc,skin:true,anims:M.anims,rot:M.rot};FLAP_ID.rival=FLAP_ID.dragon;}
+// 赤い竜に下あごの骨を足す：頭の点のうち、口の線より下・あごのつけ根より前の点を、新しい骨（jaw）に付けかえる
+const JAWCF={a0:0.035,hm:0.42,ang:-0.42};let MODEL_JAW=null;
+function addJaw(sc){try{sc.updateMatrixWorld(true);let sm=null;sc.traverse(o=>{if(o.isSkinnedMesh&&!sm)sm=o;});if(!sm)return;const sk=sm.skeleton,nm=b=>b.name.replace(/[:.]/g,''),ix={};sk.bones.forEach((b,i)=>ix[nm(b)]=i);
+  const i3=ix.tripoHead_3,i4=ix.tripoHead_4,i5=ix.tripoHead_5;if(i3===undefined||i5===undefined)return;const b3=sk.bones[i3],p3=b3.getWorldPosition(new V3()),p5=sk.bones[i5].getWorldPosition(new V3());
+  const f=p5.clone().sub(p3);f.z=0;f.normalize();const u=new V3(-f.y,f.x,0);if(u.y<0)u.negate();
+  const g=sm.geometry,pos=g.attributes.position,si=g.attributes.skinIndex,sw=g.attributes.skinWeight,v=new V3(),H=[];
+  for(let i=0;i<pos.count;i++){const B=[si.getX(i),si.getY(i),si.getZ(i),si.getW(i)],W=[sw.getX(i),sw.getY(i),sw.getZ(i),sw.getW(i)];let bw=0,bb=-1;for(let k=0;k<4;k++)if(W[k]>bw){bw=W[k];bb=B[k];}
+    if(bb===i3||bb===i4||bb===i5){v.fromBufferAttribute(pos,i).applyMatrix4(sm.matrixWorld).sub(p3);H.push([i,v.dot(f),v.dot(u)]);}}
+  if(H.length<50)return;const F=H.filter(h=>h[1]>JAWCF.a0);let h0=1e9,h1=-1e9;F.forEach(h=>{h0=Math.min(h0,h[2]);h1=Math.max(h1,h[2]);});const hm=h0+(h1-h0)*JAWCF.hm;
+  const jaw=new THREE.Bone();jaw.name='jaw';const hw=p3.clone().addScaledVector(f,JAWCF.a0).addScaledVector(u,hm);b3.add(jaw);jaw.position.copy(b3.worldToLocal(hw.clone()));jaw.updateMatrixWorld(true);
+  const ji=sk.bones.length;sk.bones.push(jaw);sk.boneInverses.push(new THREE.Matrix4().copy(jaw.matrixWorld).invert());sk.boneMatrices=new Float32Array(sk.bones.length*16);if(sk.boneTexture){sk.boneTexture.dispose();sk.boneTexture=undefined;}
+  let n=0;for(const h of F){if(h[2]<hm){si.setXYZW(h[0],ji,0,0,0);sw.setXYZW(h[0],1,0,0,0);n++;}}si.needsUpdate=true;sw.needsUpdate=true;
+  MODEL_JAW={ax:new V3(0,0,1).transformDirection(new THREE.Matrix4().copy(jaw.matrixWorld).invert()),n};console.log('竜の下あごの点',n);}catch(e){console.warn('jaw',e);}}
 function fixWyvernLeg(sc){sc.updateMatrixWorld(true);const v=new V3(),P0=new V3(0.1,0.34,0);
   sc.traverse(o=>{if(!o.isMesh)return;const pa=o.geometry.attributes.position,inv=new THREE.Matrix4().copy(o.matrixWorld).invert();let n=0;
     for(let i=0;i<pa.count;i++){v.fromBufferAttribute(pa,i).applyMatrix4(o.matrixWorld);if(v.y<0.28&&v.x>0.05&&Math.abs(v.z)<0.08){v.sub(P0).multiplyScalar(0.12).add(P0).applyMatrix4(inv);pa.setXYZ(i,v.x,v.y,v.z);n++;}}
@@ -1305,7 +1318,7 @@ function winB(g,x,y,z,c){const w=box(0.9,1.1,0.12,mat(c||0x2a3a5a));w.position.s
 // 置く（作った3Dモデルがあれば、見た目だけ入れかえる）
 // 建物を橋からはなす
 function offBridge(g,x,z){if(!BRIDGES.length)return [x,z];g.position.set(0,0,0);g.rotation.set(0,0,0);g.updateMatrixWorld(true);const sz=new THREE.Box3().setFromObject(g).getSize(new V3()),hr=Math.max(sz.x,sz.z)*0.5;
-  for(let it=0;it<3;it++){let hit=null;for(const b of BRIDGES){const dx=b.bx-b.ax,dz=b.bz-b.az,L2=dx*dx+dz*dz||1,t=Math.max(0,Math.min(1,((x-b.ax)*dx+(z-b.az)*dz)/L2)),px=b.ax+dx*t,pz=b.az+dz*t,need=hr+7;
+  for(let it=0;it<6;it++){let hit=null;for(const b of BRIDGES){const dx=b.bx-b.ax,dz=b.bz-b.az,L2=dx*dx+dz*dz||1,t=Math.max(0,Math.min(1,((x-b.ax)*dx+(z-b.az)*dz)/L2)),px=b.ax+dx*t,pz=b.az+dz*t,need=hr+9;
       if(Math.hypot(x-px,z-pz)<need){const L=Math.sqrt(L2);hit={px,pz,need,nx:-dz/L,nz:dx/L};break;}}
     if(!hit)break;const sg0=((x-hit.px)*hit.nx+(z-hit.pz)*hit.nz)>=0?1:-1;let ok=false;
     for(const sg of [sg0,-sg0]){const nx=hit.px+hit.nx*sg*hit.need,nz=hit.pz+hit.nz*sg*hit.need;if(H(nx,nz)>WATER+1){x=nx;z=nz;ok=true;break;}}
@@ -3367,7 +3380,9 @@ function updHud2(){const f=$('pface');if(!f)return;if(f.dataset.k!==charKey){f.d
   b.addEventListener('mousedown',e=>e.stopPropagation());b.addEventListener('click',e=>e.stopPropagation());});
 /* ---- 構え：骨を回して形を作る（1＝ゴーレム：うでを広げてこぶしを前へ／2＝魔王：うでを大きく広げて浮く） ---- */
 function poseSet(e,k){const B={};e.mesh.traverse(o=>{if(o.isBone)B[o.name.replace(/^mixamorig:?/,'')]=o;});if(!B.LeftArm||!B.LeftForeArm)return;e.pose=k;e.poseB=B;}
-function updPose(){for(const e of EN){if(!e.pose||e.dead)continue;const B=e.poseB,mx=e.mesh.userData.mix,t=e.t||0,sw=Math.sin(t*1.6)*0.08;
+function updPose(){if(MODEL_JAW&&charKey==='dragon'&&D&&D.g){const j=D.g.userData;if(j.jawB===undefined){j.jawB=null;D.g.traverse(o=>{if(o.isBone&&o.name==='jaw')j.jawB=o;});}
+    if(j.jawB){const want=(window.JAWT||(state==='play'&&(P.firing||ultT>0||(P.melT||0)>0)))?1:0;j.jawK=(j.jawK||0)+(want-(j.jawK||0))*0.25;j.jawB.quaternion.setFromAxisAngle(MODEL_JAW.ax,JAWCF.ang*j.jawK*(0.85+0.15*Math.sin(performance.now()/60)));}}
+  for(const e of EN){if(!e.pose||e.dead)continue;const B=e.poseB,mx=e.mesh.userData.mix,t=e.t||0,sw=Math.sin(t*1.6)*0.08;
     if(e.pose===1){if(mx&&mx.once)continue;B.LeftArm.rotation.set(0.25,0,sw);B.RightArm.rotation.set(0.25,0,-sw);B.LeftForeArm.rotation.set(0.75,0,0.75);B.RightForeArm.rotation.set(0.75,0,-0.75);}
     else{B.LeftArm.rotation.set(0,0,sw*1.5);B.RightArm.rotation.set(0,0,-sw*1.5);B.LeftForeArm.rotation.set(1.05+sw,0,0.3);B.RightForeArm.rotation.set(1.05-sw,0,-0.3);
       for(const n of ['LeftUpLeg','RightUpLeg','LeftLeg','RightLeg'])if(B[n])B[n].rotation.set(n.includes('Up')?0.12:0.25,0,0);}}}
