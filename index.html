@@ -830,7 +830,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116zy';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116zz';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -4345,6 +4345,11 @@ function dunHm(){if(DUN.hm&&DUN.hm.g===DUN.g)return DUN.hm;const cx=(DUN.x0+DUN.
 function dunSt(x,z){if(!DUN.on)return 0;if(MODEL.hstairs)return dunHm().at(x,z);const cx=(DUN.x0+DUN.x1)/2,w=DUN.x1-DUN.x0,ax=Math.abs(x-cx),dz=z-DUN.z0;if(dz<0)return 0;
   if(dz<28)return ax<w*0.25?8:0;if(dz<58&&ax<w*0.15)return 8-Math.floor((dz-28)/5)*1.3;return 0;}
 function dunFloorY(x,z){return DUN.on?DUN.y+dunSt(x,z):floorAt(x,z);}
+// 竜の体の長さを見た床の高さ（広間の中だけ）。前3点・後ろ2点の段の高さから少し引いた物と、まん中の高さの、いちばん高い所
+const DBY=[[4,0.2],[8,0.6],[11.5,1.2],[-5,0.6],[-9,1.4]];let dbyS=0;
+function dunBodyY(){if(!DUN.on)return floorAt(P.pos.x,P.pos.z);const c0=dunSt(P.pos.x,P.pos.z);if(C.human||!(charKey==='dragon'||charKey==='wyvern'||charKey==='ground')){dbyS=0;return DUN.y+c0;}
+  const fx=Math.sin(P.yaw),fz=Math.cos(P.yaw),k=charKey==='dragon'?1:0.8;let m=0;const dv=Math.max(0,-Math.sin(P.pitch||0))*0.7;for(const q of DBY){const st=dunSt(P.pos.x+fx*q[0]*k,P.pos.z+fz*q[0]*k);if(st<0.5)continue;const v=st-q[1]-c0+(q[0]>0?dv*q[0]*k:0);if(v>m)m=v;}
+  dbyS+=(m-dbyS)*0.22;return DUN.y+c0+dbyS;}
 function dunPush(){if(!DUN.on)return;const f=P.pos.y-C.gOff,x=P.pos.x,z=P.pos.z;if(DUN.y+dunSt(x,z)-f<=2.2)return;
   for(let d=0.5;d<45;d+=0.5)for(const q of [[d,0],[-d,0],[0,d],[0,-d]])if(x+q[0]>=DUN.x0+DUN.xm&&x+q[0]<=DUN.x1-DUN.xm&&z+q[1]>=DUN.zmin&&DUN.y+dunSt(x+q[0],z+q[1])-f<=2.2){P.pos.x=x+q[0];P.pos.z=z+q[1];P.vel.x*=0.3;P.vel.z*=0.3;return;}}
 const DFT={t:null,st:0,q:[]};
@@ -4407,9 +4412,9 @@ function dunBuild(o){dunClear();const g=new THREE.Group(),cx=o.cx,cz=o.cz,w=o.w,
   for(const sx of [-1,1])add(new THREE.Mesh(new THREE.BoxGeometry(8,5,d-24),pm),cx+sx*(w/2-16),gy+h*0.8+2.5,cz);
   // 横のかべのアーチ柱（Tripo）：柱と柱の間ごとに1つ。かべにぴったり付けて、広間の内がわへ向ける
   if(MODEL.dunarch){const bb=new THREE.Box3().setFromObject(MODEL.dunarch.scene),sz=bb.getSize(new V3()),ct=bb.getCenter(new V3()),wide=Math.max(sz.x,sz.z),deep=Math.min(sz.x,sz.z),k=Math.min((stp-1)/wide,h*0.62/sz.y),alongX=sz.x>=sz.z;
-    for(let i=0;i<n;i++)for(const sx of [-1,1]){const c=cloneModel('dunarch');if(!c)break;const q=new THREE.Group();c.position.set(-ct.x,-bb.min.y,-ct.z);q.add(c);q.scale.setScalar(k);
+    for(let i=0;i<n;i++)for(const sx of [-1,1]){const c=cloneModel('dunarch');if(!c)break;const q=new THREE.Group();c.position.set(-ct.x,-bb.min.y,-ct.z);q.add(c);{const kd=Math.min(k,5/deep);if(alongX)q.scale.set(k,k,kd);else q.scale.set(kd,k,k);}
       q.rotation.y=(alongX?-sx*Math.PI/2:(sx<0?0:Math.PI));c.traverse(o=>{if(o.isMesh){o.material=o.material.clone();if(MA)o.material.color.setRGB(1.5,1.0,0.95);else o.material.color.setRGB(1.45,1.45,1.6);}});
-      add(q,cx+sx*(w/2-deep*k/2-0.4),gy+0.5,z0+20+(i+0.5)*stp);}}
+      add(q,cx+sx*(w/2-deep*Math.min(k,5/deep)/2-0.4),gy+0.5,z0+20+(i+0.5)*stp);}}
   // 奥のかべ：青く光る窓3つ、階段と見はり台、扉
   for(const k of [-1,0,1]){{const wh=Math.max(16,h*0.28);if(!dunPut(g,'hwindow',cx+k*w*0.3,gy+h*0.76-wh/2,z0+1.4,{h:wh,t:1.25}))add(new THREE.Mesh(new THREE.PlaneGeometry(9,17),new THREE.MeshBasicMaterial({color:0xa8d4ff})),cx+k*w*0.3,gy+h*0.76,z0+0.6);}
     const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0x7ab0ff,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(46,46,1);gl.position.set(cx+k*w*0.3,gy+h*0.74,z0+4);g.add(gl);}
@@ -5822,7 +5827,7 @@ function frame(now){
     if(C.fly){
       const spd=P.dashT>0?C.spd*(C.human?2.2:3):slow?14:C.spd*(1+Math.max(0,-ad.y)*0.7)*((P.ringT||0)>0?1.5:1);const mv=(P.dashT>0?ad:ad).clone().multiplyScalar(spd);
       if((charKey==='dragon'||charKey==='wyvern')&&P.onGround&&!(P.dashT>0)){const wk=charKey==='wyvern'?0.24:RIGCF.walk;mv.x*=wk;mv.z*=wk;}P.vel.lerp(mv,1-Math.exp(-(P.dashT>0?10:3.2)*dt));P.pos.addScaledVector(P.vel,dt);
-      dunPush();const gh=dunFloorY(P.pos.x,P.pos.z)+C.gOff;if(P.onGround&&P.pitch<0.1&&!(P.dashT>0)&&P.pos.y<gh+3.5&&P.pos.y>gh&&(DUN.on||H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER)){P.pos.y=gh;if(P.vel.y>0)P.vel.y=0;}
+      dunPush();const gh=dunBodyY()+C.gOff;if(P.onGround&&P.pitch<0.1&&!(P.dashT>0)&&P.pos.y<gh+3.5&&P.pos.y>gh&&(DUN.on||H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER)){P.pos.y=gh;if(P.vel.y>0)P.vel.y=0;}
       if(P.pos.y<gh){P.pos.y=gh;if(P.vel.y<-crT()&&(P.crashCd||0)<=0&&!C.human&&H(P.pos.x,P.pos.z)>WATER){P.crashCd=0.8;crash((-P.vel.y-crT()*0.8)*0.5,null,0,0);P.vel.y=20;}else if(P.vel.y<0)P.vel.y=0;}
       bldBlock(dt);const bt={hit:null};if(false){const need=bt.top+C.gOff-P.pos.y;P.pos.y+=Math.min(need,(need>5?24:50)*dt);if(P.vel.y<0)P.vel.y*=0.6;if(need>2.5&&!C.human){{const hv=Math.hypot(P.vel.x,P.vel.z);if(hv>crT()&&(P.crashCd||0)<=0){P.crashCd=0.8;crash((hv-crT()*0.72)*0.5,null,P.vel.x/hv,P.vel.z/hv);P.vel.x*=0.3;P.vel.z*=0.3;}}hitBld(bt.hit,90*dt);if(Math.random()<0.25){debris(P.pos,1,[0x9a8a72,0xa03a2a],0.8);shake(0.1);}}}
       P.onGround=P.pos.y<=gh+0.5&&(DUN.on||H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER);
@@ -5832,7 +5837,7 @@ function frame(now){
       const tn=Math.abs(dz(sx)),spd=(P.dashT>0?C.spd*(C.human?2.2:3):slow?10:C.spd*(1-tn*tn*(({golem:0.75,ground:0.6,army:0.5,hero:0.4})[charKey]||0)))*(smash?0.5:1)*(P.guardT>0?0.35:1)*(charKey==='kraken'?(H(P.pos.x,P.pos.z)<WATER-0.3?1.45:0.7):1);const k=1-Math.exp(-(P.dashT>0?10:9)*dt);
       P.vel.x+=(fx*spd-P.vel.x)*k;P.vel.z+=(fz*spd-P.vel.z)*k;P.vy-=50*dt;
       {const ox=P.pos.x,oz=P.pos.z,nx=ox+P.vel.x*dt,nz=oz+P.vel.z*dt;if(charKey!=='kraken'&&deepAt(nx,nz)&&!deepAt(ox,oz)){if(!deepAt(nx,oz)){P.pos.x=nx;P.vel.z*=0.3;}else if(!deepAt(ox,nz)){P.pos.z=nz;P.vel.x*=0.3;}else{P.vel.x*=-0.2;P.vel.z*=-0.2;}if(!P.wHint||P.wHint<t){P.wHint=t+4;ono(P.pos.clone().add(new V3(0,5,0)),'水だ！ 橋をさがそう','#9fdcff',22);}}else{P.pos.x=nx;P.pos.z=nz;}}P.pos.y+=P.vy*dt;
-      dunPush();const gh=dunFloorY(P.pos.x,P.pos.z)+C.gOff;if(P.pos.y<=gh){if(!P.onGround&&P.vy<-12){shake(0.3);smoke(tmp.set(P.pos.x,gh-C.gOff,P.pos.z),6,4,1.2,0x9a8a68,4);sfx('small',null,0.5);}P.pos.y=gh;P.vy=0;P.onGround=true;}else P.onGround=false;
+      dunPush();const gh=dunBodyY()+C.gOff;if(P.pos.y<=gh){if(!P.onGround&&P.vy<-12){shake(0.3);smoke(tmp.set(P.pos.x,gh-C.gOff,P.pos.z),6,4,1.2,0x9a8a68,4);sfx('small',null,0.5);}P.pos.y=gh;P.vy=0;P.onGround=true;}else P.onGround=false;
       P.vel.y=P.vy;
       bldBlock(dt);if(P.onGround&&Math.random()<0.15)smoke(tmp.set(P.pos.x,gh-C.gOff+0.5,P.pos.z),1,1.4,0.6,0xa8987a,1.5);
     }
