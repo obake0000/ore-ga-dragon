@@ -602,7 +602,8 @@ function buildBridges(){BRIDGES.length=0;const cand=[];const dirs=[[1,0],[0,1],[
         if(h>WATER+0.4&&h<WATER+12){if(ws!==null&&land!==null){const L=t-ws;if(L>=10&&L<=170)cand.push({ax:ux*(land-3)+vx*o,az:uz*(land-3)+vz*o,bx:ux*(t+3)+vx*o,bz:uz*(t+3)+vz*o,L});}land=t;ws=null;}
         else if(h<WATER-1){if(land!==null&&ws===null)ws=t;}else if(h>=WATER+12){land=null;ws=null;}}}}
   const mid=c=>[(c.ax+c.bx)/2,(c.az+c.bz)/2];cand.sort((a,b)=>(a.L+Math.hypot(...mid(a))*0.12)-(b.L+Math.hypot(...mid(b))*0.12));const pick=[];
-  for(const c of cand){const [mx,mz]=mid(c);if(pick.some(p=>{const [px,pz]=mid(p);return Math.hypot(mx-px,mz-pz)<90;}))continue;pick.push(c);if(pick.length>=6)break;}
+  const hitCol=c=>{const dx=c.bx-c.ax,dz=c.bz-c.az,L2=dx*dx+dz*dz||1;return COLS.some(q=>{const t=Math.max(0,Math.min(1,((q.x-c.ax)*dx+(q.z-c.az)*dz)/L2));return Math.hypot(q.x-(c.ax+dx*t),q.z-(c.az+dz*t))<(q.t===0?q.r:Math.max(q.hw,q.hd))+6;});};
+  for(const c of cand){const [mx,mz]=mid(c);if(pick.some(p=>{const [px,pz]=mid(p);return Math.hypot(mx-px,mz-pz)<90;})||hitCol(c))continue;pick.push(c);if(pick.length>=6)break;}
   if(TER.sea&&TER.flats.length>1){const F=TER.flats;[[0,1],[1,2],[1,3]].forEach(([i,j])=>{if(!F[j])return;const A=F[i],B=F[j],dx=B[0]-A[0],dz=B[1]-A[1],d=Math.hypot(dx,dz),ux=dx/d,uz=dz/d;
     addBridge(A[0]+ux*(A[2]-6),A[1]+uz*(A[2]-6),B[0]-ux*(B[2]-6),B[1]-uz*(B[2]-6));});}
   pick.forEach(c=>addBridge(c.ax,c.az,c.bx,c.bz));}
@@ -714,7 +715,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1115i';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1115k';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1282,7 +1283,17 @@ const gableG=(()=>{const g=new THREE.CylinderGeometry(1,1,1,3);g.rotateZ(Math.PI
 function gable(w,h,d,c){const m=mesh(gableG,mat(c));m.scale.set(w,h/1.5,d/1.732);return m;}
 function winB(g,x,y,z,c){const w=box(0.9,1.1,0.12,mat(c||0x2a3a5a));w.position.set(x,y,z);g.add(w);}
 // 置く（作った3Dモデルがあれば、見た目だけ入れかえる）
-function place(g,x,z,rot,hp,val,type,mid){if(mid)attachModel(g,mid);g.position.set(x,H(x,z)-0.3,z);g.rotation.y=rot||0;return addBld(g,hp,val,type);}
+// 建物を橋からはなす
+function offBridge(g,x,z){if(!BRIDGES.length)return [x,z];g.position.set(0,0,0);g.rotation.set(0,0,0);g.updateMatrixWorld(true);const sz=new THREE.Box3().setFromObject(g).getSize(new V3()),hr=Math.max(sz.x,sz.z)*0.5;
+  for(let it=0;it<3;it++){let hit=null;for(const b of BRIDGES){const dx=b.bx-b.ax,dz=b.bz-b.az,L2=dx*dx+dz*dz||1,t=Math.max(0,Math.min(1,((x-b.ax)*dx+(z-b.az)*dz)/L2)),px=b.ax+dx*t,pz=b.az+dz*t,need=hr+7;
+      if(Math.hypot(x-px,z-pz)<need){const L=Math.sqrt(L2);hit={px,pz,need,nx:-dz/L,nz:dx/L};break;}}
+    if(!hit)break;const sg0=((x-hit.px)*hit.nx+(z-hit.pz)*hit.nz)>=0?1:-1;let ok=false;
+    for(const sg of [sg0,-sg0]){const nx=hit.px+hit.nx*sg*hit.need,nz=hit.pz+hit.nz*sg*hit.need;if(H(nx,nz)>WATER+1){x=nx;z=nz;ok=true;break;}}
+    // 横がどちらも水の時は、橋のたもとから先へ（ななめも）ずらす
+    if(!ok){const ax=-hit.nz,az=hit.nx;for(const [u,v] of [[1.3,0],[-1.3,0],[1.1,0.9],[1.1,-0.9],[-1.1,0.9],[-1.1,-0.9],[1.9,0],[-1.9,0]]){const nx=hit.px+(ax*u+hit.nx*v)*hit.need,nz=hit.pz+(az*u+hit.nz*v)*hit.need;if(H(nx,nz)>WATER+1){x=nx;z=nz;ok=true;break;}}}
+    if(!ok)break;}
+  return [x,z];}
+function place(g,x,z,rot,hp,val,type,mid){if(mid)attachModel(g,mid);if(type!=='wall'){const q=offBridge(g,x,z);x=q[0];z=q[1];}g.position.set(x,H(x,z)-0.3,z);g.rotation.y=rot||0;return addBld(g,hp,val,type);}
 function makeHouse(x,z,rot){const g=new THREE.Group();const wc=pick(WALLC),rc=pick(ROOFC);
   const w=box(6,4,5,mat(wc));w.position.y=2;w.receiveShadow=true;g.add(w);
   const r=mesh(new THREE.ConeGeometry(4.7,3.2,4),mat(rc));r.position.y=5.6;r.rotation.y=Math.PI/4;r.scale.z=0.85;g.add(r);
@@ -1415,6 +1426,7 @@ function buildWorld(L){
     [[-40,-195],[40,-195],[-150,-40],[160,-60]].forEach(([x,z])=>T.towers.push(makeWatchtower(x,z)));
     makeHouse(-146,-30,0.5);makeHouse(156,-50,1.2);
   }else if(L==='maou'){dunBuild({cx:0,cz:-10,w:240,d:300,h:80,door:2});
+  }else if(L==='maoujo'){dunBuild({cx:0,cz:-10,w:240,d:300,h:80,kind:'maou'});
   }else if(L==='demon'){
     for(let i=0;i<10;i++){const a=i/10*Math.PI*2;T.towers.push(makeObelisk(Math.sin(a)*48,-160+Math.cos(a)*48));}
     for(let i=0;i<14;i++){const a=rnd(0,6.3),r=rnd(70,170);makeRuin(Math.sin(a)*r,-160+Math.cos(a)*r,true);}
@@ -1425,6 +1437,7 @@ function buildWorld(L){
     for(let i=0;i<16;i++){const a=rnd(0,6.3),r=rnd(30,200);makeRuin(Math.sin(a)*r,-120+Math.cos(a)*r,false);}
     for(let i=0;i<6;i++){const a=i/6*Math.PI*2;makeRuin(Math.sin(a)*20,-120+Math.cos(a)*20,false);}
   }
+  if(L==='coralsea'||L==='deepsea'||L==='seaking')s7World(L,T);
   WORLD=T;
 }
 let WORLD={towers:[]};
@@ -1760,7 +1773,7 @@ function aimPoint(){const o=DUN.on?P.pos:cineOn?GCAM:cam.position,dir=DUN.on?tmp
   for(let s=10;s<340;s+=6){tmp.copy(o).addScaledVector(dir,s);if(tmp.y<floorAt(tmp.x,tmp.z))return tmp.clone();}
   return o.clone().addScaledVector(dir,340);}
 function autoTarget(){const ad=aimDir();let best=null,bs=1e9;
-  for(const e of EN){if(e.dead)continue;const c=cpos(e),v=tmp.subVectors(c,P.pos),dist=v.length();if(dist>C.range)continue;const hz=Math.hypot(v.x,v.z),ah=Math.abs(Math.atan2(Math.sin(Math.atan2(v.x,v.z)-P.yaw),Math.cos(Math.atan2(v.x,v.z)-P.yaw))),ev=Math.atan2(v.y,Math.max(hz,0.1))-P.pitch;if(ah>0.55&&!(hz<12&&ev>0.3))continue;if(ev<-0.6||ev>1.35)continue;const s=dist*(1+ah*2+Math.abs(ev)*0.4);if(s<bs){bs=s;best=c.clone();}}
+  for(const e of EN){if(e.dead||e.rise)continue;const c=cpos(e),v=tmp.subVectors(c,P.pos),dist=v.length();if(dist>C.range)continue;const hz=Math.hypot(v.x,v.z),ah=Math.abs(Math.atan2(Math.sin(Math.atan2(v.x,v.z)-P.yaw),Math.cos(Math.atan2(v.x,v.z)-P.yaw))),ev=Math.atan2(v.y,Math.max(hz,0.1))-P.pitch;if(ah>0.55&&!(hz<12&&ev>0.3))continue;if(ev<-0.6||ev>1.35)continue;const s=dist*(1+ah*2+Math.abs(ev)*0.4);if(s<bs){bs=s;best=c.clone();}}
   if(best||C.human)return best;
   for(const b of BLD){if(b.dead||b.rock)continue;b.box.getCenter(tmp2);const v=tmp.subVectors(tmp2,P.pos),dist=v.length();if(dist>Math.min(C.range,120))continue;if(v.angleTo(ad)>0.4)continue;if(dist<bs){bs=dist;best=tmp2.clone();}}
   return best;}
@@ -2028,7 +2041,10 @@ const ST={
   ship:{hp:260,r:7,hc:3,val:150,dmg:0,ic:'⛵'},battleship:{hp:2800,r:16,hc:6,val:3000,dmg:0,boss:'🚢 巨大戦艦',ic:'🚢'},bigairship:{hp:2200,r:16,hc:0,val:2500,dmg:20,fly:1,boss:'🎈 空中戦艦',ic:'🎈'},
   kraken:{hp:2400,r:12,hc:10,val:2500,dmg:20,boss:'🐙 クラーケン',ic:'🐙'},seaserpent:{hp:500,r:6,hc:6,val:300,dmg:16,ic:'🐍'},rival:{hp:1600,r:8,hc:0,val:3000,dmg:32,fly:1,boss:'🐲 ライバルのドラゴン',ic:'🐲'},
   biggolem:{hp:1600,r:17,hc:17,val:420,dmg:24,ic:'🪨'},bigslime:{hp:420,r:9.5,hc:6.6,val:150,dmg:14,ic:'🟢'},
-  dknight:{hp:160,r:3.2,hc:0,val:240,dmg:16,fly:1,ic:'🗡️'},griffin:{hp:90,r:4,hc:0,val:130,dmg:12,fly:1,ic:'🦅'}};
+  dknight:{hp:160,r:3.2,hc:0,val:240,dmg:16,fly:1,ic:'🗡️'},griffin:{hp:90,r:4,hc:0,val:130,dmg:12,fly:1,ic:'🦅'},
+  skel:{hp:80,r:1.9,hc:1.8,val:20,dmg:8,ic:'💀'},devilsol:{hp:120,r:2.1,hc:2,val:30,dmg:10,ic:'👿'},skelmage:{hp:180,r:2,hc:2,val:110,dmg:0,ic:'🔮'},
+  bigskel:{hp:1500,r:15,hc:15,val:500,dmg:24,ic:'💀'},cerberus:{hp:3800,r:10,hc:6,val:1800,dmg:22,boss:'🐕 地獄の番犬ケルベロス',ic:'🐕'},
+  bknight:{hp:3200,r:4,hc:4,val:2200,dmg:30,boss:'⚔️ 黒い騎士',ic:'⚔️'}};
 const EN=[];
 function cpos(e){const p=e.mesh.position;return e.cp.set(p.x,p.y+e.hc,p.z);}
 function addEnemy(type,x,z,y,o={}){
@@ -2041,6 +2057,11 @@ function addEnemy(type,x,z,y,o={}){
   else if(type==='imp')m=makeBat(0xb02020,true);
   else if(type==='ogre')m=MODEL.ogre?makeProxy(6.1,10.4,4.8,0x6f8f3a):makeHuman({skin:0x6f8f3a,armor:0x6f8f3a,cloth:0x5a3a20,weapon:'club',horn:1,s:3.6});
   else if(type==='seal'){m=new THREE.Group();const c=new THREE.Mesh(new THREE.OctahedronGeometry(3),new THREE.MeshBasicMaterial({color:0xff4030}));c.scale.y=1.7;m.add(c);const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff3020,transparent:true,opacity:0.7,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(20,20,1);m.add(gl);}
+  else if(type==='skel')m=makeHuman({skin:0xe8e2cc,armor:0xcfc8b0,cloth:0xb0a890,weapon:'spear',shield:0x6a6252,s:1.5});
+  else if(type==='devilsol')m=makeHuman({skin:0xa02828,armor:0x3a2030,cloth:0x2a1a24,weapon:'spear',shield:0x4a1020,horn:1,s:1.55});
+  else if(type==='skelmage'){m=makeHuman({skin:0xe8e2cc,armor:0x3a2858,cloth:0x2a1c44,weapon:'staff',robe:1,s:1.6});m.traverse(c=>{if(c.isMesh&&c.material.color&&c.material.color.getHex()===0x80ffb0)c.material.color.setHex(0xc060ff);});}
+  else if(type==='bigskel')m=makeHuman({skin:0xe6e0cc,armor:0xd4ccb4,cloth:0xb8b09a,weapon:'club'});
+  else if(type==='cerberus')m=makeCerberus();
   else if(type==='goblin')m=makeHuman({skin:0x6aa040,armor:0x6a5030,cloth:0x4a3a20,weapon:'club',s:1.9});
   else if(type==='skel')m=makeHuman({skin:0xe8e8e0,armor:0xd8d8d0,cloth:0x8a5a3a,weapon:'sword',s:2.1});
   else if(type==='drak')m=makeHuman({skin:0xc03020,armor:0xb0b0b8,cloth:0x8a2a20,weapon:'club',horn:1,s:4.4});
@@ -2048,7 +2069,7 @@ function addEnemy(type,x,z,y,o={}){
   else if(type==='archer')m=makeHuman({skin:0xf0c8a0,armor:0x3a6a3a,cloth:0x4a3a2a,weapon:'bow',hair:0x5a3a1a,s:1.5});
   else if(type==='priest')m=makeHuman({skin:0xf0c8a0,armor:0xf4f4f8,cloth:0xf0f0f6,weapon:'staff',hair:0xc0a070,robe:1,s:1.6});
   else if(type==='cannon')m=makeCannon();
-  else if(type==='hero'){m=makeHuman({skin:0xf2c9a0,armor:0xdcdce8,cloth:0x2a3a8a,weapon:'sword',hair:0xe8c040,cape:0xc01818,s:1.75});
+  else if(type==='hero'||type==='bknight'){const bk=type==='bknight';m=makeHuman({skin:bk?0x3a3440:0xf2c9a0,armor:bk?0x2a2a38:0xdcdce8,cloth:bk?0x1a1a28:0x2a3a8a,weapon:'sword',hair:bk?0x222230:0xe8c040,cape:bk?0x5a1030:0xc01818,s:1.75});
     const au=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xffd040,transparent:true,opacity:0.4,blending:THREE.AdditiveBlending,depthWrite:false}));au.scale.set(3,4,1);au.position.y=1.3;au.visible=false;m.add(au);m.userData.aura=au;
     const sh=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0x60b0ff,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));sh.scale.set(3.4,3.4,1);sh.position.set(0,1.3,0.7);sh.visible=false;m.add(sh);m.userData.shield=sh;}
   else if(type==='demon')m=makeDemon();
@@ -2057,7 +2078,7 @@ function addEnemy(type,x,z,y,o={}){
   else if(type==='bigcannon')m=makeProxy(5,7,9,0x3a3a3e);else if(type==='wooddragon')m=makeProxy(8,11,18,0x8a6a3a);else if(type==='walker')m=makeProxy(40,40,40,0xd8d0c0);else if(type==='elder')m=makeProxy(30,22,44,0xc08a30,true);
   else if(type==='ship')m=makeProxy(6,12,16,0x8a5a2a);else if(type==='battleship')m=makeProxy(12,16,40,0x6a6a70);else if(type==='bigairship')m=makeProxy(22,20,40,0x8a6a4a,true);
   else if(type==='kraken')m=makeProxy(24,22,24,0x8a3060);else if(type==='seaserpent')m=makeProxy(8,20,10,0x2a8a7a);
-  const gy=floorAt(x,z);m.position.set(x,o.perch?y:(y!==undefined?Math.max(y,gy+4):gy),z);attachModel(m,o.model||{goblin:'goblin',skel:'skel',drak:'drak',slime:'slime',bat:'bat',imp:'imp',ogre:'ogre',soldier:'soldier',archer:'archer',priest:'priest',cannon:'cannon',hero:'hero',demon:'demon',rival:'rival',golem:'golem',airship:'airship',wizard:'wizard',bigcannon:'bigcannon',wooddragon:'wooddragon',walker:'walker',elder:'elder',ship:'ship',battleship:'battleship',bigairship:'bigairship',kraken:'kraken',seaserpent:'seaserpent',biggolem:MODEL.bgolem?'bgolem':'golem',dknight:'dknight',griffin:'griffin'}[type]);if(type==='dknight'&&!MODEL.dknight)dkRide(m);scene.add(m);
+  const gy=floorAt(x,z);m.position.set(x,o.perch?y:(y!==undefined?Math.max(y,gy+4):gy),z);attachModel(m,o.model||{goblin:'goblin',skel:'skel',drak:'drak',slime:'slime',bat:'bat',imp:'imp',ogre:'ogre',soldier:'soldier',archer:'archer',priest:'priest',cannon:'cannon',hero:'hero',demon:'demon',rival:'rival',golem:'golem',airship:'airship',wizard:'wizard',bigcannon:'bigcannon',wooddragon:'wooddragon',walker:'walker',elder:'elder',ship:'ship',battleship:'battleship',bigairship:'bigairship',kraken:'kraken',seaserpent:'seaserpent',biggolem:MODEL.bgolem?'bgolem':'golem',dknight:'dknight',griffin:'griffin',skel:'skeleton',devilsol:'devilsoldier',skelmage:'skelmage',bigskel:'bigskeleton',cerberus:'cerberus',bknight:'blackknight'}[type]);if(type==='dknight'&&!MODEL.dknight)dkRide(m);scene.add(m);
   const e={type,mesh:m,dr,hp:s.hp*(EASY?(s.boss?0.42:0.5):(s.boss?0.62:0.75)),maxHp:s.hp*(EASY?(s.boss?0.42:0.5):(s.boss?0.62:0.75)),r:s.r,hc:s.hc,val:s.val,dmg:s.dmg,fly:!!s.fly,boss:s.boss,t:rnd(0,5),cd:rnd(1,3),vy:0,vel:new V3(),cp:new V3(),
     seed:rnd(0,9),hx:0,hz:0,lx:0,lz:0,dvx:0,dvz:0,mv:'run',mt:1.5,state:'chase',ang:rnd(0,6.3),sum:8,met:6,st:0,sub:0,cnt:0,hitT:0,flyT:0,dodgeCd:2,
     thrower:type==='soldier'&&Math.random()<0.35,dashSeen:0,dead:false,perch:!!o.perch,bld:o.bld||null,inv:false,guard:false};
@@ -2070,13 +2091,13 @@ function hitEnemy(e,n){if(e.dead)return;
   if(n>=8){if(!(e.flT>0)){e._rx=e.mesh.rotation.x;e._rz=e.mesh.rotation.z;}e.flT=0.26;if(!e.boss&&!e.perch&&e.r<5){const q=e.mesh.position,dx=q.x-P.pos.x,dz=q.z-P.pos.z,d=Math.hypot(dx,dz)||1;e.kx=dx/d*15;e.kz=dz/d*15;}}
   if(e.hp<=0)killEnemy(e);}
 const DIE={ogre:'グ……オオ……',drak:'……見事だ。同じ、竜の血か……',biggolem:'……ゴ、ゴゴ……',wizard:'そんな…わしの魔力が…',hero:'すまない…みんな…',demon:'この私が…トカゲごときに…',rival:'…強くなったな。',wooddragon:'……ギギ……ギ……',walker:'城が……ローンが、まだ……',elder:'見事だ、若き竜よ。空はお前のものだ。',battleship:'総員、退艦…！ 泳げる者から…！',bigairship:'空の…王の船が…！',kraken:'ゴボ…ゴボボ……'};
-function killEnemy(e,quiet){if(e.dead)return;e.dead=true;if((e.boss||e.type==='biggolem')&&state==='play'&&!quiet)bossFall(e);else scene.remove(e.mesh);if(e.type==='bigslime'&&state==='play'&&!quiet)slimeSplit(e);score+=e.val;kills++;addXp(e.val);
+function killEnemy(e,quiet){if(e.dead)return;e.dead=true;if((e.boss||e.type==='biggolem'||e.type==='bigskel')&&state==='play'&&!quiet)bossFall(e);else scene.remove(e.mesh);if(e.type==='bigslime'&&state==='play'&&!quiet)slimeSplit(e);score+=e.val;kills++;addXp(e.val);
   if(state==='play'){combo++;comboT=3.5;if(combo>maxCombo)maxCombo=combo;score+=Math.round(e.val*Math.min(combo,40)*0.05);showCombo();}
   const c=cpos(e);burst(c,e.fall?16:e.boss?70:14,e.type==='rival'?(e.wyv?WGRN:BLUE):e.type==='demon'||e.type==='imp'?PURP:e.type==='slime'?GOO:FIRE,e.fall?4:e.boss?9:3,e.boss?50:16,e.boss?1.4:0.7);
   if(!quiet)sfx(e.boss?'boom':'small',c,e.boss?1:0.5);if(e.boss)ono(c,'ズドーン!!','#ff5a1a',72);else if(e.r>=4)ono(c,'ドカッ！','#ffd23a',40);
   if(e.type==='cannon'){debris(c,6,[0x2a2a2e,0x6a4a2a],0.8);smoke(c,4,4,2);}
   if(['golem','bigcannon','wooddragon','walker','airship','ship','battleship','bigairship'].includes(e.type)){debris(c,e.boss?24:10,[0x7a7468,0x6a4a2a,0x9a8a72],e.boss?3:1.5);smoke(c,8,e.boss?10:5,3,0x5a5248,e.boss?8:3);burst(c,e.fall?10:30,FIRE,e.fall?3:e.boss?8:5,30,1);}
-  if(e.boss){shake(1);TS=0.25;tsT=1.4;say(e.boss.replace(/^\S+\s/,''),DIE[e.type]);banner(e.boss.replace(/^\S+\s/,'')+' をたおした！',2.4);addEmit(new V3(c.x,floorAt(c.x,c.z),c.z),6,2);}}
+  if(e.boss){shake(1);TS=0.25;tsT=1.4;say(e.boss.replace(/^\S+\s/,''),e.die||DIE[e.type]);banner(e.boss.replace(/^\S+\s/,'')+' をたおした！',2.4);addEmit(new V3(c.x,floorAt(c.x,c.z),c.z),6,2);}}
 function walk(e,tx,tz,spd,dt){const p=e.mesh.position,dx=tx-p.x,dz=tz-p.z,d=Math.hypot(dx,dz);if(d>0.5&&spd){p.x+=dx/d*spd*dt;p.z+=dz/d*spd*dt;}e.mesh.rotation.y=Math.atan2(dx,dz);return d;}
 function grav(e,dt,g=40){const p=e.mesh.position;if(e.perch)return true;const gh=Math.max(H(p.x,p.z),WATER-1.2);e.vy-=g*dt;p.y+=e.vy*dt;if(p.y<=gh){p.y=gh;e.vy=0;return true;}return false;}
 function fly(e,target,spd,dt,k=2){tmp.subVectors(target,e.mesh.position);const d=tmp.length();if(d>0.01)tmp.multiplyScalar(spd/d);e.vel.lerp(tmp,Math.min(1,dt*k));e.mesh.position.addScaledVector(e.vel,dt);
@@ -2113,9 +2134,9 @@ function heroAI(e,dt,dx,dz,hd,d3){
   const p=e.mesh.position,u=e.mesh.userData,p2=e.hp<e.maxHp*0.5,sp=p2?1.4:1;
   if(e.flyT>0){e.flyT-=dt;p.addScaledVector(e.vel,dt);if(!e.done&&d3<e.r+7){e.done=true;hurt(e.dmg);burst(P.pos,18,SPARK,3,25,0.5);sfx('slash',p);}}
   const on=e.flyT>0?false:grav(e,dt);
-  if(!e.said){e.said=1;say('勇者',HL.start);setTimeout(()=>{if(state==='play'&&!e.dead)say('💡 ヒント','白い服の僧侶が勇者を回復する。先に倒そう');},4200);}
-  if(p2&&!e.p2){e.p2=1;e.mv='power';e.mt=2.0;e.inv=true;e.guard=false;u.shield.visible=false;say('勇者',HL.p2);sfx('roar',p);burst(cpos(e),50,GOLD,5,35,1.2);u.aura.visible=true;}
-  if(!e.sum1&&e.hp<e.maxHp*0.75){e.sum1=1;say('勇者',HL.summon);for(let k=0;k<6;k++)addEnemy('soldier',p.x+rnd(-22,22),p.z+rnd(-22,22));addEnemy('priest',p.x+rnd(-10,10),p.z+rnd(-10,10));}
+  if(!e.said){e.said=1;say(e.nm||'勇者',(e.hl||HL).start);if(!e.nm)setTimeout(()=>{if(state==='play'&&!e.dead)say('💡 ヒント','白い服の僧侶が勇者を回復する。先に倒そう');},4200);}
+  if(p2&&!e.p2){e.p2=1;e.mv='power';e.mt=2.0;e.inv=true;e.guard=false;u.shield.visible=false;say(e.nm||'勇者',(e.hl||HL).p2);sfx('roar',p);burst(cpos(e),50,GOLD,5,35,1.2);u.aura.visible=true;}
+  if(!e.sum1&&e.hp<e.maxHp*0.75){e.sum1=1;say(e.nm||'勇者',(e.hl||HL).summon);if(e.nm){for(let k=0;k<s4N(6);k++)s4E(addEnemy('skel',p.x+rnd(-22,22),p.z+rnd(-22,22)));}else{for(let k=0;k<6;k++)addEnemy('soldier',p.x+rnd(-22,22),p.z+rnd(-22,22));addEnemy('priest',p.x+rnd(-10,10),p.z+rnd(-10,10));}}
   e.dodgeCd-=dt;e.mt-=dt;
   if(e.dodgeCd<=0&&e.mv==='run'&&on){for(const q of PROJ){if(q.from!=='p')continue;const rel=tmp.subVectors(cpos(e),q.m.position);if(rel.length()<26&&rel.dot(q.vel)>0){const s=Math.random()<0.5?1:-1;tmp2.set(-q.vel.z,0,q.vel.x).normalize().multiplyScalar(50*s);e.dvx=tmp2.x;e.dvz=tmp2.z;e.mv='dodge';e.mt=0.3;e.dodgeCd=p2?1.3:2.3;sfx('slash',p,0.6);break;}}}
   if(u.aura.visible)u.aura.material.opacity=0.35+0.15*Math.sin(e.t*8);
@@ -2123,7 +2144,7 @@ function heroAI(e,dt,dx,dz,hd,d3){
     case 'run':if(on){walk(e,P.pos.x,P.pos.z,hd>14?22*sp:0,dt);animWalk(e,11);}u.armR.rotation.x=-0.3;if(e.mt<=0&&on)e.mv='choose';break;
     case 'choose':{const high=P.pos.y-p.y>35;let opts=high?['leap','beam','pillar','beam']:['leap','beam','combo','pillar','guard','combo'];if(d3>125)opts=opts.filter(o=>o!=='beam');if(p2&&high)opts.push('sky','sky');
       opts=opts.filter(o=>o!==e.last);const mv=opts[(Math.random()*opts.length)|0];e.last=mv;e.next=mv;e.mv='windup';e.mt=p2?0.35:0.6;
-      if(Math.random()<0.55||mv==='pillar'||mv==='guard'||mv==='sky')say('勇者',HL[mv]);break;}
+      if(Math.random()<0.55||mv==='pillar'||mv==='guard'||mv==='sky')say(e.nm||'勇者',(e.hl||HL)[mv]);break;}
     case 'windup':faceP(e);u.armR.rotation.x=-2.9;u.blade.color.setHex(Math.sin(e.t*30)>0?0xffffff:0xffe070);if(Math.random()<0.6)burst(u.tip.getWorldPosition(tmp2),1,GOLD,2.5,3,0.3);
       if(e.mt<=0){u.blade.color.setHex(0xa8f4ff);startHeroMove(e,dx,dz,p2);}break;
     case 'leap':p.x+=e.lx*dt;p.z+=e.lz*dt;e.mesh.rotation.y=Math.atan2(e.lx,e.lz);u.armR.rotation.x=-1.5+Math.sin(e.t*22)*1.6;if(Math.random()<0.5)burst(cpos(e),1,SPARK,2.5,4,0.3);
@@ -2149,7 +2170,9 @@ function updEnemies(dt){
   for(let i=EN.length-1;i>=0;i--){const e=EN[i];if(e.dead){EN.splice(i,1);continue;}
     e.t+=dt;{const mx=e.mesh.userData.mix,atk=e.cd>(e._pc===undefined?e.cd:e._pc)+0.3;if(mx&&mx.hit){if(atk||(e.mv!==e._pm&&e.mv&&!/run|dodge|power|choose|windup|guard/.test(e.mv)))mixOnce(mx,1.9);e._pm=e.mv;}else if(atk)e.atkT=0.35;}e.cd-=dt;e._pc=e.cd;const p=e.mesh.position,dx=P.pos.x-p.x,dz=P.pos.z-p.z,hd=Math.hypot(dx,dz)||1;
     const d3=cpos(e).distanceTo(P.pos);const half=e.hp<e.maxHp/2;
-    switch(e.type){
+    if((e.rise||e.type==='cerberus'||e.type==='bigskel')&&s4Hook(e,dt,p,dx,dz,hd,half))continue;
+    switch(e.s7==='king'?'s7king':e.type){
+    case 's7king':{s7King(e,dt,p,dx,dz,hd,d3,half);break;}
     case 'slime':{const on=grav(e,dt);
       if(on&&e.cd<=0&&hd<260){e.vy=rnd(12,18);e.hx=dx/hd;e.hz=dz/hd;e.cd=rnd(0.7,1.4);e.mesh.rotation.y=Math.atan2(dx,dz);}
       if(!on){p.x+=e.hx*11*dt;p.z+=e.hz*11*dt;}
@@ -2167,7 +2190,7 @@ function updEnemies(dt){
       if(e.mesh.userData.armR)e.mesh.userData.armR.rotation.x*=Math.max(0,1-dt*3);
       if(d3<e.r+5)hurt(e.dmg*dt,true);break;}
     case 'seal':e.mesh.rotation.y+=dt*1.5;break;
-    case 'skel':case 'goblin':case 'soldier':{grav(e,dt);walk(e,P.pos.x,P.pos.z,hd>3?(e.type==='soldier'?10:13):0,dt);animWalk(e,9);
+    case 'skel':case 'goblin':case 'soldier':case 'skel':case 'devilsol':{grav(e,dt);walk(e,P.pos.x,P.pos.z,hd>3?(e.type==='soldier'?10:13):0,dt);animWalk(e,9);
       if(e.thrower&&e.cd<=0&&hd<55){e.cd=rnd(4,6);const f=cpos(e).clone();f.y+=1;shootAtP(f,80,{geo:'arrow',mat:MAT.arrow,size:1.4,r:1,dmg:5,life:3,col:[0x999080]},0.4);}
       if(d3<e.r+5){hurt(e.dmg*dt,true);if(!e.thrower&&e.cd<=0)e.cd=rnd(1,1.4);}break;}
     case 'archer':{grav(e,dt);
@@ -2186,7 +2209,16 @@ function updEnemies(dt){
         if(e.cd<=0&&h.hp<h.maxHp){e.cd=4;h.hp=Math.min(h.maxHp,h.hp+(e.cave?20:45));burst(cpos(h),24,[0x60ff90,0xd0ffd0],3,15,0.9,6);burst(cpos(e),8,[0x60ff90],2,8,0.5);sfx('heal',p);u.armR.rotation.x=-2.8;}}
       else{faceP(e);if(e.cd<=0&&hd<140){e.cd=3;const f=cpos(e).clone();f.y+=1.5;shootAtP(f,70,{mat:MAT.light,size:0.9,r:1.3,dmg:6,life:3,trail:[0x80ffb0],col:[0x80ffb0,0xffffff]});u.armR.rotation.x=-2.8;}}
       u.armR.rotation.x*=Math.max(0,1-dt*2);break;}
-    case 'hero':heroAI(e,dt,dx,dz,hd,d3);break;
+    case 'skelmage':{grav(e,dt);const u=e.mesh.userData;
+      if(hd>100){walk(e,P.pos.x,P.pos.z,8,dt);animWalk(e,8);}else if(hd<50){walk(e,p.x-dx,p.z-dz,9,dt);animWalk(e,8);faceP(e);}else faceP(e);
+      if(e.cd<1.1&&e.cd>0&&hd<160&&Math.random()<dt*14)burst(cpos(e).clone().add(tmp.set(0,2,0)),1,PURP,2,4,0.35);
+      if(e.cd<=0&&hd<160){e.cd=rnd(3.2,4.6);faceP(e);const f=cpos(e).clone();f.y+=2;
+        if(Math.random()<0.5){shootAtP(f,52,{mat:MAT.dfire,size:1.5,r:1.9,dmg:9,life:5,homing:true,trail:PURP,col:PURP},0.5);}
+        else{const base=tmp.subVectors(P.pos,f).normalize();for(const a2 of [-0.22,0,0.22])shoot(f,base.clone().applyAxisAngle(new V3(0,1,0),a2).multiplyScalar(70),{mat:MAT.dfire,size:1.1,r:1.5,dmg:6,life:3.5,trail:PURP,col:PURP});}
+        sfx('zap',p,0.4);if(u.armR)u.armR.rotation.x=-2.8;}
+      if(u.armR)u.armR.rotation.x*=Math.max(0,1-dt*2);
+      break;}
+    case 'hero':case 'bknight':heroAI(e,dt,dx,dz,hd,d3);break;
     case 'demon':{e.ang+=dt*0.45;tmp2.set(P.pos.x+Math.cos(e.ang)*65,P.pos.y+16+Math.sin(e.t)*5,P.pos.z+Math.sin(e.ang)*65);fly(e,tmp2,32,dt,1.5);faceP(e);
       const w=e.mesh.userData.w,a=Math.sin(e.t*5)*0.6+0.3;w.R.rotation.z=a;w.L.rotation.z=-a;
       if(half&&!e.p2){e.p2=1;say('魔王','小癪な…！ 星よ、降りそそげ！');sfx('roar',p);}
@@ -2207,13 +2239,13 @@ function updEnemies(dt){
         else b.scale.set(1.12,0.7,1.12);}
       else if(!on){p.x+=e.hx*(e.hs||17)*dt;p.z+=e.hz*(e.hs||17)*dt;b.scale.set(0.9,1.1,0.9);}
       if(d3<e.r+4)hurt(e.dmg*dt,true);break;}
-    case 'biggolem':{grav(e,dt);
+    case 'biggolem':case 'bigskel':{grav(e,dt);
       if(e.state==='wind'){faceP(e);e.st-=dt;if(!e.pun&&e.st<0.27){e.pun=1;mixOnce(e.mesh.userData.mix,1.5);}teleSet(e,34,1-Math.max(0,e.st)/1.25,0xff4020);if(Math.random()<0.4)smoke(p,1,5,1.5,0x9a8a68,2);
         if(e.st<=0){teleOff(e);e.state='chase';e.cd=rnd(2.4,3.4);const g=new V3(p.x,floorAt(p.x,p.z),p.z);shock(g,0xd8c090,34);shock(g,0xff7040,22);shake(0.8);sfx('boom',p,0.7);debris(p,12,[0x7a7468,0x9a8a72],2);smoke(g,8,8,2,0x9a8a68,4);ono(g,'ドゴォン！','#ffd23a',56);
           if(Math.hypot(P.pos.x-p.x,P.pos.z-p.z)<34&&P.pos.y-g.y<14)hurt(e.dmg+4);}}
       else{walk(e,P.pos.x,P.pos.z,hd>16?7:0,dt);
         if(e.cd<=0&&hd<44&&Math.abs(P.pos.y-p.y)<18){e.state='wind';e.st=1.25;e.pun=0;sfx('roar',p,0.5);if(!(e.mesh.userData.mix&&e.mesh.userData.mix.hit))e.atkT=0.35;}
-        else if(e.cd<=0&&hd<170&&(hd>95||P.pos.y-p.y>18)){e.cd=rnd(6,8);const f=cpos(e).clone();f.y+=5;shoot(f,lob(f,tmp2.copy(P.pos).addScaledVector(P.vel,0.8),55,30),{geo:'rock',mat:MAT.rock,size:3.4,r:3.6,splash:10,dmg:22,grav:30,life:6,col:[0x999080,0xbbaa90]});}}
+        else if(e.cd<=0&&hd<170&&(hd>95||P.pos.y-p.y>18)){e.cd=rnd(6,8);const f=cpos(e).clone();f.y+=5;shoot(f,lob(f,tmp2.copy(P.pos).addScaledVector(P.vel,0.8),55,30),{geo:'rock',mat:MAT.rock,size:3.4,r:3.6,splash:10,dmg:22,grav:30,life:6,col:e.type==='bigskel'?[0xe8e4d0,0xcfc8b0]:[0x999080,0xbbaa90]});}}
       if(d3<e.r+5)hurt(e.dmg*dt,true);break;}
     case 'dknight':{const u=e.mesh.userData;if(u.sm)u.sm.update(dt);e.st-=dt;
       if(e.state==='chase'){e.ang+=dt*0.5*(e.seed>4.5?1:-1);const R=46+e.seed*3;tmp2.set(P.pos.x+Math.cos(e.ang)*R,Math.max(P.pos.y+18+Math.sin(e.t*1.3+e.seed)*5,floorAt(p.x,p.z)+14),P.pos.z+Math.sin(e.ang)*R);fly(e,tmp2,34,dt,1.4);dkFace(e,dt,e.vel.x,e.vel.z,e.vel.y);
@@ -2282,12 +2314,12 @@ function updEnemies(dt){
           burst(m,30,FIRE,6,30,0.5);smoke(m,14,6,2.5,0x777777,3);sfx('cannon',m);sfx('boom',m,0.5);if(hd<150)shake(0.3);}}
       if(e.chg&&Math.random()<0.5)burst(cpos(e),1,FIRE,3,5,0.4);
       break;}
-    case 'wooddragon':{grav(e,dt);e.st-=dt;if(!e.said){e.said=1;say('王国の技師','木の竜、出撃！ 竜には竜だ！');sfx('roar',p,0.6);}
+    case 'wooddragon':case 'cerberus':{grav(e,dt);e.st-=dt;if(!e.said){e.said=1;say('王国の技師','木の竜、出撃！ 竜には竜だ！');sfx('roar',p,0.6);}
       if(e.state==='chase'){walk(e,P.pos.x,P.pos.z,hd>20?9:0,dt);
         if(e.cd<=0){const r=Math.random();
           if(r<0.45&&hd<130){e.state='breath';e.st=2;e.sub=0;}
           else if(r<0.75){e.state='charge';e.st=1.5;e.done=false;e.lx=dx/hd*45;e.lz=dz/hd*45;sfx('roar',p,0.5);}
-          else{e.state='volley';e.st=0.8;const f=cpos(e).clone();f.y+=5;for(let k=0;k<(half?8:6);k++){const tg=new V3(P.pos.x+rnd(-18,18),P.pos.y,P.pos.z+rnd(-18,18));shoot(f.clone(),lob(f,tg,60,30),{geo:'rock',mat:MAT.rock,size:1.8,r:2.2,splash:8,dmg:14,grav:30,life:6,col:[0x8a6a3a,0xbbaa90]});}sfx('cannon',f,0.6);}}}
+          else{e.state='volley';e.st=0.8;const f=cpos(e).clone();f.y+=5;for(let k=0;k<(half?8:6);k++){const tg=new V3(P.pos.x+rnd(-18,18),P.pos.y,P.pos.z+rnd(-18,18));shoot(f.clone(),lob(f,tg,60,30),e.type==='cerberus'?{geo:'fire',mat:MAT.ball,size:1.6,r:2.2,splash:8,dmg:14,grav:30,life:6,smk:true,ball:true,col:[0xff9a30,0xffe080,0x888888]}:{geo:'rock',mat:MAT.rock,size:1.8,r:2.2,splash:8,dmg:14,grav:30,life:6,col:[0x8a6a3a,0xbbaa90]});}sfx('cannon',f,0.6);}}}
       else if(e.state==='breath'){faceP(e);e.sub-=dt;
         if(e.sub<=0){e.sub=half?0.05:0.08;const m=cpos(e).clone();m.y+=2;m.x+=dx/hd*8;m.z+=dz/hd*8;const v=tmp.subVectors(P.pos,m).normalize();v.x+=rnd(-.06,.06);v.y+=rnd(-.06,.06);v.z+=rnd(-.06,.06);
           shoot(m,v.normalize().multiplyScalar(105),{mat:MAT.fire,size:1.4,r:1.8,dmg:6,life:2.2,trail:FIRE,col:FIRE});sfx('fire',p,0.5);}
@@ -2486,17 +2518,129 @@ const STAGES=[
    story:['悪魔は消えた。だが、嵐の山から聞き覚えのある咆哮が届く。','ライバルの竜の後ろには、山より大きな古の竜が目を開けていた。','空の王を決める、最後の戦いだ。負けたほうは、雲になる。'],
    waves:[
     {name:'ライバルのドラゴン',msg:'🐲 嵐の中、ライバルのドラゴンが来る！',mood:4,go(){for(let i=0;i<2;i++){const [x,z]=ringPos(130,180);addEnemy('griffin',x,z,P.pos.y+rnd(24,36));}const [x,z]=ringPos(150,200);addEnemy('rival',x,z,P.pos.y+40);sfx('roar');}},
-    {name:'古の竜',msg:'🐉 山が動いた…古の竜が目をさます！',mood:4,go(){const [x,z]=ringPos(160,200);addEnemy('elder',x,z,P.pos.y+60);sfx('roar');}}]}
+    {name:'古の竜',msg:'🐉 山が動いた…古の竜が目をさます！',mood:4,go(){const [x,z]=ringPos(160,200);addEnemy('elder',x,z,P.pos.y+60);sfx('roar');}}]},
+
+  {key:'hellgate',ch:'第1章',title:'門をやぶれ',place:'魔界の門',world:'demon',
+   ter:{amp:1.2,ox:1400,oz:-800,flats:[[0,-150,70,1]],dirt:[[0,-150,64]],grass:0x4a3040,hill:0x3c2c3a,rock:0x4a3c44,snow:0x6a5a70,sand:0x2a1a14,dirtC:0x1e1418,water:0xff5a1a,lava:true,trees:140,trunk:0x2a2228,leaf:0x3a2440,rockC:0x3a3038,start:[0,110]},
+   story:['魔王の城は、世界のはての黒い山にある。その手前に、魔界の門が口を開けていた。','門の前には、悪魔の兵と骸骨の兵がずらり。うしろでは、骸骨の魔導士が杖をかかげている。','待つのは性に合わない。こちらから、討ちに行く。門ごと、通らせてもらう。'],
+   waves:[
+    {name:'悪魔と骸骨の軍団',msg:'💀 悪魔と骸骨の軍団が、門からあふれ出す！',mood:3,go(){
+      s4Add('devilsol',16,0,-95,70,40,s4Dev);s4Add('skel',16,0,-120,80,35,s4Sk);s4Add('skelmage',4,0,-190,40,15);s4Imps(6,0,-120,60,40);s4Add('ogre',3,0,-110,60,30);}},
+    {name:'骸骨の魔導士団',msg:'🔮 骸骨の魔導士が、後ろから魔法を撃ってくる！',mood:3,go(){
+      s4Add('skelmage',7,0,-175,75,25);s4Add('skel',16,0,-105,80,30,s4Sk);s4Add('devilsol',10,0,-120,70,30,s4Dev);s4Imps(8,0,-130,70,40);s4Add('ogre',3,0,-130,60,30);}},
+    {name:'悪魔の将軍',msg:'👿 軍団の親玉、悪魔の将軍が立ちふさがる！',mood:3,go(){
+      const o=s4E(addEnemy('ogre',0,-150,undefined,{model:'devilsoldier'}));o.boss='👿 悪魔の将軍';o.hp=o.maxHp=o.maxHp*9;o.sc=1.5;o.r*=1.4;o.hc*=1.5;o.val=900;o.dmg*=1.3;o.die='……門が……もう、閉じない……';
+      cutin('👿','悪魔の将軍','があらわれた！');sfx('roar');
+      s4Add('skel',12,0,-110,80,30,s4Sk);s4Add('skelmage',4,0,-185,50,15);s4Imps(6,0,-130,60,40);s4Add('devilsol',8,0,-120,60,25,s4Dev);s4Add('ogre',2,0,-100,60,30);}}]},
+  {key:'bonefield',ch:'第2章',title:'骨が起きる',place:'骨の荒野',world:'peak',
+   ter:{amp:1.1,ox:-1500,oz:700,flats:[[0,-120,80,3]],dirt:[[0,-120,74]],grass:0x9a9480,hill:0x7a7464,rock:0xa09a8a,snow:0xd0ccc0,sand:0xc8bca0,dirtC:0xc8bca0,trees:60,trunk:0x3a3028,leaf:0x4a4a38,rocks:90,rockC:0xd0c8b0,start:[0,120]},
+   story:['門をぬけた先は、骨の荒野。地面のあちこちが、ふくらんでいる。','むかし負けた軍勢の骨が、魔王の力で目をさます。小さな骸骨の足もとから、山のような骨の巨人が起き上がる。','ねぼけた骨は、もう一度ねかせるに限る。今度は、永遠に。'],
+   waves:[
+    {name:'骨の巨人、目をさます',msg:'💀 地面から、巨大な骸骨が起き上がる！',mood:5,go(){
+      s4Giant(0,-115,0.5);s4Add('skel',14,0,-80,85,40,s4Sk);s4Add('skelmage',4,0,-170,55,20);s4Add('devilsol',4,0,-90,60,30,s4Dev);}},
+    {name:'二体の巨人',msg:'💀💀 荒野がふるえている…！ 巨人が、また起き上がる！',mood:5,go(){
+      s4Giant(-75,-125,0.3);s4Giant(75,-155,7);s4Add('skel',12,0,-90,85,40,s4Sk);s4Add('skelmage',5,0,-175,60,20);s4Add('devilsol',6,0,-100,60,30,s4Dev);}},
+    {name:'骨の巨人王',msg:'👑 荒野の骨が集まって、巨人の王になる！',mood:5,go(){
+      s4Giant(0,-170,0.3,1.5,'👑 骨の巨人王',2.6);s4Add('skel',16,0,-100,90,40,s4Sk);s4Add('skelmage',6,0,-185,65,20);s4Add('devilsol',6,0,-110,70,30,s4Dev);sfx('roar');}}]},
+  {key:'maoujo',ch:'最終章',title:'魔王討伐',place:'魔王の城',
+   ter:{amp:0,ox:0,oz:0,flats:[[0,0,330,3,1]],dirt:[],grass:0x3a3a48,hill:0x3a3a48,rock:0x44444e,sand:0x3a3a48,dirtC:0x33333e,trees:0,rocks:0,start:[0,120]},
+   story:['荒野のむこうに、魔王の城がそびえている。黒い塔が、空をひっかいていた。','城門には三つ首の番犬。奥の広間には黒い騎士。そのまた奥に、魔王の玉座がある。','一つずつ、順番に。玄関から入って、玉座まで焼きぬける。'],
+   waves:[
+    {name:'地獄の番犬',msg:'🐕 城門の前に、三つ首の番犬ケルベロス！',mood:8,go(){
+      const c=s4E(addEnemy('cerberus',0,-105));c.said=1;c.die='キャウゥゥン……！';
+      s4Add('devilsol',8,0,-60,85,40,s4Dev);s4Add('skel',8,0,-70,85,40,s4Sk);s4Add('skelmage',2,0,-130,60,15);}},
+    {name:'黒い騎士',msg:'⚔️ 魔王の幹部、黒い騎士があらわれた！',mood:8,go(){
+      const k=s4E(addEnemy('bknight',0,-105));k.nm='黒い騎士';k.hl=S4HL;k.said=1;k.sc=1.3;k.r*=1.3;k.hc*=1.3;k.die='……魔王さま……申し訳、ありません……';
+      s4Add('skel',8,0,-75,85,40,s4Sk);s4Add('skelmage',3,0,-130,60,15);}},
+    {name:'魔王',msg:'😈 玉座の間。魔王が、こちらを見おろしている…',mood:8,go(){
+      const d=s4E(addEnemy('demon',0,DUN.z0+40,DUN.y+26));d.hp=d.maxHp=d.maxHp*3.4;d.p2=1;d.die='……城が……千の兵が……。余は、灰か……';
+      s4Imps(6,0,DUN.z0+55,40,20);s4Add('skelmage',4,0,-120,60,15);sfx('roar');}}]},
+
+  {key:'skygate',ch:'第1章',title:'雲の上へ',place:'雲の門',
+   ter:{sky:1,amp:0.25,ox:450,oz:-1350,flats:[[0,-215,70,2,1],[-110,-95,60,2,1]],dirt:[],grass:0xdce6f8,hill:0xdce6f8,rock:0xc0cce4,snow:0xf4f8ff,sand:0xdce6f8,dirtC:0xdce6f8,water:0xeaf2ff,trees:0,rocks:0,ruins:-1,stacks:0,spires:0,start:[0,120]},
+   story:['暴れすぎた竜に、女神はあきれ果てた。天の軍勢が、白い翼をそろえて空をおおう。','雲の上には、天の国への門がある。門の前には、槍をかまえた天使の兵と、天馬に乗った騎士たち。','呼ばれる前に、こちらから行く。雲の上でも、燃えるものは燃える。'],
+   waves:[
+    {name:'天使の兵の軍勢',msg:'😇 天使の兵が、雲の上に整列している！',get mood(){return S6MD+0;},go(){
+      s6Add('angel',16,0,-110,85,40);s6Add('angelsword',6,0,-100,80,30);s6Add('angelarcher',4,0,-140,70,20);s6Add('lightangel',5,0,-150,60,20);s6Add('guardian',2,0,-120,50,20);s6Fly('pegasus',5);}},
+    {name:'天馬の騎士団',msg:'🐴 天馬の騎士団が、空から舞いおりる！',get mood(){return S6MD+0;},go(){
+      s6Fly('pegasus',11);s6Add('angel',10,0,-110,85,40);s6Add('angelsword',4,0,-100,80,30);s6Add('angelarcher',4,0,-140,70,20);s6Add('lightangel',3,0,-150,60,20);s6Add('guardian',2,0,-120,50,20);s6Platform(3);}},
+    {name:'天馬騎士団長',msg:'👑 騎士団長が、金の翼をひろげてあらわれた！',get mood(){return S6MD+1;},go(){
+      const b=s6Spawn('pegasus',0,-170,P.pos.y+30,{boss:'🐴 天馬騎士団長',sc:2.0,hk:11,val:1500,dmg:20});s6BossIn(b,'🐴','天馬騎士団長');b.die='……翼が……もう、上がらない……';
+      s6Fly('pegasus',7);s6Add('angel',12,0,-110,85,40);s6Add('lightangel',5,0,-150,60,20);s6Add('guardian',2,0,-120,50,20);}}]},
+  {key:'skytemple',ch:'第2章',title:'神殿をせめろ',place:'天空の神殿',
+   ter:{sky:1,amp:0.25,ox:450,oz:-1350,flats:[[0,-235,100,2,1],[170,-150,60,2,1]],dirt:[],grass:0xf0e8d8,hill:0xf0e8d8,rock:0xd8ccb4,snow:0xfff8ec,sand:0xf0e8d8,dirtC:0xf0e8d8,water:0xfff0d8,trees:0,rocks:0,ruins:-1,stacks:0,spires:0,start:[0,120]},
+   story:['門の先には、白い柱と金の屋根の神殿がそびえていた。雲の上の、天の軍勢のすみかだ。','神殿を守るのは、大きな盾をかまえた守りの天使と、光の弾を放つ天使たち。塔の上にも、見張りが立っている。','金の屋根は、燃えない。だが、下の柱は燃える。そこから、ゆっくり行く。'],
+   waves:[
+    {name:'神殿の守り',msg:'🛡️ 盾をかまえた守りの天使が、神殿の前に立ちふさがる！',get mood(){return S6MD+1;},go(){
+      s6Add('guardian',5,0,-130,70,25);s6Add('angel',10,0,-120,85,35);s6Add('angelsword',4,0,-110,80,30);s6Add('angelarcher',3,0,-150,60,20);s6Add('lightangel',3,0,-150,60,20);s6Tower(4);s6Fort(3);s6Fly('pegasus',4);}},
+    {name:'光の聖歌隊と天使将軍',msg:'✨ 光の天使たちが歌い、天使将軍が金のかなづちをかまえる！',get mood(){return S6MD+1;},go(){
+      {const g=s6Spawn('angelgeneral',0,-140,undefined,{boss:'⚔️ 天使将軍',sc:2.6,hk:6,val:1200,dmg:22});g.bn='天使将軍';s6BossIn(g,'⚔️','天使将軍');g.die='……将軍の名が……泣くわ……';}
+      s6Add('lightangel',9,0,-150,80,30);s6Add('angel',12,0,-115,85,35);s6Add('guardian',3,0,-125,60,20);s6Fly('pegasus',6);}},
+    {name:'守護天使長',msg:'🛡️ 神殿の守りの要、守護天使長が、大盾をかまえる！',get mood(){return S6MD+2;},go(){
+      const b=s6Spawn('guardian',0,-150,undefined,{boss:'🛡️ 守護天使長',sc:2.6,hk:8,val:1800,dmg:24});s6BossIn(b,'🛡️','守護天使長');b.die='……盾が……神殿が……くずれる……';
+      s6Add('angel',12,0,-115,85,35);s6Add('lightangel',6,0,-150,60,20);s6Add('guardian',2,0,-125,60,20);s6Fly('pegasus',4);}}]},
+  {key:'archangel',ch:'最終章',title:'天の決戦',place:'光の間',
+   ter:{sky:1,amp:0.25,ox:450,oz:-1350,flats:[[0,-60,150,2,1]],dirt:[],grass:0xf4ecdc,hill:0xf4ecdc,rock:0xd8ccb4,snow:0xfff8ec,sand:0xf4ecdc,dirtC:0xf4ecdc,water:0xfff0d8,trees:0,rocks:0,ruins:-1,stacks:0,spires:0,start:[0,120]},
+   story:['神殿の奥は、光に満ちた広い間だった。壁も天井もなく、雲の海だけが足もとに広がっている。','親衛の天使がずらりと並び、その奥に、四枚の翼をもつ大天使が剣をかまえて立つ。剣は、炎でできていた。','炎の剣とは、気が合いそうだ。どちらが熱いか、決めよう。'],
+   waves:[
+    {name:'親衛の天使',msg:'😇 親衛の天使たちが、光の間をうめつくす！',get mood(){return S6MD+2;},go(){
+      s6Add('angel',16,0,-90,85,40);s6Add('guardian',4,0,-110,60,25);s6Add('lightangel',8,0,-140,70,25);s6Fly('pegasus',6);}},
+    {name:'雷光の親衛隊',msg:'⚡ 天馬と光の天使が、雷のように降りそそぐ！',get mood(){return S6MD+2;},go(){
+      s6Fly('pegasus',12);s6Add('lightangel',10,0,-140,80,30);s6Add('angel',10,0,-95,85,40);s6Add('guardian',3,0,-115,60,20);}},
+    {name:'大天使',msg:'😇 炎の剣をかかげて、4枚の翼の大天使があらわれる！',get mood(){return S6MD+3;},go(){
+      const b=s6Spawn('archangel',0,-150,P.pos.y+22,{boss:'😇 大天使',hk:1.25,val:3500});s6BossIn(b,'archangel','大天使');
+      s6Add('lightangel',6,0,-130,70,25);s6Fly('pegasus',3);}}]},
+
+  {key:'coralsea',ch:'第1章',title:'さんごの海',place:'さんごの海',
+   ter:{amp:0.8,ox:300,oz:-500,sea:true,flats:[[0,120,40,3,1],[-40,-130,56,3,1],[-160,-20,32,4,1],[150,-50,30,4,1],[90,-215,24,3,1],[-130,-235,22,3,1]],dirt:[],grass:0x6cb04c,hill:0x5a9a44,sand:0xf0e2b4,water:0x1fb4c4,trees:70,rocks:30,trunk:0x7a5a36,leaf:0x3f8f3a,rockC:0xc8b89c,start:[0,120]},
+   story:['焼き魚は、うまかった。海の上を飛びまわって、食べすぎた。……それが、まずかったらしい。','海の底には、海王の国があった。魚は、その国民だったのだ。怒った海王が、魚人の軍勢を送りこんでくる。','さんごの島々に、槍をかまえた魚人がずらり。浜では巨大なカニが、ハサミを鳴らしている。食後の運動には、ちょうどいい。'],
+   waves:[
+    {name:'浜の槍投げ',msg:'🔱 魚人の軍勢が、浜から槍を投げてくる！',get mood(){return S7MD.a;},go(){
+      s7Fish(12);s7Bows(4);s7Sharks(2);}},
+    {name:'岩場のカニ',msg:'🦀 巨大なカニが、岩場から歩いてくる！',get mood(){return S7MD.a;},go(){
+      s7Crabs(2);s7Fish(10);s7Bows(4);s7Sharks(3);}},
+    {name:'さんごの大ガニ',msg:'🦀 島の番人、さんごの大ガニが立ちふさがる！',get mood(){return S7MD.a;},go(){
+      const f=TER.flats[1],[x,z]=s7Land(f,0.4);
+      const b=s7Add('crab',x,z);s7Big(b,{nm:'さんごの大ガニ',ic:'🦀',hp:4800,sc:2.3,val:1400,dmg:1.3,die:'ブクブク……（あわをふいて、ひっくり返った）'});
+      s7Fish(12);s7Sharks(2);sfx('roar');}}]},
+  {key:'deepsea',ch:'第2章',title:'うずの海',place:'深い海のうず',
+   ter:{amp:1,ox:-600,oz:350,sea:true,flats:[[0,120,36,3,1],[0,-60,50,3,1],[-140,-130,30,4,1],[140,-120,30,4,1],[-120,10,24,3,1],[130,40,24,3,1]],dirt:[],grass:0x4a6e58,hill:0x3e5e4c,sand:0x8a9a92,rock:0x586068,water:0x0d4a68,trees:25,rocks:24,trunk:0x4a3a2c,leaf:0x2c5a44,rockC:0x6a7078,start:[0,120]},
+   story:['魚人の先発隊は、焼きはらった。すると、海がぐるぐると渦を巻きはじめた。','渦の底から、海蛇とクラーケンが浮かんでくる。いちばん奥には、リヴァイアサン。サメの群れは、渦のまわりを楽しそうに回っている。楽しいのは、サメだけだ。','足場は、島と橋と、沈んだ船の残がいだけ。濡れるのは、あまり好きじゃない。落ちる前に、全部焼く。'],
+   waves:[
+    {name:'うずのふち',msg:'🦈 渦のまわりを、サメの群れが回っている！',get mood(){return S7MD.b;},go(){
+      s7Sharks(5);s7Fish(7);s7Bows(3);s7Serps(2);}},
+    {name:'深みの怪物',msg:'🐙 渦の底から、クラーケンが浮かんでくる…！',get mood(){return S7MD.b;},go(){
+      s7Kraken();s7Serps(2);s7Sharks(3);s7Fish(8);sfx('roar');}},
+    {name:'リヴァイアサン',msg:'🐉 渦の主、リヴァイアサンが、S字に立ち上がる！',get mood(){return S7MD.b;},go(){
+      const [x,z]=s7WaterPos(60,110);const b=s7Add('levi',x,z);
+      s7Big(b,{nm:'リヴァイアサン',ic:'🐉',hp:6000,sc:1.4,val:2200,dmg:1.2,die:'グオォォ……（うずの底へ、ゆっくりしずんでいった）'});
+      s7Sharks(3);s7Fish(8);s7Crabs(1);sfx('roar');}}]},
+  {key:'seaking',ch:'最終章',title:'海王',place:'海王の宮殿の真上',
+   ter:{amp:0.9,ox:700,oz:-250,sea:true,flats:[[0,120,40,3,1],[0,-150,58,3,1],[-150,-50,28,4,1],[150,-60,28,4,1]],dirt:[],grass:0x5a8a62,hill:0x4a7a56,sand:0xcfc4a2,rock:0x6a7078,water:0x174a6e,trees:30,rocks:20,trunk:0x4a3a2c,leaf:0x2a5a3a,rockC:0x8a8a8a,start:[0,120]},
+   story:['渦が、ぴたりと止まった。海面が、すうっと平らになる。嵐の前の静けさだった。','海の底の宮殿から、海王の親衛隊が上がってくる。金のさんごのよろいに、光る三つ又の槍。そのうしろに、山のように大きな影。','海王は、魚を焼かれてお怒りだ。こちらは、魚を焼いただけだ。……話し合いは、火の中でしようか。'],
+   waves:[
+    {name:'海王の親衛隊',msg:'🔱 金のよろいの親衛隊が、海から上がってくる！',get mood(){return S7MD.c;},go(){
+      s7Fish(5,'fishE');s7Fish(5);s7Bows(3);s7Sharks(2);}},
+    {name:'うずまく大波',msg:'🌊 大波にのって、カニとサメの軍団が来る！',get mood(){return S7MD.c;},go(){
+      s7Crabs(2);s7Fish(3,'fishE');s7Fish(4);s7Bows(2);s7Sharks(3);}},
+    {name:'海王',msg:'🔱 海がわれ、巨大な海王が上半身をあらわす…！',get mood(){return S7MD.c;},go(){
+      const [x,z]=s7WaterPos(C.fly?75:60,C.fly?100:85);const k=s7Add('king',x,z);
+      s7Cut('海王','🔱');s7Fish(7);s7Sharks(2);sfx('roar');}}]}
 ];
 const ENDING=['古の竜もライバルも、静かに翼をたたんで雲の中へ消えていった。','魔物も、王国も、悪魔も、もう竜をおびやかさない。おびやかす口が、残っていない。','空は、きみのものだ。','遠くの空で、女神が小さくため息をついた。「罰のつもりだったのに……次は、ミジンコにします」'];
 let stage=0,wave=-1,waveWait=0,reached=0;
 const WAVES=STAGES.flatMap(s=>s.waves);
 /* ---- シナリオ：1＝地下の迷宮（勇者→ワイバーン→洞窟→ゴーレム→魔王）／2＝王国との戦い（今までの6章） ---- */
 const ENDING1=['封印の扉のむこうで、魔王は灰になって消えた。','勇者も、魔物も、魔王も、もう竜をおびやかさない。おびやかす口が、残っていない。','空は、きみのものだ。','遠くの空で、女神が小さくため息をついた。「罰のつもりだったのに……次は、ミジンコにします」'];
-function setScn(n){SCN=n===2?2:1;STAGES.length=0;SCK[SCN].forEach(k=>STAGES.push(ALLST.find(q=>q.key===k)));const b=$('scn');if(b)b.textContent=SCN===1?'📖 シナリオ1：地下の迷宮':'📖 シナリオ2：王国との戦い';}
-const ALLST=STAGES.slice(),SCK={1:['valley','dungeon','golem','maou'],2:['valley','town','castle','sea','demon','peak']};let SCN=1;
+function scnHas(n){return !!SCK[n]&&SCK[n].some(k=>ALLST.some(q=>q.key===k));}
+function scnNext(n){for(let i=1;i<=7;i++){const m=(n-1+i)%7+1;if(scnHas(m))return m;}return 1;}
+function setScn(n){SCN=scnHas(n)?n:1;STAGES.length=0;SCK[SCN].forEach(k=>{const q=ALLST.find(q=>q.key===k);if(q)STAGES.push(q);});const b=$('scn');if(b){b.textContent='📖 シナリオ'+SCN+'：'+SCNM[SCN];b.title=[1,2,3,4,5,6,7].filter(scnHas).map(i=>'シナリオ'+i+'＝'+SCNM[i]).join('／')+'。押すたびに切りかわり、第1章からになります';}}
+const ALLST=STAGES.slice(),SCK={1:['valley','dungeon','golem','maou'],2:['valley','town','castle','sea'],3:['orcwood','orcfort','orcking'],4:['hellgate','bonefield','maoujo'],5:['peak','dragongrave','dragonking'],6:['skygate','skytemple','archangel'],7:['coralsea','deepsea','seaking']},
+  SCNM={1:'地下の迷宮',2:'王国編',3:'オークキング編',4:'魔王討伐編',5:'竜王編',6:'天使編',7:'海王編'};let SCN=1;
+// 終わりの文と、エピローグの題（シナリオごと。無ければ今までの文）
+const ENDS={1:ENDING1,2:['王の艦隊は、嵐の海に沈んだ。王国の旗は、もうどこにも立っていない。','兵も、城も、船も、もう竜をおびやかさない。おびやかす口が、残っていない。','空は、きみのものだ。','遠くの空で、女神が小さくため息をついた。「罰のつもりだったのに……次は、ミジンコにします」']},ENDT={};
 {let n=1;try{n=+(localStorage.getItem('dragon_scn')||1);}catch(e){}setScn(n);}
-$('scn').addEventListener('click',()=>{if(state!=='select')return;setScn(SCN===1?2:1);try{localStorage.setItem('dragon_scn',SCN);}catch(e){}reached=0;CKPT=null;saveGame();setupStage(0);setChar(charKey);const f=$('first');if(f)f.style.display='none';sfx('lvup',null,0.4);});
+$('scn').addEventListener('click',()=>{if(state!=='select')return;setScn(scnNext(SCN));try{localStorage.setItem('dragon_scn',SCN);}catch(e){}reached=0;CKPT=null;saveGame();setupStage(0);setChar(charKey);const f=$('first');if(f)f.style.display='none';sfx('lvup',null,0.4);});
 function curWaves(){const W=STAGES[stage].waves;if(!W[0].cave)return W;const d=caveOK();return W.filter(w=>d?!w.nodrg:!(w.cave||w.drg));}
 /* ---- 第1章の最初：ねぐらの洞窟で勇者の一行と戦う（竜のキャラだけ） ---- */
 const CAVE={on:false,g:null,x:0,z:0,y:0,R:125,hy:0.56,flee:false,out:false,t:0,bar:6};
@@ -2751,7 +2895,7 @@ function cineWave(){const L=EN.filter(e=>!e.dead);if(!L.length)return;
     const G=L.filter(o=>o.mesh.position.distanceToSquared(s.mesh.position)<4900);n=G.length;for(const o of G){const c=cpos(o);x+=c.x/n;y+=c.y/n;z+=c.z/n;}for(const o of G){const c=cpos(o);r=Math.max(r,Math.hypot(c.x-x,c.z-z));}}
   if(RANKS.n)r=Math.max(r,72);const far=Math.hypot(x-P.pos.x,z-P.pos.z)>110;cine(2,far?2.3:1.6,{x,y,z,r,cut:far?0.95:0});if(CINE.k===2){TS=0.12;tsT=far?2.15:1.45;}}
 // 初心者モード：ボス以外の敵を4割へらす（短い時間で終わるように）
-function thinWave(){let k=0;for(let i=EN.length-1;i>=0;i--){const e=EN[i];if(e.boss||e.dead||e.type==='biggolem'||e.type==='bigslime'||e.type==='seal')continue;k+=EASY?0.4:0.25;if(k>=1){k-=1;scene.remove(e.mesh);EN.splice(i,1);}}}
+function thinWave(){let k=0;for(let i=EN.length-1;i>=0;i--){const e=EN[i];if(e.boss||e.dead||e.type==='biggolem'||e.type==='bigskel'||e.type==='bigslime'||e.type==='seal')continue;k+=EASY?0.4:0.25;if(k>=1){k-=1;scene.remove(e.mesh);EN.splice(i,1);}}}
 // 章の地形・建物を作る
 function addFlags(){const F=[];for(const f of TER.flats){if(f[4])continue;const n=Math.max(4,Math.min(12,Math.round(f[2]/7)));for(let i=0;i<n;i++){const a=i/n*6.283+f[0]*0.01,rr=f[2]*0.85,x=f[0]+Math.cos(a)*rr,z=f[1]+Math.sin(a)*rr,y=H(x,z);if(y<WATER+0.8)continue;F.push([x,y,z]);}}
   if(!F.length)return;
@@ -2770,7 +2914,7 @@ function addHell(){const N=64,sg=new THREE.ConeGeometry(1,1,5);sg.translate(0,0.
   const rg=new THREE.Mesh(new THREE.RingGeometry(12,30,40),new THREE.MeshBasicMaterial({color:0xff4a8a,transparent:true,opacity:0.5,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending,fog:false}));rg.rotation.x=-Math.PI/2;rg.position.set(0,gy+0.8,-160);scene.add(rg);TERRAIN.push(rg);}
 function setupStage(i){stage=i;const S=STAGES[i];
   TER=Object.assign({amp:1,ox:0,oz:0,flats:[],dirt:[],grass:0x5c9e3c,hill:0x6e7a3a,rock:0x7a756d,snow:0xf4f6f8,sand:0xd8c690,dirtC:0x9a8a62,water:0x2a70b8,lava:false,trees:480,trunk:0x6b4a2a,leaf:0x2f6e2a,rocks:40,rockC:0x8a857c,start:[0,120]},S.ter);
-  clearWorld();buildTerrain();buildBridges();buildWorld(S.key);addFlags();ringsBuild();if(TER.lava)addHell();moodT=MOODS[(S.waves.find(w=>!w.cave)||S.waves[0]).mood];updMood(0,true);
+  clearWorld();buildTerrain();buildBridges();buildWorld(S.world||S.key);addFlags();ringsBuild();if(TER.lava)addHell();moodT=MOODS[(S.waves.find(w=>!w.cave)||S.waves[0]).mood];updMood(0,true);
   const [sx,sz]=TER.start;P.pos.set(sx,C.fly?floorAt(sx,sz)+40:floorAt(sx,sz)+C.gOff,sz);P.yaw=P.lastYaw=Math.PI;P.vel.set(0,0,0);P.vy=0;}
 // 紙芝居：章ごとに絵3枚（第1章の前に序章4枚）。「次へ」でめくり、「スキップ」でとばす
 const PROLOGUE=[
@@ -2800,7 +2944,7 @@ const TALKPIC={valley:2,town:2,castle:2,sea:1,demon:2,peak:2};
 const KIMG={maou:{w:['maou_t1','maou_t2'],c:['maou_c1','maou_c2','maou_c3','maou_c']},valley:{c1:['valley_c','valley_c2']}},ENDIMG={1:['end1_1','end1_2','end1_3','end_g'],2:[null,null,null,'end_g']};
 function kimg(D,A){if(A)D.forEach((q,j)=>{if(A[j])q.img=A[j];});return D;}
 function showStory(i,ending,fromClear){state='story';TK.q.length=0;TK.cur=null;const S=STAGES[i];
-  const ch=ending?'エピローグ':S.ch+'　'+S.place,t=ending?'空の王':S.title,key=ending?'end':S.key,L=ending?(SCN===1?ENDING1:ENDING):(S.storyN&&!caveOK()?S.storyN:S.story);
+  const ch=ending?'エピローグ':S.ch+'　'+S.place,t=ending?(ENDT[SCN]||'空の王'):S.title,key=ending?'end':S.key,L=ending?(ENDS[SCN]||ENDING):(S.storyN&&!caveOK()?S.storyN:S.story);
   let sl=L.map((l,j)=>({img:(!ending&&L===S.story&&S.simg&&S.simg[j])||(ending&&ENDIMG[SCN]&&ENDIMG[SCN][j])||key+'_'+Math.min(j+1,3),ch,t,l}));
   const dlg=(L2,img,ch2,t2)=>L2.map(([who,l])=>({img,ch:ch2,t:t2,l,who}));
   // 章のはじめの掛け合い（前は戦いながら出していた1つ目の会話）
@@ -2845,11 +2989,11 @@ $('title').addEventListener('click',()=>{const t=$('title');if(t.dataset.off||!R
 let bannerT=0,speechT=0;
 function banner(t,s){$('banner').textContent=t;$('banner').style.opacity=1;bannerT=s;}
 function say(who,t){talk([[who,t]]);
-  const ty={勇者:'hero',魔王:'demon',ライバル:'rival',古の竜:'elder',王:'walker',王国の技師:'wooddragon',魔術師:'wizard'}[who];
+  const ty={勇者:'hero',魔王:'demon',ライバル:'rival',古の竜:'elder',王:'walker',王国の技師:'wooddragon',魔術師:'wizard',黒い騎士:'bknight'}[who];
   const e=ty&&EN.find(x=>x.type===ty&&!x.dead&&(ty!=='wizard'||x.giant));if(e)bubble(e,t,'boss',3);}
 /* ---- 会話：顔の絵・名前・セリフを1行ずつ出す（ゲームは止めない） ---- */
 const TPT={長老:'villager',兵隊長:'army',王国の技師:'engineer',王:'king',勇者:'hero',魔王:'demon',ライバル:'rival',古の竜:'elder',魔術師:'wizard'};
-const TBOSS={勇者:'hero',魔王:'demon',ライバル:'rival',古の竜:'elder',王:'walker',王国の技師:'wooddragon',魔術師:'wizard'};
+const TBOSS={勇者:'hero',魔王:'demon',ライバル:'rival',古の竜:'elder',王:'walker',王国の技師:'wooddragon',魔術師:'wizard',黒い騎士:'bknight'};
 const TK={q:[],cur:null,t:0,n:0};
 const lineDur=t=>Math.min(5.5,1.7+t.length*0.075);const talkDur=L=>L.reduce((a,l)=>a+lineDur(l[1]),0);
 function talk(L){TK.q.push(...L);}
@@ -2897,6 +3041,521 @@ const TALKS={
  peak:{w:[[['ライバル','久しぶりだな。空の王は、ひとりでいい'],['ME','千年たっても変わらないな。……墓は、見晴らしのいい所にしてやる']],
           [['古の竜','若き竜よ。空の王を名乗るなら、わしを越えてゆけ'],['ライバル','…おれの負けだ。だが、じいさんには勝てるかな'],['ME','見ていろ。年寄りには、やさしくする主義だ。弱火でな']]],
        clear:[['古の竜','見事だ…。空は、お前にまかせよう'],['ME','引き受けた。……女神に伝えてくれ。罰は、たいへん楽しんでいる、と']]}};
+
+/* ---- シナリオ4：魔王討伐編 ---- */
+// 初心者モードは、この章の敵の数を7割にする（簡単モード各6分に合わせる）
+function s4N(n){return EASY?Math.max(1,Math.round(n*0.72)):n;}
+function s4E(e){if(EASY)e.hp=e.maxHp=e.maxHp*0.75;return e;}
+function s4Pos(cx,cz,sx,sz){let x=cx+rnd(-sx,sx),z=cz+rnd(-sz,sz);if(DUN.on){x=clamp(x,DUN.x0+14,DUN.x1-14);z=clamp(z,DUN.z0+14,DUN.z1-14);}return [x,z];}
+function s4Add(type,n,cx,cz,sx,sz,fn){const L=[];for(let i=0;i<s4N(n);i++){const [x,z]=s4Pos(cx,cz,sx,sz);const e=s4E(addEnemy(type,x,z));if(fn)fn(e,i);L.push(e);}return L;}
+const s4Dev=(e,i)=>{e.sc=1.12;e.r*=1.1;e.hc*=1.1;e.thrower=i%3===0;},s4Sk=(e,i)=>{e.thrower=i%4===0;};
+function s4Imps(n,cx,cz,sx,sz){for(let i=0;i<s4N(n);i++){const [x,z]=s4Pos(cx,cz,sx,sz);s4E(addEnemy('imp',x,z,P.pos.y+rnd(-5,25)));}}
+// 巨大な骸骨：delay 秒あとに、地面からゆっくり起き上がる（それまでは地面の下で、見えない・狙えない・傷つかない）
+function s4Giant(x,z,delay,k,boss,hpk){const e=s4E(addEnemy('bigskel',x,z));k=k||1;e.sc=12*k;e.r*=k;e.hc*=k;if(hpk)e.hp=e.maxHp=e.maxHp*hpk;
+  if(boss){e.boss=boss;e.val=1800;e.dmg*=1.2;e.die='……ガラ……ガラ……（骨が、くずれていく）';}
+  e.mesh.scale.setScalar(e.sc);e.mesh.position.y=floorAt(x,z)-40;e.mesh.visible=false;e.inv=true;
+  e.rise={w:delay,t:0,d:3.4,fx:0,cut:boss?boss.replace(/^\S+\s/,''):null};return e;}
+// 起き上がり中と、ケルベロス・巨大骸骨の追加の動き。true を返すと、その敵のふだんの動きは飛ばす
+function s4Hook(e,dt,p,dx,dz,hd,half){const R=e.rise;
+  if(R){R.w-=dt;const gy=floorAt(p.x,p.z);
+    if(R.w>0){p.y=gy-40;e.inv=true;e.mesh.visible=false;return true;}
+    e.mesh.visible=true;
+    if(!R.fx){R.fx=1;shake(0.8);sfx('boom',p,0.9);sfx('roar',p,0.5);shock(new V3(p.x,gy+0.5,p.z),0xb8a888,40);burst(new V3(p.x,gy+1,p.z),30,[0xd8d0b8,0xb8a888,0x8a7a60],6,30,0.9);if(R.cut)cutin('💀',R.cut,'が立ち上がった！');}
+    R.t+=dt;const k=Math.min(1,R.t/R.d);p.y=gy-48*(1-k)*(1-k);
+    if(Math.random()<0.5)burst(new V3(p.x+rnd(-8,8)*(e.sc||1),gy+1,p.z+rnd(-8,8)*(e.sc||1)),2,[0xd8d0b8,0x8a7a60],4,10,0.6);
+    if(k>=1){e.rise=null;e.inv=false;e.cd=rnd(1.5,2.5);}else{e.inv=true;return true;}}
+  if(e.type==='bigskel')animWalk(e,3);
+  if(e.type==='cerberus'){
+    if(e.state==='breath'){e.s4t=(e.s4t||0)-dt;if(e.s4t<=0){e.s4t=half?0.1:0.16;
+      for(const sd of [-1,1]){const m=cpos(e).clone();m.x+=-dz/hd*6*sd+dx/hd*8;m.z+=dx/hd*6*sd+dz/hd*8;m.y+=3;const v=new V3().subVectors(P.pos,m).normalize();v.x+=rnd(-.08,.08);v.y+=rnd(-.08,.08);v.z+=rnd(-.08,.08);
+        shoot(m,v.normalize().multiplyScalar(100),{mat:MAT.fire,size:1.1,r:1.5,dmg:4,life:2.2,trail:FIRE,col:FIRE});}}}
+    if(half&&!e.p2){e.p2=1;bubble(e,'ウオォォーン！','boss',2);sfx('roar',p,0.8);shake(0.5);for(let k=0;k<s4N(4);k++){const e2=s4E(addEnemy('devilsol',p.x+rnd(-20,20),p.z+rnd(-20,20)));e2.sc=1.12;e2.thrower=k%2===0;}}}
+  return false;}
+// ケルベロスの仮の見た目（Tripo のモデルが来るまで）：胴体・4本足・三つの頭・赤い目
+function makeCerberus(){const g=new THREE.Group(),dk=mat(0x2a1a22),rd=new THREE.MeshBasicMaterial({color:0xff3a20}),u=1.4;
+  const b=box(5*u,4.6*u,10*u,dk);b.position.set(0,5.2*u,0);g.add(b);
+  [[-1.8,-3.6],[1.8,-3.6],[-1.8,3.6],[1.8,3.6]].forEach(([x,z])=>{const l=box(1.4*u,3.4*u,1.4*u,dk);l.position.set(x*u,1.7*u,z*u);g.add(l);});
+  [-1,0,1].forEach(k=>{const hz=(5.6+(k?0:1))*u;const h=mesh(new THREE.SphereGeometry(1.7*u,10,8),dk);h.position.set(k*2.6*u,8.4*u,hz);g.add(h);
+    const sn=box(1.4*u,1.1*u,2.2*u,dk);sn.position.set(k*2.6*u,8.1*u,hz+2*u);g.add(sn);
+    [-1,1].forEach(sd=>{const ey=new THREE.Mesh(new THREE.SphereGeometry(0.28*u,6,5),rd);ey.position.set((k*2.6+sd*0.8)*u,9*u,hz+1.3*u);g.add(ey);});});
+  const tl=box(0.8*u,0.8*u,4*u,dk);tl.position.set(0,6.4*u,-6.5*u);tl.rotation.x=-0.5;g.add(tl);return g;}
+// 黒い騎士の戦いのかけ声
+const S4HL={start:'……来たか、竜。ここから先へは、通さない。',leap:'……ふっ。',beam:'闇よ、つらぬけ。',combo:'逃がさない。',pillar:'地の底から、さばきを。',guard:'効かぬ。',summon:'骨の兵よ、起きろ。',p2:'……ここからが、本気だ。',sky:'空でも、届く。'};
+// 黒い騎士の顔絵（chara\blackknight.webp ができたら使う。無い間は顔なしで出る）
+{const im=new Image();im.onload=()=>{TPT['黒い騎士']='blackknight';if(typeof PTS!=='undefined'&&!PTS.includes('blackknight'))PTS.push('blackknight');PTE.bknight='blackknight';};im.src='chara/blackknight.webp';}
+ENDS[4]=['魔王の城は、静かに崩れ落ちた。骨の軍団も、悪魔の兵も、三つ首の犬も、もう動かない。','こちらから討ちに行く。それだけのことで、長い戦いは終わった。','空は、きみのものだ。','遠くの空で、女神が頭をかかえた。「罰のつもりだったのに、魔王まで倒すなんて……次は、アリにします」'];
+ENDT[4]='魔王の城、陥落';
+Object.assign(TALKS,{
+ hellgate:{w:[[['ME','……門か。表札も呼び鈴も無い。不親切な家だ'],['魔王','来たか、竜よ。わが軍団は、骨と角を合わせて数千。数えるのは、ぬしに任せる'],['ME','数える手間は、はぶく。まとめて灰にすれば、数は合う']],
+             [['ME','杖の骸骨が、後ろから撃ってくる。……前に出ない指揮官は、どこの世界も同じだ']],
+             [['ME','門番が出てきたな。……親玉が出るのは、兵が尽きたからだ']]],
+          clear:[['魔王','門が……！ よかろう、城まで来るがいい。わが城には、番犬も騎士もいるぞ'],['ME','招待状と受け取る。……手みやげは、火でいいか']]},
+ bonefield:{w:[[['魔王','荒野に眠る骨は、みな、わが兵。巨人よ、立ち上がれ'],['ME','墓荒らしか。いい趣味とは言えないな'],['ME','寝起きの悪さなら、おれも負けない。起こした責任は、取ってもらう']],
+               [['ME','二体目か。骨でできているぶん、風通しがいい。……火も通りやすい']],
+               [['ME','骨の王か。でかいな。……骨は燃えにくい。強火で、しっかりいく']]],
+            clear:[['魔王','骨が……！ ならば城で待つ。最後の扉は、わが騎士が守っている'],['ME','骨の巨人に、番犬に、騎士か。……客を迎える気だけは、満々だな']]},
+ maoujo:{w:[[['ME','城門の前に、三つ首の犬。……番犬にしては、顔が多すぎる'],['魔王','地獄の番犬ケルベロスだ。三つの口で、同時に吠えるぞ'],['ME','吠える数を競う気はない。まとめて、静かにさせる']],
+            [['黒い騎士','……番犬を倒したか。だが、この先へは通さない'],['ME','お前が、ここの騎士か。顔が見えないな。留守番か？'],['黒い騎士','魔王さまに、仕えるのみ。……いざ、参る']],
+            [['魔王','騎士まで倒すとは…。よかろう、余みずから、相手をしてやる'],['ME','やっと本人か。……ここまで長かった。もてなしの手厚い家だ']]],
+         clear:[['魔王','余の城が……千の兵が……すべて、灰か……'],['ME','門を通る前に、こうしておくべきだった。……反省は、灰の中でしてくれ']]}});
+
+/* ---- シナリオ6：天使編 ---- */
+// 空の色（昼の雲の上／金色の午後／夕ばえ／決戦）。ほかの台本も空を足すので、番号はこの台本のはじめの番号 S6MD からの相対で持つ
+const S6MD=MOODS.length;
+MOODS.push(mood(0x2f74dc,0xb4cdf0,0xfff0d0,1.0,0.78,0,[0.5,0.75,0.35]),mood(0x3a68c4,0xe8cfa8,0xffd890,1.0,0.76,0,[0.75,0.45,0.3]),
+  mood(0x2a3678,0xe4b890,0xffd070,1.05,0.76,0,[0.85,0.2,0.25]),mood(0x182058,0xd49a78,0xffc860,1.1,0.72,0,[0.9,0.12,0.2]));
+// 新しい敵の「体力・大きさ」（動きは借りるので、ST は表示とあたり判定の入れ物）
+Object.assign(ST,{lightangel:{hp:60,r:1.9,hc:1.8,val:90,dmg:0,ic:'✨'},guardian:{hp:300,r:1.9,hc:1.8,val:200,dmg:16,ic:'🛡️'},archangel:{hp:3600,r:5,hc:5,val:3500,dmg:30,fly:1,boss:'😇 大天使',ic:'😇'}});
+// 初心者モードは、この章の敵の数を7割にする・体力を0.75倍にする（シナリオ4と同じ）
+function s6N(n){return EASY?Math.max(1,Math.round(n*0.72)):n;}
+function s6hp(e,raw,boss){e.hp=e.maxHp=raw*(EASY?(boss?0.42:0.5)*0.75:(boss?0.62:0.75));}
+// ===== モデルが来たら合わせる所 =====
+//  S6K：種類ごとの（元の動き base・本体での型 type・モデルの名前 mid・体力 hp・大きさ sc・あたり判定 r/hc・点 val・ダメージ dmg）
+//  S6CFG：モデルの向きの足し（er＝ラジアン）。モデル側の向きは manifest.json の rot でも直せる。
+const S6CFG={angel:{er:0},archangel:{er:0},pegasus:{er:0},angelarcher:{er:0},angelsword:{er:0},angelgeneral:{er:0}};
+const S6K={
+ angel:{base:'soldier',type:'soldier',mid:'angel',hp:110,sc:1.9,r:1.9,hc:1.8,val:25,dmg:8,build:s6BAngel},
+ pegasus:{base:'griffin',type:'griffin',mid:'pegasus',hp:170,sc:1.0,r:4,hc:0,val:140,dmg:12,build:s6BPeg},
+ lightangel:{base:'soldier',type:'lightangel',mid:'angel',hp:130,sc:1.9,r:1.9,hc:1.8,val:90,dmg:0,build:s6BLight},
+ guardian:{base:'soldier',type:'guardian',mid:'angel',hp:420,sc:2.7,r:1.9,hc:1.8,val:200,dmg:16,build:s6BGuard},
+ archangel:{base:'wizard',type:'archangel',mid:'archangel',hp:3800,sc:1.6,r:5,hc:5,val:3500,dmg:30,build:s6BArch},
+ angelarcher:{base:'archer',type:'archer',mid:'angelarcher',hp:100,sc:1.9,r:1.9,hc:1.8,val:60,dmg:0,build:s6BBow},
+ angelsword:{base:'soldier',type:'soldier',mid:'angelsword',hp:150,sc:2.0,r:1.9,hc:1.8,val:40,dmg:11,build:s6BSword},
+ angelgeneral:{base:'soldier',type:'guardian',mid:'angelgeneral',hp:420,sc:2.7,r:1.9,hc:1.8,val:900,dmg:20,build:s6BGen}};
+if(!FLAP_ID.pegasus)FLAP_ID.pegasus={fl:1,amp:0.5};
+// ---- 仮の見た目（モデルが無い時）----
+const S6M={w:()=>mat(0xf6f2ea,{emissive:0x2c2a24}),g:()=>mat(0xe8c050,{emissive:0x5a4208}),n:()=>mat(0x3a4a8c),_c:{}};
+{const c=S6M._c;S6M.w=()=>c.w||(c.w=new THREE.MeshLambertMaterial({color:0xf6f2ea,emissive:0x2c2a24}));S6M.g=()=>c.g||(c.g=new THREE.MeshLambertMaterial({color:0xe8c050,emissive:0x5a4208}));}
+// 翼：つけ根(x,y,z)から外へ、羽の段（長さがだんだん短く）。s＝左右（-1/+1）
+function s6Wing(g,s,x,y,z,L,W,rows,k,b){const p=new THREE.Group();p.position.set(s*x,y,z);
+  for(let i=0;i<rows;i++){const l=L*(1-i*0.17),f=box(l,0.04,W*0.5,S6M.w());f.castShadow=false;f.position.set(s*l/2,-i*W*0.3,-i*W*0.14);f.rotation.z=s*(-0.07*i);p.add(f);}
+  const tp=box(L*0.14,0.05,W*0.46,S6M.g());tp.castShadow=false;tp.position.set(s*L*0.96,0,0);p.add(tp);
+  p.rotation.z=s*(b||0.2);g.add(p);return {p,s,b:b||0.2,k:k||1};}
+function s6Halo(g,y,r){const hl=new THREE.Mesh(new THREE.TorusGeometry(r,r*0.14,6,18),new THREE.MeshBasicMaterial({color:0xffe070}));hl.rotation.x=Math.PI/2;hl.position.y=y;g.add(hl);return hl;}
+function s6BAngel(fb){const m=makeHuman({skin:0xffe2c4,armor:0xf6f2ea,cloth:0x3a4a8c,weapon:'spear',helmet:1,shield:0xe8b830,s:1.55});
+  if(fb){m.userData.aw=[s6Wing(m,-1,0.3,1.75,-0.28,1.5,0.9,3),s6Wing(m,1,0.3,1.75,-0.28,1.5,0.9,3)];s6Halo(m,2.85,0.22);}return m;}
+function s6BLight(fb){const m=makeHuman({skin:0xffe2c4,armor:0xfff8ec,cloth:0xf4e6b8,weapon:'staff',hair:0xf0d070,robe:1,s:1.6});
+  m.traverse(c=>{if(c.isMesh&&c.material.color&&c.material.color.getHex()===0x80ffb0)c.material.color.setHex(0xfff0a0);});
+  if(fb){m.userData.aw=[s6Wing(m,-1,0.3,1.75,-0.28,1.6,1.0,3),s6Wing(m,1,0.3,1.75,-0.28,1.6,1.0,3)];s6Halo(m,2.6,0.24);}return m;}
+function s6BGuard(fb){const m=makeHuman({skin:0xffe2c4,armor:0xf6f2ea,cloth:0x6a5428,weapon:'spear',helmet:1,shield:0xf0c040,s:1.55});
+  const sh=box(0.18,1.7,1.15,S6M.g());sh.position.set(-0.2,-0.5,0.2);m.userData.armL.add(sh);
+  if(fb){m.userData.aw=[s6Wing(m,-1,0.3,1.75,-0.28,1.3,0.8,3),s6Wing(m,1,0.3,1.75,-0.28,1.3,0.8,3)];s6Halo(m,2.85,0.22);}return m;}
+function s6BBow(fb){const m=makeHuman({skin:0xffe2c4,armor:0xf6f2ea,cloth:0x3a4a8c,weapon:'bow',hair:0xf0d070,s:1.55});
+  m.traverse(c=>{if(c.isMesh&&c.material.color&&c.material.color.getHex()===0x5a3a1a)c.material=S6M.g();});
+  if(fb){m.userData.aw=[s6Wing(m,-1,0.3,1.75,-0.28,1.5,0.9,3),s6Wing(m,1,0.3,1.75,-0.28,1.5,0.9,3)];s6Halo(m,2.6,0.22);}return m;}
+function s6BSword(fb){const m=makeHuman({skin:0xffe2c4,armor:0xf6f2ea,cloth:0x8a2a2a,weapon:'sword',hair:0xf0d070,s:1.55});m.userData.blade.color.setHex(0xfff2b0);
+  if(fb){m.userData.aw=[s6Wing(m,-1,0.3,1.75,-0.28,1.5,0.9,3),s6Wing(m,1,0.3,1.75,-0.28,1.5,0.9,3)];s6Halo(m,2.6,0.22);}return m;}
+function s6BGen(fb){const m=makeHuman({skin:0xffe2c4,armor:0xdcd6c8,cloth:0x6a5428,weapon:'club',helmet:1,cape:0x2a4fb0,s:1.55});
+  m.traverse(c=>{if(c.isMesh&&c.material.color&&c.material.color.getHex()===0x5a3a1a)c.material=S6M.g();});
+  if(fb){m.userData.aw=[s6Wing(m,-1,0.3,1.75,-0.28,1.4,0.9,3),s6Wing(m,1,0.3,1.75,-0.28,1.4,0.9,3)];s6Halo(m,2.85,0.22);}return m;}
+function s6BArch(fb){const m=makeHuman({skin:0xffe6cc,armor:0xf6efd8,cloth:0xd8b050,weapon:'sword',hair:0xfff2a0,cape:0xfffaf0,s:2.7});
+  m.userData.blade.color.setHex(0xff8a20);
+  const au=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xffe080,transparent:true,opacity:0.35,blending:THREE.AdditiveBlending,depthWrite:false}));au.scale.set(5,6,1);au.position.set(0,1.2,-0.2);m.add(au);m.userData.aura=au;
+  if(fb){m.userData.aw=[s6Wing(m,-1,0.3,1.8,-0.3,2.6,1.4,4,1,0.35),s6Wing(m,1,0.3,1.8,-0.3,2.6,1.4,4,1,0.35),s6Wing(m,-1,0.3,1.4,-0.3,2.0,1.1,3,1.2,-0.25),s6Wing(m,1,0.3,1.4,-0.3,2.0,1.1,3,1.2,-0.25)];s6Halo(m,2.9,0.34);}return m;}
+function s6BPeg(){const g=new THREE.Group(),w=S6M.w(),gd=S6M.g(),dk=mat(0xc8c0b0);
+  const bo=box(2.4,2.5,5.0,w);bo.position.set(0,0,-0.3);g.add(bo);const ch=box(2.2,2.7,1.8,w);ch.position.set(0,0.3,1.7);g.add(ch);
+  const nk=box(1.1,2.3,1.3,w);nk.position.set(0,1.8,2.7);nk.rotation.x=-0.35;g.add(nk);const hd=box(1.0,1.2,2.2,w);hd.position.set(0,3.0,3.7);g.add(hd);
+  const mn=box(0.25,1.6,1.5,gd);mn.position.set(0,2.9,2.4);g.add(mn);const tl=box(0.7,0.7,3.2,gd);tl.position.set(0,0.2,-4.2);tl.rotation.x=-0.3;g.add(tl);
+  [-1,1].forEach(k=>{const l1=box(0.6,1.6,0.6,dk);l1.position.set(0.7*k,-1.8,1.6);g.add(l1);const l2=box(0.6,1.6,0.6,dk);l2.position.set(0.7*k,-1.8,-1.8);g.add(l2);
+    const ey=new THREE.Mesh(new THREE.SphereGeometry(0.14,6,6),new THREE.MeshBasicMaterial({color:0x222222}));ey.position.set(0.52*k,3.2,4.3);g.add(ey);});
+  const rd=makeHuman({skin:0xffe2c4,armor:0xe8c050,cloth:0x3a4a8c,weapon:'spear',helmet:1,shield:0xf6f2ea,s:1});rd.scale.setScalar(0.85);rd.position.set(0,1.25,0.2);rd.userData={};g.add(rd);
+  const wing=k=>{const a=new THREE.Group();a.position.set(1.1*k,1.0,0.4);const w1=box(4.6,0.22,3.2,w);w1.position.x=2.3*k;a.add(w1);
+    const b=new THREE.Group();b.position.x=4.6*k;const w2=box(4.0,0.18,2.4,gd);w2.position.set(2.0*k,0,-0.2);b.add(w2);a.add(b);g.add(a);return {a,b};};
+  const L=wing(-1),R=wing(1);g.userData.wL=L.a;g.userData.wR=R.a;g.userData.wL2=L.b;g.userData.wR2=R.b;g.rotation.order='YXZ';return g;}
+// ---- 敵を1体出す：元の動きの型で作ってから、見た目・名前・体力を入れかえる ----
+function s6Spawn(kind,x,z,y,o){o=o||{};const K=S6K[kind],ao={model:'__s6'};if(o.perch){ao.perch=1;ao.bld=o.bld;}
+  const e=addEnemy(K.base,x,z,y,ao);const m=K.build(!MODEL[K.mid]);m.position.copy(e.mesh.position);m.rotation.order=e.mesh.rotation.order;m.rotation.y=e.mesh.rotation.y;
+  scene.remove(e.mesh);const sc=(o.sc||1)*K.sc;m.scale.setScalar(sc);attachModel(m,K.mid,(S6CFG[K.mid]||{}).er||0);scene.add(m);
+  e.mesh=m;e.s6=kind;e.type=K.type;e.sc=sc;e.r=K.r*sc;e.hc=K.hc*sc;e.val=o.val||K.val;e.dmg=o.dmg||K.dmg;e.thrower=false;
+  s6hp(e,K.hp*(o.hk||1),!!o.boss);e.seed=rnd(0,9);
+  if(o.boss){e.boss=o.boss;}return e;}
+// 親玉が出た時の見せ方（元の addEnemy が、ボスにするとやる事と同じ）
+function s6BossIn(e,ic,nm){cutin(PTS.includes(ic)?ic:ic,nm,'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');sfx('roar');}
+function s6Add(kind,n,cx,cz,sx,sz,o){const L=[];for(let i=0;i<s6N(n);i++){L.push(s6Spawn(kind,clamp(cx+rnd(-sx,sx),-290,290),clamp(cz+rnd(-sz,sz),-290,290),undefined,o));}return L;}
+function s6Fly(kind,n,o){const L=[];for(let i=0;i<s6N(n);i++){const [x,z]=ringPos(100,180);L.push(s6Spawn(kind,x,z,P.pos.y+rnd(22,36),o));}return L;}
+// 第1章：浮いた石の台の上に、光の天使をおく（地上のキャラは「空の階段」を登って届く）
+function s6Platform(n){for(let i=0;i<s6N(n);i++){const a=i/Math.max(1,s6N(n))*6.28;s6Spawn('lightangel',S6PF.x+Math.cos(a)*7,S6PF.z+Math.sin(a)*7,S6PF.y+0.2,{perch:1});}}
+// 第2章：神殿の塔の上に、光の天使をおく（塔をこわすと落ちる）
+function s6Tower(n){let i=0;for(const b of WORLD.towers){if(b.dead||i>=s6N(n))continue;const c=b.box.getCenter(new V3());s6Spawn('lightangel',c.x,c.z,b.top,{perch:1,bld:b});i++;}}
+// ---- 動き：包んで足す（本体の文字列には触れない）。大天使・守りの天使・光の天使の動きは、ここで書く ----
+const S6AL={fan:'光よ、貫け！',pillar:'天の光を受けよ！',sword:'炎の剣、受けてみよ！',rain:'光の雨を降らせよう',nova:'翼よ、輝け！'};
+function s6Light(e,dt,p,dx,dz,hd,d3){const u=e.mesh.userData;
+  if(!e.perch){grav(e,dt);if(hd>115){walk(e,P.pos.x,P.pos.z,9,dt);animWalk(e,8);}else if(hd<55){walk(e,p.x-dx,p.z-dz,10,dt);faceP(e);animWalk(e,8);}else faceP(e);}else faceP(e);
+  if(e.cd<1.0&&e.cd>0&&hd<175)glowSet(e,0xfff0a0,0,3.4,0.7,5);else glowOff(e);
+  if(e.cd<=0&&hd<175){e.cd=rnd(3.0,4.4);faceP(e);const f=cpos(e).clone();f.y+=1.4;
+    if(Math.random()<0.5)shootAtP(f,54,{mat:MAT.beam,size:1.5,r:1.9,dmg:8,life:5,homing:true,trail:SPARK,col:SPARK},0.5);
+    else{const base=tmp.subVectors(P.pos,f).normalize();for(const a2 of [-0.2,0,0.2])shoot(f,base.clone().applyAxisAngle(new V3(0,1,0),a2).multiplyScalar(66),{geo:'beam',mat:MAT.beam,size:1.0,r:1.5,dmg:6,life:3.5,trail:SPARK,col:SPARK});}
+    sfx('zap',p,0.4);if(u.armR)u.armR.rotation.x=-2.8;}
+  if(u.armR)u.armR.rotation.x*=Math.max(0,1-dt*2);}
+function s6Shield(e){if(!e.shs){const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xffe9a0,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));sp.scale.set(5.4,5.4,1);sp.position.set(0,1.9,0.9);sp.visible=false;e.mesh.add(sp);e.shs=sp;}return e.shs;}
+function s6Guard(e,dt,p,dx,dz,hd,d3){const u=e.mesh.userData,big=!!e.boss,R=big?30:15,sh=s6Shield(e),sp=big?8:7.5;grav(e,dt);
+  if(!e.gm){e.gm='up';e.gt=rnd(1.2,2.8);}e.gt-=dt;
+  if(big&&!e.sum1&&e.hp<e.maxHp*0.5){e.sum1=1;say(e.bn||'守護天使長','天の兵よ、集え！ 神殿を守れ！');sfx('roar',p,0.8);shake(0.5);burst(cpos(e),40,GOLD,5,30,1);for(let k=0;k<s6N(5);k++)s6Spawn(k%2?'lightangel':'angel',p.x+rnd(-24,24),p.z+rnd(-24,24));}
+  if(e.gm==='up'){e.guard=true;sh.visible=true;sh.material.opacity=0.45+0.15*Math.sin(e.t*8);
+    if(hd>R*0.6){walk(e,P.pos.x,P.pos.z,sp,dt);animWalk(e,7);}else faceP(e);
+    if(e.gt<=0){e.gm='down';e.gt=big?3.4:2.8;e.dw=0;e.guard=false;sh.visible=false;}}
+  else if(e.gm==='down'){e.guard=false;sh.visible=false;
+    if(hd>R*0.8){walk(e,P.pos.x,P.pos.z,sp,dt);animWalk(e,7);}else faceP(e);
+    if(!e.dw&&e.gt<(big?3.0:2.4)){e.dw=1;
+      if(hd<R+12){e.gm='slam';e.gt=0.95;}
+      else{faceP(e);const f=cpos(e).clone();f.y+=2;const n=big?5:3;for(let k=0;k<n;k++){const tg=tmp2.copy(P.pos).addScaledVector(P.vel,0.7);tg.x+=rnd(-9,9)*(k?1:0);tg.z+=rnd(-9,9)*(k?1:0);
+          shoot(f.clone(),lob(f,tg,60,30),{mat:MAT.beam,size:1.8,r:2.2,splash:7,dmg:11,grav:30,life:6,trail:SPARK,col:[0xffe070,0xffffff]});}
+        sfx('zap',p,0.6);if(u.armR)u.armR.rotation.x=-2.5;}}
+    if(e.gt<=0){e.gm='up';e.gt=rnd(2.4,3.4)*(big&&e.hp<e.maxHp*0.5?0.7:1);}}
+  else{faceP(e);teleSet(e,R,Math.min(1,1-e.gt/0.95),0xffe070);
+    if(e.gt<=0){teleOff(e);shock(p,0xffe8a0,R*1.15);shake(0.4);sfx('small',p,0.8);burst(p,24,GOLD,4,22,0.6);ono(cpos(e),'ドシーン！','#ffe060',40);
+      if(Math.hypot(P.pos.x-p.x,P.pos.z-p.z)<R&&P.pos.y-p.y<14)hurt(e.dmg*(big?1.3:1));e.gm='down';e.gt=1.6;}}
+  if(u.armR)u.armR.rotation.x*=Math.max(0,1-dt*3);
+  if(d3<e.r+5)hurt(e.dmg*dt*0.5,true);}
+// 大天使：飛んで回りこむ。光の扇・光の柱・炎の剣の突進・光の雨・光の輪。体力 66%・33% で段階が上がる（その間は無敵）
+function s6ArchPhase(e,n){const p=e.mesh.position,u=e.mesh.userData;e.ph=n;e.inv=true;e.state='power';e.st=1.7;glowOff(e);
+  burst(cpos(e),50,GOLD,5,35,1.2);shock(p,0xffe8a0,40);shake(0.8);sfx('roar',p,0.8);flashV=Math.max(flashV,0.5);
+  say('大天使',n===2?'……まだだ。四枚の翼は、飾りではない！':'女神さま、お許しを。……ここからは、全力で行く！');
+  banner(n===2?'😇 大天使の翼が、まぶしく広がった！':'😇 大天使が、最後の力をふりしぼる！',2.2);
+  if(u.aura){u.aura.visible=true;u.aura.material.opacity=n===2?0.5:0.75;u.aura.scale.set(5+n*1.5,6+n*1.5,1);}
+  for(let k=0;k<s6N(n===2?5:6);k++)s6Spawn(k%3===2?'lightangel':'angel',p.x+rnd(-26,26),p.z+rnd(-26,26));}
+function s6Arch(e,dt,p,dx,dz,hd,d3){const u=e.mesh.userData,hr=e.hp/e.maxHp;
+  if(!e.s6i){e.s6i=1;e.ph=1;e.state='orbit';e.ang=rnd(0,6.3);e.dir=Math.random()<0.5?1:-1;e.cd=2.2;e.last='';e.st=0;}
+  if(e.ph===1&&hr<0.66)s6ArchPhase(e,2);else if(e.ph===2&&hr<0.33)s6ArchPhase(e,3);
+  const sp=1+0.18*(e.ph-1);e.st-=dt;
+  if(e.state==='power'){if(Math.random()<0.8)burst(cpos(e),2,GOLD,3,14,0.6);fly(e,tmp2.copy(p),3,dt);faceP(e);if(e.st<=0){e.inv=false;e.state='orbit';e.cd=1.2;}}
+  else if(e.state==='orbit'){e.ang+=dt*0.4*sp*e.dir;const R=e.ph===3?46:58;
+    tmp2.set(P.pos.x+Math.cos(e.ang)*R,Math.max(P.pos.y+20+Math.sin(e.t*0.9)*5,floorAt(p.x,p.z)+16),P.pos.z+Math.sin(e.ang)*R);fly(e,tmp2,36*sp,dt,1.4);faceP(e);
+    if(e.cd<=0){const o2=['fan','pillar','sword'];if(e.ph>=2)o2.push('rain','fan');if(e.ph>=3)o2.push('nova','sword');
+      const o3=o2.filter(o=>o!==e.last),mv=o3[(Math.random()*o3.length)|0];e.last=mv;e.state='wind';e.mv=mv;e.st=mv==='sword'?0.95:mv==='pillar'?0.5:0.75;e.vel.multiplyScalar(0.3);
+      if(Math.random()<0.6)bubble(e,S6AL[mv],'boss',1.4);}}
+  else if(e.state==='wind'){fly(e,tmp2.copy(p),3,dt);faceP(e);glowSet(e,e.mv==='sword'?0xff8a30:0xfff0a0,0,3.2,1.0,e.mv==='sword'?9:7);
+    if(u.armR)u.armR.rotation.x=-2.6;if(Math.random()<0.5)burst(cpos(e),1,e.mv==='sword'?FIRE:GOLD,3,6,0.4);
+    if(e.st<=0){glowOff(e);const f=cpos(e).clone();f.y+=1;e.state='orbit';e.cd=e.ph===1?2.4:e.ph===2?1.9:1.5;
+      if(e.mv==='fan'){const n=e.ph===1?5:e.ph===2?7:9,base=tmp.subVectors(P.pos,f).normalize();for(let k=0;k<n;k++){const a2=(k-(n-1)/2)*0.15;shoot(f,base.clone().applyAxisAngle(new V3(0,1,0),a2).multiplyScalar(88),{geo:'beam',mat:MAT.beam,size:1.2,r:2.4,dmg:9,life:2.4,trail:SPARK,col:SPARK});}sfx('zap',p,0.7);}
+      else if(e.mv==='pillar'){const n=e.ph===1?6:e.ph===2?9:12,gx=P.pos.x,gz=P.pos.z;addPillar(gx+P.vel.x*0.7,gz+P.vel.z*0.7,1.2);for(let k=1;k<n;k++){const a=k/(n-1)*Math.PI*2+rnd(0,1),r=rnd(10,26);addPillar(gx+Math.cos(a)*r,gz+Math.sin(a)*r,1.2+k*0.08);}e.cd+=0.6;}
+      else if(e.mv==='sword'){e.state='charge';e.st=1.4;e.done=false;e.vel.copy(tmp.set(P.pos.x+P.vel.x*0.35-p.x,P.pos.y+P.vel.y*0.35-p.y,P.pos.z+P.vel.z*0.35-p.z).normalize().multiplyScalar(92+10*e.ph));sfx('roar',p,0.6);}
+      else if(e.mv==='rain'){for(let k=0;k<8+4*e.ph;k++){const q=new V3(P.pos.x+rnd(-45,45),P.pos.y+100,P.pos.z+rnd(-45,45));shoot(q,new V3(rnd(-4,4),-72,rnd(-4,4)),{mat:MAT.beam,size:2.2,r:2.6,splash:9,dmg:13,life:5,trail:SPARK,col:SPARK});}banner('✨ 光の雨が来る！ 動いてよけろ',1.6);sfx('roar',p,0.5);}
+      else if(e.mv==='nova'){const t=Math.max(0.6,hd/52),vy=clamp((P.pos.y-f.y)/t,-22,22);for(let k=0;k<22;k++){const a=k/22*Math.PI*2;shoot(f,new V3(Math.cos(a)*52,vy,Math.sin(a)*52),{geo:'beam',mat:MAT.beam,size:1.1,r:1.8,dmg:8,life:3.2,trail:SPARK,col:SPARK});}shock(p,0xfff0a0,50);sfx('boom',p,0.5);}}}
+  else if(e.state==='charge'){p.addScaledVector(e.vel,dt);e.mesh.rotation.y=Math.atan2(e.vel.x,e.vel.z);if(Math.random()<0.7)burst(cpos(e),2,FIRE,4,8,0.4);
+    const gh=floorAt(p.x,p.z)+8;if(p.y<gh)p.y=gh;
+    if(!e.done&&d3<e.r+7){e.done=true;hurt(e.dmg);shake(0.6);ono(cpos(e),'ズバッ！','#ffb040',44);slashAt(cpos(e),Math.atan2(e.vel.x,e.vel.z),0xffa040,9);burst(cpos(e),16,FIRE,5,22,0.4);sfx('slash',p);}
+    if(e.st<=0||(e.done&&hd>100)){e.state='orbit';e.cd=1.6;e.vel.multiplyScalar(0.3);}}
+  if(u.armR)u.armR.rotation.x*=Math.max(0,1-dt*2);
+  if(d3<e.r+3)hurt(e.dmg*0.25*dt,true);}
+const s6ue=updEnemies;
+updEnemies=function(dt){
+  for(let i=0;i<EN.length;i++){const e=EN[i];if(!e.s6||e.dead)continue;const u=e.mesh.userData;
+    if(u.aw){const a=Math.sin(e.t*(e.type==='archangel'?5:7)+e.seed)*0.38;for(const w of u.aw)w.p.rotation.z=w.s*(w.b+a*w.k);}
+    const p=e.mesh.position,dx=P.pos.x-p.x,dz=P.pos.z-p.z,hd=Math.hypot(dx,dz)||1,d3=cpos(e).distanceTo(P.pos);
+    if(e.type==='archangel')s6Arch(e,dt,p,dx,dz,hd,d3);else if(e.type==='guardian')s6Guard(e,dt,p,dx,dz,hd,d3);else if(e.type==='lightangel')s6Light(e,dt,p,dx,dz,hd,d3);}
+  s6ue(dt);};
+// ---- 世界：雲の上。本体の buildWorld を包んで、天使編の3章だけ自分で作る ----
+const S6T=[];   // 毎フレーム動かす物（浮いた島のゆれ・光の輪）
+const S6LK={skygate:{lo:0x8296bc,hi:0xdfe9fb,em:0x1c2234},skytemple:{lo:0x9a9cc4,hi:0xf6f0e4,em:0x20202c},archangel:{lo:0x9c9cc0,hi:0xf8f2e6,em:0x22222e}};
+// 地面を「雲の床」にする：色をゆるやかにまだらにして、水の面は出さない
+function s6Cloudify(L){const t=TERRAIN[0],k=S6LK[L];if(TERRAIN[1])TERRAIN[1].visible=false;if(!t||!t.geometry||!t.geometry.attributes.color)return;
+  const g=t.geometry,pa=g.attributes.position,ca=g.attributes.color,a=new THREE.Color(k.lo),b=new THREE.Color(k.hi),c=new THREE.Color();
+  for(let i=0;i<pa.count;i++){const x=pa.getX(i),z=pa.getZ(i),
+    n=0.55+0.26*Math.sin(x*0.021+1.3)*Math.cos(z*0.017)+0.18*Math.sin(x*0.047+z*0.039)+0.1*Math.sin(x*0.11-z*0.09+2)+0.06*Math.sin(x*0.23+z*0.19);
+    c.copy(a).lerp(b,clamp(n,0,1));ca.setXYZ(i,c.r,c.g,c.b);}
+  ca.needsUpdate=true;if(t.material&&t.material.dispose)t.material.dispose();t.material=new THREE.MeshLambertMaterial({vertexColors:true,emissive:k.em});}
+function s6Puffs(){for(let i=0;i<34;i++){const big=i>=22,a=rnd(0,6.283),r=big?rnd(520,820):rnd(230,520),sz=big?rnd(380,600):rnd(70,170);
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:CLOUDT[i%3],transparent:true,depthWrite:false,fog:false,opacity:big?0.9:0.75}));sp.scale.set(sz,sz*0.5,1);
+    sp.position.set(Math.cos(a)*r,(big?rnd(10,40):rnd(-2,4))+sz*0.2,Math.sin(a)*r);scene.add(sp);TERRAIN.push(sp);}}
+function s6Islets(n){const rm=mat(0x8a8478),gm=mat(0x8fc46a),tm=mat(0x3f7a3a);
+  for(let i=0;i<n;i++){const a=i/n*6.283+rnd(-0.3,0.3),d=rnd(260,430),r=rnd(10,24),h=r*rnd(1.0,1.6),y=rnd(40,120),g=new THREE.Group();
+    const ro=mesh(new THREE.CylinderGeometry(r,r*0.22,h,9,2),rm);ro.position.y=-h/2;g.add(ro);const cp=mesh(new THREE.CylinderGeometry(r*1.03,r,1.8,9),gm);cp.position.y=0.4;g.add(cp);
+    for(let k=0;k<3;k++){const q=rnd(0,6.28),rr=rnd(0,r*0.6),th=rnd(4,8);const tr=mesh(new THREE.CylinderGeometry(0.4,0.5,th*0.4,5),mat(0x6b4a2a));tr.position.set(Math.cos(q)*rr,1.3+th*0.2,Math.sin(q)*rr);g.add(tr);
+      const lf=mesh(new THREE.ConeGeometry(th*0.35,th,7),tm);lf.position.set(Math.cos(q)*rr,1.3+th*0.55,Math.sin(q)*rr);g.add(lf);}
+    g.position.set(Math.cos(a)*d,y,-60+Math.sin(a)*d);scene.add(g);TERRAIN.push(g);S6T.push({g,y,ph:rnd(0,6.3),k:1});}}
+function s6Rays(){for(let i=0;i<3;i++){const m=new THREE.Mesh(new THREE.CylinderGeometry(14+i*6,26+i*8,420,14,1,true),new THREE.MeshBasicMaterial({color:0xfff0c0,transparent:true,opacity:0.07,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide,fog:false}));
+    m.position.set(-180+i*180,190,-250-i*40);m.rotation.z=0.18-i*0.18;scene.add(m);TERRAIN.push(m);}}
+// 柱（土台・柱身・金の飾り）
+function s6Col(g,x,z,h,r,y){const w=S6M.w(),gd=S6M.g();
+  const b=box(r*3.2,0.8,r*3.2,w);b.position.set(x,y+0.4,z);g.add(b);
+  const s=mesh(new THREE.CylinderGeometry(r*0.86,r,h-2.2,10),w);s.position.set(x,y+0.8+(h-2.2)/2,z);g.add(s);
+  const c=box(r*3.4,0.7,r*3.4,gd);c.position.set(x,y+h-1.05,z);g.add(c);const c2=box(r*2.6,0.5,r*2.6,w);c2.position.set(x,y+h-0.45,z);g.add(c2);}
+function s6Colonnade(n,gap,h,r,y){const g=new THREE.Group(),w=S6M.w(),gd=S6M.g(),L=(n-1)*gap;y=y||0;
+  for(let i=0;i<n;i++)s6Col(g,(i-(n-1)/2)*gap,0,h,r,y);
+  const e1=box(L+r*5,2,r*4,w);e1.position.set(0,y+h+1,0);g.add(e1);const e2=box(L+r*5.4,0.7,r*4.4,gd);e2.position.set(0,y+h+2.3,0);g.add(e2);return g;}
+function s6Glow(g,x,y,z,sz,col,op){const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:col||0xffe9a0,transparent:true,opacity:op||0.6,blending:THREE.AdditiveBlending,depthWrite:false}));sp.scale.set(sz,sz,1);sp.position.set(x,y,z);g.add(sp);return sp;}
+// 第1章：雲の門（柱2本＝こわせる）。ほかに、白い遺跡と、空の階段→浮いた石の台
+const S6PF={x:-136,z:-126,y:19.6};
+function s6GatePillar(x,z,s){const g=new THREE.Group(),w=S6M.w(),gd=S6M.g(),h=42;
+  const b=box(10,3,10,w);b.position.y=1.5;g.add(b);const sf=mesh(new THREE.CylinderGeometry(3,3.6,h,12),w);sf.position.y=3+h/2;g.add(sf);
+  [0.25,0.6].forEach(k=>{const rg=mesh(new THREE.CylinderGeometry(3.2,3.2,0.7,12),gd);rg.position.y=3+h*k;g.add(rg);});
+  const cp=box(11.5,3,11.5,gd);cp.position.y=3+h+1.5;g.add(cp);const ar=box(12,2.6,4.4,w);ar.position.set(-s*8.5,3+h+0.7,0);g.add(ar);const ae=box(12.4,0.5,4.8,gd);ae.position.set(-s*8.5,3+h+2.2,0);g.add(ae);
+  s6Glow(g,0,3+h+5,0,14,0xffe9a0,0.7);const b2=place(g,x,z,0,650,200,'tower');b2.armor=0.6;return b2;}
+function s6Stairs(){const x0=-92,z0=-62,x1=S6PF.x+9,z1=S6PF.z+12,n=8,dx=x1-x0,dz=z1-z0,L=Math.hypot(dx,dz),ux=dx/L,uz=dz/L,ry=Math.atan2(ux,uz),w=S6M.w(),gd=S6M.g(),gr=new THREE.Group();
+  for(let i=0;i<n;i++){const t=(i+0.5)/n,cx=x0+dx*t,cz=z0+dz*t,top=2+2.2*(i+1),len=L/n*1.15;
+    const sl=box(9,2.6,len,w);sl.position.set(cx,top-1.3,cz);sl.rotation.y=ry;gr.add(sl);const ed=box(9.4,0.3,len+0.2,gd);ed.position.set(cx,top-0.15,cz);ed.rotation.y=ry;gr.add(ed);
+    COLS.push({t:1,x:cx,z:cz,c:Math.cos(ry),s:Math.sin(ry),hw:4.5,hd:len/2,y0:top-2.6,y1:top});}
+  const pf=mesh(new THREE.CylinderGeometry(16,13,2.6,22),w);pf.position.set(S6PF.x,S6PF.y-1.3,S6PF.z);gr.add(pf);const pe=mesh(new THREE.CylinderGeometry(16.3,16.3,0.4,22),gd);pe.position.set(S6PF.x,S6PF.y-0.2,S6PF.z);gr.add(pe);
+  const un=mesh(new THREE.ConeGeometry(14,20,10),mat(0x8a8478));un.rotation.x=Math.PI;un.position.set(S6PF.x,S6PF.y-12.6,S6PF.z);gr.add(un);
+  const al=mesh(new THREE.CylinderGeometry(2.2,2.8,2.4,10),gd);al.position.set(S6PF.x,S6PF.y+1.2,S6PF.z);gr.add(al);s6Glow(gr,S6PF.x,S6PF.y+5,S6PF.z,16,0xffe9a0,0.7);
+  COLS.push({t:0,x:S6PF.x,z:S6PF.z,r:16,y0:S6PF.y-8,y1:S6PF.y});scene.add(gr);TERRAIN.push(gr);}
+function s6Gate(T){s6GatePillar(-26,-215,-1);s6GatePillar(26,-215,1);
+  const g=new THREE.Group();const dk=new THREE.Mesh(new THREE.TorusGeometry(9,0.9,8,40),new THREE.MeshBasicMaterial({color:0xffe070,fog:false}));dk.position.set(0,58,-215);g.add(dk);
+  s6Glow(g,0,58,-215,34,0xfff0b0,0.7);const pl=new THREE.Mesh(new THREE.PlaneGeometry(40,48),new THREE.MeshBasicMaterial({color:0xfff2c8,transparent:true,opacity:0.16,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide,fog:false}));pl.position.set(0,28,-215);g.add(pl);scene.add(g);TERRAIN.push(g);S6T.push({g:dk,spin:1});
+  for(let i=0;i<9;i++){const sd=i%2?1:-1,x=sd*rnd(50,190),z=rnd(-190,-10);if(Math.hypot(x+110,z+95)<62)continue;makeRuin(x,z,false);}
+  s6Stairs();}
+// 第2章：天空の神殿（本殿・塔4つ・柱廊2つは壊せる。土台は壊せない足場）
+function s6Shrine(yb){const g=new THREE.Group(),w=S6M.w(),gd=S6M.g();
+  const cell=box(34,22,24,w);cell.position.set(0,yb+11,-4);g.add(cell);const band=box(35.2,1.3,25.2,gd);band.position.set(0,yb+22.4,-4);g.add(band);
+  const rf=gable(28,9,38,0xe8c050);rf.material=gd;rf.rotation.y=Math.PI/2;rf.position.set(0,yb+23,-4);g.add(rf);
+  const ln=mesh(new THREE.CylinderGeometry(2.4,2.8,5,10),gd);ln.position.set(0,yb+33,-4);g.add(ln);const sp=mesh(new THREE.ConeGeometry(2.8,7,10),gd);sp.position.set(0,yb+39,-4);g.add(sp);s6Glow(g,0,yb+42,-4,18,0xfff0b0,0.8);
+  const co=s6Colonnade(6,5.6,19.5,1.45,yb);co.position.set(0,0,10.5);g.add(co);
+  const pd=gable(7,4.5,34,0xe8c050);pd.material=gd;pd.rotation.y=Math.PI/2;pd.position.set(0,yb+24.2,10.5);g.add(pd);
+  const dr=box(5,9,0.5,mat(0x8a6a20));dr.position.set(0,yb+4.5,8.3);g.add(dr);const gl=new THREE.Mesh(new THREE.PlaneGeometry(4,8),new THREE.MeshBasicMaterial({color:0xfff2c8,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));gl.position.set(0,yb+4.5,8.6);g.add(gl);
+  return g;}
+function s6TowerB(x,z){const g=new THREE.Group(),w=S6M.w(),gd=S6M.g();
+  const bs=box(10,2,10,w);bs.position.y=1;g.add(bs);const sf=mesh(new THREE.CylinderGeometry(3.6,4.2,26,12),w);sf.position.y=15;g.add(sf);
+  [6,16].forEach(y=>{const rg=mesh(new THREE.CylinderGeometry(4.3,4.3,0.7,12),gd);rg.position.y=y;g.add(rg);});
+  const bk=mesh(new THREE.CylinderGeometry(5.8,5.8,0.9,14),w);bk.position.y=28.4;g.add(bk);const be=mesh(new THREE.CylinderGeometry(6,6,0.4,14),gd);be.position.y=29;g.add(be);
+  const rf=mesh(new THREE.ConeGeometry(4.6,9,10),gd);rf.position.y=34.4;g.add(rf);s6Glow(g,0,40,0,12,0xfff0b0,0.7);
+  const b=place(g,x,z,0,650,250,'tower');b.armor=0.5;b.top=g.position.y+29.2;return b;}
+// 空中砦：岩の島の上の、白い石と金の砦（壊せる。モデル skyfort が来たら入れかわる）
+let S6FORT=null;
+function s6FortB(x,z){const g=new THREE.Group(),w=S6M.w(),gd=S6M.g();
+  const un=mesh(new THREE.ConeGeometry(30,34,12),mat(0x8a8478));un.rotation.x=Math.PI;un.position.y=-17.5;g.add(un);const cp=mesh(new THREE.CylinderGeometry(31,30,2.4,14),mat(0x8fc46a));cp.position.y=-0.2;g.add(cp);
+  const kp=box(30,20,30,w);kp.position.y=12.2;g.add(kp);const kb=box(31,1.3,31,gd);kb.position.y=22.8;g.add(kb);const rf=mesh(new THREE.ConeGeometry(23,11,4),gd);rf.rotation.y=Math.PI/4;rf.position.y=29;g.add(rf);
+  [[-17,-17],[17,-17],[-17,17],[17,17]].forEach(([a,b])=>{const t=mesh(new THREE.CylinderGeometry(3.4,3.8,28,10),w);t.position.set(a,14,b);g.add(t);const tr=mesh(new THREE.ConeGeometry(4.6,8,10),gd);tr.position.set(a,32,b);g.add(tr);});
+  [[0,-20,34,2],[0,20,34,2],[-20,0,2,34],[20,0,2,34]].forEach(([a,b,ww,dd])=>{const wl=box(ww,8,dd,w);wl.position.set(a,5,b);g.add(wl);});
+  const dr=box(6,8,0.6,mat(0x8a6a20));dr.position.set(0,5,20.6);g.add(dr);s6Glow(g,0,36,0,22,0xfff0b0,0.7);
+  const b=place(g,x,z,0,1500,700,'tower','skyfort');b.armor=0.55;b.solid=true;b.top=g.position.y+23.5;S6FORT=b;return b;}
+function s6Fort(n){const b=S6FORT;if(!b||b.dead)return;const c=b.box.getCenter(new V3());for(let i=0;i<s6N(n);i++){const a=i/Math.max(1,s6N(n))*6.28;s6Spawn('angelarcher',c.x+Math.cos(a)*9,c.z+Math.sin(a)*9,b.top,{perch:1,bld:b});}}
+function s6Temple(T){S6FORT=null;s6FortB(170,-150);const CX=0,CZ=-235,y0=1.7,sw=S6M.w(),sg=S6M.g(),gr=new THREE.Group();
+  [[112,80,2,2.0],[96,64,2,4.0]].forEach(([w,d,h,t])=>{const m=box(w,h,d,sw);m.position.set(CX,y0+t-h/2+h*0+0,CZ);m.position.y=y0+t-h/2+ (t-2.0>0?0:0);m.position.y=y0+t-h/2;gr.add(m);
+    const e=box(w+0.6,0.3,d+0.6,sg);e.position.set(CX,y0+t-1.0,CZ);gr.add(e);COLS.push({t:1,x:CX,z:CZ,c:1,s:0,hw:w/2,hd:d/2,y0:y0+t-h,y1:y0+t});});
+  const ca=new THREE.Mesh(new THREE.PlaneGeometry(14,70),new THREE.MeshBasicMaterial({color:0xf0dca0,transparent:true,opacity:0.7,depthWrite:false}));ca.rotation.x=-Math.PI/2;ca.position.set(CX,2.1,CZ+72);gr.add(ca);scene.add(gr);TERRAIN.push(gr);
+  const sh=place(s6Shrine(4.0),CX,CZ,0,1600,800,'tower','skytemple');sh.armor=0.6;sh.solid=true;
+  [[-72,-195],[72,-195],[-72,-275],[72,-275]].forEach(([x,z])=>{T.towers.push(s6TowerB(x,z));});
+  [-80,80].forEach(x=>{const b=place(s6Colonnade(8,5.5,16,1.3,0),x,CZ,Math.PI/2,520,200,'wall');b.armor=0.5;b.solid=true;});
+  for(let i=0;i<5;i++){const sd=i%2?1:-1,x=sd*rnd(60,180),z=rnd(-150,-40);makeRuin(x,z,false);}}
+// 最終章：光の円盤の床・柱の輪・うしろの大きな光の輪
+function s6SunTex(){const c=document.createElement('canvas');c.width=c.height=1024;const x=c.getContext('2d');x.translate(512,512);x.strokeStyle='#f0bc3c';x.lineCap='round';
+  const g=x.createRadialGradient(0,0,0,0,0,500);g.addColorStop(0,'rgba(255,248,220,0.55)');g.addColorStop(1,'rgba(255,248,220,0.05)');x.fillStyle=g;x.beginPath();x.arc(0,0,500,0,7);x.fill();
+  const ring=(r,w)=>{x.lineWidth=w;x.beginPath();x.arc(0,0,r,0,7);x.stroke();};ring(500,9);ring(484,3);ring(390,5);ring(300,3);ring(172,7);ring(60,4);
+  for(let i=0;i<24;i++){x.save();x.rotate(i/24*Math.PI*2);x.lineWidth=i%2?3:7;x.beginPath();x.moveTo(0,-178);x.lineTo(0,i%2?-296:-384);x.stroke();x.restore();}
+  x.lineWidth=4;for(const k of [0,Math.PI/4]){x.save();x.rotate(k);x.strokeRect(-122,-122,244,244);x.restore();}
+  return new THREE.CanvasTexture(c);}
+function s6Sanctum(T){const CX=0,CZ=-60,gr=new THREE.Group(),sw=S6M.w();
+  const dais=new THREE.Mesh(new THREE.CircleGeometry(128,56),new THREE.MeshLambertMaterial({color:0xfaf6ec,emissive:0x34302a}));dais.rotation.x=-Math.PI/2;dais.position.set(CX,2.05,CZ);dais.receiveShadow=true;gr.add(dais);
+  const sun=new THREE.Mesh(new THREE.PlaneGeometry(256,256),new THREE.MeshBasicMaterial({map:s6SunTex(),transparent:true,depthWrite:false,opacity:0.95}));sun.rotation.x=-Math.PI/2;sun.position.set(CX,2.12,CZ);gr.add(sun);scene.add(gr);TERRAIN.push(gr);
+  for(let i=0;i<12;i++){const a=i/12*Math.PI*2+0.26,g=new THREE.Group();s6Col(g,0,0,34,2.0,0);const b=place(g,CX+Math.cos(a)*112,CZ+Math.sin(a)*112,0,300,80,'ruin');b.armor=0.6;}
+  const hg=new THREE.Group();const r1=new THREE.Mesh(new THREE.TorusGeometry(64,2.6,10,72),new THREE.MeshBasicMaterial({color:0xffe070,fog:false})),r2=new THREE.Mesh(new THREE.TorusGeometry(46,1.1,8,60),new THREE.MeshBasicMaterial({color:0xfff4c0,fog:false}));
+  hg.add(r1,r2);s6Glow(hg,0,0,-2,260,0xffe9a0,0.55);hg.position.set(0,70,-275);scene.add(hg);TERRAIN.push(hg);S6T.push({g:hg,spin:0.0,pulse:1});S6T.push({g:r2,spin:1});
+  for(let i=0;i<5;i++){const sd=i%2?1:-1,x=sd*rnd(150,230),z=rnd(-170,40);makeRuin(x,z,false);}}
+const s6bw=buildWorld;
+buildWorld=function(L){if(L!=='skygate'&&L!=='skytemple'&&L!=='archangel')return s6bw(L);
+  CASTLE=null;const T={towers:[]};S6T.length=0;
+  s6Cloudify(L);s6Puffs();s6Islets(L==='skygate'?9:7);s6Rays();
+  if(L==='skygate')s6Gate(T);else if(L==='skytemple')s6Temple(T);else s6Sanctum(T);
+  WORLD=T;};
+// 浮いた島のゆれ・光の輪のまわり
+const s6ub=updBld;
+updBld=function(dt,t){s6ub(dt,t);for(const o of S6T){if(o.k)o.g.position.y=o.y+Math.sin(t*0.5+o.ph)*1.6;if(o.spin)o.g.rotation.z+=dt*0.15;if(o.pulse)o.g.scale.setScalar(1+0.012*Math.sin(t*1.3));}};
+// ---- 顔絵（ファイルができた時だけ使う。無い間は顔なしで出る）と話し手 ----
+{const im=new Image();im.onload=()=>{TPT['大天使']='archangel';if(typeof PTS!=='undefined'&&!PTS.includes('archangel'))PTS.push('archangel');};im.src='chara/archangel.webp';}
+{const im=new Image();im.onload=()=>{TPT['女神']='goddess';};im.src='chara/goddess.webp';}
+TBOSS['大天使']='archangel';
+// ---- 終わりの文・会話 ----
+ENDS[6]=['大天使の翼は、白い羽を雲のあいだにまき散らして消えた。天空の神殿は、半分が空き地になった。','天の軍勢は、もう竜に向かってこない。向かってくる翼が、のこっていない。','空は、きみのものだ。雲の上でも、下でも。','ずっと上の雲のすき間で、女神が頬づえをついた。「罰のつもりだったのに、天使まで全滅とは……予算が足りません。次は、ダンゴムシにします」'];
+ENDT[6]='雲の上の決着';
+Object.assign(TALKS,{
+ skygate:{w:[[['女神','聞こえますか、竜。あなたは暴れすぎました。天の軍勢を送ります。おとなしく、反省なさい'],['ME','暴れた覚えはない。仕事をしていただけだ。……ところで、天の軍勢に残業代は出るのか'],['女神','出ません。天使は、やりがいで働いています'],['ME','気の毒に。さっさと片づけて、定時で帰してやる']],
+             [['ME','翼のある馬か。駐車場がいらなくて、便利そうだ'],['ME','便利なものは、燃やしてから使い方を考える']],
+             [['ME','騎士団長か。……乗っている騎士より、馬のほうが降参したそうな顔をしている']]],
+          clear:[['女神','まあ……門が、焼けてしまいました。先祖代々の、ありがたい門だったのに'],['ME','請求書は、天の国あてに回してくれ'],['女神','……大天使を向かわせます。神殿から先へは、一歩も通しません']]},
+ skytemple:{w:[[['大天使','女神さまの命により、ここから先は通さぬ。引き返すなら、今のうちだ'],['ME','引き返す道は、もう燃えた。……前に進むしかないらしい'],['大天使','ならば、神殿の守りを見せよう。盾を上げよ、守りの天使たち！'],['ME','丁寧な警告だ。礼に、丁寧に焼いてやる']],
+               [['ME','歌うように撃ってくる。……聖歌隊の発表会に、乱入した気分だ']],
+               [['大天使','守護天使長よ、神殿を頼む！ 竜を、柱の一本にも近づけるな！'],['ME','盾が大きいな。……盾ごと焼けば、どちらも用がなくなる']]],
+            clear:[['大天使','神殿の守りが、破られた……！ 見事だ、竜。だが、ここからは私が相手だ'],['ME','やっと本人か。奥の間で待て。……玄関の片づけは、こちらでしておく']]},
+ archangel:{w:[[['大天使','親衛の天使たちよ、女神さまをお守りせよ！ 竜を一歩も進ませるな！'],['ME','ずいぶんな人数だ。……全員の名前を覚える気は、最初からない']],
+                [['ME','翼が多いと、的も多い。数える手間が、はぶけていい']],
+                [['大天使','……来たな、竜。女神さまに代わり、この炎の剣で、お前を止める'],['ME','剣が燃えている。保険には、入っているのか'],['大天使','……減らず口を。四枚の翼よ、光となれ！']]],
+            clear:[['大天使','……私の、負けか。翼が、軽い……'],['女神','……大天使まで、倒れるとは。天の軍勢は、もう動けません'],['ME','説教は、終わりか。なら、おれは空に帰る'],['女神','せめて、反省の言葉くらい……'],['ME','考えておく。……焼いたあとで']]}});
+
+/* ---- シナリオ7：海王編 ---- */
+// 空の色を3つ足す（明るい南の海／暗いうずの海／嵐）。章のほうは getter で、読む時に番号を引く
+const S7MD={a:MOODS.length};MOODS.push(mood(0x2a9ee0,0xdcf2ee,0xfff0c8,1.12,0.95,0,[0.5,0.8,0.35]));
+S7MD.b=MOODS.length;MOODS.push(mood(0x123c62,0x3c7484,0xb0e0ff,0.82,0.7,0,[0.3,0.85,0.3]));
+S7MD.c=MOODS.length;MOODS.push(mood(0x1c2e46,0x566c80,0xffe2ac,0.88,0.66,0,[0.2,0.9,0.3],true));
+const S7={face:false};
+// 初心者モード：この章の敵の数を7割、体力を7割5分にする（簡単モード各6分に合わせる）
+function s7N(n){return EASY?Math.max(1,Math.round(n*0.72)):n;}
+function s7E(e){if(EASY)e.hp=e.maxHp=e.maxHp*0.75;return e;}
+// 新しい敵の表：base＝動きを借りる今ある敵／hp は「ふつうモードの前の体力（そのあと 0.75 倍。ボスは 0.62 倍）」／mdl＝Tripo のモデル名
+const S7K={
+  fish:{base:'soldier',hp:150,r:2.0,hc:1.9,val:30,dmg:9,mdl:'fishman'},
+  fishE:{base:'soldier',hp:620,r:2.0,hc:1.9,val:120,dmg:14,mdl:'fishman',sc:1.3},
+  shark:{base:'seaserpent',hp:420,r:6,hc:6,val:140,dmg:18,mdl:'shark'},
+  crab:{base:'ogre',hp:750,r:9,hc:3.6,val:260,dmg:18,mdl:'crab'},
+  fishbow:{base:'archer',hp:130,r:2.0,hc:1.9,val:40,dmg:0,mdl:'fishbow'},
+  levi:{base:'seaserpent',hp:6500,r:12,hc:14,val:1800,dmg:20,mdl:'leviathan'},
+  king:{base:'kraken',hp:5500,r:16,hc:24,val:4000,dmg:26,mdl:'seaking',boss:1}};
+// ---- 仮の見た目 ----
+function s7MkFish(){const m=makeHuman({skin:0x3fa89a,armor:0xe0785a,cloth:0x2a6a80,weapon:'spear',shield:0x2a8a96,s:1.55});
+  const fin=mesh(new THREE.ConeGeometry(0.22,0.8,4),mat(0x2a8a9a));fin.position.set(0,2.55,-0.08);fin.rotation.x=-0.25;m.children[0].add(fin);return m;}
+function s7MkBow(){const m=makeHuman({skin:0x3f9cb0,armor:0xf0a070,cloth:0x2a6080,weapon:'bow',hair:0x58c8b8,s:1.55});
+  const fin=mesh(new THREE.ConeGeometry(0.22,0.8,4),mat(0x2a8a9a));fin.position.set(0,2.55,-0.08);fin.rotation.x=-0.25;m.children[0].add(fin);return m;}
+// リヴァイアサン：S字に立ち上がる濃い青の大蛇。光る水色のすじ。原点は水面の4下
+function s7MkLevi(){const g=new THREE.Group(),bl=mat(0x14387a),cy=new THREE.MeshBasicMaterial({color:0x5ae6ff}),N=16;
+  for(let i=0;i<N;i++){const t=i/(N-1),y=t*32+3,x=Math.sin(t*Math.PI*2)*5,r=4.8-t*2.2;
+    const sg=mesh(new THREE.SphereGeometry(r,10,8),bl);sg.position.set(x,y,0);g.add(sg);
+    if(i%2===0){const st=mesh(new THREE.TorusGeometry(r*0.98,0.28,5,14),cy);st.rotation.x=Math.PI/2;st.position.set(x,y,0);g.add(st);}}
+  const hx=Math.sin(Math.PI*2)*5,hd=box(3.6,3,6.2,bl);hd.position.set(hx,36.5,1.6);g.add(hd);
+  [-1,1].forEach(k=>{const hn=mesh(new THREE.ConeGeometry(0.5,3.2,5),cy);hn.position.set(hx+k*1.4,38.6,-0.6);hn.rotation.x=-0.6;g.add(hn);
+    const ey=mesh(new THREE.SphereGeometry(0.4,6,5),cy);ey.position.set(hx+k*1.5,37,3.4);g.add(ey);});
+  const fn=box(0.4,5,8,cy);fn.position.set(0,12,-3);g.add(fn);return g;}
+function s7MkCrab(){const g=new THREE.Group(),rd=mat(0xc8432e),dk=mat(0x8e2a20),wh=mat(0xf4ece0),bk=mat(0x111111);
+  const bd=mesh(new THREE.SphereGeometry(1,12,8),rd);bd.scale.set(6,2.6,4.6);bd.position.y=3.2;g.add(bd);
+  [-1,1].forEach(k=>{const arm=box(1.2,1.2,4,rd);arm.position.set(k*5.6,3.6,4.2);arm.rotation.y=-k*0.35;g.add(arm);
+    const cl=mesh(new THREE.SphereGeometry(1.8,10,8),rd);cl.scale.set(1.15,0.9,1.5);cl.position.set(k*6.9,3.8,7.6);g.add(cl);
+    const th=mesh(new THREE.ConeGeometry(0.7,2.2,4),wh);th.rotation.x=Math.PI/2;th.position.set(k*6.9,3.8,9.6);g.add(th);
+    for(let j=0;j<3;j++){const lg=box(0.7,0.7,4.6,dk);lg.position.set(k*7.1,1.6,-1.8+j*1.9);lg.rotation.z=k*0.7;lg.rotation.y=k*(0.35-j*0.35);g.add(lg);}
+    const ey=mesh(new THREE.SphereGeometry(0.55,8,6),wh);ey.position.set(k*1.8,6.2,3.6);g.add(ey);const pu=mesh(new THREE.SphereGeometry(0.25,6,5),bk);pu.position.set(k*1.8,6.4,4.0);g.add(pu);});
+  return g;}
+// サメ：からだの中心が水面の少し下に来る（海蛇の動きが、水面から4下がった所をすべるため）。背びれだけ水の上に出る
+function s7MkShark(){const g=new THREE.Group(),w=new THREE.Group(),bd=mat(0x6f93a6),wh=mat(0xe6eef0),bk=mat(0x101418);w.position.y=3.8;g.add(w);
+  const b=mesh(new THREE.SphereGeometry(1,12,8),bd);b.scale.set(2.5,2.3,7);w.add(b);
+  const bl=mesh(new THREE.SphereGeometry(1,10,6),wh);bl.scale.set(2.2,1.4,6.4);bl.position.set(0,-0.9,0.3);w.add(bl);
+  const fn=mesh(new THREE.ConeGeometry(1.3,4.2,4),bd);fn.position.set(0,3.6,0.4);fn.rotation.x=-0.35;w.add(fn);
+  const tl=mesh(new THREE.ConeGeometry(1.5,4.4,4),bd);tl.rotation.x=-Math.PI/2;tl.position.set(0,0.4,-8.8);w.add(tl);
+  const tf=mesh(new THREE.ConeGeometry(1.2,3.2,4),bd);tf.position.set(0,2,-10.2);tf.rotation.x=-0.6;w.add(tf);
+  [-1,1].forEach(k=>{const pf=mesh(new THREE.ConeGeometry(0.9,3.4,4),bd);pf.position.set(k*2.6,-1.2,1.6);pf.rotation.z=k*1.1;w.add(pf);
+    const ey=mesh(new THREE.SphereGeometry(0.28,6,5),bk);ey.position.set(k*1.5,0.5,5.1);w.add(ey);});
+  return g;}
+// 海王：こしから下は魚。原点は魚の尾の先。水の中に16しずめて出す（上半身だけ水の上）
+function s7MkKing(){const g=new THREE.Group(),sk=mat(0x4aa6a0),sc=mat(0x2c7e8e),go=mat(0xe0b040),wh=mat(0xf2f4f6),co=mat(0xe8786a),bk=mat(0x101418);
+  const tail=mesh(new THREE.ConeGeometry(6.5,18,10),sc);tail.rotation.x=Math.PI;tail.position.y=9;g.add(tail);
+  const tf=box(12,0.8,5,sc);tf.position.set(0,0.6,0);g.add(tf);
+  const tor=box(12,13,7,sk);tor.position.y=24.5;g.add(tor);
+  const br=box(12.6,6.5,7.6,co);br.position.y=27;g.add(br);
+  [-1,1].forEach(k=>{const sh=mesh(new THREE.SphereGeometry(3.4,10,8),go);sh.position.set(k*6.8,30,0);g.add(sh);
+    const ar=box(3,11,3,sk);ar.position.set(k*8.6,24+(k>0?2.5:0),0);ar.rotation.z=k*0.25;g.add(ar);
+    const ey=mesh(new THREE.SphereGeometry(0.55,8,6),bk);ey.position.set(k*1.7,36.2,3.9);g.add(ey);});
+  const hd=mesh(new THREE.SphereGeometry(4.4,12,10),sk);hd.position.y=35.6;g.add(hd);
+  const hr=mesh(new THREE.SphereGeometry(4.7,12,10,0,Math.PI*2,0,Math.PI*0.62),wh);hr.position.set(0,36.2,-1.2);g.add(hr);
+  const bd=mesh(new THREE.ConeGeometry(3.6,8,9),wh);bd.rotation.x=Math.PI;bd.position.set(0,31.4,3.0);g.add(bd);
+  const cb=mesh(new THREE.CylinderGeometry(4.5,4.7,1.1,12),go);cb.position.y=39.6;g.add(cb);
+  for(let i=0;i<5;i++){const a=i/5*Math.PI*2,c=mesh(new THREE.ConeGeometry(0.9,3.4,5),go);c.position.set(Math.cos(a)*4.1,41.6,Math.sin(a)*4.1);g.add(c);}
+  const sf=mesh(new THREE.CylinderGeometry(0.45,0.5,40,6),go);sf.position.set(10.8,38,2.6);g.add(sf);
+  const bar=box(5.8,0.7,0.8,go);bar.position.set(10.8,57,2.6);g.add(bar);
+  [-1,0,1].forEach(k=>{const pr=mesh(new THREE.ConeGeometry(0.7,(k?3.2:4.4),5),go);pr.position.set(10.8+k*2.6,(k?59.2:59.8),2.6);g.add(pr);});
+  return g;}
+const S7MK={fish:s7MkFish,fishE:s7MkFish,fishbow:s7MkBow,levi:s7MkLevi,shark:s7MkShark,crab:s7MkCrab,king:s7MkKing};
+const S7GOLD=new THREE.MeshBasicMaterial({color:0xffd050});
+// ---- 敵を出す ----
+function s7Alive(){let n=0;for(const q of EN)if(!q.dead&&q.s7&&q.s7[0]==='f')n++;return n;}   // 魚人（骨入りの人型）は、同時に38体まで
+function s7Add(kind,x,z,y){const K=S7K[kind];if((K.base==='soldier'||K.base==='archer')&&s7Alive()>=38)return null;
+  const sv=ST.kraken.boss;if(K.boss)ST.kraken.boss=undefined;
+  const e=addEnemy(K.base,x,z,y,{model:'s7none'});if(K.boss)ST.kraken.boss=sv;
+  const old=e.mesh,np=old.position.clone();scene.remove(old);
+  const m=S7MK[kind]();m.position.copy(np);scene.add(m);e.mesh=m;if(K.mdl)attachModel(m,K.mdl);
+  const f=EASY?(K.boss?0.42:0.5):(K.boss?0.62:0.75);e.hp=e.maxHp=K.hp*f*(EASY?0.75:1);
+  e.r=K.r;e.hc=K.hc;e.val=K.val;e.dmg=K.dmg;e.s7=kind;
+  if(K.sc){e.sc=K.sc;e.r*=K.sc;e.hc*=K.sc;}
+  if(K.boss){e.boss='🔱 海王';e.die='……海が……余の海が……。魚を焼いたのは、そなたのほうだったな……（海王は、あわになって、きえた）';}
+  if(kind==='fish')e.thrower=Math.random()<0.5;if(kind==='fishE')e.thrower=true;
+  return e;}
+// 章の中ボス：名前・体力・大きさ・かけ声を決める（海王いがいのボス用）
+function s7Big(e,o){if(!e)return;const f=EASY?0.42:0.62;e.hp=e.maxHp=o.hp*f*(EASY?0.75:1);e.boss=o.ic+' '+o.nm;e.sc=o.sc;e.r*=o.sc;e.hc*=o.sc;e.val=o.val;e.dmg*=o.dmg;e.die=o.die;e.said=1;
+  if(e.mesh&&e.mesh.userData&&e.mesh.userData.mix===undefined)e.mesh.scale.setScalar(o.sc);
+  s7Cut(o.nm,o.ic);}
+function s7Cut(nm,ic){if(state!=='play')return;cutin(nm==='海王'&&S7.face?'seaking':ic,nm,'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');}
+// 水の上の場所（プレイヤーから a〜b はなれた所で、橋も島も無い所）
+function s7WaterPos(a,b){for(let k=0;k<80;k++){const [x,z]=ringPos(a,b);if(H(x,z)<WATER-3&&bridgeY(x,z)<WATER)return [x,z];}return ringPos(a,b);}
+function s7Land(f,sp){const a=rnd(0,6.283),r=Math.sqrt(Math.random())*f[2]*sp;return [f[0]+Math.cos(a)*r,f[1]+Math.sin(a)*r];}
+function s7Fish(n,kind){const L=[];for(let i=0;i<s7N(n);i++){let x,z,y;
+    if(Math.random()<0.55){const fs=TER.flats.slice(1,4),f=fs[(Math.random()*fs.length)|0];[x,z]=s7Land(f,0.8);}
+    else{[x,z]=ringPos(70,170);if(H(x,z)<WATER+1)y=WATER+4;}
+    const e=s7Add(kind||'fish',x,z,y);if(e)L.push(e);}return L;}
+function s7Bows(n){for(let i=0;i<s7N(n);i++){let x,z,y;
+    if(Math.random()<0.6){const fs=TER.flats.slice(1,4),f=fs[(Math.random()*fs.length)|0];[x,z]=s7Land(f,0.8);}
+    else{[x,z]=ringPos(80,150);if(H(x,z)<WATER+1)y=WATER+4;}
+    s7Add('fishbow',x,z,y);}}
+function s7Sharks(n){for(let i=0;i<s7N(n);i++){const [x,z]=s7WaterPos(60,130);s7E(s7Add('shark',x,z));}}
+function s7Serps(n){for(let i=0;i<s7N(n);i++){const [x,z]=s7WaterPos(60,120);s7E(addEnemy('seaserpent',x,z));}}
+function s7Crabs(n){for(let i=0;i<s7N(n);i++){const fs=TER.flats.slice(1,4),f=fs[(Math.random()*fs.length)|0],[x,z]=s7Land(f,0.7);s7Add('crab',x,z);}}
+function s7Kraken(){const [x,z]=s7WaterPos(50,80);const k=s7E(addEnemy('kraken',x,z));k.said=1;k.die='ゴボ……ゴボボ……';return k;}
+// ---- 海王の動き：水の柱・三つ又の槍・大波。体力が半分で軍勢をよび、攻めが速くなる ----
+function s7King(e,dt,p,dx,dz,hd,d3,half){
+  const BASE=WATER-16;
+  if(!e.k0){e.k0=1;e.said=1;e.state='rise';e.st=2.2;e.cd=2;e.inv=true;p.y=BASE-44;e.pil=[];e.wv=null;e.nat=0;shock(tmp.set(p.x,WATER,p.z),0xffffff,30);}
+  e.st-=dt;faceP(e);e.mesh.rotation.z=Math.sin(e.t*1.1)*0.035;
+  if(e.state==='rise'){p.y+=(BASE-p.y)*Math.min(1,dt*2.4);if(Math.random()<0.7)smoke(tmp.set(p.x+rnd(-10,10),WATER+1,p.z+rnd(-10,10)),1,7,2,0xffffff,4);
+    if(e.st<=0){e.state='up';e.st=half?7:9;e.inv=false;e.cd=1.6;shock(tmp.set(p.x,WATER,p.z),0xffffff,36);sfx('roar',p,0.8);shake(0.5);bubble(e,e.k1?'まだ終わらぬ！':'余の海を、荒らすとは！','boss',2.4);e.k1=1;}return;}
+  if(e.state==='down'){p.y-=dt*24;if(e.st<=0){const [x,z]=s7WaterPos(C.fly?75:55,C.fly?115:90);p.x=x;p.z=z;p.y=BASE-44;e.state='rise';e.st=1.8;e.cd=1;}return;}
+  p.y+=(BASE-p.y)*Math.min(1,dt*3);
+  if(half&&!e.p2){e.p2=1;e.cd=2.6;bubble(e,'わが軍勢よ、来い！','boss',2.4);sfx('roar',p,0.8);shake(0.6);shock(tmp.set(p.x,WATER,p.z),0xffd860,46);
+    for(let k=0;k<s7N(8);k++){const [x,z]=s7WaterPos(40,110);s7Add('fish',x,z,WATER+4);}}
+  // 水の柱：赤い輪が出て、少しあとに水がふき上がる
+  for(let i=e.pil.length-1;i>=0;i--){const q=e.pil[i];q.t-=dt;if(q.t>0)continue;e.pil.splice(i,1);
+    const g=new V3(q.x,floorAt(q.x,q.z),q.z);shock(g,0xa0e0ff,18);smoke(g,10,6,2,0xffffff,8);burst(g,36,WATC,5,12,1.0,40);shake(0.35);sfx('boom',g,0.5);ono(g,'ドバァッ！','#9ae6ff',48);
+    if(Math.hypot(P.pos.x-g.x,P.pos.z-g.z)<13&&P.pos.y-g.y<34)hurt(e.dmg);}
+  // 大波：海面を輪になって広がる。地面ぎわにいると当たる（高く飛ぶか、ジャンプでかわせる）
+  if(e.wv){const w=e.wv;w.r+=dt*(half?62:52);w.m.scale.setScalar(w.r);w.m.material.opacity=Math.max(0,0.85-w.r/190);
+    if(Math.random()<dt*30)for(let k=0;k<6;k++){const a=rnd(0,6.283);burst(tmp.set(p.x+Math.cos(a)*w.r,WATER+1,p.z+Math.sin(a)*w.r),2,[0xffffff,0xcfe8ff],4,10,0.5);}
+    if(!w.hit&&Math.abs(Math.hypot(P.pos.x-p.x,P.pos.z-p.z)-w.r)<6&&P.pos.y<floorAt(P.pos.x,P.pos.z)+C.gOff+8){w.hit=1;hurt(e.dmg*0.9);ono(P.pos.clone().add(new V3(0,5,0)),'ザッバーン！','#9ae6ff',52);sfx('crash',P.pos,0.6);}
+    if(w.r>160){scene.remove(w.m);e.wv=null;}}
+  if(e.cd<=0&&!e.pil.length&&!e.wv){
+    const kd=(half?['pil','spear','wave','pil','spear','wave']:['pil','spear','wave','spear','pil','spear'])[e.nat++%6];
+    if(kd==='pil'){const n=half?6:4;bubble(e,'水よ、立て！','boss',1.6);
+      for(let k=0;k<n;k++){const tx=P.pos.x+(k?rnd(-26,26):P.vel.x*0.7),tz=P.pos.z+(k?rnd(-26,26):P.vel.z*0.7);e.pil.push({x:tx,z:tz,t:1.1+k*0.14});shock(tmp.set(tx,floorAt(tx,tz),tz),0xff3030,13);}
+      e.cd=(half?2.0:2.8)+1.2;}
+    else if(kd==='spear'){bubble(e,'三つ又の槍！','boss',1.4);const f=cpos(e).clone();f.y+=12;const base=tmp.copy(P.pos).addScaledVector(P.vel,0.5).sub(f).normalize(),n=half?5:3;
+      for(let k=0;k<n;k++){const a2=(k-(n-1)/2)*0.17;shoot(f,base.clone().applyAxisAngle(new V3(0,1,0),a2).multiplyScalar(88),{geo:'arrow',mat:S7GOLD,size:2.8,r:2.6,dmg:11,life:3.6,col:[0xffd860,0xfff2b0]});}
+      sfx('small',p,0.7);e.cd=half?1.8:2.6;}
+    else{bubble(e,'大波よ！','boss',1.6);const m=new THREE.Mesh(new THREE.RingGeometry(0.94,1,72),new THREE.MeshBasicMaterial({color:0xcfeeff,transparent:true,opacity:0.85,side:THREE.DoubleSide,depthWrite:false}));
+      m.rotation.x=-Math.PI/2;m.position.set(p.x,WATER+0.8,p.z);m.scale.setScalar(8);scene.add(m);e.wv={r:8,m,hit:0};sfx('roar',p,0.5);shake(0.4);e.cd=(half?2.0:2.8)+2.5;}}
+  if(e.st<=0&&!e.pil.length&&!e.wv){e.state='down';e.st=1.5;e.inv=true;smoke(tmp.set(p.x,WATER+1,p.z),12,8,2,0xffffff,8);}
+  if(d3<e.r+6)hurt(e.dmg*dt,true);}
+// ---- 景色：さんごのかたまり・うずまき・難破船・さんごの柱 ----
+function s7Coral(pal,n,spread){const fl=TER.flats,g=new THREE.ConeGeometry(1,1,5);g.translate(0,0.5,0);
+  const im=new THREE.InstancedMesh(g,new THREE.MeshLambertMaterial({color:0xffffff}),n*3),d=new THREE.Object3D(),c=new THREE.Color();let k=0;
+  for(let t=0;t<n*40&&k<n*3;t++){const f=fl[(Math.random()*fl.length)|0],a=rnd(0,6.283),r=f[2]+rnd(0,spread),x=f[0]+Math.cos(a)*r,z=f[1]+Math.sin(a)*r,h=H(x,z);
+    if(h>WATER+1||h<WATER-8)continue;const col=pal[(Math.random()*pal.length)|0];
+    for(let j=0;j<3&&k<n*3;j++){const w=rnd(0.7,1.5),ht=rnd(2.5,6.5);d.position.set(x+rnd(-1.6,1.6),h-0.5,z+rnd(-1.6,1.6));d.scale.set(w,ht,w);d.rotation.set(rnd(-0.3,0.3),rnd(0,6.3),rnd(-0.3,0.3));d.updateMatrix();im.setMatrixAt(k,d.matrix);im.setColorAt(k,c.setHex(col));k++;}}
+  im.count=k;im.instanceMatrix.needsUpdate=true;if(im.instanceColor)im.instanceColor.needsUpdate=true;scene.add(im);TERRAIN.push(im);}
+function s7Whirl(x,z,R){const cv=document.createElement('canvas');cv.width=cv.height=512;const q=cv.getContext('2d');
+  const g=q.createRadialGradient(256,256,10,256,256,256);g.addColorStop(0,'rgba(2,14,26,0.95)');g.addColorStop(0.5,'rgba(6,30,50,0.6)');g.addColorStop(1,'rgba(10,50,70,0)');q.fillStyle=g;q.fillRect(0,0,512,512);
+  q.strokeStyle='rgba(200,240,255,0.5)';q.lineWidth=6;for(let a=0;a<5;a++){q.beginPath();for(let t=0;t<=1;t+=0.01){const ang=a*1.2566+t*7,rr=20+t*225;q.lineTo(256+Math.cos(ang)*rr,256+Math.sin(ang)*rr);}q.stroke();}
+  const m=new THREE.Mesh(new THREE.PlaneGeometry(R*2,R*2),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(cv),transparent:true,depthWrite:false}));
+  m.rotation.x=-Math.PI/2;m.position.set(x,WATER+0.4,z);m.renderOrder=2;m.onBeforeRender=()=>{m.rotation.z=-performance.now()*0.00025;};scene.add(m);TERRAIN.push(m);}
+function s7Wreck(x,z,rot,k){const g=new THREE.Group(),wd=mat(0x6a4a30),wd2=mat(0x3e2c1e);const h=box(7*k,3.6*k,19*k,wd);h.position.y=1.8*k;h.rotation.z=0.2;g.add(h);
+  const bow=box(5*k,3*k,6*k,wd2);bow.position.set(0,3*k,-8*k);bow.rotation.x=0.4;g.add(bow);
+  const mast=mesh(new THREE.CylinderGeometry(0.4*k,0.55*k,12*k,6),wd2);mast.position.set(1.2*k,8*k,k);mast.rotation.z=-0.5;g.add(mast);
+  g.position.set(x,H(x,z),z);g.rotation.y=rot;scene.add(g);TERRAIN.push(g);}
+// 橋：今ある自動の橋は、島のへりの手前から始まって水に切れるので、地上のキャラが渡れない。島のへり（陸の端）から端へかけ直す
+function s7Bridges(L){
+  for(let i=TERRAIN.length-1;i>=0;i--){const o=TERRAIN[i];if(o.isGroup&&o.children.length===1&&o.children[0].isGroup){scene.remove(o);TERRAIN.splice(i,1);}}
+  BRIDGES.length=0;const F=TER.flats,P2={coralsea:[[0,1],[1,2],[1,3],[1,4],[1,5]],deepsea:[[0,1],[1,2],[1,3],[0,4],[0,5]],seaking:[[0,1],[1,2],[1,3]]}[L];
+  const edge=(A,ux,uz,k)=>{let t=0;while(t<A[2]*1.6&&H(A[0]+ux*t,A[1]+uz*t)>WATER+0.6)t+=1;return t-1;};
+  for(const [i,j] of P2){const A=F[i],B=F[j],dx=B[0]-A[0],dz=B[1]-A[1],d=Math.hypot(dx,dz),ux=dx/d,uz=dz/d,ta=edge(A,ux,uz),tb=edge(B,-ux,-uz);
+    addBridge(A[0]+ux*(ta-3),A[1]+uz*(ta-3),B[0]-ux*(tb-3),B[1]-uz*(tb-3));}}
+function s7World(L,T){
+  s7Bridges(L);
+  if(L==='coralsea'){s7Coral([0xe8607a,0xf0985a,0xd0506e,0xf2c070,0xb868c8],70,26);
+    [[-62,-118],[-24,-100],[-72,-150],[-34,-168],[-8,-136],[-46,-128]].forEach(([x,z],i)=>i%2?makeHouse2(x,z,rnd(0,6.3)):makeHouse(x,z,rnd(0,6.3)));}
+  else if(L==='deepsea'){s7Coral([0x4a6a8a,0x6a4a7a,0x3a7a7a,0x8a8a9a],55,24);s7Whirl(0,-225,120);s7Wreck(-125,-125,0.6,1.1);s7Wreck(135,-110,-0.9,1);s7Wreck(-120,12,2.0,0.9);}
+  else if(L==='seaking'){s7Coral([0xf0e0c0,0xe8b050,0xd88a6a,0xa8d8d0],60,24);
+    for(let i=0;i<8;i++){const a=i/8*6.283,x=Math.cos(a)*40,z=-150+Math.sin(a)*40,h=H(x,z);
+      const c=mesh(new THREE.CylinderGeometry(2.2,2.8,20,8),mat(0xe8dcc4));c.position.set(x,h+10,z);scene.add(c);TERRAIN.push(c);
+      const cap=mesh(new THREE.SphereGeometry(2.6,8,6),mat(0xe0b040));cap.position.set(x,h+21.5,z);scene.add(cap);TERRAIN.push(cap);COLS.push({t:0,x,z,r:2.6,y0:h-3,y1:h+20});}}}
+// 海王の顔絵（chara\seaking.webp ができたら使う。無い間は顔なしで出る）
+{const im=new Image();im.onload=()=>{S7.face=true;TPT['海王']='seaking';if(typeof PTS!=='undefined'&&!PTS.includes('seaking'))PTS.push('seaking');};im.src='chara/seaking.webp';}
+ENDS[7]=['海王は、あわになって、海にもどった。さんごの島も、うずも、もう静かだ。魚人たちは、そっと海の底へ帰っていった。','海は、また青くなった。焼き魚の味は、しばらく忘れられそうにない。','空は、きみのものだ。海も、ちょっとだけ。','遠くの空で、女神が書類をめくった。「罰のつもりが、海まで手に入れるとは……次は、貝がらにします」'];
+ENDT[7]='海の王、あわになる';
+Object.assign(TALKS,{
+ coralsea:{w:[[['ME','焼き魚がうまかった。あとは知らん。……海の下で、誰か怒っているのか？'],['海王','わが国民を、串に刺して食うとは。竜よ、勘定は海の底で払ってもらう'],['ME','国民？ ……あれは、ただの昼めしだと思っていた']],
+             [['ME','カニまで出てきた。……カニは、焼くより、ゆでるほうが好みだ']],
+             [['海王','さんごの島の番人、大ガニよ。そのハサミは、鉄をも切るぞ'],['ME','鉄は食わない。カニは食う']]],
+          clear:[['海王','島々は、突破されたか。ならば、渦の海で待つ。海の底の底へ、引きずりこんでやる'],['ME','引きずりこむ前に、まず、つかまえてみろ']]},
+ deepsea:{w:[[['ME','海が、ぐるぐる回っている。……目が回る前に、片づけよう'],['海王','渦は、わが海の息づかい。ここは、泳げぬ者の墓場だ'],['ME','泳ぐ予定は無い。飛ぶか、歩く。どちらも、乾いたままだ']],
+            [['ME','クラーケンまで出てきた。タコは、焼くとうまい。……焼き魚の次は、焼きダコだ']],
+            [['海王','渦の番人、リヴァイアサンよ。その竜を、海の底へ巻きこめ'],['ME','でかいな。S字に曲がっている。……まっすぐにしてやる。そのほうが焼きやすい']]],
+         clear:[['海王','渦の海も、抜けたか。よかろう。余みずから、相手をしてやる'],['ME','やっと本人だ。……長かった。昼めしの代金にしては']]},
+ seaking:{w:[[['海王','来たか、竜。ここは余の宮殿の真上。ひれ伏して、あやまるがよい'],['ME','あやまる？ ……もう一匹、焼いてからでいいか'],['海王','無礼な。親衛隊よ、その竜を海の泡に変えよ']],
+            [['ME','親衛隊は、手ごたえがあった。金のよろいは、焼くと熱いのか？'],['海王','大波に乗れ、カニとサメよ。余が出るまでもなく、片づけよ']],
+            [['海王','もうよい。余みずから、出る'],['ME','海から、上半身だけ出ている。下半身は、魚か。昼めしの親戚だな'],['海王','魚を、ばかにするな！ 三つ又の槍よ、竜をつらぬけ！']]],
+         clear:[['海王','余の海が……。竜よ、そなたは強い。だが、海は、忘れぬぞ'],['ME','忘れてもいい。……ごちそうさま']]}});
 /* ---- アクション中の2D：吹き出し・漫画の文字・カットイン ---- */
 const B2=[];const sp2=new V3();
 function scr(v){sp2.copy(v).project(cam);if(sp2.z>1)return null;return [(sp2.x+1)/2*innerWidth,(1-sp2.y)/2*innerHeight];}
@@ -2915,7 +3574,7 @@ function upd2d(dt){cam.updateMatrixWorld();updTalk(dt);if(cutT>0){cutT-=dt;if(cu
     if(b.life<=0||(b.e&&b.e.dead&&b.life>0.4)||state!=='play'){b.d.remove();B2.splice(i,1);continue;}
     if(b.e){const p=b.e.mesh.position;if((b.tt-=dt)<=0){b.tt=0.2;b.tg=headTop(b.e);b.w=b.d.offsetWidth;b.h=b.d.offsetHeight;}b.top+=((b.tg||b.top)-b.top)*Math.min(1,dt*8);const q=scr(tmp.set(p.x,p.y+b.top,p.z));if(!q||q[0]<-60||q[0]>innerWidth+60||q[1]<-60||q[1]>innerHeight+60){b.d.style.display='none';continue;}b.d.style.display='';const w=b.w||(b.w=b.d.offsetWidth||120),h=b.h||(b.h=b.d.offsetHeight||34);const nx=Math.min(Math.max(q[0],w/2+8),innerWidth-w/2-8),ny=Math.min(Math.max(q[1],h+24),innerHeight-10);b.d.style.left=nx+'px';b.d.style.top=ny+'px';b.d.style.setProperty('--tx',Math.max(-(w/2-20),Math.min(w/2-20,q[0]-nx))+'px');}}}
 const SHOUT={soldier:['竜だー！','かかれー！','ひるむな！','うわぁっ！'],archer:['撃てー！','ねらえ！','当たれっ！'],golem:['ゴゴゴ…','グオォ…'],wizard:['ファイア！','雷よ！','くらえっ！'],airship:['爆弾、投下！','高度を上げろ！'],
-  slime:['ぷるん！','ぽよっ'],ogre:['ウガー！','つぶす！'],priest:['勇者さま！'],imp:['ケケケッ！'],biggolem:['ゴゴゴゴ…','ズシン…'],bigslime:['ぼよよーん！','ぷるるん！'],dknight:['竜よ、覚悟！','槍をくらえ！'],griffin:['キェーッ！','ピィィッ！']};
+  slime:['ぷるん！','ぽよっ'],ogre:['ウガー！','つぶす！'],priest:['勇者さま！'],imp:['ケケケッ！'],biggolem:['ゴゴゴゴ…','ズシン…'],bigslime:['ぼよよーん！','ぷるるん！'],dknight:['竜よ、覚悟！','槍をくらえ！'],griffin:['キェーッ！','ピィィッ！'],skel:['カタカタ！','ガシャッ！'],devilsol:['ギャギャ！','かかれー！'],skelmage:['ケケケ…','闇よ…']};
 
 /* ================= 矢印・地図 ================= */
 const ictx=$('ind').getContext('2d');

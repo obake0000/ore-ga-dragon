@@ -314,5 +314,35 @@
   "h": 9,
   "ja": "オークの戦車（オークキングが乗る）",
   "rot": 0
+ },
+ "mill": {
+  "file": "mill.glb",
+  "h": 16,
+  "ja": "風車"
+ },
+ "inn": {
+  "file": "inn.glb",
+  "h": 11,
+  "ja": "宿屋"
+ },
+ "smithy": {
+  "file": "smithy.glb",
+  "h": 8,
+  "ja": "鍛冶屋"
+ },
+ "watchtower": {
+  "file": "watchtower.glb",
+  "h": 15,
+  "ja": "見張り塔"
+ },
+ "warehouse": {
+  "file": "warehouse.glb",
+  "h": 7,
+  "ja": "倉庫"
+ },
+ "well": {
+  "file": "well.glb",
+  "h": 4,
+  "ja": "井戸"
  }
 }
