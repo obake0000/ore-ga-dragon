@@ -770,7 +770,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1115x';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1115y';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -4327,6 +4327,50 @@ TPT['竜王']='';TBOSS['竜王']='dking';
 // 竜王編の台本が後から足した語り・終わりの文を、汎用の文でもう一度上書きする
 kgenApply();ENDS[5]=['竜王は、ゆっくりと翼をたたみ、雲の海へ沈んでいった。','竜たちは道をあけ、空はしんと静まりかえった。','いちばん高い空は、きみのものだ。','雲の上で、古の竜がつぶやいた。「やれやれ。若い者は、元気でよいのう」'];ENDT[5]='空の王';
 if(typeof ENDIMG!=='undefined'){const L=SCK[5].filter(k=>ALLST.some(q=>q.key===k)),k=L[L.length-1];if(k)ENDIMG[5]=[k+'_c',k+'_c',k+'_c',k+'_c'];}
+
+/* ---- シナリオ6：雲の海（ter.sky）に合わせる（scn6_fit.py） ---- */
+// sky:1 だと、地面は「島（flats）のほかは雲の海の下」になる。遊ぶ所（出撃の場所・敵が出る所・門・神殿・砦・光の間）が全部入る大きな島にする。
+// 雲の海と大きな雲は sky:1 の仕組みが作るので、天使編の「雲のかたまり」は止める（雲の海の大きな雲があるため）。島の床の白い塗りなおしは、水の面を隠さない形に直して続ける。
+for(const [k,fl] of [['skygate',[[0,-60,240,2,1]]],['skytemple',[[0,-90,240,2,1]]],['archangel',[[0,-60,240,2,1]]]]){const q=ALLST.find(o=>o.key===k);if(q)q.ter.flats=fl;}
+// 島の床だけ「白い雲の床」に塗りなおす（水の面＝雲の海は隠さない）
+s6Cloudify=function(L){const t=TERRAIN[0],k=S6LK[L];if(!t||!t.geometry||!t.geometry.attributes.color)return;
+  const g=t.geometry,pa=g.attributes.position,ca=g.attributes.color,a=new THREE.Color(k.lo),b=new THREE.Color(k.hi),c=new THREE.Color();
+  for(let i=0;i<pa.count;i++){const x=pa.getX(i),z=pa.getZ(i),
+    n=0.55+0.26*Math.sin(x*0.021+1.3)*Math.cos(z*0.017)+0.18*Math.sin(x*0.047+z*0.039)+0.1*Math.sin(x*0.11-z*0.09+2)+0.06*Math.sin(x*0.23+z*0.19);
+    c.copy(a).lerp(b,clamp(n,0,1));ca.setXYZ(i,c.r,c.g,c.b);}
+  ca.needsUpdate=true;if(t.material&&t.material.dispose)t.material.dispose();t.material=new THREE.MeshLambertMaterial({vertexColors:true,emissive:k.em});};
+s6Puffs=function(){};
+/* ---- シナリオ6：本物のモデルに合わせる（scn6_fit.py） ---- */
+// 敵：dy＝モデルの上げ下げ（ローカル）／hc＝あたり判定の中心（ローカル）。sc をかけて使う
+Object.assign(S6K.angel,{hc:0.72});Object.assign(S6K.angelarcher,{hc:0.76});Object.assign(S6K.angelsword,{hc:0.85});
+Object.assign(S6K.lightangel,{hc:0.55});Object.assign(S6K.guardian,{hc:0.65});Object.assign(S6K.angelgeneral,{hc:1.0});
+Object.assign(S6K.pegasus,{hc:1.2});Object.assign(S6K.archangel,{hc:0.75,r:4.4});
+const S6DY={angel:0.3,lightangel:0.07,guardian:0.34};
+// ボスの大きさ（元は 2.6 倍で、モデルだと大きすぎた）
+const S6BOSSK={angelgeneral:1.55,guardian:1.4};
+function s6Tint(m,col,emi){const c=new THREE.Color(col),em=new THREE.Color(emi);m.traverse(o=>{if(!o.isMesh||!o.visible)return;let a=o,ok=true;while(a&&a!==m){if(!a.visible)ok=false;a=a.parent;}if(!ok)return;
+  const f=mt=>{const x=mt.clone();if(x.color)x.color.multiply(c);if(x.emissive)x.emissive.copy(em);return x;};o.material=Array.isArray(o.material)?o.material.map(f):f(o.material);});}
+const s6sp0=s6Spawn;
+s6Spawn=function(kind,x,z,y,o){o=o||{};if(S6BOSSK[kind]&&o.sc&&o.boss)o=Object.assign({},o,{sc:S6BOSSK[kind]});
+  const e=s6sp0(kind,x,z,y,o),K=S6K[kind];
+  if(MODEL[K.mid]){const m=e.mesh,h=m.children[m.children.length-1];if(h&&S6DY[kind])h.position.y+=S6DY[kind];
+    if(kind==='lightangel'){s6Tint(m,0xfff4d0,0x2a2208);s6Halo(m,1.3,0.3);
+      const orb=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xfff0a0,transparent:true,opacity:0.85,blending:THREE.AdditiveBlending,depthWrite:false}));orb.scale.set(1.5,1.5,1);orb.position.set(0.55,0.7,0.45);m.add(orb);}
+    else if(kind==='guardian'&&!o.boss)s6Tint(m,0xa8c0f0,0x0c1c3c);
+    else if(kind==='guardian'&&o.boss)s6Tint(m,0xb8c8f0,0x101c3c);}
+  return e;};
+// 建物：岩の島＋建物のモデル。島の上面を、土台・地面の高さに合わせて貼る（元の仮の形は外す）
+// k＝大きさ／top＝モデルの中で島の上面の高さ（実測：光線を上から当てた）／y＝置きたい高さ（グループの中）
+const S6FIT={skytemple:{k:0.8,top:33,y:4.0,er:0},skyfort:{k:0.8,top:74,y:0.0,er:0}};
+function s6FitBld(g,id){const M=MODEL[id],C=S6FIT[id];if(!M||!C)return false;const m=cloneModel(id);if(!m)return false;
+  m.rotation.y=M.rot+(C.er||0);const h=new THREE.Group();h.add(m);h.scale.setScalar(C.k);h.position.set(0,C.y-C.top*C.k,0);
+  while(g.children.length)g.remove(g.children[0]);g.add(h);g.userData.s6holder=h;return true;}
+const s6am0=attachModel;
+attachModel=function(g,id,er){if((id==='skytemple'||id==='skyfort')&&MODEL[id]&&s6FitBld(g,id))return true;return s6am0(g,id,er);};
+// 空中砦の上の天使弓：モデルの屋根・城壁に光線を当てて、立てる高さを決める
+function s6FortTop(b,x,z){const h=b.g.userData.s6holder;if(!h)return b.top;const rc=new THREE.Raycaster();h.updateMatrixWorld(true);rc.set(new THREE.Vector3(x,b.box.max.y+20,z),new THREE.Vector3(0,-1,0));
+  const r=rc.intersectObject(h,true);return r.length?r[0].point.y:b.top;}
+s6Fort=function(n){const b=S6FORT;if(!b||b.dead)return;const c=b.box.getCenter(new V3()),N=s6N(n);for(let i=0;i<N;i++){const a=i/Math.max(1,N)*6.28,x=c.x+Math.cos(a)*22,z=c.z+Math.sin(a)*22;s6Spawn('angelarcher',x,z,s6FortTop(b,x,z),{perch:1,bld:b});}};
 /* ---- アクション中の2D：吹き出し・漫画の文字・カットイン ---- */
 const B2=[];const sp2=new V3();
 function scr(v){sp2.copy(v).project(cam);if(sp2.z>1)return null;return [(sp2.x+1)/2*innerWidth,(1-sp2.y)/2*innerHeight];}
