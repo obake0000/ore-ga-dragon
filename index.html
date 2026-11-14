@@ -394,7 +394,8 @@ const MOODS=[
   mood(0x3a4c9c,0xffa062,0xffa850,1.05,0.7,0.1,[0.9,0.12,0.3]),
   mood(0x2a0c52,0x8e2a58,0xff6a9a,0.75,0.5,1,[-0.4,0.7,-0.5]),
   mood(0x15181f,0x464c5a,0xaab8ff,0.55,0.45,0,[0.2,0.9,0.3],true),
-  mood(0x2c2c70,0xe6806a,0xff8a60,0.9,0.62,0.3,[0.9,0.08,-0.3])];
+  mood(0x2c2c70,0xe6806a,0xff8a60,0.9,0.62,0.3,[0.9,0.08,-0.3]),
+  mood(0x0c0a12,0x33241a,0xffb878,0.5,0.6,0,[0.2,0.9,0.3])];
 const MC={top:MOODS[0].top.clone(),bot:MOODS[0].bot.clone(),sun:MOODS[0].sun.clone(),si:1,hemi:0.85,star:0,dir:MOODS[0].dir.clone(),storm:false};
 let moodT=MOODS[0];
 const sky=new THREE.Mesh(new THREE.SphereGeometry(1600,24,12),new THREE.ShaderMaterial({uniforms:{top:{value:MC.top},bot:{value:MC.bot},sdir:{value:MC.dir},scol:{value:MC.sun},uSw:{value:0},uTm:LAVU},
@@ -639,8 +640,10 @@ const CLOUDT=[0,1,2].map(v=>{const c=document.createElement('canvas');c.width=51
 
 /* ================= Tripo で作った3Dモデル（models\manifest.json があれば使う） ================= */
 const MODEL={},MIX=[];
+// 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
+const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1114m';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1114o';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -801,7 +804,7 @@ function updRig(o,dt){const f=o.rig,me=(typeof D!=='undefined'&&D&&f.g===D.g),pl
 // 竜の体の動き（骨の無い模型でも、形の場所ごとに回して動かす）
 //  ・翼：体の中心から横に離れた所を、肩を軸に上下に回す（羽ばたき）
 //  ・尾：うしろの方を左右にふる　・足（アースドラゴン）：腰より下を、対角の2本ずつ前後にふる
-const FLAP=[],FLAP_ID={dragon:{fl:1,amp:0.55,tz:0.42,tw:0.16,lean:0.3,tx:0.2,tk:6,ta:0.9,nw:1,lg:[0.233,0.224,0.43,1.02,0.91,0.55],gy:-1.0},wyvern:{fl:1,amp:0.62,sh:0.14,wy:0.5,tw:3,ta:0.95,lean:0.95,tx:0.5,tk:6.5,tr:[0.5,0.42,0.47],tt:[0.8,0.02,0.35],tb:1},elder:{fl:1,amp:0.45},rival:{fl:1,amp:0.55},griffin:{fl:1,amp:0.5},dknight:{fl:1,amp:0.42},ground:{fl:0,legs:1,tz:0.36,tw:0.24,ta:1.5,tx:0.55,tk:6}};
+const FLAP=[],FLAP_ID={dragon:{fl:1,amp:0.55,tz:0.42,tw:0.16,lean:0.3,tx:0.2,tk:6,ta:0.9,nw:1,lg:[0.233,0.224,0.43,1.02,0.91,0.55],gy:-1.0},wyvern2:{fl:1,amp:0.62,sh:0.14,wy:0.5,tw:0.16,ta:0.95,tx:0.3,tk:6.5,tz:0.4},wyvern:{fl:1,amp:0.62,sh:0.14,wy:0.5,tw:3,ta:0.95,lean:0.95,tx:0.5,tk:6.5,tr:[0.5,0.42,0.47],tt:[0.8,0.02,0.35],tb:1},elder:{fl:1,amp:0.45},rival:{fl:1,amp:0.55},griffin:{fl:1,amp:0.5},dknight:{fl:1,amp:0.42},ground:{fl:0,legs:1,tz:0.36,tw:0.24,ta:1.5,tx:0.55,tk:6}};
 // 尻尾の根もと(R)・先へ向かう向き(D)・長さ(L)・左右にふる軸(N)・上下にふる軸(S)
 function tailU(cf,b,sz){const fr=a=>new V3(b.min.x+sz.x*a[0],b.min.y+sz.y*a[1],b.min.z+sz.z*a[2]);let R,D,L;
   if(cf.tr){R=fr(cf.tr);const T=fr(cf.tt);D=T.clone().sub(R);L=D.length();D.normalize();}
@@ -1594,7 +1597,7 @@ function melee(){P.melT=0.3;P.melA=0.45;P.melS=-(P.melS||1);P.melCd=C.mel.cd;if(
 let charKey='dragon',C=CH.dragon,D=null;
 let EASY=false;try{EASY=localStorage.getItem('dragon_easy')==='1';}catch(e){}
 const P={pos:new V3(0,40,120),vel:new V3(),vy:0,melT:0,melCd:0,yaw:Math.PI,pitch:-0.05,hp:260,maxHp:260,en:100,fireCd:0,dashT:0,dashHit:0,inv:0,roll:0,lastYaw:Math.PI,onGround:false,tgt:null,firing:false};
-function setChar(k){charKey=k;C=CH[k];P.sp=C.sp;P.sp2=C.sp2;if(D)scene.remove(D.g);if(C.human)D=makePlayerHuman(k);else if(C.model)D=makePlayerModel(k);else{D=makeDragon(C.col[0],C.col[1],C.s,C.o);attachModel(D.g,k);}scene.add(D.g);if(typeof updGo==='function')updGo();
+function setChar(k){charKey=k;C=CH[k];P.sp=C.sp;P.sp2=C.sp2;if(D)scene.remove(D.g);if(C.human)D=makePlayerHuman(k);else if(C.model)D=makePlayerModel(k);else{D=makeDragon(C.col[0],C.col[1],C.s,C.o);(attachModel(D.g,PMODEL[k]||k)||attachModel(D.g,k));}scene.add(D.g);if(typeof updGo==='function')updGo();
   {const [sx,sz]=TER.start;P.pos.set(sx,floorAt(sx,sz)+(C.fly?40:C.gOff),sz);}
   document.querySelectorAll('.card').forEach(c=>c.classList.toggle('on',c.dataset.k===k));
   skUI();$('tdash').textContent=C.dashN;$('enl').textContent=`⚡ 必殺ゲージ（${SPC()}で必殺技）`;}
@@ -1673,7 +1676,7 @@ function showLv(){const pool=UPS.filter(u=>(UP[u.k]||0)<u.mx),sw=(LV-LVQ+1)%3===
 function pickLv(i){if(!LVUP||!LVOPT[i])return;const u=LVOPT[i];if(u.swap){P[u.slot]=u.to;skUI();}else UP[u.k]=(UP[u.k]||0)+1;
   if(u.k==='hp'){P.maxHp=Math.round(P.maxHp*1.15);P.hp=P.maxHp;}if(u.k==='pet')addPet();if(u.k==='sp')$('enl').textContent=`⚡ 必殺ゲージ（${SPC()}で必殺技）`;
   LVUP=false;LVQ--;$('lvup').style.display='none';updLvHud();banner(u.ic+' '+u.nm+'！',1.6);sfx('heal',null,0.6);if(LVQ>0)setTimeout(()=>{if(state==='play'&&!LVUP)showLv();},350);}
-function addPet(){const id=(C.human||C.model)?'dragon':charKey,c=CH[id];const d=makeDragon(c.col[0],c.col[1],c.s*0.38,c.o);attachModel(d.g,id);d.g.position.copy(P.pos);scene.add(d.g);PETS.push({g:d.g,id,cd:rnd(0,0.5),ph:PETS.length,hp:70,max:70,hitT:0});}
+function addPet(){const id=(C.human||C.model)?'dragon':charKey,c=CH[id];const d=makeDragon(c.col[0],c.col[1],c.s*0.38,c.o);(attachModel(d.g,PMODEL[id]||id)||attachModel(d.g,id));d.g.position.copy(P.pos);scene.add(d.g);PETS.push({g:d.g,id,cd:rnd(0,0.5),ph:PETS.length,hp:70,max:70,hitT:0});}
 function updPets(dt,t){const n=PETS.length;PETS.forEach((p,i)=>{const a=t*1.3+i*Math.PI*2/n;tmp3.set(P.pos.x+Math.cos(a)*9,P.pos.y+4+Math.sin(t*2.2+i)*1.2,P.pos.z+Math.sin(a)*9);
   if(!C.fly)tmp3.y=Math.max(tmp3.y,floorAt(tmp3.x,tmp3.z)+5);p.g.position.lerp(tmp3,1-Math.exp(-6*dt));p.g.rotation.y=P.tgt?Math.atan2(P.tgt.x-p.g.position.x,P.tgt.z-p.g.position.z):P.yaw;
   p.cd-=dt;if(P.tgt&&p.cd<=0){p.cd=1.7;const b=CH[p.id].br,v=P.tgt.clone().sub(p.g.position).normalize().multiplyScalar(b.spd);
@@ -1721,6 +1724,10 @@ function cinePose(){const S=(C.camB||(charKey==='army'?34:C.fly?24:20))/24,p=CIN
     if(CINE.t<T.cut){const e=CINE.t/T.cut,bk=T.r*0.66+22-e*8;p.set(T.x-f.x*bk+sd.x*T.r*0.3,T.y+T.r*0.36+13-e*3,T.z-f.z*bk+sd.z*T.r*0.3);l.set(T.x,T.y,T.z);CINE.fov=46;}
     else{const fov=clamp(Math.atan(T.r*1.1/D)*114.6,15,46),th=Math.tan(fov*0.008727),bk=clamp(11*S/(th*as),14,60),ph=Math.atan((P.pos.y-T.y)/D);
       p.copy(P.pos).addScaledVector(f,-bk).addScaledVector(sd,bk*0.48*th*as);p.y+=bk*Math.tan(clamp(ph+0.6*fov*0.008727,-0.5,0.9));l.set(T.x,T.y,T.z);CINE.fov=fov;}}
+  else if(CINE.k===5){const q=T.e.mesh.position,dx=q.x-P.pos.x,dz=q.z-P.pos.z,D=Math.hypot(dx,dz)||1,f=tmp.set(dx/D,0,dz/D),sd=tmp2.crossVectors(f,UPV),k=T.e.sc||1;
+    p.set(q.x+f.x*6.4*k+sd.x*3.6*k,q.y+1.7*k,q.z+f.z*6.4*k+sd.z*3.6*k);l.set(q.x*0.7+P.pos.x*0.3,(q.y+2.4*k)*0.7+P.pos.y*0.3,q.z*0.7+P.pos.z*0.3);CINE.fov=52;}
+  else if(CINE.k===4){const dx=T.x-P.pos.x,dz=T.z-P.pos.z,D=Math.hypot(dx,dz)||1,f=tmp.set(dx/D,0,dz/D),sd=tmp2.crossVectors(f,UPV),e=Math.min(1,CINE.t/CINE.d);
+    p.set(T.x+f.x*(15-e*2)+sd.x*3,T.y+1.5,T.z+f.z*(15-e*2)+sd.z*3);l.set(T.x*0.45+P.pos.x*0.55,T.y*0.45+P.pos.y*0.55+1,T.z*0.45+P.pos.z*0.55);CINE.fov=42;}
   else{const A=P.pos,dx=T.x-A.x,dz=T.z-A.z,L=Math.hypot(dx,dz)||1,f=tmp.set(dx/L,0,dz/L),n=tmp2.crossVectors(f,UPV).multiplyScalar(T.sg||1),near=L<110;
     const W=near?L+7*S+T.r*2:T.r*4+14,dist=clamp(W/(0.8*as),22,170),my=near?(A.y+T.y)/2:T.y;
     if(near)l.set(A.x+dx*0.5,my,A.z+dz*0.5);else l.set(T.x-f.x*T.r*1.2,my,T.z-f.z*T.r*1.2);
@@ -1916,7 +1923,7 @@ function addEnemy(type,x,z,y,o={}){
   else if(type==='bigcannon')m=makeProxy(5,7,9,0x3a3a3e);else if(type==='wooddragon')m=makeProxy(8,11,18,0x8a6a3a);else if(type==='walker')m=makeProxy(40,40,40,0xd8d0c0);else if(type==='elder')m=makeProxy(30,22,44,0xc08a30,true);
   else if(type==='ship')m=makeProxy(6,12,16,0x8a5a2a);else if(type==='battleship')m=makeProxy(12,16,40,0x6a6a70);else if(type==='bigairship')m=makeProxy(22,20,40,0x8a6a4a,true);
   else if(type==='kraken')m=makeProxy(24,22,24,0x8a3060);else if(type==='seaserpent')m=makeProxy(8,20,10,0x2a8a7a);
-  const gy=floorAt(x,z);m.position.set(x,o.perch?y:(y!==undefined?Math.max(y,gy+4):gy),z);attachModel(m,{slime:'slime',bat:'bat',imp:'imp',ogre:'ogre',soldier:'soldier',archer:'archer',priest:'priest',cannon:'cannon',hero:'hero',demon:'demon',rival:'rival',golem:'golem',airship:'airship',wizard:'wizard',bigcannon:'bigcannon',wooddragon:'wooddragon',walker:'walker',elder:'elder',ship:'ship',battleship:'battleship',bigairship:'bigairship',kraken:'kraken',seaserpent:'seaserpent',biggolem:'golem',dknight:'dknight',griffin:'griffin'}[type]);if(type==='dknight'&&!MODEL.dknight)dkRide(m);scene.add(m);
+  const gy=floorAt(x,z);m.position.set(x,o.perch?y:(y!==undefined?Math.max(y,gy+4):gy),z);attachModel(m,o.model||{slime:'slime',bat:'bat',imp:'imp',ogre:'ogre',soldier:'soldier',archer:'archer',priest:'priest',cannon:'cannon',hero:'hero',demon:'demon',rival:'rival',golem:'golem',airship:'airship',wizard:'wizard',bigcannon:'bigcannon',wooddragon:'wooddragon',walker:'walker',elder:'elder',ship:'ship',battleship:'battleship',bigairship:'bigairship',kraken:'kraken',seaserpent:'seaserpent',biggolem:'golem',dknight:'dknight',griffin:'griffin'}[type]);if(type==='dknight'&&!MODEL.dknight)dkRide(m);scene.add(m);
   const e={type,mesh:m,dr,hp:s.hp*(EASY?(s.boss?0.42:0.5):(s.boss?0.62:0.75)),maxHp:s.hp*(EASY?(s.boss?0.42:0.5):(s.boss?0.62:0.75)),r:s.r,hc:s.hc,val:s.val,dmg:s.dmg,fly:!!s.fly,boss:s.boss,t:rnd(0,5),cd:rnd(1,3),vy:0,vel:new V3(),cp:new V3(),
     seed:rnd(0,9),hx:0,hz:0,lx:0,lz:0,dvx:0,dvz:0,mv:'run',mt:1.5,state:'chase',ang:rnd(0,6.3),sum:8,met:6,st:0,sub:0,cnt:0,hitT:0,flyT:0,dodgeCd:2,
     thrower:type==='soldier'&&Math.random()<0.35,dashSeen:0,dead:false,perch:!!o.perch,bld:o.bld||null,inv:false,guard:false};
@@ -1925,7 +1932,7 @@ function addEnemy(type,x,z,y,o={}){
 function hitEnemy(e,n){if(e.dead)return;
   if(e.inv){burst(cpos(e),3,GOLD,2,8,0.2);sfx('clang',e.mesh.position,0.5);return;}
   if(e.guard){n*=0.15;burst(cpos(e),3,[0x80c0ff,0xffffff],2.5,8,0.25);sfx('clang',e.mesh.position,0.4);}
-  if(e.type==='bigslime'&&n>=4&&!(e.spT>e.t)){e.spT=e.t+0.5;slimeSpawn(e,1);}e.hp-=n;e.hitT=0.14;
+  if(e.type==='bigslime'&&n>=4&&!(e.spT>e.t)){e.spT=e.t+0.5;slimeSpawn(e,1);}if(e.barT>0){n*=0.25;if(Math.random()<0.3)burst(cpos(e),3,GOLD,2.5,8,0.25);}if(e.cave&&e.type==='hero'&&!CAVE.flee&&e.hp-n<e.maxHp*0.3){e.hp=e.maxHp*0.3;caveFlee();return;}e.hp-=n;e.hitT=0.14;
   if(n>=8){if(!(e.flT>0)){e._rx=e.mesh.rotation.x;e._rz=e.mesh.rotation.z;}e.flT=0.26;if(!e.boss&&!e.perch&&e.r<5){const q=e.mesh.position,dx=q.x-P.pos.x,dz=q.z-P.pos.z,d=Math.hypot(dx,dz)||1;e.kx=dx/d*15;e.kz=dz/d*15;}}
   if(e.hp<=0)killEnemy(e);}
 const DIE={wizard:'そんな…わしの魔力が…',hero:'すまない…みんな…',demon:'この私が…トカゲごときに…',rival:'…強くなったな。',wooddragon:'……ギギ……ギ……',walker:'城が……ローンが、まだ……',elder:'見事だ、若き竜よ。空はお前のものだ。',battleship:'総員、退艦…！ 泳げる者から…！',bigairship:'空の…王の船が…！',kraken:'ゴボ…ゴボボ……'};
@@ -2040,7 +2047,7 @@ function updEnemies(dt){
       u.brl.position.z*=Math.max(0,1-dt*4);break;}
     case 'priest':{grav(e,dt);const h=EN.find(x=>x.type==='hero'&&!x.dead);const u=e.mesh.userData;
       if(h){const hp_=h.mesh.position,tx=hp_.x+Math.sin(e.seed)*14,tz=hp_.z+Math.cos(e.seed)*14,dd=Math.hypot(tx-p.x,tz-p.z);walk(e,tx,tz,dd>4?15:0,dt);if(dd>4)animWalk(e,9);
-        if(e.cd<=0&&h.hp<h.maxHp){e.cd=4;h.hp=Math.min(h.maxHp,h.hp+45);burst(cpos(h),24,[0x60ff90,0xd0ffd0],3,15,0.9,6);burst(cpos(e),8,[0x60ff90],2,8,0.5);sfx('heal',p);u.armR.rotation.x=-2.8;}}
+        if(e.cd<=0&&h.hp<h.maxHp){e.cd=4;h.hp=Math.min(h.maxHp,h.hp+(e.cave?20:45));burst(cpos(h),24,[0x60ff90,0xd0ffd0],3,15,0.9,6);burst(cpos(e),8,[0x60ff90],2,8,0.5);sfx('heal',p);u.armR.rotation.x=-2.8;}}
       else{faceP(e);if(e.cd<=0&&hd<140){e.cd=3;const f=cpos(e).clone();f.y+=1.5;shootAtP(f,70,{mat:MAT.light,size:0.9,r:1.3,dmg:6,life:3,trail:[0x80ffb0],col:[0x80ffb0,0xffffff]});u.armR.rotation.x=-2.8;}}
       u.armR.rotation.x*=Math.max(0,1-dt*2);break;}
     case 'hero':heroAI(e,dt,dx,dz,hd,d3);break;
@@ -2254,9 +2261,10 @@ const SOLDIERS=(cx,cz,rows,cols,face)=>{const ang=face!==undefined?face:Math.ata
   for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const la=(c-(cols-1)/2)*5,bk=r*5;addEnemy('soldier',cx+lx*la-fx*bk,cz+lz*la-fz*bk);}return {fx,fz,lx,lz};};
 const STAGES=[
   {key:'valley',ch:'第1章',title:'目覚め',place:'竜の谷',
-   ter:{amp:1,ox:0,oz:0,flats:[[-72,-42,45,3],[90,-85,35,3]],dirt:[[-72,-42,30],[90,-85,24]],start:[0,120]},
+   ter:{amp:1,ox:0,oz:0,flats:[[-72,-42,45,3],[90,-85,35,3],[0,120,128,3,1]],dirt:[[-72,-42,30],[90,-85,24],[0,120,126]],start:[0,120]},
    story:['千年の眠りから、竜は目を覚ました。寝起きは、きわめて悪い。','谷には魔物があふれ、森の奥では岩の巨人ゴーレムまで動き出した。','まずは、この谷を取りもどせ。朝めし前の、軽い火あそびだ。'],
    waves:[
+    {name:'ねぐらの勇者一行',msg:'⚔️ 勇者の一行が、ねぐらに乗りこんできた！',mood:6,cave:1,clr:'🏃 勇者の一行は逃げ出した！ 体力が少し回復',go(){caveParty();}},
     {name:'魔物の群れ',msg:'👾 魔物の群れが来た！',mood:0,go(){for(let i=0;i<12;i++)addEnemy('slime',...ringPos(60,150));for(let i=0;i<8;i++){const [x,z]=ringPos(80,150);addEnemy('bat',x,z,P.pos.y+rnd(0,30));}}},
     {name:'オーガの親分',msg:'👹 オーガが村をおそっている！',mood:0,go(){addEnemy('bigslime',-72+rnd(-30,30),-42+rnd(-30,30));addEnemy('biggolem',90+rnd(-15,15),-85+rnd(-15,15));for(let i=0;i<3;i++)addEnemy('ogre',-72+rnd(-25,25),-42+rnd(-25,25));for(let i=0;i<8;i++)addEnemy('slime',-72+rnd(-30,30),-42+rnd(-30,30));for(let i=0;i<6;i++){const [x,z]=ringPos(60,120);addEnemy('bat',x,z,P.pos.y+rnd(0,25));}for(let i=0;i<2;i++)addEnemy('golem',90+rnd(-20,20),-85+rnd(-20,20));}}]},
   {key:'town',ch:'第2章',title:'炎の夜明け',place:'国境の町',
@@ -2319,9 +2327,58 @@ const STAGES=[
 const ENDING=['古の竜もライバルも、静かに翼をたたんで雲の中へ消えていった。','魔物も、王国も、悪魔も、もう竜をおびやかさない。おびやかす口が、残っていない。','空は、きみのものだ。','遠くの空で、女神が小さくため息をついた。「罰のつもりだったのに……次は、ミジンコにします」'];
 let stage=0,wave=-1,waveWait=0,reached=0;
 const WAVES=STAGES.flatMap(s=>s.waves);
-function curWaves(){return STAGES[stage].waves;}
-function startWave(i){wave=i;const w=curWaves()[i];moodT=MOODS[w.mood];w.go();banner(w.msg,3);const tl=(TALKS[STAGES[stage].key]||{}).w;if(tl&&tl[i]&&i>0)talk(tl[i]);thinWave();cineWave();}
-function cineWave(){const L=EN.filter(e=>!e.dead);if(!L.length)return;const b=L.find(e=>e.boss);let x=0,y=0,z=0,r=26,n=0;
+function curWaves(){const W=STAGES[stage].waves;return W[0].cave&&!caveOK()?W.slice(1):W;}
+/* ---- 第1章の最初：ねぐらの洞窟で勇者の一行と戦う（竜のキャラだけ） ---- */
+const CAVE={on:false,g:null,x:0,z:0,y:0,R:125,hy:0.56,flee:false,out:false,t:0,bar:6};
+function caveOK(){return ['dragon','wyvern','ground'].includes(charKey);}
+function caveTop(d){return CAVE.y+CAVE.hy*Math.sqrt(Math.max(0,CAVE.R*CAVE.R-d*d))*0.9-3;}
+function caveClear(){if(CAVE.g){scene.remove(CAVE.g);CAVE.g.traverse(o=>{if(o.geometry)o.geometry.dispose();});CAVE.g=null;}CAVE.on=false;CAVE.flee=false;}
+function caveBuild(){caveClear();const [cx,cz]=TER.start,gy=floorAt(cx,cz),R=CAVE.R,g=new THREE.Group();CAVE.x=cx;CAVE.z=cz;CAVE.y=gy;CAVE.on=true;CAVE.t=0;CAVE.out=false;CAVE.bar=6;CAVE.c1=CAVE.c2=0;
+  // 岩の天井と壁：でこぼこの丸天井を内側から見る
+  const geo=new THREE.SphereGeometry(R,36,20,0,Math.PI*2,0,Math.PI*0.58),pa=geo.attributes.position;
+  for(let i=0;i<pa.count;i++){const x=pa.getX(i),y=pa.getY(i),z=pa.getZ(i),n=1+0.06*Math.sin(x*0.13+z*0.07)+0.05*Math.sin(y*0.21+x*0.05)+0.04*Math.sin(z*0.17+y*0.11);pa.setXYZ(i,x*n,y*CAVE.hy*n,z*n);}
+  geo.computeVertexNormals();{const col=new Float32Array(pa.count*3);for(let i=0;i<pa.count;i++){const y=pa.getY(i),k=0.55+0.55*Math.random()+0.12*Math.sin(y*0.35),w=Math.random()<0.08?1.5:1;col[i*3]=0.62*k*w;col[i*3+1]=0.5*k*w;col[i*3+2]=0.42*k;}geo.setAttribute('color',new THREE.BufferAttribute(col,3));}const dome=new THREE.Mesh(geo,new THREE.MeshLambertMaterial({color:0xffffff,vertexColors:true,emissive:0x1c1410,side:THREE.BackSide,flatShading:true}));dome.position.set(cx,gy,cz);g.add(dome);
+  const st=new THREE.MeshLambertMaterial({color:0x6a584c,emissive:0x15100c,flatShading:true});
+  // つらら石（天井から下がる）と、石のたけのこ（かべぎわの地面）
+  for(let i=0;i<30;i++){const a=rnd(0,6.283),d=rnd(10,R*0.86),h=rnd(8,24)*(1-d/R*0.5),c=new THREE.Mesh(new THREE.ConeGeometry(rnd(2,4.5),h,6),st);c.rotation.x=Math.PI;c.position.set(cx+Math.cos(a)*d,gy+CAVE.hy*Math.sqrt(R*R-d*d)*0.97-h*0.5+1.5,cz+Math.sin(a)*d);g.add(c);}
+  for(let i=0;i<20;i++){const a=rnd(0,6.283),d=rnd(78,114),h=rnd(6,14),c=new THREE.Mesh(new THREE.ConeGeometry(rnd(2,4),h,6),st);c.position.set(cx+Math.cos(a)*d,gy+h*0.5-0.5,cz+Math.sin(a)*d);g.add(c);}
+  // 光る水晶
+  const CC=[0x5fd8ff,0x9a7aff,0xffb050];
+  for(let i=0;i<14;i++){const a=rnd(0,6.283),d=rnd(52,110),col=CC[i%3],c=new THREE.Mesh(new THREE.OctahedronGeometry(rnd(1.5,3)),new THREE.MeshBasicMaterial({color:col}));c.scale.y=2.2;c.rotation.z=rnd(-0.4,0.4);c.position.set(cx+Math.cos(a)*d,gy+2.5,cz+Math.sin(a)*d);g.add(c);
+    const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:col,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(16,16,1);gl.position.copy(c.position);gl.position.y+=2;g.add(gl);}
+  for(let i=0;i<14;i++){const a=rnd(0,6.283),d=R*rnd(0.78,0.93),col=CC[i%3],gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:col,transparent:true,opacity:0.55,blending:THREE.AdditiveBlending,depthWrite:false}));const s=rnd(10,22);gl.scale.set(s,s,1);gl.position.set(cx+Math.cos(a)*d,gy+rnd(6,CAVE.hy*Math.sqrt(R*R-d*d)*0.8),cz+Math.sin(a)*d);g.add(gl);}
+  // 天井の穴からさす光と、竜が寝ていた金の山
+  const sh=new THREE.Mesh(new THREE.CylinderGeometry(5,16,CAVE.hy*R,16,1,true),new THREE.MeshBasicMaterial({color:0xfff0c8,transparent:true,opacity:0.1,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));sh.position.set(cx,gy+CAVE.hy*R*0.5,cz);g.add(sh);
+  {const N=70,gm=new THREE.InstancedMesh(new THREE.DodecahedronGeometry(1.3),new THREE.MeshLambertMaterial({color:0xe2ae32,emissive:0x4a3000,flatShading:true}),N),o=new THREE.Object3D();for(let i=0;i<N;i++){const a=rnd(0,6.283),r=11*Math.sqrt(Math.random());o.position.set(cx+Math.cos(a)*r,gy+Math.max(0.2,(1-r/11)*3.2*rnd(0.6,1)),cz+18+Math.sin(a)*r*0.8);o.rotation.set(rnd(0,3),rnd(0,3),rnd(0,3));o.scale.setScalar(rnd(0.6,1.5));o.updateMatrix();gm.setMatrixAt(i,o.matrix);}g.add(gm);}
+  const gg=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xffc040,transparent:true,opacity:0.25,blending:THREE.AdditiveBlending,depthWrite:false}));gg.scale.set(40,18,1);gg.position.set(cx,gy+4,cz+18);g.add(gg);
+  scene.add(g);CAVE.g=g;}
+// 勇者の一行：勇者（盾と飛びこみ斬り）・騎士（大きな兵。やりを投げる）・魔法使い（回復と結界）
+function caveParty(){caveBuild();moodT=MOODS[6];updMood(0,true);const cx=CAVE.x,cz=CAVE.z-30;if(C.fly)P.pos.y=CAVE.y+13;
+  const h=addEnemy('hero',cx,cz);h.cave=1;h.hp=h.maxHp=h.maxHp*0.5;h.dmg*=0.5;h.sum1=1;h.p2=1;h.said=1;h.mt=3.6;h.sc=1.5;h.r*=1.3;h.hc*=1.5;
+  const k=addEnemy('soldier',cx-7,cz+3,undefined,{model:'captain'});k.cave=1;k.hp=k.maxHp=EASY?90:150;k.sc=1.55;k.r*=1.4;k.hc*=1.55;k.thrower=true;k.val=120;k.cd=4.5;
+  const m=addEnemy('priest',cx+7,cz-4,undefined,{model:'merchant'});m.hop=MODEL.merchant?m.mesh.children[m.mesh.children.length-1]:null;m.cave=1;m.hp=m.maxHp=EASY?55:90;m.val=120;m.cd=5.5;m.sc=1.15;m.r*=1.2;m.hc*=1.15;
+  [h,k,m].forEach(e=>{e.mesh.rotation.y=0;});$('cutin').style.display='none';cutT=0;
+  talk([['勇者','いたぞ、千年竜だ！ 眠っているうちに討つはずが……起きたか！'],['ME','……人のねぐらに、土足で三人。朝めしの前に、まず客から焼くか。'],['勇者','盾を前へ！ 魔法使いは結界を！ 行くぞ！'],['💡 ヒント','うしろの魔法使いが、勇者を回復して結界を張る。先に倒そう']]);}
+function caveFlee(){if(CAVE.flee)return;CAVE.flee=true;CAVE.out=false;CAVE.t=0;EN.forEach(e=>{if(e.cave)e.inv=true;});TK.q.length=0;
+  talk([['勇者','くっ……寝起きでこの強さか！ 引くぞ、王都で立て直す！'],['ME','逃げ足だけは一流だな。……さて、外がさわがしい。']]);TS=0.3;tsT=0.8;shake(0.4);}
+function caveBreak(){if(!CAVE.on)return;const c=new V3(CAVE.x,CAVE.y+46,CAVE.z);debris(c,36,[0x7a6658,0x4a3e36,0x9a8a7a],5);
+  for(let i=0;i<6;i++){const a=i/6*6.283;debris(new V3(CAVE.x+Math.cos(a)*60,CAVE.y+30,CAVE.z+Math.sin(a)*60),8,[0x7a6658,0x4a3e36],6);}
+  burst(c,50,FIRE,8,60,1.2);smoke(c,10,12,3,0x5a5248,20);flashV=1;shake(1);sfx('boom',null,1);caveClear();moodT=MOODS[0];setTimeout(()=>{if(state==='play')addXp(300);},1600);banner(C.fly?'🔥 天井をぶち破って、外へ！':'🔥 岩かべをぶち破って、外へ！',2.6);}
+function updCave(dt,rdt){if(!CAVE.on||state!=='play')return;const L=EN.filter(e=>e.cave&&!e.dead);
+  for(const e of L)if(e.barT>0)e.barT-=dt;
+  {const q=L.find(e=>e.hop);if(q&&dt>0){const w=q.mesh.position,v=Math.hypot(w.x-(q.px0===undefined?w.x:q.px0),w.z-(q.pz0===undefined?w.z:q.pz0))/dt;q.px0=w.x;q.pz0=w.z;q.ht=(q.ht||0)+dt*(v>1?11:3);q.hop.position.y=Math.abs(Math.sin(q.ht))*(v>1?0.4:0.06);q.hop.rotation.z=Math.sin(q.ht)*(v>1?0.1:0.02);}}
+  if(CAVE.flee){if(PAUSED||LVUP)return;CAVE.t+=rdt;
+    if(!CAVE.out&&CAVE.t>1.1){CAVE.out=true;for(const e of L){const c=cpos(e).clone();pillar(gpos(c),0xffe890,3,70,0.8);burst(c,24,GOLD,3,20,0.8);glowFlash(c,0xfff0b0,20,0.5);scene.remove(e.mesh);e.dead=true;score+=e.val;const i=EN.indexOf(e);if(i>=0)EN.splice(i,1);}sfx('heal',null,0.7);}
+    if(CAVE.t>2.0)caveBreak();return;}
+  if(!L.length){caveBreak();return;}
+  // 結界：魔法使いが生きている間、7秒ごとに金色の魔法陣で一行を守る（その間は炎が4分の1しか効かない）
+  const m=L.find(e=>e.type==='priest'),h=L.find(e=>e.type==='hero');CAVE.bar-=dt;
+  if(h&&h.mv==='leap'&&!CAVE.c2&&!CINE.k){CAVE.c2=1;cine(5,1.25,{e:h});if(CINE.k===5){TS=0.35;tsT=1.1;}}
+  if(m&&h&&CAVE.bar<=0){CAVE.bar=7;for(const e of L)e.barT=2.6;if(!CAVE.c1&&!CINE.k){CAVE.c1=1;cine(5,1.7,{e:h});if(CINE.k===5){TS=0.3;tsT=1.55;}}const c=cpos(h).clone(),d=tmp.subVectors(P.pos,c).normalize().clone();
+    magicCircle(c.clone().addScaledVector(d,3.5),0xffd040,7,2.6,d.clone());magicCircle(cpos(m).clone().addScaledVector(d,2),0xffd040,4,2.6,d.clone());bubble(m,'結界！','',1.4);sfx('heal',m.mesh.position,0.5);}}
+function startWave(i){wave=i;const w=curWaves()[i];moodT=MOODS[w.mood];w.go();banner(w.msg,3);const tl=(TALKS[STAGES[stage].key]||{}).w;{const ti=i-(curWaves()[0].cave?1:0);if(tl&&tl[ti]&&ti>0)talk(tl[ti]);}thinWave();cineWave();}
+function cineWave(){const L=EN.filter(e=>!e.dead);if(!L.length)return;
+  if(CAVE.on&&L.some(e=>e.cave)){const G=L.filter(e=>e.cave);let x=0,z=0;G.forEach(e=>{x+=e.mesh.position.x/G.length;z+=e.mesh.position.z/G.length;});cine(4,2.8,{x,y:CAVE.y,z});if(CINE.k===4){TS=0.1;tsT=2.65;}return;}const b=L.find(e=>e.boss);let x=0,y=0,z=0,r=26,n=0;
   if(b){const c=cpos(b);x=c.x;y=c.y;z=c.z;r=Math.max(26,b.r*2.6);}
   else{let s=L[0],sc=-1;for(const e of L){let k=0;for(const o of L)if(o.mesh.position.distanceToSquared(e.mesh.position)<4900)k++;if(k>sc){sc=k;s=e;}}
     const G=L.filter(o=>o.mesh.position.distanceToSquared(s.mesh.position)<4900);n=G.length;for(const o of G){const c=cpos(o);x+=c.x/n;y+=c.y/n;z+=c.z/n;}for(const o of G){const c=cpos(o);r=Math.max(r,Math.hypot(c.x-x,c.z-z));}}
@@ -2329,7 +2386,7 @@ function cineWave(){const L=EN.filter(e=>!e.dead);if(!L.length)return;const b=L.
 // 初心者モード：ボス以外の敵を4割へらす（短い時間で終わるように）
 function thinWave(){let k=0;for(let i=EN.length-1;i>=0;i--){const e=EN[i];if(e.boss||e.dead||e.type==='biggolem'||e.type==='bigslime')continue;k+=EASY?0.4:0.25;if(k>=1){k-=1;scene.remove(e.mesh);EN.splice(i,1);}}}
 // 章の地形・建物を作る
-function addFlags(){const F=[];for(const f of TER.flats){const n=Math.max(4,Math.min(12,Math.round(f[2]/7)));for(let i=0;i<n;i++){const a=i/n*6.283+f[0]*0.01,rr=f[2]*0.85,x=f[0]+Math.cos(a)*rr,z=f[1]+Math.sin(a)*rr,y=H(x,z);if(y<WATER+0.8)continue;F.push([x,y,z]);}}
+function addFlags(){const F=[];for(const f of TER.flats){if(f[4])continue;const n=Math.max(4,Math.min(12,Math.round(f[2]/7)));for(let i=0;i<n;i++){const a=i/n*6.283+f[0]*0.01,rr=f[2]*0.85,x=f[0]+Math.cos(a)*rr,z=f[1]+Math.sin(a)*rr,y=H(x,z);if(y<WATER+0.8)continue;F.push([x,y,z]);}}
   if(!F.length)return;
   const pg=new THREE.CylinderGeometry(0.16,0.2,10,5);pg.translate(0,5,0);const fg=new THREE.PlaneGeometry(4.2,2.5);fg.translate(2.2,0,0);
   const pm=new THREE.InstancedMesh(pg,new THREE.MeshLambertMaterial({color:0xe8e0c8}),F.length),fm=new THREE.InstancedMesh(fg,new THREE.MeshLambertMaterial({color:0xffffff,side:THREE.DoubleSide}),F.length);
@@ -2346,7 +2403,7 @@ function addHell(){const N=64,sg=new THREE.ConeGeometry(1,1,5);sg.translate(0,0.
   const rg=new THREE.Mesh(new THREE.RingGeometry(12,30,40),new THREE.MeshBasicMaterial({color:0xff4a8a,transparent:true,opacity:0.5,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending,fog:false}));rg.rotation.x=-Math.PI/2;rg.position.set(0,gy+0.8,-160);scene.add(rg);TERRAIN.push(rg);}
 function setupStage(i){stage=i;const S=STAGES[i];
   TER=Object.assign({amp:1,ox:0,oz:0,flats:[],dirt:[],grass:0x5c9e3c,hill:0x6e7a3a,rock:0x7a756d,snow:0xf4f6f8,sand:0xd8c690,dirtC:0x9a8a62,water:0x2a70b8,lava:false,trees:480,trunk:0x6b4a2a,leaf:0x2f6e2a,rocks:40,rockC:0x8a857c,start:[0,120]},S.ter);
-  clearWorld();buildTerrain();buildBridges();buildWorld(S.key);addFlags();if(TER.lava)addHell();moodT=MOODS[S.waves[0].mood];updMood(0,true);
+  clearWorld();buildTerrain();buildBridges();buildWorld(S.key);addFlags();if(TER.lava)addHell();moodT=MOODS[(S.waves.find(w=>!w.cave)||S.waves[0]).mood];updMood(0,true);
   const [sx,sz]=TER.start;P.pos.set(sx,C.fly?floorAt(sx,sz)+40:floorAt(sx,sz)+C.gOff,sz);P.yaw=P.lastYaw=Math.PI;P.vel.set(0,0,0);P.vy=0;}
 // 紙芝居：章ごとに絵3枚（第1章の前に序章4枚）。「次へ」でめくり、「スキップ」でとばす
 const PROLOGUE=[
@@ -2517,7 +2574,7 @@ document.querySelectorAll('#touch .b').forEach(b=>{b.addEventListener('touchstar
   const bar=(l,v)=>`<div class="st"><span>${l}</span><div class="bar"><i style="width:${v*20}%"></i></div></div>`;
   d.innerHTML=`<img class="pti" src="chara/${k}.webp" alt=""><div class="nm">${c.name}<span class="tag">${c.tag}</span></div><div class="ds">${c.ds}</div>${bar('体力',c.stat[0])}${bar('速さ',c.stat[1])}${bar('攻撃',c.stat[2])}`;
   d.addEventListener('click',()=>{initAudio();setChar(k);sfx('roar',null,0.3);});box_.appendChild(d);}}
-function clearWorld(){FALL.forEach(o=>scene.remove(o.e.mesh));FALL.length=0;EN.forEach(e=>scene.remove(e.mesh));EN.length=0;PROJ.forEach(p=>scene.remove(p.m));PROJ.length=0;PILL.forEach(q=>{scene.remove(q.rm);if(q.cm)scene.remove(q.cm);});PILL.length=0;
+function clearWorld(){caveClear();FALL.forEach(o=>scene.remove(o.e.mesh));FALL.length=0;EN.forEach(e=>scene.remove(e.mesh));EN.length=0;PROJ.forEach(p=>scene.remove(p.m));PROJ.length=0;PILL.forEach(q=>{scene.remove(q.rm);if(q.cm)scene.remove(q.cm);});PILL.length=0;
   EMIT.length=0;DEB.forEach(d=>scene.remove(d.m));DEB.length=0;BLD.forEach(b=>{scene.remove(b.g);if(b.rub)scene.remove(b.rub);});BLD.length=0;wave=-1;}
 // 章のはじめの強さ（レベルと強化）を覚えておく。やられても、ページを開き直しても、その章のはじめの強さで続けられる
 let CKPT=null,combo=0,comboT=0,maxCombo=0,best=0;try{best=+localStorage.getItem('dragon_best')||0;}catch(e){}
@@ -2592,7 +2649,7 @@ function frame(now){
       if(P.onGround&&Math.random()<0.15)smoke(tmp.set(P.pos.x,gh-C.gOff+0.5,P.pos.z),1,1.4,0.6,0xa8987a,1.5);
     }
     collide(dt);
-    if(P.pos.y>240)P.pos.y=240;const pr=Math.hypot(P.pos.x,P.pos.z);if(pr>470){P.pos.x*=470/pr;P.pos.z*=470/pr;}
+    if(P.pos.y>240)P.pos.y=240;const pr=Math.hypot(P.pos.x,P.pos.z);if(pr>470){P.pos.x*=470/pr;P.pos.z*=470/pr;}if(CAVE.on){const dx=P.pos.x-CAVE.x,dz=P.pos.z-CAVE.z,d=Math.hypot(dx,dz),m=CAVE.R-14;if(d>m){P.pos.x=CAVE.x+dx*m/d;P.pos.z=CAVE.z+dz*m/d;}const top=caveTop(Math.min(d,m))-5;if(P.pos.y>top)P.pos.y=top;}
     P.fireCd-=dt;P.inv-=dt;
     if(TER.lava&&(P.onGround||P.pos.y<=floorAt(P.pos.x,P.pos.z)+C.gOff+0.5)&&H(P.pos.x,P.pos.z)<WATER){hurt(30*dt,true);if(Math.random()<0.3)burst(P.pos,2,FIRE,3,8,0.4);}
     P.melCd-=dt;if(P.melT>0)P.melT-=dt;
@@ -2603,7 +2660,7 @@ function frame(now){
     if(comboT>0){comboT-=dt;if(comboT<=0){combo=0;$('combo').style.opacity=0;}}
     updEnemies(dt);updProj(dt);updPill(dt);updPets(dt,t);
     if(EN.length===0&&wave>=0){const W=curWaves();
-      if(waveWait<=0){waveWait=EASY?2.2:2.6;if(wave<W.length-1){banner('✨ 全滅させた！ 体力が少し回復',2.4);P.hp=Math.min(P.maxHp,P.hp+P.maxHp*0.35);}else{banner(`🏆 ${STAGES[stage].ch}「${STAGES[stage].title}」クリア！`,3);waveWait=3.2;}}
+      if(waveWait<=0){waveWait=EASY?2.2:2.6;if(wave<W.length-1){banner(W[wave].clr||'✨ 全滅させた！ 体力が少し回復',2.4);P.hp=Math.min(P.maxHp,P.hp+P.maxHp*0.35);}else{banner(`🏆 ${STAGES[stage].ch}「${STAGES[stage].title}」クリア！`,3);waveWait=3.2;}}
       else{waveWait-=dt;if(waveWait<=0){if(wave<W.length-1)startWave(wave+1);else if(stage<STAGES.length-1){reached=stage+1;P.hp=Math.min(P.maxHp,P.hp+P.maxHp*0.5);setupStage(stage+1);showStory(stage,false,true);}else{wave=-1;showStory(stage,true,true);}}}
     }
   }else if(state==='dead'){deadT-=rdt;D.g.position.y=Math.max(floorAt(P.pos.x,P.pos.z)+1,D.g.position.y-rdt*20);D.g.rotation.z+=rdt*2;if(deadT<=0){D.g.visible=false;showEnd(false);}}
@@ -2625,10 +2682,10 @@ function frame(now){
       const want=(1-wk0)*((r<0.25?-0.08:Math.min(1,(r-0.25)/0.6))*(cf.lean||0.5)+(P.dashT>0?0.12:0)-clamp((P.vel.y||0)/80,-0.3,0.5)*0.5);P.lean=(P.lean||0)+(want-(P.lean||0))*Math.min(1,dt*3.5);D.g.rotation.x+=P.lean;
       if(f&&f.fl&&r<0.5)D.g.position.y+=Math.sin(f.ph-0.6)*0.7*(1-r*2)*(1-wk0);}
     if(state==='select')D.g.rotation.y=t*0.4+Math.PI;
-    if(D.human)animHuman(D,t,state==='play');else if(D.model){if(C.fly)D.body.position.y=Math.sin(t*1.3)*0.5;}else{animDragon(D,t,P.dashT>0?16:P.firing?7:5.5,C.fly?0:(state==='play'?(P.dashT>0?16:9):3));if(D.g.userData.flap&&D.g.userData.flap.rig){if(P.melA>0&&state==='play'){const s=rigMel();D.g.rotation.x+=s*0.2;D.g.translateZ(s*1.8);}}else if(P.melT>0&&state==='play')D.g.rotation.y+=(1-P.melT/0.3)*Math.PI*2;}
+    if(D.human)animHuman(D,t,state==='play');else if(D.model){if(C.fly)D.body.position.y=Math.sin(t*1.3)*0.5;}else{animDragon(D,t,P.dashT>0?16:P.firing?7:5.5,C.fly?0:(state==='play'?(P.dashT>0?16:9):3));if(D.g.userData.flap&&D.g.userData.flap.rig){if(P.melA>0&&state==='play'){const s=rigMel();D.g.rotation.x+=s*0.2;D.g.translateZ(s*1.8);}}else if(P.melA>0&&state==='play'){P.melA-=dt;const s=rigMel();D.g.rotation.x+=s*(C.fly?0.3:0.16);D.g.translateZ(s*(C.fly?2.4:1.8));if(!C.fly)D.g.position.y+=Math.abs(s)*0.5;}}
     updSlash(rdt);
   }
-  updParts(dt);updAirProp(dt);updEmit(dt);updDeb(dt);updMix(dt);updBolts(dt);updShock(dt);updFX(dt);updBld(dt,t);updFall(rdt);
+  updParts(dt);updAirProp(dt);updEmit(dt);updDeb(dt);updMix(dt);updBolts(dt);updShock(dt);updFX(dt);updBld(dt,t);updFall(rdt);updCave(dt,rdt);
   const vv=state==='play'?P.vel.length():0;updFeel(rdt,vv,t);
   clouds.forEach((c,i)=>{c.position.x+=dt*(2+i%3);if(c.position.x>1050)c.position.x=-1050;});
   // カメラ
@@ -2651,7 +2708,7 @@ function frame(now){
   const hud=state==='play'||state==='dead';$('hud').style.display=hud?'block':'none';$('touch').style.visibility=state==='play'?'visible':'hidden';
   if(state==='play'){const alive=EN.filter(e=>!e.dead);$('wave').textContent=wave>=0?`${STAGES[stage].ch} ${STAGES[stage].place}　${curWaves()[wave].name}（${wave+1}/${curWaves().length}）`:`${STAGES[stage].ch} ${STAGES[stage].place}`;$('score').textContent=`スコア ${score}`;
     const cnt={};alive.forEach(e=>{cnt[e.type]=(cnt[e.type]||0)+1;});$('remain').textContent='のこり　'+Object.keys(cnt).map(k=>ST[k].ic+cnt[k]).join('　');}
-  const boss=EN.find(e=>e.boss&&!e.dead);if(boss){$('boss').style.display='block';$('bossName').textContent=boss.boss+(boss.guard?'（盾で防御中）':boss.inv?'（覚醒中・無敵）':'');$('bossb').style.width=(boss.hp/boss.maxHp*100)+'%';}else $('boss').style.display='none';
+  const boss=EN.find(e=>e.boss&&!e.dead);if(boss){$('boss').style.display='block';$('bossName').textContent=boss.boss+(boss.guard?'（盾で防御中）':boss.inv?(boss.cave?'（退却中）':'（覚醒中・無敵）'):'');$('bossb').style.width=(boss.hp/boss.maxHp*100)+'%';}else $('boss').style.display='none';
   if(bannerT>0){bannerT-=rdt;if(bannerT<=0)$('banner').style.opacity=0;}
   if(speechT>0){speechT-=rdt;if(speechT<=0)$('speech').style.opacity=0;}upd2d(rdt);
   if(hud){drawMap();drawInd();}

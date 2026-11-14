@@ -176,5 +176,29 @@
   "h": 8,
   "ja": "竜騎士（飛竜に乗った騎士）",
   "rot": 0
+ },
+ "captain": {
+  "file": "captain.glb",
+  "h": 2.3,
+  "ja": "騎士（勇者の一行）",
+  "rot": 0
+ },
+ "merchant": {
+  "file": "merchant.glb",
+  "h": 2.0,
+  "ja": "魔法使い（勇者の一行・荷物持ち）",
+  "rot": 0
+ },
+ "wyvern2": {
+  "file": "wyvern2.glb",
+  "h": 7,
+  "ja": "ワイバーン（緑・自分のキャラ用）",
+  "rot": 0
+ },
+ "catapult": {
+  "file": "catapult.glb",
+  "h": 9,
+  "ja": "投石機",
+  "rot": 0
  }
 }
