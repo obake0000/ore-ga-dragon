@@ -632,7 +632,8 @@
  "aqueduct": {
   "file": "aqueduct.glb",
   "h": 24,
-  "ja": "アーチの遺跡（水道橋のあと）"
+  "ja": "アーチの遺跡（水道橋のあと）",
+  "rot": 1.5708
  },
  "dunarch": {
   "file": "dunarch.glb",

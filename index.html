@@ -819,7 +819,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116zj';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116zl';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1498,6 +1498,9 @@ function makeObelisk(x,z){const g=new THREE.Group();const dk=mat(0x1e1824);
   for(let i=0;i<3;i++){const rn=box(4.2,0.5,4.2,new THREE.MeshBasicMaterial({color:0x8a30e0}));rn.position.y=4+i*5;g.add(rn);}
   [[2.6,0],[-2.6,0],[0,2.6],[0,-2.6]].forEach(([a,c])=>{const s=mesh(new THREE.ConeGeometry(0.6,3,5),dk);s.position.set(a,2,c);s.rotation.set(c?Math.sign(c)*1.1:0,0,a?-Math.sign(a)*1.1:0);g.add(s);});
   return place(g,x,z,rnd(0,6),170,80,'tower','obelisk');}
+// アーチの遺跡（水道橋のあと）：仮の形は、柱4本とはり。Tripo のモデル（aqueduct）があれば入れかわる
+function makeAqueduct(x,z,rot){const g=new THREE.Group(),m=mat(0xcfc8b8);for(let i=0;i<4;i++){const c=box(4,20,5,m);c.position.set(i*11-16.5,10,0);g.add(c);}const t=box(40,4,5,m);t.position.set(0,22,0);g.add(t);
+  return place(g,x,z,rot,520,160,'ruin','aqueduct');}
 function makeRuin(x,z,dark){const g=new THREE.Group();const m=mat(dark?0x4a4048:0xd8d2c4);const n=2+((Math.random()*3)|0);
   for(let i=0;i<n;i++){const h=rnd(4,12);const c=mesh(new THREE.CylinderGeometry(0.9,1,h,10),m);c.position.set(i*3.2-n*1.6,h/2,rnd(-0.5,0.5));g.add(c);}
   const l=box(n*3.2,1,2.2,m);l.position.set(-1.6,12.4,0);if(Math.random()<0.5){l.position.y=0.5;l.rotation.y=0.6;}g.add(l);
@@ -1539,6 +1542,9 @@ function buildWorld(L){
     makeMill(-112,-62);makeWell(-70,-38+6);makeStall(-60,-34,0.3);makeStall(-80,-34,-0.4);
     [[80,-90],[96,-74],[70,-72]].forEach(([x,z])=>makeHouse(x,z,rnd(0,6.3)));makeWarehouse(92,-98,0.4);makeMill(110,-84);
     T.towers.push(makeWatchtower(-40,-70));
+    // アーチの遺跡を4つ：陸の上・村や始まりの場所からはなれた所をさがして置く
+    {const ok=(x,z)=>H(x,z)>WATER+2.5&&Math.abs(H(x+14,z)-H(x-14,z))<7&&Math.abs(H(x,z+14)-H(x,z-14))<7&&!TER.flats.some(f=>Math.hypot(x-f[0],z-f[1])<f[2]+26);
+      for(const a0 of [0.5,2.0,3.6,5.2]){let done=false;for(let k=0;k<40&&!done;k++){const a=a0+rnd(-0.45,0.45),r=rnd(120,230),x=Math.sin(a)*r,z=Math.cos(a)*r;if(ok(x,z)){makeAqueduct(x,z,a+Math.PI/2+rnd(-0.5,0.5));done=true;}}}}
   }else if(L==='town'){
     const cx=0,cz=-80,S=14,R=4;
     buildTown(cx,cz,R,S,{skip:(i,j)=>(i===2&&j===-1)||(i===1&&j===-2)||(i===2&&j===-2),special:{'1,-1':()=>makeChurch(cx+1.5*S,cz-1.5*S,-Math.PI/4),'-1,1':(x,z,r)=>makeInn(x,z,r),'1,1':(x,z,r)=>makeSmithy(x,z,r)}});
@@ -4235,6 +4241,11 @@ function dunBuild(o){dunClear();const g=new THREE.Group(),cx=o.cx,cz=o.cz,w=o.w,
       const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:MA?0xff5030:0xffa040,transparent:true,opacity:0.85,blending:THREE.AdditiveBlending,depthWrite:false}));sp.scale.set(14,14,1);sp.position.copy(tp);g.add(sp);DUN.tor.push({p:tp,s:sp,ph:rnd(0,6)});{const lp=new THREE.Mesh(new THREE.PlaneGeometry(30,30),DUN.lpm||(DUN.lpm=new THREE.MeshBasicMaterial({map:GT,color:MA?0xff5030:0xff9a40,transparent:true,opacity:0.3,blending:THREE.AdditiveBlending,depthWrite:false})));lp.rotation.x=-Math.PI/2;lp.position.set(x-sx*9,gy+0.72,z);g.add(lp);}
       if(i<n&&i%2===0){m=add(new THREE.Mesh(new THREE.PlaneGeometry(9,18),bm),cx+sx*(w/2-0.7),gy+h*0.55,z+stp/2);m.rotation.y=-sx*Math.PI/2;}}}
   for(const sx of [-1,1])add(new THREE.Mesh(new THREE.BoxGeometry(8,5,d-24),pm),cx+sx*(w/2-16),gy+h*0.8+2.5,cz);
+  // 横のかべのアーチ柱（Tripo）：柱と柱の間ごとに1つ。かべにぴったり付けて、広間の内がわへ向ける
+  if(MODEL.dunarch){const bb=new THREE.Box3().setFromObject(MODEL.dunarch.scene),sz=bb.getSize(new V3()),ct=bb.getCenter(new V3()),wide=Math.max(sz.x,sz.z),deep=Math.min(sz.x,sz.z),k=Math.min((stp-1)/wide,h*0.62/sz.y),alongX=sz.x>=sz.z;
+    for(let i=0;i<n;i++)for(const sx of [-1,1]){const c=cloneModel('dunarch');if(!c)break;const q=new THREE.Group();c.position.set(-ct.x,-bb.min.y,-ct.z);q.add(c);q.scale.setScalar(k);
+      q.rotation.y=(alongX?-sx*Math.PI/2:(sx<0?0:Math.PI));c.traverse(o=>{if(o.isMesh){o.material=o.material.clone();if(MA)o.material.color.setRGB(1.5,1.0,0.95);else o.material.color.setRGB(1.45,1.45,1.6);}});
+      add(q,cx+sx*(w/2-deep*k/2-0.4),gy+0.5,z0+20+(i+0.5)*stp);}}
   // 奥のかべ：青く光る窓3つ、階段と見はり台、扉
   for(const k of [-1,0,1]){add(new THREE.Mesh(new THREE.PlaneGeometry(9,17),new THREE.MeshBasicMaterial({color:0xa8d4ff})),cx+k*w*0.3,gy+h*0.76,z0+0.6);
     const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0x7ab0ff,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(46,46,1);gl.position.set(cx+k*w*0.3,gy+h*0.74,z0+4);g.add(gl);}
