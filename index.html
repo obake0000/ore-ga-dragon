@@ -79,7 +79,7 @@ canvas{display:block}
 @media (max-width:640px){.bub{font-size:13px;padding:4px 9px}#cutin{height:110px}#cutin .ic{font-size:64px}#cutin .tx{left:calc(6% + 112px)}}
 #talk{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:min(560px,92vw);display:none;align-items:center;gap:12px;background:linear-gradient(180deg,#1d1636f2,#0b0814f2);border:2px solid #ffcf4a;border-radius:16px;padding:10px 14px;z-index:5;pointer-events:none;box-shadow:0 8px 24px #000a;}
 #talk img{width:76px;height:76px;border-radius:12px;object-fit:cover;border:2px solid #ffe9a8;flex:none;background:#000}
-#talk .tn{font-weight:900;color:#ffcf4a;font-size:14px;margin-bottom:2px}#talk .tt{font-size:17px;font-weight:700;line-height:1.5;min-height:1.5em}
+#talk .tn{font-weight:900;color:#ffcf4a;font-size:14px;margin-bottom:2px}#talk .tt{font-size:17px;font-weight:700;line-height:1.5;min-height:1.5em;word-break:auto-phrase;line-break:strict;text-wrap:pretty}
 #talk{animation:tkL .28s ease-out}
 #talk.me{border-color:#7fd0ff;flex-direction:row-reverse;animation-name:tkR}#talk.me .tn{color:#9fdcff}#talk.me>div{text-align:right}#talk>div{flex:1;min-width:0}
 #talk.ex .tt{font-size:21px;font-weight:900;color:#fff3c0}#talk.ex{animation:tkL .28s ease-out,tkshake .32s .28s}#talk.me.ex{animation:tkR .28s ease-out,tkshake .32s .28s}
@@ -92,7 +92,7 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 /* 紙芝居の中の会話 */
 .kd{display:flex;align-items:center;gap:12px;max-width:640px;margin:8px auto 0;text-align:left;background:linear-gradient(180deg,#1d1636f2,#0b0814f2);border:2px solid #ffcf4a;border-radius:16px;padding:10px 14px;animation:kdL .35s ease-out}
 .kd img{width:74px;height:74px;border-radius:12px;object-fit:cover;border:2px solid #ffe9a8;flex:none}.kd>div{flex:1;min-width:0}
-.kd b{display:block;color:#ffcf4a;font-size:14px}#stL .kd p{margin:2px 0 0;font-size:clamp(15px,2.3vw,19px);line-height:1.6;opacity:1;animation:none;text-wrap:pretty}
+.kd b{display:block;color:#ffcf4a;font-size:14px}#stL .kd p{margin:2px 0 0;font-size:clamp(15px,2.3vw,19px);line-height:1.6;opacity:1;animation:none;text-wrap:pretty;word-break:auto-phrase;line-break:strict}
 .kd.me{flex-direction:row-reverse;text-align:right;border-color:#7fd0ff;animation-name:kdR}.kd.me b{color:#9fdcff}
 .kd.ex p{font-weight:900;color:#fff3c0}
 @keyframes kdL{from{opacity:0;transform:translateX(-60px)}to{opacity:1;transform:none}}@keyframes kdR{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:none}}
@@ -177,7 +177,8 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 #story .box{max-width:680px;width:100%;text-align:center;padding-bottom:3vh}
 #story .ch{font-size:15px;font-weight:800;letter-spacing:.2em;color:#ffd27a;text-shadow:0 2px 3px #000}
 #story h2{font-size:clamp(26px,5vw,44px);margin:2px 0 4px;letter-spacing:.08em;background:linear-gradient(#ffe08a,#ff5a1a);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 0 #5a0e00)}
-#stL p{font-size:clamp(15px,2.4vw,19px);line-height:1.8;text-wrap:balance;margin:4px 0;opacity:0;animation:fin .8s forwards;text-shadow:0 2px 3px #000}
+.sn{display:inline-block}
+#stL p{font-size:clamp(15px,2.4vw,19px);line-height:1.8;text-wrap:balance;word-break:auto-phrase;line-break:strict;margin:4px 0;opacity:0;animation:fin .8s forwards;text-shadow:0 2px 3px #000}
 #story .btn{margin-top:14px}
 @keyframes fin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .gos{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;align-items:center}
@@ -645,7 +646,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1114x';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1114y';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -2309,7 +2310,8 @@ const SOLDIERS=(cx,cz,rows,cols,face)=>{const ang=face!==undefined?face:Math.ata
 const STAGES=[
   {key:'valley',ch:'第1章',title:'目覚め',place:'竜の谷',
    ter:{amp:1,ox:0,oz:0,flats:[[-72,-42,45,3],[90,-85,35,3],[0,120,128,3,1]],dirt:[[-72,-42,30],[90,-85,24],[0,120,126]],start:[0,120]},
-   story:['千年の眠りから、竜は目を覚ました。寝起きは、きわめて悪い。','谷には魔物があふれ、森の奥では岩の巨人ゴーレムまで動き出した。','まずは、この谷を取りもどせ。朝めし前の、軽い火あそびだ。'],
+   story:['千年の眠りから、竜は目を覚ました。寝起きは、きわめて悪い。','起こしたのは、ねぐらに乗りこんできた勇者の一行。寝ているうちに討つつもりだったらしい。','まずは、土足の客を追い返す。朝めし前の、軽い火あそびだ。'],simg:['valley_1','valley_h2','valley_h3'],
+   storyN:['千年の眠りから、竜は目を覚ました。寝起きは、きわめて悪い。','谷には魔物があふれ、森の奥では岩の巨人ゴーレムまで動き出した。','まずは、この谷を取りもどせ。朝めし前の、軽い火あそびだ。'],
    waves:[
     {name:'ねぐらの勇者一行',msg:'⚔️ 勇者の一行が、ねぐらに乗りこんできた！',mood:6,cave:1,clr:'🏃 勇者の一行は逃げ出した！ 体力が少し回復',go(){caveParty();}},
     {name:'ワイバーンとの一騎打ち',msg:'🐉 なわばりを荒らすワイバーンが、低く突っこんできた！',mood:0,drg:1,go(){wyvDuel();}},
@@ -2577,23 +2579,24 @@ const PROLOGUE=[
  {img:'pro_3',l:'魂は空を落ちて、山奥で千年眠る一匹の竜の中へ。――退職金のかわりが、これらしい。'},
  {img:'pro_4',l:'目を開けると、翼と牙と炎があった。……悪くない。前より道具がいい。この世界でも、悪いやつだけ、丸焼きにする。'}].map(o=>Object.assign(o,{ch:'序章　前世',t:'転生'}));
 let KAMI={sl:[],i:0,end:false};
+function snt(t){return (String(t).match(/…*[^。！？!?…]+[。！？!?…]*[」』）]*|.+/g)||[t]).map(c=>(/^\s/.test(c)?' ':'')+'<span class="sn">'+c.trim()+'</span>').join('');}
 function kamiShow(){const k=KAMI,sd=k.sl[k.i],n=k.sl.length,last=k.i>=n-1;
   $('stCh').textContent=sd.ch;$('stT').textContent=sd.t;
   const im=$('stPic');im.style.animation='none';void im.offsetWidth;im.style.animation='';$('kami').style.display='';
   im.dataset.fb='';im.onerror=()=>{if(!im.dataset.fb){im.dataset.fb='1';im.src=`story/${sd.img}.jpg`;}else $('kami').style.display='none';};
   im.src=`story/v2/${sd.img}.jpg`;$('stN').textContent=`${k.i+1} / ${n}`;
   {const me=sd.who==='ME',pt=sd.who?(me?charKey:(TPT[sd.who]||'')):'';
-   $('stL').innerHTML=sd.who?`<div class="kd${me?' me':''}${/[！!]/.test(sd.l)?' ex':''}">${pt?`<img src="chara/${pt}.webp" alt="">`:''}<div><b>${me?C.name:sd.who}</b><p>${sd.l}</p></div></div>`:`<p style="animation-delay:.25s">${sd.l}</p>`;}
+   $('stL').innerHTML=sd.who?`<div class="kd${me?' me':''}${/[！!]/.test(sd.l)?' ex':''}">${pt?`<img src="chara/${pt}.webp" alt="">`:''}<div><b>${me?C.name:sd.who}</b><p>${snt(sd.l)}</p></div></div>`:`<p style="animation-delay:.25s">${snt(sd.l)}</p>`;}
   // 声：語りは語り手、会話はその人の声。声が終わったら、自動で次の絵へ（最後の1枚は自分で「出撃」を押す）
   {const idx=k.i,a=voice(sd.who||'N',sd.l);if(a&&!last)a.addEventListener('ended',()=>{setTimeout(()=>{if(state==='story'&&KAMI===k&&k.i===idx)$('storyGo').click();},500);});}
   $('storyGo').textContent=last?(k.end?'結果を見る':'出撃！'):'次へ ▶';$('storySkip').style.display=last?'none':'';}
 const TALKPIC={valley:2,town:2,castle:2,sea:1,demon:2,peak:2};
 function showStory(i,ending,fromClear){state='story';TK.q.length=0;TK.cur=null;const S=STAGES[i];
-  const ch=ending?'エピローグ':S.ch+'　'+S.place,t=ending?'空の王':S.title,key=ending?'end':S.key,L=ending?(SCN===1?ENDING1:ENDING):S.story;
-  let sl=L.map((l,j)=>({img:key+'_'+Math.min(j+1,3),ch,t,l}));
+  const ch=ending?'エピローグ':S.ch+'　'+S.place,t=ending?'空の王':S.title,key=ending?'end':S.key,L=ending?(SCN===1?ENDING1:ENDING):(S.storyN&&!caveOK()?S.storyN:S.story);
+  let sl=L.map((l,j)=>({img:(!ending&&L===S.story&&S.simg&&S.simg[j])||key+'_'+Math.min(j+1,3),ch,t,l}));
   const dlg=(L2,img,ch2,t2)=>L2.map(([who,l])=>({img,ch:ch2,t:t2,l,who}));
   // 章のはじめの掛け合い（前は戦いながら出していた1つ目の会話）
-  if(!ending){const w0=((TALKS[S.key]||{}).w||[])[0];if(w0)sl=sl.concat(dlg(w0,key+'_'+(TALKPIC[key]||3),ch,t));}
+  if(!ending){const w0=((TALKS[S.key]||{}).w||[])[0];if(w0&&!(S.storyN&&caveOK()))sl=sl.concat(dlg(w0,key+'_'+(TALKPIC[key]||3),ch,t));}
   if(!ending&&i===0)sl=PROLOGUE.concat(sl);
   // 前の章をクリアした直後なら、その章のしめの会話を先に見せる（絵は <章>_c）
   if(fromClear){const PS=STAGES[ending?i:i-1],cl=PS&&((SCN===1&&(TALKS[PS.key]||{}).clear1)||(TALKS[PS.key]||{}).clear);if(cl)sl=dlg(cl,PS.key+'_c',PS.ch+'　'+PS.place,'クリア！').concat(sl);}
@@ -2682,7 +2685,7 @@ const TALKS={
         clear:[['魔王','ばかな…竜ごときに…'],['ME','悪魔を焼くと、何が残るんだろうな。……さて、山からなつかしい声がする']]},
  maou:{w:[[['ME','これが封印の扉か。いやな気配だ。前の職場を思い出す'],['魔王','フフ…千年の封印も、そろそろ期限切れよ']],
           [['魔王','千年ぶりの外の空気だ。封印を解いたのは、お前か。礼を言うぞ、竜'],['ME','礼はいらない。開けたのは、焼くためだ'],['魔王','手を組まぬか。金でも国でも、望むだけくれてやろう'],['ME','千年ぶんの家賃を、先に払え。……払えないなら、灰で払ってもらう']]],
-       clear:[['魔王','ばかな…竜ごときに…'],['ME','魔王を焼くと、何が残るんだろうな。……灰だけか。そうじが楽でいい']]},
+       clear:[['魔王','ま、待て……なんで防御しなかったの？ 一回も'],['ME','防御？ ……その発想は無かった。焼けば止まる'],['魔王','千年みがいた奥義を、ぜんぶ顔で受けおって……なんなんだ、このくそトカゲ……'],['ME','竜だ。……灰になったか。そうじが楽でいい']]},
  peak:{w:[[['ライバル','久しぶりだな。空の王は、ひとりでいい'],['ME','千年たっても変わらないな。……墓は、見晴らしのいい所にしてやる']],
           [['古の竜','若き竜よ。空の王を名乗るなら、わしを越えてゆけ'],['ライバル','…おれの負けだ。だが、じいさんには勝てるかな'],['ME','見ていろ。年寄りには、やさしくする主義だ。弱火でな']]],
        clear:[['古の竜','見事だ…。空は、お前にまかせよう'],['ME','引き受けた。……女神に伝えてくれ。罰は、たいへん楽しんでいる、と']]}};
