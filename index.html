@@ -781,7 +781,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116k';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116l';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1722,7 +1722,7 @@ const CH={
     br:{mat:MAT.beam,geo:'beam',dmg:38,cd:0.75,spd:200,life:0.55,size:1,splash:4,col:SPARK},sp:'pillars',spN:'光の柱',sp2:'spin',sp2N:'回転斬り',dash:'charge',dashN:'ジャンプ・斬りこみ',human:1,gOff:1.85,camB:17,camU:6.5,stat:[4,3,4],slS:0.4,mel:{r:6.5,dmg:50,cd:0.4,ono:'ザシュッ！'}},
   army:{name:'王国の兵隊',em:'⚔️',tag:'地上・15人と大砲2門',ds:'兵隊15人と大砲2門の部隊を動かす。弓と槍で一斉に攻め、近くは槍でつく。必殺技は大砲の一斉砲撃。体力が減ると人数が減る。',hp:380,spd:14,turn:1.8,fly:false,range:170,
     br:{mat:MAT.arrow,geo:'arrow',dmg:38,cd:0.48,spd:150,life:1.6,size:0.6,splash:2,col:[0x999080]},sp:'barrage',spN:'一斉砲撃',sp2:'arrowrain',sp2N:'矢の雨',dash:'guard',dashN:'防御',human:1,gOff:2,stat:[4,2,4],mel:{r:13,dmg:32,cd:0.5,ono:'ドドドッ！'}},
-  golem:{name:'ゴーレム',em:'🗿',tag:'地上・岩の巨人',ds:'岩でできた巨人。足は遅いが、とても硬い。近くの敵をなぐりとばすのが得意。遠くへは岩を投げる。必殺技は地割れと破壊光線。',hp:520,spd:26,turn:1.9,fly:false,range:115,
+  golem:{name:'ゴーレム',em:'🗿',tag:'地上・岩の巨人',ds:'岩でできた巨人。足は遅いが、とても硬い。近くの敵をなぐりとばすのが得意。遠くへは岩を投げる。必殺技は地割れと破壊光線。',hp:520,spd:15,turn:1.9,fly:false,range:115,
     br:{mat:mat(0x8a7a5a),geo:'rock',dmg:85,cd:1.8,spd:115,life:1.5,size:2.3,splash:11,col:[0x8a7a5a,0x6a5a3a,0xc0b090]},sp:'fissure',spN:'地割れ',sp2:'gbeam',sp2N:'破壊光線',dash:'guard',dashN:'防御',mel:{r:14,dmg:115,cd:0.55,ono:'ドゴッ！'},
     model:{id:'golem',w:4.9,h:7.2,d:3.8,mouth:[0,1.14,2.66]},camB:23,camU:9.5,gOff:3.6,stat:[5,1,5]},
   orctank:{name:'オークの戦車',em:'🛞',tag:'地上・弓と砲と体当たり',ds:'オークキングが乗る、とげだらけのデラックス戦車。弩の矢を撃ち続け、近くの敵は体当たりでひきつぶす。必殺技は大砲3連発と、とげの突撃。',hp:460,spd:34,turn:3.0,fly:false,range:170,
@@ -1836,7 +1836,7 @@ function rcAI(e,dt,dx,dz,hd,d3){const p=e.mesh.position,u=e.mesh.userData,sp=e.s
   if(u.armR&&e.rm==='rush'&&d3<e.r+6)u.armR.rotation.x=-1.4+Math.sin(e.t*22)*0.8;}
 
 /* ================= クラーケン（プレイできる大ダコ：触手を伸ばして戦う） ================= */
-CH.kraken={name:'クラーケン',em:'🐙',tag:'海も陸も・触手',ds:'海の主の大ダコ。足は遅いが体力が多く、海では速く泳ぐ。触手をびゅっと伸ばして、遠くの敵も空の敵も打つ。近くはぐるっとなぎはらう。',hp:620,spd:15,turn:1.5,fly:false,range:85,
+CH.kraken={name:'クラーケン',em:'🐙',tag:'海も陸も・触手',ds:'海の主の大ダコ。足は遅いが体力が多く、海では速く泳ぐ。触手をびゅっと伸ばして、遠くの敵も空の敵も打つ。近くはぐるっとなぎはらう。',hp:620,spd:9,turn:1.5,fly:false,range:85,
   br:{mat:MAT.big,dmg:30,cd:0.55,spd:100,life:1,size:1,splash:0,col:[0xb23a74]},sp:'krvortex',spN:'大うず',sp2:'kr8hit',sp2N:'八本たたき',dash:'guard',dashN:'墨はき',
   spD:'まわりの敵を引きよせて回し、最後にたたく',sp2D:'8本の触手を、前の広い範囲へ次々にたたきつける',dashD:'墨をはき、しばらく受けるダメージを8割へらす',
   mel:{r:17,dmg:55,cd:0.55,ono:'バシィッ！'},model:{id:'kraken',w:20,h:17,d:20,mouth:[0,4,7]},camB:40,camU:16,gOff:6,stat:[4,2,4]};
@@ -1892,7 +1892,7 @@ function krSweep(){P.melT=0.3;P.melA=0.45;P.melCd=C.mel.cd;const R=C.mel.r,a0=rn
 {const mpm=makePlayerModel;makePlayerModel=function(k){const d=mpm(k);if(k==='kraken'&&typeof s7Wig==='function'&&d.body){try{d.wig={mesh:d.body,state:'',cd:0};s7Wig(d.wig,{ax:'y',amp:0.05,k:6,root:0.3,spd:2.2});}catch(e){d.wig=null;}}return d;};
  const br=breathe;breathe=function(tg){if(charKey==='kraken'){if(P.melT>0)return;krStrike(tg);return;}br(tg);};
  const ml=melee;melee=function(){if(charKey==='kraken'){krSweep();return;}ml();};
- const cl=collide;collide=function(dt){cl(dt);if(charKey==='kraken'&&state==='play'&&H(P.pos.x,P.pos.z)<WATER+0.35&&bridgeY(P.pos.x,P.pos.z)<WATER){P.pos.x+=P.vel.x*dt*1.7;P.pos.z+=P.vel.z*dt*1.7;
+ const cl=collide;collide=function(dt){cl(dt);if(charKey==='kraken'&&state==='play'&&H(P.pos.x,P.pos.z)<WATER+0.35&&bridgeY(P.pos.x,P.pos.z)<WATER){P.pos.x+=P.vel.x*dt*3.4;P.pos.z+=P.vel.z*dt*3.4;
     if(Math.random()<0.3)burst(tmp.set(P.pos.x,WATER+0.5,P.pos.z),2,[0xcfeaff,0xffffff],2.5,8,0.4);}};
  const gd=guard;guard=function(){const ok=state==='play'&&!LVUP&&!PAUSED&&(P.guardCd||0)<=0&&P.en>=12;gd();GSH.material.color.setHex(charKey==='kraken'?0x2a1448:0x7fc8ff);
    if(charKey==='kraken'&&ok&&P.guardT>1.2){burst(P.pos,40,[0x1a1030,0x3a2060,0x000000],6,22,1.0);smoke(P.pos,10,6,2,0x1a1030,3);ono(P.pos.clone().add(new V3(0,8,0)),'ブシュッ！','#b090e0',34);}};}
