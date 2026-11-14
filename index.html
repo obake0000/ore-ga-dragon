@@ -528,7 +528,7 @@ const CLOUDT=[0,1,2].map(v=>{const c=document.createElement('canvas');c.width=51
 /* ================= Tripo で作った3Dモデル（models\manifest.json があれば使う） ================= */
 const MODEL={},MIX=[];
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1114e';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1114f';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1294,8 +1294,8 @@ function shoot1(m,tg,b,sz,sp,dm,snd){
   shoot(m,d.multiplyScalar(b.spd).add(P.vel),{from:'p',mat:b.mat,geo:b.geo,size:sz,r:1.6*sz/b.size,splash:sp,dmg:dm,life:b.life,trail:b.col,col:b.col});burst(m,2,b.col,2.5,8,0.25);
   if(snd)sfx(charKey==='wyvern'?'zapb':'fire',null,0.8);}
 /* ---- 必殺技の演出：カットイン・魔法陣・光の柱・竜巻・ドーム・岩のトゲ ---- */
-const ULTL={bigfire:'燃えつきろ！',thunder:'天よ、裂けろ！',quake:'大地よ、砕けろ！',pillars:'天の光よ、悪を討て！',barrage:'全砲門、撃てーっ！',
-  flamering:'炎よ、渦を巻け！',discharge:'まとめて、しびれろ！',boulder:'これでも、くらえ！',spin:'はああああっ！',arrowrain:'矢の雨、放てーっ！',
+const ULTL={bigfire:'判決。丸焼き！',thunder:'天罰だ。女神のツケでな！',quake:'大地よ、はか穴をほれ！',pillars:'天の光よ、悪を討て！',barrage:'全砲門、撃てーっ！',
+  flamering:'まとめて、火葬だ！',discharge:'全員、感電の刑！',boulder:'墓石だ。受け取れ！',spin:'はああああっ！',arrowrain:'矢の雨、放てーっ！',
   fissure:'ハイジョ、カイシ。',gbeam:'ハカイコウセン……ハッシャ。',bombs:'爆弾、投下ーっ！',broadside:'ありったけ、ぶちこめーっ！'};
 let ultTm=0,ultFn=null,ultT=0;
 // 必殺技の見せ方：①溜め（時間をほぼ止めて、暗くして、カットインと決め台詞の声）→ ②解放（光・ゆれ・爆音といっしょに技が出る）
@@ -1473,7 +1473,7 @@ function hitEnemy(e,n){if(e.dead)return;
   e.hp-=n;e.hitT=0.14;
   if(n>=8){if(!(e.flT>0)){e._rx=e.mesh.rotation.x;e._rz=e.mesh.rotation.z;}e.flT=0.26;if(!e.boss&&!e.perch&&e.r<5){const q=e.mesh.position,dx=q.x-P.pos.x,dz=q.z-P.pos.z,d=Math.hypot(dx,dz)||1;e.kx=dx/d*15;e.kz=dz/d*15;}}
   if(e.hp<=0)killEnemy(e);}
-const DIE={wizard:'そんな…わしの魔力が…',hero:'すまない…みんな…',demon:'この私が…トカゲごときに…',rival:'…強くなったな。',wooddragon:'……ギギ……ギ……',walker:'城が……王国が……',elder:'見事だ、若き竜よ。空はお前のものだ。',battleship:'総員、退艦…！',bigairship:'空の…王の船が…！',kraken:'ゴボ…ゴボボ……'};
+const DIE={wizard:'そんな…わしの魔力が…',hero:'すまない…みんな…',demon:'この私が…トカゲごときに…',rival:'…強くなったな。',wooddragon:'……ギギ……ギ……',walker:'城が……ローンが、まだ……',elder:'見事だ、若き竜よ。空はお前のものだ。',battleship:'総員、退艦…！ 泳げる者から…！',bigairship:'空の…王の船が…！',kraken:'ゴボ…ゴボボ……'};
 function killEnemy(e,quiet){if(e.dead)return;e.dead=true;scene.remove(e.mesh);score+=e.val;kills++;addXp(e.val);
   if(state==='play'){combo++;comboT=3.5;if(combo>maxCombo)maxCombo=combo;score+=Math.round(e.val*Math.min(combo,40)*0.05);showCombo();}
   const c=cpos(e);burst(c,e.boss?70:14,e.type==='rival'?BLUE:e.type==='demon'||e.type==='imp'?PURP:e.type==='slime'?GOO:FIRE,e.boss?9:3,e.boss?50:16,e.boss?1.4:0.7);
@@ -1759,13 +1759,13 @@ const SOLDIERS=(cx,cz,rows,cols,face)=>{const ang=face!==undefined?face:Math.ata
 const STAGES=[
   {key:'valley',ch:'第1章',title:'目覚め',place:'竜の谷',
    ter:{amp:1,ox:0,oz:0,flats:[[-72,-42,45,3],[90,-85,35,3]],dirt:[[-72,-42,30],[90,-85,24]],start:[0,120]},
-   story:['千年の眠りから、竜は目を覚ました。','谷には魔物があふれ、森の奥では岩の巨人ゴーレムまで動き出した。','まずは、この谷を取りもどせ。'],
+   story:['千年の眠りから、竜は目を覚ました。寝起きは、きわめて悪い。','谷には魔物があふれ、森の奥では岩の巨人ゴーレムまで動き出した。','まずは、この谷を取りもどせ。朝めし前の、軽い火あそびだ。'],
    waves:[
     {name:'魔物の群れ',msg:'👾 魔物の群れが来た！',mood:0,go(){for(let i=0;i<12;i++)addEnemy('slime',...ringPos(60,150));for(let i=0;i<8;i++){const [x,z]=ringPos(80,150);addEnemy('bat',x,z,P.pos.y+rnd(0,30));}}},
     {name:'オーガの親分',msg:'👹 オーガが村をおそっている！',mood:0,go(){for(let i=0;i<3;i++)addEnemy('ogre',-72+rnd(-25,25),-42+rnd(-25,25));for(let i=0;i<8;i++)addEnemy('slime',-72+rnd(-30,30),-42+rnd(-30,30));for(let i=0;i<6;i++){const [x,z]=ringPos(60,120);addEnemy('bat',x,z,P.pos.y+rnd(0,25));}for(let i=0;i<2;i++)addEnemy('golem',90+rnd(-20,20),-85+rnd(-20,20));}}]},
   {key:'town',ch:'第2章',title:'炎の夜明け',place:'国境の町',
    ter:{amp:0.8,ox:400,oz:150,flats:[[0,-80,92,3]],dirt:[[0,-80,70]],grass:0x6a9a42,start:[0,140]},
-   story:['魔物を追いはらった竜の前に、人間の王国の旗がひるがえる。','国境の町は竜を狩る砦だった。見張り塔には弓兵、空には王国の飛空艇。','町を焼き、王国に竜の怒りを知らせろ。'],
+   story:['魔物を追いはらった竜の前に、人間の王国の旗がひるがえる。お礼の旗では、なさそうだ。','国境の町は竜を狩る砦だった。見張り塔には弓兵、空には王国の飛空艇。','町を焼き、王国に竜の怒りを知らせろ。手紙より、火のほうが早く届く。'],
    waves:[
     {name:'町の守備隊',msg:'🏹 見張り塔から矢が飛んでくる！',mood:1,go(){
       SOLDIERS(0,-10,3,8);for(let i=0;i<10;i++)addEnemy('soldier',rnd(-50,50),-80+rnd(-50,50));
@@ -1781,7 +1781,7 @@ const STAGES=[
       for(let i=0;i<2;i++){const [x,z]=ringPos(120,180);addEnemy('airship',x,z,P.pos.y+40);}}}]},
   {key:'castle',ch:'第3章',title:'王の城',place:'王都',
    ter:{amp:1,ox:-300,oz:200,flats:[[0,-230,75,4],[-90,-140,55,3],[90,-140,55,3],[0,-100,32,3]],dirt:[[0,-230,70],[-90,-140,44],[90,-140,44],[0,-110,20]],start:[0,120]},
-   story:['国境の町が落ちた知らせは、すぐに王都へ届いた。','王は全軍と伝説の勇者を呼び、城そのものに魔法の足をつけた。','城壁をくずし、勇者と動く城を倒せ。'],
+   story:['国境の町が落ちた知らせは、すぐに王都へ届いた。悪い知らせだけは、足が速い。','王は全軍と伝説の勇者を呼び、城そのものに魔法の足をつけた。','城壁をくずし、勇者と動く城を倒せ。'],
    waves:[
     {name:'王の全軍',msg:'⚔️ 城から人間の軍隊が出てきた！ 城壁の大砲に注意',mood:2,go(){
       const o=SOLDIERS(0,-168,4,9);for(let c=0;c<8;c++){const la=(c-3.5)*6;addEnemy('archer',o.lx*la-o.fx*26,-168+o.lz*la-o.fz*26);}
@@ -1798,7 +1798,7 @@ const STAGES=[
       addEnemy('walker',x,z);shake(1);sfx('crash');}}]},
   {key:'sea',ch:'第4章',title:'王の艦隊',place:'嵐の海',
    ter:{amp:1,ox:200,oz:-700,sea:true,flats:[[0,120,42,3],[0,-165,62,3],[-150,-40,30,4],[160,-60,28,4]],dirt:[[0,-165,40]],grass:0x5a9a4a,water:0x1f5fa8,trees:90,sand:0xe0d0a0,start:[0,120]},
-   story:['王は城を捨て、残った艦隊を連れて海へ逃げた。','港には帆船と巨大戦艦、空には空中戦艦。海の底では、王に呼ばれたクラーケンと海蛇が目を覚ます。','海を越え、王の最後の力を打ちくだけ。'],
+   story:['王は城を捨て、残った艦隊を連れて海へ逃げた。国民は、置いていった。','港には帆船と巨大戦艦、空には空中戦艦。海の底では、王に呼ばれたクラーケンと海蛇が目を覚ます。','海を越え、王の最後の力を打ちくだけ。'],
    waves:[
     {name:'王の艦隊',msg:'⛵ 王の艦隊が海をうめつくす！',mood:1,go(){for(let i=0;i<5;i++){const [x,z]=ringPos(90,170);addEnemy('ship',x,z);}
       for(let i=0;i<2;i++){const [x,z]=ringPos(120,180);addEnemy('airship',x,z,P.pos.y+40);}for(let i=0;i<2;i++){const [x,z]=ringPos(50,90);addEnemy('wizard',x,z,P.pos.y+10);}
@@ -1808,19 +1808,19 @@ const STAGES=[
       for(let i=0;i<2;i++){const [c,d]=ringPos(90,150);addEnemy('ship',c,d);}}}]},
   {key:'demon',ch:'第5章',title:'封印',place:'魔界の門',
    ter:{amp:1.3,ox:900,oz:-500,flats:[[0,-160,62,1]],dirt:[[0,-160,56]],grass:0x3b2b38,hill:0x2e2430,rock:0x3a3438,snow:0x6a5a70,sand:0x2a1a14,dirtC:0x1e1418,water:0xff5a1a,lava:true,trees:160,trunk:0x2a2228,leaf:0x3a2440,rockC:0x3a3038,start:[0,110]},
-   story:['勇者は倒れる前に言った。「城の地下には、悪魔が封じられている…」','王の艦隊が沈んだその夜、主を失った封印の門が開いてしまった。','空は紫に染まり、悪魔が目を覚ます。'],
+   story:['勇者は倒れる前に言った。「城の地下には、悪魔が封じられている…」','王の艦隊が沈んだその夜、主を失った封印の門が開いてしまった。王は、最後まで迷惑だった。','空は紫に染まり、悪魔が目を覚ます。'],
    waves:[
     {name:'門からあふれる者',msg:'👿 封印の門から小悪魔があふれ出す！',mood:3,go(){for(let i=0;i<10;i++){addEnemy('imp',rnd(-40,40),-160+rnd(-40,40),P.pos.y+rnd(-5,25));}for(let i=0;i<8;i++){const [x,z]=ringPos(70,140);addEnemy('bat',x,z,P.pos.y+rnd(0,25));}for(let i=0;i<2;i++)addEnemy('ogre',rnd(-50,50),-160+rnd(-50,50));for(let i=0;i<4;i++){const [x,z]=ringPos(50,90);addEnemy('wizard',x,z,P.pos.y+10);}}},
     {name:'悪魔',msg:'😈 悪魔が目をさました…',mood:3,go(){addEnemy('demon',0,-160,P.pos.y+30);for(let i=0;i<6;i++)addEnemy('imp',rnd(-15,15),-160+rnd(-15,15),P.pos.y+30);
       sfx('roar');}}]},
   {key:'peak',ch:'最終章',title:'空の王',place:'嵐の頂',
    ter:{amp:2.3,ox:-700,oz:-900,flats:[[0,-120,40,28]],dirt:[[0,-120,30]],grass:0x5a7a4a,hill:0x6a6a5a,rock:0x6a6670,dirtC:0xb8b0a0,trees:220,leaf:0x24502a,start:[0,120]},
-   story:['悪魔は消えた。だが、嵐の山から聞き覚えのある咆哮が届く。','ライバルの竜の後ろには、山より大きな古の竜が目を開けていた。','空の王を決める、最後の戦いだ。'],
+   story:['悪魔は消えた。だが、嵐の山から聞き覚えのある咆哮が届く。','ライバルの竜の後ろには、山より大きな古の竜が目を開けていた。','空の王を決める、最後の戦いだ。負けたほうは、雲になる。'],
    waves:[
     {name:'ライバルのドラゴン',msg:'🐲 嵐の中、ライバルのドラゴンが来る！',mood:4,go(){const [x,z]=ringPos(150,200);addEnemy('rival',x,z,P.pos.y+40);sfx('roar');}},
     {name:'古の竜',msg:'🐉 山が動いた…古の竜が目をさます！',mood:4,go(){const [x,z]=ringPos(160,200);addEnemy('elder',x,z,P.pos.y+60);sfx('roar');}}]}
 ];
-const ENDING=['古の竜もライバルも、静かに翼をたたんで雲の中へ消えていった。','魔物も、王国も、悪魔も、もう竜をおびやかさない。','空は、きみのものだ。','遠くの空で、女神が小さくため息をついた。「罰のつもりだったのに……」'];
+const ENDING=['古の竜もライバルも、静かに翼をたたんで雲の中へ消えていった。','魔物も、王国も、悪魔も、もう竜をおびやかさない。おびやかす口が、残っていない。','空は、きみのものだ。','遠くの空で、女神が小さくため息をついた。「罰のつもりだったのに……次は、ミジンコにします」'];
 let stage=0,wave=-1,waveWait=0,reached=0;
 const WAVES=STAGES.flatMap(s=>s.waves);
 function curWaves(){return STAGES[stage].waves;}
@@ -1834,10 +1834,10 @@ function setupStage(i){stage=i;const S=STAGES[i];
   const [sx,sz]=TER.start;P.pos.set(sx,C.fly?floorAt(sx,sz)+40:floorAt(sx,sz)+C.gOff,sz);P.yaw=P.lastYaw=Math.PI;P.vel.set(0,0,0);P.vy=0;}
 // 紙芝居：章ごとに絵3枚（第1章の前に序章4枚）。「次へ」でめくり、「スキップ」でとばす
 const PROLOGUE=[
- {img:'pro_1',l:'前世の俺は、法では裁けない悪人を、だれにも知られずに裁いてきた男だった。'},
- {img:'pro_2',l:'最期の日、まぶしい光の中で女神が告げた。「罰です。次は、人に狩られる竜として生きなさい」'},
- {img:'pro_3',l:'魂は空を落ちて、山奥で千年眠る一匹の竜の中へ――。'},
- {img:'pro_4',l:'目を開けると、翼と牙と炎があった。……いいだろう。この世界でも、やることは同じだ。悪いやつだけ、丸焼きにする。'}].map(o=>Object.assign(o,{ch:'序章　前世',t:'転生'}));
+ {img:'pro_1',l:'前世の俺の仕事は、法では裁けない悪人の「後しまつ」。残業代は出なかったが、やりがいはあった。'},
+ {img:'pro_2',l:'最期の日、まぶしい光の中で女神が告げた。「裁きすぎです。罰として、次は人に狩られる竜になりなさい」'},
+ {img:'pro_3',l:'魂は空を落ちて、山奥で千年眠る一匹の竜の中へ。――退職金のかわりが、これらしい。'},
+ {img:'pro_4',l:'目を開けると、翼と牙と炎があった。……悪くない。前より道具がいい。この世界でも、悪いやつだけ、丸焼きにする。'}].map(o=>Object.assign(o,{ch:'序章　前世',t:'転生'}));
 let KAMI={sl:[],i:0,end:false};
 function kamiShow(){const k=KAMI,sd=k.sl[k.i],n=k.sl.length,last=k.i>=n-1;
   $('stCh').textContent=sd.ch;$('stT').textContent=sd.t;
@@ -1900,28 +1900,31 @@ function updTalk(dt){const el=$('talk');if(state!=='play'){if(TK.cur||TK.q.lengt
     TK.vd=0;{const a=voice(w,tx);if(a)a.addEventListener('loadedmetadata',()=>{if(TK.cur&&TK.cur[1]===tx)TK.vd=Math.min(9,a.duration+0.3);});else sfx(me?'blipB':'blipA',null,0.5);}
     const ty=TBOSS[w];const e=ty&&EN.find(x=>x.type===ty&&!x.dead&&(ty!=='wizard'||x.giant));if(e)bubble(e,tx.length>16?tx.slice(0,15)+'…':tx,'boss',3);}
   TK.t+=dt;const n=Math.min(TK.cur[1].length,Math.floor(TK.t*32));if(n!==TK.n){TK.n=n;el.querySelector('.tt').textContent=TK.cur[1].slice(0,n);}}
+// 主人公の話し方（2026-11-14 ふみさん「ブラックジョーク特盛」「主人公の性格と口ぐせ」）：
+//  前世は、法で裁けない悪人を裁いていた男。冷たくて皮肉屋。焼くことを「裁判」や「火葬」にたとえて、真顔で言う。口ぐせは「判決、丸焼き」。
+//  文は全部こちらで書いた物。ほかの作品の台詞は使わない。
 const TALKS={
- valley:{w:[[['長老','竜さま…！ 千年の眠りから、お目覚めになったのですね'],['ME','……ずいぶん騒がしいな。何があった？'],['長老','魔物が谷にあふれて、村が食われそうなのです。どうか！'],['ME','寝起きの腹ごなしだ。まとめて焼いてやる']],
-            [['長老','村の方からオーガが！ 森の奥では岩の巨人まで動き出しました'],['ME','でかいのが相手か。ちょうどいい']]],
-         clear:[['長老','谷が、元にもどった…！ でも、この騒ぎを人間の王国が見ていました'],['ME','王国？ 千年前も、おれを狩ろうとした連中か']]},
- town:{w:[[['兵隊長','竜だ！ 王の命令だ、この砦で討ち取れ！'],['ME','谷を助けた礼が、これか'],['兵隊長','竜は災い。それが王国の教えだ！ 撃てーっ！']],
-          [['兵隊長','援軍が来たぞ！ 大砲を前へ！'],['ME','人間は、数だけは多いな']],
-          [['王国の技師','見よ、わが最高傑作「木の竜」！ 本物の竜など時代おくれだ！'],['ME','木で竜を作ったのか。……よく燃えそうだな']]],
-       clear:[['王国の技師','わ、わしの木の竜が…。王さまに、なんと言えば…'],['ME','伝えておけ。次は、お前たちの城だ']]},
- castle:{w:[[['王','竜め、国境の町まで焼きおって！ 全軍、城を守れ！'],['ME','先に手を出したのは、そっちだぞ']],
-            [['勇者','竜よ、ここから先へは行かせない！'],['ME','お前が伝説の勇者か。いい目をしている'],['勇者','町を焼いた罪、この剣でつぐなってもらう！']],
-            [['王','勇者まで倒されただと…！ 城よ、立ち上がれ！'],['ME','城に足を生やしたのか。人間の考えることは分からん']]],
-         clear:[['勇者','ぐっ…王は、海へ逃げるつもりだ。それに…城の地下には、悪魔が封じられている'],['ME','悪魔だと…？ まずは王を追う']]},
- sea:{w:[[['王','ここまで来れば…艦隊よ、竜を海にしずめろ！'],['ME','海の上なら、逃げ場があるとでも？']],
-         [['魔術師','王の命により、海の底の怪物を呼びさます！ クラーケンよ、目を覚ませ！'],['ME','次から次へと…']],
-         [['王','最後の切り札じゃ！ 巨大戦艦、空中戦艦、撃てぇ！'],['ME','これで終わりにしよう、王さま']]],
-      clear:[['王','ま、待て…！ わしがしずめば、地下の封印を守る者がいなくなるぞ…！'],['ME','封印…勇者も言っていたな']]},
- demon:{w:[[['ME','これが封印の門か。いやな気配だ'],['悪魔','フフ…王がしずんだおかげで、門がゆるんだわ']],
-           [['悪魔','千年の眠りを覚ましたのは、お前か…'],['ME','寝起きが悪いのは、お互いさまだな'],['悪魔','この世界ごと、わが炎で焼きつくしてくれる！']]],
-        clear:[['悪魔','ばかな…竜ごときに…'],['ME','さて…山の方から、なつかしい声がするな']]},
- peak:{w:[[['ライバル','久しぶりだな。空の王は、ひとりでいい'],['ME','千年たっても、変わらないな。お前は']],
-          [['古の竜','若き竜よ。空の王を名乗るなら、わしを越えてゆけ'],['ライバル','…おれの負けだ。だが、じいさんには勝てるかな'],['ME','見ていろ']]],
-       clear:[['古の竜','見事だ…。空は、お前にまかせよう']]}};
+ valley:{w:[[['長老','竜さま…！ 千年の眠りから、お目覚めになったのですね'],['ME','……騒がしいな。目覚ましを頼んだ覚えはないぞ'],['長老','魔物が谷にあふれて、村が食われそうなのです。どうか！'],['ME','魔物か。人権がないぶん、手続きが早くて助かる。――判決、丸焼き']],
+            [['長老','村の方からオーガが！ 森の奥では岩の巨人まで動き出しました'],['ME','でかいな。……火葬場の予約が、足りなくなる']]],
+         clear:[['長老','谷が、元にもどった…！ でも、この騒ぎを人間の王国が見ていました'],['ME','王国か。千年前も、おれを狩りに来た連中だ。……こりない客は、きらいじゃない']]},
+ town:{w:[[['兵隊長','竜だ！ 王の命令だ、この砦で討ち取れ！'],['ME','谷を助けた礼が、これか。……請求書のつもりで、受け取っておく'],['兵隊長','竜は災い。それが王国の教えだ！ 撃てーっ！'],['ME','先に撃ったな。記録した。――正当防衛、成立だ']],
+          [['兵隊長','援軍が来たぞ！ 大砲を前へ！'],['ME','数だけは多いな。安心しろ、火は全員ぶんある']],
+          [['王国の技師','見よ、わが最高傑作「木の竜」！ 本物の竜など時代おくれだ！'],['ME','木で、竜を。……まきを自分で運んでくるとは、礼儀正しい']]],
+       clear:[['王国の技師','わ、わしの木の竜が…。王さまに、なんと言えば…'],['ME','こう伝えろ。「よく燃えました」。……次は、お前たちの城だ']]},
+ castle:{w:[[['王','竜め、国境の町まで焼きおって！ 全軍、城を守れ！'],['ME','先に手を出したのは、そっちだ。おれは火を返しに来ただけだ。利子つきでな']],
+            [['勇者','竜よ、ここから先へは行かせない！'],['ME','お前が伝説の勇者か。いい目だ。……おしいな、やとい主が悪い'],['勇者','町を焼いた罪、この剣でつぐなってもらう！'],['ME','罪を数えるなら、紙が足りないぞ。お互いにな']],
+            [['王','勇者まで倒されただと…！ 城よ、立ち上がれ！'],['ME','城に足を。……逃げ足まで建てたのか。税金のむだづかいだな']]],
+         clear:[['勇者','ぐっ…王は、海へ逃げるつもりだ。それに…城の地下には、悪魔が封じられている'],['ME','悪魔だと。……まずは王だ。逃げた被告は、追うことにしている']]},
+ sea:{w:[[['王','ここまで来れば…艦隊よ、竜を海にしずめろ！'],['ME','海の上に逃げたか。助かる。消火の手間がはぶける']],
+         [['魔術師','王の命により、海の底の怪物を呼びさます！ クラーケンよ、目を覚ませ！'],['ME','タコか。……焼きかげんは、選ばせてやれないぞ']],
+         [['王','最後の切り札じゃ！ 巨大戦艦、空中戦艦、撃てぇ！'],['ME','切り札の多い王だな。――判決、丸焼き。控訴は、あの世でやれ']]],
+      clear:[['王','ま、待て…！ わしがしずめば、地下の封印を守る者がいなくなるぞ…！'],['ME','封印か。勇者も言っていたな。……ゆいごんは、短いほうがいい']]},
+ demon:{w:[[['ME','これが封印の門か。いやな気配だ。前の職場を思い出す'],['悪魔','フフ…王がしずんだおかげで、門がゆるんだわ']],
+           [['悪魔','千年の眠りを覚ましたのは、お前か…'],['ME','寝起きが悪いのは、お互いさまだ。二度寝させてやる。永久にな'],['悪魔','この世界ごと、わが炎で焼きつくしてくれる！'],['ME','焼くのは、おれの仕事だ。無免許は困る']]],
+        clear:[['悪魔','ばかな…竜ごときに…'],['ME','悪魔を焼くと、何が残るんだろうな。……さて、山からなつかしい声がする']]},
+ peak:{w:[[['ライバル','久しぶりだな。空の王は、ひとりでいい'],['ME','千年たっても変わらないな。……墓は、見晴らしのいい所にしてやる']],
+          [['古の竜','若き竜よ。空の王を名乗るなら、わしを越えてゆけ'],['ライバル','…おれの負けだ。だが、じいさんには勝てるかな'],['ME','見ていろ。年寄りには、やさしくする主義だ。弱火でな']]],
+       clear:[['古の竜','見事だ…。空は、お前にまかせよう'],['ME','引き受けた。……女神に伝えてくれ。罰は、たいへん楽しんでいる、と']]}};
 /* ---- アクション中の2D：吹き出し・漫画の文字・カットイン ---- */
 const B2=[];const sp2=new V3();
 function scr(v){sp2.copy(v).project(cam);if(sp2.z>1)return null;return [(sp2.x+1)/2*innerWidth,(1-sp2.y)/2*innerHeight];}
