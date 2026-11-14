@@ -598,5 +598,35 @@
   "h": 44,
   "ja": "木の巨大戦車（木の移動要塞・新しい見た目）",
   "rot": 0
+ },
+ "shieldman": {
+  "file": "shieldman.glb",
+  "h": 2.2,
+  "ja": "盾兵（大盾と剣。兵団の前列）",
+  "rot": 0
+ },
+ "deb_stone": {
+  "file": "deb_stone.glb",
+  "h": 1,
+  "ja": "こわれた石かべのかけら",
+  "rot": 0
+ },
+ "deb_wood": {
+  "file": "deb_wood.glb",
+  "h": 1,
+  "ja": "こわれた木材のかけら",
+  "rot": 0
+ },
+ "deb_roof": {
+  "file": "deb_roof.glb",
+  "h": 1,
+  "ja": "こわれた屋根と白かべのかけら",
+  "rot": 0
+ },
+ "gwizard": {
+  "file": "gwizard.glb",
+  "h": 6,
+  "ja": "巨大魔術師（変身後。筋肉の老魔術師・大きな木の杖）",
+  "rot": 0
  }
 }
