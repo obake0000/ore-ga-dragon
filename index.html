@@ -163,6 +163,41 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 #over .sub{font-size:16px;opacity:.9;margin:8px 0 16px}
 #over .res{font-size:15px;margin-bottom:20px;line-height:1.9}
 #touch{display:none}
+#scp{display:none;z-index:42;background:radial-gradient(ellipse at 50% 0%,#1a2a5a 0%,#0a1230 55%,#050818 100%);align-items:flex-start;justify-content:center;padding:12px}
+#scp .sbox{width:100%;max-width:1120px;margin:0 auto}
+#scp .sh{display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:-12px;background:#0a1230;padding:8px 0;z-index:2;border-bottom:2px solid #c8962e66}
+#scp h2{margin:0;font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:clamp(20px,3.6vw,30px);color:#ffcf4a;text-shadow:0 2px 0 #5a0e00}
+#scp .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 12px}
+#scp .tab{font:inherit;font-size:15px;font-weight:900;padding:7px 14px;border-radius:24px;border:2px solid #c8962e55;background:#0a1230;color:#ffe9b0;cursor:pointer}
+#scp .tab.on{background:linear-gradient(#ff9a3a,#e0300c);border-color:#ffcf4a;color:#fff}
+#scp .tab .no{font-family:"Dela Gothic One",sans-serif;font-weight:400;margin-right:4px}
+#scp .tab:focus-visible,#scp .dot:focus-visible,#scp .btn:focus-visible{outline:3px solid #ffcf4a;outline-offset:2px}
+#scp .cols{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;align-items:start}
+#scp .pic{position:relative;aspect-ratio:3/2;border:6px solid #c8962e;border-radius:10px;box-shadow:0 0 0 2px #5a3a0a,0 10px 28px #000;background:#05081a;overflow:hidden}
+#scp .pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s ease}
+#scp .pic img.on{opacity:1}
+#scp .pic.kb img.on{animation:scpKb 7s ease-out forwards}
+@keyframes scpKb{from{transform:scale(1)}to{transform:scale(1.07)}}
+#scp .cap{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 8px;background:linear-gradient(#0000,#000d);font-family:"Dela Gothic One",sans-serif;font-size:clamp(15px,2.4vw,20px);color:#ffe9b0}
+#scp .dots{display:flex;justify-content:center;gap:10px;margin:10px 0 2px;min-height:24px}
+#scp .dot{width:16px;height:16px;border-radius:50%;border:2px solid #c8962e;background:#0a1230;padding:0;cursor:pointer}
+#scp .dot.on{background:#ffcf4a}
+#scp .info{min-width:0}
+#scp .nm{font-family:"Dela Gothic One","Yu Gothic UI",Meiryo,sans-serif;font-weight:400;font-size:clamp(22px,3.4vw,30px);color:#ffcf4a;margin:0 0 8px}
+#scp .ds{font-size:clamp(15px,1.9vw,17px);line-height:1.85;margin:0 0 12px;color:#fff}
+#scp .st{font-family:"Dela Gothic One",sans-serif;font-size:14px;color:#ffb030;margin:12px 0 6px;letter-spacing:.06em}
+#scp .chs{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+#scp .chs li{font-size:15px;background:#ffffff0d;border-left:4px solid #c8962e;padding:5px 10px;border-radius:4px}
+#scp .chs li b{color:#ffcf4a;margin-right:8px}
+#scp .bs{display:flex;flex-wrap:wrap;gap:8px}
+#scp .bo{display:flex;align-items:center;gap:8px;background:#1d1626;border:2px solid #3a2f47;border-radius:30px;padding:4px 14px 4px 4px;font-size:15px;font-weight:700}
+#scp .bo.nf{padding:7px 14px}
+#scp .bo img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:1px solid #ffcf4a99;background:#000}
+#scp .len{margin:12px 0 0;font-size:15px;color:#ffe9b0}
+#scp .gos{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+#scp .gos .btn{margin-top:0}
+@media (max-width:640px){#scp{padding:8px}#scp .cols{grid-template-columns:1fr;gap:12px}#scp .tab{font-size:14px;padding:6px 11px}#scp .pic{border-width:4px}#scp .gos .btn:not(.sm){width:100%;padding:12px 16px;font-size:19px}}
+@media (prefers-reduced-motion:reduce){#scp .pic img{transition:none}}
 #waza{display:none;z-index:40;background:#0a0612f2;align-items:flex-start;justify-content:center}
 #waza .wbox{width:100%;max-width:1180px;margin:0 auto}
 #waza .wh{display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:-16px;background:#0a0612;padding:10px 0 8px;z-index:1}
@@ -353,6 +388,7 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 <div id="story" class="ov"><div class="box"><div class="ch" id="stCh"></div><h2 id="stT"></h2><div class="kami" id="kami"><img id="stPic" alt=""><div class="kn" id="stN"></div></div><div id="stL"></div><div class="sbtns"><button class="btn sm" id="storySkip">スキップ ▶▶</button><button class="btn" id="storyGo">出撃！</button></div></div></div>
 <div id="paused" class="ov"><div class="box"><h1>一時停止</h1><div class="sub">Esc か P キーでも、つづきにもどれる</div><div class="gos"><button class="btn" id="resume">つづける</button><button class="btn sm" id="wazaBtn2">📖 技の一覧</button><button class="btn sm" id="quit">竜をえらびなおす</button></div></div></div>
 <div id="waza" class="ov"><div class="wbox"><div class="wh"><h2>技の一覧</h2><button class="btn sm" id="wazaX">とじる ✕</button></div><div class="wsub" id="wazaSub"></div><div class="wg" id="wazaG"></div></div></div>
+<div id="scp" class="ov" role="dialog" aria-modal="true" aria-labelledby="scpH"><div class="sbox"><div class="sh"><h2 id="scpH">シナリオの概要</h2><button class="btn sm" id="scpX" aria-label="とじる">✕ とじる</button></div><div class="tabs" id="scpTabs" role="tablist"></div><div class="cols"><div><div class="pic" id="scpPic"><img id="scpA" alt=""><img id="scpB" alt=""><div class="cap" id="scpCap"></div></div><div class="dots" id="scpDots"></div></div><div class="info"><h3 class="nm" id="scpNm"></h3><p class="ds" id="scpDs"></p><div class="st">章の並び</div><ul class="chs" id="scpChs"></ul><div class="st">ボス</div><div class="bs" id="scpBs"></div><p class="len">🔰 初心者モード 約6分／ふつう 約15分</p><div class="gos"><button class="btn" id="scpGo">このシナリオで遊ぶ</button></div></div></div></div></div>
 <div id="over" class="ov">
   <div class="box"><h1 id="ovT">やられた…</h1><div class="sub" id="ovS"></div><div class="res" id="ovR"></div><button class="btn" id="again">竜をえらびなおす</button></div>
 </div>
@@ -734,7 +770,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1115r';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1115s';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -791,7 +827,7 @@ function mkRival(){const M=MODEL.dragon;if(!M||!M.skin||!THREE.SkeletonUtils||MO
     mt.customProgramCacheKey=()=>'rivaltint';mt.emissive=new THREE.Color(0x2a0a55);mt.emissiveIntensity=0.35;o.material=mt;});
   MODEL.rival={scene:sc,skin:true,anims:M.anims,rot:M.rot};FLAP_ID.rival=FLAP_ID.dragon;}
 // 赤い竜に下あごの骨を足す：頭の点のうち、口の線より下・あごのつけ根より前の点を、新しい骨（jaw）に付けかえる
-const JAWCF={a0:0.035,hm:0.42,ang:-0.42};let MODEL_JAW=null;
+const JAWCF={a0:0.062,hm:0.4,ang:-0.3};let MODEL_JAW=null;
 function addJaw(sc){try{sc.updateMatrixWorld(true);let sm=null;sc.traverse(o=>{if(o.isSkinnedMesh&&!sm)sm=o;});if(!sm)return;const sk=sm.skeleton,nm=b=>b.name.replace(/[:.]/g,''),ix={};sk.bones.forEach((b,i)=>ix[nm(b)]=i);
   const i3=ix.tripoHead_3,i4=ix.tripoHead_4,i5=ix.tripoHead_5;if(i3===undefined||i5===undefined)return;const b3=sk.bones[i3],p3=b3.getWorldPosition(new V3()),p5=sk.bones[i5].getWorldPosition(new V3());
   const f=p5.clone().sub(p3);f.z=0;f.normalize();const u=new V3(-f.y,f.x,0);if(u.y<0)u.negate();
@@ -3047,7 +3083,7 @@ const WAVES=STAGES.flatMap(s=>s.waves);
 const ENDING1=['封印の扉のむこうで、魔王は灰になって消えた。','勇者も、魔物も、魔王も、もう竜をおびやかさない。おびやかす口が、残っていない。','空は、きみのものだ。','遠くの空で、女神が小さくため息をついた。「罰のつもりだったのに……次は、ミジンコにします」'];
 function scnHas(n){return !!SCK[n]&&SCK[n].some(k=>ALLST.some(q=>q.key===k));}
 function scnNext(n){for(let i=1;i<=7;i++){const m=(n-1+i)%7+1;if(scnHas(m))return m;}return 1;}
-function setScn(n){SCN=scnHas(n)?n:1;STAGES.length=0;SCK[SCN].forEach(k=>{const q=ALLST.find(q=>q.key===k);if(q)STAGES.push(q);});chRenum();const b=$('scn');if(b){b.textContent='📖 シナリオ'+SCN+'：'+SCNM[SCN];b.title=[1,2,3,4,5,6,7].filter(scnHas).map(i=>'シナリオ'+i+'＝'+SCNM[i]).join('／')+'。押すたびに切りかわり、第1章からになります';}}
+function setScn(n){SCN=scnHas(n)?n:1;STAGES.length=0;SCK[SCN].forEach(k=>{const q=ALLST.find(q=>q.key===k);if(q)STAGES.push(q);});chRenum();const b=$('scn');if(b){b.textContent='📖 シナリオ'+SCN+'：'+SCNM[SCN];b.title=[1,2,3,4,5,6,7].filter(scnHas).map(i=>'シナリオ'+i+'＝'+SCNM[i]).join('／')+'。押すとシナリオの概要が開きます';}}
 // レッドキャップの群れ：オークキング編 第1章の第1波に9体／地下の迷宮の2つ目の波に5体（元の波の中身は書きかえず、あとに足す）
 {const w1=typeof S3W!=='undefined'&&S3W.wood1;if(typeof w1==='function')S3W.wood1=function(){w1.apply(this,arguments);const a=ringPos(110,150),b=ringPos(110,150);rcSwarm(5,a[0],a[1],12);rcSwarm(4,b[0],b[1],12);};
  const dg=STAGES.find(q=>q.key==='dungeon'),dw=dg&&dg.waves&&dg.waves[1];if(dw&&typeof dw.go==='function'){const g0=dw.go;dw.go=function(){g0.apply(this,arguments);const c=dunPos(-165,-60);rcSwarm(5,c[0],c[1],12);};}}
@@ -3126,7 +3162,55 @@ if(S){
     s2R('airship',3,110,170,40);s2R('dknight',6,100,160,24,36);s2R('ship',3,90,150);s2R('wizard',4,50,90,10);}}];
 }}
 {let n=1;try{n=+(localStorage.getItem('dragon_scn')||1);}catch(e){}setScn(n);}
-$('scn').addEventListener('click',()=>{if(state!=='select')return;setScn(scnNext(SCN));try{localStorage.setItem('dragon_scn',SCN);}catch(e){}reached=0;CKPT=null;saveGame();setupStage(0);setChar(charKey);const f=$('first');if(f)f.style.display='none';sfx('lvup',null,0.4);});
+const scnApply=n=>{if(state!=='select')return;setScn(n);try{localStorage.setItem('dragon_scn',SCN);}catch(e){}reached=0;CKPT=null;saveGame();setupStage(0);setChar(charKey);const f=$('first');if(f)f.style.display='none';sfx('lvup',null,0.4);};
+
+/* ---- シナリオの概要の窓（scn_panel.py） ---- */
+const SCI={
+ 1:{d:'前世は人間。女神の罰で竜に生まれ変わった主人公が、ねぐらの地下に広がる迷宮を下り、封印の扉の奥の魔王を目指す。',b:[['人間の勇者','hero'],['迷宮の番人'],['岩の巨人ゴーレム','golem'],['魔王','demon']]},
+ 2:{d:'人間の王国との戦い。国境の町から王都へ攻めこみ、嵐の海へ逃げる王の艦隊を追う。兵と兵器の軍勢が相手だ。',b:[['王国の技師の新兵器','engineer'],['伝説の勇者','hero'],['うごく城','king'],['巨大戦艦と空中戦艦']]},
+ 3:{d:'森にあふれた、オークとゴブリンの大軍。犬や鷹に乗るゴブリン、木の巨大な砦、攻城兵器をこえて、オークキングを討つ。',b:[['オーク将軍'],['木造の竜'],['木の巨大戦車'],['オークキング','orcking']]},
+ 4:{d:'魔界の門をやぶり、骨の荒野をこえて、魔王の城へ乗りこむ。悪魔と骸骨の軍団、骨の巨人、番犬ケルベロスが待つ。',b:[['悪魔の将軍'],['骨の巨人王'],['ケルベロス'],['黒い騎士','blackknight'],['魔王','demon']]},
+ 5:{d:'空の強者をめぐる戦い。嵐の頂のライバルと古の竜、竜の墓場の竜たち、そして山より大きい竜王。',b:[['ライバルのドラゴン','rival'],['古の竜','elder'],['竜王','dragonking']]},
+ 6:{d:'雲の上からおりてきた、天の軍勢との戦い。雲の門、天空の神殿と空中砦をこえて、四枚の翼の大天使と決着をつける。',b:[['天馬騎士団長'],['天使将軍'],['守護天使長'],['大天使','archangel']]},
+ 7:{d:'海の主・海王の軍勢との戦い。さんごの海、うずの海をこえて、嵐の中の海王にいどむ。',b:[['さんごの大ガニ'],['リヴァイアサン'],['海王','seaking']]}};
+const SCP={n:1,pics:[],i:0,tm:0,tok:0,fr:0,open:false};
+function scpReduced(){try{return matchMedia('(prefers-reduced-motion:reduce)').matches;}catch(e){return false;}}
+function scpEsc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function scpShow(i){
+  const L=SCP.pics;if(!L.length)return;SCP.i=((i%L.length)+L.length)%L.length;
+  const nx=SCP.fr?$('scpA'):$('scpB'),pv=SCP.fr?$('scpB'):$('scpA');SCP.fr^=1;
+  nx.src=L[SCP.i].u;nx.classList.remove('on');void nx.offsetWidth;nx.classList.add('on');pv.classList.remove('on');
+  $('scpCap').textContent=L[SCP.i].c;
+  document.querySelectorAll('#scpDots .dot').forEach((d,k)=>{d.classList.toggle('on',k===SCP.i);d.setAttribute('aria-current',k===SCP.i?'true':'false');});}
+function scpTimer(){clearInterval(SCP.tm);SCP.tm=0;if(SCP.open&&!scpReduced()&&SCP.pics.length>1)SCP.tm=setInterval(()=>scpShow(SCP.i+1),4500);}
+function scpView(n){
+  if(!scnHas(n))n=1;SCP.n=n;const tok=++SCP.tok,I=SCI[n]||{d:'',b:[]};
+  document.querySelectorAll('#scpTabs .tab').forEach(t=>{const on=+t.dataset.n===n;t.classList.toggle('on',on);t.setAttribute('aria-selected',on?'true':'false');});
+  $('scpNm').textContent='シナリオ'+n+'：'+SCNM[n];$('scpDs').textContent=I.d;
+  const sts=SCK[n].map(k=>ALLST.find(q=>q.key===k)).filter(Boolean);
+  $('scpChs').innerHTML=sts.map(q=>'<li><b>'+scpEsc(q.ch)+'</b>'+scpEsc(q.place||q.title)+'</li>').join('');
+  $('scpBs').innerHTML=I.b.map(b=>b[1]?'<span class="bo"><img src="chara/'+b[1]+'.webp" alt="" onerror="this.parentNode.classList.add(\'nf\');this.remove()">'+scpEsc(b[0])+'</span>':'<span class="bo nf">'+scpEsc(b[0])+'</span>').join('');
+  $('scpGo').textContent='このシナリオで遊ぶ';
+  clearInterval(SCP.tm);SCP.tm=0;SCP.pics=[];$('scpDots').innerHTML='';$('scpCap').textContent='';$('scpA').classList.remove('on');$('scpB').classList.remove('on');
+  const cand=[];sts.forEach(q=>[1,2,3].forEach(j=>cand.push({u:'story/v2/'+q.key+'_'+j+'.jpg',c:q.ch+'　'+(q.place||q.title)})));
+  Promise.all(cand.map(c=>new Promise(r=>{const im=new Image();im.onload=()=>r(true);im.onerror=()=>r(false);im.src=c.u;}))).then(ok=>{
+    if(tok!==SCP.tok||!SCP.open)return;SCP.pics=cand.filter((c,k)=>ok[k]);
+    $('scpDots').innerHTML=SCP.pics.length>1?SCP.pics.map((c,k)=>'<button class="dot" aria-label="'+(k+1)+'枚目：'+scpEsc(c.c)+'"></button>').join(''):'';
+    document.querySelectorAll('#scpDots .dot').forEach((d,k)=>d.addEventListener('click',()=>{scpShow(k);scpTimer();}));
+    $('scpPic').classList.toggle('kb',!scpReduced());SCP.fr=0;scpShow(0);scpTimer();});}
+function scpOpen(){
+  if(state!=='select')return;SCP.open=true;
+  $('scpTabs').innerHTML=[1,2,3,4,5,6,7].filter(scnHas).map(n=>'<button class="tab" role="tab" data-n="'+n+'"><span class="no">'+(n===SCN?'★':n)+'</span>'+scpEsc(SCNM[n])+'</button>').join('');
+  document.querySelectorAll('#scpTabs .tab').forEach(t=>t.addEventListener('click',()=>scpView(+t.dataset.n)));
+  const w=$('scp');w.style.display='flex';w.scrollTop=0;scpView(SCN);try{$('scpGo').focus({preventScroll:true});}catch(e){}}
+function scpClose(){SCP.open=false;SCP.tok++;clearInterval(SCP.tm);SCP.tm=0;$('scp').style.display='none';try{$('scn').focus({preventScroll:true});}catch(e){}}
+$('scn').addEventListener('click',scpOpen);
+$('scpX').addEventListener('click',scpClose);
+$('scp').addEventListener('click',e=>{if(e.target===$('scp')||e.target.classList.contains('sbox'))scpClose();});
+$('scpGo').addEventListener('click',()=>{const n=SCP.n;scpClose();if(n!==SCN)scnApply(n);});
+addEventListener('keydown',e=>{if(!SCP.open)return;if(e.code==='Escape')scpClose();e.stopImmediatePropagation();},true);
+addEventListener('keyup',e=>{if(SCP.open)e.stopImmediatePropagation();},true);
+document.addEventListener('visibilitychange',()=>{if(SCP.open){if(document.hidden){clearInterval(SCP.tm);SCP.tm=0;}else scpTimer();}});
 function curWaves(){const W=STAGES[stage].waves;if(!W[0].cave)return W;const d=caveOK();return W.filter(w=>d?!w.nodrg:!(w.cave||w.drg));}
 /* ---- 第1章の最初：ねぐらの洞窟で勇者の一行と戦う（竜のキャラだけ） ---- */
 const CAVE={on:false,g:null,x:0,z:0,y:0,R:125,hy:0.56,flee:false,out:false,t:0,bar:6};
