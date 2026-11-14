@@ -150,8 +150,8 @@
  "dragon": {
   "file": "dragon.glb",
   "h": 9,
-  "ja": "主人公のドラゴン（赤）",
-  "rot": 0
+  "ja": "主人公のドラゴン（赤・骨入り）",
+  "rot": 90
  },
  "ogre": {
   "file": "ogre.glb",
