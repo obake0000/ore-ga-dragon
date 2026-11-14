@@ -770,7 +770,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116c';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116d';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -4495,6 +4495,74 @@ attachModel=function(g,id,er){if((id==='skytemple'||id==='skyfort')&&MODEL[id]&&
 function s6FortTop(b,x,z){const h=b.g.userData.s6holder;if(!h)return b.top;const rc=new THREE.Raycaster();h.updateMatrixWorld(true);rc.set(new THREE.Vector3(x,b.box.max.y+20,z),new THREE.Vector3(0,-1,0));
   const r=rc.intersectObject(h,true);return r.length?r[0].point.y:b.top;}
 s6Fort=function(n){const b=S6FORT;if(!b||b.dead)return;const c=b.box.getCenter(new V3()),N=s6N(n);for(let i=0;i<N;i++){const a=i/Math.max(1,N)*6.28,x=c.x+Math.cos(a)*22,z=c.z+Math.sin(a)*22;s6Spawn('angelarcher',x,z,s6FortTop(b,x,z),{perch:1,bld:b});}};
+
+/* ---- シナリオ6：本物の建物で景色を作りこむ（scn6_fit2.py） ---- */
+const S6PERCH=[];   // 光の天使が立てる所 {b,x,z,y}
+// モデルを1つ、足もとを y=0・中心を x,z=0 にして置く（壊せる建物）。o.h か o.w で大きさ（高さ／よこはば）を決める。影は落とさない
+function s6Bld(id,x,z,rot,o){const M=MODEL[id],m=cloneModel(id);m.rotation.y=M.rot;const h=new THREE.Group();h.add(m);h.updateMatrixWorld(true);
+  const bb=new THREE.Box3().setFromObject(h),sz=bb.getSize(new V3()),c=bb.getCenter(new V3()),k=o.h?o.h/sz.y:o.w/sz.x;
+  m.position.set(-c.x,-bb.min.y,-c.z);h.scale.setScalar(k);m.traverse(q=>{if(q.isMesh){q.castShadow=false;q.receiveShadow=true;}});
+  const g=new THREE.Group();g.add(h);g.userData.s6holder=h;const b=place(g,x,z,rot||0,o.hp||400,o.val||100,o.type||'tower');b.h6=sz.y*k;b.armor=o.armor||0.5;if(o.solid)b.solid=true;return b;}
+// 像などを「まとめ描き」で並べる：list＝[x,z,向き,y]。足もとに小さな丸いあたり判定を付ける（y を渡すと、その高さに置く）
+function s6Deco(id,h,list,r){const G=modelGeo(id,h);if(!G||!list.length)return false;const im=new THREE.InstancedMesh(G.g,G.m,list.length),o=new THREE.Object3D();
+  list.forEach(([x,z,rot,y],i)=>{const yy=y===undefined?H(x,z):y;o.position.set(x,yy-0.2,z);o.rotation.set(0,rot||0,0);o.scale.set(1,1,1);o.updateMatrix();im.setMatrixAt(i,o.matrix);
+    COLS.push({t:0,x,z,r:r,y0:yy-3,y1:yy+h});});
+  {let cx=0,cz=0,cy=0;list.forEach(([x,z,,y])=>{cx+=x/list.length;cz+=z/list.length;cy+=(y===undefined?H(x,z):y)/list.length;});G.g.computeBoundingSphere();let R=0;list.forEach(([x,z,,y])=>{R=Math.max(R,Math.hypot(x-cx,z-cz,(y===undefined?H(x,z):y)-cy));});const bs=G.g.boundingSphere;G.g.boundingSphere=new THREE.Sphere(new V3(cx,cy+h/2,cz),R+bs.radius);im.frustumCulled=true;}
+  im.castShadow=false;im.receiveShadow=true;im.instanceMatrix.needsUpdate=true;scene.add(im);TERRAIN.push(im);return true;}
+// 道の両わきに、向かい合わせの像：z の並び、x＝道の中心からの距離
+function s6Pairs(zs,x){const L=[];for(const z of zs){L.push([-x,z,Math.PI/2],[x,z,-Math.PI/2]);}return L;}
+const s6Gate0=s6Gate,s6Temple0=s6Temple,s6Sanctum0=s6Sanctum,s6Tower0=s6Tower,s6Fort0=s6Fort;
+// 第1章：雲の門
+s6Gate=function(T){if(!(MODEL.cloudgate&&MODEL.angelstatue&&MODEL.skytower))return s6Gate0(T);
+  S6PERCH.length=0;
+  const g=s6Bld('cloudgate',0,-215,0,{w:118,hp:1500,val:600,type:'tower',armor:0.6});
+  s6Deco('angelstatue',16,s6Pairs([30,-60,-150],17),4.2);
+  [[-52,-75],[52,-75]].forEach(([x,z])=>s6Bld('skytower',x,z,0,{h:38,hp:500,val:200}));
+  for(let i=0;i<6;i++){const sd=i%2?1:-1,x=sd*rnd(75,190),z=rnd(-190,-10);if(Math.hypot(x+110,z+95)<62||Math.abs(x)<60)continue;makeRuin(x,z,false);}
+  s6Stairs();
+  // 空の階段の下（地面）と、浮いた石の台の上
+  s6Deco('angelstatue',12,[[-82,-48,0.6],[-102,-52,0.6]],3.5);};
+// 第2章：天空の神殿
+function s6FortFloat(x,z,deck){const sv=S6FIT.skyfort.y,gy=H(x,z)-0.3;S6FIT.skyfort.y=deck-gy;const g=new THREE.Group(),b=place(g,x,z,0,1500,700,'tower','skyfort');S6FIT.skyfort.y=sv;
+  b.armor=0.55;b.top=deck;S6FORT=b;return b;}
+s6Temple=function(T){if(!(MODEL.skytower&&MODEL.colonnade&&MODEL.angelstatue))return s6Temple0(T);
+  S6FORT=null;S6PERCH.length=0;const CX=0,CZ=-235,y0=1.7,sw=S6M.w(),sg=S6M.g(),gr=new THREE.Group();
+  [[112,80,2,2.0],[96,64,2,4.0]].forEach(([w,d,h,t])=>{const m=box(w,h,d,sw);m.position.set(CX,y0+t-h/2,CZ);m.castShadow=false;gr.add(m);
+    const e=box(w+0.6,0.3,d+0.6,sg);e.position.set(CX,y0+t-1.0,CZ);e.castShadow=false;gr.add(e);COLS.push({t:1,x:CX,z:CZ,c:1,s:0,hw:w/2,hd:d/2,y0:y0+t-h,y1:y0+t});});
+  const ca=new THREE.Mesh(new THREE.PlaneGeometry(14,70),new THREE.MeshBasicMaterial({color:0xf0dca0,transparent:true,opacity:0.7,depthWrite:false}));ca.rotation.x=-Math.PI/2;ca.position.set(CX,2.1,CZ+72);gr.add(ca);scene.add(gr);TERRAIN.push(gr);
+  const sh=place(s6Shrine(4.0),CX,CZ,0,1600,800,'tower','skytemple');sh.armor=0.6;sh.solid=true;
+  // 塔4つ（見張りの光の天使は、屋根の下の高さに立つ）
+  [[-80,-195],[80,-195],[-80,-275],[80,-275]].forEach(([x,z])=>{const b=s6Bld('skytower',x,z,0,{h:44,hp:650,val:250,solid:true});T.towers.push(b);S6PERCH.push({b,x,z,y:b.g.position.y+b.h6*0.8});});
+  // 柱廊2つ（はりの上に光の天使が立つ）
+  [[-86,-Math.PI/2],[86,Math.PI/2]].forEach(([x,r])=>{const b=s6Bld('colonnade',x,CZ,r,{w:52,hp:520,val:200,solid:true});
+    for(const dz of [-17,-6,6,17])S6PERCH.push({b,x,z:CZ+dz,y:b.g.position.y+b.h6*0.9});});
+  // 参道の像（神殿の前）
+  s6Deco('angelstatue',16,s6Pairs([-135,-165],13),4.2);
+  for(let i=0;i<4;i++){const sd=i%2?1:-1,x=sd*rnd(60,170),z=rnd(-150,-40);makeRuin(x,z,false);}
+  // 空中砦：島のふち〜島の外に、雲の海にういて見える高さで
+  s6FortFloat(262,-178,46);};
+s6Tower=function(n){if(!S6PERCH.length)return s6Tower0(n);const L=S6PERCH.filter(q=>!q.b.dead),N=s6N(n);for(let i=0;i<N&&i<L.length;i++){const q=L[i];s6Spawn('lightangel',q.x,q.z,q.y,{perch:1,bld:q.b});}};
+// 砦の上の天使弓：飛べるキャラなら砦の上に立つ。地上のキャラなら、行けないので、地面に出す
+s6Fort=function(n){if(!S6FORT||S6FORT.dead)return;if(C.fly)return s6Fort0(n);s6Add('angelarcher',n,150,-120,50,30);};
+// 最終章：光の間
+s6Sanctum=function(T){if(!(MODEL.colonnade&&MODEL.angelstatue))return s6Sanctum0(T);
+  const CX=0,CZ=-60,gr=new THREE.Group();
+  const dais=new THREE.Mesh(new THREE.CircleGeometry(128,56),new THREE.MeshLambertMaterial({color:0xfaf6ec,emissive:0x34302a}));dais.rotation.x=-Math.PI/2;dais.position.set(CX,2.05,CZ);dais.receiveShadow=true;gr.add(dais);
+  const sun=new THREE.Mesh(new THREE.PlaneGeometry(256,256),new THREE.MeshBasicMaterial({map:s6SunTex(),transparent:true,depthWrite:false,opacity:0.95}));sun.rotation.x=-Math.PI/2;sun.position.set(CX,2.12,CZ);gr.add(sun);scene.add(gr);TERRAIN.push(gr);
+  const st=[];
+  for(let i=0;i<12;i+=2){const a=i/12*Math.PI*2+0.26,dd=Math.atan2(Math.sin(a-Math.PI/2),Math.cos(a-Math.PI/2));if(Math.abs(dd)<0.5)continue;   // 入り口（手前＝+z側）は開ける
+    const yaw=Math.atan2(-Math.cos(a),-Math.sin(a));s6Bld('colonnade',CX+Math.cos(a)*112,CZ+Math.sin(a)*112,yaw,{w:56,hp:320,val:90});
+    const a2=a+Math.PI/6,d2=Math.atan2(Math.sin(a2-Math.PI/2),Math.cos(a2-Math.PI/2));if(Math.abs(d2)>0.45)st.push([CX+Math.cos(a2)*142,CZ+Math.sin(a2)*142,Math.atan2(-Math.cos(a2),-Math.sin(a2))]);}  // 柱廊は1つおき（6枚）、あいだに像
+  s6Deco('angelstatue',18,st,5);
+  const hg=new THREE.Group();const r1=new THREE.Mesh(new THREE.TorusGeometry(64,2.6,10,72),new THREE.MeshBasicMaterial({color:0xffe070,fog:false})),r2=new THREE.Mesh(new THREE.TorusGeometry(46,1.1,8,60),new THREE.MeshBasicMaterial({color:0xfff4c0,fog:false}));
+  hg.add(r1,r2);s6Glow(hg,0,0,-2,260,0xffe9a0,0.55);hg.position.set(0,70,-275);scene.add(hg);TERRAIN.push(hg);S6T.push({g:hg,spin:0.0,pulse:1});S6T.push({g:r2,spin:1});
+  for(let i=0;i<4;i++){const sd=i%2?1:-1,x=sd*rnd(170,235),z=rnd(-170,40);makeRuin(x,z,false);}};
+// ---- 色：天使編の3章だけ、明るい白〜うす金に寄せる（空の4つ・雲の海の式の色） ----
+[[0x5a9af2,0xe4f0ff,0.95],[0x5a88dc,0xfff0d4,0.92],[0x4a5aa8,0xfadcae,0.88],[0x34408a,0xf0c49a,0.84]].forEach(([t,b,h],i)=>{const m=MOODS[S6MD+i];m.top.setHex(t);m.bot.setHex(b);m.hemi=h;});
+const s6bw2=buildWorld;
+buildWorld=function(L){const r=s6bw2(L);if(L==='skygate'||L==='skytemple'||L==='archangel'){const w=TERRAIN[1],m=w&&w.material;
+  if(m&&m.fragmentShader&&!m.userData.s6c){m.fragmentShader=m.fragmentShader.replace('vec3(0.42,0.52,0.74)','vec3(0.76,0.85,0.98)').replace('vec3(0.80,0.85,0.93)','vec3(1.0,0.98,0.93)');m.needsUpdate=true;m.userData.s6c=1;}}
+  return r;};
 /* ---- アクション中の2D：吹き出し・漫画の文字・カットイン ---- */
 const B2=[];const sp2=new V3();
 function scr(v){sp2.copy(v).project(cam);if(sp2.z>1)return null;return [(sp2.x+1)/2*innerWidth,(1-sp2.y)/2*innerHeight];}
