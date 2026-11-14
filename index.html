@@ -560,6 +560,7 @@ let TER={amp:1,ox:0,oz:0,flats:[],dirt:[],grass:0x5c9e3c,hill:0x6e7a3a,rock:0x7a
 function H(x,z){const X=x+TER.ox,Z=z+TER.oz,a=TER.amp;
   let h=a*(10*Math.sin(X*0.011)*Math.cos(Z*0.013)+5*Math.sin(X*0.029+1.3)*Math.sin(Z*0.025+0.7)+2*Math.sin(X*0.07)*Math.cos(Z*0.06));
   if(TER.sea)h=h*0.5-17;
+  if(TER.sky)h=h*0.9-8;
   const d=Math.hypot(x,z);if(d>330){const an=Math.atan2(z,x),mm=0.45+0.55*(0.5+0.5*Math.sin(an*5+1.3))*(0.7+0.3*Math.sin(an*13+0.4));h+=Math.pow(d-330,1.32)*0.22*mm;}
   for(const f of TER.flats){const cd=Math.hypot(x-f[0],z-f[1]);if(cd<f[2]){const k=Math.min(1,(f[2]-cd)/25);h=h*(1-k)+f[3]*k;}}
   return h;
@@ -601,10 +602,10 @@ function buildTerrain(){
   }
   g.setAttribute('color',new THREE.Float32BufferAttribute(col,3));g.computeVertexNormals();
   const t=new THREE.Mesh(g,terrainMat());t.receiveShadow=true;scene.add(t);TERRAIN.push(t);
-  const w=new THREE.Mesh(new THREE.PlaneGeometry(1200,1200),TER.lava?lavaMat():waterMat());if(!TER.lava)w.renderOrder=1;
+  const w=new THREE.Mesh(new THREE.PlaneGeometry(1200,1200),TER.lava?lavaMat():TER.sky?cloudSeaMat():waterMat());if(!TER.lava)w.renderOrder=1;
   w.rotation.x=-Math.PI/2;w.position.y=WATER;scene.add(w);TERRAIN.push(w);
   const TG=[modelGeo('tree_pine',10.5),modelGeo('tree_oak',9)].filter(Boolean);
-  if(TG.length){const N=Math.round(TER.trees*0.75),tint=new THREE.Color(TER.leaf===0x2f6e2a?0xd0d6c2:TER.leaf);if(TER.leaf!==0x2f6e2a)tint.multiplyScalar(1/Math.max(tint.r,tint.g,tint.b));
+  if(TG.length){const N=Math.round(TER.trees*0.75*(TER.forest?3:1)),tint=new THREE.Color(TER.leaf===0x2f6e2a?0xd0d6c2:TER.leaf);if(TER.leaf!==0x2f6e2a)tint.multiplyScalar(1/Math.max(tint.r,tint.g,tint.b));
     const IM=TG.map(t=>{const m=t.m.clone();m.color=tint.clone();const im=new THREE.InstancedMesh(t.g,m,Math.max(1,N));im.castShadow=true;im.receiveShadow=true;im.count=0;return im;});
     const d=new THREE.Object3D();let n=0;
     for(let k=0;k<5000&&n<N;k++){const x=rnd(-330,330),z=rnd(-330,330),h=H(x,z);
@@ -626,7 +627,7 @@ function buildTerrain(){
     d.position.set(x,h+5.5*s,z);d.updateMatrix();fo.setMatrixAt(n,d.matrix);n++;
   }
   tr.count=fo.count=n;scene.add(tr,fo);TERRAIN.push(tr,fo);}
-  STACKS.length=0;COLS.length=0;RUINS.length=0;RUIN.pi=RUIN.bi=null;crumbClear();if(!TER.lava)addRuins();addStacks();
+  STACKS.length=0;COLS.length=0;RUINS.length=0;RUIN.pi=RUIN.bi=null;crumbClear();if(!TER.lava)addRuins();addStacks();THEME.puffs.length=0;THEME.rays.length=0;if(TER.sky)skyPuffs();if(TER.forest)forestDeco();
   for(let i=0;i<TER.rocks;i++){const x=rnd(-320,320),z=rnd(-320,320);if(TER.flats.some(f=>Math.hypot(x-f[0],z-f[1])<f[2]))continue;
     const rad=rnd(1.5,4)*(TER.amp>1.5?1.8:1),r=mesh(new THREE.DodecahedronGeometry(rad),mat(TER.rockC));r.position.set(x,H(x,z),z);COLS.push({t:0,x,z,r:rad*0.78,y0:H(x,z)-3,y1:H(x,z)+rad*0.7});r.rotation.set(rnd(0,3),rnd(0,3),0);scene.add(r);TERRAIN.push(r);}
 }
@@ -641,12 +642,61 @@ const CLOUDT=[0,1,2].map(v=>{const c=document.createElement('canvas');c.width=51
   const sp=new THREE.Sprite(sm);const w=big?rnd(320,520):rnd(150,280);sp.scale.set(w,w*0.5,1);g.add(sp);
   const a=rnd(0,6.3),r=big?rnd(700,1000):rnd(150,600);g.position.set(Math.cos(a)*r,big?rnd(90,170):rnd(170,260),Math.sin(a)*r);scene.add(g);clouds.push(g);}}
 
+/* ---- ステージの景色：空（雲の海）・森・近くを飛べる雲 ---- */
+const THEME={puffs:[],rays:[],near:[]};
+// 雲の海：水の板を、白い雲の模様に入れかえる（ゆっくり流れる）
+function cloudSeaMat(){
+  WMAT=new THREE.ShaderMaterial({transparent:true,depthWrite:false,uniforms:{uT:{value:0},uSun:{value:MC.sun},fogColor:{value:scene.fog.color},fogNear:{value:scene.fog.near},fogFar:{value:scene.fog.far}},
+    vertexShader:'varying vec3 vWP;void main(){vec4 w=modelMatrix*vec4(position,1.0);vWP=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}',
+    fragmentShader:'uniform float uT;uniform vec3 uSun,fogColor;uniform float fogNear,fogFar;varying vec3 vWP;\n'+GLN+`
+void main(){vec2 q=vWP.xz*0.011;float t=uT*0.012;
+  float n=fbm(q+vec2(t,t*0.4))*0.6+vn(q*2.7-vec2(t*1.6,0.0))*0.28+vn(q*6.1+vec2(0.0,t*2.2))*0.12;
+  float n2=fbm(q+vec2(t,t*0.4)+vec2(0.05,0.03))*0.6+vn(q*2.7-vec2(t*1.6,0.0)+vec2(0.12,0.08))*0.28+vn(q*6.1+vec2(0.0,t*2.2)+vec2(0.3,0.2))*0.12;
+  float puff=smoothstep(0.3,0.7,n),lit=clamp(0.5+(n-n2)*9.0,0.0,1.0);
+  vec3 c=mix(vec3(0.42,0.52,0.74),vec3(0.80,0.85,0.93),puff);c=mix(c*0.86,c*1.08+vec3(0.05),lit);c*=mix(vec3(1.0),uSun,0.2);
+  float d=length(cameraPosition-vWP),f=smoothstep(fogNear,fogFar,d);
+  gl_FragColor=vec4(mix(c,fogColor,f*0.75),0.98);}`});
+  return WMAT;}
+// 雲の海にうかぶ雲のかたまり（島のまわりを立体に見せる）
+function skyPuffs(){THEME.puffs.length=0;let n=0;
+  for(let k=0;k<1400&&n<150;k++){const x=rnd(-560,560),z=rnd(-560,560);if(H(x,z)>WATER-3)continue;
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:CLOUDT[n%3],transparent:true,depthWrite:false,opacity:0.92}));const w=rnd(46,104);sp.scale.set(w,w*0.5,1);sp.position.set(x,WATER+w*0.16+rnd(0,3),z);sp.renderOrder=2;
+    sp.userData.y=sp.position.y;sp.userData.ph=rnd(0,6.3);scene.add(sp);TERRAIN.push(sp);THEME.puffs.push(sp);n++;}}
+// 森：大木（当たりあり）・木もれ日・光るきのこ
+function forestDeco(){THEME.rays.length=0;const t=modelGeo('tree_oak',9);const o=new THREE.Object3D(),spots=[];
+  for(let k=0;k<1200&&spots.length<12;k++){const x=rnd(-290,290),z=rnd(-290,290),h=H(x,z);
+    if(h<WATER+3||h>26*TER.amp||Math.hypot(x-TER.start[0],z-TER.start[1])<60)continue;
+    if(TER.flats.some(f=>Math.hypot(x-f[0],z-f[1])<f[2]+22)||spots.some(q=>Math.hypot(q.x-x,q.z-z)<70)||STACKS.some(q=>Math.hypot(q.x-x,q.z-z)<q.r+30))continue;spots.push({x,z,h,s:rnd(3.6,5)});}
+  if(t&&spots.length){const im=new THREE.InstancedMesh(t.g,t.m.clone(),spots.length);im.material.color=new THREE.Color(0x9ab08a);im.castShadow=true;
+    spots.forEach((q,i)=>{o.position.set(q.x,q.h-1,q.z);o.scale.setScalar(q.s);o.rotation.set(0,rnd(0,6.3),0);o.updateMatrix();im.setMatrixAt(i,o.matrix);COLS.push({t:0,x:q.x,z:q.z,r:q.s*0.62,y0:q.h-3,y1:q.h+q.s*5.2});});
+    im.instanceMatrix.needsUpdate=true;scene.add(im);TERRAIN.push(im);}
+  // 木もれ日：上からななめにさす、うすい光のすじ
+  if(!THEME.rayT){const c=document.createElement('canvas');c.width=64;c.height=256;const x=c.getContext('2d'),im=x.createImageData(64,256);
+    for(let j=0;j<256;j++)for(let i=0;i<64;i++){const u=(i-31.5)/31.5,v=j/255,a=Math.exp(-u*u*5)*Math.min(1,v*3)*Math.min(1,(1-v)*1.6);const o=(j*64+i)*4;im.data[o]=255;im.data[o+1]=244;im.data[o+2]=196;im.data[o+3]=a*255;}
+    x.putImageData(im,0,0);THEME.rayT=new THREE.CanvasTexture(c);}
+  const rm=new THREE.MeshBasicMaterial({map:THEME.rayT,transparent:true,opacity:0.3,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide,fog:false});
+  for(let i=0;i<18;i++){const x=rnd(-260,260),z=rnd(-260,260),h=H(x,z);if(h<WATER+2)continue;const w=rnd(9,17),g=new THREE.Group();
+    for(let j=0;j<2;j++){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,64),rm);m.rotation.y=j*Math.PI/2;g.add(m);}
+    g.position.set(x,h+29,z);g.rotation.set(0.2,rnd(0,6.3),0.16);scene.add(g);TERRAIN.push(g);THEME.rays.push(g);}
+  // 大木の根もとの光るきのこ
+  const MC2=[0x7dffd0,0xffe070,0xff8ad0];
+  spots.forEach((q,i)=>{for(let j=0;j<4;j++){const a=rnd(0,6.3),r=q.s*rnd(0.9,1.6),x=q.x+Math.cos(a)*r,z=q.z+Math.sin(a)*r,sp=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:MC2[(i+j)%3],transparent:true,opacity:0.7,blending:THREE.AdditiveBlending,depthWrite:false}));
+    sp.scale.set(5,5,1);sp.position.set(x,H(x,z)+1.2,z);scene.add(sp);TERRAIN.push(sp);}});}
+// 近くを飛べる雲（どの章にも）。近づくと消える
+{for(let i=0;i<14;i++){const g=new THREE.Group(),n=3+(i%3);for(let j=0;j<n;j++){const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:CLOUDT[(i+j)%3],transparent:true,depthWrite:false,opacity:0.9}));
+    const w=rnd(70,130);sp.scale.set(w,w*0.5,1);sp.position.set((j-(n-1)/2)*w*0.42+rnd(-8,8),rnd(-7,7),rnd(-14,14));g.add(sp);}
+  const a=rnd(0,6.3),r=rnd(170,520);g.position.set(Math.cos(a)*r,rnd(62,140),Math.sin(a)*r);scene.add(g);clouds.push(g);THEME.near.push(g);}}
+function updTheme(dt,t){
+  {const cq=cam.position;for(const sp of THEME.puffs){sp.position.y=sp.userData.y+Math.sin(t*0.35+sp.userData.ph)*1.2;const d=sp.position.distanceTo(cq);sp.material.opacity=Math.min(0.9,Math.max(0,(d-45)/70)*0.9);}}
+  if(THEME.rays.length)THEME.rays[0].children[0].material.opacity=0.26+0.08*Math.sin(t*0.6);
+  const cp=cam.position;for(const g of THEME.near){const d=g.position.distanceTo(cp),o=CAVE.on?0:Math.min(0.9,Math.max(0,(d-60)/110)*0.9);if(g.userData.o!==o){g.userData.o=o;g.children.forEach(c=>{c.material.opacity=o;});g.visible=o>0.01;}}}
+
 /* ================= Tripo で作った3Dモデル（models\manifest.json があれば使う） ================= */
 const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1115d';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1115e';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -2398,7 +2448,7 @@ const STAGES=[
     {name:'魔王',msg:'😈 魔王が目をさました…',mood:3,go(){addEnemy('demon',0,-160,P.pos.y+30);for(let i=0;i<6;i++)addEnemy('imp',rnd(-15,15),-160+rnd(-15,15),P.pos.y+30);
       sfx('roar');}}]},
   {key:'peak',ch:'最終章',title:'空の王',place:'嵐の頂',
-   ter:{amp:2.3,ox:-700,oz:-900,flats:[[0,-120,40,28]],dirt:[[0,-120,30]],grass:0x5a7a4a,hill:0x6a6a5a,rock:0x6a6670,dirtC:0xb8b0a0,trees:220,leaf:0x24502a,start:[0,120]},
+   ter:{amp:2.3,ox:-700,oz:-900,sky:1,flats:[[0,-120,40,28]],dirt:[[0,-120,30]],grass:0x5a7a4a,hill:0x6a6a5a,rock:0x6a6670,dirtC:0xb8b0a0,trees:220,leaf:0x24502a,start:[0,120]},
    story:['悪魔は消えた。だが、嵐の山から聞き覚えのある咆哮が届く。','ライバルの竜の後ろには、山より大きな古の竜が目を開けていた。','空の王を決める、最後の戦いだ。負けたほうは、雲になる。'],
    waves:[
     {name:'ライバルのドラゴン',msg:'🐲 嵐の中、ライバルのドラゴンが来る！',mood:4,go(){for(let i=0;i<2;i++){const [x,z]=ringPos(130,180);addEnemy('griffin',x,z,P.pos.y+rnd(24,36));}const [x,z]=ringPos(150,200);addEnemy('rival',x,z,P.pos.y+40);sfx('roar');}},
@@ -2936,7 +2986,7 @@ function frame(now){
       if(P.onGround&&Math.random()<0.15)smoke(tmp.set(P.pos.x,gh-C.gOff+0.5,P.pos.z),1,1.4,0.6,0xa8987a,1.5);
     }
     collide(dt);
-    if(P.pos.y>240)P.pos.y=240;const pr=Math.hypot(P.pos.x,P.pos.z);if(pr>470){P.pos.x*=470/pr;P.pos.z*=470/pr;}if(DUN.on){P.pos.x=clamp(P.pos.x,DUN.x0+DUN.xm,DUN.x1-DUN.xm);let zl=DUN.zmin;for(const q of DUN.gates)if(q.open<1&&P.pos.z>q.z)zl=Math.max(zl,q.z+7);P.pos.z=clamp(P.pos.z,zl,DUN.z1-8);if(P.pos.y>DUN.top)P.pos.y=DUN.top;}if(CAVE.on){const dx=P.pos.x-CAVE.x,dz=P.pos.z-CAVE.z,d=Math.hypot(dx,dz),m=CAVE.R-14;if(d>m){P.pos.x=CAVE.x+dx*m/d;P.pos.z=CAVE.z+dz*m/d;}const top=caveTop(Math.min(d,m))-5;if(P.pos.y>top)P.pos.y=top;}
+    if(P.pos.y>240)P.pos.y=240;const pr=Math.hypot(P.pos.x,P.pos.z);if(pr>470){P.pos.x*=470/pr;P.pos.z*=470/pr;}if(DUN.on){P.pos.x=clamp(P.pos.x,DUN.x0+DUN.xm,DUN.x1-DUN.xm);let zl=DUN.zmin;for(const q of DUN.gates)if(q.open<1&&P.pos.z>q.z)zl=Math.max(zl,q.z+7);P.pos.z=clamp(P.pos.z,zl,DUN.z1-8);if(P.pos.y>DUN.top)P.pos.y=DUN.top;}if(CAVE.on){const dx=P.pos.x-CAVE.x,dz=P.pos.z-CAVE.z,d=Math.hypot(dx,dz),m=CAVE.R-14;if(d>m){P.pos.x=CAVE.x+dx*m/d;P.pos.z=CAVE.z+dz*m/d;}const top=caveTop(Math.min(d,m))-5;if(P.pos.y>top)P.pos.y=top;}if(TER.sky&&P.pos.y<WATER+5)P.pos.y=WATER+5;
     P.fireCd-=dt;P.inv-=dt;
     if(TER.lava&&(P.onGround||P.pos.y<=floorAt(P.pos.x,P.pos.z)+C.gOff+0.5)&&H(P.pos.x,P.pos.z)<WATER){hurt(30*dt,true);if(Math.random()<0.3)burst(P.pos,2,FIRE,3,8,0.4);}
     P.melCd-=dt;if(P.melT>0)P.melT-=dt;
@@ -2974,7 +3024,7 @@ function frame(now){
   }
   updParts(dt);updAirProp(dt);updEmit(dt);updDeb(dt);updMix(dt);updBolts(dt);updShock(dt);updFX(dt);updBld(dt,t);updFall(rdt);updRanks(rdt);updRings(rdt,t);updCave(dt,rdt);updDun(dt,rdt);
   const vv=state==='play'?P.vel.length():0;updFeel(rdt,vv,t);
-  clouds.forEach((c,i)=>{c.position.x+=dt*(2+i%3);if(c.position.x>1050)c.position.x=-1050;});
+  clouds.forEach((c,i)=>{c.position.x+=dt*(2+i%3);if(c.position.x>1050)c.position.x=-1050;});updTheme(dt,t);
   // カメラ
   if(state==='story'){const f=TER.flats[0]||[0,-100],a=t*0.1,fy=floorAt(f[0],f[1]);cam.position.set(f[0]+Math.sin(a)*190,fy+75,f[1]+Math.cos(a)*190);camLook.set(f[0],fy+8,f[1]);cam.lookAt(camLook);}
   else if(state==='select'){{const k=charKey==='army'?1.8:C.model?1.7:1;cam.position.set(P.pos.x+16*k,P.pos.y+4*k,P.pos.z-18*k);}camLook.copy(P.pos);camLook.y+=1;camLook.x+=4;cam.lookAt(camLook);}
