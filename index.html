@@ -830,7 +830,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116zz';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aaa';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -2659,10 +2659,10 @@ function grapUpd(rdt){if(!GRAP.on)return;const e=GRAP.e;if(e.dead||state!=='play
   if(!GRAP.o1&&GRAP.t>0.12){GRAP.o1=1;ono(tmp.copy(c).add(tmp2.set(0,7,0)),'ガブッ!!','#ffd84a',58);sfx('roar',c,0.6);}
   if(!GRAP.o2&&GRAP.t>0.9){GRAP.o2=1;ono(tmp.copy(c).add(tmp2.set(0,6,0)),'ガリガリッ!','#9cff8a',50);}
   if(GRAP.t>=GRAP.d)grapEnd(true);}
-function roarUpd(rdt){const want=state==='play'&&(GRAP.on||(CINE.k===1&&ROAR.use&&ultT>0&&CINE.t>0.12))&&!!roarMake();
+function roarUpd(rdt){const cvI=CINE.k===4&&CAVE.on&&charKey==='dragon'&&!!CINE.tg,want=state==='play'&&(GRAP.on||cvI||(CINE.k===1&&ROAR.use&&ultT>0&&CINE.t>0.12))&&!!roarMake();if(cvI)ROAR.yaw=Math.atan2(CINE.tg.x-P.pos.x,CINE.tg.z-P.pos.z);
   if(!want){if(ROAR.on){ROAR.on=false;ROAR.g.visible=false;D.g.visible=true;}return;}
   if(!ROAR.on){ROAR.on=true;ROAR.g.visible=true;ROAR.t=0;ROAR.em=0;}D.g.visible=false;if(!PAUSED&&!LVUP)ROAR.t+=rdt;const g=ROAR.g,k=Math.min(1,ROAR.t/1.5);
-  g.position.copy(P.pos);g.position.y+=Math.sin(ROAR.t*7)*0.1;g.rotation.set(-0.16-0.05*Math.sin(ROAR.t*5),ROAR.yaw,0.03*Math.sin(ROAR.t*9),'YXZ');
+  g.position.copy(P.pos);g.position.y+=Math.sin(ROAR.t*7)*0.1;if(cvI)g.position.y=CAVE.y+ROAR.H*0.5+0.3+Math.sin(ROAR.t*7)*0.08;g.rotation.set(-0.16-0.05*Math.sin(ROAR.t*5),ROAR.yaw,0.03*Math.sin(ROAR.t*9),'YXZ');
   const z=(1.6+k*3.2)*(1+0.13*Math.sin(ROAR.t*31));ROAR.gl.scale.set(z,z,1);ROAR.gc.scale.set(z*0.5,z*0.5,1);
   ROAR.em-=rdt;if(ROAR.em<=0){ROAR.em=0.05;ROAR.mo.getWorldPosition(ROAR.mouth);flame(ROAR.mouth,1,1.2+k*1.5,0.05,tmp3.set(Math.sin(ROAR.yaw)*30,60,Math.cos(ROAR.yaw)*30),0,20);if(Math.random()<0.4)burst(ROAR.mouth,1,FIRE,1.2,160,0.035,0);}}
 function cineSkip(){if(CINE.k>1&&CINE.t>0.3&&CINE.t<CINE.d-0.32)CINE.t=CINE.d-0.32;}
@@ -2704,7 +2704,7 @@ function cineBlock(p,a){let n=0;const d=tmp3.subVectors(a,p),L=d.length()||1;d.m
 // 洞窟：竜と勇者を真横から映す（竜が左）。さえぎる物の少ない側から
 function caveSide(e,d,dmin){const c=cpos(e),T={x:c.x,y:c.y,z:c.z,r:e.r,sg:1,hi:0,dmin};cine(6,d,T);if(CINE.k!==6||CINE.tg!==T)return;
   // 金の山（洞窟のまん中の少し奥）にカメラがもぐらない・山ごしにならない側と高さをえらぶ
-  const gx=CAVE.x,gz=CAVE.z+18,gold=(a,b)=>{let n=0;for(let i=0;i<=8;i++){const k=i/8,x=a.x+(b.x-a.x)*k,y=a.y+(b.y-a.y)*k,z=a.z+(b.z-a.z)*k;if(Math.hypot(x-gx,z-gz)<13&&y<CAVE.y+4.5)n++;}return n;};
+  const OB=[[CAVE.x,CAVE.z+18,13,4.5]].concat(CAVE.ob||[]),gold=(a,b)=>{let n=0;for(let i=0;i<=8;i++){const k=i/8,x=a.x+(b.x-a.x)*k,y=a.y+(b.y-a.y)*k,z=a.z+(b.z-a.z)*k;for(const q of OB)if(Math.hypot(x-q[0],z-q[1])<q[2]&&y<CAVE.y+q[3]){n++;break;}}return n;};
   let best=1e9,bs=1,bh=0;const B=new V3(c.x,c.y,c.z);for(const [sg,hi] of [[1,0],[-1,0],[1,1],[-1,1]]){T.sg=sg;T.hi=hi;cinePose();const n=cineBlock(CINE.p,P.pos)+cineBlock(CINE.p,B)+gold(CINE.p,P.pos)*2+gold(CINE.p,B)*2+(sg<0?0.5:0)+hi*1.5;if(n<best){best=n;bs=sg;bh=hi;}}T.sg=bs;T.hi=bh;}
 function bossFall(e){const q=e.mesh.position,c=cpos(e),T={x:c.x,y:c.y,z:c.z,r:e.r,sg:1,hi:0};e.fall=1;FALL.push({e,t:0,d:1.4,nx:0,x:q.x,y:q.y,z:q.z,rz:e.mesh.rotation.z});cine(3,1.55,T);if(!e.boss&&CINE.k===3){TS=0.25;tsT=1.4;}
   if(CINE.k===3&&CINE.tg===T){let best=1e9,bs=1,bh=0;const B=new V3(c.x,c.y,c.z);for(const [sg,hi] of [[1,0],[-1,0],[1,1],[-1,1]]){T.sg=sg;T.hi=hi;cinePose();const n=cineBlock(CINE.p,P.pos)+cineBlock(CINE.p,B);if(n<best){best=n;bs=sg;bh=hi;}}T.sg=bs;T.hi=bh;}}
@@ -4275,6 +4275,36 @@ function s1Cave(){const g=CAVE.g;if(!g||!MODEL.cstalag&&!MODEL.cbones&&!MODEL.ch
 {const cb0=caveBuild,cc0=caveClear;
  caveBuild=function(){cb0.apply(this,arguments);try{s1Cave();}catch(err){console.warn('s1Cave',err);}};
  caveClear=function(){if(CAVE.g&&CAVE.s1){CAVE.s1.forEach(o=>CAVE.g.remove(o));}CAVE.s1=null;cc0.apply(this,arguments);};}
+/* ---- cave4.py：洞窟の見た目を絵に近づける（青い岩・溶岩のひび・かがり火・水晶・石のアーチと門） ---- */
+function caveDeco(){const g=CAVE.g;CAVE.ob=[];if(!g)return;const cx=CAVE.x,cz=CAVE.z,gy=CAVE.y,TAU=6.2832,add=[];const put=o=>{g.add(o);add.push(o);return o;};
+  // ① 青みのある岩へ
+  g.traverse(o=>{if(o.isMesh&&o.material&&o.material.vertexColors&&(o.material.side===THREE.BackSide||o.geometry.type==='RingGeometry'))o.material.color.setRGB(0.78,0.86,1.22);});
+  // ② 溶岩のひび
+  if(!CAVE.lvT){const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d');x.lineCap='round';const br=(px,py,a,L,w,d)=>{if(L<10||d>5)return;const ex=px+Math.cos(a)*L,ey=py+Math.sin(a)*L;x.strokeStyle='rgba(255,90,20,0.55)';x.lineWidth=w*2.6;x.beginPath();x.moveTo(px,py);x.lineTo(ex,ey);x.stroke();x.strokeStyle='rgba(255,220,120,1)';x.lineWidth=w;x.beginPath();x.moveTo(px,py);x.lineTo(ex,ey);x.stroke();br(ex,ey,a+rnd(-0.7,0.7),L*0.74,w*0.8,d+1);if(Math.random()<0.6)br(ex,ey,a+rnd(0.5,1.2)*(Math.random()<0.5?1:-1),L*0.55,w*0.6,d+1);};
+    for(let i=0;i<5;i++)br(128,128,i/5*TAU+rnd(-0.3,0.3),50,4.5,0);CAVE.lvT=new THREE.CanvasTexture(c);}
+  {const lm=new THREE.MeshBasicMaterial({map:CAVE.lvT,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:0.8});CAVE.lvM=lm;for(let i=0;i<18;i++){const a=rnd(0,TAU),d=i<4?rnd(8,24):rnd(24,96),x=cx+Math.cos(a)*d,z=cz+Math.sin(a)*d,sz=rnd(20,40),m=new THREE.Mesh(new THREE.PlaneGeometry(sz,sz),lm);m.rotation.set(-Math.PI/2,0,rnd(0,TAU));m.position.set(x,Math.max(floorAt(x,z),gy-4)+0.42,z);put(m);}}
+  // ③ かがり火（石の台の上）
+  {const st=new THREE.MeshLambertMaterial({color:0x6a7088,flatShading:true,emissive:0x0c0e16}),pg=new THREE.CylinderGeometry(1.7,2.3,7,7),bg=new THREE.CylinderGeometry(2.9,1.8,1.5,8);if(!CAVE.fl)CAVE.fl=[];
+    for(let i=0;i<8;i++){const a=i/8*TAU+0.39,d=i%2?64:50,x=cx+Math.cos(a)*d,z=cz+Math.sin(a)*d,y=floorAt(x,z);const pl=new THREE.Mesh(pg,st);pl.position.set(x,y+3.3,z);put(pl);const bw=new THREE.Mesh(bg,st);bw.position.set(x,y+7.4,z);put(bw);
+      const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:FXT.ok?FXT.c[4+(i%4)]:GT,color:0xffa040,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));sp.position.set(x,y+11.2,z);put(sp);
+      const hl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff8030,transparent:true,opacity:0.45,blending:THREE.AdditiveBlending,depthWrite:false}));hl.position.set(x,y+10.5,z);put(hl);CAVE.fl.push({s:sp,h:hl,w:5.5,ph:rnd(0,6)});
+      const fl=new THREE.Mesh(new THREE.PlaneGeometry(34,34),new THREE.MeshBasicMaterial({map:GT,color:0xff8a3a,transparent:true,opacity:0.28,blending:THREE.AdditiveBlending,depthWrite:false}));fl.rotation.x=-Math.PI/2;fl.position.set(x,y+0.5,z);put(fl);CAVE.ob.push([x,z,5,15]);}}
+  // ④ 青い水晶のかたまり
+  {const lp=[new THREE.Vector2(0.001,0),new THREE.Vector2(1,0.12),new THREE.Vector2(1,3.1),new THREE.Vector2(0.001,4.8)],im=new THREE.InstancedMesh(new THREE.LatheGeometry(lp,6),new THREE.MeshLambertMaterial({color:0x66c8ff,emissive:0x3aa0ff,emissiveIntensity:0.6,flatShading:true}),96),O=new THREE.Object3D();let n=0;
+    for(let c=0;c<12;c++){const a=rnd(0,TAU),d=rnd(34,104);let x=cx+Math.cos(a)*d;const z=cz+Math.sin(a)*d;if(Math.abs(x-cx)<20&&z<cz-2)x=cx+(x<cx?-1:1)*(22+Math.abs(x-cx));const y=floorAt(x,z),k=rnd(5,8)|0;
+      for(let j=0;j<k&&n<96;j++){const aa=rnd(0,TAU),r=j?rnd(1.2,4.4):0,sc=(j?rnd(0.5,1.1):rnd(1.4,2.1));O.position.set(x+Math.cos(aa)*r,y-0.3,z+Math.sin(aa)*r);O.rotation.set(j?rnd(-0.5,0.5):0,rnd(0,TAU),j?rnd(-0.5,0.5):0);O.scale.set(sc,sc*rnd(0.9,1.5),sc);O.updateMatrix();im.setMatrixAt(n++,O.matrix);}
+      const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0x5fc8ff,transparent:true,opacity:0.4,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(20,20,1);gl.position.set(x,y+4,z);put(gl);CAVE.ob.push([x,z,8,14]);}
+    im.count=n;im.instanceMatrix.needsUpdate=true;put(im);}
+  // ⑤ 石のアーチの壁と門（竜のうしろ）。まん中2つは中が光る。赤い旗
+  if(MODEL.dunarch){const bb=new THREE.Box3().setFromObject(MODEL.dunarch.scene),sz=bb.getSize(new V3()),ct=bb.getCenter(new V3()),wide=Math.max(sz.x,sz.z),alongX=sz.x>=sz.z,k=30/sz.y,W=wide*k,zz=cz+84;
+    for(let i=0;i<4;i++){const c=cloneModel('dunarch');if(!c)break;const q=new THREE.Group();c.position.set(-ct.x,-bb.min.y,-ct.z);q.add(c);q.scale.setScalar(k);q.rotation.y=alongX?Math.PI:Math.PI/2;const x=cx+(i-1.5)*W;
+      c.traverse(o=>{if(o.isMesh){o.material=o.material.clone();o.material.color.setRGB(1.25,1.3,1.5);}});q.position.set(x,floorAt(x,zz)-0.4,zz);put(q);CAVE.ob.push([x,zz,W*0.56,34]);
+      if(i===1||i===2){const gp=new THREE.Mesh(new THREE.PlaneGeometry(W*0.42,17),new THREE.MeshBasicMaterial({map:GT,color:0xffa040,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false}));gp.position.set(x,floorAt(x,zz)+9,zz-1.2);gp.rotation.y=Math.PI;put(gp);}}
+    const bm=new THREE.MeshLambertMaterial({map:dunTex('banner'),emissive:0x401010,side:THREE.DoubleSide});for(const i of [-1,0,1]){const bn=new THREE.Mesh(new THREE.PlaneGeometry(6,13),bm);bn.position.set(cx+i*W,floorAt(cx,zz)+17,zz-3.2);bn.rotation.y=Math.PI;put(bn);}}
+  CAVE.s4=add;}
+{const cb1=caveBuild,cc1=caveClear;
+ caveBuild=function(){cb1.apply(this,arguments);try{caveDeco();}catch(err){console.warn('caveDeco',err);}};
+ caveClear=function(){if(CAVE.g&&CAVE.s4){CAVE.s4.forEach(o=>CAVE.g.remove(o));}CAVE.s4=null;cc1.apply(this,arguments);};}
 // こうもり・小悪魔：かぶせたモデルを、体ごとゆらす（羽ばたき）
 FITK.bat=2.6;FITK.imp=2.0;
 function s1Flap(e,a){const h=e.mesh.userData.bh;if(!h)return;const b=h.userData.b||(h.userData.b={y:h.position.y,im:e.type==='imp'});
@@ -4292,7 +4322,8 @@ function caveFlee(){if(CAVE.flee)return;CAVE.flee=true;CAVE.out=false;CAVE.t=0;E
 function caveBreak(){if(!CAVE.on)return;const c=new V3(CAVE.x,CAVE.y+46,CAVE.z);debris(c,36,[0x7a6658,0x4a3e36,0x9a8a7a],5);
   for(let i=0;i<6;i++){const a=i/6*6.283;debris(new V3(CAVE.x+Math.cos(a)*60,CAVE.y+30,CAVE.z+Math.sin(a)*60),8,[0x7a6658,0x4a3e36],6);}
   burst(c,50,FIRE,8,60,1.2);smoke(c,10,12,3,0x5a5248,20);flashV=1;shake(1);sfx('boom',null,1);caveClear();moodT=MOODS[0];setTimeout(()=>{if(state==='play')addXp(300);},1600);banner(C.fly?'🔥 天井をぶち破って、外へ！':'🔥 岩かべをぶち破って、外へ！',2.6);}
-function updCave(dt,rdt){if(!CAVE.on||state!=='play')return;caveAnim(CAVE.at=(CAVE.at||0)+rdt);const L=EN.filter(e=>e.cave&&!e.dead);
+function updCave(dt,rdt){if(!CAVE.on||state!=='play')return;caveAnim(CAVE.at=(CAVE.at||0)+rdt);if(CAVE.lvM)CAVE.lvM.opacity=0.62+0.26*Math.sin(CAVE.at*1.7);const L=EN.filter(e=>e.cave&&!e.dead);
+  {const hh=L.find(e=>e.type==='hero');if(hh){if(hh.mv==='leap'&&!hh.lpFx){hh.lpFx=1;windSlash(cpos(hh).clone(),0x6fd0ff);burst(cpos(hh),10,[0x9fe0ff,0xffffff],3,24,0.4);}else if(hh.mv!=='leap')hh.lpFx=0;}}
   for(const e of L)if(e.barT>0)e.barT-=dt;
   {const q=L.find(e=>e.hop);if(q&&dt>0){const w=q.mesh.position,v=Math.hypot(w.x-(q.px0===undefined?w.x:q.px0),w.z-(q.pz0===undefined?w.z:q.pz0))/dt;q.px0=w.x;q.pz0=w.z;q.ht=(q.ht||0)+dt*(v>1?11:3);q.hop.position.y=Math.abs(Math.sin(q.ht))*(v>1?0.4:0.06);q.hop.rotation.z=Math.sin(q.ht)*(v>1?0.1:0.02);}}
   if(CAVE.flee){if(PAUSED||LVUP)return;CAVE.t+=rdt;
@@ -4320,7 +4351,7 @@ function breathCone(m,to){if(!BRC.m){const c=document.createElement('canvas');c.
     x.globalCompositeOperation='destination-out';for(let i=0;i<46;i++){x.fillStyle='rgba(0,0,0,'+(0.15+Math.random()*0.35)+')';x.fillRect(Math.random()*64,Math.random()*230,1.5+Math.random()*4,24+Math.random()*70);}
     const t=new THREE.CanvasTexture(c);t.wrapS=THREE.RepeatWrapping;const geo=new THREE.CylinderGeometry(1,0.16,1,14,1,true);geo.translate(0,0.5,0);BRC.tx=t;
     BRC.m=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({map:t,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide,fog:false}));BRC.m.frustumCulled=false;scene.add(BRC.m);}
-  const o=BRC.m,d=FBD.subVectors(to,m),L=d.length()||1,w=1.5+L*0.075;o.visible=true;BRC.k=3;o.position.copy(m);o.quaternion.setFromUnitVectors(UPV,d.multiplyScalar(1/L));o.scale.set(w*(1+0.12*Math.sin(DUN.t*37)),L,w*(1+0.12*Math.cos(DUN.t*29)));BRC.tx.offset.x=(BRC.tx.offset.x+0.037)%1;o.material.opacity=0.6+0.15*Math.sin(DUN.t*23);}
+  const o=BRC.m,d=FBD.subVectors(to,m),L=d.length()||1,w=1.0+L*0.045;o.visible=true;BRC.k=3;o.position.copy(m);o.quaternion.setFromUnitVectors(UPV,d.multiplyScalar(1/L));o.scale.set(w*(1+0.12*Math.sin(DUN.t*37)),L,w*(1+0.12*Math.cos(DUN.t*29)));BRC.tx.offset.x=(BRC.tx.offset.x+0.037)%1;o.material.opacity=0.34+0.1*Math.sin(DUN.t*23);}
 // 風の斬り：三日月が回りながら広がる
 function windSlash(c,col){for(let i=0;i<3;i++){const m=new THREE.Mesh(new THREE.RingGeometry(4.6+i*1.7,5.9+i*1.7,28,1,rnd(0,6.3),2.4),new THREE.MeshBasicMaterial({color:i===1?0xffffff:col,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide,fog:false}));
     m.position.copy(c);m.lookAt(cam.position);m.rotateZ(rnd(0,6.3));const sp=rnd(6,10)*(i%2?1:-1);fxAdd(m,0.5,(o,k,dt)=>{o.rotateZ(sp*(dt||0.016));o.scale.setScalar(0.75+k*1.2);o.material.opacity=0.9*(1-k*k);});}}
@@ -4447,7 +4478,7 @@ function updDun(dt,rdt){if(!DUN.on)return;DUN.t+=rdt;
   if(dt>0&&P.firing&&(charKey==='dragon'||charKey==='wyvern'||charKey==='ground')){const m=mouthPos(),ad=aimDir();let b=null,bs=1e9;
     for(const e of EN){if(e.dead)continue;const v=tmp.subVectors(cpos(e),m),d=v.length(),an=v.angleTo(ad);if(d>70||an>0.9)continue;const sc=d*(1+an*1.5);if(sc<bs){bs=sc;b=e;}}
     const to=b?tmp2.copy(cpos(b)):tmp2.copy(m).addScaledVector(ad,30);{const sv=tmp3.subVectors(to,m),L=sv.length()||1,ft=charKey==='wyvern'?2:0;sv.multiplyScalar(1/L);FBV.copy(sv).multiplyScalar(L*1.7);
-      for(let j=0;j<12;j++){const q=Math.random(),q2=q*q;FBP.copy(m).addScaledVector(sv,0.6+L*q2*0.92);flame(FBP,1,1.4+q2*5.6,0.26+q*0.12,FBV,ft,1.5+q*5);}if(ft===0)breathCone(m,to);}
+      for(let j=0;j<8;j++){const q=Math.random(),q2=q*q;FBP.copy(m).addScaledVector(sv,0.6+L*q2*0.92);flame(FBP,1,1.1+q2*3.6,0.24+q*0.1,FBV,ft,1.5+q*5);}if(ft===0)breathCone(m,to);}
     if(b){if(Math.random()<0.6)burst(to,2,SPARK,2.2,30,0.4);if(Math.random()<0.35)burst(to,1,FIRE,2.6,18,0.6,8);
       if(ROCKY.includes(b.type)){if(Math.random()<0.1)debris(to,1,[0x9a8a72,0x7a7468,0xb0a48a],0.55);if(Math.random()<0.12)glowFlash(to.clone(),0x8ad0ff,9,0.22);}}}
   if(dt>0&&DUN.tor.length&&Math.random()<0.5){const q=DUN.tor[(Math.random()*DUN.tor.length)|0];flame(q.p,1,1.5*(q.k||1),0.5,null,0,0.6);if(Math.random()<0.3)burst(q.p,1,FIRE,1.1,5,1.1,9);}
