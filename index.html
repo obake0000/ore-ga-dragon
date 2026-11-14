@@ -246,6 +246,8 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 #ult.fired .tg{animation:utg 1.1s ease-out forwards}
 @media (max-width:640px){#ult .tg{bottom:25%}}
 #ult.two .tg{color:#9fe6ff;-webkit-text-stroke-color:#0a2a5a;text-shadow:0 0 10px #2a9aff}
+#ult.cine .bd{top:80%}
+#ult.cine .sp{opacity:.45}
 #ult::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,#0000 25%,#000d 100%);animation:udark 1.3s ease-out forwards}
 @keyframes udark{0%{opacity:0}8%{opacity:1}34%{opacity:1}50%{opacity:0}100%{opacity:0}}
 #ult.two .bd{background:linear-gradient(90deg,#020a18f0,#0a3a6ef0 45%,#020a18f0);border-color:#8fe0ff;box-shadow:0 0 50px #2a9aff,inset 0 0 40px #000}
@@ -638,7 +640,7 @@ const CLOUDT=[0,1,2].map(v=>{const c=document.createElement('canvas');c.width=51
 /* ================= Tripo で作った3Dモデル（models\manifest.json があれば使う） ================= */
 const MODEL={},MIX=[];
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1114j';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1114k';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1615,7 +1617,7 @@ function updFeel(dt,v,t){updHitFx(dt);updAir(dt,v);
     else if(v>46&&f.fl&&!f.rig){const U=f.U,A=U.uAng.value,sh=U.uSh.value,sp=U.uSpan.value;for(const sg of [-1,1]){WTIP.set(sg*(sh+sp*Math.cos(A)*0.95),U.uPy.value+sp*Math.sin(A)*0.95,f.cz);D.g.localToWorld(WTIP);burst(WTIP,1,[0xffffff,0xdff2ff],0.5+Math.min(0.5,v/200),1,0.45);}}
   }else if(P.onGround){ // 足音・土ぼこり・体の上下
     const st=Math.floor(f.lp/Math.PI);if(st!==P.lastStep){P.lastStep=st;if(v>6){sfx('step',null,0.35+Math.min(0.4,v/120));smoke(tmp3.set(P.pos.x,P.pos.y-C.gOff+0.6,P.pos.z),v>30?2:1,2.4,0.7,0xb09a78,2);if(v>28)shake(0.06);}}}}
-function aimPoint(){const o=cam.position,dir=tmp3.subVectors(camLook,o).normalize();
+function aimPoint(){const o=cineOn?GCAM:cam.position,dir=tmp3.subVectors(camLook,o).normalize();
   for(let s=10;s<340;s+=6){tmp.copy(o).addScaledVector(dir,s);if(tmp.y<floorAt(tmp.x,tmp.z))return tmp.clone();}
   return o.clone().addScaledVector(dir,340);}
 function autoTarget(){const ad=aimDir();let best=null,bs=1e9;
@@ -1631,7 +1633,7 @@ let LV=1,XP=0,UP={},LVUP=false,LVQ=0,LVOPT=[],PAUSED=false;const PETS=[];
 const xpNeed=()=>90+LV*60+LV*LV*10,RATE=()=>Math.pow(1.07,UP.rate||0),SZM=()=>Math.pow(1.1,UP.size||0),POW=()=>Math.pow(1.15,UP.pow||0),SPM=()=>Math.pow(1.3,UP.sp||0)*(EASY?1:0.7),SPC=()=>40-5*(UP.sp||0);
 function resetLv(){LV=1;XP=0;UP={};LVUP=false;LVQ=0;$('lvup').style.display='none';PETS.forEach(p=>scene.remove(p.g));PETS.length=0;updLvHud();}
 function updLvHud(){$('xpb').style.width=Math.min(100,XP/xpNeed()*100)+'%';$('lvl').textContent='⭐ Lv '+LV+'　'+UPS.filter(u=>UP[u.k]).map(u=>u.ic+UP[u.k]).join(' ');}
-function addXp(n){if(state!=='play')return;XP+=EASY?n*1.7:n*1.35;while(XP>=xpNeed()){XP-=xpNeed();LV++;LVQ++;}updLvHud();if(LVQ&&!LVUP)showLv();}
+function addXp(n){if(state!=='play')return;XP+=EASY?n*1.7:n*1.35;while(XP>=xpNeed()){XP-=xpNeed();LV++;LVQ++;}updLvHud();if(LVQ&&!LVUP&&CINE.k<2)showLv();}
 function upDs(u){const n=UP[u.k]||0,cd=C.br.cd;
   switch(u.k){case 'multi':return `1度に ${1+n}発 → <b>${2+n}発</b>`;case 'rate':return `1秒に ${(RATE()/cd).toFixed(1)}発 → <b>${(RATE()*1.07/cd).toFixed(1)}発</b>`;
     case 'size':return `大きさ ${Math.round(SZM()*100)}% → <b>${Math.round(SZM()*110)}%</b>`;case 'pow':return `いたさ ${Math.round(POW()*100)}% → <b>${Math.round(POW()*115)}%</b>`;case 'sp':return `必殺技 ${Math.round(Math.pow(1.3,n)*100)}% → <b>${Math.round(Math.pow(1.3,n)*130)}%</b><br>ゲージ ${SPC()} → <b>${SPC()-5}</b>`;
@@ -1677,12 +1679,56 @@ const ULTL={bigfire:'判決。丸焼き！',thunder:'天罰だ。女神のツケ
 let ultTm=0,ultFn=null,ultT=0,ultQ=-1e9,ultOnoT=-1e9;
 // 必殺技の見せ方：①溜め（時間をほぼ止めて、暗くして、カットインと決め台詞の声）→ ②解放（光・ゆれ・爆音といっしょに技が出る）
 // 2つ目の技は帯の色を青にして、1つ目（赤と金）と見分けがつくようにする
+/* ---- 見せ場のカメラ（表紙の4コマと同じ向き）：1＝必殺技を下から見上げる／2＝敵軍の登場を肩ごしに望遠で／3＝ボスを倒す所を真横から ---- */
+const CINE={k:0,t:0,d:0,fov:0,tg:null,p:new V3(),l:new V3()},GCAM=new V3(),FALL=[],UPV=new V3(0,1,0),ROCKY=['golem','biggolem','bigcannon','wooddragon','walker','airship','ship','battleship','bigairship'];let cineOn=false,cineUltAt=-1e9;
+function cine(k,d,tg){if(state!=='play'||window.NOCINE)return;
+  if(k===1){const n=performance.now();if(CINE.k>1||n-cineUltAt<(window.CINE_CD===undefined?6000:CINE_CD))return;cineUltAt=n;}
+  CINE.k=k;CINE.t=0;CINE.d=d;CINE.tg=tg||null;if(k>1)document.body.classList.add('lbx');
+  // 必殺技：キャラの大きさ（かこむ箱）を測って、どのキャラでも画面の上半分に大きく入る距離にする
+  if(k===1){D.g.updateMatrixWorld(true);const bb=new THREE.Box3().setFromObject(D.g),s=bb.getSize(new V3()),c=bb.getCenter(new V3()),rw=Math.min(s.x,s.z)*0.5;
+    CINE.tg={ox:c.x-P.pos.x,oy:c.y-P.pos.y,oz:c.z-P.pos.z,h:s.y,d:clamp(C.fly?Math.max(0.85*rw,0.9*s.y):Math.max(1.25*rw,1.9*s.y),5,30)};}}
+function cineEnd(){const k=CINE.k;CINE.k=0;if(k>1){if(cutT<=0)document.body.classList.remove('lbx');if(state==='play'){if(ultT<=0){TS=1;tsT=0;}if(LVQ&&!LVUP)showLv();}}}
+function cineSkip(){if(CINE.k>1&&CINE.t>0.3&&CINE.t<CINE.d-0.32)CINE.t=CINE.d-0.32;}
+addEventListener('pointerdown',cineSkip);addEventListener('keydown',cineSkip);
+function cinePose(){const S=(C.camB||(charKey==='army'?34:C.fly?24:20))/24,p=CINE.p,l=CINE.l,T=CINE.tg,as=Math.max(0.6,cam.aspect);
+  if(CINE.k===1){const f=tmp.set(Math.sin(P.yaw),0,Math.cos(P.yaw)),sd=tmp2.set(Math.cos(P.yaw),0,-Math.sin(P.yaw)),w=as<1?1.5:1;
+    if(C.fly){const F=S*(C.model?1.3:1);p.copy(P.pos).addScaledVector(f,7.6*F*w).addScaledVector(sd,-5.2*F*w);p.y-=3.4*F;l.copy(P.pos).addScaledVector(f,2.4*F);l.y+=1.4*F;}
+    else{const d=T.d;l.set(P.pos.x+T.ox,P.pos.y+T.oy,P.pos.z+T.oz);p.copy(l).addScaledVector(f,0.78*d*w).addScaledVector(sd,-0.53*d*w);p.y-=0.42*T.h;l.y-=0.34*T.h;}CINE.fov=58;}
+  else if(CINE.k===2){const dx=T.x-P.pos.x,dz=T.z-P.pos.z,D0=Math.hypot(dx,dz)||1,D=Math.max(D0,60),f=tmp.set(dx/D0,0,dz/D0),sd=tmp2.crossVectors(f,UPV);
+    if(CINE.t<T.cut){const e=CINE.t/T.cut,bk=T.r*0.66+22-e*8;p.set(T.x-f.x*bk+sd.x*T.r*0.3,T.y+T.r*0.36+13-e*3,T.z-f.z*bk+sd.z*T.r*0.3);l.set(T.x,T.y,T.z);CINE.fov=46;}
+    else{const fov=clamp(Math.atan(T.r*1.1/D)*114.6,15,46),th=Math.tan(fov*0.008727),bk=clamp(11*S/(th*as),14,60),ph=Math.atan((P.pos.y-T.y)/D);
+      p.copy(P.pos).addScaledVector(f,-bk).addScaledVector(sd,bk*0.48*th*as);p.y+=bk*Math.tan(clamp(ph+0.6*fov*0.008727,-0.5,0.9));l.set(T.x,T.y,T.z);CINE.fov=fov;}}
+  else{const A=P.pos,dx=T.x-A.x,dz=T.z-A.z,L=Math.hypot(dx,dz)||1,f=tmp.set(dx/L,0,dz/L),n=tmp2.crossVectors(f,UPV).multiplyScalar(T.sg||1),near=L<110;
+    const W=near?L+7*S+T.r*2:T.r*4+14,dist=clamp(W/(0.8*as),22,170),my=near?(A.y+T.y)/2:T.y;
+    if(near)l.set(A.x+dx*0.5,my,A.z+dz*0.5);else l.set(T.x-f.x*T.r*1.2,my,T.z-f.z*T.r*1.2);
+    p.copy(l).addScaledVector(n,dist);p.y+=dist*(T.hi?0.42:-0.1);l.y-=T.r*0.12;CINE.fov=50;}
+  const fl=Math.max(floorAt(p.x,p.z),WATER)+1.4;if(p.y<fl)p.y=fl;}
+function cineCam(rdt){if(!CINE.k){cineOn=false;return;}if(state!=='play'){cineEnd();cineOn=false;return;}
+  GCAM.copy(cam.position);if(!PAUSED&&!LVUP)CINE.t+=rdt;if(CINE.t>=CINE.d){cineEnd();cineOn=false;return;}
+  cinePose();const a=Math.min(1,CINE.t/0.14),b=Math.min(1,(CINE.d-CINE.t)/0.32),w=Math.min(a*a*(3-2*a),b*b*(3-2*b));
+  cam.position.lerpVectors(GCAM,CINE.p,w);tmp3.lerpVectors(camLook,CINE.l,w);cam.lookAt(tmp3);cineOn=true;
+  // 必殺技：出した直後は口から炎がふき出す
+  if(CINE.k===1&&ultT<=0&&CINE.t<1.05&&!PAUSED&&!LVUP&&D.human!=='army'){const m=mouthPos(),ad=aimDir();flame(m.addScaledVector(ad,1.2),2,2.2,0.4,ad.multiplyScalar(26),0,4);}}
+// ボスはすぐ消さない：炎をあびて、ゆれて、崩れてから爆発する
+const RAYC=new THREE.Ray(),RAYH=new V3();
+// カメラ p から a までの間にある建物・柱の数（少ない側から撮る）
+function cineBlock(p,a){let n=0;const d=tmp3.subVectors(a,p),L=d.length()||1;d.multiplyScalar(1/L);RAYC.set(p,d);
+  for(const b of BLD){if(b.dead||!b.box)continue;const h=RAYC.intersectBox(b.box,RAYH);if(h&&h.distanceTo(p)<L-3)n++;}
+  for(const q of COLS){const t=clamp((q.x-p.x)*d.x+(q.z-p.z)*d.z,0,L-3),x=p.x+d.x*t,z=p.z+d.z*t,y=p.y+d.y*t;if(y>q.y0&&y<q.y1&&Math.hypot(x-q.x,z-q.z)<(q.t===0?q.r:Math.max(q.hw,q.hd)))n++;}
+  return n;}
+function bossFall(e){const q=e.mesh.position,c=cpos(e),T={x:c.x,y:c.y,z:c.z,r:e.r,sg:1,hi:0};e.fall=1;FALL.push({e,t:0,d:1.4,nx:0,x:q.x,y:q.y,z:q.z,rz:e.mesh.rotation.z});cine(3,1.55,T);if(!e.boss&&CINE.k===3){TS=0.25;tsT=1.4;}
+  if(CINE.k===3&&CINE.tg===T){let best=1e9,bs=1,bh=0;const B=new V3(c.x,c.y,c.z);for(const [sg,hi] of [[1,0],[-1,0],[1,1],[-1,1]]){T.sg=sg;T.hi=hi;cinePose();const n=cineBlock(CINE.p,P.pos)+cineBlock(CINE.p,B);if(n<best){best=n;bs=sg;bh=hi;}}T.sg=bs;T.hi=bh;}}
+function updFall(rdt){if(PAUSED||LVUP)return;for(let i=FALL.length-1;i>=0;i--){const o=FALL[i],e=o.e,m=e.mesh,k=(o.t+=rdt)/o.d,sh=e.r*0.045,rk=ROCKY.includes(e.type);
+    m.position.set(o.x+rnd(-sh,sh),o.y-k*k*e.r*(e.fly?1.4:0.45),o.z+rnd(-sh,sh));m.rotation.z=o.rz+k*k*0.3;
+    if(o.t>=o.nx){o.nx=o.t+0.12;const c=new V3(o.x+rnd(-0.7,0.7)*e.r,o.y+e.hc+rnd(-0.5,0.8)*e.r*0.6,o.z+rnd(-0.7,0.7)*e.r);burst(c,6,FIRE,e.r*0.2,20,0.5);if(rk)debris(c,3,[0x7a7468,0x6a4a2a,0x9a8a72],e.r*0.13);smoke(c,2,e.r*0.45,1.5,0x5a5248,2);}
+    if(state==='play'&&D.human!=='army'&&Math.hypot(o.x-P.pos.x,o.z-P.pos.z)<130){const a=mouthPos(),b=tmp2.set(o.x,o.y+e.hc,o.z);for(let j=0;j<5;j++){const q=(o.t*2.4+j/5)%1;tmp3.lerpVectors(a,b,q);flame(tmp3,1,1.5+q*e.r*0.26,0.3,null,0,3);}}
+    if(k>=1){scene.remove(m);FALL.splice(i,1);const c=new V3(o.x,o.y+e.hc,o.z);burst(c,60,FIRE,e.r*0.6,46,1.2);if(rk)debris(c,14,[0x7a7468,0x6a4a2a,0x9a8a72],e.r*0.2);smoke(c,8,e.r*0.7,3,0x5a5248,e.r*0.5);if(state==='play'){sfx('boom',c,0.8);shake(0.7);flashV=Math.max(flashV,0.5);}}}}
 function ult(nm,line,fire){const u=$('ult');u.style.display='none';void u.offsetWidth;u.querySelector('img').src=`chara/${charKey}.webp`;
   u.querySelector('.nm').textContent=nm;u.querySelector('.tg').textContent=nm;u.classList.remove('fired');u.querySelector('.sb').textContent=`${C.name}「${line||''}」`;u.classList.toggle('two',nm===SKINFO[P.sp2].n);u.style.display='block';
   clearTimeout(ultTm);ultTm=setTimeout(()=>{u.style.display='none';},2200);
   if(ultFn){const f=ultFn;ultFn=null;f();}
-  TS=0.05;tsT=0.6;sfx('charge',null,0.9);if(!voice('ME',line))sfx('roar',null,0.3);ultFn=fire||null;ultT=0.45;}
-function updUlt(rdt){if(ultT<=0)return;ultT-=rdt;if(ultT>0)return;const f=ultFn;ultFn=null;TS=1;tsT=0;ultQ=performance.now();{const u=$('ult');u.classList.add('fired');clearTimeout(ultTm);ultTm=setTimeout(()=>{u.style.display='none';},1250);}if(f&&state==='play'){flashV=Math.max(flashV,0.75);shake(0.6);sfx('release');f();}}
+  TS=0.05;tsT=0.6;sfx('charge',null,0.9);if(!voice('ME',line))sfx('roar',null,0.3);ultFn=fire||null;ultT=0.45;cine(1,1.05);u.classList.toggle('cine',CINE.k===1);}
+function updUlt(rdt){if(ultT<=0)return;ultT-=rdt;if(ultT>0)return;const f=ultFn;ultFn=null;TS=1;tsT=0;ultQ=performance.now();{const u=$('ult');u.classList.add('fired');clearTimeout(ultTm);ultTm=setTimeout(()=>{u.style.display='none';},1250);}if(f&&state==='play'){flashV=Math.max(flashV,0.75);shake(0.6);sfx('release');f();if(CINE.k===1){TS=0.4;tsT=0.45;}}}
 const FXL=[],FXTX={};
 function fxAdd(m,life,upd){scene.add(m);FXL.push({m,t:0,life,upd});return m;}
 function updFX(dt){for(let i=FXL.length-1;i>=0;i--){const f=FXL[i];f.t+=dt;const k=f.t/f.life;
@@ -1706,7 +1752,7 @@ function pillar(pos,col,r,h,life=1){const g=new THREE.CylinderGeometry(1,1,1,24,
   return fxAdd(m,life,(o,k)=>{const w=Math.max(0.01,r*(k<0.1?k/0.1:1-(k-0.1)*0.7));o.scale.set(w,h*(k<0.1?k/0.1:1),w);o.material.opacity=k<0.6?1:(1-k)/0.4;});}
 function beamFx(from,dir,len,r,col,life=0.8){const g=new THREE.CylinderGeometry(1,1,1,20,1,true);g.translate(0,0.5,0);const m=new THREE.Mesh(g,nMat(col,null,0.9));m.position.copy(from);m.quaternion.setFromUnitVectors(new V3(0,1,0),dir.clone().normalize());
   return fxAdd(m,life,(o,k)=>{const w=Math.max(0.01,r*(k<0.12?k/0.12:1-(k-0.12)*0.9));o.scale.set(w,len,w);o.material.opacity=k<0.5?0.9:(1-k)/0.5*0.9;});}
-function glowFlash(pos,col,size,life=0.5){const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:fxTex('glow'),color:col,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));sp.position.copy(pos);
+function glowFlash(pos,col,size,life=0.5){if(cineOn&&CINE.k===1)size*=0.4;const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:fxTex('glow'),color:col,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));sp.position.copy(pos);
   return fxAdd(sp,life,(o,k)=>{o.scale.setScalar(size*(0.4+k*1.2));o.material.opacity=1-k;});}
 function tornado(pos,col,R,h,life=1.6){const G=new THREE.Group();G.position.copy(pos);
   for(let j=0;j<3;j++){const g=new THREE.CylinderGeometry(1.15-j*0.15,0.25+j*0.1,1,32,1,true);g.translate(0,0.5,0);const m=new THREE.Mesh(g,nMat(j?(j>1?0xfff0a0:0xffa020):col,fxTex('swirl'),0.95-j*0.15));m.userData.sp=(j%2?-1:1)*(4+j*2);G.add(m);}
@@ -1857,12 +1903,12 @@ function hitEnemy(e,n){if(e.dead)return;
   if(n>=8){if(!(e.flT>0)){e._rx=e.mesh.rotation.x;e._rz=e.mesh.rotation.z;}e.flT=0.26;if(!e.boss&&!e.perch&&e.r<5){const q=e.mesh.position,dx=q.x-P.pos.x,dz=q.z-P.pos.z,d=Math.hypot(dx,dz)||1;e.kx=dx/d*15;e.kz=dz/d*15;}}
   if(e.hp<=0)killEnemy(e);}
 const DIE={wizard:'そんな…わしの魔力が…',hero:'すまない…みんな…',demon:'この私が…トカゲごときに…',rival:'…強くなったな。',wooddragon:'……ギギ……ギ……',walker:'城が……ローンが、まだ……',elder:'見事だ、若き竜よ。空はお前のものだ。',battleship:'総員、退艦…！ 泳げる者から…！',bigairship:'空の…王の船が…！',kraken:'ゴボ…ゴボボ……'};
-function killEnemy(e,quiet){if(e.dead)return;e.dead=true;scene.remove(e.mesh);if(e.type==='bigslime'&&state==='play'&&!quiet)slimeSplit(e);score+=e.val;kills++;addXp(e.val);
+function killEnemy(e,quiet){if(e.dead)return;e.dead=true;if((e.boss||e.type==='biggolem')&&state==='play'&&!quiet)bossFall(e);else scene.remove(e.mesh);if(e.type==='bigslime'&&state==='play'&&!quiet)slimeSplit(e);score+=e.val;kills++;addXp(e.val);
   if(state==='play'){combo++;comboT=3.5;if(combo>maxCombo)maxCombo=combo;score+=Math.round(e.val*Math.min(combo,40)*0.05);showCombo();}
-  const c=cpos(e);burst(c,e.boss?70:14,e.type==='rival'?BLUE:e.type==='demon'||e.type==='imp'?PURP:e.type==='slime'?GOO:FIRE,e.boss?9:3,e.boss?50:16,e.boss?1.4:0.7);
+  const c=cpos(e);burst(c,e.fall?16:e.boss?70:14,e.type==='rival'?BLUE:e.type==='demon'||e.type==='imp'?PURP:e.type==='slime'?GOO:FIRE,e.fall?4:e.boss?9:3,e.boss?50:16,e.boss?1.4:0.7);
   if(!quiet)sfx(e.boss?'boom':'small',c,e.boss?1:0.5);if(e.boss)ono(c,'ズドーン!!','#ff5a1a',72);else if(e.r>=4)ono(c,'ドカッ！','#ffd23a',40);
   if(e.type==='cannon'){debris(c,6,[0x2a2a2e,0x6a4a2a],0.8);smoke(c,4,4,2);}
-  if(['golem','bigcannon','wooddragon','walker','airship','ship','battleship','bigairship'].includes(e.type)){debris(c,e.boss?24:10,[0x7a7468,0x6a4a2a,0x9a8a72],e.boss?3:1.5);smoke(c,8,e.boss?10:5,3,0x5a5248,e.boss?8:3);burst(c,30,FIRE,e.boss?8:5,30,1);}
+  if(['golem','bigcannon','wooddragon','walker','airship','ship','battleship','bigairship'].includes(e.type)){debris(c,e.boss?24:10,[0x7a7468,0x6a4a2a,0x9a8a72],e.boss?3:1.5);smoke(c,8,e.boss?10:5,3,0x5a5248,e.boss?8:3);burst(c,e.fall?10:30,FIRE,e.fall?3:e.boss?8:5,30,1);}
   if(e.boss){shake(1);TS=0.25;tsT=1.4;say(e.boss.replace(/^\S+\s/,''),DIE[e.type]);banner(e.boss.replace(/^\S+\s/,'')+' をたおした！',2.4);addEmit(new V3(c.x,floorAt(c.x,c.z),c.z),6,2);}}
 function walk(e,tx,tz,spd,dt){const p=e.mesh.position,dx=tx-p.x,dz=tz-p.z,d=Math.hypot(dx,dz);if(d>0.5&&spd){p.x+=dx/d*spd*dt;p.z+=dz/d*spd*dt;}e.mesh.rotation.y=Math.atan2(dx,dz);return d;}
 function grav(e,dt,g=40){const p=e.mesh.position;if(e.perch)return true;const gh=Math.max(H(p.x,p.z),WATER-1.2);e.vy-=g*dt;p.y+=e.vy*dt;if(p.y<=gh){p.y=gh;e.vy=0;return true;}return false;}
@@ -2248,7 +2294,12 @@ const ENDING=['古の竜もライバルも、静かに翼をたたんで雲の�
 let stage=0,wave=-1,waveWait=0,reached=0;
 const WAVES=STAGES.flatMap(s=>s.waves);
 function curWaves(){return STAGES[stage].waves;}
-function startWave(i){wave=i;const w=curWaves()[i];moodT=MOODS[w.mood];w.go();banner(w.msg,3);const tl=(TALKS[STAGES[stage].key]||{}).w;if(tl&&tl[i]&&i>0)talk(tl[i]);thinWave();}
+function startWave(i){wave=i;const w=curWaves()[i];moodT=MOODS[w.mood];w.go();banner(w.msg,3);const tl=(TALKS[STAGES[stage].key]||{}).w;if(tl&&tl[i]&&i>0)talk(tl[i]);thinWave();cineWave();}
+function cineWave(){const L=EN.filter(e=>!e.dead);if(!L.length)return;const b=L.find(e=>e.boss);let x=0,y=0,z=0,r=26,n=0;
+  if(b){const c=cpos(b);x=c.x;y=c.y;z=c.z;r=Math.max(26,b.r*2.6);}
+  else{let s=L[0],sc=-1;for(const e of L){let k=0;for(const o of L)if(o.mesh.position.distanceToSquared(e.mesh.position)<4900)k++;if(k>sc){sc=k;s=e;}}
+    const G=L.filter(o=>o.mesh.position.distanceToSquared(s.mesh.position)<4900);n=G.length;for(const o of G){const c=cpos(o);x+=c.x/n;y+=c.y/n;z+=c.z/n;}for(const o of G){const c=cpos(o);r=Math.max(r,Math.hypot(c.x-x,c.z-z));}}
+  const far=Math.hypot(x-P.pos.x,z-P.pos.z)>110;cine(2,far?2.3:1.6,{x,y,z,r,cut:far?0.95:0});if(CINE.k===2){TS=0.12;tsT=far?2.15:1.45;}}
 // 初心者モード：ボス以外の敵を4割へらす（短い時間で終わるように）
 function thinWave(){let k=0;for(let i=EN.length-1;i>=0;i--){const e=EN[i];if(e.boss||e.dead||e.type==='biggolem'||e.type==='bigslime')continue;k+=EASY?0.4:0.25;if(k>=1){k-=1;scene.remove(e.mesh);EN.splice(i,1);}}}
 // 章の地形・建物を作る
@@ -2440,7 +2491,7 @@ document.querySelectorAll('#touch .b').forEach(b=>{b.addEventListener('touchstar
   const bar=(l,v)=>`<div class="st"><span>${l}</span><div class="bar"><i style="width:${v*20}%"></i></div></div>`;
   d.innerHTML=`<img class="pti" src="chara/${k}.webp" alt=""><div class="nm">${c.name}<span class="tag">${c.tag}</span></div><div class="ds">${c.ds}</div>${bar('体力',c.stat[0])}${bar('速さ',c.stat[1])}${bar('攻撃',c.stat[2])}`;
   d.addEventListener('click',()=>{initAudio();setChar(k);sfx('roar',null,0.3);});box_.appendChild(d);}}
-function clearWorld(){EN.forEach(e=>scene.remove(e.mesh));EN.length=0;PROJ.forEach(p=>scene.remove(p.m));PROJ.length=0;PILL.forEach(q=>{scene.remove(q.rm);if(q.cm)scene.remove(q.cm);});PILL.length=0;
+function clearWorld(){FALL.forEach(o=>scene.remove(o.e.mesh));FALL.length=0;EN.forEach(e=>scene.remove(e.mesh));EN.length=0;PROJ.forEach(p=>scene.remove(p.m));PROJ.length=0;PILL.forEach(q=>{scene.remove(q.rm);if(q.cm)scene.remove(q.cm);});PILL.length=0;
   EMIT.length=0;DEB.forEach(d=>scene.remove(d.m));DEB.length=0;BLD.forEach(b=>{scene.remove(b.g);if(b.rub)scene.remove(b.rub);});BLD.length=0;wave=-1;}
 // 章のはじめの強さ（レベルと強化）を覚えておく。やられても、ページを開き直しても、その章のはじめの強さで続けられる
 let CKPT=null,combo=0,comboT=0,maxCombo=0,best=0;try{best=+localStorage.getItem('dragon_best')||0;}catch(e){}
@@ -2551,20 +2602,20 @@ function frame(now){
     if(D.human)animHuman(D,t,state==='play');else if(D.model){if(C.fly)D.body.position.y=Math.sin(t*1.3)*0.5;}else{animDragon(D,t,P.dashT>0?16:P.firing?7:5.5,C.fly?0:(state==='play'?(P.dashT>0?16:9):3));if(P.melT>0&&state==='play')D.g.rotation.y+=(1-P.melT/0.3)*Math.PI*2;}
     updSlash(rdt);
   }
-  updParts(dt);updAirProp(dt);updEmit(dt);updDeb(dt);updMix(dt);updBolts(dt);updShock(dt);updFX(dt);updBld(dt,t);
+  updParts(dt);updAirProp(dt);updEmit(dt);updDeb(dt);updMix(dt);updBolts(dt);updShock(dt);updFX(dt);updBld(dt,t);updFall(rdt);
   const vv=state==='play'?P.vel.length():0;updFeel(rdt,vv,t);
   clouds.forEach((c,i)=>{c.position.x+=dt*(2+i%3);if(c.position.x>1050)c.position.x=-1050;});
   // カメラ
   if(state==='story'){const f=TER.flats[0]||[0,-100],a=t*0.1,fy=floorAt(f[0],f[1]);cam.position.set(f[0]+Math.sin(a)*190,fy+75,f[1]+Math.cos(a)*190);camLook.set(f[0],fy+8,f[1]);cam.lookAt(camLook);}
   else if(state==='select'){{const k=charKey==='army'?1.8:C.model?1.7:1;cam.position.set(P.pos.x+16*k,P.pos.y+4*k,P.pos.z-18*k);}camLook.copy(P.pos);camLook.y+=1;camLook.x+=4;cam.lookAt(camLook);}
-  else{const pc=C.fly?P.pitch*0.8:P.pitch*0.5;const cd=new V3(Math.sin(P.yaw)*Math.cos(pc),Math.sin(pc),Math.cos(P.yaw)*Math.cos(pc));
+  else{if(cineOn)cam.position.copy(GCAM);const pc=C.fly?P.pitch*0.8:P.pitch*0.5;const cd=new V3(Math.sin(P.yaw)*Math.cos(pc),Math.sin(pc),Math.cos(P.yaw)*Math.cos(pc));
     const back=C.camB||(charKey==='army'?34:C.fly?24:20),up=C.camU||(charKey==='army'?15:C.fly?7:8);
     const tg=tmp.copy(P.pos).addScaledVector(cd,-back).add(tmp2.set(0,up,0));const cg=floorAt(tg.x,tg.z)+2;if(tg.y<cg)tg.y=cg;
     cam.position.lerp(tg,1-Math.exp(-(P.dashT>0?4.5:9)*rdt));camLook.copy(P.pos).addScaledVector(aimDir(),40).add(tmp2.set(0,4,0));cam.lookAt(camLook);
     if(!C.fly&&!C.human&&P.onGround&&D.g.userData.flap){cam.position.y+=Math.abs(Math.sin(D.g.userData.flap.lp))*Math.min(1,vv/30)*0.45;}
     if(shakeT>0){shakeT-=rdt;const s=shakeT*1.6;cam.position.x+=rnd(-s,s);cam.position.y+=rnd(-s,s);}
     if(C.fly&&!C.human)cam.rotateZ(-P.roll*0.3);}
-  const fovT=state!=='play'?65:C.human?(P.dashT>0?78:65):62+Math.min(16,vv*0.14)+(P.dashT>0?8:0);if(Math.abs(cam.fov-fovT)>0.1){cam.fov+=(fovT-cam.fov)*Math.min(1,rdt*6);cam.updateProjectionMatrix();}
+  cineCam(rdt);const fovT=cineOn&&CINE.fov?CINE.fov:state!=='play'?65:C.human?(P.dashT>0?78:65):62+Math.min(16,vv*0.14)+(P.dashT>0?8:0);if(Math.abs(cam.fov-fovT)>0.1){cam.fov+=(fovT-cam.fov)*Math.min(1,rdt*(cineOn?16:6));cam.updateProjectionMatrix();}
   sun.position.copy(P.pos).addScaledVector(MC.dir,200);sun.target.position.copy(P.pos);
   updMood(rdt,false);
   // 文字
