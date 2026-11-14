@@ -164,5 +164,17 @@
   "h": 3,
   "ja": "溶岩の隕石（岩投げ）",
   "rot": 0
+ },
+ "griffin": {
+  "file": "griffin.glb",
+  "h": 6,
+  "ja": "グリフォン",
+  "rot": 0
+ },
+ "dknight": {
+  "file": "dknight.glb",
+  "h": 8,
+  "ja": "竜騎士（飛竜に乗った騎士）",
+  "rot": 0
  }
 }
