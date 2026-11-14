@@ -770,7 +770,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1115z';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116b';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1712,7 +1712,7 @@ const CH={
     model:{id:'golem',w:4.9,h:7.2,d:3.8,mouth:[0,1.14,2.66]},camB:23,camU:9.5,gOff:3.6,stat:[5,1,5]},
   orctank:{name:'オークの戦車',em:'🛞',tag:'地上・弓と砲と体当たり',ds:'オークキングが乗る、とげだらけのデラックス戦車。弩の矢を撃ち続け、近くの敵は体当たりでひきつぶす。必殺技は大砲3連発と、とげの突撃。',hp:460,spd:34,turn:1.7,fly:false,range:170,
     br:{mat:MAT.arrow,geo:'arrow',dmg:36,cd:0.45,spd:190,life:1.5,size:1.7,splash:2,col:[0xd8c8a0]},sp:'tkcannon',spN:'大砲3連発',spD:'近い敵3体へ、大きな砲弾を3発うちこむ',sp2:'tkrush',sp2N:'とげの突撃',sp2D:'まっすぐ突っこみ、ふれた敵をひきつぶす。その間は無敵',dashN:'緊急回避',dashD:'横へすばやくよける',mel:{r:24,dmg:95,cd:0.6,ono:'ガシャン！'},
-    model:{id:'orctank',w:20,h:22,d:30,mouth:[0,5,15]},camB:62,camU:25,gOff:11,stat:[4,3,4]},
+    model:{id:'kingtank',w:20,h:22,d:30,mouth:[0,5,15]},camB:62,camU:25,gOff:11,stat:[4,3,4]},
   airship:{name:'飛空艇',em:'🎈',tag:'空を飛ぶ・大砲',ds:'王国の飛空艇に乗って戦う。大砲を前の敵へ撃ち続ける。必殺技は真下への爆弾の雨と、全砲門の一斉射撃。',hp:300,spd:42,turn:1.5,fly:true,range:230,
     br:{mat:MAT.ball,dmg:48,cd:0.6,spd:160,life:2,size:1.2,splash:6,col:[0xff9a30,0xffe080,0x888888]},sp:'bombs',spN:'爆弾の雨',sp2:'broadside',sp2N:'全砲門斉射',dashN:'緊急回避',mel:{r:12,dmg:36,cd:0.6,ono:'ドンッ！'},
     model:{id:'airship',w:11,h:15,d:21,center:1,mouth:[0,-4,10]},camB:38,camU:13,gOff:8.5,stat:[3,2,4]}};
@@ -2265,7 +2265,7 @@ function addEnemy(type,x,z,y,o={}){
   else if(type==='orctank')m=makeProxy(24,26,36,0x3a2a22);else if(type==='orccart')m=makeProxy(8,8.5,11,0x6b4a2a);else if(type==='bigcannon'||type==='siegecart')m=makeProxy(5,7,9,0x3a3a3e);else if(type==='wooddragon')m=makeProxy(8,11,18,0x8a6a3a);else if(type==='walker')m=makeProxy(40,40,40,0xd8d0c0);else if(type==='elder'||type==='dking')m=makeProxy(30,22,44,0xc08a30,true);else if(type==='gdrake')m=makeProxy(5.5,5,10,0x7a5a3a);
   else if(type==='ship')m=makeProxy(6,12,16,0x8a5a2a);else if(type==='battleship')m=makeProxy(12,16,40,0x6a6a70);else if(type==='bigairship')m=makeProxy(22,20,40,0x8a6a4a,true);
   else if(type==='kraken')m=makeProxy(24,22,24,0x8a3060);else if(type==='seaserpent')m=makeProxy(8,20,10,0x2a8a7a);
-  const gy=floorAt(x,z);m.position.set(x,o.perch?y:(y!==undefined?Math.max(y,gy+4):gy),z);attachModel(m,o.model||{redcap:'redcap',goblin:'goblin',skel:'skel',drak:'drak',slime:'slime',bat:'bat',imp:'imp',ogre:'ogre',soldier:'soldier',archer:'archer',priest:'priest',cannon:'cannon',hero:'hero',demon:'demon',rival:'rival',golem:'golem',airship:'airship',wizard:'wizard',bigcannon:'bigcannon',orctank:'orctank',orccart:'orccart',wooddragon:'wooddragon',walker:'walker',elder:'elder',ship:'ship',battleship:'battleship',bigairship:'bigairship',kraken:'kraken',seaserpent:'seaserpent',biggolem:MODEL.bgolem?'bgolem':'golem',dknight:'dknight',griffin:'griffin',skel:'skeleton',devilsol:'devilsoldier',skelmage:'skelmage',bigskel:'bigskeleton',cerberus:'cerberus',bknight:'blackknight'}[type]);if(type==='dknight'&&!MODEL.dknight)dkRide(m);scene.add(m);
+  const gy=floorAt(x,z);m.position.set(x,o.perch?y:(y!==undefined?Math.max(y,gy+4):gy),z);attachModel(m,o.model||{redcap:'redcap',goblin:'goblin',skel:'skel',drak:'drak',slime:'slime',bat:'bat',imp:'imp',ogre:'ogre',soldier:'soldier',archer:'archer',priest:'priest',cannon:'cannon',hero:'hero',demon:'demon',rival:'rival',golem:'golem',airship:'airship',wizard:'wizard',bigcannon:'bigcannon',orctank:'kingtank',orccart:'orccart',wooddragon:'wooddragon',walker:'walker',elder:'elder',ship:'ship',battleship:'battleship',bigairship:'bigairship',kraken:'kraken',seaserpent:'seaserpent',biggolem:MODEL.bgolem?'bgolem':'golem',dknight:'dknight',griffin:'griffin',skel:'skeleton',devilsol:'devilsoldier',skelmage:'skelmage',bigskel:'bigskeleton',cerberus:'cerberus',bknight:'blackknight'}[type]);if(type==='dknight'&&!MODEL.dknight)dkRide(m);scene.add(m);
   const e={type,mesh:m,dr,hp:s.hp*(EASY?(s.boss?0.42:0.5):(s.boss?0.62:0.75)),maxHp:s.hp*(EASY?(s.boss?0.42:0.5):(s.boss?0.62:0.75)),r:s.r,hc:s.hc,val:s.val,dmg:s.dmg,fly:!!s.fly,boss:s.boss,t:rnd(0,5),cd:rnd(1,3),vy:0,vel:new V3(),cp:new V3(),
     seed:rnd(0,9),hx:0,hz:0,lx:0,lz:0,dvx:0,dvz:0,mv:'run',mt:1.5,state:'chase',ang:rnd(0,6.3),sum:8,met:6,st:0,sub:0,cnt:0,hitT:0,flyT:0,dodgeCd:2,
     thrower:type==='soldier'&&Math.random()<0.35,dashSeen:0,dead:false,perch:!!o.perch,bld:o.bld||null,inv:false,guard:false};
@@ -4221,6 +4221,97 @@ function s7World(L,T){
     for(let i=0;i<8;i++){const a=i/8*6.283,x=Math.cos(a)*40,z=-150+Math.sin(a)*40,h=H(x,z);
       const c=mesh(new THREE.CylinderGeometry(2.2,2.8,20,8),mat(0xe8dcc4));c.position.set(x,h+10,z);scene.add(c);TERRAIN.push(c);
       const cap=mesh(new THREE.SphereGeometry(2.6,8,6),mat(0xe0b040));cap.position.set(x,h+21.5,z);scene.add(cap);TERRAIN.push(cap);COLS.push({t:0,x,z,r:2.6,y0:h-3,y1:h+20});}}}
+
+// ---- 本物のモデルに合わせる（scn7_fit.py）：見えない枠の大きさ x,y,z と、足もとの高さ b（原点から）----
+const S7FIT={fish:{x:5.3,y:4.8,z:1.5,b:0},fishE:{x:5.3,y:4.8,z:1.5,b:0},fishbow:{x:4.7,y:4.3,z:1.3,b:0},
+  shark:{x:11,y:9.5,z:18.8,b:-0.5},crab:{x:16,y:14.8,z:11.7,b:0},levi:{x:45.7,y:36,z:44.9,b:-3.2},king:{x:46,y:52,z:28.1,b:-2}};
+for(const k of Object.keys(S7FIT)){const f=S7FIT[k],orig=S7MK[k];
+  S7MK[k]=()=>{const o=orig();if(!MODEL[S7K[k].mdl])return o;
+    const g=new THREE.Group(),bx=new THREE.Mesh(new THREE.BoxGeometry(f.x,f.y,f.z),new THREE.MeshBasicMaterial({visible:false}));bx.position.y=f.b+f.y/2;g.add(bx);g.userData=o.userData;return g;};}
+S7K.king.r=18;S7K.king.hc=26;S7K.crab.hc=5;
+
+// ---- 海蛇（シナリオ7用の「serp」）：骨の無いモデルなので、見えない枠で大きさを決める ----
+S7K.serp={base:'seaserpent',hp:230,r:8,hc:5,val:200,dmg:16,mdl:'seaserpent'};
+S7FIT.serp={x:18.8,y:16,z:17.9,b:-3};
+{const o=S7MK.levi;S7MK.serp=()=>{const g=o();return g;};}   // モデルが無い時は、リヴァイアサンの仮の形
+{const f=S7FIT.serp;const orig=S7MK.serp;S7MK.serp=()=>{const o2=orig();if(!MODEL.seaserpent)return o2;
+  const g=new THREE.Group(),bx=new THREE.Mesh(new THREE.BoxGeometry(f.x,f.y,f.z),new THREE.MeshBasicMaterial({visible:false}));bx.position.y=f.b+f.y/2;g.add(bx);g.userData=o2.userData;return g;};}
+// ---- にょろにょろ：体の長さの向きに進む波を、形の計算で足す（翼の羽ばたきと同じ、材質の onBeforeCompile のやり方）----
+// ax＝体の長さの向き（'y'＝立ち上がる体・'z'＝前後に長い体）／root＝動かさないつけ根の割合／amp＝頭ほど大きく振れる幅（体の長さに対する割合）
+function s7Wig(e,o){const g=e.mesh,holder=g.children[g.children.length-1];if(!holder||!holder.children[0]||!holder.isGroup)return;const m=holder.children[0];holder.updateMatrixWorld(true);
+  const inv=new THREE.Matrix4().copy(holder.matrixWorld).invert(),b=new THREE.Box3();
+  m.traverse(c=>{if(!c.isMesh)return;if(!c.geometry.boundingBox)c.geometry.computeBoundingBox();b.union(c.geometry.boundingBox.clone().applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv,c.matrixWorld)));});
+  const sz=b.getSize(new V3()),L=o.ax==='y'?sz.y:sz.z,a0=o.ax==='y'?b.min.y:b.min.z;
+  const U={uWt:{value:rnd(0,6)},uWa:{value:L*o.amp},uWk:{value:o.k/L},uWr:{value:a0+L*o.root},uWL:{value:L*(1-o.root)},uWx:{value:o.ax==='y'?0:1}};
+  const W={U,ph:U.uWt.value,t:0,am:1,sp:o.spd};
+  m.traverse(c=>{if(!c.isMesh)return;const fm=new THREE.Matrix4().multiplyMatrices(inv,c.matrixWorld),fi=new THREE.Matrix4().copy(fm).invert();
+    const mats=(Array.isArray(c.material)?c.material:[c.material]).map(mt=>{const q=mt.clone();
+      q.onBeforeCompile=sh=>{Object.assign(sh.uniforms,U,{uFM:{value:fm},uFMi:{value:fi}});
+        sh.vertexShader='uniform float uWt,uWa,uWk,uWr,uWL,uWx;uniform mat4 uFM,uFMi;\n'+sh.vertexShader.replace('#include <skinning_vertex>',`#include <skinning_vertex>
+          { vec4 hp=uFM*vec4(transformed,1.0); float s=(uWx>0.5)?hp.z:hp.y; float k=clamp((s-uWr)/uWL,0.0,1.0); k=k*k*(3.0-2.0*k);
+            float ph=uWt-s*uWk; float d=uWa*k*sin(ph); float d2=uWa*0.6*k*sin(ph*0.8+1.3);
+            if(uWx>0.5){hp.x+=d;hp.y+=d2;}else{hp.x+=d;hp.z+=d2;}
+            transformed=(uFMi*hp).xyz; }`);};
+      q.customProgramCacheKey=()=>'wig7';return q;});
+    c.onBeforeRender=()=>{const now=performance.now()/1000;if(now-W.t>0.008){const dt=Math.min(now-W.t,0.1);W.t=now;
+        const lunge=e.state==='lunge',ready=e.cd<0.9&&e.cd>0;const sp=lunge?2.6:(ready?1.7:1),am=lunge?1.5:(ready?1.25:1);
+        W.am+=(am-W.am)*Math.min(1,dt*5);W.ph+=dt*W.sp*sp;U.uWt.value=W.ph;U.uWa.value=L*o.amp*W.am;}};
+    c.frustumCulled=false;c.material=Array.isArray(c.material)?mats:mats[0];});}
+{const add0=s7Add;s7Add=function(kind,x,z,y){const e=add0(kind,x,z,y);if(e&&MODEL[S7K[kind].mdl]){
+    if(kind==='levi')s7Wig(e,{ax:'y',amp:0.09,k:7,root:0.28,spd:2.0});
+    else if(kind==='serp')s7Wig(e,{ax:'z',amp:0.07,k:8,root:0.25,spd:2.6});}return e;};}
+s7Serps=function(n){for(let i=0;i<s7N(n);i++){const [x,z]=s7WaterPos(60,120);s7E(s7Add('serp',x,z));}};
+// ---- 敵を増やす：数を増やし、1体の体力を下げる（長さの目安は守る）----
+S7K.fish.hp=95;S7K.fishbow.hp=85;S7K.fishE.hp=350;S7K.shark.hp=225;S7K.crab.hp=470;
+{const W=key=>ALLST.find(q=>q.key===key).waves;
+  W('coralsea')[0].go=function(){s7Fish(20);s7Bows(6);s7Sharks(4);s7Crabs(1);};
+  W('coralsea')[1].go=function(){s7Crabs(4);s7Fish(16);s7Bows(6);s7Sharks(5);};
+  W('coralsea')[2].go=function(){const f=TER.flats[1],[x,z]=s7Land(f,0.4);const b=s7Add('crab',x,z);
+    s7Big(b,{nm:'さんごの大ガニ',ic:'🦀',hp:4800,sc:2.3,val:1400,dmg:1.3,die:'ブクブク……（あわをふいて、ひっくり返った）'});s7Crabs(2);s7Fish(14);s7Bows(5);s7Sharks(4);sfx('roar');};
+  W('deepsea')[0].go=function(){s7Sharks(8);s7Serps(4);s7Fish(12);s7Bows(5);};
+  W('deepsea')[1].go=function(){s7Kraken();s7Serps(5);s7Sharks(6);s7Fish(12);s7Bows(4);s7Crabs(1);sfx('roar');};
+  W('deepsea')[2].go=function(){const [x,z]=s7WaterPos(60,110);const b=s7Add('levi',x,z);
+    s7Big(b,{nm:'リヴァイアサン',ic:'🐉',hp:5000,sc:1.4,val:2200,dmg:1.2,die:'グオォォ……（うずの底へ、ゆっくりしずんでいった）'});s7Serps(4);s7Sharks(5);s7Fish(12);s7Bows(4);s7Crabs(2);sfx('roar');};
+  W('seaking')[0].go=function(){s7Fish(8,'fishE');s7Fish(10);s7Bows(6);s7Sharks(4);s7Serps(2);};
+  W('seaking')[1].go=function(){s7Crabs(3);s7Fish(5,'fishE');s7Fish(10);s7Bows(4);s7Sharks(6);s7Serps(3);};
+  W('seaking')[2].go=function(){const [x,z]=s7WaterPos(C.fly?75:60,C.fly?100:85);s7Add('king',x,z);s7Cut('海王','🔱');s7Fish(12);s7Bows(4);s7Sharks(5);s7Serps(3);sfx('roar');};}
+
+// ---- 景色の置き物（scn7_fit2.py）：モデルがある時だけ置く ----
+// id のモデルを、高さ h に合わせ、足もとを (x,y,z) に置く。正面は +z（rot で回す）。当たり無し・影なし
+function s7Put(id,x,z,o){if(!MODEL[id])return null;const m=cloneModel(id);if(!m)return null;o=o||{};
+  const hd=new THREE.Group();m.rotation.y=MODEL[id].rot||0;hd.add(m);hd.updateMatrixWorld(true);const bb=new THREE.Box3().setFromObject(hd),sz=bb.getSize(new V3());
+  const k=(o.h||10)/Math.max(sz.y,1e-3);m.scale.multiplyScalar(k);hd.updateMatrixWorld(true);const b2=new THREE.Box3().setFromObject(hd),c=b2.getCenter(new V3());
+  m.position.x-=c.x;m.position.z-=c.z;m.position.y-=b2.min.y;
+  const g=new THREE.Group();g.add(hd);g.position.set(x,o.y!==undefined?o.y:Math.max(H(x,z),WATER-1),z);g.rotation.y=o.rot||0;
+  g.traverse(q=>{if(q.isMesh){q.castShadow=false;q.receiveShadow=false;}});scene.add(g);TERRAIN.push(g);return g;}
+// 光る真珠のつぶ（足し合わせの光）
+function s7Glow(x,y,z,sz,col){const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:col||0xbfefff,transparent:true,opacity:0.8,blending:THREE.AdditiveBlending,depthWrite:false}));sp.scale.set(sz,sz,1);sp.position.set(x,y,z);scene.add(sp);TERRAIN.push(sp);}
+// 浅瀬（島のまわり）の場所をさがす：h が水面の少し下〜少し上の所
+function s7Shallow(n,gap,cb){let k=0;const F=TER.flats;for(let t=0;t<n*60&&k<n;t++){const f=F[(Math.random()*F.length)|0],a=rnd(0,6.283),r=f[2]+rnd(2,gap),x=f[0]+Math.cos(a)*r,z=f[1]+Math.sin(a)*r,h=H(x,z);
+    if(h>WATER+0.5||h<WATER-8||bridgeY(x,z)>WATER-2)continue;k++;cb(x,z,h);}}
+function s7Rim(f,r,n,a0,cb){for(let i=0;i<n;i++){const a=a0+i/n*6.283,x=f[0]+Math.cos(a)*r,z=f[1]+Math.sin(a)*r;if(H(x,z)>WATER+1&&bridgeY(x,z)<WATER)cb(x,z,a);}}
+function s7Props(L){
+  if(L==='coralsea'){const F=TER.flats;
+    s7Rim(F[1],F[1][2]*0.78,7,0.4,(x,z,a)=>s7Put('fishhut',x,z,{h:rnd(8,10),rot:a+Math.PI/2+rnd(-0.3,0.3)}));
+    s7Rim(F[2],F[2][2]*0.7,3,1.0,(x,z,a)=>s7Put('fishhut',x,z,{h:8.5,rot:a+Math.PI/2}));
+    s7Rim(F[3],F[3][2]*0.7,3,2.0,(x,z,a)=>s7Put('fishhut',x,z,{h:8.5,rot:a+Math.PI/2}));
+    [[0,0.9,1],[2,0.7,3]].forEach(([i,rr,a0])=>s7Rim(F[i+1],F[i+1][2]*0.55,1,a0,(x,z)=>s7Put('shelltower',x,z,{h:26,rot:rnd(0,6.3)})));
+    s7Shallow(14,24,(x,z,h)=>s7Put('coralreef',x,z,{h:rnd(5,9),y:Math.max(h,WATER-3),rot:rnd(0,6.3)}));
+    s7Shallow(10,26,(x,z,h)=>{const g=s7Put('clam',x,z,{h:rnd(4,6),y:Math.max(h,WATER-2),rot:rnd(0,6.3)});});
+    [[-210,-70,0.9],[215,-120,-0.9]].forEach(([x,z,r])=>s7Put('seaarch',x,z,{h:34,y:WATER-8,rot:r}));}
+  else if(L==='deepsea'){const F=TER.flats;
+    [[-125,-125,0.6],[135,-110,-0.9],[-120,12,2.0],[60,-170,1.2],[-70,-200,-0.4]].forEach(([x,z,r])=>s7Put('shipwreck',x,z,{h:14,y:Math.max(H(x,z),WATER-3),rot:r}));
+    for(let i=0;i<5;i++){const a=i/5*6.283+0.3,x=Math.cos(a)*115,z=-225+Math.sin(a)*115;if(H(x,z)<WATER-2)s7Put('searuin',x,z,{h:rnd(16,22),y:WATER-6,rot:a});}
+    s7Shallow(10,22,(x,z,h)=>{s7Put('coralreef',x,z,{h:rnd(5,8),y:Math.max(h,WATER-3),rot:rnd(0,6.3)});});
+    s7Shallow(8,24,(x,z,h)=>{if(s7Put('clam',x,z,{h:rnd(4,6),y:Math.max(h,WATER-2),rot:rnd(0,6.3)}))s7Glow(x,WATER+3.5,z,9,0xbfefff);});}
+  else if(L==='seaking'){const F=TER.flats;
+    s7Put('seapalace',0,-290,{h:52,y:WATER-8,rot:0});
+    s7Put('shellthrone',0,-165,{h:14,rot:0});
+    [[-60,-215],[60,-215],[-130,-120],[130,-130]].forEach(([x,z])=>s7Put('shelltower',x,z,{h:26,y:Math.max(H(x,z),WATER-4),rot:rnd(0,6.3)}));
+    for(let i=0;i<5;i++){const a=Math.PI+i/4*Math.PI,x=Math.cos(a)*120,z=-250+Math.sin(a)*40;s7Put('searuin',x,z,{h:rnd(16,22),y:WATER-6,rot:a});}
+    s7Shallow(12,24,(x,z,h)=>s7Put('coralreef',x,z,{h:rnd(5,9),y:Math.max(h,WATER-3),rot:rnd(0,6.3)}));}}
+{const w0=s7World;s7World=function(L,T){w0(L,T);if(L==='coralsea'||L==='deepsea'||L==='seaking')s7Props(L);};
+ const wr=s7Wreck;s7Wreck=function(x,z,rot,k){if(MODEL.shipwreck)return;wr(x,z,rot,k);};}
 // 海王の顔絵（chara\seaking.webp ができたら使う。無い間は顔なしで出る）
 {const im=new Image();im.onload=()=>{S7.face=true;TPT['海王']='seaking';if(typeof PTS!=='undefined'&&!PTS.includes('seaking'))PTS.push('seaking');};im.src='chara/seaking.webp';}
 ENDS[7]=['海王は、あわになって、海にもどった。さんごの島も、うずも、もう静かだ。魚人たちは、そっと海の底へ帰っていった。','海は、また青くなった。焼き魚の味は、しばらく忘れられそうにない。','空は、きみのものだ。海も、ちょっとだけ。','遠くの空で、女神が書類をめくった。「罰のつもりが、海まで手に入れるとは……次は、貝がらにします」'];
