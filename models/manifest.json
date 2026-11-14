@@ -712,5 +712,28 @@
   "h": 6,
   "ja": "金貨と宝の山",
   "rot": 0
+ },
+ "roardragon": {
+  "file": "roardragon.glb",
+  "h": 12,
+  "ja": "ほえる赤い竜（必殺技の見せ場だけ使うポーズ）",
+  "rot": 0
+ },
+ "royalcastle": {
+  "file": "royalcastle.glb",
+  "h": 150,
+  "ja": "岩山の上の白い王城（遠くの景色）"
+ },
+ "bat": {
+  "file": "bat.glb",
+  "h": 1.2,
+  "ja": "こうもり",
+  "rot": 0
+ },
+ "imp": {
+  "file": "imp.glb",
+  "h": 1.6,
+  "ja": "小悪魔",
+  "rot": 0
  }
 }
