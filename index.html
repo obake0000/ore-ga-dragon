@@ -781,7 +781,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116t';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116x';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -959,7 +959,7 @@ function updRig(o,dt){const f=o.rig,me=(typeof D!=='undefined'&&D&&f.g===D.g),pl
 // 竜の体の動き（骨の無い模型でも、形の場所ごとに回して動かす）
 //  ・翼：体の中心から横に離れた所を、肩を軸に上下に回す（羽ばたき）
 //  ・尾：うしろの方を左右にふる　・足（アースドラゴン）：腰より下を、対角の2本ずつ前後にふる
-const FLAP=[],FLAP_ID={dragon:{fl:1,amp:0.55,tz:0.42,tw:0.16,lean:0.3,tx:0.2,tk:6,ta:0.9,nw:1,lg:[0.233,0.224,0.43,1.02,0.91,0.55],gy:-1.0},wyvern2:{fl:1,amp:0.45,wo:-0.6,sh:0.14,wy:0.5,tw:0.16,ta:0.95,tx:0.3,tk:6.5,tz:0.62,lg:[0.33,0.06,0.62,0.95,0.74,0.74],lf:1.0},wyvern:{fl:1,amp:0.62,sh:0.14,wy:0.5,tw:3,ta:0.95,lean:0.95,tx:0.5,tk:6.5,tr:[0.5,0.42,0.47],tt:[0.8,0.02,0.35],tb:1},elder:{fl:1,amp:0.45},rival:{fl:1,amp:0.55},griffin:{fl:1,amp:0.5},dknight:{fl:1,amp:0.42},ground:{fl:0,legs:1,tz:0.36,tw:0.24,ta:1.5,tx:0.55,tk:6}};
+const FLAP=[],FLAP_ID={dragon:{fl:1,amp:0.55,tz:0.42,tw:0.16,lean:0.3,tx:0.2,tk:6,ta:0.9,nw:1,lg:[0.233,0.224,0.43,1.02,0.91,0.55],gy:-1.0},wyvern2:{fl:1,amp:0.45,wo:-0.6,sh:0.14,wy:0.5,tw:0.16,ta:0.95,tx:0.3,tk:6.5,tz:0.62,lg:[0.33,0.06,0.62,0.95,0.74,0.74],lf:1.0},wyvern:{fl:1,amp:0.62,sh:0.14,wy:0.5,tw:3,ta:0.95,lean:0.95,tx:0.5,tk:6.5,tr:[0.5,0.42,0.47],tt:[0.8,0.02,0.35],tb:1},elder:{fl:1,amp:0.45},dragonking:{fl:1,amp:0.45},rival:{fl:1,amp:0.55},griffin:{fl:1,amp:0.5},dknight:{fl:1,amp:0.42},ground:{fl:0,legs:1,tz:0.36,tw:0.24,ta:1.5,tx:0.55,tk:6}};
 FLAP_ID.hawkrider={fl:1,amp:0.5};
 // 尻尾の根もと(R)・先へ向かう向き(D)・長さ(L)・左右にふる軸(N)・上下にふる軸(S)
 function tailU(cf,b,sz){const fr=a=>new V3(b.min.x+sz.x*a[0],b.min.y+sz.y*a[1],b.min.z+sz.z*a[2]);let R,D,L;
@@ -1043,9 +1043,13 @@ function burst(pos,n,colors,size,spd,life=0.7,up=0){
 }
 const FLT=(()=>{const c=document.createElement('canvas');c.width=c.height=64;const x=c.getContext('2d');for(let i=0;i<9;i++){const a=i/9*6.28,r=10+Math.random()*8,px=32+Math.cos(a)*r*0.5,py=32+Math.sin(a)*r*0.5;const g=x.createRadialGradient(px,py,0,px,py,r+8);g.addColorStop(0,'rgba(255,255,255,0.9)');g.addColorStop(0.5,'rgba(255,255,255,0.45)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.fillRect(0,0,64,64);}
   const g=x.createRadialGradient(32,32,0,32,32,14);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.fillRect(0,0,64,64);return new THREE.CanvasTexture(c);})();
+/* ---- 炎と稲妻の模様（ui/fx.webp・4×4の16コマ。白黒に色を付けて光らせる） ---- */
+const FXT={ok:false,c:[]};
+{const im=new Image();im.onload=()=>{for(let i=0;i<16;i++){const c=document.createElement('canvas');c.width=c.height=128;c.getContext('2d').drawImage(im,(i%4)*128,((i/4)|0)*128,128,128,0,0,128,128);FXT.c.push(new THREE.CanvasTexture(c));}FXT.ok=true;};im.src='ui/fx.webp?v='+ASSET_V;}
+function fxT(a,n){return FXT.c[a+((Math.random()*n)|0)];}
 const FPS=[];for(let i=0;i<360;i++){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:FLT,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));s.visible=false;scene.add(s);FPS.push({s,v:new V3(),life:0,max:1,size:1,t:0});}
 let fIdx=0;const FRAMP=[[new THREE.Color(0xffc850),new THREE.Color(0xff9a14),new THREE.Color(0xff4208),new THREE.Color(0x6a1000)],[new THREE.Color(0xfff0ff),new THREE.Color(0xe080ff),new THREE.Color(0x9030e0),new THREE.Color(0x300850)],[new THREE.Color(0xf4fcff),new THREE.Color(0x9fe0ff),new THREE.Color(0x3a90ff),new THREE.Color(0x102060)]];
-function flame(pos,n,size,life,vel,type=0,spd=2){for(let k=0;k<n;k++){const p=FPS[fIdx];fIdx=(fIdx+1)%FPS.length;p.s.visible=true;p.s.position.set(pos.x+rnd(-0.4,0.4)*size*0.3,pos.y+rnd(-0.4,0.4)*size*0.3,pos.z+rnd(-0.4,0.4)*size*0.3);
+function flame(pos,n,size,life,vel,type=0,spd=2){if(FXT.ok)size*=1.25;for(let k=0;k<n;k++){const p=FPS[fIdx];fIdx=(fIdx+1)%FPS.length;p.s.visible=true;if(FXT.ok)p.s.material.map=fxT(0,4);p.s.position.set(pos.x+rnd(-0.4,0.4)*size*0.3,pos.y+rnd(-0.4,0.4)*size*0.3,pos.z+rnd(-0.4,0.4)*size*0.3);
   p.v.set(rnd(-1,1),rnd(-1,1),rnd(-1,1)).normalize().multiplyScalar(rnd(0.3,1)*spd);if(vel)p.v.add(vel);p.v.y+=size*0.6;p.life=p.max=life*rnd(0.7,1.25);p.size=size*rnd(0.7,1.2);p.t=type;p.s.material.rotation=rnd(0,6.3);}}
 const SMK=[];
 for(let i=0;i<240;i++){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0x555555,transparent:true,depthWrite:false,opacity:0}));s.visible=false;scene.add(s);SMK.push({s,v:new V3(),life:0,max:1,size:1});}
@@ -1060,7 +1064,7 @@ function updParts(dt){
     p.s.position.addScaledVector(p.v,dt);p.v.multiplyScalar(Math.max(0,1-2*dt));const k=p.life/p.max;const sc=p.size*(1.7-k*0.7);p.s.scale.set(sc,sc,1);p.s.material.opacity=k*camFade(p.s.position,sc,0.45);}
   for(const p of FPS){if(p.life<=0)continue;p.life-=dt;if(p.life<=0){p.s.visible=false;continue;}
     p.s.position.addScaledVector(p.v,dt);p.v.multiplyScalar(Math.max(0,1-1.6*dt));p.v.y+=dt*6;const k=1-p.life/p.max,R=FRAMP[p.t],j=Math.min(2.999,k*3),i0=j|0;
-    p.s.material.color.copy(R[i0]).lerp(R[i0+1],j-i0);const sc=p.size*(0.55+k*1.3);p.s.scale.set(sc,sc,1);p.s.material.opacity=0.65*Math.min(1,(1-k)*1.6)*(k<0.08?k/0.08:1)*camFade(p.s.position,sc,0.25);p.s.material.rotation+=dt*1.5;}
+    p.s.material.color.copy(R[i0]).lerp(R[i0+1],j-i0);const sc=p.size*(0.55+k*1.3);p.s.scale.set(sc,sc,1);p.s.material.opacity=(FXT.ok?0.9:0.65)*Math.min(1,(1-k)*1.6)*(k<0.08?k/0.08:1)*camFade(p.s.position,sc,0.25);p.s.material.rotation+=dt*1.5;}
   for(const p of SMK){if(p.life<=0)continue;p.life-=dt;if(p.life<=0){p.s.visible=false;continue;}
     p.s.position.addScaledVector(p.v,dt);const k=p.life/p.max;const sc=p.size*(1+(1-k)*2.2);p.s.scale.set(sc,sc,1);
     p.s.material.opacity=0.24*Math.min(1,(1-k)*6)*k*camFade(p.s.position,sc,0.2);}
@@ -1100,11 +1104,14 @@ function bolt(a,b,col){const L=a.distanceTo(b),g=new THREE.Group();const pts=zz(
   const core=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,fog:false,blending:THREE.AdditiveBlending,depthWrite:false}),halo=new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:0.35,fog:false,blending:THREE.AdditiveBlending,depthWrite:false});
   const tube=(P,r)=>{const c=new THREE.CatmullRomCurve3(P,false,'catmullrom',0.05);g.add(new THREE.Mesh(new THREE.TubeGeometry(c,P.length*3,r,4,false),core));g.add(new THREE.Mesh(new THREE.TubeGeometry(c,P.length*3,r*3.2,5,false),halo));};
   tube(pts,0.45);
+  if(FXT.ok){const st=new THREE.MeshBasicMaterial({map:fxT(8,4),color:new THREE.Color(col).lerp(WHITE_,0.4),transparent:true,fog:false,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide});
+    const mid=a.clone().lerp(b,0.5),w=Math.max(12,L*0.34),up=a.clone().sub(b).normalize();for(let j=0;j<2;j++){const pl=new THREE.Mesh(new THREE.PlaneGeometry(w,L),st);pl.position.copy(mid);pl.quaternion.setFromUnitVectors(UPV,up);pl.rotateY(j*Math.PI/2+0.4);g.add(pl);}g.userData.st=st;
+    const sk=new THREE.Sprite(new THREE.SpriteMaterial({map:fxT(14,2),color:new THREE.Color(col).lerp(WHITE_,0.3),transparent:true,fog:false,blending:THREE.AdditiveBlending,depthWrite:false}));sk.position.copy(b);sk.material.rotation=rnd(0,6.3);fxAdd(sk,0.4,(o,k)=>{o.scale.setScalar(20+k*26);o.material.opacity=1-k*k;});}
   for(let k=0;k<3;k++){const i=2+((Math.random()*(pts.length-4))|0),s=pts[i],e2=s.clone().add(new V3(rnd(-1,1),-rnd(0.4,1),rnd(-1,1)).normalize().multiplyScalar(L*rnd(0.12,0.25)));tube(zz(s,e2,6,3),0.2);}
   scene.add(g);const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:col,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,fog:false}));gl.position.copy(b);gl.scale.set(26,26,1);scene.add(gl);
   BOLTS.push({m:g,gl,t:0.34,core,halo});burst(b,16,[0xffffff,0xbfe4ff,0x80c8ff],5,26,0.5);flame(b,6,6,0.4,null,2,10);shock(b,0xbfe4ff,14);}
 function updBolts(dt){for(let i=BOLTS.length-1;i>=0;i--){const b=BOLTS[i];b.t-=dt;const k=Math.max(0,b.t/0.34),fl=(Math.random()<0.25?0.25:1);
-  if(b.core){b.core.opacity=k*fl;b.halo.opacity=0.35*k*fl;b.gl.material.opacity=k;}else b.m.material.opacity=k;
+  if(b.core){b.core.opacity=k*fl;b.halo.opacity=0.35*k*fl;b.gl.material.opacity=k;if(b.m.userData.st)b.m.userData.st.opacity=k*fl;}else b.m.material.opacity=k;
   if(b.t<=0){scene.remove(b.m);if(b.gl)scene.remove(b.gl);b.m.traverse(o=>{if(o.geometry)o.geometry.dispose();});BOLTS.splice(i,1);}}}
 const SHOCK=[];
 function shock(pos,col,maxR){const m=new THREE.Mesh(new THREE.RingGeometry(0.8,1,48),new THREE.MeshBasicMaterial({color:col,transparent:true,side:THREE.DoubleSide,depthWrite:false}));m.rotation.x=-Math.PI/2;m.position.copy(pos);m.position.y+=0.6;scene.add(m);SHOCK.push({m,t:0,maxR});}
@@ -1673,6 +1680,7 @@ const ESHOT=[];
 function eShotOk(pos){const n=performance.now();for(let i=ESHOT.length-1;i>=0;i--)if(n-ESHOT[i].t>450)ESHOT.splice(i,1);
   let c=0;for(const q of PROJ)if(q.from!=='p')c++;if(c>=10)return false;for(const q of ESHOT)if(q.p.distanceToSquared(pos)<900)return false;ESHOT.push({t:n,p:pos.clone()});return true;}
 function shoot(pos,vel,o){if(o&&o.from!=='p'&&state==='play'&&!eShotOk(pos))return;const m=new THREE.Mesh(GEO[o.geo||'fire'],o.mat);m.position.copy(pos);m.scale.setScalar((o.size||1)*(o.ball?0.4:1));if(o.fat){m.scale.x*=o.fat;m.scale.y*=o.fat;}scene.add(m);
+  if(FXT.ok&&(!o.geo||o.geo==='fire')&&!o.ball){const fs=new THREE.Sprite(new THREE.SpriteMaterial({map:fxT(0,4),color:(o.col&&o.col[0])||0xffa030,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false}));fs.scale.set(4.4,4.4,1);fs.material.rotation=rnd(0,6.3);m.add(fs);m.userData.fs=fs;}
   let glow=null;
   if(o.geo==='arrow'){m.add(new THREE.Mesh(GEO.ahead,AMAT.head));m.add(new THREE.Mesh(GEO.afeath,o.from==='p'?AMAT.feath:AMAT.feathR));o.trail=null;}
   else if(o.geo==='bolt'){m.geometry=ZGEO[(Math.random()*ZGEO.length)|0];m.material=ZMAT;glow=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0x7fc8ff,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,opacity:0.8}));glow.scale.set(5,5,1);m.add(glow);}
@@ -1687,7 +1695,7 @@ function updProj(dt){
     if(p.geo==='bolt'){if(Math.random()<0.5)p.m.geometry=ZGEO[(Math.random()*ZGEO.length)|0];p.glow.material.opacity=0.5+Math.random()*0.5;if(Math.random()<0.35)burst(pp,1,ZAP,p.size*1.6,10,0.18);}
     else if(p.glow){const f=0.85+Math.random()*0.35;p.glow.scale.set(3.4*f,3.4*f,1);p.glow.material.rotation+=dt*5;}
     if(p.glow&&p.geo!=='bolt'){if(Math.random()<0.55)flame(pp,1,p.size*2.3,0.42,tmp2.copy(p.vel).multiplyScalar(-0.06),p.mat===MAT.dfire?1:p.mat===MAT.bfire?2:0);}
-    else if(p.trail&&Math.random()<0.6)burst(pp,1,p.trail,p.size*2.2,3,0.35);
+    else if(p.trail&&Math.random()<0.6){burst(pp,1,p.trail,p.size*2.2,3,0.35);if(FXT.ok&&Math.random()<0.6)flame(pp,1,(p.size||1)*2,0.3,null,p.trail===PURP?1:p.trail===BLUE?2:0,2);}if(p.m.userData.fs)p.m.userData.fs.material.rotation+=dt*9;
     if(p.smk&&Math.random()<0.7)smoke(pp,1,1.6,0.9,0x6a6a6a,0.3);
     let hit=pp.y<floorAt(pp.x,pp.z)-0.5;
     if(!hit){
@@ -2201,7 +2209,7 @@ function magicCircle(pos,col,r,life=1.4,dir=null){const m=new THREE.Mesh(new THR
 function pillar(pos,col,r,h,life=1){const g=new THREE.CylinderGeometry(1,1,1,24,1,true);g.translate(0,0.5,0);const m=new THREE.Mesh(g,nMat(col,fxTex('vgrad'),0.9));m.position.copy(pos);
   return fxAdd(m,life,(o,k)=>{const w=Math.max(0.01,r*(k<0.1?k/0.1:1-(k-0.1)*0.7));o.scale.set(w,h*(k<0.1?k/0.1:1),w);o.material.opacity=k<0.6?1:(1-k)/0.4;});}
 // 破壊光線：太い3重の光線を1.5秒出し続け、5回に分けて当てる。当たった地面は毎回爆発する
-function megaBeam(m,d,L,SPZ,K){const R=1.4*SPZ,RH=5*SPZ;let hit=null;if(d.y<0){d.y*=0.12;d.normalize();}
+function megaBeam(m,d,L,SPZ,K){const R=0.9*SPZ,RH=4*SPZ;let hit=null;if(d.y<0){d.y*=0.12;d.normalize();}
   for(let q=8;q<L;q+=5){const v=tmp.copy(m).addScaledVector(d,q);if(v.y<floorAt(v.x,v.z)){hit=v.clone();L=q;break;}}
   const end=hit||m.clone().addScaledVector(d,L);
   // 単発で撃った時（必殺技のカメラが出ている時）は、真横から光線の長さ全体を映す。連射の時はカメラを動かさない
@@ -2211,17 +2219,18 @@ function megaBeam(m,d,L,SPZ,K){const R=1.4*SPZ,RH=5*SPZ;let hit=null;if(d.y<0){d
   const lay=(r,col,op)=>{const g=new THREE.CylinderGeometry(1,0.6,1,20,1,true);g.translate(0,0.5,0);const o=new THREE.Mesh(g,nMat(col,null,op));o.position.copy(m);o.quaternion.setFromUnitVectors(new V3(0,1,0),d.clone().normalize());
     fxAdd(o,1.5,(o,k)=>{const w=Math.max(0.01,r*(k<0.08?k/0.08:k>0.82?(1-k)/0.18:1)*(1+0.1*Math.sin(k*90+r)));o.scale.set(w,L,w);o.material.opacity=op*(k>0.82?(1-k)/0.18:1);});};
   lay(R*1.7,0x1a7cff,0.35);lay(R,0x4fd8ff,0.85);lay(R*0.42,0xffffff,0.95);
-  magicCircle(m.clone().addScaledVector(d,2.5),0x7fe8ff,3.2,1.6,d.clone());magicCircle(m.clone().addScaledVector(d,5),0xffffff,2.2,1.6,d.clone());glowFlash(m.clone(),0x9ff0ff,8,0.8);flashV=0.7;shake(0.8);sfx('zap');sfx('thunder',null,0.8);
-  ono(m.clone().add(new V3(0,8,0)),'ビィィィーム！！','#9ff0ff',64);
+  magicCircle(m.clone().addScaledVector(d,2.5),0x7fe8ff,2.0,1.6,d.clone());magicCircle(m.clone().addScaledVector(d,5),0xffffff,1.4,1.6,d.clone());glowFlash(m.clone(),0x9ff0ff,5,0.8);flashV=0.7;shake(0.8);sfx('zap');sfx('thunder',null,0.8);
+  ono(m.clone().add(new V3(0,8,0)),'ビィィィーム！！','#9ff0ff',44);
   const T=new THREE.Object3D();T.n=0;fxAdd(T,1.45,(o,k)=>{const n=Math.min(5,Math.floor(k*5)+1);while(o.n<n){o.n++;if(state!=='play')return;shake(0.45);sfx('zap',null,0.6);
     for(let q=1;q<=4;q++)magicCircle(m.clone().addScaledVector(d,Math.max(12,L*q/4.3+rnd(-6,6))),0x7fe8ff,R*1.9,0.5,d.clone());
-    for(const e of EN){if(e.dead)continue;const v=cpos(e).clone().sub(m),t=v.dot(d);if(t<0||t>L+6)continue;if(Math.sqrt(Math.max(0,v.lengthSq()-t*t))<RH+e.r){const c=cpos(e).clone();glowFlash(c,0x9ff0ff,14,0.35);burst(c,8,ZAP,3,22,0.4);hitEnemy(e,48*K);}}
+    for(const e of EN){if(e.dead)continue;const v=cpos(e).clone().sub(m),t=v.dot(d);if(t<0||t>L+6)continue;if(Math.sqrt(Math.max(0,v.lengthSq()-t*t))<RH+e.r){const c=cpos(e).clone();glowFlash(c,0x9ff0ff,7,0.35);burst(c,6,ZAP,2,16,0.35);hitEnemy(e,48*K);}}
     for(const bl of BLD){if(bl.dead)continue;const v=bl.box.getCenter(new V3()).sub(m),t=v.dot(d);if(t>0&&t<L+6&&Math.sqrt(Math.max(0,v.lengthSq()-t*t))<RH*1.3)hitBld(bl,42*K);}
-    burst(end,18,ZAP,5,34,0.6);glowFlash(end.clone(),0xbff4ff,10,0.4);smoke(end,3,6,1.6,0x8a9aa8,4);if(hit){shock(new V3(end.x,floorAt(end.x,end.z),end.z),0x7fe8ff,14+o.n*4);debris(end,4,[0x7a7468,0x9a8a72],1.4);}
-    if(o.n===5){shake(1);sfx('boom',end,0.8);burst(end,50,ZAP,7,50,1.1);glowFlash(end.clone(),0xffffff,22,0.7);flashV=Math.max(flashV,0.6);}}});}
+    burst(end,10,ZAP,2.5,20,0.5);glowFlash(end.clone(),0xbff4ff,6,0.4);smoke(end,2,3,1.4,0x8a9aa8,2);if(hit){shock(new V3(end.x,floorAt(end.x,end.z),end.z),0x7fe8ff,5+o.n*1.5);debris(end,3,[0x7a7468,0x9a8a72],0.8);}
+    if(o.n===5){shake(1);sfx('boom',end,0.8);burst(end,24,ZAP,3.5,30,0.9);glowFlash(end.clone(),0xffffff,12,0.7);flashV=Math.max(flashV,0.6);}}});}
 function beamFx(from,dir,len,r,col,life=0.8){const g=new THREE.CylinderGeometry(1,1,1,20,1,true);g.translate(0,0.5,0);const m=new THREE.Mesh(g,nMat(col,null,0.9));m.position.copy(from);m.quaternion.setFromUnitVectors(new V3(0,1,0),dir.clone().normalize());
   return fxAdd(m,life,(o,k)=>{const w=Math.max(0.01,r*(k<0.12?k/0.12:1-(k-0.12)*0.9));o.scale.set(w,len,w);o.material.opacity=k<0.5?0.9:(1-k)/0.5*0.9;});}
-function glowFlash(pos,col,size,life=0.5){if(cineOn&&CINE.k===1){size*=0.22;col=0xff7a18;}const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:fxTex('glow'),color:col,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));sp.position.copy(pos);
+function glowFlash(pos,col,size,life=0.5){if(cineOn&&CINE.k===1){size*=0.22;col=0xff7a18;}if(FXT.ok&&size>=14){const s2=new THREE.Sprite(new THREE.SpriteMaterial({map:fxT(12,2),color:col,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));s2.position.copy(pos);s2.material.rotation=rnd(0,6.3);const z2=size;fxAdd(s2,life*0.9,(o,k)=>{o.scale.setScalar(z2*(0.5+k*0.9));o.material.opacity=1-k*k;});}
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:fxTex('glow'),color:col,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));sp.position.copy(pos);
   return fxAdd(sp,life,(o,k)=>{o.scale.setScalar(size*(0.4+k*1.2));o.material.opacity=1-k;});}
 function tornado(pos,col,R,h,life=1.6){const G=new THREE.Group();G.position.copy(pos);
   for(let j=0;j<3;j++){const g=new THREE.CylinderGeometry(1.15-j*0.15,0.25+j*0.1,1,32,1,true);g.translate(0,0.5,0);const m=new THREE.Mesh(g,nMat(j?(j>1?0xfff0a0:0xffa020):col,fxTex('swirl'),0.95-j*0.15));m.userData.sp=(j%2?-1:1)*(4+j*2);G.add(m);}
