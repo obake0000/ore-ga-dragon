@@ -640,5 +640,77 @@
   "h": 30,
   "ja": "広間のかべのアーチ柱",
   "rot": 0
+ },
+ "hpillar": {
+  "file": "hpillar.glb",
+  "h": 36,
+  "ja": "広間の石の柱",
+  "rot": 0
+ },
+ "htorch": {
+  "file": "htorch.glb",
+  "h": 4,
+  "ja": "壁のたいまつ",
+  "rot": 0
+ },
+ "hbanner": {
+  "file": "hbanner.glb",
+  "h": 18,
+  "ja": "赤いたれ幕",
+  "rot": 0
+ },
+ "hwindow": {
+  "file": "hwindow.glb",
+  "h": 17,
+  "ja": "ステンドグラスの窓",
+  "rot": 0
+ },
+ "hstairs": {
+  "file": "hstairs.glb",
+  "h": 10,
+  "ja": "階段つきの石の台",
+  "rot": 0
+ },
+ "hbrazier": {
+  "file": "hbrazier.glb",
+  "h": 8,
+  "ja": "立てるかがり火",
+  "rot": 0
+ },
+ "hstatue": {
+  "file": "hstatue.glb",
+  "h": 8,
+  "ja": "石像（ガーゴイル）",
+  "rot": 0
+ },
+ "hprops": {
+  "file": "hprops.glb",
+  "h": 4,
+  "ja": "たる・木箱・宝箱のかたまり",
+  "rot": 0
+ },
+ "hrubble": {
+  "file": "hrubble.glb",
+  "h": 4,
+  "ja": "がれきと骸骨の山",
+  "rot": 0
+ },
+ "cstalag": {
+  "file": "cstalag.glb",
+  "h": 10,
+  "ja": "洞窟の岩の柱（石筍）",
+  "rot": 0
+ },
+ "cbones": {
+  "file": "cbones.glb",
+  "h": 8,
+  "ja": "巨大な獣の骨",
+  "rot": 0
+ },
+ "choard": {
+  "file": "choard.glb",
+  "h": 6,
+  "ja": "金貨と宝の山",
+  "rot": 0
  }
 }
