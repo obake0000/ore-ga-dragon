@@ -830,7 +830,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aaa';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aab';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -5942,7 +5942,7 @@ function frame(now){
 TER=Object.assign(TER,STAGES[0].ter);setChar('dragon');setupStage(0);{const sc=loadGame();if(reached)setupStage(reached);if(sc||reached)setChar(sc||'dragon');}sizeAll();updMood(0,true);loadModels();setTimeout(loadDone,30000);
 requestAnimationFrame(frame);
 /* ---- 敵のアイコンを、その敵の3Dモデルから撮った絵にする（chara/en/<モデル>.webp）。読めた絵だけ使う ---- */
-const ENI=['hero','soldier','archer','demon','airship','walker','elder','golem','bigcannon','wooddragon','wizard','bigairship','ship','battleship','kraken','seaserpent','wyvern','ground','dragon','ogre','griffin','dknight','captain','wyvern2','catapult','bgolem','goblin','skel','drak','orc','orcking','skeleton','skelmage','bigskeleton','devilsoldier','blackknight','cerberus','dragonking','dogrider','hawkrider','ballista','orcfort','orctank','troll','angel','archangel','angelgeneral','angelarcher','angelsword','fishman','fishbow','redcap','orcknight','skyfort','pegasus','seaking','shark','crab','leviathan','orccart','kingtank','gianttank','shieldman','gwizard'],ENIX={},ENTM={skel:'skeleton',devilsol:'devilsoldier',bigskel:'bigskeleton',bknight:'blackknight',orctank:'kingtank',biggolem:'bgolem',orccart:'orctank'};
+const ENI=['hero','soldier','archer','demon','airship','walker','elder','golem','bigcannon','wooddragon','wizard','bigairship','ship','battleship','kraken','seaserpent','wyvern','ground','dragon','ogre','griffin','dknight','captain','wyvern2','catapult','bgolem','goblin','skel','drak','orc','orcking','skeleton','skelmage','bigskeleton','devilsoldier','blackknight','cerberus','dragonking','dogrider','hawkrider','ballista','orcfort','orctank','troll','angel','archangel','angelgeneral','angelarcher','angelsword','fishman','fishbow','redcap','orcknight','skyfort','pegasus','seaking','shark','crab','leviathan','orccart','kingtank','gianttank','shieldman','gwizard','slime','bat','imp','cannon','priest','seal','bigslime','rival','icedrake','thundrake','bonedrake'],ENIX={},ENTM={skel:'skeleton',devilsol:'devilsoldier',bigskel:'bigskeleton',bknight:'blackknight',orctank:'kingtank',biggolem:'bgolem',orccart:'orctank'};
 ENI.forEach((id,i)=>{const im=new Image();im.onload=()=>{ENIX[id]=String.fromCharCode(0xE000+i);};im.src='chara/en/'+id+'.webp';});
 {const am=attachModel;attachModel=function(m,id){try{if(m&&id&&m.userData&&!m.userData.mdlId)m.userData.mdlId=id;}catch(_){}return am.apply(this,arguments);};}
 const ENAL={__s6:'angel',s7none:'fishman'};
