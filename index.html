@@ -645,7 +645,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1114u';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1114v';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1571,7 +1571,9 @@ Object.assign(CH.airship,{spD:'下と前へ爆弾をつぎつぎ落とす',sp2D:
 const SKINFO={};Object.keys(CH).forEach(k=>{const c=CH[k];if(!c.sp)return;SKINFO[c.sp]={n:c.spN,d:c.spD,img:`chara/sk/${k}_sp.webp`};SKINFO[c.sp2]={n:c.sp2N,d:c.sp2D,img:`chara/sk/${k}_sp2.webp`};});
 const SKB={flamering:1,discharge:1,boulder:1,spin:1,arrowrain:1,gbeam:1,broadside:1};
 // 「地響き」は地面を踏む技なので、飛ぶキャラでは出さない
-function skOk(k){return !!SKINFO[k]&&!(k==='quake'&&C.fly);}
+// 入れかえで出る必殺技は、キャラに合う物だけ（竜は炎・雷・光線／地上の竜は大地と炎／人は剣と魔法／兵と船は砲・弓・爆弾／岩の巨人は大地と光線）
+const SKPOOL={dragon:['bigfire','flamering','thunder','discharge','gbeam'],wyvern:['thunder','discharge','bigfire','flamering','gbeam'],ground:['quake','boulder','fissure','bigfire','flamering'],hero:['pillars','spin','thunder','discharge'],army:['barrage','arrowrain','bombs','broadside'],golem:['fissure','gbeam','quake','boulder'],airship:['bombs','broadside','barrage','arrowrain']};
+function skOk(k){return !!SKINFO[k]&&!(k==='quake'&&C.fly)&&(!SKPOOL[charKey]||SKPOOL[charKey].includes(k));}
 function skUI(){const a=SKINFO[P.sp],b=SKINFO[P.sp2];
   $('hint').innerHTML=`<b>🖱️ マウス</b> 行きたい方を指す<br><b>🔥 息</b> 前の敵へ自動<br><b>左クリック</b> ${a.n}　<b>右クリック</b> ${b.n}<br><b>スペース</b> ${C.dashN}　<b>Esc</b> 一時停止`;
   $('tsp').textContent=a.n;$('tsp2').textContent=b.n;}
