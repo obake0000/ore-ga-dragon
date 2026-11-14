@@ -734,7 +734,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1115p';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1115q';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1889,24 +1889,34 @@ const UPS=[{k:'multi',ic:'🔥',nm:'弾の数 +1',ds:'弾が扇のように広�
   {k:'size',ic:'💥',nm:'弾が少し大きくなる',ds:'弾と爆発の広さが1.1倍',mx:4},{k:'pow',ic:'🗡️',nm:'威力アップ',ds:'弾も体当たりも1.15倍いたい',mx:5},{k:'sp',ic:'🌟',nm:'必殺技が強くなる',ds:'必殺技が1.3倍いたく・広くなり、使うゲージが5へる',mx:4},
   {k:'pet',ic:'🐲',nm:'子分がふえる',ds:'小さな竜がまわりを飛んで、いっしょに撃つ',mx:3},{k:'hp',ic:'❤️',nm:'体力アップ',ds:'体力の上限が15%ふえて、全部回復',mx:9}];
 let LV=1,XP=0,UP={},LVUP=false,LVQ=0,LVOPT=[],PAUSED=false;const PETS=[];
-const xpNeed=()=>90+LV*60+LV*LV*10,RATE=()=>Math.pow(1.07,UP.rate||0),SZM=()=>Math.pow(1.1,UP.size||0),POW=()=>Math.pow(1.15,UP.pow||0),SPM=()=>Math.pow(1.3,UP.sp||0)*(EASY?1:0.7),SPC=()=>40-5*(UP.sp||0);
-function resetLv(){LV=1;XP=0;UP={};LVUP=false;LVQ=0;$('lvup').style.display='none';PETS.forEach(p=>scene.remove(p.g));PETS.length=0;updLvHud();}
+const xpNeed=()=>90+LV*60+LV*LV*10,RATE=()=>Math.pow(1.07,UP.rate||0),SZM=()=>Math.pow(1.1,UP.size||0),POW=()=>Math.pow(1.15,UP.pow||0),SPM=()=>Math.pow(1.3,UP.sp||0)*(EASY?1:0.7)*SKTM,SPC=()=>40-5*(UP.sp||0);
+function resetLv(){LV=1;XP=0;UP={};P.t1=P.t2=1;LVUP=false;LVQ=0;$('lvup').style.display='none';PETS.forEach(p=>scene.remove(p.g));PETS.length=0;updLvHud();}
 function updLvHud(){$('xpb').style.width=Math.min(100,XP/xpNeed()*100)+'%';$('lvl').textContent='⭐ Lv '+LV+'　'+UPS.filter(u=>UP[u.k]).map(u=>u.ic+UP[u.k]).join(' ');}
 function addXp(n){if(state!=='play')return;XP+=EASY?n*1.7:n*1.35;while(XP>=xpNeed()){XP-=xpNeed();LV++;LVQ++;}updLvHud();if(LVQ&&!LVUP&&CINE.k<2)showLv();}
 function upDs(u){const n=UP[u.k]||0,cd=C.br.cd;
   switch(u.k){case 'multi':return `1度に ${1+n}発 → <b>${2+n}発</b>`;case 'rate':return `1秒に ${(RATE()/cd).toFixed(1)}発 → <b>${(RATE()*1.07/cd).toFixed(1)}発</b>`;
     case 'size':return `大きさ ${Math.round(SZM()*100)}% → <b>${Math.round(SZM()*110)}%</b>`;case 'pow':return `いたさ ${Math.round(POW()*100)}% → <b>${Math.round(POW()*115)}%</b>`;case 'sp':return `必殺技 ${Math.round(Math.pow(1.3,n)*100)}% → <b>${Math.round(Math.pow(1.3,n)*130)}%</b><br>ゲージ ${SPC()} → <b>${SPC()-5}</b>`;
     case 'pet':return `子分 ${PETS.length}匹 → <b>${PETS.length+1}匹</b>（やられることもある）`;case 'hp':return `体力の上限 ${Math.round(P.maxHp)} → <b>${Math.round(P.maxHp*1.15)}</b>`;}return u.ds;}
+/* ---- 上級技：同じ必殺技を2段まで強くできる。段が上がると名前が変わり、続けて2回・3回出る ---- */
+const ADVN={bigfire:['業火球','滅びの業火'],flamering:['炎の大渦','紅蓮の嵐'],thunder:['大落雷','神鳴り'],discharge:['大放電','雷帝の怒り'],quake:['大地響き','天地崩し'],boulder:['巨岩投げ','隕石落とし'],pillars:['聖なる光柱','天の裁き'],spin:['旋風斬り','竜巻斬り'],
+  barrage:['全軍砲撃','王国の総力'],arrowrain:['矢の嵐','万の矢'],fissure:['大地割り','奈落割り'],gbeam:['超破壊光線','滅びの光'],bombs:['爆弾の嵐','じゅうたん爆撃'],broadside:['乱れ撃ち','空の要塞'],tkcannon:['大砲6連発','大砲9連発'],tkrush:['とげの大突撃','地ならしの突撃']};
+let SKTM=1;
+function skTier(k){return k===P.sp?(P.t1||1):k===P.sp2?(P.t2||1):1;}
+function skName(k){const t=skTier(k),a=ADVN[k];return t>1&&a?a[t-2]:SKINFO[k].n;}
+function advOpt(){const c=((LV-LVQ+1)/3)|0;if(c%3===0)return null;const tk=q=>q==='sp'?'t1':'t2';let sl=c%3===1?'sp':'sp2';if((P[tk(sl)]||1)>=3)sl=sl==='sp'?'sp2':'sp';if((P[tk(sl)]||1)>=3||!ADVN[P[sl]])return null;
+  return {swap:1,adv:1,slot:sl,to:P[sl],k:'adv',ic:'⏫',nm:'上級技「'+ADVN[P[sl]][(P[tk(sl)]||1)-1]+'」'};}
+function advHtml(u,i,dl){const t=P[u.slot==='sp'?'t1':'t2']||1,cur=t>1?ADVN[u.to][t-2]:SKINFO[u.to].n,nw=ADVN[u.to][t-1],sl=u.slot==='sp'?'左クリック':'右クリック';
+  return `<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="${SKINFO[u.to].img}" alt=""></div><div class="nm">⏫ 上級技</div><div class="ds" style="animation-delay:${dl+0.45}s">${sl}の「${cur}」が「${nw}」になる。続けて${t+1}回出て、合わせた強さは${t===1?'1.5':'2.1'}倍</div><div class="num" style="animation-delay:${dl+0.7}s">${cur} → ${nw}</div></div>`;}
 function swapOpt(){const sl=Math.random()<0.5?'sp':'sp2',cand=Object.keys(SKINFO).filter(k=>skOk(k)&&k!==P.sp&&k!==P.sp2);if(!cand.length)return null;
   return {swap:1,slot:sl,to:cand[(Math.random()*cand.length)|0],k:'swap',ic:'🔄',nm:'必殺技の入れかえ'};}
 function swapHtml(u,i,dl){const cur=SKINFO[P[u.slot]],nw=SKINFO[u.to],sl=u.slot==='sp'?'左クリック':'右クリック';
   return `<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="${nw.img}" alt=""></div><div class="nm">必殺技の入れかえ</div><div class="ds" style="animation-delay:${dl+0.45}s">${sl}の技<br><b>『${cur.n}』</b> → <b>『${nw.n}』</b><br>${nw.d}</div><div class="num" style="animation-delay:${dl+0.7}s">今の必殺技の強さのまま使える</div></div>`;}
-function showLv(){const pool=UPS.filter(u=>(UP[u.k]||0)<u.mx),sw=(LV-LVQ+1)%3===0?swapOpt():null;if(!pool.length&&!sw){LVQ=0;P.hp=P.maxHp;return;}
+function showLv(){const pool=UPS.filter(u=>(UP[u.k]||0)<u.mx),sw=(LV-LVQ+1)%3===0?(advOpt()||swapOpt()):null;if(!pool.length&&!sw){LVQ=0;P.hp=P.maxHp;return;}
   LVOPT=pool.sort(()=>Math.random()-0.5).slice(0,sw?2:3);if(sw)LVOPT.push(sw);LVUP=true;sfx('lvup',null,0.8);burst(P.pos,40,[0xffe060,0xffffff,0x80e0ff],3,30,0.9);
   $('lvn').textContent='Lv '+Math.max(1,LV-LVQ)+' → Lv '+(LV-LVQ+1);$('lvc').innerHTML='';LVOPT.forEach((u,i)=>{const d=document.createElement('button');d.className='lvc';const dl=0.25+i*0.14,n=UP[u.k]||0;d.style.animationDelay=dl+'s';
-    d.innerHTML=u.swap?swapHtml(u,i,dl):`<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="chara/ic_${u.k}.webp" alt=""></div><div class="nm">${u.nm}</div><div class="ds" style="animation-delay:${dl+0.45}s">${u.ds}</div><div class="num" style="animation-delay:${dl+0.7}s">${upDs(u)}</div><div class="mx">${Array.from({length:u.mx},(_,k)=>`<i class="${k<n?'on':k===n?'nx':''}"></i>`).join('')}</div></div>`;
+    d.innerHTML=u.adv?advHtml(u,i,dl):u.swap?swapHtml(u,i,dl):`<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="chara/ic_${u.k}.webp" alt=""></div><div class="nm">${u.nm}</div><div class="ds" style="animation-delay:${dl+0.45}s">${u.ds}</div><div class="num" style="animation-delay:${dl+0.7}s">${upDs(u)}</div><div class="mx">${Array.from({length:u.mx},(_,k)=>`<i class="${k<n?'on':k===n?'nx':''}"></i>`).join('')}</div></div>`;
     d.addEventListener('click',e=>{e.stopPropagation();pickLv(i);});$('lvc').appendChild(d);});$('lvup').style.display='flex';}
-function pickLv(i){if(!LVUP||!LVOPT[i])return;const u=LVOPT[i];if(u.swap){P[u.slot]=u.to;skUI();}else UP[u.k]=(UP[u.k]||0)+1;
+function pickLv(i){if(!LVUP||!LVOPT[i])return;const u=LVOPT[i];if(u.adv){const q=u.slot==='sp'?'t1':'t2';P[q]=(P[q]||1)+1;skUI();}else if(u.swap){P[u.slot]=u.to;P[u.slot==='sp'?'t1':'t2']=1;skUI();}else UP[u.k]=(UP[u.k]||0)+1;
   if(u.k==='hp'){P.maxHp=Math.round(P.maxHp*1.15);P.hp=P.maxHp;}if(u.k==='pet')addPet();if(u.k==='sp')$('enl').textContent=`⚡ 必殺ゲージ（${SPC()}で必殺技）`;
   LVUP=false;LVQ--;$('lvup').style.display='none';updLvHud();banner(u.ic+' '+u.nm+'！',1.6);sfx('heal',null,0.6);if(LVQ>0)setTimeout(()=>{if(state==='play'&&!LVUP)showLv();},350);}
 function addPet(){const id=(C.human||C.model)?'dragon':charKey,c=CH[id];const d=makeDragon(c.col[0],c.col[1],c.s*0.38,c.o);(attachModel(d.g,PMODEL[id]||id)||attachModel(d.g,id));d.g.position.copy(P.pos);scene.add(d.g);PETS.push({g:d.g,id,cd:rnd(0,0.5),ph:PETS.length,hp:70,max:70,hitT:0});}
@@ -1990,7 +2000,7 @@ function updFall(rdt){if(PAUSED||LVUP)return;for(let i=FALL.length-1;i>=0;i--){c
     if(state==='play'&&D.human!=='army'&&Math.hypot(o.x-P.pos.x,o.z-P.pos.z)<130){const a=mouthPos(),b=tmp2.set(o.x,o.y+e.hc,o.z);for(let j=0;j<5;j++){const q=(o.t*2.4+j/5)%1;tmp3.lerpVectors(a,b,q);flame(tmp3,1,1.5+q*e.r*0.26,0.3,null,0,3);}}
     if(k>=1){scene.remove(m);FALL.splice(i,1);const c=new V3(o.x,o.y+e.hc,o.z);burst(c,60,FIRE,e.r*0.6,46,1.2);if(rk)debris(c,14,[0x7a7468,0x6a4a2a,0x9a8a72],e.r*0.2);smoke(c,8,e.r*0.7,3,0x5a5248,e.r*0.5);if(state==='play'){sfx('boom',c,0.8);shake(0.7);flashV=Math.max(flashV,0.5);}}}}
 function ult(nm,line,fire){const u=$('ult');u.style.display='none';void u.offsetWidth;u.querySelector('img').src=`chara/${charKey}.webp`;
-  u.querySelector('.nm').textContent=nm;u.querySelector('.tg').textContent=nm;u.classList.remove('fired');u.querySelector('.sb').textContent=`${C.name}「${line||''}」`;u.classList.toggle('two',nm===SKINFO[P.sp2].n);u.style.display='block';
+  u.querySelector('.nm').textContent=nm;u.querySelector('.tg').textContent=nm;u.classList.remove('fired');u.querySelector('.sb').textContent=`${C.name}「${line||''}」`;u.classList.toggle('two',nm===skName(P.sp2));u.style.display='block';
   clearTimeout(ultTm);ultTm=setTimeout(()=>{u.style.display='none';},2200);
   if(ultFn){const f=ultFn;ultFn=null;f();}
   TS=0.05;tsT=0.6;sfx('charge',null,0.9);if(!voice('ME',line))sfx('roar',null,0.3);ultFn=fire||null;ultT=0.45;cine(1,2.3);if(CINE.k===1&&CINE.t===0){ultT=1.0;tsT=1.2;}u.classList.toggle('cine',CINE.k===1);}
@@ -2132,7 +2142,8 @@ function rcShadow(){const K=SPM();P.dashT=Math.max(P.dashT,1.3);P.dashHit++;sfx(
 // 今つけている技（P.sp＝左クリック・P.sp2＝右クリック）を出す。どの枠にどの技が入っていても同じ
 function useSkill(k){if(state!=='play'||P.en<SPC()||LVUP||PAUSED||!SKINFO[k])return;
   if(k==='quake'&&!P.onGround)return;
-  P.en-=SPC();ult(SKINFO[k].n,ULTL[k],()=>{if(TKSK[k])TKSK[k]();else if(SKB[k])skillB(k);else skillA(k);});}
+  P.en-=SPC();const tr=skTier(k),run=()=>{SKTM=tr===1?1:tr===2?0.75:0.7;try{if(TKSK[k])TKSK[k]();else if(SKB[k])skillB(k);else skillA(k);}finally{SKTM=1;}};
+  ult(skName(k),ULTL[k],()=>{run();for(let q=1;q<tr;q++)setTimeout(()=>{if(state==='play'&&!PAUSED&&!LVUP)run();},q*420);});}
 function special(){useSkill(P.sp);}
 function special2(){useSkill(P.sp2);}
 function dash(){if(state!=='play'||LVUP||PAUSED||(P.dodgeCd||0)>0||P.en<12)return;P.en-=12;P.dodgeCd=0.6;P.dodgeT=0.4;
