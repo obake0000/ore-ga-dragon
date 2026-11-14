@@ -396,7 +396,7 @@ const MOODS=[
   mood(0x2a0c52,0x8e2a58,0xff6a9a,0.75,0.5,1,[-0.4,0.7,-0.5]),
   mood(0x15181f,0x464c5a,0xaab8ff,0.55,0.45,0,[0.2,0.9,0.3],true),
   mood(0x2c2c70,0xe6806a,0xff8a60,0.9,0.62,0.3,[0.9,0.08,-0.3]),
-  mood(0x0c0a12,0x33241a,0xffb878,0.5,0.6,0,[0.2,0.9,0.3]),
+  mood(0x0c0a12,0x33241a,0xffb878,0.55,0.8,0,[0.2,0.9,0.3]),
   mood(0x0a0c1a,0x1c1a34,0xffc890,0.6,0.72,0,[0.3,0.9,0.25]),
   mood(0x1a0508,0x3a0c12,0xff8a60,0.7,0.74,0,[0.25,0.9,0.3])];
 const MC={top:MOODS[0].top.clone(),bot:MOODS[0].bot.clone(),sun:MOODS[0].sun.clone(),si:1,hemi:0.85,star:0,dir:MOODS[0].dir.clone(),storm:false};
@@ -646,7 +646,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1114y';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1114z';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -2406,24 +2406,110 @@ function curWaves(){const W=STAGES[stage].waves;if(!W[0].cave)return W;const d=c
 const CAVE={on:false,g:null,x:0,z:0,y:0,R:125,hy:0.56,flee:false,out:false,t:0,bar:6};
 function caveOK(){return SCN===1&&['dragon','wyvern','ground'].includes(charKey);}
 function caveTop(d){return CAVE.y+CAVE.hy*Math.sqrt(Math.max(0,CAVE.R*CAVE.R-d*d))*0.9-3;}
-function caveClear(){if(CAVE.g){scene.remove(CAVE.g);CAVE.g.traverse(o=>{if(o.geometry)o.geometry.dispose();});CAVE.g=null;}CAVE.on=false;CAVE.flee=false;}
+function caveClear(){for(const o of TERRAIN)o.visible=true;CAVE.lt=null;CAVE.fl=null;CAVE.dust=null;if(CAVE.g){scene.remove(CAVE.g);CAVE.g.traverse(o=>{if(o.geometry)o.geometry.dispose();});CAVE.g=null;}CAVE.on=false;CAVE.flee=false;}
+/* ---- 洞窟の見た目（cave_gfx.py） ---- */
+function cvH(x,y,sd){let n=(x*374761393+y*668265263+sd*2147483)|0;n=(n^(n>>>13))*1274126177|0;return ((n^(n>>>16))>>>0)/4294967295;}
+function cvN(x,y,P,sd){const xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi,u=xf*xf*(3-2*xf),v=yf*yf*(3-2*yf),m=q=>((q%P)+P)%P;
+  const a=cvH(m(xi),m(yi),sd),b=cvH(m(xi+1),m(yi),sd),c=cvH(m(xi),m(yi+1),sd),d=cvH(m(xi+1),m(yi+1),sd);return a+(b-a)*u+(c-a)*v+(a-b-c+d)*u*v;}
+function cvF(x,y,sd){let s=0,a=0.5,P=4;for(let o=0;o<4;o++){s+=a*cvN(x/256*P,y/256*P,P,sd+o);a*=0.5;P*=2;}return s/0.9375;}
+function cvTex(k){if(!CAVE.tex)CAVE.tex={};if(CAVE.tex[k])return CAVE.tex[k];
+  const c=document.createElement('canvas'),S=256;c.width=c.height=S;const x=c.getContext('2d'),im=x.createImageData(S,S),d=im.data,cl=v=>Math.max(0,Math.min(255,v));
+  if(k==='beam'){c.width=8;c.height=128;const g=x.createLinearGradient(0,0,0,128);g.addColorStop(0,'rgba(255,244,214,1)');g.addColorStop(0.35,'rgba(255,230,180,0.5)');g.addColorStop(1,'rgba(0,0,0,1)');x.fillStyle='#000';x.fillRect(0,0,8,128);x.fillStyle=g;x.fillRect(0,0,8,128);}
+  else{for(let py=0;py<S;py++)for(let px=0;px<S;px++){const o=(py*S+px)*4;let r=0,gg=0,b=0;
+    if(k==='rock'){const f=cvF(px,py,1),f2=cvF(px,py,11),st=0.5+0.5*Math.sin(py/S*6.283*6+f*5);let q=0.34+0.8*f*0.7+0.14*st;if(Math.abs(f2-0.5)<0.022)q*=0.38;else if(Math.abs(f2-0.5)<0.05)q*=0.75;q*=0.9+0.2*cvN(px/S*64,py/S*64,64,3);r=q*205;gg=q*172;b=q*150;}
+    else if(k==='vein'){const g2=cvF(px,py,11),mk=cvF(px,py,21),cc=cvF(px,py,31),ln=Math.max(0,1-Math.abs(g2-0.5)/0.011),gl=Math.max(0,1-Math.abs(g2-0.5)/0.04)*0.16;
+      const w=(mk>0.5?1:0)*(ln*ln+gl)*Math.min(1,(mk-0.5)*8);if(cc<0.42){r=90;gg=210;b=255;}else if(cc<0.72){r=160;gg=120;b=255;}else{r=255;gg=170;b=80;}r*=w;gg*=w;b*=w;}
+    else{const f=cvF(px,py,41),f2=cvF(px,py,51),pb=cvN(px/S*32,py/S*32,32,5)>0.8?1.35:1;let q=(0.25+0.55*f)*pb*(0.88+0.24*cvN(px/S*64,py/S*64,64,7));if(Math.abs(f2-0.5)<0.018)q*=0.4;r=q*185;gg=q*160;b=q*146;}
+    d[o]=cl(r);d[o+1]=cl(gg);d[o+2]=cl(b);d[o+3]=255;}x.putImageData(im,0,0);}
+  const t=new THREE.CanvasTexture(c);if(k!=='beam'){t.wrapS=t.wrapT=THREE.RepeatWrapping;}return CAVE.tex[k]=t;}
+function caveAnim(t){{const R=CAVE.R,inside=Math.hypot(P.pos.x-CAVE.x,P.pos.z-CAVE.z)<R*0.97&&P.pos.y<CAVE.y+CAVE.hy*R*0.97;for(const o of TERRAIN)if(o.visible===inside)o.visible=!inside;}
+  const L=CAVE.lt;if(L)for(const q of L)q.l.intensity=q.i*(1+0.08*Math.sin(t*5+q.ph)+0.05*Math.sin(t*13+q.ph*2));
+  const F=CAVE.fl;if(F)for(const q of F){const k=1+0.16*Math.sin(t*9+q.ph)+0.1*Math.sin(t*23+q.ph*2);q.s.scale.set(q.w*k,q.w*k*1.25,1);q.h.scale.set(q.w*3*k,q.w*3*k,1);}
+  const D=CAVE.dust;if(D){const a=D.geometry.attributes.position,A=a.array,H=CAVE.dh;for(let i=0;i<A.length/3;i++){A[i*3+1]+=0.5*(0.4+((i*7)%5)*0.15)*0.016;A[i*3]+=Math.sin(t*0.5+i)*0.01;if(A[i*3+1]>CAVE.y+H)A[i*3+1]=CAVE.y+2;}a.needsUpdate=true;}}
 function caveBuild(){caveClear();const [cx,cz]=TER.start,gy=floorAt(cx,cz),R=CAVE.R,g=new THREE.Group();CAVE.x=cx;CAVE.z=cz;CAVE.y=gy;CAVE.on=true;CAVE.t=0;CAVE.out=false;CAVE.bar=6;CAVE.c1=CAVE.c2=0;
-  // 岩の天井と壁：でこぼこの丸天井を内側から見る
-  const geo=new THREE.SphereGeometry(R,36,20,0,Math.PI*2,0,Math.PI*0.58),pa=geo.attributes.position;
-  for(let i=0;i<pa.count;i++){const x=pa.getX(i),y=pa.getY(i),z=pa.getZ(i),n=1+0.06*Math.sin(x*0.13+z*0.07)+0.05*Math.sin(y*0.21+x*0.05)+0.04*Math.sin(z*0.17+y*0.11);pa.setXYZ(i,x*n,y*CAVE.hy*n,z*n);}
-  geo.computeVertexNormals();{const col=new Float32Array(pa.count*3);for(let i=0;i<pa.count;i++){const y=pa.getY(i),k=0.55+0.55*Math.random()+0.12*Math.sin(y*0.35),w=Math.random()<0.08?1.5:1;col[i*3]=0.62*k*w;col[i*3+1]=0.5*k*w;col[i*3+2]=0.42*k;}geo.setAttribute('color',new THREE.BufferAttribute(col,3));}const dome=new THREE.Mesh(geo,new THREE.MeshLambertMaterial({color:0xffffff,vertexColors:true,emissive:0x1c1410,side:THREE.BackSide,flatShading:true}));dome.position.set(cx,gy,cz);g.add(dome);
-  const st=new THREE.MeshLambertMaterial({color:0x6a584c,emissive:0x15100c,flatShading:true});
-  // つらら石（天井から下がる）と、石のたけのこ（かべぎわの地面）
-  for(let i=0;i<30;i++){const a=rnd(0,6.283),d=rnd(10,R*0.86),h=rnd(8,24)*(1-d/R*0.5),c=new THREE.Mesh(new THREE.ConeGeometry(rnd(2,4.5),h,6),st);c.rotation.x=Math.PI;c.position.set(cx+Math.cos(a)*d,gy+CAVE.hy*Math.sqrt(R*R-d*d)*0.97-h*0.5+1.5,cz+Math.sin(a)*d);g.add(c);}
-  for(let i=0;i<20;i++){const a=rnd(0,6.283),d=rnd(78,114),h=rnd(6,14),c=new THREE.Mesh(new THREE.ConeGeometry(rnd(2,4),h,6),st);c.position.set(cx+Math.cos(a)*d,gy+h*0.5-0.5,cz+Math.sin(a)*d);g.add(c);}
-  // 光る水晶
-  const CC=[0x5fd8ff,0x9a7aff,0xffb050];
-  for(let i=0;i<14;i++){const a=rnd(0,6.283),d=rnd(52,110),col=CC[i%3],c=new THREE.Mesh(new THREE.OctahedronGeometry(rnd(1.5,3)),new THREE.MeshBasicMaterial({color:col}));c.scale.y=2.2;c.rotation.z=rnd(-0.4,0.4);c.position.set(cx+Math.cos(a)*d,gy+2.5,cz+Math.sin(a)*d);g.add(c);
-    const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:col,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(16,16,1);gl.position.copy(c.position);gl.position.y+=2;g.add(gl);}
-  for(let i=0;i<14;i++){const a=rnd(0,6.283),d=R*rnd(0.78,0.93),col=CC[i%3],gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:col,transparent:true,opacity:0.55,blending:THREE.AdditiveBlending,depthWrite:false}));const s=rnd(10,22);gl.scale.set(s,s,1);gl.position.set(cx+Math.cos(a)*d,gy+rnd(6,CAVE.hy*Math.sqrt(R*R-d*d)*0.8),cz+Math.sin(a)*d);g.add(gl);}
-  // 天井の穴からさす光と、竜が寝ていた金の山
-  const sh=new THREE.Mesh(new THREE.CylinderGeometry(5,16,CAVE.hy*R,16,1,true),new THREE.MeshBasicMaterial({color:0xfff0c8,transparent:true,opacity:0.1,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));sh.position.set(cx,gy+CAVE.hy*R*0.5,cz);g.add(sh);
-  {const N=70,gm=new THREE.InstancedMesh(new THREE.DodecahedronGeometry(1.3),new THREE.MeshLambertMaterial({color:0xe2ae32,emissive:0x4a3000,flatShading:true}),N),o=new THREE.Object3D();for(let i=0;i<N;i++){const a=rnd(0,6.283),r=11*Math.sqrt(Math.random());o.position.set(cx+Math.cos(a)*r,gy+Math.max(0.2,(1-r/11)*3.2*rnd(0.6,1)),cz+18+Math.sin(a)*r*0.8);o.rotation.set(rnd(0,3),rnd(0,3),rnd(0,3));o.scale.setScalar(rnd(0.6,1.5));o.updateMatrix();gm.setMatrixAt(i,o.matrix);}g.add(gm);}
+  const HY=CAVE.hy,TAU=6.2832,pol=(a,d)=>[cx+Math.cos(a)*d,cz+Math.sin(a)*d],O=new THREE.Object3D();
+  // 光る物の場所（かべの明るさをあらかじめ塗るのに使う）
+  const GOLDP=new V3(cx,gy+4,cz+18),CC=[0x5fd8ff,0x9a7aff,0xffb050],CCr=[[95,216,255],[154,122,255],[255,176,80]];
+  const sites=[];for(let i=0;i<8;i++){const a=i/8*TAU+rnd(-0.25,0.25),d=rnd(62,104),[x,z]=pol(a,d);sites.push({x,z,k:i%3,y:floorAt(x,z)});}
+  const torches=[];for(let i=0;i<6;i++){const a=i/6*TAU+0.5+rnd(-0.12,0.12),d=R*0.86,[x,z]=pol(a,d);torches.push({x,z,y:floorAt(x,z)});}
+  const LS=[{p:GOLDP,c:[255,170,70],r:120,i:1.5}];sites.forEach(q=>LS.push({p:new V3(q.x,q.y+4,q.z),c:CCr[q.k],r:70,i:0.9}));torches.forEach(q=>LS.push({p:new V3(q.x,q.y+9,q.z),c:[255,150,60],r:62,i:0.8}));
+  // 岩の天井と壁：でこぼこの丸天井を内側から見る（形の式は今までと同じ。細かさと色と模様を足した）
+  const geo=new THREE.SphereGeometry(R,64,32,0,Math.PI*2,0,Math.PI*0.58),pa=geo.attributes.position,col=new Float32Array(pa.count*3);
+  for(let i=0;i<pa.count;i++){const x=pa.getX(i),y=pa.getY(i),z=pa.getZ(i),n=1+0.06*Math.sin(x*0.13+z*0.07)+0.05*Math.sin(y*0.21+x*0.05)+0.04*Math.sin(z*0.17+y*0.11)+0.022*Math.sin(x*0.41+z*0.29)*Math.sin(y*0.37+z*0.19);
+    const px=x*n,py=y*HY*n,pz=z*n;pa.setXYZ(i,px,py,pz);
+    const hh=Math.min(1,py/(HY*R)),base=0.62-0.3*hh+0.1*Math.sin(py*0.3+px*0.05),P=new V3(cx+px,gy+py,cz+pz);let lr=0,lg=0,lb=0;
+    for(const l of LS){const dd=P.distanceTo(l.p),f=Math.max(0,1-dd/l.r);const w=f*f*l.i/255;lr+=l.c[0]*w;lg+=l.c[1]*w;lb+=l.c[2]*w;}
+    const tr=0.95+0.1*Math.sin(px*0.2),tg=0.9,tb=0.86;
+    col[i*3]=Math.min(1.3,base*tr+lr*0.5);col[i*3+1]=Math.min(1.3,base*tg+lg*0.5);col[i*3+2]=Math.min(1.3,base*tb+lb*0.5);}
+  geo.computeVertexNormals();geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+  const rk=cvTex('rock'),vn=cvTex('vein');rk.repeat.set(7,3);vn.repeat.set(7,3);
+  const dome=new THREE.Mesh(geo,new THREE.MeshLambertMaterial({color:0xffffff,map:rk,vertexColors:true,emissive:0xffffff,emissiveMap:vn,emissiveIntensity:0.8,side:THREE.BackSide,flatShading:false}));dome.position.set(cx,gy,cz);g.add(dome);
+  const domeP=(i)=>new V3(cx+pa.getX(i),gy+pa.getY(i),cz+pa.getZ(i));
+  // 床：草むらをやめて、地面の高さにぴったりそった暗い岩の床
+  {const fg=new THREE.RingGeometry(0.5,R+10,72,30);fg.rotateX(-Math.PI/2);const fp=fg.attributes.position,fc=new Float32Array(fp.count*3),fu=fg.attributes.uv;
+    for(let i=0;i<fp.count;i++){const x=cx+fp.getX(i),z=cz+fp.getZ(i);fp.setXYZ(i,x,Math.max(floorAt(x,z),gy-4)+0.32,z);const dd=Math.hypot(x-cx,z-cz),P=new V3(x,gy+2,z);let lr=0,lg=0,lb=0;
+      for(const l of LS){const q=P.distanceTo(l.p),f=Math.max(0,1-q/l.r);const w=f*f*l.i/255;lr+=l.c[0]*w;lg+=l.c[1]*w;lb+=l.c[2]*w;}
+      const ed=0.72+0.28*(1-Math.min(1,Math.max(0,(dd-R*0.7)/(R*0.4))));fc[i*3]=Math.min(1.1,0.42*ed+lr*0.4);fc[i*3+1]=Math.min(1.1,0.4*ed+lg*0.4);fc[i*3+2]=Math.min(1.1,0.4*ed+lb*0.4);fu.setXY(i,(x-cx)/22,(z-cz)/22);}
+    fg.setAttribute('color',new THREE.BufferAttribute(fc,3));fg.computeVertexNormals();
+    const ft=cvTex('floor');ft.repeat.set(1,1);const fl=new THREE.Mesh(fg,new THREE.MeshLambertMaterial({color:0xffffff,map:ft,vertexColors:true,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}));g.add(fl);}
+  // つらら石：天井にほんとうにくっつけた（かべの頂点の場所を使う）。太さも長さもばらばら
+  {const gs=new THREE.CylinderGeometry(1,0.07,1,7,2);{const q=gs.attributes.position;for(let i=0;i<q.count;i++){const y=q.getY(i);q.setX(i,q.getX(i)*(1+0.2*Math.sin(y*9+i)));q.setZ(i,q.getZ(i)*(1+0.2*Math.cos(y*7+i*2)));}}gs.translate(0,-0.5,0);gs.computeVertexNormals();
+    const N=80,im=new THREE.InstancedMesh(gs,new THREE.MeshLambertMaterial({color:0xffffff,flatShading:true,emissive:0x140f0b}),N);let k=0,tries=0;
+    while(k<N&&tries++<4000){const vi=(Math.random()*pa.count)|0,py=pa.getY(vi),dd=Math.hypot(pa.getX(vi),pa.getZ(vi));if(py<HY*R*0.2||dd<8||dd>R*0.9)continue;const P=domeP(vi),len=rnd(6,28)*(1-dd/R*0.45),rad=rnd(1.4,4.6)*(len/18+0.6);
+      O.position.copy(P).add(new V3(0,2,0));O.rotation.set(rnd(-0.1,0.1),rnd(0,TAU),rnd(-0.1,0.1));O.scale.set(rad,len,rad);O.updateMatrix();im.setMatrixAt(k,O.matrix);
+      let lr=0,lg=0,lb=0;for(const l of LS){const f=Math.max(0,1-P.distanceTo(l.p)/l.r);lr+=l.c[0]*f*f*l.i/255;lg+=l.c[1]*f*f*l.i/255;lb+=l.c[2]*f*f*l.i/255;}
+      const b=0.3+0.15*Math.random();im.setColorAt(k,new THREE.Color(Math.min(1,b*0.95+lr*0.2),Math.min(1,b*0.85+lg*0.2),Math.min(1,b*0.78+lb*0.2)));k++;}
+    im.count=k;g.add(im);}
+  // 床の石のたけのこ（かべぎわ）と、がれき・小石
+  {const gm=new THREE.ConeGeometry(1,1,6,1);gm.translate(0,0.5,0);const N=46,im=new THREE.InstancedMesh(gm,new THREE.MeshLambertMaterial({color:0xffffff,flatShading:true,emissive:0x120d0a}),N);
+    for(let i=0;i<N;i++){const [x,z]=pol(rnd(0,TAU),rnd(74,116)),h=rnd(5,17),r=rnd(1.5,3.8);O.position.set(x,floorAt(x,z)-0.5,z);O.rotation.set(rnd(-0.12,0.12),rnd(0,TAU),rnd(-0.12,0.12));O.scale.set(r,h,r);O.updateMatrix();im.setMatrixAt(i,O.matrix);const b=0.3+0.16*Math.random();im.setColorAt(i,new THREE.Color(b,b*0.9,b*0.82));}g.add(im);}
+  {const gm=new THREE.DodecahedronGeometry(1),N=110,im=new THREE.InstancedMesh(gm,new THREE.MeshLambertMaterial({color:0xffffff,flatShading:true,emissive:0x120d0a}),N);
+    for(let i=0;i<N;i++){const [x,z]=pol(rnd(0,TAU),R*Math.sqrt(rnd(0.02,0.95))),s=rnd(0.7,3.6)*(Math.random()<0.1?2:1);O.position.set(x,floorAt(x,z)+s*0.2,z);O.rotation.set(rnd(0,3),rnd(0,3),rnd(0,3));O.scale.set(s,s*0.55,s*rnd(0.8,1.3));O.updateMatrix();im.setMatrixAt(i,O.matrix);const b=0.26+0.18*Math.random();im.setColorAt(i,new THREE.Color(b,b*0.9,b*0.84));}g.add(im);}
+  // 太い石の柱（かべぎわだけ。天井から床まで）
+  {const cm=new THREE.CylinderGeometry(1,1,1,9,3);{const q=cm.attributes.position;for(let i=0;i<q.count;i++){const y=q.getY(i),w=1.0-0.55*Math.exp(-Math.pow((y+0.1)*3.2,2))*0.9+0.12*Math.sin(y*14+i);q.setX(i,q.getX(i)*w);q.setZ(i,q.getZ(i)*w);}}cm.computeVertexNormals();
+    const im=new THREE.InstancedMesh(cm,new THREE.MeshLambertMaterial({color:0xffffff,flatShading:true,emissive:0x15100c}),5);
+    for(let i=0;i<5;i++){const a=i/5*TAU+0.9+rnd(-0.2,0.2),d=rnd(104,114),[x,z]=pol(a,d),fy=floorAt(x,z),ty=gy+HY*Math.sqrt(Math.max(0,R*R-d*d))*1.0+2;O.position.set(x,(fy+ty)/2,z);O.rotation.set(0,rnd(0,TAU),0);O.scale.set(rnd(5,7),ty-fy,rnd(5,7));O.updateMatrix();im.setMatrixAt(i,O.matrix);im.setColorAt(i,new THREE.Color(0.4,0.35,0.32));}g.add(im);}
+  // 光る水晶：六角のとがった水晶を、かたまりにして生やす
+  {const lp=[new THREE.Vector2(0.001,0),new THREE.Vector2(1,0.12),new THREE.Vector2(1,3.1),new THREE.Vector2(0.001,4.8)],cg=new THREE.LatheGeometry(lp,6),ms=CC.map((c,i)=>new THREE.InstancedMesh(cg,new THREE.MeshLambertMaterial({color:c,emissive:c,emissiveIntensity:0.38,flatShading:true}),64)),cnt=[0,0,0];
+    for(const q of sites){const n=rnd(5,8)|0;for(let j=0;j<n;j++){const m=ms[q.k],a=rnd(0,TAU),r=j?rnd(1.5,5):0,s=(j?rnd(0.4,1.0):rnd(1.3,2.0))*(0.8+0.5*Math.random());if(cnt[q.k]>=64)break;
+        O.position.set(q.x+Math.cos(a)*r,floorAt(q.x+Math.cos(a)*r,q.z+Math.sin(a)*r)-0.4,q.z+Math.sin(a)*r);O.rotation.set(j?Math.sin(a)*0.5:rnd(-0.12,0.12),rnd(0,TAU),j?-Math.cos(a)*0.5:rnd(-0.12,0.12));O.scale.set(s,s*rnd(0.9,1.3),s);O.updateMatrix();m.setMatrixAt(cnt[q.k]++,O.matrix);}
+      const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:CC[q.k],transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(26,26,1);gl.position.set(q.x,q.y+5,q.z);g.add(gl);}
+    ms.forEach((m,i)=>{m.count=cnt[i];g.add(m);});
+    for(let i=0;i<6;i++){const a=rnd(0,TAU),d=R*rnd(0.8,0.93),k=i%3,[x,z]=pol(a,d),s=rnd(14,22),gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:CC[k],transparent:true,opacity:0.3,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(s,s,1);gl.position.set(x,gy+rnd(8,HY*Math.sqrt(R*R-d*d)*0.7),z);g.add(gl);}}
+  // たいまつ（かべぎわに6本）：ゆらゆら燃える
+  CAVE.fl=[];{const pm=new THREE.CylinderGeometry(0.5,0.8,9,6);pm.translate(0,4.5,0);const im=new THREE.InstancedMesh(pm,new THREE.MeshLambertMaterial({color:0x4a3322,emissive:0x1a1008,flatShading:true}),6);
+    torches.forEach((q,i)=>{O.position.set(q.x,q.y,q.z);O.rotation.set(0,0,0);O.scale.set(1,1,1);O.updateMatrix();im.setMatrixAt(i,O.matrix);
+      const s=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xffb050,transparent:true,opacity:0.95,blending:THREE.AdditiveBlending,depthWrite:false})),h=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff7a20,transparent:true,opacity:0.32,blending:THREE.AdditiveBlending,depthWrite:false}));
+      s.position.set(q.x,q.y+10.2,q.z);h.position.set(q.x,q.y+10.6,q.z);g.add(s);g.add(h);CAVE.fl.push({s,h,w:3.4,ph:i*1.7});});g.add(im);}
+  // 天井の穴からさす光：3本（上が明るく、下へ消える）＋床の光のまだら＋穴の白い光
+  {const bt=cvTex('beam'),mk=(x,z,rt,rb)=>{const d=Math.hypot(x-cx,z-cz),top=HY*Math.sqrt(Math.max(1,R*R-d*d))*0.9-3,fy=floorAt(x,z),h=Math.max(10,gy+top-fy);
+      const b=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,20,1,true),new THREE.MeshBasicMaterial({map:bt,color:0xfff0d0,transparent:true,opacity:0.2,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));b.position.set(x,fy+h/2,z);g.add(b);
+      const sp=new THREE.Mesh(new THREE.CircleGeometry(rb*1.5,24),new THREE.MeshBasicMaterial({map:GT,color:0xffe8b8,transparent:true,opacity:0.3,blending:THREE.AdditiveBlending,depthWrite:false}));sp.rotation.x=-Math.PI/2;sp.position.set(x,fy+0.7,z);g.add(sp);
+      const hl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xfff4d8,transparent:true,opacity:0.7,blending:THREE.AdditiveBlending,depthWrite:false}));hl.scale.set(rt*8,rt*8,1);hl.position.set(x,fy+h-1,z);g.add(hl);};
+    mk(cx,cz,5,15);mk(cx-48,cz-34,3,8);mk(cx+56,cz-52,2.6,7);}
+  // 金の山（今までどおり）と、散らばった金貨、宝箱2つ
+  {const N=70,gm=new THREE.InstancedMesh(new THREE.DodecahedronGeometry(1.3),new THREE.MeshLambertMaterial({color:0xe2ae32,emissive:0x4a3000,flatShading:true}),N);for(let i=0;i<N;i++){const a=rnd(0,TAU),r=11*Math.sqrt(Math.random());O.position.set(cx+Math.cos(a)*r,gy+Math.max(0.2,(1-r/11)*3.2*rnd(0.6,1)),cz+18+Math.sin(a)*r*0.8);O.rotation.set(rnd(0,3),rnd(0,3),rnd(0,3));O.scale.setScalar(rnd(0.6,1.5));O.updateMatrix();gm.setMatrixAt(i,O.matrix);}g.add(gm);}
+  {const N=70,gm=new THREE.InstancedMesh(new THREE.CylinderGeometry(0.7,0.7,0.18,8),new THREE.MeshLambertMaterial({color:0xf0c040,emissive:0x5a3c00,flatShading:true}),N);for(let i=0;i<N;i++){const a=rnd(0,TAU),r=rnd(10,26),x=cx+Math.cos(a)*r,z=cz+18+Math.sin(a)*r*0.8;O.position.set(x,floorAt(x,z)+0.45,z);O.rotation.set(rnd(-0.4,0.4),rnd(0,TAU),rnd(-0.4,0.4));O.scale.setScalar(rnd(0.8,1.3));O.updateMatrix();gm.setMatrixAt(i,O.matrix);}g.add(gm);}
+  for(let i=0;i<2;i++){const x=cx+(i?-19:17),z=cz+(i?27:15),y=floorAt(x,z),ch=new THREE.Group(),wd=new THREE.MeshLambertMaterial({color:0x6b4426,emissive:0x1c1008,flatShading:true}),gd=new THREE.MeshLambertMaterial({color:0xe0a830,emissive:0x4a3000,flatShading:true});
+    const bx=new THREE.Mesh(new THREE.BoxGeometry(6,3.2,3.6),wd);bx.position.y=1.6;ch.add(bx);const lid=new THREE.Mesh(new THREE.CylinderGeometry(1.85,1.85,6,10,1,false,0,Math.PI),wd);lid.rotation.z=Math.PI/2;lid.rotation.y=Math.PI/2;lid.position.y=3.2;lid.scale.set(1,1,1);ch.add(lid);
+    for(const sx of [-2,2]){const bd=new THREE.Mesh(new THREE.BoxGeometry(0.5,3.4,3.9),gd);bd.position.set(sx,1.7,0);ch.add(bd);}const gh=new THREE.Mesh(new THREE.DodecahedronGeometry(1.5),gd);gh.scale.set(1.8,0.5,0.9);gh.position.set(0,3.4,0);ch.add(gh);
+    ch.position.set(x,y,z);ch.rotation.y=i?2.4:-0.5;g.add(ch);}
+  // 置き物：骨・どくろ・前に来た人の盾
+  {const bm=new THREE.MeshLambertMaterial({color:0xd8ccb0,emissive:0x2a2418,flatShading:true}),bg=new THREE.CylinderGeometry(0.45,0.45,5,5),N=34,im=new THREE.InstancedMesh(bg,bm,N);
+    for(let i=0;i<N;i++){const a=rnd(0,TAU),d=rnd(35,112),[x,z]=pol(a,d);const cl=i%3===0;const ax=cl?pol(a,d)[0]:x;O.position.set(x,floorAt(x,z)+0.6,z);O.rotation.set(Math.PI/2+rnd(-0.2,0.2),0,rnd(0,TAU));O.scale.set(1,rnd(0.7,1.8),1);O.updateMatrix();im.setMatrixAt(i,O.matrix);}g.add(im);
+    const sk=new THREE.InstancedMesh(new THREE.SphereGeometry(1.2,7,6),bm,7);for(let i=0;i<7;i++){const [x,z]=pol(rnd(0,TAU),rnd(40,108));O.position.set(x,floorAt(x,z)+1.0,z);O.rotation.set(rnd(-0.3,0.3),rnd(0,TAU),0);O.scale.set(1,0.9,1.15);O.updateMatrix();sk.setMatrixAt(i,O.matrix);}g.add(sk);
+    const rb=new THREE.InstancedMesh(new THREE.TorusGeometry(2.2,0.35,5,10,Math.PI),bm,18);for(let i=0;i<18;i++){const c=i/6|0,[x0,z0]=pol(c*2.1+0.7,rnd(88,100)),x=x0+(i%6)*1.3,z=z0;O.position.set(x,floorAt(x,z)+0.2,z);O.rotation.set(0,0.4+c,rnd(-0.1,0.1));O.scale.set(1,1+0.1*(i%3),1);O.updateMatrix();rb.setMatrixAt(i,O.matrix);}g.add(rb);}
+  {const sh=new THREE.CylinderGeometry(2.5,2.5,0.35,12),sc=[0x2a52a8,0xa83a30,0x2a52a8];for(let i=0;i<3;i++){const [x,z]=pol(rnd(0,TAU),rnd(30,95)),m=new THREE.Mesh(sh,new THREE.MeshLambertMaterial({color:sc[i],emissive:0x0a0a10,flatShading:true}));m.position.set(x,floorAt(x,z)+0.7,z);m.rotation.set(rnd(-0.3,0.3),rnd(0,TAU),rnd(-0.3,0.3));g.add(m);const bs=new THREE.Mesh(new THREE.SphereGeometry(0.7,6,5),new THREE.MeshLambertMaterial({color:0xcfa030,emissive:0x3a2800}));bs.position.copy(m.position);bs.position.y+=0.3;g.add(bs);}}
+  // 水たまり：暗い青緑の鏡のような水
+  for(let i=0;i<6;i++){const [x,z]=pol(rnd(0,TAU),rnd(30,100)),r=rnd(4,9),y=floorAt(x,z)+0.5;const pm=new THREE.Mesh(new THREE.CircleGeometry(r,20),new THREE.MeshPhongMaterial({color:0x0c2a36,specular:0xaaccff,shininess:120,transparent:true,opacity:0.82,emissive:0x04141c}));pm.rotation.x=-Math.PI/2;pm.scale.set(1,rnd(0.6,1),1);pm.rotation.z=rnd(0,TAU);pm.position.set(x,y,z);g.add(pm);}
+  // 床のうす青いもや
+  for(let i=0;i<7;i++){const [x,z]=pol(rnd(0,TAU),rnd(10,105)),s=rnd(40,75),sp=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0x6f86a8,transparent:true,opacity:0.1,depthWrite:false}));sp.scale.set(s,s*0.32,1);sp.position.set(x,floorAt(x,z)+3,z);g.add(sp);}
+  // ただよう光のちり
+  {const N=220,pg=new THREE.BufferGeometry(),ps=new Float32Array(N*3);CAVE.dh=HY*R*0.7;for(let i=0;i<N;i++){const [x,z]=pol(rnd(0,TAU),R*Math.sqrt(Math.random())*0.88);ps[i*3]=x;ps[i*3+1]=gy+rnd(2,CAVE.dh);ps[i*3+2]=z;}pg.setAttribute('position',new THREE.BufferAttribute(ps,3));
+    const dp=new THREE.Points(pg,new THREE.PointsMaterial({map:GT,color:0xffe2b0,size:1.5,transparent:true,opacity:0.55,blending:THREE.AdditiveBlending,depthWrite:false}));dp.frustumCulled=false;g.add(dp);CAVE.dust=dp;}
+  // 光源は3つだけ：金の山・青い結晶・紫の結晶（影は落とさない）
+  CAVE.lt=[];{const s1=sites.find(q=>q.k===0)||sites[0],s2=sites.find(q=>q.k===1)||sites[1];
+    [[0xffa850,1.0,GOLDP.x,GOLDP.y+6,GOLDP.z,110],[0x5fd8ff,0.9,s1.x,s1.y+8,s1.z,95],[0x9a7aff,0.8,s2.x,s2.y+8,s2.z,95]].forEach((a,i)=>{const l=new THREE.PointLight(a[0],a[1],a[5]);l.position.set(a[2],a[3],a[4]);g.add(l);CAVE.lt.push({l,i:a[1],ph:i*2.3});});}
   const gg=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xffc040,transparent:true,opacity:0.25,blending:THREE.AdditiveBlending,depthWrite:false}));gg.scale.set(40,18,1);gg.position.set(cx,gy+4,cz+18);g.add(gg);
   scene.add(g);CAVE.g=g;}
 // 勇者の一行：勇者（盾と飛びこみ斬り）・騎士（大きな兵。やりを投げる）・魔法使い（回復と結界）
@@ -2438,7 +2524,7 @@ function caveFlee(){if(CAVE.flee)return;CAVE.flee=true;CAVE.out=false;CAVE.t=0;E
 function caveBreak(){if(!CAVE.on)return;const c=new V3(CAVE.x,CAVE.y+46,CAVE.z);debris(c,36,[0x7a6658,0x4a3e36,0x9a8a7a],5);
   for(let i=0;i<6;i++){const a=i/6*6.283;debris(new V3(CAVE.x+Math.cos(a)*60,CAVE.y+30,CAVE.z+Math.sin(a)*60),8,[0x7a6658,0x4a3e36],6);}
   burst(c,50,FIRE,8,60,1.2);smoke(c,10,12,3,0x5a5248,20);flashV=1;shake(1);sfx('boom',null,1);caveClear();moodT=MOODS[0];setTimeout(()=>{if(state==='play')addXp(300);},1600);banner(C.fly?'🔥 天井をぶち破って、外へ！':'🔥 岩かべをぶち破って、外へ！',2.6);}
-function updCave(dt,rdt){if(!CAVE.on||state!=='play')return;const L=EN.filter(e=>e.cave&&!e.dead);
+function updCave(dt,rdt){if(!CAVE.on||state!=='play')return;caveAnim(CAVE.at=(CAVE.at||0)+rdt);const L=EN.filter(e=>e.cave&&!e.dead);
   for(const e of L)if(e.barT>0)e.barT-=dt;
   {const q=L.find(e=>e.hop);if(q&&dt>0){const w=q.mesh.position,v=Math.hypot(w.x-(q.px0===undefined?w.x:q.px0),w.z-(q.pz0===undefined?w.z:q.pz0))/dt;q.px0=w.x;q.pz0=w.z;q.ht=(q.ht||0)+dt*(v>1?11:3);q.hop.position.y=Math.abs(Math.sin(q.ht))*(v>1?0.4:0.06);q.hop.rotation.z=Math.sin(q.ht)*(v>1?0.1:0.02);}}
   if(CAVE.flee){if(PAUSED||LVUP)return;CAVE.t+=rdt;
