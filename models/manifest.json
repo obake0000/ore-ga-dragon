@@ -224,5 +224,83 @@
   "h": 3.2,
   "ja": "よろいの竜人",
   "rot": 0
+ },
+ "orc": {
+  "file": "orc.glb",
+  "h": 2.6,
+  "ja": "オーク兵",
+  "rot": 0
+ },
+ "orcking": {
+  "file": "orcking.glb",
+  "h": 6,
+  "ja": "オークキング",
+  "rot": 0
+ },
+ "skeleton": {
+  "file": "skeleton.glb",
+  "h": 2.1,
+  "ja": "がいこつ兵",
+  "rot": 0
+ },
+ "skelmage": {
+  "file": "skelmage.glb",
+  "h": 2.2,
+  "ja": "骸骨の魔導士",
+  "rot": 0
+ },
+ "bigskeleton": {
+  "file": "bigskeleton.glb",
+  "h": 12,
+  "ja": "巨大な骸骨",
+  "rot": 0
+ },
+ "devilsoldier": {
+  "file": "devilsoldier.glb",
+  "h": 2.2,
+  "ja": "悪魔の兵",
+  "rot": 0
+ },
+ "blackknight": {
+  "file": "blackknight.glb",
+  "h": 3.2,
+  "ja": "黒い騎士",
+  "rot": 0
+ },
+ "cerberus": {
+  "file": "cerberus.glb",
+  "h": 7,
+  "ja": "ケルベロス",
+  "rot": 0
+ },
+ "dragonking": {
+  "file": "dragonking.glb",
+  "h": 34,
+  "ja": "竜王",
+  "rot": 0
+ },
+ "dogrider": {
+  "file": "dogrider.glb",
+  "h": 2.6,
+  "ja": "犬に乗ったゴブリン",
+  "rot": 90
+ },
+ "hawkrider": {
+  "file": "hawkrider.glb",
+  "h": 3.2,
+  "ja": "鷹に乗ったゴブリン",
+  "rot": 0
+ },
+ "ballista": {
+  "file": "ballista.glb",
+  "h": 3.5,
+  "ja": "バリスタ",
+  "rot": 0
+ },
+ "orcfort": {
+  "file": "orcfort.glb",
+  "h": 40,
+  "ja": "木の巨大な砦",
+  "rot": 0
  }
 }
