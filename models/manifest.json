@@ -532,5 +532,59 @@
   "h": 22,
   "ja": "オークキングの戦車（どくろの戦車・ふみさんが選んだ版）",
   "rot": 0
+ },
+ "seapalace": {
+  "file": "seapalace.glb",
+  "h": 50,
+  "ja": "海王の宮殿",
+  "rot": 0
+ },
+ "shellthrone": {
+  "file": "shellthrone.glb",
+  "h": 16,
+  "ja": "貝の玉座",
+  "rot": 0
+ },
+ "coralreef": {
+  "file": "coralreef.glb",
+  "h": 10,
+  "ja": "さんごの岩礁",
+  "rot": 0
+ },
+ "shipwreck": {
+  "file": "shipwreck.glb",
+  "h": 16,
+  "ja": "しずんだ船",
+  "rot": 0
+ },
+ "fishhut": {
+  "file": "fishhut.glb",
+  "h": 9,
+  "ja": "魚人の家",
+  "rot": 0
+ },
+ "searuin": {
+  "file": "searuin.glb",
+  "h": 18,
+  "ja": "海の神殿のあと",
+  "rot": 0
+ },
+ "seaarch": {
+  "file": "seaarch.glb",
+  "h": 26,
+  "ja": "海の岩のアーチ",
+  "rot": 0
+ },
+ "clam": {
+  "file": "clam.glb",
+  "h": 6,
+  "ja": "巨大な貝と真珠",
+  "rot": 0
+ },
+ "shelltower": {
+  "file": "shelltower.glb",
+  "h": 28,
+  "ja": "巻き貝の見張り塔",
+  "rot": 0
  }
 }
