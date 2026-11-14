@@ -643,7 +643,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1114q';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1114r';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -804,7 +804,7 @@ function updRig(o,dt){const f=o.rig,me=(typeof D!=='undefined'&&D&&f.g===D.g),pl
 // 竜の体の動き（骨の無い模型でも、形の場所ごとに回して動かす）
 //  ・翼：体の中心から横に離れた所を、肩を軸に上下に回す（羽ばたき）
 //  ・尾：うしろの方を左右にふる　・足（アースドラゴン）：腰より下を、対角の2本ずつ前後にふる
-const FLAP=[],FLAP_ID={dragon:{fl:1,amp:0.55,tz:0.42,tw:0.16,lean:0.3,tx:0.2,tk:6,ta:0.9,nw:1,lg:[0.233,0.224,0.43,1.02,0.91,0.55],gy:-1.0},wyvern2:{fl:1,amp:0.62,sh:0.14,wy:0.5,tw:0.16,ta:0.95,tx:0.3,tk:6.5,tz:0.4},wyvern:{fl:1,amp:0.62,sh:0.14,wy:0.5,tw:3,ta:0.95,lean:0.95,tx:0.5,tk:6.5,tr:[0.5,0.42,0.47],tt:[0.8,0.02,0.35],tb:1},elder:{fl:1,amp:0.45},rival:{fl:1,amp:0.55},griffin:{fl:1,amp:0.5},dknight:{fl:1,amp:0.42},ground:{fl:0,legs:1,tz:0.36,tw:0.24,ta:1.5,tx:0.55,tk:6}};
+const FLAP=[],FLAP_ID={dragon:{fl:1,amp:0.55,tz:0.42,tw:0.16,lean:0.3,tx:0.2,tk:6,ta:0.9,nw:1,lg:[0.233,0.224,0.43,1.02,0.91,0.55],gy:-1.0},wyvern2:{fl:1,amp:0.45,wo:-0.6,sh:0.14,wy:0.5,tw:0.16,ta:0.95,tx:0.3,tk:6.5,tz:0.62,lg:[0.33,0.06,0.62,0.95,0.74,0.74],lf:1.0},wyvern:{fl:1,amp:0.62,sh:0.14,wy:0.5,tw:3,ta:0.95,lean:0.95,tx:0.5,tk:6.5,tr:[0.5,0.42,0.47],tt:[0.8,0.02,0.35],tb:1},elder:{fl:1,amp:0.45},rival:{fl:1,amp:0.55},griffin:{fl:1,amp:0.5},dknight:{fl:1,amp:0.42},ground:{fl:0,legs:1,tz:0.36,tw:0.24,ta:1.5,tx:0.55,tk:6}};
 // 尻尾の根もと(R)・先へ向かう向き(D)・長さ(L)・左右にふる軸(N)・上下にふる軸(S)
 function tailU(cf,b,sz){const fr=a=>new V3(b.min.x+sz.x*a[0],b.min.y+sz.y*a[1],b.min.z+sz.z*a[2]);let R,D,L;
   if(cf.tr){R=fr(cf.tr);const T=fr(cf.tt);D=T.clone().sub(R);L=D.length();D.normalize();}
@@ -852,12 +852,13 @@ function updFlap(dt){for(let i=FLAP.length-1;i>=0;i--){const f=FLAP[i];if(!f.g.p
   if(f.fl){f.ph+=dt*spd;const w=Math.sin(f.ph);f.gl=(f.gl||0)+(glide-(f.gl||0))*Math.min(1,dt*4);
     if(f.nw){const hf=amp*1.2,md=-0.25*(1-f.gl)+0.02*f.gl,w1=wvDn(f.ph,0.4),w2=wvDn(f.ph-0.8,0.4),k=f.wk,aw=-0.8+0.05*Math.sin(f.lp*2);
       f.U.uAng.value=(md+hf*w1)*(1-k)+aw*k;f.U.uAg2.value=(md+hf*0.85*w2-0.05)*(1-k)+(aw-0.12)*k;} // つけ根が先に動き、先は少し遅れてしなる。地上では翼を半分たたむ
-    else{f.U.uAng.value=amp*(w>0?w:w*1.15)+0.08+f.gl*0.12;f.U.uAg2.value=f.U.uAng.value;}} // 打ち下ろしを強く・振り上げをゆっくり
+    else{f.U.uAng.value=amp*(w>0?w:w*1.15)+0.08+f.gl*0.12+(f.cf.wo||0);f.U.uAg2.value=f.U.uAng.value;}} // 打ち下ろしを強く・振り上げをゆっくり
   // 尾：ふだんはゆっくり、速く動く時は大きく
   f.tp+=dt*(2.2+Math.min(4,f.v/Math.max(f.L,1)*1.6));f.U.uTp.value=f.tp;f.U.uTa.value=(0.5+Math.min(0.35,f.v*0.012))*f.ta;
   if(f.legs){const v=(me&&typeof state!=='undefined'&&state==='select')?f.L*0.5:me?Math.hypot(P.vel.x,P.vel.z):f.v;const go=Math.min(1,v/Math.max(f.L*0.6,1));f.lp+=dt*(2+v/Math.max(f.L*0.18,0.5));
     const a=Math.sin(f.lp)*0.55*go;f.U.uLa.value=a;f.U.uLb.value=-a;if(f.holder)f.holder.position.y=Math.abs(Math.cos(f.lp))*f.h*0.03*go;}
   else if(f.fl&&f.holder){f.holder.position.y=-Math.cos(f.ph)*f.h*0.025;}
+  if(f.cf.lf){const tg=(me&&typeof state!=='undefined'&&state==='play'&&P.onGround)?0:f.cf.lf;f.lfv=(f.lfv||0)+(tg-(f.lfv||0))*Math.min(1,dt*5);f.U.uLa.value=f.U.uLb.value=f.lfv;}
   if(f.nw){const v=(typeof state!=='undefined'&&state==='play'&&P.onGround)?Math.hypot(P.vel.x,P.vel.z):0,go=Math.min(1,v/6)*f.wk;f.lp+=dt*(1.5+Math.min(9,v*0.22)); // 地上：進む速さに足の速さを合わせ、止まれば足も止まる
     const a=Math.sin(f.lp)*0.75*go;f.U.uLa.value=a;f.U.uLb.value=-a;
     f.holder.position.y=-wvDn(f.ph,0.4)*f.h*0.02*(1-f.wk)+Math.abs(Math.cos(f.lp))*f.h*0.025*go+(f.cf.gy||0)*f.wk;}}}
@@ -1953,7 +1954,7 @@ function hitEnemy(e,n){if(e.dead)return;
 const DIE={wizard:'そんな…わしの魔力が…',hero:'すまない…みんな…',demon:'この私が…トカゲごときに…',rival:'…強くなったな。',wooddragon:'……ギギ……ギ……',walker:'城が……ローンが、まだ……',elder:'見事だ、若き竜よ。空はお前のものだ。',battleship:'総員、退艦…！ 泳げる者から…！',bigairship:'空の…王の船が…！',kraken:'ゴボ…ゴボボ……'};
 function killEnemy(e,quiet){if(e.dead)return;e.dead=true;if((e.boss||e.type==='biggolem')&&state==='play'&&!quiet)bossFall(e);else scene.remove(e.mesh);if(e.type==='bigslime'&&state==='play'&&!quiet)slimeSplit(e);score+=e.val;kills++;addXp(e.val);
   if(state==='play'){combo++;comboT=3.5;if(combo>maxCombo)maxCombo=combo;score+=Math.round(e.val*Math.min(combo,40)*0.05);showCombo();}
-  const c=cpos(e);burst(c,e.fall?16:e.boss?70:14,e.type==='rival'?BLUE:e.type==='demon'||e.type==='imp'?PURP:e.type==='slime'?GOO:FIRE,e.fall?4:e.boss?9:3,e.boss?50:16,e.boss?1.4:0.7);
+  const c=cpos(e);burst(c,e.fall?16:e.boss?70:14,e.type==='rival'?(e.wyv?WGRN:BLUE):e.type==='demon'||e.type==='imp'?PURP:e.type==='slime'?GOO:FIRE,e.fall?4:e.boss?9:3,e.boss?50:16,e.boss?1.4:0.7);
   if(!quiet)sfx(e.boss?'boom':'small',c,e.boss?1:0.5);if(e.boss)ono(c,'ズドーン!!','#ff5a1a',72);else if(e.r>=4)ono(c,'ドカッ！','#ffd23a',40);
   if(e.type==='cannon'){debris(c,6,[0x2a2a2e,0x6a4a2a],0.8);smoke(c,4,4,2);}
   if(['golem','bigcannon','wooddragon','walker','airship','ship','battleship','bigairship'].includes(e.type)){debris(c,e.boss?24:10,[0x7a7468,0x6a4a2a,0x9a8a72],e.boss?3:1.5);smoke(c,8,e.boss?10:5,3,0x5a5248,e.boss?8:3);burst(c,e.fall?10:30,FIRE,e.fall?3:e.boss?8:5,30,1);}
@@ -2281,7 +2282,7 @@ const STAGES=[
    story:['千年の眠りから、竜は目を覚ました。寝起きは、きわめて悪い。','谷には魔物があふれ、森の奥では岩の巨人ゴーレムまで動き出した。','まずは、この谷を取りもどせ。朝めし前の、軽い火あそびだ。'],
    waves:[
     {name:'ねぐらの勇者一行',msg:'⚔️ 勇者の一行が、ねぐらに乗りこんできた！',mood:6,cave:1,clr:'🏃 勇者の一行は逃げ出した！ 体力が少し回復',go(){caveParty();}},
-    {name:'緑のワイバーン',msg:'🐉 なわばりを荒らす、緑のワイバーンが来た！',mood:0,drg:1,go(){wyvDuel();}},
+    {name:'ワイバーンとの一騎打ち',msg:'🐉 なわばりを荒らすワイバーンが、低く突っこんできた！',mood:0,drg:1,go(){wyvDuel();}},
     {name:'魔物の群れ',msg:'👾 魔物の群れが来た！',mood:0,nodrg:1,go(){for(let i=0;i<12;i++)addEnemy('slime',...ringPos(60,150));for(let i=0;i<8;i++){const [x,z]=ringPos(80,150);addEnemy('bat',x,z,P.pos.y+rnd(0,30));}}},
     {name:'オーガの親分',msg:'👹 オーガが村をおそっている！',mood:0,go(){addEnemy('bigslime',-72+rnd(-30,30),-42+rnd(-30,30));addEnemy('biggolem',90+rnd(-15,15),-85+rnd(-15,15));for(let i=0;i<3;i++)addEnemy('ogre',-72+rnd(-25,25),-42+rnd(-25,25));for(let i=0;i<8;i++)addEnemy('slime',-72+rnd(-30,30),-42+rnd(-30,30));for(let i=0;i<6;i++){const [x,z]=ringPos(60,120);addEnemy('bat',x,z,P.pos.y+rnd(0,25));}for(let i=0;i<2;i++)addEnemy('golem',90+rnd(-20,20),-85+rnd(-20,20));}}]},
   {key:'town',ch:'第2章',title:'炎の夜明け',place:'国境の町',
@@ -2397,8 +2398,8 @@ function updCave(dt,rdt){if(!CAVE.on||state!=='play')return;const L=EN.filter(e=
 const WGRN=[0x7dff6a,0xc8ffb0,0x2fd060,0xffffff];
 function wyvTint(g){g.traverse(o=>{if(!o.isMesh||!o.visible||!o.material||o.material.isMeshBasicMaterial)return;o.material=o.material.clone();o.material.color.setRGB(0.8,1.5,0.42);});}
 function wyvDuel(){const a=P.yaw,fx=Math.sin(a),fz=Math.cos(a);let x=P.pos.x+fx*125,z=P.pos.z+fz*125;{const d=Math.hypot(x,z);if(d>300){x*=300/d;z*=300/d;}}
-  const e=addEnemy('rival',x,z,floorAt(x,z)+9,{model:'wyvern'});e.wyv=1;e.boss='🐉 緑のワイバーン';e.hp=e.maxHp=EASY?260:380;e.dmg=14;e.val=900;e.p2=1;e.r=7;
-  if(!MAT.wind)MAT.wind=new THREE.MeshBasicMaterial({color:0x8dff7a});wyvTint(e.mesh);
+  const blue=charKey==='wyvern',gm=!blue&&!!MODEL.wyvern2,e=addEnemy('rival',x,z,floorAt(x,z)+9,{model:gm?'wyvern2':'wyvern'});e.wyv=1;e.boss=blue?'🐉 青のワイバーン':'🐉 緑のワイバーン';e.hp=e.maxHp=EASY?260:380;e.dmg=14;e.val=900;e.p2=1;e.r=7;
+  if(!MAT.wind)MAT.wind=new THREE.MeshBasicMaterial({color:0x8dff7a});if(!blue&&!gm)wyvTint(e.mesh);
   const dx=P.pos.x-x,dz=P.pos.z-z,dd=Math.hypot(dx,dz)||1;e.state='charge';e.st=1.7;e.done=false;e.vel.set(dx/dd*60,0,dz/dd*60);e.cd=2.5;e.mesh.rotation.y=Math.atan2(dx,dz);
   $('cutin').style.display='none';cutT=0;
   talk([['ME','……今度は同族か。朝から客が多い。'],['💡 ヒント','ワイバーンは突進と風の弾で来る。横によけて、炎を当てよう']]);}
