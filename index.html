@@ -781,7 +781,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116j';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116k';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -857,6 +857,9 @@ function fixWyvernLeg(sc){sc.updateMatrixWorld(true);const v=new V3(),P0=new V3(
 function cloneModel(id){const M=MODEL[id];if(!M)return null;return (THREE.SkeletonUtils&&(M.anims.length||M.skin))?THREE.SkeletonUtils.clone(M.scene):M.scene.clone(true);}
 // 形だけの仮の見た目を、同じ大きさ・同じ足もとの3Dモデルに入れかえる
 const FITK={archer:1.4};
+// 弓兵：弓を射る動きを、同じ骨の作りの別のモデルから借りる（骨の回転だけ）
+function animsFor(id){const M=MODEL[id];if(id!=='archer'||M.bow)return M.anims;M.bow=1;const src=['angelarcher','redcap','fishbow'].map(k=>MODEL[k]).find(m=>m&&m.anims.some(a=>a.name==='shoot'));
+  if(src&&!M.anims.some(a=>a.name==='shoot')){const c=src.anims.find(a=>a.name==='shoot').clone();c.tracks=c.tracks.filter(t=>/(Spine|Shoulder|Arm|Hand|Neck|Head)[^.]*[.]quaternion$/.test(t.name));c.name='shoot';M.anims.push(c);}return M.anims;}
 function attachModel(g,id,er=0){if(!id||!MODEL[id])return false;const m=cloneModel(id);if(!m)return false;
   const p=g.position.clone(),r=g.rotation.clone(),s=g.scale.clone();g.position.set(0,0,0);g.rotation.set(0,0,0);g.scale.set(1,1,1);g.updateMatrixWorld(true);
   const b0=new THREE.Box3().setFromObject(g),s0=b0.getSize(new V3()),c0=b0.getCenter(new V3());
@@ -865,12 +868,12 @@ function attachModel(g,id,er=0){if(!id||!MODEL[id])return false;const m=cloneMod
   const k=Math.min(s0.y/Math.max(s1.y,1e-3),Math.max(s0.x,s0.z)/Math.max(s1.x,s1.z,1e-3)*1.15)*(FITK[id]||1);m.scale.multiplyScalar(k);holder.updateMatrixWorld(true);
   const b2=new THREE.Box3().setFromObject(holder),c2=b2.getCenter(new V3());m.position.x+=c0.x-c2.x;m.position.z+=c0.z-c2.z;m.position.y+=b0.min.y-b2.min.y;
   g.traverse(c=>{if(c.isMesh){c.visible=false;c.matrixAutoUpdate=false;}});g.add(holder);
-  const A=MODEL[id].anims;if(A.length){const mx=new THREE.AnimationMixer(m);const clip=A.find(a=>/run|walk|fly/i.test(a.name))||A.find(a=>/idle/i.test(a.name))||A[0];const act=mx.clipAction(clip);act.play();const acts={};A.forEach(a=>acts[a.name]=mx.clipAction(a));const o={mx,g,act,acts,loco:clip,idle:A.find(a=>/idle|wait|standing/i.test(a.name)),hit:A.find(a=>/slash|cast|attack|shoot|box|chop|pitch|kick|throw/i.test(a.name)),h:s0.y,cur:act};mx.addEventListener('finished',ev=>{if(ev.action===o.once){o.once=null;}});MIX.push(o);g.userData.mix=o;}
+  const A=animsFor(id);if(A.length){const mx=new THREE.AnimationMixer(m);const clip=A.find(a=>/run|walk|fly/i.test(a.name))||A.find(a=>/idle/i.test(a.name))||A[0];const act=mx.clipAction(clip);act.play();const acts={};A.forEach(a=>acts[a.name]=mx.clipAction(a));const o={mx,g,act,acts,loco:clip,idle:A.find(a=>/idle|wait|standing/i.test(a.name)),hit:A.find(a=>/slash|cast|attack|shoot|box|chop|pitch|kick|throw/i.test(a.name)),h:s0.y,cur:act};mx.addEventListener('finished',ev=>{if(ev.action===o.once){o.once=null;}});MIX.push(o);g.userData.mix=o;}
   if(FLAP_ID[id]){if(MODEL[id].skin&&g.userData.mix)addRig(g,holder,m,id);else addFlap(g,holder,m,id);}
   g.position.copy(p);g.rotation.copy(r);g.scale.copy(s);return true;}
 // 攻撃の動き（斬る・魔法を唱える）を1回だけ流して、終わったらもとの動きにもどす
 // 攻撃の動き：[始まりの秒, 終わりの秒, 速さ]。手がいちばん速く動く所を実測して決めた
-const HITW={slash:[1.7,2.5,1.5],box_01:[0.12,1.2,1.5],pitch_baseball:[1.3,2.2,1.6],cast_a_spell:[0.4,1.6,1.6]};
+const HITW={shoot:[0.6,2.2,1.6],slash:[1.7,2.5,1.5],box_01:[0.12,1.2,1.5],pitch_baseball:[1.3,2.2,1.6],cast_a_spell:[0.4,1.6,1.6]};
 function mixOnce(o,sp=1.6){if(!o||!o.hit||o.once)return;const a=o.acts[o.hit.name],w=HITW[o.hit.name]||[0,o.hit.duration,1.6],k=w[2]*sp/1.6;
   a.reset();a.setLoop(THREE.LoopOnce,1);a.clampWhenFinished=true;a.timeScale=k;a.time=w[0];a.play();o.cur.crossFadeTo(a,0.07,false);o.once=a;
   const back=o.cur;setTimeout(()=>{if(o.once===a)o.once=null;back.reset().play();a.crossFadeTo(back,0.18,false);o.cur=back;},Math.max(220,(w[1]-w[0])/k*1000-110));}
