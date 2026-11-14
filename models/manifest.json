@@ -1,0 +1,168 @@
+{
+ "house": {
+  "file": "house.glb",
+  "h": 7,
+  "ja": "民家（わら屋根）"
+ },
+ "hero": {
+  "file": "hero.glb",
+  "h": 2.4,
+  "ja": "人間の勇者",
+  "rot": 0
+ },
+ "soldier": {
+  "file": "soldier.glb",
+  "h": 2.1,
+  "ja": "兵士（槍）",
+  "rot": 0
+ },
+ "house2": {
+  "file": "house2.glb",
+  "h": 10,
+  "ja": "2階建ての家"
+ },
+ "church": {
+  "file": "church.glb",
+  "h": 22,
+  "ja": "教会"
+ },
+ "castle_keep": {
+  "file": "castle_keep.glb",
+  "h": 46,
+  "ja": "天守（城の本丸）"
+ },
+ "archer": {
+  "file": "archer.glb",
+  "h": 2.1,
+  "ja": "弓兵",
+  "rot": 0
+ },
+ "demon": {
+  "file": "demon.glb",
+  "h": 9,
+  "ja": "悪魔（ボス）",
+  "rot": 0
+ },
+ "airship": {
+  "file": "airship.glb",
+  "h": 14,
+  "ja": "飛空艇",
+  "rot": 0
+ },
+ "walker": {
+  "file": "walker.glb",
+  "h": 40,
+  "ja": "動く城",
+  "rot": 0
+ },
+ "castle_tower": {
+  "file": "castle_tower.glb",
+  "h": 32,
+  "ja": "城の塔"
+ },
+ "tree_pine": {
+  "file": "tree_pine.glb",
+  "h": 9,
+  "ja": "針葉樹"
+ },
+ "castle_wall": {
+  "file": "castle_wall.glb",
+  "h": 16,
+  "ja": "城壁（一区画）"
+ },
+ "tree_oak": {
+  "file": "tree_oak.glb",
+  "h": 9,
+  "ja": "広葉樹"
+ },
+ "elder": {
+  "file": "elder.glb",
+  "h": 30,
+  "ja": "古の巨大竜",
+  "rot": 0
+ },
+ "golem": {
+  "file": "golem.glb",
+  "h": 7,
+  "ja": "ゴーレム",
+  "rot": 0
+ },
+ "bigcannon": {
+  "file": "bigcannon.glb",
+  "h": 7,
+  "ja": "巨大な大砲",
+  "rot": 0
+ },
+ "wooddragon": {
+  "file": "wooddragon.glb",
+  "h": 11,
+  "ja": "木の巨大竜",
+  "rot": 0
+ },
+ "wizard": {
+  "file": "wizard.glb",
+  "h": 2.6,
+  "ja": "空飛ぶ魔術師",
+  "rot": 0
+ },
+ "bigairship": {
+  "file": "bigairship.glb",
+  "h": 18,
+  "ja": "巨大な飛空艇",
+  "rot": 0
+ },
+ "ship": {
+  "file": "ship.glb",
+  "h": 12,
+  "ja": "帆船",
+  "rot": 0
+ },
+ "battleship": {
+  "file": "battleship.glb",
+  "h": 16,
+  "ja": "巨大戦艦",
+  "rot": 0
+ },
+ "kraken": {
+  "file": "kraken.glb",
+  "h": 20,
+  "ja": "クラーケン",
+  "rot": 0
+ },
+ "seaserpent": {
+  "file": "seaserpent.glb",
+  "h": 20,
+  "ja": "海蛇",
+  "rot": 0
+ },
+ "wyvern": {
+  "file": "wyvern.glb",
+  "h": 7,
+  "ja": "ワイバーン（青）",
+  "rot": 90
+ },
+ "ground": {
+  "file": "ground.glb",
+  "h": 6,
+  "ja": "アースドラゴン（茶）",
+  "rot": -90
+ },
+ "dragon": {
+  "file": "dragon.glb",
+  "h": 9,
+  "ja": "主人公のドラゴン（赤）",
+  "rot": 0
+ },
+ "ogre": {
+  "file": "ogre.glb",
+  "h": 7.2,
+  "ja": "オーガ",
+  "rot": 0
+ },
+ "meteor": {
+  "file": "meteor.glb",
+  "h": 3,
+  "ja": "溶岩の隕石（岩投げ）",
+  "rot": 0
+ }
+}
