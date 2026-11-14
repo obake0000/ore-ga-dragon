@@ -472,5 +472,59 @@
   "h": 8.5,
   "ja": "オークの小戦車（最初に作った木の戦車）",
   "rot": 0
+ },
+ "dgate": {
+  "file": "dgate.glb",
+  "h": 46,
+  "ja": "魔界の門",
+  "rot": 0
+ },
+ "dcastle": {
+  "file": "dcastle.glb",
+  "h": 60,
+  "ja": "魔王の城",
+  "rot": 0
+ },
+ "dthrone": {
+  "file": "dthrone.glb",
+  "h": 14,
+  "ja": "魔王の玉座",
+  "rot": 0
+ },
+ "bonearch": {
+  "file": "bonearch.glb",
+  "h": 16,
+  "ja": "巨大な骨",
+  "rot": 0
+ },
+ "dtower": {
+  "file": "dtower.glb",
+  "h": 30,
+  "ja": "黒い塔",
+  "rot": 0
+ },
+ "cloudgate": {
+  "file": "cloudgate.glb",
+  "h": 40,
+  "ja": "雲の門",
+  "rot": 0
+ },
+ "colonnade": {
+  "file": "colonnade.glb",
+  "h": 16,
+  "ja": "白い柱廊",
+  "rot": 0
+ },
+ "angelstatue": {
+  "file": "angelstatue.glb",
+  "h": 14,
+  "ja": "天使の像",
+  "rot": 0
+ },
+ "skytower": {
+  "file": "skytower.glb",
+  "h": 30,
+  "ja": "白い見張り塔",
+  "rot": 0
  }
 }

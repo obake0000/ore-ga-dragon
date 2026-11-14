@@ -770,7 +770,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1115y';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1115z';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1698,7 +1698,7 @@ function explode(p){const pp=p.m.position;const big=p.splash>10;
 // 息（自動で出る弾）の cd は「次の弾までの秒」。11/14 に全キャラ約2倍にのばした（連射が激しすぎたため）。短くしすぎない
 const CH={
   dragon:{name:'レッドドラゴン',em:'🐉',tag:'空を飛ぶ',ds:'空も飛べる、バランス型。炎の息と大火球で、まとめて焼きはらう。',hp:260,spd:50,turn:1.8,fly:true,range:210,
-    br:{mat:MAT.fire,dmg:38,cd:0.5,spd:170,life:2.2,size:1.1,splash:5,col:FIRE},sp:'bigfire',spN:'大火球',sp2:'flamering',sp2N:'炎の渦',dash:'charge',dashN:'突進',mel:{r:10,dmg:40,cd:0.6,ono:'バシィッ！'},col:[0xc0281c,0xf0b040],s:1.2,o:{},gOff:3.2,stat:[3,3,3]},
+    br:{mat:MAT.fire,dmg:38,cd:0.5,spd:170,life:2.2,size:1.1,splash:5,col:FIRE},sp:'bigfire',spN:'大火球',sp2:'flamering',sp2N:'炎の渦',dash:'charge',dashN:'突進',mel:{r:10,dmg:40,cd:0.6,ono:'バシィッ！'},col:[0xc0281c,0xf0b040],s:1.38,o:{},gOff:3.7,stat:[3,3,3]},
   wyvern:{name:'ワイバーン',em:'🦅',tag:'空を飛ぶ・速い',ds:'いちばん速く、よく曲がる。雷の息を連射し、必殺技は前の敵6体に落雷。体力は少なめ。',hp:170,spd:72,turn:2.6,fly:true,range:240,
     br:{mat:MAT.zap,geo:'bolt',dmg:31,cd:0.36,spd:260,life:1.4,size:0.9,splash:3,col:ZAP},sp:'thunder',spN:'落雷',sp2:'discharge',sp2N:'放電',dashN:'緊急回避',mel:{r:9,dmg:30,cd:0.45,ono:'ズバッ！'},col:[0x2e8a5a,0xc8e070],s:1.15,o:{wy:1,eye:0xff5050},gOff:3.2,stat:[2,5,3]},
   ground:{name:'アースドラゴン',em:'🦖',tag:'地上を走る・かたい',ds:'飛べないが、いちばん硬くて力持ち。建物も体当たりでこわす。必殺技は足ぶみで地面ごと吹きとばす。',hp:460,spd:27,turn:1.6,fly:false,range:140,
@@ -1943,7 +1943,7 @@ let LV=1,XP=0,UP={},LVUP=false,LVQ=0,LVOPT=[],PAUSED=false;const PETS=[];
 const xpNeed=()=>90+LV*60+LV*LV*10,RATE=()=>Math.pow(1.07,UP.rate||0),SZM=()=>Math.pow(1.1,UP.size||0),POW=()=>Math.pow(1.15,UP.pow||0),SPM=()=>Math.pow(1.3,UP.sp||0)*(EASY?1:0.7)*SKTM,SPC=()=>40-5*(UP.sp||0);
 function resetLv(){LV=1;XP=0;UP={};P.t1=P.t2=1;LVUP=false;LVQ=0;$('lvup').style.display='none';PETS.forEach(p=>scene.remove(p.g));PETS.length=0;updLvHud();}
 function updLvHud(){$('xpb').style.width=Math.min(100,XP/xpNeed()*100)+'%';$('lvl').textContent='⭐ Lv '+LV+'　'+UPS.filter(u=>UP[u.k]).map(u=>u.ic+UP[u.k]).join(' ');}
-function addXp(n){if(state!=='play')return;XP+=EASY?n*1.7:n*1.35;while(XP>=xpNeed()){XP-=xpNeed();LV++;LVQ++;}updLvHud();if(LVQ&&!LVUP&&CINE.k<2)showLv();}
+function addXp(n){if(state!=='play')return;XP+=EASY?n*1.1:n*0.85;while(XP>=xpNeed()){XP-=xpNeed();LV++;LVQ++;}updLvHud();if(LVQ&&!LVUP&&CINE.k<2)showLv();}
 function upDs(u){const n=UP[u.k]||0,cd=C.br.cd;
   switch(u.k){case 'multi':return `1度に ${1+n}発 → <b>${2+n}発</b>`;case 'rate':return `1秒に ${(RATE()/cd).toFixed(1)}発 → <b>${(RATE()*1.07/cd).toFixed(1)}発</b>`;
     case 'size':return `大きさ ${Math.round(SZM()*100)}% → <b>${Math.round(SZM()*110)}%</b>`;case 'pow':return `いたさ ${Math.round(POW()*100)}% → <b>${Math.round(POW()*115)}%</b>`;case 'sp':return `必殺技 ${Math.round(Math.pow(1.3,n)*100)}% → <b>${Math.round(Math.pow(1.3,n)*130)}%</b><br>ゲージ ${SPC()} → <b>${SPC()-5}</b>`;
@@ -1954,7 +1954,7 @@ const ADVN={bigfire:['業火球','滅びの業火'],flamering:['炎の大渦','�
 let SKTM=1;
 function skTier(k){return k===P.sp?(P.t1||1):k===P.sp2?(P.t2||1):1;}
 function skName(k){const t=skTier(k),a=ADVN[k];return t>1&&a?a[t-2]:SKINFO[k].n;}
-function advOpt(){const c=((LV-LVQ+1)/3)|0;if(c%3===0)return null;const tk=q=>q==='sp'?'t1':'t2';let sl=c%3===1?'sp':'sp2';if((P[tk(sl)]||1)>=3)sl=sl==='sp'?'sp2':'sp';if((P[tk(sl)]||1)>=3||!ADVN[P[sl]])return null;
+function advOpt(){const c=((LV-LVQ+1)/3)|0;if(c>2)return null;const tk=q=>q==='sp'?'t1':'t2';let sl=c%3===1?'sp':'sp2';if((P[tk(sl)]||1)>=2)sl=sl==='sp'?'sp2':'sp';if((P[tk(sl)]||1)>=2||!ADVN[P[sl]])return null;
   return {swap:1,adv:1,slot:sl,to:P[sl],k:'adv',ic:'⏫',nm:'上級技「'+ADVN[P[sl]][(P[tk(sl)]||1)-1]+'」'};}
 function advHtml(u,i,dl){const t=P[u.slot==='sp'?'t1':'t2']||1,cur=t>1?ADVN[u.to][t-2]:SKINFO[u.to].n,nw=ADVN[u.to][t-1],sl=u.slot==='sp'?'左クリック':'右クリック';
   return `<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="${SKINFO[u.to].img}" alt=""></div><div class="nm">⏫ 上級技</div><div class="ds" style="animation-delay:${dl+0.45}s">${sl}の「${cur}」が「${nw}」になる。続けて${t+1}回出て、合わせた強さは${t===1?'1.5':'2.1'}倍</div><div class="num" style="animation-delay:${dl+0.7}s">${cur} → ${nw}</div></div>`;}
@@ -1962,7 +1962,7 @@ function swapOpt(){const sl=Math.random()<0.5?'sp':'sp2',cand=Object.keys(SKINFO
   return {swap:1,slot:sl,to:cand[(Math.random()*cand.length)|0],k:'swap',ic:'🔄',nm:'必殺技の入れかえ'};}
 function swapHtml(u,i,dl){const cur=SKINFO[P[u.slot]],nw=SKINFO[u.to],sl=u.slot==='sp'?'左クリック':'右クリック';
   return `<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="${nw.img}" alt=""></div><div class="nm">必殺技の入れかえ</div><div class="ds" style="animation-delay:${dl+0.45}s">${sl}の技<br><b>『${cur.n}』</b> → <b>『${nw.n}』</b><br>${nw.d}</div><div class="num" style="animation-delay:${dl+0.7}s">今の必殺技の強さのまま使える</div></div>`;}
-function showLv(){const pool=UPS.filter(u=>(UP[u.k]||0)<u.mx),sw=(LV-LVQ+1)%3===0?(advOpt()||swapOpt()):null;if(!pool.length&&!sw){LVQ=0;P.hp=P.maxHp;return;}
+function showLv(){const pool=UPS.filter(u=>(UP[u.k]||0)<u.mx),sw=(LV-LVQ+1)%3===0?(advOpt()||((LV-LVQ+1)%9===0?swapOpt():null)):null;if(!pool.length&&!sw){LVQ=0;P.hp=P.maxHp;return;}
   LVOPT=pool.sort(()=>Math.random()-0.5).slice(0,sw?2:3);if(sw)LVOPT.push(sw);LVUP=true;sfx('lvup',null,0.8);burst(P.pos,40,[0xffe060,0xffffff,0x80e0ff],3,30,0.9);
   $('lvn').textContent='Lv '+Math.max(1,LV-LVQ)+' → Lv '+(LV-LVQ+1);$('lvc').innerHTML='';LVOPT.forEach((u,i)=>{const d=document.createElement('button');d.className='lvc';const dl=0.25+i*0.14,n=UP[u.k]||0;d.style.animationDelay=dl+'s';
     d.innerHTML=u.adv?advHtml(u,i,dl):u.swap?swapHtml(u,i,dl):`<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="chara/ic_${u.k}.webp" alt=""></div><div class="nm">${u.nm}</div><div class="ds" style="animation-delay:${dl+0.45}s">${u.ds}</div><div class="num" style="animation-delay:${dl+0.7}s">${upDs(u)}</div><div class="mx">${Array.from({length:u.mx},(_,k)=>`<i class="${k<n?'on':k===n?'nx':''}"></i>`).join('')}</div></div>`;
@@ -1982,7 +1982,9 @@ function updPets(dt,t){const n=PETS.length;PETS.forEach((p,i)=>{const a=t*1.3+i*
     ono(q.g.position.clone().add(new V3(0,3,0)),'子分がやられた…','#ffb0a0',24);scene.remove(q.g);PETS.splice(i,1);UP.pet=Math.max(0,(UP.pet||0)-1);updLvHud();}}
 function petHurt(p,n,cont){p.hp-=n;if(!cont){p.hitT=0.25;burst(p.g.position,6,[0xff4030,0xffa040],1.4,10,0.3);}}
 function petHit(pp,r,dmg){for(const q of PETS){if(q.hp>0&&q.g.position.distanceTo(pp)<r+2.2){petHurt(q,dmg);return true;}}return false;}
-function breathe(tg){P.atkM=0.22;if(D.human==='hero')mixOnce(D.units[0].m.userData.mix,2.2);else if(D.human==='army')D.units.forEach(u=>{if(Math.random()<0.4)mixOnce(u.m.userData.mix,2);});else if(D.model&&!C.fly)mixOnce(D.body.userData.mix,2.4);
+function tkShell(tg){const m=mouthPos();shoot(m,lob(m,tg,150,16),{from:'p',geo:'fire',mat:MAT.ball,size:2.6,r:2.8,splash:15,dmg:90*POW(),grav:16,life:4,smk:true,ball:true,trail:FIRE,col:[0xff9a30,0xffe080,0x888888]});
+  glowFlash(m.clone(),0xffb040,16,0.3);burst(m,14,FIRE,4.5,22,0.4);smoke(m,5,4.5,1.4,0x777777,2);sfx('cannon',m);shake(0.3);ono(m.clone().add(new V3(0,5,0)),'ドン！','#ffd23a',40);P.atkM=0.3;}
+function breathe(tg){if(charKey==='orctank'&&(P.tkN=(P.tkN||0)+1)%4===0){tkShell(tg);return;}P.atkM=0.22;if(D.human==='hero')mixOnce(D.units[0].m.userData.mix,2.2);else if(D.human==='army')D.units.forEach(u=>{if(Math.random()<0.4)mixOnce(u.m.userData.mix,2);});else if(D.model&&!C.fly)mixOnce(D.body.userData.mix,2.4);
   const m=mouthPos(),b=C.br;const nS=1+(UP.multi||0),sz=b.size*SZM(),sp=b.splash*SZM(),dm=b.dmg*POW();
   if(nS>1){const base=tg.clone(),dir=base.clone().sub(m),yaw0=Math.atan2(dir.x,dir.z),hz=Math.hypot(dir.x,dir.z);
     for(let i=0;i<nS;i++){const a=yaw0+(i-(nS-1)/2)*0.13;const t2=new V3(m.x+Math.sin(a)*hz,base.y,m.z+Math.cos(a)*hz);shoot1(m,t2,b,sz,sp,dm);}sfx(charKey==='wyvern'?'zapb':'fire',null,0.8);return;}
@@ -2224,7 +2226,7 @@ const ST={
   wooddragon:{hp:1500,r:9,hc:6,val:1200,dmg:24,boss:'🪵 木の竜',ic:'🪵'},walker:{hp:2600,r:18,hc:20,val:2500,dmg:30,boss:'🏰 うごく城',ic:'🏰'},elder:{hp:3200,r:15,hc:0,val:4000,dmg:36,fly:1,boss:'🐉 古の竜',ic:'🐉'},
   ship:{hp:260,r:7,hc:3,val:150,dmg:0,ic:'⛵'},battleship:{hp:2800,r:16,hc:6,val:3000,dmg:0,boss:'🚢 巨大戦艦',ic:'🚢'},bigairship:{hp:2200,r:16,hc:0,val:2500,dmg:20,fly:1,boss:'🎈 空中戦艦',ic:'🎈'},
   kraken:{hp:2400,r:12,hc:10,val:2500,dmg:20,boss:'🐙 クラーケン',ic:'🐙'},seaserpent:{hp:500,r:6,hc:6,val:300,dmg:16,ic:'🐍'},rival:{hp:1600,r:8,hc:0,val:3000,dmg:32,fly:1,boss:'🐲 ライバルのドラゴン',ic:'🐲'},
-  biggolem:{hp:1600,r:17,hc:17,val:420,dmg:24,ic:'🪨'},bigslime:{hp:420,r:9.5,hc:6.6,val:150,dmg:14,ic:'🟢'},
+  biggolem:{hp:1600,r:15.5,hc:15.5,val:420,dmg:24,ic:'🪨'},bigslime:{hp:420,r:9.5,hc:6.6,val:150,dmg:14,ic:'🟢'},
   dknight:{hp:160,r:3.2,hc:0,val:240,dmg:16,fly:1,ic:'🗡️'},griffin:{hp:90,r:4,hc:0,val:130,dmg:12,fly:1,ic:'🦅'},
   skel:{hp:80,r:1.9,hc:1.8,val:20,dmg:8,ic:'💀'},devilsol:{hp:120,r:2.1,hc:2,val:30,dmg:10,ic:'👿'},skelmage:{hp:180,r:2,hc:2,val:110,dmg:0,ic:'🔮'},
   bigskel:{hp:1500,r:15,hc:15,val:500,dmg:24,ic:'💀'},cerberus:{hp:3800,r:10,hc:6,val:1800,dmg:22,boss:'🐕 地獄の番犬ケルベロス',ic:'🐕'},
@@ -2259,7 +2261,7 @@ function addEnemy(type,x,z,y,o={}){
     const sh=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0x60b0ff,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));sh.scale.set(3.4,3.4,1);sh.position.set(0,1.3,0.7);sh.visible=false;m.add(sh);m.userData.shield=sh;}
   else if(type==='demon'){m=makeDemon();m.scale.setScalar(0.54);const dh=new THREE.Group();dh.add(m);m=dh;}
   else if(type==='rival'||type==='rdrake'||type==='gkeep'){dr=makeDragon(0x3a2060,0x8a6ad0,1.7,{eye:0x60f0ff});m=dr.g;}
-  else if(type==='biggolem')m=makeProxy(22,32,17,0xb8a070);else if(type==='bigslime'){m=makeSlime();m.scale.setScalar(8.8);}else if(type==='dknight'){m=makeProxy(7.6,4.8,7.6,0x8a2a2a,true);m.rotation.order='YXZ';}else if(type==='griffin'){m=makeGriffin();m.rotation.order='YXZ';}else if(type==='golem')m=makeProxy(5,7.2,3.9,0x7a7468);else if(type==='airship')m=makeProxy(10,14,22,0x8a5a2a,true);else if(type==='wizard')m=makeProxy(1.4,2.6,1.4,0x4a3a8a,true);
+  else if(type==='biggolem')m=makeProxy(19.8,28.8,15.3,0xb8a070);else if(type==='bigslime'){m=makeSlime();m.scale.setScalar(8.8);}else if(type==='dknight'){m=makeProxy(7.6,4.8,7.6,0x8a2a2a,true);m.rotation.order='YXZ';}else if(type==='griffin'){m=makeGriffin();m.rotation.order='YXZ';}else if(type==='golem')m=makeProxy(5,7.2,3.9,0x7a7468);else if(type==='airship')m=makeProxy(10,14,22,0x8a5a2a,true);else if(type==='wizard')m=makeProxy(1.4,2.6,1.4,0x4a3a8a,true);
   else if(type==='orctank')m=makeProxy(24,26,36,0x3a2a22);else if(type==='orccart')m=makeProxy(8,8.5,11,0x6b4a2a);else if(type==='bigcannon'||type==='siegecart')m=makeProxy(5,7,9,0x3a3a3e);else if(type==='wooddragon')m=makeProxy(8,11,18,0x8a6a3a);else if(type==='walker')m=makeProxy(40,40,40,0xd8d0c0);else if(type==='elder'||type==='dking')m=makeProxy(30,22,44,0xc08a30,true);else if(type==='gdrake')m=makeProxy(5.5,5,10,0x7a5a3a);
   else if(type==='ship')m=makeProxy(6,12,16,0x8a5a2a);else if(type==='battleship')m=makeProxy(12,16,40,0x6a6a70);else if(type==='bigairship')m=makeProxy(22,20,40,0x8a6a4a,true);
   else if(type==='kraken')m=makeProxy(24,22,24,0x8a3060);else if(type==='seaserpent')m=makeProxy(8,20,10,0x2a8a7a);
@@ -2847,11 +2849,11 @@ const SOLDIERS=(cx,cz,rows,cols,face)=>{const ang=face!==undefined?face:Math.ata
 const TKSK={
   tkcannon(){const K=SPM(),ts=EN.filter(e=>!e.dead).map(e=>({e,d:cpos(e).distanceTo(P.pos)})).filter(o=>o.d<230).sort((a,b)=>a.d-b.d).slice(0,3);
     for(let i=0;i<3;i++)setTimeout(()=>{if(state!=='play')return;const m=mouthPos(),t=ts.length?ts[i%ts.length]:null,tg=t&&!t.e.dead?cpos(t.e).clone():m.clone().add(aimDir().multiplyScalar(90));
-      shoot(m,lob(m,tg,150,18),{from:'p',geo:'fire',mat:MAT.ball,size:2.4,r:3,splash:22,dmg:120*K,grav:18,life:5,smk:true,ball:true,col:[0xff9a30,0xffe080,0x888888]});
+      glowFlash(m.clone(),0xffb040,24,0.35);shoot(m,lob(m,tg,150,18),{from:'p',geo:'fire',mat:MAT.ball,size:3.6,r:3.4,trail:FIRE,splash:24,dmg:120*K,grav:18,life:5,smk:true,ball:true,col:[0xff9a30,0xffe080,0x888888]});
       burst(m,16,FIRE,4,20,0.4);smoke(m,6,4,1.6,0x777777,1.5);sfx('cannon',m);shake(0.5);ono(m.clone().add(new V3(0,5,0)),'ドォン！','#ffd23a',44);},i*260);},
   tkrush(){P.rushD=170*SPM();P.dashHit=(P.dashHit||0)+1;P.dashT=1.15;sfx('whoosh');sfx('roar',null,0.5);shake(0.4);ono(P.pos.clone().add(new V3(0,8,0)),'突撃ーっ！','#ffd23a',52);setTimeout(()=>{P.rushD=0;},1400);}};
 // 乗り手：前からあるオークキングのモデルを、戦車の上の玉座に乗せる（デザインを変えない）
-function tankRider(g,H,Dp,base){if(!MODEL.orcking||g.userData.rider)return;const k=H/26,r=makeProxy(4.4*k,7.2*k,3.6*k,0x4a7a2a);attachModel(r,'orcking');r.position.set(0,base+H*TKSEAT[0],Dp*TKSEAT[1]);g.add(r);g.userData.rider=r;}
+function tankRider(g,H,Dp,base){if(!MODEL.orcking||g.userData.rider)return;const k=H/26*1.5,r=makeProxy(4.4*k,7.2*k,3.6*k,0x4a7a2a);attachModel(r,'orcking');r.position.set(0,base+H*0.8,-Dp*0.04);g.add(r);g.userData.rider=r;}
 const TKSEAT=[0.62,-0.12];
 function tankAI(e,dt,dx,dz,hd,d3){const p=e.mesh.position;grav(e,dt);
   if(!e.said){e.said=1;if(e.boss){tankRider(e.mesh,26,36,0);say('オークキング','がはは！ わしのデラックス戦車の出番だ。竜など、ひきつぶしてくれる！');}}
@@ -4512,7 +4514,7 @@ function frame(now){
       if(P.onGround&&Math.random()<0.15)smoke(tmp.set(P.pos.x,gh-C.gOff+0.5,P.pos.z),1,1.4,0.6,0xa8987a,1.5);
     }
     collide(dt);
-    if(P.pos.y>240)P.pos.y=240;const pr=Math.hypot(P.pos.x,P.pos.z);if(pr>470){P.pos.x*=470/pr;P.pos.z*=470/pr;}if(DUN.on){P.pos.x=clamp(P.pos.x,DUN.x0+DUN.xm,DUN.x1-DUN.xm);let zl=DUN.zmin;for(const q of DUN.gates)if(q.open<1&&P.pos.z>q.z)zl=Math.max(zl,q.z+7);P.pos.z=clamp(P.pos.z,zl,DUN.z1-8);if(P.pos.y>DUN.top)P.pos.y=DUN.top;}if(CAVE.on){const dx=P.pos.x-CAVE.x,dz=P.pos.z-CAVE.z,d=Math.hypot(dx,dz),m=CAVE.R-14;if(d>m){P.pos.x=CAVE.x+dx*m/d;P.pos.z=CAVE.z+dz*m/d;}const top=Math.min(caveTop(Math.min(d,m))-5,CAVE.y+15);if(P.pos.y>top)P.pos.y=top;}if(TER.sky&&P.pos.y<WATER+5)P.pos.y=WATER+5;
+    if(P.pos.y>240)P.pos.y=240;const pr=Math.hypot(P.pos.x,P.pos.z);if(pr>470){P.pos.x*=470/pr;P.pos.z*=470/pr;}if(DUN.on){P.pos.x=clamp(P.pos.x,DUN.x0+DUN.xm,DUN.x1-DUN.xm);let zl=DUN.zmin;for(const q of DUN.gates)if(q.open<1&&P.pos.z>q.z)zl=Math.max(zl,q.z+7);P.pos.z=clamp(P.pos.z,zl,DUN.z1-8);{const tp=DUN.y+Math.max(12,Math.min((DUN.h||24)*0.5,26)),lo=Math.min(tp-0.5,DUN.y+(charKey==='wyvern'?12.5:C.model?12:9));if(P.pos.y>tp)P.pos.y=tp;if(C.fly&&P.pos.y<lo){P.pos.y+=Math.max((lo-P.pos.y)*0.35,Math.min(lo-P.pos.y,0.9));if(P.vel.y<0)P.vel.y=0;P.onGround=false;}}}if(CAVE.on){const dx=P.pos.x-CAVE.x,dz=P.pos.z-CAVE.z,d=Math.hypot(dx,dz),m=CAVE.R-14;if(d>m){P.pos.x=CAVE.x+dx*m/d;P.pos.z=CAVE.z+dz*m/d;}const top=Math.min(caveTop(Math.min(d,m))-5,CAVE.y+15);if(P.pos.y>top)P.pos.y=top;}if(TER.sky&&P.pos.y<WATER+5)P.pos.y=WATER+5;
     P.fireCd-=dt;P.inv-=dt;
     if(TER.lava&&(P.onGround||P.pos.y<=floorAt(P.pos.x,P.pos.z)+C.gOff+0.5)&&H(P.pos.x,P.pos.z)<WATER){hurt(30*dt,true);if(Math.random()<0.3)burst(P.pos,2,FIRE,3,8,0.4);}
     P.melCd-=dt;if(P.melT>0)P.melT-=dt;
