@@ -344,5 +344,30 @@
   "file": "well.glb",
   "h": 4,
   "ja": "井戸"
+ },
+ "stall": {
+  "file": "stall.glb",
+  "h": 4,
+  "ja": "市場の屋台"
+ },
+ "obelisk": {
+  "file": "obelisk.glb",
+  "h": 24,
+  "ja": "魔界の門の柱"
+ },
+ "ruin": {
+  "file": "ruin.glb",
+  "h": 12,
+  "ja": "山頂の遺跡の柱"
+ },
+ "lighthouse": {
+  "file": "lighthouse.glb",
+  "h": 30,
+  "ja": "灯台"
+ },
+ "skytemple": {
+  "file": "skytemple.glb",
+  "h": 40,
+  "ja": "空にうかぶ神殿の島"
  }
 }
