@@ -790,7 +790,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116z';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116zc';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -2019,8 +2019,8 @@ function swBake(K){const D0=SWMD[K];if(!D0||!MODEL[D0[0]]||window.NOSWM)return n
   const B=SWBK[K];if(!B)return null;const g=B.g.clone();g.userData={map:B.map};return g;}
 function swDecim(P0,U0,cell){const key=new Map(),NP=[],n=P0.length/3,rem=new Int32Array(n);
   for(let i=0;i<n;i++){const k=Math.round(P0[i*3]/cell)+','+Math.round(P0[i*3+1]/cell)+','+Math.round(P0[i*3+2]/cell);let j=key.get(k);if(j===undefined){j=NP.length/3;key.set(k,j);NP.push(P0[i*3],P0[i*3+1],P0[i*3+2]);}rem[i]=j;}
-  const OP=[],OU=[];for(let t=0;t<n;t+=3){const a=rem[t],b=rem[t+1],c=rem[t+2];if(a===b||b===c||a===c)continue;for(const j of [a,b,c])OP.push(NP[j*3],NP[j*3+1],NP[j*3+2]);for(const q of [t,t+1,t+2])OU.push(U0[q*2],U0[q*2+1]);}
-  return [OP,OU];}
+  const OP=[],OU=[],OI=[];for(let t=0;t<n;t+=3){const a=rem[t],b=rem[t+1],c=rem[t+2];if(a===b||b===c||a===c)continue;for(const j of [a,b,c]){OP.push(NP[j*3],NP[j*3+1],NP[j*3+2]);OI.push(j);}for(const q of [t,t+1,t+2])OU.push(U0[q*2],U0[q*2+1]);}
+  return [OP,OU,OI,NP.length/3];}
 function swBake0(M,size,horiz,sky){const root=(THREE.SkeletonUtils&&(M.anims.length||M.skin))?THREE.SkeletonUtils.clone(M.scene):M.scene.clone(true);root.rotation.y=M.rot;
   if(M.anims.length){const mx=new THREE.AnimationMixer(root),cl=M.anims.find(a=>/idle|stand/i.test(a.name))||M.anims.find(a=>/walk|run/i.test(a.name))||M.anims[0];mx.clipAction(cl).play();mx.setTime(0.01);}
   root.updateMatrixWorld(true);const P0=[],U0=[],v=new V3();let map=null;
@@ -2029,8 +2029,8 @@ function swBake0(M,size,horiz,sky){const root=(THREE.SkeletonUtils&&(M.anims.len
   if(!map||P0.length<27)return null;
   let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9,z0=1e9,z1=-1e9;for(let i=0;i<P0.length;i+=3){x0=Math.min(x0,P0[i]);x1=Math.max(x1,P0[i]);y0=Math.min(y0,P0[i+1]);y1=Math.max(y1,P0[i+1]);z0=Math.min(z0,P0[i+2]);z1=Math.max(z1,P0[i+2]);}
   const k=size/Math.max(1e-3,horiz?Math.max(x1-x0,z1-z0):(y1-y0)),cx=(x0+x1)/2,cz=(z0+z1)/2,cy=sky?(y0+y1)/2:y0;for(let i=0;i<P0.length;i+=3){P0[i]=(P0[i]-cx)*k;P0[i+1]=(P0[i+1]-cy)*k;P0[i+2]=(P0[i+2]-cz)*k;}
-  let cell=size*0.012,R=[P0,U0];const budget=sky?950:800;for(let t=0;t<14&&R[0].length/9>budget;t++){cell*=1.3;R=swDecim(P0,U0,cell);}
-  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(R[0],3));g.setAttribute('uv',new THREE.Float32BufferAttribute(R[1],2));g.computeVertexNormals();
+  let cell=size*0.006,R=swDecim(P0,U0,cell);const budget=1500;for(let t=0;t<18&&R[0].length/9>budget;t++){cell*=1.22;R=swDecim(P0,U0,cell);}
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(R[0],3));g.setAttribute('uv',new THREE.Float32BufferAttribute(R[1],2));{const NN=new Float32Array(R[3]*3),A=R[0],I=R[2],a=new V3(),b2=new V3(),c2=new V3();for(let t=0;t<I.length;t+=3){a.set(A[t*3],A[t*3+1],A[t*3+2]);b2.set(A[t*3+3],A[t*3+4],A[t*3+5]).sub(a);c2.set(A[t*3+6],A[t*3+7],A[t*3+8]).sub(a);b2.cross(c2);for(let q=0;q<3;q++){const j=I[t+q]*3;NN[j]+=b2.x;NN[j+1]+=b2.y;NN[j+2]+=b2.z;}}const NO=new Float32Array(I.length*3);for(let q=0;q<I.length;q++){const j=I[q]*3,l=Math.hypot(NN[j],NN[j+1],NN[j+2])||1;NO[q*3]=NN[j]/l;NO[q*3+1]=NN[j+1]/l;NO[q*3+2]=NN[j+2]/l;}g.setAttribute('normal',new THREE.BufferAttribute(NO,3));}
   const W=new Float32Array(R[0].length/3),H1=(y1-y0)*k,hw=(x1-x0)*k/2;for(let i=0;i<W.length;i++){const x=R[0][i*3],y=R[0][i*3+1];W[i]=sky?Math.min(1,Math.max(0,(Math.abs(x)-hw*0.15)/(hw*0.85))):(y<H1*0.42?(x>0?-1:1)*(1-y/(H1*0.42)):0);}
   g.setAttribute('aW',new THREE.BufferAttribute(W,1));console.log('軍勢の形',M.scene.name||'',P0.length/9,'→',R[0].length/9,'面');return {g,map};}
 // ---- 王国の軍勢の隊列：40人（8列×5段）ずつの隊にまとめ、隊ごとにプレイヤーのまわりの持ち場へ、隊列のまま進む
@@ -2227,6 +2227,17 @@ const ORCSL=new THREE.MeshBasicMaterial({color:0xc8f040,side:THREE.DoubleSide});
 function addRedcapBoss(x,z){const e=addRedcap(x,z);e.sc=1.6;e.r*=1.6;e.hc*=1.6;e.spd=27;e.dmg=14;e.hp=e.maxHp=s3bhp(300);e.val=700;e.boss='🔴 レッドキャップ';e.nm='レッドキャップ';e.cd=1.2;
   e.die='ちっ……赤い帽子が……泥に……';if(!PTS.includes('redcap'))PTS.push('redcap');
   bossIntro(e,'redcap','🧢');setTimeout(()=>{if(state==='play'&&!e.dead)say('レッドキャップ','赤い帽子は、血でそめる物さ。竜さんよ、そこで待ってな！');},900);return e;}
+// ---- やられた時の見た目：ふっ飛んで倒れる／回りながら落ちる／つぶれる
+const DIEL=[],DIENO=['cannon','bigcannon','siegecart','ship','battleship','seal','orccart','orcfort','skyfort','ballista','kraken','seaserpent'];
+function dieOk(e){return DIEL.length<14&&e.mesh&&!e.perch&&!e.cat&&!e.bal&&e.r<14&&!DIENO.includes(e.type)&&!(e._o&&DIENO.includes(e._o.model));}
+function dieFall(e){const m=e.mesh,q=m.position,air=q.y>floorAt(q.x,q.z)+3,dx=q.x-P.pos.x,dz=q.z-P.pos.z,d=Math.hypot(dx,dz)||1,sl=e.type==='slime';
+  const mx=m.userData.mix;if(mx&&mx.mx)mx.mx.timeScale=0;if(!sl)m.rotation.order='YXZ';
+  DIEL.push({m,t:0,air,sl,mach:e.type==='airship'||e.type==='bigairship',vx:dx/d*(air?9:6),vz:dz/d*(air?9:6),vy:air?5:8,sp:rnd(-4,4),sc:m.scale.x,land:0});}
+function updDie(dt){for(let i=DIEL.length-1;i>=0;i--){const o=DIEL[i],m=o.m,q=m.position;o.t+=dt;const g=floorAt(q.x,q.z);
+    if(o.sl){const k=Math.min(1,o.t*3);m.scale.set(o.sc*(1+k*0.9),o.sc*Math.max(0.06,1-k),o.sc*(1+k*0.9));if(o.t>0.7){scene.remove(m);DIEL.splice(i,1);}continue;}
+    if(!o.land){o.vy-=30*dt;q.x+=o.vx*dt;q.z+=o.vz*dt;q.y+=o.vy*dt;if(o.air){m.rotation.z+=o.sp*dt;m.rotation.x=Math.max(-1.3,m.rotation.x-1.6*dt);}else m.rotation.x=Math.max(-1.5,m.rotation.x-5.5*dt);
+      if(q.y<=g||o.t>6){q.y=Math.max(q.y,g);o.land=1;o.t=0;smoke(q,o.air?4:2,o.air?3:2,0.7,0x9a8a68,2);if(o.mach){burst(q,24,FIRE,5,26,0.8);debris(q,5,[0x8a5a2a,0x5a3a20],1);sfx('small',q,0.6);shake(0.2);}}}
+    else{if(!o.air)m.rotation.x=Math.max(-1.5,m.rotation.x-5.5*dt);if(o.t>0.8){const k=Math.max(0,1-(o.t-0.8)/0.5);m.scale.setScalar(o.sc*Math.max(0.02,k));}if(o.t>1.3){scene.remove(m);DIEL.splice(i,1);}}}}
 function slashAt(pos,yaw,col,R){const g=new THREE.RingGeometry(5,7.5,24,1,-1.2,2.4);const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:col||0xffffff,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));
   m.rotation.order='YXZ';m.rotation.set(-Math.PI/2+0.25,0,0);const h=new THREE.Group();h.add(m);h.position.copy(pos);h.rotation.y=yaw;h.scale.setScalar(R/7);scene.add(h);SLASH.push({h,m,t:0,fix:1});}
 function updSlash(dt){for(let i=SLASH.length-1;i>=0;i--){const q=SLASH[i];q.t+=dt;if(!q.fix)q.h.position.copy(P.pos);q.m.rotation.z=-1.2+q.t*9;q.m.material.opacity=0.9*(1-q.t/0.28);if(q.t>=0.28){scene.remove(q.h);SLASH.splice(i,1);}}}
@@ -2315,11 +2326,11 @@ function skName(k){const t=skTier(k),a=ADVN[k];return t>1&&a?a[t-2]:SKINFO[k].n;
 function advOpt(){const c=((LV-LVQ+1)/3)|0;if(c>2)return null;const tk=q=>q==='sp'?'t1':'t2';let sl=c%3===1?'sp':'sp2';if((P[tk(sl)]||1)>=2)sl=sl==='sp'?'sp2':'sp';if((P[tk(sl)]||1)>=2||!ADVN[P[sl]])return null;
   return {swap:1,adv:1,slot:sl,to:P[sl],k:'adv',ic:'⏫',nm:'上級技「'+ADVN[P[sl]][(P[tk(sl)]||1)-1]+'」'};}
 function advHtml(u,i,dl){const t=P[u.slot==='sp'?'t1':'t2']||1,cur=t>1?ADVN[u.to][t-2]:SKINFO[u.to].n,nw=ADVN[u.to][t-1],sl=u.slot==='sp'?'左クリック':'右クリック';
-  return `<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="${SKINFO[u.to].img}" alt=""></div><div class="nm">⏫ 上級技</div><div class="ds" style="animation-delay:${dl+0.45}s">${sl}の「${cur}」が「${nw}」になる。続けて${t+1}回出て、合わせた強さは${t===1?'1.5':'2.1'}倍</div><div class="num" style="animation-delay:${dl+0.7}s">${cur} → ${nw}</div></div>`;}
+  return `<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="chara/ic/sk_${u.to}.webp" alt="" onerror="this.onerror=null;this.src='${SKINFO[u.to].img}'"></div><div class="nm">⏫ 上級技</div><div class="ds" style="animation-delay:${dl+0.45}s">${sl}の「${cur}」が「${nw}」になる。続けて${t+1}回出て、合わせた強さは${t===1?'1.5':'2.1'}倍</div><div class="num" style="animation-delay:${dl+0.7}s">${cur} → ${nw}</div></div>`;}
 function swapOpt(){const sl=Math.random()<0.5?'sp':'sp2',cand=Object.keys(SKINFO).filter(k=>skOk(k)&&k!==P.sp&&k!==P.sp2);if(!cand.length)return null;
   return {swap:1,slot:sl,to:cand[(Math.random()*cand.length)|0],k:'swap',ic:'🔄',nm:'必殺技の入れかえ'};}
 function swapHtml(u,i,dl){const cur=SKINFO[P[u.slot]],nw=SKINFO[u.to],sl=u.slot==='sp'?'左クリック':'右クリック';
-  return `<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="${nw.img}" alt=""></div><div class="nm">必殺技の入れかえ</div><div class="ds" style="animation-delay:${dl+0.45}s">${sl}の技<br><b>『${cur.n}』</b> → <b>『${nw.n}』</b><br>${nw.d}</div><div class="num" style="animation-delay:${dl+0.7}s">今の必殺技の強さのまま使える</div></div>`;}
+  return `<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="chara/ic/sk_${u.to}.webp" alt="" onerror="this.onerror=null;this.src='${nw.img}'"></div><div class="nm">必殺技の入れかえ</div><div class="ds" style="animation-delay:${dl+0.45}s">${sl}の技<br><b>『${cur.n}』</b> → <b>『${nw.n}』</b><br>${nw.d}</div><div class="num" style="animation-delay:${dl+0.7}s">今の必殺技の強さのまま使える</div></div>`;}
 function showLv(){const pool=UPS.filter(u=>(UP[u.k]||0)<u.mx),sw=(LV-LVQ+1)%3===0?(advOpt()||((LV-LVQ+1)%9===0?swapOpt():null)):null;if(!pool.length&&!sw){LVQ=0;P.hp=P.maxHp;return;}
   LVOPT=pool.sort(()=>Math.random()-0.5).slice(0,sw?2:3);if(sw)LVOPT.push(sw);LVUP=true;sfx('lvup',null,0.8);burst(P.pos,40,[0xffe060,0xffffff,0x80e0ff],3,30,0.9);
   $('lvn').textContent='Lv '+Math.max(1,LV-LVQ)+' → Lv '+(LV-LVQ+1);$('lvc').innerHTML='';LVOPT.forEach((u,i)=>{const d=document.createElement('button');d.className='lvc';const dl=0.25+i*0.14,n=UP[u.k]||0;d.style.animationDelay=dl+'s';
@@ -2407,7 +2418,7 @@ function cineBlock(p,a){let n=0;const d=tmp3.subVectors(a,p),L=d.length()||1;d.m
   return n;}
 function bossFall(e){const q=e.mesh.position,c=cpos(e),T={x:c.x,y:c.y,z:c.z,r:e.r,sg:1,hi:0};e.fall=1;FALL.push({e,t:0,d:1.4,nx:0,x:q.x,y:q.y,z:q.z,rz:e.mesh.rotation.z});cine(3,1.55,T);if(!e.boss&&CINE.k===3){TS=0.25;tsT=1.4;}
   if(CINE.k===3&&CINE.tg===T){let best=1e9,bs=1,bh=0;const B=new V3(c.x,c.y,c.z);for(const [sg,hi] of [[1,0],[-1,0],[1,1],[-1,1]]){T.sg=sg;T.hi=hi;cinePose();const n=cineBlock(CINE.p,P.pos)+cineBlock(CINE.p,B);if(n<best){best=n;bs=sg;bh=hi;}}T.sg=bs;T.hi=bh;}}
-function updFall(rdt){if(PAUSED||LVUP)return;for(let i=FALL.length-1;i>=0;i--){const o=FALL[i],e=o.e,m=e.mesh,k=(o.t+=rdt)/o.d,sh=e.r*0.045,rk=ROCKY.includes(e.type);
+function updFall(rdt){if(PAUSED||LVUP)return;updDie(rdt);for(let i=FALL.length-1;i>=0;i--){const o=FALL[i],e=o.e,m=e.mesh,k=(o.t+=rdt)/o.d,sh=e.r*0.045,rk=ROCKY.includes(e.type);
     m.position.set(o.x+rnd(-sh,sh),o.y-k*k*e.r*(e.fly?1.4:0.45),o.z+rnd(-sh,sh));m.rotation.z=o.rz+k*k*0.3;
     if(o.t>=o.nx){o.nx=o.t+0.12;const c=new V3(o.x+rnd(-0.7,0.7)*e.r,o.y+e.hc+rnd(-0.5,0.8)*e.r*0.6,o.z+rnd(-0.7,0.7)*e.r);burst(c,6,FIRE,e.r*0.2,20,0.5);if(rk)debris(c,3,[0x7a7468,0x6a4a2a,0x9a8a72],e.r*0.13);smoke(c,2,e.r*0.45,1.5,0x5a5248,2);}
     if(state==='play'&&D.human!=='army'&&Math.hypot(o.x-P.pos.x,o.z-P.pos.z)<130){const a=mouthPos(),b=tmp2.set(o.x,o.y+e.hc,o.z);for(let j=0;j<5;j++){const q=(o.t*2.4+j/5)%1;tmp3.lerpVectors(a,b,q);flame(tmp3,1,1.5+q*e.r*0.26,0.3,null,0,3);}}
@@ -2786,7 +2797,7 @@ function hitEnemy(e,n){if(e.dead)return;
   if(n>=8){if(!(e.flT>0)){e._rx=e.mesh.rotation.x;e._rz=e.mesh.rotation.z;}e.flT=0.26;if(!e.boss&&!e.perch&&e.r<5){const q=e.mesh.position,dx=q.x-P.pos.x,dz=q.z-P.pos.z,d=Math.hypot(dx,dz)||1;e.kx=dx/d*15;e.kz=dz/d*15;}}
   if(e.hp<=0)killEnemy(e);}
 const DIE={orctank:'わ、わしの……デラックス戦車が……！',ogre:'グ……オオ……',drak:'……見事だ。同じ、竜の血か……',biggolem:'……ゴ、ゴゴ……',wizard:'そんな…わしの魔力が…',hero:'すまない…みんな…',demon:'この私が…トカゲごときに…',rival:'…強くなったな。',wooddragon:'……ギギ……ギ……',walker:'城が……ローンが、まだ……',elder:'見事だ、若き竜よ。空はお前のものだ。',battleship:'総員、退艦…！ 泳げる者から…！',bigairship:'空の…王の船が…！',kraken:'ゴボ…ゴボボ……'};
-function killEnemy(e,quiet){if(e.dead)return;e.dead=true;if(e.king&&!e.tk2&&state==='play'&&!quiet&&ST.orctank){e.tk2=1;const q=e.mesh.position,t=addEnemy('orctank',q.x,q.z);t.said=1;tankRider(t.mesh,26,36,0);say('オークキング','まだだ！ わしには、デラックス戦車がある！');shake(0.6);}if((e.boss||e.type==='biggolem'||e.type==='bigskel')&&state==='play'&&!quiet)bossFall(e);else scene.remove(e.mesh);if(e.type==='bigslime'&&state==='play'&&!quiet)slimeSplit(e);score+=e.val;kills++;addXp(e.val);
+function killEnemy(e,quiet){if(e.dead)return;e.dead=true;if(e.king&&!e.tk2&&state==='play'&&!quiet&&ST.orctank){e.tk2=1;const q=e.mesh.position,t=addEnemy('orctank',q.x,q.z);t.said=1;tankRider(t.mesh,26,36,0);say('オークキング','まだだ！ わしには、デラックス戦車がある！');shake(0.6);}if((e.boss||e.type==='biggolem'||e.type==='bigskel')&&state==='play'&&!quiet)bossFall(e);else if(state==='play'&&!quiet&&dieOk(e))dieFall(e);else scene.remove(e.mesh);if(e.type==='bigslime'&&state==='play'&&!quiet)slimeSplit(e);score+=e.val;kills++;addXp(e.val);
   if(state==='play'){combo++;comboT=3.5;if(combo>maxCombo)maxCombo=combo;score+=Math.round(e.val*Math.min(combo,40)*0.05);showCombo();}
   const c=cpos(e);burst(c,e.fall?16:e.boss?70:14,e.type==='rival'?(e.wyv?WGRN:BLUE):e.type==='demon'||e.type==='imp'?PURP:e.type==='slime'?GOO:FIRE,e.fall?4:e.boss?9:3,e.boss?50:16,e.boss?1.4:0.7);
   if(!quiet)sfx(e.boss?'boom':'small',c,e.boss?1:0.5);if(e.boss)ono(c,'ズドーン!!','#ff5a1a',72);else if(e.r>=4)ono(c,'ドカッ！','#ffd23a',40);
