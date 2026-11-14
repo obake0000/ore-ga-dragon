@@ -646,7 +646,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1115a';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1115b';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1351,7 +1351,7 @@ function buildWorld(L){
     for(let i=0;i<10;i++){const a=i/10*Math.PI*2;T.towers.push(makeObelisk(Math.sin(a)*48,-160+Math.cos(a)*48));}
     for(let i=0;i<14;i++){const a=rnd(0,6.3),r=rnd(70,170);makeRuin(Math.sin(a)*r,-160+Math.cos(a)*r,true);}
     [[-90,-60],[-110,-40],[90,-60],[110,-80],[-70,-250],[80,-240]].forEach(([x,z])=>{const b=makeHouse(x,z,rnd(0,6));b.chim=null;});
-  }else if(L==='dungeon'){dunBuild({cx:0,cz:-30,w:210,d:380,h:66,door:1});
+  }else if(L==='dungeon'){dunBuild({cx:0,cz:-70,w:92,d:480,h:46,door:1,gates:[-40,-175],carpet:1});
   }else if(L==='golem'){dunBuild({cx:0,cz:-10,w:240,d:300,h:80,door:2});
   }else if(L==='peak'){
     for(let i=0;i<16;i++){const a=rnd(0,6.3),r=rnd(30,200);makeRuin(Math.sin(a)*r,-120+Math.cos(a)*r,false);}
@@ -1382,7 +1382,9 @@ function collide(dt){const pad=C.human?1.4:C.fly?2.6:2.2,bot=P.pos.y-C.gOff*0.7,
       if(bot>q.y1-2.2){P.pos.y+=Math.min(q.y1+C.gOff*0.7-P.pos.y,30*dt);if(P.vel.y<0)P.vel.y=0;if(P.vy<0){P.vy=0;P.onGround=true;}continue;}
       let ux=0,uz=0;if(px<pz){ux=Math.sign(lx)||1;pen=px;}else{uz=Math.sign(lz)||1;pen=pz;}nx=ux*q.c+uz*q.s;nz=-ux*q.s+uz*q.c;}
     if((q.b||q.ru)&&P.dashT>0&&!C.human)dashRock(q);P.pos.x+=nx*pen;P.pos.z+=nz*pen;const vn=P.vel.x*nx+P.vel.z*nz;
-    if(vn<0){const imp=-vn;if(imp>62&&P.crashCd<=0&&state==='play'){P.crashCd=0.6;crash((imp-45)*0.6,q,nx,nz);P.vel.x-=nx*vn*1.4;P.vel.z-=nz*vn*1.4;}else{P.vel.x-=nx*vn;P.vel.z-=nz*vn;}}}}
+    if(vn<0){const imp=-vn;if(imp>crT()&&P.crashCd<=0&&state==='play'){P.crashCd=0.6;crash((imp-crT()*0.72)*0.6,q,nx,nz);P.vel.x-=nx*vn*1.4;P.vel.z-=nz*vn*1.4;}else{P.vel.x-=nx*vn;P.vel.z-=nz*vn;}}}}
+// ぶつかってダメージが入り始める速さ：飛空艇は速さの6割、大型（竜・ワイバーン・アースドラゴン・ゴーレム）は9割、ほかは62（突進か急降下の時だけ）
+function crT(){const k=charKey;return k==='airship'?C.spd*0.6:(k==='dragon'||k==='wyvern'||k==='ground'||k==='golem')?Math.min(62,C.spd*0.9):62;}
 function crash(n,q,nx,nz){if(EASY)n*=0.4;n=Math.round(n);P.hp-=n;P.dashT=0;P.inv=0.3;dmgFlash();shake(0.8);sfx('crash',null,0.9);sfx('ouch',null,0.7);
   const at=P.pos.clone().add(new V3(-nx*2.5,1,-nz*2.5));debris(at,8,[0x8a8272,0x6a6a62,0x9a927f],1.2);smoke(at,5,4,1.4,0x8a8272,3);burst(at,14,[0xffffff,0xffd080],2.4,26,0.4);
   ono(P.pos.clone().add(new V3(0,6,0)),'ガンッ！ -'+n,'#ff5a3a',40);const dm=$('dmg');dm.style.opacity=Math.min(0.9,parseFloat(dm.style.opacity||0)+0.6);if(P.hp<=0){P.hp=0;die();}}
@@ -1931,7 +1933,7 @@ function dashOld(){if(state!=='play'||P.en<20||P.dashT>0||(P.dashCd||0)>0||LVUP|
 
 /* ================= 敵 ================= */
 const ST={
-  goblin:{hp:34,r:1.6,hc:1.6,val:40,dmg:7,ic:'👺'},seal:{hp:150,r:5,hc:0,val:120,dmg:0,fly:1,ic:'🔒'},
+  goblin:{hp:34,r:1.6,hc:1.6,val:40,dmg:7,ic:'👺'},seal:{hp:150,r:5,hc:0,val:120,dmg:0,fly:1,ic:'🔒'},skel:{hp:60,r:1.8,hc:1.9,val:60,dmg:9,ic:'💀'},drak:{hp:900,r:4.2,hc:4.4,val:800,dmg:20,boss:'🐲 よろいの竜人',ic:'🐲'},
   slime:{hp:30,r:2.6,hc:1.6,val:10,dmg:6,ic:'👾'},bat:{hp:22,r:2.2,hc:0,val:10,dmg:5,fly:1,ic:'🦇'},ogre:{hp:200,r:6.5,hc:7.2,val:60,dmg:14,ic:'👹'},
   soldier:{hp:26,r:1.9,hc:1.8,val:15,dmg:8,ic:'⚔️'},archer:{hp:20,r:1.9,hc:1.8,val:20,dmg:0,ic:'🏹'},cannon:{hp:90,r:2.8,hc:1.4,val:60,dmg:0,ic:'💣'},
   priest:{hp:45,r:1.9,hc:1.8,val:80,dmg:0,ic:'✨'},
@@ -1956,6 +1958,8 @@ function addEnemy(type,x,z,y,o={}){
   else if(type==='ogre')m=MODEL.ogre?makeProxy(6.1,10.4,4.8,0x6f8f3a):makeHuman({skin:0x6f8f3a,armor:0x6f8f3a,cloth:0x5a3a20,weapon:'club',horn:1,s:3.6});
   else if(type==='seal'){m=new THREE.Group();const c=new THREE.Mesh(new THREE.OctahedronGeometry(3),new THREE.MeshBasicMaterial({color:0xff4030}));c.scale.y=1.7;m.add(c);const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff3020,transparent:true,opacity:0.7,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(20,20,1);m.add(gl);}
   else if(type==='goblin')m=makeHuman({skin:0x6aa040,armor:0x6a5030,cloth:0x4a3a20,weapon:'club',s:1.1});
+  else if(type==='skel')m=makeHuman({skin:0xe8e8e0,armor:0xd8d8d0,cloth:0x8a5a3a,weapon:'sword',s:1.55});
+  else if(type==='drak')m=makeHuman({skin:0xc03020,armor:0xb0b0b8,cloth:0x8a2a20,weapon:'club',horn:1,s:3.3});
   else if(type==='soldier')m=makeHuman({skin:0xf0c8a0,armor:0x9aa0aa,cloth:0x3a3a5a,weapon:'spear',helmet:1,s:1.5});
   else if(type==='archer')m=makeHuman({skin:0xf0c8a0,armor:0x3a6a3a,cloth:0x4a3a2a,weapon:'bow',hair:0x5a3a1a,s:1.5});
   else if(type==='priest')m=makeHuman({skin:0xf0c8a0,armor:0xf4f4f8,cloth:0xf0f0f6,weapon:'staff',hair:0xc0a070,robe:1,s:1.6});
@@ -1969,7 +1973,7 @@ function addEnemy(type,x,z,y,o={}){
   else if(type==='bigcannon')m=makeProxy(5,7,9,0x3a3a3e);else if(type==='wooddragon')m=makeProxy(8,11,18,0x8a6a3a);else if(type==='walker')m=makeProxy(40,40,40,0xd8d0c0);else if(type==='elder')m=makeProxy(30,22,44,0xc08a30,true);
   else if(type==='ship')m=makeProxy(6,12,16,0x8a5a2a);else if(type==='battleship')m=makeProxy(12,16,40,0x6a6a70);else if(type==='bigairship')m=makeProxy(22,20,40,0x8a6a4a,true);
   else if(type==='kraken')m=makeProxy(24,22,24,0x8a3060);else if(type==='seaserpent')m=makeProxy(8,20,10,0x2a8a7a);
-  const gy=floorAt(x,z);m.position.set(x,o.perch?y:(y!==undefined?Math.max(y,gy+4):gy),z);attachModel(m,o.model||{goblin:'goblin',slime:'slime',bat:'bat',imp:'imp',ogre:'ogre',soldier:'soldier',archer:'archer',priest:'priest',cannon:'cannon',hero:'hero',demon:'demon',rival:'rival',golem:'golem',airship:'airship',wizard:'wizard',bigcannon:'bigcannon',wooddragon:'wooddragon',walker:'walker',elder:'elder',ship:'ship',battleship:'battleship',bigairship:'bigairship',kraken:'kraken',seaserpent:'seaserpent',biggolem:MODEL.bgolem?'bgolem':'golem',dknight:'dknight',griffin:'griffin'}[type]);if(type==='dknight'&&!MODEL.dknight)dkRide(m);scene.add(m);
+  const gy=floorAt(x,z);m.position.set(x,o.perch?y:(y!==undefined?Math.max(y,gy+4):gy),z);attachModel(m,o.model||{goblin:'goblin',skel:'skel',drak:'drak',slime:'slime',bat:'bat',imp:'imp',ogre:'ogre',soldier:'soldier',archer:'archer',priest:'priest',cannon:'cannon',hero:'hero',demon:'demon',rival:'rival',golem:'golem',airship:'airship',wizard:'wizard',bigcannon:'bigcannon',wooddragon:'wooddragon',walker:'walker',elder:'elder',ship:'ship',battleship:'battleship',bigairship:'bigairship',kraken:'kraken',seaserpent:'seaserpent',biggolem:MODEL.bgolem?'bgolem':'golem',dknight:'dknight',griffin:'griffin'}[type]);if(type==='dknight'&&!MODEL.dknight)dkRide(m);scene.add(m);
   const e={type,mesh:m,dr,hp:s.hp*(EASY?(s.boss?0.42:0.5):(s.boss?0.62:0.75)),maxHp:s.hp*(EASY?(s.boss?0.42:0.5):(s.boss?0.62:0.75)),r:s.r,hc:s.hc,val:s.val,dmg:s.dmg,fly:!!s.fly,boss:s.boss,t:rnd(0,5),cd:rnd(1,3),vy:0,vel:new V3(),cp:new V3(),
     seed:rnd(0,9),hx:0,hz:0,lx:0,lz:0,dvx:0,dvz:0,mv:'run',mt:1.5,state:'chase',ang:rnd(0,6.3),sum:8,met:6,st:0,sub:0,cnt:0,hitT:0,flyT:0,dodgeCd:2,
     thrower:type==='soldier'&&Math.random()<0.35,dashSeen:0,dead:false,perch:!!o.perch,bld:o.bld||null,inv:false,guard:false};
@@ -1981,7 +1985,7 @@ function hitEnemy(e,n){if(e.dead)return;
   if(e.type==='bigslime'&&n>=4&&!(e.spT>e.t)){e.spT=e.t+0.5;slimeSpawn(e,1);}if(e.barT>0){n*=0.25;if(Math.random()<0.3)burst(cpos(e),3,GOLD,2.5,8,0.25);}if(e.cave&&e.type==='hero'&&!CAVE.flee&&e.hp-n<e.maxHp*0.3){e.hp=e.maxHp*0.3;caveFlee();return;}e.hp-=n;e.hitT=0.14;
   if(n>=8){if(!(e.flT>0)){e._rx=e.mesh.rotation.x;e._rz=e.mesh.rotation.z;}e.flT=0.26;if(!e.boss&&!e.perch&&e.r<5){const q=e.mesh.position,dx=q.x-P.pos.x,dz=q.z-P.pos.z,d=Math.hypot(dx,dz)||1;e.kx=dx/d*15;e.kz=dz/d*15;}}
   if(e.hp<=0)killEnemy(e);}
-const DIE={ogre:'グ……オオ……',biggolem:'……ゴ、ゴゴ……',wizard:'そんな…わしの魔力が…',hero:'すまない…みんな…',demon:'この私が…トカゲごときに…',rival:'…強くなったな。',wooddragon:'……ギギ……ギ……',walker:'城が……ローンが、まだ……',elder:'見事だ、若き竜よ。空はお前のものだ。',battleship:'総員、退艦…！ 泳げる者から…！',bigairship:'空の…王の船が…！',kraken:'ゴボ…ゴボボ……'};
+const DIE={ogre:'グ……オオ……',drak:'……見事だ。同じ、竜の血か……',biggolem:'……ゴ、ゴゴ……',wizard:'そんな…わしの魔力が…',hero:'すまない…みんな…',demon:'この私が…トカゲごときに…',rival:'…強くなったな。',wooddragon:'……ギギ……ギ……',walker:'城が……ローンが、まだ……',elder:'見事だ、若き竜よ。空はお前のものだ。',battleship:'総員、退艦…！ 泳げる者から…！',bigairship:'空の…王の船が…！',kraken:'ゴボ…ゴボボ……'};
 function killEnemy(e,quiet){if(e.dead)return;e.dead=true;if((e.boss||e.type==='biggolem')&&state==='play'&&!quiet)bossFall(e);else scene.remove(e.mesh);if(e.type==='bigslime'&&state==='play'&&!quiet)slimeSplit(e);score+=e.val;kills++;addXp(e.val);
   if(state==='play'){combo++;comboT=3.5;if(combo>maxCombo)maxCombo=combo;score+=Math.round(e.val*Math.min(combo,40)*0.05);showCombo();}
   const c=cpos(e);burst(c,e.fall?16:e.boss?70:14,e.type==='rival'?(e.wyv?WGRN:BLUE):e.type==='demon'||e.type==='imp'?PURP:e.type==='slime'?GOO:FIRE,e.fall?4:e.boss?9:3,e.boss?50:16,e.boss?1.4:0.7);
@@ -2074,12 +2078,12 @@ function updEnemies(dt){
       const w=e.mesh.userData.w,a=Math.sin(e.t*18)*0.9;w.R.rotation.z=a;w.L.rotation.z=-a;
       if(e.type==='imp'&&e.cd<=0&&hd<90){e.cd=rnd(3,5);shootAtP(p.clone(),70,{mat:MAT.dfire,size:0.8,r:1.2,dmg:6,life:3,trail:PURP,col:PURP});}
       if(d3<e.r+4)hurt(e.dmg*dt,true);break;}
-    case 'ogre':{grav(e,dt);walk(e,P.pos.x,P.pos.z,hd>22?6.5:0,dt);animWalk(e,4);
+    case 'drak':case 'ogre':{grav(e,dt);walk(e,P.pos.x,P.pos.z,hd>22?6.5:0,dt);animWalk(e,4);
       if(e.cd<=0&&hd<150){e.cd=rnd(3.5,5);const f=cpos(e).clone();f.y+=7;shoot(f,lob(f,tmp2.copy(P.pos).addScaledVector(P.vel,0.8),55,30),{geo:'rock',mat:MAT.rock,size:1.8,r:2.2,splash:6,dmg:16,grav:30,life:6,col:[0x999080,0xbbaa90]});if(e.mesh.userData.armR)e.mesh.userData.armR.rotation.x=-2.5;else bubble(e,'ウガー！','shout',1);}
       if(e.mesh.userData.armR)e.mesh.userData.armR.rotation.x*=Math.max(0,1-dt*3);
       if(d3<e.r+5)hurt(e.dmg*dt,true);break;}
     case 'seal':e.mesh.rotation.y+=dt*1.5;break;
-    case 'goblin':case 'soldier':{grav(e,dt);walk(e,P.pos.x,P.pos.z,hd>3?(e.type==='goblin'?13:10):0,dt);animWalk(e,9);
+    case 'skel':case 'goblin':case 'soldier':{grav(e,dt);walk(e,P.pos.x,P.pos.z,hd>3?(e.type==='soldier'?10:13):0,dt);animWalk(e,9);
       if(e.thrower&&e.cd<=0&&hd<55){e.cd=rnd(4,6);const f=cpos(e).clone();f.y+=1;shootAtP(f,80,{geo:'arrow',mat:MAT.arrow,size:1.4,r:1,dmg:5,life:3,col:[0x999080]},0.4);}
       if(d3<e.r+5){hurt(e.dmg*dt,true);if(!e.thrower&&e.cd<=0)e.cd=rnd(1,1.4);}break;}
     case 'archer':{grav(e,dt);
@@ -2321,9 +2325,9 @@ const STAGES=[
    ter:{amp:0,ox:0,oz:0,flats:[[0,0,330,3,1]],dirt:[],grass:0x3a3a48,hill:0x3a3a48,rock:0x44444e,sand:0x3a3a48,dirtC:0x33333e,trees:0,rocks:0,start:[0,120]},
    story:['勇者を追いはらった竜は、負かしたワイバーンを子分に、ねぐらの奥の古い石の階段を下りた。','千年のあいだに、地下には魔物の迷宮ができていた。大家にことわりもなく、だ。','小鬼も、こうもりも、まとめて立ちのきだ。家賃は、命でいい。'],
    waves:[
-    {name:'小鬼とスライム',msg:'👺 小鬼とスライムが、わいて出た！',mood:7,go(){for(let i=0;i<12;i++){const e=addEnemy('goblin',...dunPos(-20,70));e.thrower=i%3===0;}for(let i=0;i<8;i++)addEnemy('slime',...dunPos(-30,60));}},
-    {name:'闇にひそむ群れ',msg:'🦇 こうもりと、石を投げる小鬼が来る！',mood:7,go(){for(let i=0;i<10;i++){const [x,z]=dunPos(-120,-20);addEnemy('bat',x,z,P.pos.y+rnd(0,18));}for(let i=0;i<12;i++){const e=addEnemy('goblin',...dunPos(-130,-30));e.thrower=true;}for(let i=0;i<5;i++)addEnemy('slime',...dunPos(-120,-40));}},
-    {name:'迷宮の番人',msg:'👹 奥の扉の前に、番人が立ちふさがる！',mood:7,go(){const o=addEnemy('ogre',0,-175);o.boss='👹 迷宮の番人';o.hp=o.maxHp=o.maxHp*3.2;o.sc=1.5;o.r*=1.4;o.hc*=1.5;o.val=600;o.dmg*=1.3;for(let i=0;i<2;i++)addEnemy('ogre',(i?1:-1)*45,-150);for(let i=0;i<8;i++){const e=addEnemy('goblin',...dunPos(-170,-110));e.thrower=i%2===0;}}}]},
+    {name:'小鬼とスライム',msg:'👺 小鬼とスライムが、わいて出た！',mood:7,go(){for(let i=0;i<12;i++){const e=addEnemy('goblin',...dunPos(-28,70));e.thrower=i%3===0;}for(let i=0;i<8;i++)addEnemy('slime',...dunPos(-28,60));}},
+    {name:'骸骨の番兵',msg:'💀 骸骨の番兵と、石を投げる小鬼が来る！',mood:7,go(){for(let i=0;i<8;i++){const [x,z]=dunPos(-165,-55);addEnemy('bat',x,z,DUN.y+rnd(8,22));}for(let i=0;i<8;i++)addEnemy('skel',...dunPos(-165,-55));for(let i=0;i<8;i++){const e=addEnemy('goblin',...dunPos(-165,-60));e.thrower=true;}}},
+    {name:'よろいの竜人',msg:'🐲 奥の扉の前に、よろいの竜人が立ちふさがる！',mood:7,go(){addEnemy('drak',0,-250);for(let i=0;i<4;i++)addEnemy('skel',...dunPos(-265,-190));for(let i=0;i<6;i++){const e=addEnemy('goblin',...dunPos(-265,-190));e.thrower=i%2===0;}}}]},
   {key:'golem',ch:'第3章',title:'ゴーレム決戦',place:'巨人の間',
    ter:{amp:0,ox:0,oz:0,flats:[[0,0,330,3,1]],dirt:[],grass:0x3a3a48,hill:0x3a3a48,rock:0x44444e,sand:0x3a3a48,dirtC:0x33333e,trees:0,rocks:0,start:[0,120]},
    story:['迷宮のいちばん奥、巨人の間。岩のかたまりが、ゆっくりと立ち上がる。','封印の扉を守るために作られた、岩の巨人ゴーレム。千年、ここで待っていたらしい。','番人ごくろう。……退職の手続きは、火でする。'],
@@ -2558,7 +2562,7 @@ function dunTex(k){if(DUN.tex[k])return DUN.tex[k];const c=document.createElemen
   else if(k==='lava'){x.fillStyle='#120a0c';x.fillRect(0,0,256,256);for(let r=0;r<4;r++)for(let i=0;i<4;i++){const v=(44+Math.random()*26)|0;x.fillStyle=`rgb(${v+10},${v},${v+4})`;x.fillRect(i*64+3,r*64+3,58,58);}x.strokeStyle='#e8601a';x.shadowColor='#ff4a10';x.shadowBlur=8;x.lineWidth=2;for(let j=0;j<3;j++){x.beginPath();let px=Math.random()*256,py=Math.random()*256;x.moveTo(px,py);for(let q=0;q<5;q++){px+=(Math.random()-0.5)*90;py+=(Math.random()-0.5)*90;x.lineTo(px,py);}x.stroke();}x.shadowBlur=0;}
   else{x.translate(128,128);x.rotate(Math.PI/4);x.fillStyle='rgba(255,60,50,0.35)';x.fillRect(-72,-72,144,144);x.strokeStyle='#ff6a58';x.lineWidth=14;x.strokeRect(-72,-72,144,144);x.setTransform(1,0,0,1,0,0);x.fillStyle='#ffe0d0';x.beginPath();x.arc(128,110,20,0,6.3);x.fill();x.fillRect(118,116,20,48);}
   const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;return DUN.tex[k]=t;}
-function dunClear(){if(DUN.g){scene.remove(DUN.g);DUN.g.traverse(o=>{if(o.geometry)o.geometry.dispose();});DUN.g=null;}DUN.on=false;DUN.tor=[];DUN.ch=[];DUN.door=null;}
+function dunClear(){if(DUN.g){scene.remove(DUN.g);DUN.g.traverse(o=>{if(o.geometry)o.geometry.dispose();});DUN.g=null;}DUN.on=false;DUN.tor=[];DUN.ch=[];DUN.door=null;DUN.gates=[];}
 function dunPos(z0,z1){return [rnd(DUN.x0+24,DUN.x1-24),rnd(z0,z1)];}
 // 奥の扉：石のわく・鉄の2枚とびら。seal の時は赤い封印の印が光る
 function dunDoor(g,x,y,z,seal){const D=new THREE.Group();D.position.set(x,y,z);g.add(D);
@@ -2571,7 +2575,7 @@ function dunDoor(g,x,y,z,seal){const D=new THREE.Group();D.position.set(x,y,z);g
     const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff3020,transparent:true,opacity:0.7,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(70,70,1);gl.position.set(0,23,5);D.add(gl);o.seal=em;o.gl=gl;o.xc=[1,-1].map(sg=>{const c=new THREE.Mesh(new THREE.CylinderGeometry(0.7,0.7,62,6),new THREE.MeshBasicMaterial({color:0xff4a38,transparent:true,opacity:0.95}));c.position.set(0,23,2.6);c.rotation.z=sg*0.72;D.add(c);return c;});}
   return o;}
 function dunBuild(o){dunClear();const g=new THREE.Group(),cx=o.cx,cz=o.cz,w=o.w,d=o.d,h=o.h,gy=floorAt(cx,cz),x0=cx-w/2,x1=cx+w/2,z0=cz-d/2,z1=cz+d/2;
-  const MA=o.kind==='maou';Object.assign(DUN,{on:true,g,x0,x1,z0,z1,y:gy,top:gy+Math.min(h-10,30),t:0,tor:[],ch:[],door:null,mc:null,maou:MA});
+  const MA=o.kind==='maou';Object.assign(DUN,{on:true,g,x0,x1,z0,z1,y:gy,top:gy+Math.min(h-10,30),t:0,tor:[],ch:[],door:null,mc:null,maou:MA,gates:[],zmin:z0+36,xm:w/2-22,h,lat:w<140?0.32:0.95});
   const T=(k,a,b)=>{const t=dunTex(k).clone();t.needsUpdate=true;t.repeat.set(a,b);return t;},LM=(k,a,b,col,em)=>new THREE.MeshLambertMaterial({map:T(k,a,b),color:col,emissive:em});
   const add=(m,x,y,z)=>{m.position.set(x,y,z);g.add(m);return m;};let m;
   // 床・かべ4枚・天井（内がわだけ見える）
@@ -2585,9 +2589,9 @@ function dunBuild(o){dunClear();const g=new THREE.Group(),cx=o.cx,cz=o.cz,w=o.w,
   // 柱の列・たいまつ・旗・はり
   const pm=LM('wall',0.4,h*0.8/22,0xbcbcd0,0x16161f),n=Math.max(3,Math.floor(d/42)),stp=(d-40)/n,tm=new THREE.MeshBasicMaterial({color:0x3a2a1a}),bm=new THREE.MeshLambertMaterial({map:dunTex('banner'),emissive:0x380a0a,side:THREE.DoubleSide});
   for(let i=0;i<=n;i++){const z=z0+20+i*stp;for(const sx of [-1,1]){const x=cx+sx*(w/2-16);
-      add(new THREE.Mesh(new THREE.BoxGeometry(7,h*0.8,7),pm),x,gy+h*0.4,z);
+      add(new THREE.Mesh(new THREE.BoxGeometry(7,h*0.8,7),pm),x,gy+h*0.4,z);if(sx<0)add(new THREE.Mesh(new THREE.BoxGeometry(w-32,4,5),pm),cx,gy+h*0.8+2,z);
       const tp=new V3(x-sx*4.8,gy+15,z);add(new THREE.Mesh(new THREE.BoxGeometry(0.8,3.2,0.8),tm),tp.x,tp.y-1.8,tp.z);
-      const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:MA?0xff5030:0xffa040,transparent:true,opacity:0.85,blending:THREE.AdditiveBlending,depthWrite:false}));sp.scale.set(14,14,1);sp.position.copy(tp);g.add(sp);DUN.tor.push({p:tp,s:sp,ph:rnd(0,6)});
+      const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:MA?0xff5030:0xffa040,transparent:true,opacity:0.85,blending:THREE.AdditiveBlending,depthWrite:false}));sp.scale.set(14,14,1);sp.position.copy(tp);g.add(sp);DUN.tor.push({p:tp,s:sp,ph:rnd(0,6)});{const lp=new THREE.Mesh(new THREE.PlaneGeometry(30,30),DUN.lpm||(DUN.lpm=new THREE.MeshBasicMaterial({map:GT,color:MA?0xff5030:0xff9a40,transparent:true,opacity:0.3,blending:THREE.AdditiveBlending,depthWrite:false})));lp.rotation.x=-Math.PI/2;lp.position.set(x-sx*9,gy+0.72,z);g.add(lp);}
       if(i<n&&i%2===0){m=add(new THREE.Mesh(new THREE.PlaneGeometry(9,18),bm),cx+sx*(w/2-0.7),gy+h*0.55,z+stp/2);m.rotation.y=-sx*Math.PI/2;}}}
   for(const sx of [-1,1])add(new THREE.Mesh(new THREE.BoxGeometry(8,5,d-24),pm),cx+sx*(w/2-16),gy+h*0.8+2.5,cz);
   // 奥のかべ：青く光る窓3つ、階段と見はり台、扉
@@ -2597,6 +2601,12 @@ function dunBuild(o){dunClear();const g=new THREE.Group(),cx=o.cx,cz=o.cz,w=o.w,
   for(let k=0;k<6;k++){const hh=8-k*1.3;add(new THREE.Mesh(new THREE.BoxGeometry(w*0.3,hh,5),sm),cx,gy+hh/2,z0+30.5+k*5);}
   for(const sx of [-1,1])for(let k=0;k<5;k++)add(new THREE.Mesh(new THREE.BoxGeometry(1.6,4.5,1.6),pm),cx+sx*(w*0.25-2-k*0),gy+10,z0+3+k*6);
   if(o.door)DUN.door=dunDoor(g,cx,gy+8,z0+2,o.door===2);
+  if(o.carpet){m=add(new THREE.Mesh(new THREE.PlaneGeometry(18,d-44),new THREE.MeshLambertMaterial({color:0x8a1a1a,emissive:0x1e0505})),cx,gy+0.62,cz+4);m.rotation.x=-Math.PI/2;}
+  // 鉄ごうしの門：その区間の敵を全部倒すと上がる
+  (o.gates||[]).forEach(gz=>{const G=new THREE.Group(),im=DUN.gim||(DUN.gim=new THREE.MeshLambertMaterial({color:0x3a3640,emissive:0x0c0a10}));
+    for(let bx=-(w/2-13);bx<=w/2-13;bx+=3.4){const b=new THREE.Mesh(new THREE.BoxGeometry(0.7,h*0.66,0.7),im);b.position.set(bx,h*0.33,0);G.add(b);}
+    for(const by of [h*0.12,h*0.4,h*0.64]){const b=new THREE.Mesh(new THREE.BoxGeometry(w-24,0.8,0.9),im);b.position.set(0,by,0);G.add(b);}
+    G.position.set(cx,gy,gz);g.add(G);add(new THREE.Mesh(new THREE.BoxGeometry(w-20,h*0.2,6),pm),cx,gy+h*0.76,gz);DUN.gates.push({z:gz,g:G,open:0});});
   if(MA){ // 魔王の間：奥のかべの赤い魔法陣、祭だんのかがり火
     const mc=add(new THREE.Mesh(new THREE.PlaneGeometry(64,64),new THREE.MeshBasicMaterial({map:fxTex('circle'),color:0xff3028,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false})),cx,gy+42,z0+1.2);DUN.mc=mc;
     const mg=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff2a20,transparent:true,opacity:0.55,blending:THREE.AdditiveBlending,depthWrite:false}));mg.scale.set(120,120,1);mg.position.set(cx,gy+42,z0+6);g.add(mg);
@@ -2607,8 +2617,10 @@ function updDun(dt,rdt){if(!DUN.on)return;DUN.t+=rdt;
   for(const q of DUN.tor){const k=1+0.14*Math.sin(DUN.t*9+q.ph)+0.08*Math.sin(DUN.t*23+q.ph*2);q.s.scale.set(14*k*(q.k||1),14*k*(q.k||1),1);}if(DUN.mc)DUN.mc.rotation.z+=rdt*0.25;
   if(state!=='play')return;
   if(dt>0&&DUN.tor.length&&Math.random()<0.5){const q=DUN.tor[(Math.random()*DUN.tor.length)|0];flame(q.p,1,1.5*(q.k||1),0.5,null,0,0.6);}
-  for(const e of EN){if(e.dead)continue;const q=e.mesh.position;q.x=clamp(q.x,DUN.x0+4,DUN.x1-4);q.z=clamp(q.z,DUN.z0+4,DUN.z1-4);if(e.fly&&q.y>DUN.top)q.y=DUN.top;}
+  for(const e of EN){if(e.dead)continue;const q=e.mesh.position;q.x=clamp(q.x,DUN.x0+19,DUN.x1-19);{let zl=e.fly?DUN.z0+6:DUN.zmin,zh=DUN.z1-4;for(const G of DUN.gates)if(G.open<1){if(q.z>G.z)zl=Math.max(zl,G.z+5);else zh=Math.min(zh,G.z-5);}q.z=clamp(q.z,zl,zh);}if(e.fly&&q.y>DUN.top)q.y=DUN.top;}
   for(let i=DUN.ch.length-1;i>=0;i--){const c=DUN.ch[i];if(c.e.dead){burst(c.m.position,24,[0xff5040,0xffb0a0,0xffffff],4,22,0.7);ono(c.e.mesh.position,'パキン！','#ff8a70',44);DUN.g.remove(c.m);DUN.ch.splice(i,1);sfx('clang',null,0.7);}else c.m.material.opacity=0.7+0.3*Math.sin(DUN.t*6+i);}
+  DUN.gates.forEach((q,i)=>{if(!q.open&&(wave>i||(wave===i&&EN.length===0))){q.open=0.01;sfx('clang',null,0.8);shake(0.3);if(wave===i)banner('⛓️ 鉄ごうしが上がった。奥へ進め！',2.2);}
+    if(q.open>0&&q.open<1){q.open=Math.min(1,q.open+rdt*0.8);q.g.position.y=DUN.y+q.open*DUN.h*0.72;}});
   const D=DUN.door;if(!D)return;
   if(D.seal&&!D.open){const k=D.arm?DUN.ch.length/4:1;D.seal.material.opacity=0.2+0.8*k;D.gl.material.opacity=(0.2+0.5*k)*(0.85+0.15*Math.sin(DUN.t*4));D.xc.forEach(c=>c.material.opacity=0.6+0.35*Math.sin(DUN.t*5));
     if(D.arm&&!DUN.ch.length&&EN.length===0){D.open=0.01;D.seal.visible=false;D.gl.visible=false;D.xc.forEach(c=>c.visible=false);burst(new V3((DUN.x0+DUN.x1)/2,DUN.y+31,DUN.z0+8),50,[0xff5040,0xffb0a0,0xffffff],6,40,1);flashV=Math.max(flashV,0.7);shake(0.6);sfx('boom',null,0.8);}}
@@ -2620,7 +2632,7 @@ function doorSeals(){const zf=DUN.z0,gy=DUN.y,from=new V3((DUN.x0+DUN.x1)/2,gy+3
     const m=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,len,6),new THREE.MeshBasicMaterial({color:0xff4a38,transparent:true,opacity:0.9}));m.position.copy(from).lerp(to,0.5);m.quaternion.setFromUnitVectors(UPV,to.clone().sub(from).normalize());DUN.g.add(m);DUN.ch.push({m,e});});
   for(let i=0;i<8;i++){const [x,z]=dunPos(zf+30,zf+150);addEnemy('imp',x,z,gy+rnd(10,28));}
   for(let i=0;i<8;i++){const e=addEnemy('goblin',...dunPos(zf+40,zf+160));e.thrower=i%2===0;}
-  addEnemy('ogre',0,zf+70);}
+  for(let i=0;i<4;i++)addEnemy('skel',...dunPos(zf+50,zf+150));addEnemy('ogre',0,zf+75);}
 // 扉のむこうへ：広間を「魔王の間」に建てかえる（白く光ってから切りかわる）
 function maouRoom(){flashV=1.2;shake(0.8);sfx('boom',null,1);dunBuild({cx:0,cz:-10,w:240,d:300,h:80,kind:'maou'});P.pos.set(0,DUN.y+(C.fly?12:C.gOff),118);P.yaw=P.lastYaw=Math.PI;P.vel.set(0,0,0);moodT=MOODS[8];updMood(0,true);}
 function startWave(i){wave=i;const w=curWaves()[i];moodT=MOODS[w.mood];w.go();banner(w.msg,3);const tl=(TALKS[STAGES[stage].key]||{}).w;{const ti=i-(curWaves()[0].cave?1:0);if(tl&&tl[ti]&&ti>0)talk(tl[ti]);}thinWave();cineWave();}
@@ -2752,8 +2764,8 @@ const TALKS={
          clear:[['長老','谷が、元にもどった…！ でも、この騒ぎを人間の王国が見ていました'],['ME','王国か。千年前も、おれを狩りに来た連中だ。……こりない客は、きらいじゃない']],
          clear1:[['長老','竜さま、ねぐらの奥から魔物の声がします。地下の封印が、ゆるんでいるのかもしれません'],['ME','人の寝床の下で、勝手に店を広げるな。……大家として、見回りに行く']]},
  dungeon:{w:[[['ME','石の広間に、たいまつ。……だれが油代を払っている'],['長老','お気をつけて。小鬼は数で来ます。石も投げます']],
-             [['ME','上からこうもり、下から石。……歓迎が手あつい']],
-             [['ME','でかい番人だな。奥の扉は、お前のうしろか'],['💡 ヒント','番人を倒すと、奥の扉が開く']]],
+             [['ME','骨だけで働くとは、熱心な職場だ。……残業代は、出ているのか']],
+             [['ME','よろいを着た竜か。……同族のよしみで、焼き加減は選ばせてやる'],['💡 ヒント','番人を倒すと、奥の扉が開く']]],
           clear:[['ME','扉が開いた。……奥から、岩のこすれる音がする']]},
  golem:{w:[[['ME','岩の巨人か。谷にいた小さいのの、親玉だな'],['ME','胸の青い光が、いかにも弱点だ。設計した者の顔が見たい']]],
         clear:[['ME','千年の番人も、崩れればただの石だ。……その先に、扉がある']]},
@@ -2902,8 +2914,8 @@ function frame(now){
       const spd=P.dashT>0?C.spd*(C.human?2.2:3):slow?14:C.spd*(1+Math.max(0,-ad.y)*0.7);const mv=(P.dashT>0?ad:ad).clone().multiplyScalar(spd);
       if(charKey==='dragon'&&P.onGround&&!(P.dashT>0)){mv.x*=RIGCF.walk;mv.z*=RIGCF.walk;}P.vel.lerp(mv,1-Math.exp(-(P.dashT>0?10:3.2)*dt));P.pos.addScaledVector(P.vel,dt);
       const gh=floorAt(P.pos.x,P.pos.z)+C.gOff;if(P.onGround&&P.pitch<0.1&&!(P.dashT>0)&&P.pos.y<gh+3.5&&P.pos.y>gh&&(H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER)){P.pos.y=gh;if(P.vel.y>0)P.vel.y=0;}
-      if(P.pos.y<gh){P.pos.y=gh;if(P.vel.y<-62&&(P.crashCd||0)<=0&&!C.human&&H(P.pos.x,P.pos.z)>WATER){P.crashCd=0.8;crash((-P.vel.y-50)*0.5,null,0,0);P.vel.y=20;}else if(P.vel.y<0)P.vel.y=0;}
-      solidPush(2);const bt=bldAt(P.pos.x,P.pos.z,2);if(bt.hit&&P.pos.y<bt.top+C.gOff){const need=bt.top+C.gOff-P.pos.y;P.pos.y+=Math.min(need,(need>5?24:50)*dt);if(P.vel.y<0)P.vel.y*=0.6;if(need>2.5&&!C.human){hitBld(bt.hit,90*dt);if(Math.random()<0.25){debris(P.pos,1,[0x9a8a72,0xa03a2a],0.8);shake(0.1);}}}
+      if(P.pos.y<gh){P.pos.y=gh;if(P.vel.y<-crT()&&(P.crashCd||0)<=0&&!C.human&&H(P.pos.x,P.pos.z)>WATER){P.crashCd=0.8;crash((-P.vel.y-crT()*0.8)*0.5,null,0,0);P.vel.y=20;}else if(P.vel.y<0)P.vel.y=0;}
+      solidPush(2);const bt=bldAt(P.pos.x,P.pos.z,2);if(bt.hit&&P.pos.y<bt.top+C.gOff){const need=bt.top+C.gOff-P.pos.y;P.pos.y+=Math.min(need,(need>5?24:50)*dt);if(P.vel.y<0)P.vel.y*=0.6;if(need>2.5&&!C.human){{const hv=Math.hypot(P.vel.x,P.vel.z);if(hv>crT()&&(P.crashCd||0)<=0){P.crashCd=0.8;crash((hv-crT()*0.72)*0.5,null,P.vel.x/hv,P.vel.z/hv);P.vel.x*=0.3;P.vel.z*=0.3;}}hitBld(bt.hit,90*dt);if(Math.random()<0.25){debris(P.pos,1,[0x9a8a72,0xa03a2a],0.8);shake(0.1);}}}
       P.onGround=P.pos.y<=gh+0.5&&(H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER);
     }else{
       solidPush(1.5);const fx=Math.sin(P.yaw),fz=Math.cos(P.yaw);const bt=bldAt(P.pos.x,P.pos.z,1.5);const smash=!C.human&&bt.hit&&P.pos.y-C.gOff<bt.top-1;
@@ -2916,7 +2928,7 @@ function frame(now){
       if(P.onGround&&Math.random()<0.15)smoke(tmp.set(P.pos.x,gh-C.gOff+0.5,P.pos.z),1,1.4,0.6,0xa8987a,1.5);
     }
     collide(dt);
-    if(P.pos.y>240)P.pos.y=240;const pr=Math.hypot(P.pos.x,P.pos.z);if(pr>470){P.pos.x*=470/pr;P.pos.z*=470/pr;}if(DUN.on){P.pos.x=clamp(P.pos.x,DUN.x0+8,DUN.x1-8);P.pos.z=clamp(P.pos.z,DUN.z0+8,DUN.z1-8);if(P.pos.y>DUN.top)P.pos.y=DUN.top;}if(CAVE.on){const dx=P.pos.x-CAVE.x,dz=P.pos.z-CAVE.z,d=Math.hypot(dx,dz),m=CAVE.R-14;if(d>m){P.pos.x=CAVE.x+dx*m/d;P.pos.z=CAVE.z+dz*m/d;}const top=caveTop(Math.min(d,m))-5;if(P.pos.y>top)P.pos.y=top;}
+    if(P.pos.y>240)P.pos.y=240;const pr=Math.hypot(P.pos.x,P.pos.z);if(pr>470){P.pos.x*=470/pr;P.pos.z*=470/pr;}if(DUN.on){P.pos.x=clamp(P.pos.x,DUN.x0+DUN.xm,DUN.x1-DUN.xm);let zl=DUN.zmin;for(const q of DUN.gates)if(q.open<1&&P.pos.z>q.z)zl=Math.max(zl,q.z+7);P.pos.z=clamp(P.pos.z,zl,DUN.z1-8);if(P.pos.y>DUN.top)P.pos.y=DUN.top;}if(CAVE.on){const dx=P.pos.x-CAVE.x,dz=P.pos.z-CAVE.z,d=Math.hypot(dx,dz),m=CAVE.R-14;if(d>m){P.pos.x=CAVE.x+dx*m/d;P.pos.z=CAVE.z+dz*m/d;}const top=caveTop(Math.min(d,m))-5;if(P.pos.y>top)P.pos.y=top;}
     P.fireCd-=dt;P.inv-=dt;
     if(TER.lava&&(P.onGround||P.pos.y<=floorAt(P.pos.x,P.pos.z)+C.gOff+0.5)&&H(P.pos.x,P.pos.z)<WATER){hurt(30*dt,true);if(Math.random()<0.3)burst(P.pos,2,FIRE,3,8,0.4);}
     P.melCd-=dt;if(P.melT>0)P.melT-=dt;
@@ -2960,7 +2972,7 @@ function frame(now){
   else if(state==='select'){{const k=charKey==='army'?1.8:C.model?1.7:1;cam.position.set(P.pos.x+16*k,P.pos.y+4*k,P.pos.z-18*k);}camLook.copy(P.pos);camLook.y+=1;camLook.x+=4;cam.lookAt(camLook);}
   else{if(cineOn)cam.position.copy(GCAM);const pc=C.fly?P.pitch*0.8:P.pitch*0.5;const cd=new V3(Math.sin(P.yaw)*Math.cos(pc),Math.sin(pc),Math.cos(P.yaw)*Math.cos(pc));
     const back=(C.camB||(charKey==='army'?34:C.fly?24:20))*(DUN.on?0.56:1),up=(C.camU||(charKey==='army'?15:C.fly?7:8))*(DUN.on?0.5:1);
-    const tg=tmp.copy(P.pos).addScaledVector(cd,-back).add(tmp2.set(0,up,0));if(DUN.on){tg.x-=Math.cos(P.yaw)*back*0.95;tg.z+=Math.sin(P.yaw)*back*0.95;}const cg=floorAt(tg.x,tg.z)+2;if(tg.y<cg)tg.y=cg;
+    const tg=tmp.copy(P.pos).addScaledVector(cd,-back).add(tmp2.set(0,up,0));if(DUN.on){tg.x-=Math.cos(P.yaw)*back*DUN.lat;tg.z+=Math.sin(P.yaw)*back*DUN.lat;tg.x=clamp(tg.x,DUN.x0+4,DUN.x1-4);tg.z=clamp(tg.z,DUN.z0+4,DUN.z1-4);}const cg=floorAt(tg.x,tg.z)+2;if(tg.y<cg)tg.y=cg;
     cam.position.lerp(tg,1-Math.exp(-(P.dashT>0?4.5:9)*rdt));camLook.copy(P.pos).addScaledVector(aimDir(),40).add(tmp2.set(0,4,0));cam.lookAt(camLook);
     if(!C.fly&&!C.human&&P.onGround&&D.g.userData.flap){cam.position.y+=Math.abs(Math.sin(D.g.userData.flap.lp))*Math.min(1,vv/30)*0.45;}
     if(shakeT>0){shakeT-=rdt;const s=shakeT*1.6;cam.position.x+=rnd(-s,s);cam.position.y+=rnd(-s,s);}
