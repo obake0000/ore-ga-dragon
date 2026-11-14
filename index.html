@@ -819,7 +819,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116zl';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116zm';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -2997,7 +2997,7 @@ function addEnemy(type,x,z,y,o={}){
   const e={type,mesh:m,dr,hp:s.hp*(EASY?(s.boss?0.42:0.5):(s.boss?0.62:0.75)),maxHp:s.hp*(EASY?(s.boss?0.42:0.5):(s.boss?0.62:0.75)),r:s.r,hc:s.hc,val:s.val,dmg:s.dmg,fly:!!s.fly,boss:s.boss,t:rnd(0,5),cd:rnd(1,3),vy:0,vel:new V3(),cp:new V3(),
     seed:rnd(0,9),hx:0,hz:0,lx:0,lz:0,dvx:0,dvz:0,mv:'run',mt:1.5,state:'chase',ang:rnd(0,6.3),sum:8,met:6,st:0,sub:0,cnt:0,hitT:0,flyT:0,dodgeCd:2,
     thrower:type==='soldier'&&Math.random()<0.35,dashSeen:0,dead:false,perch:!!o.perch,bld:o.bld||null,inv:false,guard:false};
-  EN.push(e);if(type==='bigslime')e.sc=8.8;{const z=o.model?0:{ship:1.5,battleship:1.4,airship:1.3,bigairship:1.4,hero:0.65,priest:0.7,goblin:0.72,drak:2.86,orccart:0.8,orctank:0.65}[type];if(z){e.sc=z;e.r*=z;e.hc*=z;}}if(s.boss&&state==='play'){cutin(PTE[type]||s.ic,s.boss.replace(/^\S+\s/,''),'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');bossZoom(e);}return e;
+  EN.push(e);if(type==='bigslime')e.sc=8.8;{const z=o.model?0:{ship:1.5,battleship:1.4,airship:1.3,bigairship:1.4,hero:0.65,priest:0.7,goblin:0.72,drak:2.86,orccart:0.8,orctank:0.65,kraken:1.05}[type];if(z){e.sc=z;e.r*=z;e.hc*=z;}}if(s.boss&&state==='play'){cutin(PTE[type]||s.ic,s.boss.replace(/^\S+\s/,''),'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');bossZoom(e);}return e;
 }
 function hitEnemy(e,n){if(e.dead)return;
   if(e.inv||BTK.on){burst(cpos(e),3,GOLD,2,8,0.2);sfx('clang',e.mesh.position,0.5);return;}
@@ -3259,20 +3259,20 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);
       e.met-=dt;if(e.met<=0&&hd<(e.big?(sg===3?170:130):50*(e.sc||1.1)/1.1)){e.met=sg===3?2.2:4;shock(p,0xd8c090,e.big?130:50*(e.sc||1.1)/1.1);if(e.big){shock(p,0xff7040,80);ono(cpos(e),'ズシィン！！','#ffd23a',70);smoke(p,12,16,2.4,0x9a8a68,30);}shake(0.8);sfx('boom',p,0.7);if(P.pos.y-p.y<(e.big?75:25*(e.sc||1.1)/1.1))hurt(26);}
       if(half&&!e.p2){e.p2=1;for(let k=0;k<6;k++)addEnemy('soldier',p.x+(e.big?rnd(-70,70):rnd(-25,25)),p.z+(e.big?rnd(-70,70):rnd(-25,25)));}
       break;}
-    case 'elder':case 'dking':{e.st-=dt;if(e.rking)kingStep(e,dt);if(half&&!e.p2){e.p2=1;if(!e.rking){say('古の竜','面白い…。千年ぶりに、本気を出そう。');sfx('roar',p);}}
-      if(e.state==='chase'){e.ang+=dt*0.3;tmp2.set(P.pos.x+Math.cos(e.ang)*100,P.pos.y+28+Math.sin(e.t*0.5)*12,P.pos.z+Math.sin(e.ang)*100);fly(e,tmp2,40,dt,1);e.mesh.rotation.y=Math.atan2(e.vel.x,e.vel.z);
+    case 'elder':case 'dking':{const KQ=e.rking?2.6:1;e.st-=dt;if(e.rking)kingStep(e,dt);if(half&&!e.p2){e.p2=1;if(!e.rking){say('古の竜','面白い…。千年ぶりに、本気を出そう。');sfx('roar',p);}}
+      if(e.state==='chase'){e.ang+=dt*0.3;tmp2.set(P.pos.x+Math.cos(e.ang)*100*KQ,P.pos.y+28*KQ+Math.sin(e.t*0.5)*12*KQ,P.pos.z+Math.sin(e.ang)*100*KQ);fly(e,tmp2,40*(e.rking?1.7:1),dt,1);e.mesh.rotation.y=Math.atan2(e.vel.x,e.vel.z);
         if(e.cd<=0){const r=Math.random();
           if(e.rking&&half&&Math.random()<0.34){e.state='ring';e.st=1.2;banner('🔥 炎の輪が広がる！ 上か下へ、よけろ',1.8);sfx('roar',p,0.7);}else if(r<0.4){e.state='breath';e.st=half?3.2:2.6;e.sub=0;}
           else if(r<0.7){e.state='meteor';e.st=1.2;banner('🔥 炎の雨が来る！ 動いてよけろ',1.6);sfx('roar',p,0.6);}
-          else{e.state='dive';e.st=1.8;e.done=false;e.vel.copy(tmp.subVectors(P.pos,p).normalize().multiplyScalar(110));sfx('roar',p,0.7);}}}
+          else{e.state='dive';e.st=1.8;e.done=false;e.vel.copy(tmp.subVectors(P.pos,p).normalize().multiplyScalar(e.rking?220:110));sfx('roar',p,0.7);}}}
       else if(e.state==='breath'){fly(e,tmp2.copy(p),4,dt);faceP(e);e.sub-=dt;
         if(e.sub<=0){e.sub=half?0.04:0.06;const m=p.clone().addScaledVector(tmp.subVectors(P.pos,p).normalize(),18*(e.sc||1));const v=tmp.subVectors(P.pos,m).normalize();v.x+=rnd(-.07,.07);v.y+=rnd(-.07,.07);v.z+=rnd(-.07,.07);
-          shoot(m,v.normalize().multiplyScalar(120),{mat:MAT.big,size:2.2,r:2.6,dmg:8,life:3,trail:FIRE,col:FIRE});sfx('fire',p,0.7);}
+          shoot(m,v.normalize().multiplyScalar(120),{mat:MAT.big,size:2.2*(e.rking?1.8:1),r:2.6,dmg:8,life:e.rking?4:3,trail:FIRE,col:FIRE});sfx('fire',p,0.7);}
         if(e.st<=0){e.state='chase';e.cd=half?1.8:2.8;}}
       else if(e.state==='ring'){fly(e,tmp2.copy(p),4,dt);faceP(e);if(e.st<=0){kingRing(e);e.state='chase';e.cd=1.8;}}
       else if(e.state==='meteor'){fly(e,tmp2.copy(p),4,dt);faceP(e);
         if(e.st<=0){for(let k=0;k<(half?12:8)+(e.rking?(e.rage?8:4):0);k++){const f=new V3(P.pos.x+rnd(-45,45),P.pos.y+100,P.pos.z+rnd(-45,45));shoot(f,new V3(rnd(-4,4),-70,rnd(-4,4)),{mat:MAT.big,size:2.6,r:3,splash:11,dmg:16,life:5,trail:FIRE,col:FIRE});}e.state='chase';e.cd=half?2:3;}}
-      else{p.addScaledVector(e.vel,dt);e.mesh.rotation.y=Math.atan2(e.vel.x,e.vel.z);if(Math.random()<0.7)burst(p,2,FIRE,6,6,0.4);const gh=floorAt(p.x,p.z)+14;if(p.y<gh)p.y=gh;
+      else{p.addScaledVector(e.vel,dt);e.mesh.rotation.y=Math.atan2(e.vel.x,e.vel.z);if(Math.random()<0.7)burst(p,2,FIRE,6,6,0.4);const gh=floorAt(p.x,p.z)+14*KQ;if(p.y<gh)p.y=gh;
         if(!e.done&&d3<e.r+6){e.done=true;hurt(e.dmg);shake(1);}if(e.st<=0){e.state='chase';e.cd=half?1.8:2.8;}}
       if(d3<e.r+3)hurt(e.dmg*0.3*dt,true);break;}
     case 'ship':{floatOn(e,dt,P.pos.x+Math.cos(e.ang)*90,P.pos.z+Math.sin(e.ang)*90,13);e.ang+=dt*0.12;
@@ -3318,7 +3318,7 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);
         if(p.y<WATER-4&&e.vy<0){e.state='chase';e.cd=rnd(2.5,4);smoke(tmp.set(p.x,WATER+1,p.z),8,6,2,0xffffff,5);}}
       else{floatOn(e,dt,P.pos.x+Math.cos(e.ang)*50,P.pos.z+Math.sin(e.ang)*50,26,-4);
         if(e.cd<=0&&hd<160){if(Math.random()<0.5&&hd<90){e.state='lunge';e.done=false;const T=1.1;e.lx=dx/T;e.lz=dz/T;e.vy=((P.pos.y-p.y)+0.5*40*T*T)/T;sfx('roar',p,0.4);smoke(p,6,5,2,0xffffff,4);}
-          else{e.cd=rnd(2.5,3.5);const f=cpos(e).clone();f.y+=6;for(const a2 of [-0.15,0,0.15]){const v=tmp.subVectors(P.pos,f).normalize().applyAxisAngle(new V3(0,1,0),a2);shoot(f,v.multiplyScalar(80),{mat:MAT.water,size:1.2,r:1.6,dmg:9,life:3,trail:WATC,col:WATC});}sfx('small',p,0.5);}}}
+          else{e.cd=rnd(2.5,3.5);const f=cpos(e).clone();f.y+=(e.s7==='levi'?30*(e.sc||1)-e.hc:6);for(const a2 of [-0.15,0,0.15]){const v=tmp.subVectors(P.pos,f).normalize().applyAxisAngle(new V3(0,1,0),a2);shoot(f,v.multiplyScalar(80),{mat:MAT.water,size:1.2,r:1.6,dmg:9,life:3,trail:WATC,col:WATC});}sfx('small',p,0.5);}}}
       break;}
     case 'rival':case 'rdrake':case 'gkeep':{const dr=e.dr;e.st-=dt;if(e.gOf&&e.gOf.dead){killEnemy(e,true);break;}
       if(half&&!e.p2){e.p2=1;if(e.type==='rival'){say('ライバル','やるじゃないか…本気でいくぞ！');sfx('roar',p);}}
@@ -3785,7 +3785,7 @@ const STAGES=[
       s7Kraken();s7Serps(2);s7Sharks(3);s7Fish(8);sfx('roar');}},
     {name:'リヴァイアサン',msg:'🐉 渦の主、リヴァイアサンが、S字に立ち上がる！',get mood(){return S7MD.b;},go(){
       const [x,z]=s7WaterPos(60,110);const b=s7Add('levi',x,z);
-      s7Big(b,{nm:'リヴァイアサン',ic:'🐉',hp:6000,sc:1.4,val:2200,dmg:1.2,die:'グオォォ……（うずの底へ、ゆっくりしずんでいった）'});
+      s7Big(b,{nm:'リヴァイアサン',ic:'🐉',hp:6000,sc:0.8,val:2200,dmg:1.2,die:'グオォォ……（うずの底へ、ゆっくりしずんでいった）'});
       s7Sharks(3);s7Fish(8);s7Crabs(1);sfx('roar');}}]},
   {key:'seaking',ch:'最終章',title:'海王',place:'海王の宮殿の真上',
    ter:{amp:0.9,ox:700,oz:-250,sea:true,flats:[[0,120,40,3,1],[0,-150,58,3,1],[-150,-50,28,4,1],[150,-60,28,4,1]],dirt:[],grass:0x5a8a62,hill:0x4a7a56,sand:0xcfc4a2,rock:0x6a7078,water:0x174a6e,trees:30,rocks:20,trunk:0x4a3a2c,leaf:0x2a5a3a,rockC:0x8a8a8a,start:[0,120]},
@@ -3963,7 +3963,7 @@ function s5Spawn(kind,x,z,y){let e;const rig=id=>MODEL[id]?id:(MODEL.rival?'riva
   else if(kind==='wygr'){const gm=!!MODEL.wyvern2;e=addEnemy('rdrake',x,z,y,{model:gm?'wyvern2':'wyvern'});e.wyv=1;e.c2=1;e.sc=0.78;e.r=6.2;e.hp=e.maxHp=e.maxHp*0.55;e.dmg=12;e.mesh.rotation.order='YXZ';if(!gm)wyvTint(e.mesh);}
   else if(kind==='wybl'||kind==='guard'){e=addEnemy('rdrake',x,z,y,{model:'wyvern'});e.c2=1;e.sc=0.68;e.r=5.4;e.hp=e.maxHp=e.maxHp*(kind==='guard'?0.5:0.4);e.dmg=kind==='guard'?13:11;if(kind==='guard')s5Tint(e.mesh,0.42,0.38,0.5);}
   else if(kind==='earth'){e=addEnemy('gdrake',x,z,undefined,{model:'ground'});e.sc=1.15;e.r=ST.gdrake.r*1.15;s5Tint(e.mesh,0.62,0.66,0.8);}
-  else if(kind==='king'){e=addEnemy('dking',x,z,y,{model:MODEL.dragonking?'dragonking':'elder'});e.rking=1;e.sc=1.5;e.r=ST.dking.r*1.5;e.hc=0;e.mesh.rotation.order='YXZ';}
+  else if(kind==='king'){e=addEnemy('dking',x,z,y,{model:MODEL.dragonking?'dragonking':'elder'});e.rking=1;e.sc=4.0;e.r=ST.dking.r*4.0;e.hc=0;e.mesh.rotation.order='YXZ';}
   if(e)s5Mark(e,kind==='king'?0xffa030:null);return e;}
 // 竜王：体力が3分の2で親衛を呼ぶ／3分の1で本気（動きが速くなる）。親衛は、竜王が倒れたら消える
 function kingStep(e,dt){const p=e.mesh.position,f=e.hp/e.maxHp;
@@ -3971,8 +3971,8 @@ function kingStep(e,dt){const p=e.mesh.position,f=e.hp/e.maxHp;
   if(!e.k3&&f<0.33){e.k3=1;e.rage=1;talk([['竜王','ゆるさぬ……！ 空ごと、焼きはらってくれる！']]);banner('👑 竜王が、本気を出した！',2.2);sfx('roar',p,1);shake(0.6);}
   if(e.rage&&e.cd>0.9)e.cd-=dt*0.5;}
 // 炎の輪：竜王から、自分の高さに、まわりへ炎の玉がひろがる（上か下へ逃げるか、すき間をくぐる）
-function kingRing(e){const p=e.mesh.position,n=e.rage?18:14,y=Math.max(P.pos.y,floorAt(p.x,p.z)+6),a0=rnd(0,6.28);
-  for(let k=0;k<n;k++){const a=a0+k/n*6.2832;shoot(new V3(p.x,y,p.z),new V3(Math.cos(a)*55,0,Math.sin(a)*55),{mat:MAT.big,size:2.4,r:2.8,dmg:11,life:3.4,trail:FIRE,col:FIRE});}
+function kingRing(e){const p=e.mesh.position,n=e.rage?36:28,y=Math.max(P.pos.y,floorAt(p.x,p.z)+6),a0=rnd(0,6.28);
+  for(let k=0;k<n;k++){const a=a0+k/n*6.2832;shoot(new V3(p.x,y,p.z),new V3(Math.cos(a)*110,0,Math.sin(a)*110),{mat:MAT.big,size:2.4*1.6,r:2.8,dmg:11,life:4.4,trail:FIRE,col:FIRE});}
   sfx('boom',p,0.8);shake(0.3);}
 // 世界：竜の墓場（あばら骨・どくろ・黒い遺跡）
 function buildGrave(T){const bone=mat(0xe2dac4),dark=mat(0x2a2630);
@@ -5022,34 +5022,34 @@ function s7Crabs(n){for(let i=0;i<s7N(n);i++){const fs=TER.flats.slice(1,4),f=fs
 function s7Kraken(){const [x,z]=s7WaterPos(50,80);const k=s7E(addEnemy('kraken',x,z));k.said=1;k.die='ゴボ……ゴボボ……';return k;}
 // ---- 海王の動き：水の柱・三つ又の槍・大波。体力が半分で軍勢をよび、攻めが速くなる ----
 function s7King(e,dt,p,dx,dz,hd,d3,half){
-  const BASE=WATER-16;
-  if(!e.k0){e.k0=1;e.said=1;e.state='rise';e.st=2.2;e.cd=2;e.inv=true;p.y=BASE-44;e.pil=[];e.wv=null;e.nat=0;shock(tmp.set(p.x,WATER,p.z),0xffffff,30);}
+  const SK=e.sc||1,KS=1+(SK-1)*0.5,BASE=WATER-16*SK;
+  if(!e.k0){e.k0=1;e.said=1;e.state='rise';e.st=2.2;e.cd=2;e.inv=true;p.y=BASE-44*SK;e.pil=[];e.wv=null;e.nat=0;shock(tmp.set(p.x,WATER,p.z),0xffffff,30);}
   e.st-=dt;faceP(e);e.mesh.rotation.z=Math.sin(e.t*1.1)*0.035;
   if(e.state==='rise'){p.y+=(BASE-p.y)*Math.min(1,dt*2.4);if(Math.random()<0.7)smoke(tmp.set(p.x+rnd(-10,10),WATER+1,p.z+rnd(-10,10)),1,7,2,0xffffff,4);
     if(e.st<=0){e.state='up';e.st=half?7:9;e.inv=false;e.cd=1.6;shock(tmp.set(p.x,WATER,p.z),0xffffff,36);sfx('roar',p,0.8);shake(0.5);bubble(e,e.k1?'まだ終わらぬ！':'余の海を、荒らすとは！','boss',2.4);e.k1=1;}return;}
-  if(e.state==='down'){p.y-=dt*24;if(e.st<=0){const [x,z]=s7WaterPos(C.fly?75:55,C.fly?115:90);p.x=x;p.z=z;p.y=BASE-44;e.state='rise';e.st=1.8;e.cd=1;}return;}
+  if(e.state==='down'){p.y-=dt*24*SK;if(e.st<=0){const [x,z]=s7WaterPos(C.fly?140:110,C.fly?190:150);p.x=x;p.z=z;p.y=BASE-44*SK;e.state='rise';e.st=1.8;e.cd=1;}return;}
   p.y+=(BASE-p.y)*Math.min(1,dt*3);
   if(half&&!e.p2){e.p2=1;e.cd=2.6;bubble(e,'わが軍勢よ、来い！','boss',2.4);sfx('roar',p,0.8);shake(0.6);shock(tmp.set(p.x,WATER,p.z),0xffd860,46);
     for(let k=0;k<s7N(8);k++){const [x,z]=s7WaterPos(40,110);s7Add('fish',x,z,WATER+4);}}
   // 水の柱：赤い輪が出て、少しあとに水がふき上がる
   for(let i=e.pil.length-1;i>=0;i--){const q=e.pil[i];q.t-=dt;if(q.t>0)continue;e.pil.splice(i,1);
-    const g=new V3(q.x,floorAt(q.x,q.z),q.z);shock(g,0xa0e0ff,18);smoke(g,10,6,2,0xffffff,8);burst(g,36,WATC,5,12,1.0,40);shake(0.35);sfx('boom',g,0.5);ono(g,'ドバァッ！','#9ae6ff',48);
-    if(Math.hypot(P.pos.x-g.x,P.pos.z-g.z)<13&&P.pos.y-g.y<34)hurt(e.dmg);}
+    const g=new V3(q.x,floorAt(q.x,q.z),q.z);shock(g,0xa0e0ff,18*KS);smoke(g,10,6,2,0xffffff,8*KS);burst(g,36,WATC,5,12*KS,1.0,40);shake(0.35);sfx('boom',g,0.5);ono(g,'ドバァッ！','#9ae6ff',48);
+    if(Math.hypot(P.pos.x-g.x,P.pos.z-g.z)<13*KS&&P.pos.y-g.y<34*KS)hurt(e.dmg);}
   // 大波：海面を輪になって広がる。地面ぎわにいると当たる（高く飛ぶか、ジャンプでかわせる）
   if(e.wv){const w=e.wv;w.r+=dt*(half?62:52);w.m.scale.setScalar(w.r);w.m.material.opacity=Math.max(0,0.85-w.r/190);
     if(Math.random()<dt*30)for(let k=0;k<6;k++){const a=rnd(0,6.283);burst(tmp.set(p.x+Math.cos(a)*w.r,WATER+1,p.z+Math.sin(a)*w.r),2,[0xffffff,0xcfe8ff],4,10,0.5);}
     if(!w.hit&&Math.abs(Math.hypot(P.pos.x-p.x,P.pos.z-p.z)-w.r)<6&&P.pos.y<floorAt(P.pos.x,P.pos.z)+C.gOff+8){w.hit=1;hurt(e.dmg*0.9);ono(P.pos.clone().add(new V3(0,5,0)),'ザッバーン！','#9ae6ff',52);sfx('crash',P.pos,0.6);}
-    if(w.r>160){scene.remove(w.m);e.wv=null;}}
+    if(w.r>160+8*(SK-1)){scene.remove(w.m);e.wv=null;}}
   if(e.cd<=0&&!e.pil.length&&!e.wv){
     const kd=(half?['pil','spear','wave','pil','spear','wave']:['pil','spear','wave','spear','pil','spear'])[e.nat++%6];
     if(kd==='pil'){const n=half?6:4;bubble(e,'水よ、立て！','boss',1.6);
-      for(let k=0;k<n;k++){const tx=P.pos.x+(k?rnd(-26,26):P.vel.x*0.7),tz=P.pos.z+(k?rnd(-26,26):P.vel.z*0.7);e.pil.push({x:tx,z:tz,t:1.1+k*0.14});shock(tmp.set(tx,floorAt(tx,tz),tz),0xff3030,13);}
+      for(let k=0;k<n;k++){const tx=P.pos.x+(k?rnd(-26*KS,26*KS):P.vel.x*0.7),tz=P.pos.z+(k?rnd(-26*KS,26*KS):P.vel.z*0.7);e.pil.push({x:tx,z:tz,t:1.1+k*0.14});shock(tmp.set(tx,floorAt(tx,tz),tz),0xff3030,13*KS);}
       e.cd=(half?2.0:2.8)+1.2;}
-    else if(kd==='spear'){bubble(e,'三つ又の槍！','boss',1.4);const f=cpos(e).clone();f.y+=12;const base=tmp.copy(P.pos).addScaledVector(P.vel,0.5).sub(f).normalize(),n=half?5:3;
-      for(let k=0;k<n;k++){const a2=(k-(n-1)/2)*0.17;shoot(f,base.clone().applyAxisAngle(new V3(0,1,0),a2).multiplyScalar(88),{geo:'arrow',mat:S7GOLD,size:2.8,r:2.6,dmg:11,life:3.6,col:[0xffd860,0xfff2b0]});}
+    else if(kd==='spear'){bubble(e,'三つ又の槍！','boss',1.4);const f=cpos(e).clone();f.y+=12*SK;const base=tmp.copy(P.pos).addScaledVector(P.vel,0.5).sub(f).normalize(),n=half?5:3;
+      for(let k=0;k<n;k++){const a2=(k-(n-1)/2)*0.17;shoot(f,base.clone().applyAxisAngle(new V3(0,1,0),a2).multiplyScalar(88),{geo:'arrow',mat:S7GOLD,size:2.8*KS,r:2.6*KS,dmg:11,life:3.6,col:[0xffd860,0xfff2b0]});}
       sfx('small',p,0.7);e.cd=half?1.8:2.6;}
     else{bubble(e,'大波よ！','boss',1.6);const m=new THREE.Mesh(new THREE.RingGeometry(0.94,1,72),new THREE.MeshBasicMaterial({color:0xcfeeff,transparent:true,opacity:0.85,side:THREE.DoubleSide,depthWrite:false}));
-      m.rotation.x=-Math.PI/2;m.position.set(p.x,WATER+0.8,p.z);m.scale.setScalar(8);scene.add(m);e.wv={r:8,m,hit:0};sfx('roar',p,0.5);shake(0.4);e.cd=(half?2.0:2.8)+2.5;}}
+      m.rotation.x=-Math.PI/2;m.position.set(p.x,WATER+0.8,p.z);m.scale.setScalar(8*SK);scene.add(m);e.wv={r:8*SK,m,hit:0};sfx('roar',p,0.5);shake(0.4);e.cd=(half?2.0:2.8)+2.5;}}
   if(e.st<=0&&!e.pil.length&&!e.wv){e.state='down';e.st=1.5;e.inv=true;smoke(tmp.set(p.x,WATER+1,p.z),12,8,2,0xffffff,8);}
   if(d3<e.r+6)hurt(e.dmg*dt,true);}
 // ---- 景色：さんごのかたまり・うずまき・難破船・さんごの柱 ----
@@ -5091,7 +5091,7 @@ const S7FIT={fish:{x:5.3,y:4.8,z:1.5,b:0},fishE:{x:5.3,y:4.8,z:1.5,b:0},fishbow:
 for(const k of Object.keys(S7FIT)){const f=S7FIT[k],orig=S7MK[k];
   S7MK[k]=()=>{const o=orig();if(!MODEL[S7K[k].mdl])return o;
     const g=new THREE.Group(),bx=new THREE.Mesh(new THREE.BoxGeometry(f.x,f.y,f.z),new THREE.MeshBasicMaterial({visible:false}));bx.position.y=f.b+f.y/2;g.add(bx);g.userData=o.userData;return g;};}
-S7K.king.r=18;S7K.king.hc=26;S7K.crab.hc=5;
+S7K.king.r=18;S7K.king.hc=26;S7K.king.sc=2.3;S7K.crab.hc=5;
 
 // ---- 海蛇（シナリオ7用の「serp」）：骨の無いモデルなので、見えない枠で大きさを決める ----
 S7K.serp={base:'seaserpent',hp:230,r:8,hc:5,val:200,dmg:16,mdl:'seaserpent'};
@@ -5134,10 +5134,10 @@ S7K.fish.hp=95;S7K.fishbow.hp=85;S7K.fishE.hp=350;S7K.shark.hp=225;S7K.crab.hp=4
   W('deepsea')[0].go=function(){s7Sharks(8);s7Serps(4);s7Fish(12);s7Bows(5);};
   W('deepsea')[1].go=function(){s7Kraken();s7Serps(5);s7Sharks(6);s7Fish(12);s7Bows(4);s7Crabs(1);sfx('roar');};
   W('deepsea')[2].go=function(){const [x,z]=s7WaterPos(60,110);const b=s7Add('levi',x,z);
-    s7Big(b,{nm:'リヴァイアサン',ic:'🐉',hp:5000,sc:1.4,val:2200,dmg:1.2,die:'グオォォ……（うずの底へ、ゆっくりしずんでいった）'});s7Serps(4);s7Sharks(5);s7Fish(12);s7Bows(4);s7Crabs(2);sfx('roar');};
+    s7Big(b,{nm:'リヴァイアサン',ic:'🐉',hp:5000,sc:0.8,val:2200,dmg:1.2,die:'グオォォ……（うずの底へ、ゆっくりしずんでいった）'});s7Serps(4);s7Sharks(5);s7Fish(12);s7Bows(4);s7Crabs(2);sfx('roar');};
   W('seaking')[0].go=function(){s7Fish(8,'fishE');s7Fish(10);s7Bows(6);s7Sharks(4);s7Serps(2);};
   W('seaking')[1].go=function(){s7Crabs(3);s7Fish(5,'fishE');s7Fish(10);s7Bows(4);s7Sharks(6);s7Serps(3);};
-  W('seaking')[2].go=function(){const [x,z]=s7WaterPos(C.fly?75:60,C.fly?100:85);s7Add('king',x,z);s7Cut('海王','🔱');s7Fish(12);s7Bows(4);s7Sharks(5);s7Serps(3);sfx('roar');};}
+  W('seaking')[2].go=function(){const [x,z]=s7WaterPos(C.fly?140:120,C.fly?170:150);s7Add('king',x,z);s7Cut('海王','🔱');s7Fish(12);s7Bows(4);s7Sharks(5);s7Serps(3);sfx('roar');};}
 
 // ---- 景色の置き物（scn7_fit2.py）：モデルがある時だけ置く ----
 // id のモデルを、高さ h に合わせ、足もとを (x,y,z) に置く。正面は +z（rot で回す）。当たり無し・影なし
@@ -5530,7 +5530,7 @@ buildWorld=function(L){const k=(STAGES[stage]||{}).key;
 const B2=[];const sp2=new V3();
 function scr(v){sp2.copy(v).project(cam);if(sp2.z>1)return null;return [(sp2.x+1)/2*innerWidth,(1-sp2.y)/2*innerHeight];}
 const _hb=new THREE.Box3();
-function headTop(e){try{_hb.setFromObject(e.mesh);const h=_hb.max.y-e.mesh.position.y;if(isFinite(h)&&h>0.5&&h<80)return h+0.3;}catch(_){}return ((e.r||2)+(e.hc||0)+3)*(e.sc||1);}
+function headTop(e){try{_hb.setFromObject(e.mesh);const h=_hb.max.y-e.mesh.position.y;if(isFinite(h)&&h>0.5&&h<((e.s7==='king'||e.rking)?260:80))return h+0.3;}catch(_){}return ((e.r||2)+(e.hc||0)+3)*(e.sc||1);}
 function bubble(e,t,kind,life=1.8){if(state!=='play')return;if(B2.filter(b=>b.bub).length>=5){const o=B2.find(b=>b.bub);o.life=0;}
   const d=document.createElement('div');d.className='bub '+(kind||'');d.textContent=t;$('fx2d').appendChild(d);B2.push({d,e,bub:1,life,top:headTop(e),tt:0.4});}
 function ono(pos,t,col,size){if(state!=='play')return;const q=scr(pos);if(!q)return;
