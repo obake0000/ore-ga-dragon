@@ -830,7 +830,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116zs';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116zt';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -4320,8 +4320,28 @@ function dunDoor(g,x,y,z,seal){const D=new THREE.Group();D.position.set(x,y,z);g
   if(seal){const em=new THREE.Mesh(new THREE.PlaneGeometry(20,20),new THREE.MeshBasicMaterial({map:dunTex('seal'),transparent:true,depthWrite:false}));em.position.set(0,o.md?27:23,o.fz*0.82+3);if(o.md)em.scale.setScalar(1.25);D.add(em);
     const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff3020,transparent:true,opacity:0.7,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(70,70,1);gl.position.set(0,o.md?27:23,o.fz*0.82+5);D.add(gl);o.seal=em;o.gl=gl;o.xc=[1,-1].map(sg=>{const c=new THREE.Mesh(new THREE.CylinderGeometry(0.7,0.7,62,6),new THREE.MeshBasicMaterial({color:0xff4a38,transparent:true,opacity:0.95}));c.position.set(0,o.md?27:23,o.fz*0.82+2.6);c.rotation.z=sg*0.72;if(o.md)c.scale.y=1.15;D.add(c);return c;});}
   return o;}
+// 広間のかざり用：Tripoのモデルを置く（形と材質は共有）。o.h=高さ o.w=横はば(任意) o.d=奥行き(任意) o.ry=向き o.t=色の明るさ o.lod=この遠さより先は軽い形に(任意) o.far=その軽い形
+function dunPut(g,id,x,y,z,o){const M=MODEL[id];if(!M)return null;const hb=DUN.hb||(DUN.hb={}),bb=hb[id]||(hb[id]=new THREE.Box3().setFromObject(M.scene)),sz=bb.getSize(new V3()),c=bb.getCenter(new V3());
+  const ky=o.h/sz.y,kx=o.w?o.w/sz.x:ky,kz=o.d?o.d/sz.z:(o.w?kx:ky),m=cloneModel(id);if(!m)return null;
+  m.scale.set(kx,ky,kz);m.position.set(-c.x*kx,-bb.min.y*ky,-c.z*kz);const q=new THREE.Group();if(o.lod){const L=new THREE.LOD();L.addLevel(m,0);L.addLevel(o.far?o.far():new THREE.Object3D(),o.lod);q.add(L);}else q.add(m);q.position.set(x,y,z);q.rotation.y=o.ry||0;
+  const MA=DUN.maou,tn=(o.t||1);if(M.__tb!==DUN.bid||M.__tt!==tn){M.__tb=DUN.bid;M.__tt=tn;M.scene.traverse(n=>{if(n.isMesh){(Array.isArray(n.material)?n.material:[n.material]).forEach(mt=>{if(!mt.userData.c0)mt.userData.c0=mt.color.clone();mt.color.copy(mt.userData.c0);if(MA)mt.color.multiply(new THREE.Color(1.5*tn,1.0*tn,0.95*tn));else mt.color.multiply(new THREE.Color(1.4*tn,1.4*tn,1.55*tn));});}});}
+  m.traverse(n=>{if(n.isMesh){n.castShadow=false;n.receiveShadow=false;}});g.add(q);q.updateMatrixWorld(true);return q;}
+// アーチ（dunarch）の奥行きと高さ
+function dunArchInfo(h,stp){if(!MODEL.dunarch)return {deep:0,H:0};const hb=DUN.hb||(DUN.hb={}),bb=hb.__a||(hb.__a=new THREE.Box3().setFromObject(MODEL.dunarch.scene)),sz=bb.getSize(new V3()),k=Math.min((stp-1)/Math.max(sz.x,sz.z),h*0.62/sz.y);return {deep:Math.min(sz.x,sz.z)*k,H:sz.y*k};}
+// かざり：石像・たる・がれきをアーチの手前に、魔王の間はかがり火を足す
+function dunDeco(g,o,c){const w=c.w,h=c.h,gy=c.gy,z0=c.z0,z1=c.z1,cx=c.cx,MA=c.MA,n=c.n,stp=c.stp,wide=w>=140,key=(STAGES[stage]||{}).key||'';
+  const gz=i=>z0+20+(i+0.5)*stp,inner=w/2-c.AR.deep,fire=(p,k)=>{const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff6a30,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false}));sp.scale.set(20,20,1);sp.position.copy(p);g.add(sp);DUN.tor.push({p:p.clone(),s:sp,ph:rnd(0,6),k:k||1.5});};
+  const kinds=MA?['R','R','S','S']:key==='dungeon'?['P','P','P','R','S']:key==='golem'?['R','R','R','P','S']:['R','P','S','R'],fp=wide?0.6:0.4;let ns=0;
+  for(let i=0;i<n;i++){const z=gz(i);if(!wide&&z<z0+64)continue;if((o.gates||[]).some(q=>Math.abs(q-z)<14))continue;
+    for(const sx of [-1,1]){if(Math.random()>fp)continue;const k=kinds[(Math.random()*kinds.length)|0];if(k==='S'&&ns>=(wide?4:3))continue;
+      const x=cx+sx*(inner-(k==='S'?6.5:6)-rnd(0,1.5)),zz=z+rnd(-0.18,0.18)*stp,ry=-sx*Math.PI/2+(k==='S'?rnd(-0.25,0.25):rnd(-0.9,0.9));
+      if(k==='S'){if(dunPut(g,'hstatue',x,gy+0.5,zz,{h:wide?17:12.5,ry,t:1.1,lod:wide?0:160}))ns++;}
+      else if(k==='P')dunPut(g,'hprops',x,gy+0.5,zz,{h:wide?9:8,ry,t:1.15,lod:wide?0:160});
+      else dunPut(g,'hrubble',x,gy+0.5,zz,{h:wide?9:7.5,ry,t:1.15,lod:wide?0:160});}}
+  if(MA&&MODEL.hbrazier){const bh=24,sw=Math.max(46,w*0.4),pts=[[sw/2+15,z0+16],[w/2-10,z0+9],[w/2-10,z1-10]];
+    for(const sx of [-1,1])pts.forEach(([px,pz])=>{if(dunPut(g,'hbrazier',cx+sx*px,gy+0.5,pz,{h:bh,t:1.1}))fire(new V3(cx+sx*px,gy+0.5+bh*0.93,pz),1.5);});}}
 function dunBuild(o){dunClear();const g=new THREE.Group(),cx=o.cx,cz=o.cz,w=o.w,d=o.d,h=o.h,gy=floorAt(cx,cz),x0=cx-w/2,x1=cx+w/2,z0=cz-d/2,z1=cz+d/2;
-  const MA=o.kind==='maou';Object.assign(DUN,{on:true,g,x0,x1,z0,z1,y:gy,top:gy+12,t:0,tor:[],ch:[],door:null,mc:null,maou:MA,gates:[],zmin:z0+36,xm:w/2-22,h,lat:w<140?0.6:0.79});
+  const MA=o.kind==='maou';Object.assign(DUN,{on:true,g,x0,x1,z0,z1,y:gy,top:gy+12,t:0,tor:[],ch:[],door:null,mc:null,maou:MA,gates:[],bid:(DUN.bid||0)+1,zmin:z0+36,xm:w/2-22,h,lat:w<140?0.6:0.79});
   const T=(k,a,b)=>{const t=dunTex(k).clone();t.needsUpdate=true;t.repeat.set(a,b);return t;},LM=(k,a,b,col,em)=>new THREE.MeshLambertMaterial({map:T(k,a,b),color:col,emissive:em});
   const add=(m,x,y,z)=>{m.position.set(x,y,z);g.add(m);return m;};let m;
   // 床・かべ4枚・天井（内がわだけ見える）
@@ -4333,12 +4353,13 @@ function dunBuild(o){dunClear();const g=new THREE.Group(),cx=o.cx,cz=o.cz,w=o.w,
   m=add(new THREE.Mesh(new THREE.PlaneGeometry(d,h),wm(d)),x1,gy+h/2,cz);m.rotation.y=-Math.PI/2;
   m=add(new THREE.Mesh(new THREE.PlaneGeometry(w,d),new THREE.MeshBasicMaterial({color:0x0b0b13})),cx,gy+h,cz);m.rotation.x=Math.PI/2;
   // 柱の列・たいまつ・旗・はり
-  const pm=LM('wall',0.4,h*0.8/22,0xbcbcd0,0x16161f),n=Math.max(3,Math.floor(d/42)),stp=(d-40)/n,tm=new THREE.MeshBasicMaterial({color:0x3a2a1a}),bm=new THREE.MeshLambertMaterial({map:dunTex('banner'),emissive:0x380a0a,side:THREE.DoubleSide});
+  const pm=LM('wall',0.4,h*0.8/22,0xbcbcd0,0x16161f),n=Math.max(3,Math.floor(d/42)),stp=(d-40)/n,tm=new THREE.MeshBasicMaterial({color:0x3a2a1a}),bm=new THREE.MeshLambertMaterial({map:dunTex('banner'),emissive:0x380a0a,side:THREE.DoubleSide}),PW=w<140?11.5:14,AR=dunArchInfo(h,stp);
   for(let i=0;i<=n;i++){const z=z0+20+i*stp;for(const sx of [-1,1]){const x=cx+sx*(w/2-16);
-      add(new THREE.Mesh(new THREE.BoxGeometry(7,h*0.8,7),pm),x,gy+h*0.4,z);if(sx<0)add(new THREE.Mesh(new THREE.BoxGeometry(w-32,4,5),pm),cx,gy+h*0.8+2,z);
-      const tp=new V3(x-sx*4.8,gy+15,z);add(new THREE.Mesh(new THREE.BoxGeometry(0.8,3.2,0.8),tm),tp.x,tp.y-1.8,tp.z);
+      if(!dunPut(g,'hpillar',x,gy+0.3,z,{h:h*0.8+0.4,w:PW,t:1.05,lod:w<140?150:0,far:()=>{const b=new THREE.Mesh(new THREE.BoxGeometry(PW*0.85,h*0.8,PW*0.85),pm);b.position.y=h*0.4;return b;}}))add(new THREE.Mesh(new THREE.BoxGeometry(7,h*0.8,7),pm),x,gy+h*0.4,z);if(sx<0)add(new THREE.Mesh(new THREE.BoxGeometry(w-32,4,5),pm),cx,gy+h*0.8+2,z);
+      let tp=new V3(x-sx*4.8,gy+15,z);{const th=h<60?13:17,tq=dunPut(g,'htorch',x-sx*(PW/2+1.3),gy+9,z,{h:th,ry:-sx*Math.PI/2,t:1.1,lod:w<140?150:0});if(tq)tp=tq.children[0].localToWorld(new V3(21.7,88,0.3));else add(new THREE.Mesh(new THREE.BoxGeometry(0.8,3.2,0.8),tm),tp.x,tp.y-1.8,tp.z);}
       const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:MA?0xff5030:0xffa040,transparent:true,opacity:0.85,blending:THREE.AdditiveBlending,depthWrite:false}));sp.scale.set(14,14,1);sp.position.copy(tp);g.add(sp);DUN.tor.push({p:tp,s:sp,ph:rnd(0,6)});{const lp=new THREE.Mesh(new THREE.PlaneGeometry(30,30),DUN.lpm||(DUN.lpm=new THREE.MeshBasicMaterial({map:GT,color:MA?0xff5030:0xff9a40,transparent:true,opacity:0.3,blending:THREE.AdditiveBlending,depthWrite:false})));lp.rotation.x=-Math.PI/2;lp.position.set(x-sx*9,gy+0.72,z);g.add(lp);}
-      if(i<n&&i%2===0){m=add(new THREE.Mesh(new THREE.PlaneGeometry(9,18),bm),cx+sx*(w/2-0.7),gy+h*0.55,z+stp/2);m.rotation.y=-sx*Math.PI/2;}}}
+      if(i<n&&i%2===0){let ok=0;{const bh=Math.min(20,(stp-PW-2)/0.93),yc=Math.max(h*0.55,AR.H+bh/2+2);if(bh>=10&&yc+bh/2<h*0.8-1)ok=!!dunPut(g,'hbanner',cx+sx*(w/2-1.1),gy+yc-bh/2,z+stp/2,{h:bh,ry:-sx*Math.PI/2,t:1.1});}
+        if(!ok){m=add(new THREE.Mesh(new THREE.PlaneGeometry(9,18),bm),cx+sx*(w/2-0.7),gy+h*0.55,z+stp/2);m.rotation.y=-sx*Math.PI/2;}}}}
   for(const sx of [-1,1])add(new THREE.Mesh(new THREE.BoxGeometry(8,5,d-24),pm),cx+sx*(w/2-16),gy+h*0.8+2.5,cz);
   // 横のかべのアーチ柱（Tripo）：柱と柱の間ごとに1つ。かべにぴったり付けて、広間の内がわへ向ける
   if(MODEL.dunarch){const bb=new THREE.Box3().setFromObject(MODEL.dunarch.scene),sz=bb.getSize(new V3()),ct=bb.getCenter(new V3()),wide=Math.max(sz.x,sz.z),deep=Math.min(sz.x,sz.z),k=Math.min((stp-1)/wide,h*0.62/sz.y),alongX=sz.x>=sz.z;
@@ -4346,12 +4367,13 @@ function dunBuild(o){dunClear();const g=new THREE.Group(),cx=o.cx,cz=o.cz,w=o.w,
       q.rotation.y=(alongX?-sx*Math.PI/2:(sx<0?0:Math.PI));c.traverse(o=>{if(o.isMesh){o.material=o.material.clone();if(MA)o.material.color.setRGB(1.5,1.0,0.95);else o.material.color.setRGB(1.45,1.45,1.6);}});
       add(q,cx+sx*(w/2-deep*k/2-0.4),gy+0.5,z0+20+(i+0.5)*stp);}}
   // 奥のかべ：青く光る窓3つ、階段と見はり台、扉
-  for(const k of [-1,0,1]){add(new THREE.Mesh(new THREE.PlaneGeometry(9,17),new THREE.MeshBasicMaterial({color:0xa8d4ff})),cx+k*w*0.3,gy+h*0.76,z0+0.6);
+  for(const k of [-1,0,1]){{const wh=Math.max(16,h*0.28);if(!dunPut(g,'hwindow',cx+k*w*0.3,gy+h*0.76-wh/2,z0+1.4,{h:wh,t:1.25}))add(new THREE.Mesh(new THREE.PlaneGeometry(9,17),new THREE.MeshBasicMaterial({color:0xa8d4ff})),cx+k*w*0.3,gy+h*0.76,z0+0.6);}
     const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0x7ab0ff,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(46,46,1);gl.position.set(cx+k*w*0.3,gy+h*0.74,z0+4);g.add(gl);}
-  const sm=LM('wall',w*0.5/22,0.4,0xc4c4d8,0x14141e);add(new THREE.Mesh(new THREE.BoxGeometry(w*0.5,8,28),sm),cx,gy+4,z0+14);
+  const sm=LM('wall',w*0.5/22,0.4,0xc4c4d8,0x14141e);
+  if(!dunPut(g,'hstairs',cx,gy+0.3,z0+29,{w:Math.max(46,w*0.4),h:11,d:56,t:1.1})){add(new THREE.Mesh(new THREE.BoxGeometry(w*0.5,8,28),sm),cx,gy+4,z0+14);
   for(let k=0;k<6;k++){const hh=8-k*1.3;add(new THREE.Mesh(new THREE.BoxGeometry(w*0.3,hh,5),sm),cx,gy+hh/2,z0+30.5+k*5);}
-  for(const sx of [-1,1])for(let k=0;k<5;k++)add(new THREE.Mesh(new THREE.BoxGeometry(1.6,4.5,1.6),pm),cx+sx*(w*0.25-2-k*0),gy+10,z0+3+k*6);
-  if(o.door)DUN.door=dunDoor(g,cx,gy+8,z0+2,o.door===2);
+  for(const sx of [-1,1])for(let k=0;k<5;k++)add(new THREE.Mesh(new THREE.BoxGeometry(1.6,4.5,1.6),pm),cx+sx*(w*0.25-2-k*0),gy+10,z0+3+k*6);}
+  if(o.door)DUN.door=dunDoor(g,cx,gy+(MODEL.hstairs?10.3:8),z0+2,o.door===2);
   {const fg=(x,z,sx,sz,col,op)=>{const q=new THREE.Mesh(new THREE.PlaneGeometry(sx,sz),new THREE.MeshBasicMaterial({map:GT,color:col,transparent:true,opacity:op,blending:THREE.AdditiveBlending,depthWrite:false}));q.rotation.x=-Math.PI/2;q.position.set(x,gy+0.8,z);g.add(q);return q;};
     for(const k of [-1,0,1])fg(cx+k*w*0.3,z0+84,22,110,0x7ab0ff,0.16);
     if(o.door===2)DUN.fgr=fg(cx,z0+78,60,120,0xff3020,0.42);
@@ -4365,8 +4387,9 @@ function dunBuild(o){dunClear();const g=new THREE.Group(),cx=o.cx,cz=o.cz,w=o.w,
   if(MA){ // 魔王の間：奥のかべの赤い魔法陣、祭だんのかがり火
     const mc=add(new THREE.Mesh(new THREE.PlaneGeometry(64,64),new THREE.MeshBasicMaterial({map:fxTex('circle'),color:0xff3028,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false})),cx,gy+42,z0+1.2);DUN.mc=mc;
     const mg=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff2a20,transparent:true,opacity:0.55,blending:THREE.AdditiveBlending,depthWrite:false}));mg.scale.set(120,120,1);mg.position.set(cx,gy+42,z0+6);g.add(mg);
-    for(const sx of [-1,1])for(const dz of [6,24]){const bp=new V3(cx+sx*w*0.2,gy+14,z0+dz);add(new THREE.Mesh(new THREE.CylinderGeometry(2.2,1.4,6,8),pm),bp.x,gy+11,bp.z);
+    for(const sx of [-1,1])for(const dz of (MODEL.hbrazier?[]:[6,24])){const bp=new V3(cx+sx*w*0.2,gy+14,z0+dz);add(new THREE.Mesh(new THREE.CylinderGeometry(2.2,1.4,6,8),pm),bp.x,gy+11,bp.z);
       const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff6a30,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false}));sp.scale.set(20,20,1);sp.position.copy(bp);sp.position.y+=3;g.add(sp);DUN.tor.push({p:new V3(bp.x,bp.y+2,bp.z),s:sp,ph:rnd(0,6),k:1.5});}}
+  dunDeco(g,o,{cx,w,d,h,gy,z0,z1,MA,n,stp,AR});
   scene.add(g);}
 function updDun(dt,rdt){if(!DUN.on)return;DUN.t+=rdt;
   for(const q of DUN.tor){const k=1+0.14*Math.sin(DUN.t*9+q.ph)+0.08*Math.sin(DUN.t*23+q.ph*2);q.s.scale.set(14*k*(q.k||1),14*k*(q.k||1),1);}if(DUN.mc)DUN.mc.rotation.z+=rdt*0.25;
@@ -5905,11 +5928,52 @@ TPT['緑のワイバーン']='wyvern';TPT['青のワイバーン']='wyvern';TBOS
     ['ME','約束だ。古い魔法を見せろ。……出しおしみは、するな'],
     ['魔王','よかろう。見物料は、おぬしの命だ！']];
   if(M.clear&&M.clear.length)M.clear[M.clear.length-1]=['ME','竜だ。……次は、守りの術も見せてくれ。……灰になったか。残念だ'];
-  const T1=[['ME','いい術だ。組み立てが、見たことのない形をしている。……もう少し見せろ'],['魔王','な、なにを落ち着いて見ておる！']],
+  const T1=[['ME','今のは、さっきのより雑だ。……ていねいに頼む'],['魔王','注文をつけるな！ ただ見ておるだけか、おぬしは！']],
     T2=[['ME','次を頼む。まだあるだろう、いちばん強いのが'],['魔王','なんなのだ、こやつは……！ ならば受けよ、千年みがいた奥義を！']];
   const he=hitEnemy;hitEnemy=function(e,n){he(e,n);
     if(e&&e.type==='demon'&&!e.dead&&state==='play'&&SCN===1&&STAGES[stage]&&STAGES[stage].key==='maou'){const k=e.hp/e.maxHp;
       if(k<0.66&&!e.mt1){e.mt1=1;talk(T1);}else if(k<0.33&&!e.mt2){e.mt2=1;talk(T2);}}};}
+
+/* ---- maou_flow.py：シナリオ1の最終章。魔王は半身で頼む → 封印が解けて全身 → 必殺技（効かない）→ 戦い → 「つづく」 ---- */
+const MSL={on:false,ph:0,t:0,e:null,k:0};
+// 魔王の体を、床からどれだけ出すか（k=0 全部うまる／0.5 腰まで）
+function mslHalfY(e,k){const b=new THREE.Box3().setFromObject(e.mesh),h=Math.max(1,b.max.y-b.min.y);e.mesh.position.y+=(DUN.y+0.6-h*(1-k))-b.min.y;}
+function mslTick(dt){const S=MSL;if(!S.on)return;const e=S.e;if(!e||e.dead||!EN.includes(e)){S.on=false;return;}if(state!=='play')return;
+  BTK.on=true;BTK.t=1;S.t+=dt;const idle=!TK.cur&&!TK.q.length,q=e.mesh.position;
+  if(S.ph===0){S.k=Math.min(0.5,S.k+dt*0.45);mslHalfY(e,S.k);if(Math.random()<0.3)burst(new V3(q.x+rnd(-6,6),DUN.y+1,q.z+rnd(-6,6)),2,PURP,3,8,0.6);
+    if(S.t>1&&!S.a){S.a=1;talk([['魔王','よくぞ、扉の封印を破ってくれたな、竜。千年ぶりの客だ'],
+      ['魔王','ついでだ。わしをしばる、この最後の封印も破ってくれぬか。礼に、金は好きなだけやろう'],
+      ['ME','ことわる。封印は、おれが張り直しておく。寝床の下に、危険物は置けない'],
+      ['魔王','ま、待て！ 恨みがあるのは千年前の連中だけだ。今の世には、手を出さぬ！'],
+      ['ME','信用できないな。そう言うやつを、前世で山ほど見た'],
+      ['魔王','な、ならば、失われた古い魔法を見せてやる！ ……いや、竜が魔法など、興味ないわな……'],
+      ['ME','……古い魔法。見せろ。いま破る'],['魔王','え']]);}
+    else if(S.a&&S.t>2.4&&idle){S.ph=1;S.t=0;S.y0=q.y;flashV=1;shake(0.9);sfx('boom',null,1);shock(new V3(q.x,DUN.y+1,q.z),0xff3028,60);shock(new V3(q.x,DUN.y+1,q.z),0xffd060,36);burst(new V3(q.x,DUN.y+6,q.z),60,PURP,7,36,1.1);banner('🔓 最後の封印が、解けた！',2.2);}}
+  else if(S.ph===1){const k=Math.min(1,S.t/1.6);q.y=S.y0+(DUN.y+18-S.y0)*(k*k*(3-2*k));if(k<1&&Math.random()<0.6)burst(new V3(q.x+rnd(-5,5),DUN.y+1,q.z+rnd(-5,5)),3,PURP,4,14,0.7);
+    if(k>=1&&!S.b){S.b=1;talk([['魔王','ほ、本当に破りおった……！ 破ってくれて、ありがとよ、竜'],['魔王','礼は――これだ。千年前、国をひとつ消した術よ！']]);}
+    else if(S.b&&S.t>2.8&&idle){S.ph=2;S.t=0;S.n=0;sfx('roar',q,0.8);ono(cpos(e),'滅びよ！','#d080ff',54);}}
+  else{ // 必殺技：紫の光の帯が、魔王から竜へ走って直撃する。体力は少ししか減らない
+    if(S.t<0.7){const a=cpos(e).clone(),n=Math.floor(S.t/0.7*10);for(let j=S.n;j<=n;j++){const c=new V3().lerpVectors(a,P.pos,j/10);glowFlash(c,0xb040ff,26,0.5);burst(c,6,PURP,5,14,0.5);}S.n=n+1;}
+    else if(!S.c){S.c=1;const b=P.pos.clone();flashV=1.1;shake(1.3);sfx('boom',null,1);shock(b,0xb040ff,46);shock(b,0xff40c0,30);burst(b,70,PURP,8,44,1.2);glowFlash(b,0xd080ff,70,0.8);ono(b.clone().add(new V3(0,6,0)),'ズドォォン!!','#d080ff',64);hurt(Math.max(2,P.maxHp*0.03));}
+    else if(S.t>1.9&&!S.d){S.d=1;talk([['魔王','どうだ。骨も残るまい……'],['ME','……いい術だ。組み立てが、見たことのない形をしている。もう少し見せろ'],['魔王','な……効いておらんのか!?']]);}
+    else if(S.d&&S.t>3.3&&idle){S.on=false;e.inv=false;BTK.t=2;for(let i=0;i<6;i++)addEnemy('imp',rnd(-15,15),DUN.z0+55+rnd(-15,15),DUN.y+20);}}}
+{const bt=btkTick;btkTick=function(dt){mslTick(dt);bt(dt);};}
+{const M=ALLST.find(q=>q.key==='maou'),wv=M&&M.waves[1],T=TALKS.maou;
+  // ① 章の始まりは、前からある2行にもどす　④ の後の戦いの始まりの掛け合いは、上の流れの中で出す
+  T.w[0]=[['ME','これが封印の扉か。いやな気配だ。前の職場を思い出す'],['魔王','フフ…千年の封印も、そろそろ期限切れよ']];KIMG.maou.w=['maou_t1','maou_t2'];T.w[1]=[];
+  if(wv){const go0=wv.go;wv.go=function(){go0.call(this);if(SCN!==1)return;const dm=EN.find(e=>e.type==='demon'&&!e.dead);if(!dm)return;
+    EN.forEach(e=>{if(e.type==='imp'&&!e.dead){e.dead=true;scene.remove(e.mesh);}});   // 小悪魔は、封印が解けてから出す
+    dm.mesh.scale.setScalar(dm.sc||1);dm.mesh.position.set(0,DUN.y,DUN.z0+96);dm.mesh.rotation.y=0;dm.vel.set(0,0,0);dm.inv=true;dm.die='……術が、尽きた……だと……';
+    Object.assign(MSL,{on:true,ph:0,t:0,e:dm,k:0.05,a:0,b:0,c:0,d:0,n:0});mslHalfY(dm,0.05);BTK.on=true;BTK.t=1;};}
+  // ⑦ しめの紙芝居とエピローグ：「つづく」
+  T.clear=[['魔王','ま、待て……おぬし、よけるとか守るとか、せんのか？ 一回も？'],['ME','よける？ ……その発想は無かった。焼けば止まる'],
+    ['魔王','千年みがいた奥義を、ぜんぶ顔で受けおって……この、石頭の大トカゲめ……'],['ME','竜だ。……さて。次は、守りの術を見せてくれ']];
+  KIMG.maou.c=['maou_c1','maou_c2','maou_c3','maou_c4'];
+  ENDS[1]=['魔王の千年ぶんの奥義は、竜のうろこを、少しあたためただけだった。','竜の手の中で、火の玉がふくらんでいく。魔王の顔から、血の気が引いた。――つづく。'];
+  ENDIMG[1]=['maou_c2','maou_c4'];ENDT[1]='つづく';}
+// ⑥ 体力0の時の知らせ　と　結果の画面の見出し
+{const ke=killEnemy;killEnemy=function(e,quiet){const m=!quiet&&e&&!e.dead&&e.type==='demon'&&SCN===1&&state==='play'&&STAGES[stage]&&STAGES[stage].key==='maou';ke(e,quiet);if(m)banner('🔥 魔王の術を、すべて受けきった！',2.6);};
+ const se=showEnd;showEnd=function(win){se(win);if(win&&SCN===1){$('ovT').textContent='つづく…';$('ovS').textContent=`${C.name}の手の中で、火の玉はまだ燃えている。魔王との決着は、次の物語で。`;}};}
 
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
