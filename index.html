@@ -790,7 +790,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116zf';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116zg';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -2248,7 +2248,7 @@ function updDie(dt){for(let i=DIEL.length-1;i>=0;i--){const o=DIEL[i],m=o.m,q=m.
 const INKC=[0x1a1030,0x3a2060,0x000000],INKP=[];
 // 飛空艇：急上下。低い所では上へ、高い所では下へ、弾をかわす高さのずらし（無敵なし）
 function climbAir(){if(state!=='play'||LVUP||PAUSED||(P.dodgeCd||0)>0||P.en<12)return;P.en-=12;P.dodgeCd=1.4;
-  const gh=floorAt(P.pos.x,P.pos.z)+C.gOff,alt=P.pos.y-gh,up=(alt<60&&P.pos.y<205)||alt<=14;
+  const gh=(DUN.on?DUN.y:floorAt(P.pos.x,P.pos.z))+C.gOff,alt=P.pos.y-gh,up=(alt<60&&P.pos.y<205)||alt<=14;
   if(!up)P.vel.y=-Math.min(125,(alt-6)*3.2);else P.vel.y=125;
   P.climbDir=P.vel.y>0?1:-1;
   sfx('whoosh',null,0.9);burst(P.pos,16,[0xffffff,0xcfeaff],3,22,0.45);smoke(P.pos,4,6,1.2,0xdddddd,3);
@@ -2457,7 +2457,7 @@ function swapOpt(){const sl=Math.random()<0.5?'sp':'sp2',cand=Object.keys(SKINFO
   return {swap:1,slot:sl,to:cand[(Math.random()*cand.length)|0],k:'swap',ic:'🔄',nm:'必殺技の入れかえ'};}
 function swapHtml(u,i,dl){const cur=SKINFO[P[u.slot]],nw=SKINFO[u.to],sl=u.slot==='sp'?'左クリック':'右クリック';
   return `<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="chara/ic/sk_${u.to}.webp" alt="" onerror="this.onerror=null;this.src='${nw.img}'"></div><div class="nm">必殺技の入れかえ</div><div class="ds" style="animation-delay:${dl+0.45}s">${sl}の技<br><b>『${cur.n}』</b> → <b>『${nw.n}』</b><br>${nw.d}</div><div class="num" style="animation-delay:${dl+0.7}s">今の必殺技の強さのまま使える</div></div>`;}
-function showLv(){const pool=UPS.filter(u=>(UP[u.k]||0)<u.mx),sw=(LV-LVQ+1)%3===0?(advOpt()||((LV-LVQ+1)%9===0?swapOpt():null)):null;if(!pool.length&&!sw){LVQ=0;P.hp=P.maxHp;return;}
+function showLv(){const pool=UPS.filter(u=>(UP[u.k]||0)<u.mx&&(u.k!=='pet'||Math.random()<PETRARE)),sw=(LV-LVQ+1)%3===0?(advOpt()||((LV-LVQ+1)%9===0?swapOpt():null)):null;if(!pool.length&&!sw){LVQ=0;P.hp=P.maxHp;return;}
   LVOPT=pool.sort(()=>Math.random()-0.5).slice(0,sw?2:3);if(sw)LVOPT.push(sw);LVUP=true;sfx('lvup',null,0.8);burst(P.pos,40,[0xffe060,0xffffff,0x80e0ff],3,30,0.9);
   $('lvn').textContent='Lv '+Math.max(1,LV-LVQ)+' → Lv '+(LV-LVQ+1);$('lvc').innerHTML='';LVOPT.forEach((u,i)=>{const d=document.createElement('button');d.className='lvc';const dl=0.25+i*0.14,n=UP[u.k]||0;d.style.animationDelay=dl+'s';
     d.innerHTML=u.adv?advHtml(u,i,dl):u.swap?swapHtml(u,i,dl):`<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="chara/ic_${u.k}.webp" alt=""></div><div class="nm">${u.nm}</div><div class="ds" style="animation-delay:${dl+0.45}s">${u.ds}</div><div class="num" style="animation-delay:${dl+0.7}s">${upDs(u)}</div><div class="mx">${Array.from({length:u.mx},(_,k)=>`<i class="${k<n?'on':k===n?'nx':''}"></i>`).join('')}</div></div>`;
@@ -2465,7 +2465,7 @@ function showLv(){const pool=UPS.filter(u=>(UP[u.k]||0)<u.mx),sw=(LV-LVQ+1)%3===
 function pickLv(i){if(!LVUP||!LVOPT[i])return;const u=LVOPT[i];if(u.adv){const q=u.slot==='sp'?'t1':'t2';P[q]=(P[q]||1)+1;skUI();}else if(u.swap){P[u.slot]=u.to;P[u.slot==='sp'?'t1':'t2']=1;skUI();}else UP[u.k]=(UP[u.k]||0)+1;
   if(u.k==='hp'){P.maxHp=Math.round(P.maxHp*1.15);P.hp=P.maxHp;}if(u.k==='pet')addPet();if(u.k==='sp')$('enl').textContent=`⚡ 必殺ゲージ（${SPC()}で必殺技）`;
   LVUP=false;LVQ--;$('lvup').style.display='none';updLvHud();banner(u.ic+' '+u.nm+'！',1.6);sfx('heal',null,0.6);if(LVQ>0)setTimeout(()=>{if(state==='play'&&!LVUP)showLv();},350);}
-function addPet(){const id=(C.human||C.model)?'dragon':charKey,c=CH[id];const d=makeDragon(c.col[0],c.col[1],c.s*0.38,c.o);(attachModel(d.g,PMODEL[id]||id)||attachModel(d.g,id));d.g.position.copy(P.pos);scene.add(d.g);PETS.push({g:d.g,id,cd:rnd(0,0.5),ph:PETS.length,hp:70,max:70,hitT:0});}
+function addPet(){const id=(C.human||C.model)?'dragon':charKey,c=CH[id];const d=makeDragon(c.col[0],c.col[1],c.s*0.38,c.o);(attachModel(d.g,'wyvern2')||attachModel(d.g,PMODEL[id]||id)||attachModel(d.g,id));d.g.position.copy(P.pos);scene.add(d.g);PETS.push({g:d.g,id,cd:rnd(0,0.5),ph:PETS.length,hp:70,max:70,hitT:0});}
 function updPets(dt,t){const n=PETS.length;PETS.forEach((p,i)=>{const a=t*1.3+i*Math.PI*2/n;tmp3.set(P.pos.x+Math.cos(a)*9,P.pos.y+4+Math.sin(t*2.2+i)*1.2,P.pos.z+Math.sin(a)*9);
   if(!C.fly)tmp3.y=Math.max(tmp3.y,floorAt(tmp3.x,tmp3.z)+5);p.g.position.lerp(tmp3,1-Math.exp(-6*dt));p.g.rotation.y=P.tgt?Math.atan2(P.tgt.x-p.g.position.x,P.tgt.z-p.g.position.z):P.yaw;
   p.cd-=dt;if(P.tgt&&p.cd<=0){p.cd=1.7;const b=CH[p.id].br,v=P.tgt.clone().sub(p.g.position).normalize().multiplyScalar(b.spd);
@@ -2475,6 +2475,23 @@ function updPets(dt,t){const n=PETS.length;PETS.forEach((p,i)=>{const a=t*1.3+i*
   if(p.hitT>0){p.hitT-=dt;p.g.scale.setScalar(1+Math.sin(p.hitT*40)*0.12);}else p.g.scale.setScalar(1);});
   for(let i=PETS.length-1;i>=0;i--)if(PETS[i].hp<=0){const q=PETS[i];burst(q.g.position,24,FIRE,2.5,22,0.6);smoke(q.g.position,4,3,1.2,0x5a5a5a,2);sfx('small',q.g.position,0.6);
     ono(q.g.position.clone().add(new V3(0,3,0)),'子分がやられた…','#ffb0a0',24);scene.remove(q.g);PETS.splice(i,1);UP.pet=Math.max(0,(UP.pet||0)-1);updLvHud();}}
+/* ---- 子分：レアカード＋シナリオ1ではワイバーンに勝つと自然に付く（pet_wyv.py） ---- */
+const PETRARE=0.25;let PETG=0;
+{const st=document.createElement('style');st.textContent='.lvc.rare{padding:5px;background:linear-gradient(135deg,#fffbe0,#ffd23a 25%,#c98a00 50%,#fff0a0 75%,#ffc400);box-shadow:0 10px 26px #000a,0 0 0 1px #000,0 0 22px #ffd23acc;animation:lvcard .55s cubic-bezier(.2,1.3,.4,1) forwards,petrare 1.6s ease-in-out .6s infinite}'
+  +'.lvc.rare .rtag{position:absolute;right:-8px;top:-11px;z-index:3;padding:2px 11px;border-radius:12px;background:linear-gradient(180deg,#fff2a0,#ffb000);color:#4a2400;font-weight:900;font-size:14px;letter-spacing:.08em;box-shadow:0 2px 8px #000a,0 0 10px #ffe060;border:1px solid #7a4a00}'
+  +'@keyframes petrare{0%,100%{filter:brightness(1)}50%{filter:brightness(1.22) drop-shadow(0 0 8px #ffd23a)}}';document.head.appendChild(st);}
+{const sl0=showLv;showLv=function(){sl0.apply(this,arguments);try{Array.from($('lvc').children).forEach((d,i)=>{if(LVOPT[i]&&LVOPT[i].k==='pet'&&!d.querySelector('.rtag')){d.classList.add('rare');const t=document.createElement('span');t.className='rtag';t.textContent='✨ レア';d.appendChild(t);}});}catch(e){}};}
+// ワイバーンとの一騎打ちに勝ったら、緑のワイバーンが子分になる（シナリオ1だけ）
+function petGift(e){PETG=1;if((UP.pet||0)>=3)return;UP.pet=(UP.pet||0)+1;addPet();const q=PETS[PETS.length-1];if(q&&e&&e.mesh)q.g.position.copy(cpos(e));
+  if(q)burst(q.g.position,26,[0x9cff8a,0xffffff,0xffe060],3,26,0.8);sfx('lvup',null,0.6);banner('🐉 緑のワイバーンが子分になった！',3.2);petToast('🐉 緑のワイバーンが子分になった！');updLvHud();}
+function petToast(t){let d=$('petmsg');if(!d){d=document.createElement('div');d.id='petmsg';d.style.cssText='position:absolute;left:0;right:0;top:36%;z-index:30;text-align:center;font-size:clamp(20px,3.6vw,38px);font-weight:900;letter-spacing:.05em;color:#c8ff9a;text-shadow:0 0 12px #2a8a20,0 3px 0 #0a3a08,0 0 3px #000;pointer-events:none;transition:opacity .5s;opacity:0;padding:0 16px';($('banner').parentNode||document.body).appendChild(d);}
+  d.textContent=t;d.style.opacity=1;clearTimeout(d.__t);d.__t=setTimeout(()=>{d.style.opacity=0;},4200);}
+{const k0=killEnemy;killEnemy=function(e,quiet){const was=e&&!e.dead,r=k0.apply(this,arguments);
+  try{if(was&&e.dead&&!quiet&&e.wyv&&e.boss&&SCN===1&&state==='play'&&!PETG)petGift(e);}catch(x){}return r;};}
+// 保存・章のはじめ：もらった印（pg）を持ち越す。第2章以降から続ける時、印が無ければ1匹付ける
+{const sg0=startGame;startGame=function(from){PETG=0;const st=from!==undefined?from:reached,ck=(CKPT&&CKPT.stage===st&&st>0)?CKPT:null;
+  const r=sg0.apply(this,arguments);
+  try{if(SCN===1&&st>=1){if(ck&&ck.pg)PETG=1;else{PETG=1;if((UP.pet||0)<3){UP.pet=(UP.pet||0)+1;addPet();updLvHud();}}}}catch(x){}return r;};}
 function petHurt(p,n,cont){p.hp-=n;if(!cont){p.hitT=0.25;burst(p.g.position,6,[0xff4030,0xffa040],1.4,10,0.3);}}
 function petHit(pp,r,dmg){for(const q of PETS){if(q.hp>0&&q.g.position.distanceTo(pp)<r+2.2){petHurt(q,dmg);return true;}}return false;}
 function tkShell(tg){const m=mouthPos();shoot(m,lob(m,tg,150,16),{from:'p',geo:'fire',mat:MAT.ball,size:2.6,r:2.8,splash:15,dmg:90*POW(),grav:16,life:4,smk:true,ball:true,trail:FIRE,col:[0xff9a30,0xffe080,0x888888]});
@@ -4379,7 +4396,7 @@ function showStory(i,ending,fromClear){state='story';TK.q.length=0;TK.cur=null;c
 function storyEnd(){initAudio();voStop();$('story').style.display='none';
   if($('storyGo').dataset.end){showEnd(true);return;}
   state='play';hintFd(1);waveWait=0;P.hp=Math.max(P.hp,P.maxHp*0.6);P.en=100;
-  CKPT={stage,LV,XP,UP:Object.assign({},UP),score,kills,bldKills,ch:charKey,sp:P.sp,sp2:P.sp2};reached=stage;saveGame();
+  CKPT={stage,LV,XP,UP:Object.assign({},UP),score,kills,bldKills,ch:charKey,sp:P.sp,sp2:P.sp2,pg:PETG};reached=stage;saveGame();
   startWave(0);sfx('roar',null,0.5);}
 $('storyGo').addEventListener('click',()=>{if(KAMI.i<KAMI.sl.length-1){KAMI.i++;sfx('small',null,0.3);kamiShow();return;}storyEnd();});
 $('storySkip').addEventListener('click',()=>{sfx('small',null,0.3);storyEnd();});
@@ -5529,10 +5546,10 @@ function frame(now){
     if(C.fly){
       const spd=P.dashT>0?C.spd*(C.human?2.2:3):slow?14:C.spd*(1+Math.max(0,-ad.y)*0.7);const mv=(P.dashT>0?ad:ad).clone().multiplyScalar(spd);
       if((charKey==='dragon'||charKey==='wyvern')&&P.onGround&&!(P.dashT>0)){const wk=charKey==='wyvern'?0.24:RIGCF.walk;mv.x*=wk;mv.z*=wk;}P.vel.lerp(mv,1-Math.exp(-(P.dashT>0?10:3.2)*dt));P.pos.addScaledVector(P.vel,dt);
-      const gh=floorAt(P.pos.x,P.pos.z)+C.gOff;if(P.onGround&&P.pitch<0.1&&!(P.dashT>0)&&P.pos.y<gh+3.5&&P.pos.y>gh&&(H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER)){P.pos.y=gh;if(P.vel.y>0)P.vel.y=0;}
+      const gh=(DUN.on?DUN.y:floorAt(P.pos.x,P.pos.z))+C.gOff;if(P.onGround&&P.pitch<0.1&&!(P.dashT>0)&&P.pos.y<gh+3.5&&P.pos.y>gh&&(DUN.on||H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER)){P.pos.y=gh;if(P.vel.y>0)P.vel.y=0;}
       if(P.pos.y<gh){P.pos.y=gh;if(P.vel.y<-crT()&&(P.crashCd||0)<=0&&!C.human&&H(P.pos.x,P.pos.z)>WATER){P.crashCd=0.8;crash((-P.vel.y-crT()*0.8)*0.5,null,0,0);P.vel.y=20;}else if(P.vel.y<0)P.vel.y=0;}
       solidPush(2);const bt=bldAt(P.pos.x,P.pos.z,2);if(bt.hit&&P.pos.y<bt.top+C.gOff){const need=bt.top+C.gOff-P.pos.y;P.pos.y+=Math.min(need,(need>5?24:50)*dt);if(P.vel.y<0)P.vel.y*=0.6;if(need>2.5&&!C.human){{const hv=Math.hypot(P.vel.x,P.vel.z);if(hv>crT()&&(P.crashCd||0)<=0){P.crashCd=0.8;crash((hv-crT()*0.72)*0.5,null,P.vel.x/hv,P.vel.z/hv);P.vel.x*=0.3;P.vel.z*=0.3;}}hitBld(bt.hit,90*dt);if(Math.random()<0.25){debris(P.pos,1,[0x9a8a72,0xa03a2a],0.8);shake(0.1);}}}
-      P.onGround=P.pos.y<=gh+0.5&&(H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER);
+      P.onGround=P.pos.y<=gh+0.5&&(DUN.on||H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER);
     }else{
       solidPush(1.5);const fx=Math.sin(P.yaw),fz=Math.cos(P.yaw);const bt=bldAt(P.pos.x,P.pos.z,1.5);const smash=!C.human&&bt.hit&&P.pos.y-C.gOff<bt.top-1;
       if(smash){hitBld(bt.hit,110*dt);if(Math.random()<0.3){shake(0.15);debris(P.pos,1,[0x9a8a72,0xa03a2a],0.8);}}
@@ -5544,7 +5561,7 @@ function frame(now){
       if(P.onGround&&Math.random()<0.15)smoke(tmp.set(P.pos.x,gh-C.gOff+0.5,P.pos.z),1,1.4,0.6,0xa8987a,1.5);
     }
     collide(dt);
-    if(P.pos.y>240)P.pos.y=240;const pr=Math.hypot(P.pos.x,P.pos.z);if(pr>470){P.pos.x*=470/pr;P.pos.z*=470/pr;}if(DUN.on){P.pos.x=clamp(P.pos.x,DUN.x0+DUN.xm,DUN.x1-DUN.xm);let zl=DUN.zmin;for(const q of DUN.gates)if(q.open<1&&P.pos.z>q.z)zl=Math.max(zl,q.z+7);P.pos.z=clamp(P.pos.z,zl,DUN.z1-8);{const tp=DUN.y+Math.max(12,Math.min((DUN.h||24)*0.5,26)),lo=Math.min(tp-0.5,DUN.y+(charKey==='wyvern'?12.5:C.model?12:9));if(P.pos.y>tp)P.pos.y=tp;if(C.fly&&P.pos.y<lo){P.pos.y+=Math.max((lo-P.pos.y)*0.35,Math.min(lo-P.pos.y,0.9));if(P.vel.y<0)P.vel.y=0;P.onGround=false;}}}if(CAVE.on){const dx=P.pos.x-CAVE.x,dz=P.pos.z-CAVE.z,d=Math.hypot(dx,dz),m=CAVE.R-14;if(d>m){P.pos.x=CAVE.x+dx*m/d;P.pos.z=CAVE.z+dz*m/d;}const top=Math.min(caveTop(Math.min(d,m))-5,CAVE.y+15);if(P.pos.y>top)P.pos.y=top;}if(TER.sky&&P.pos.y<WATER+5)P.pos.y=WATER+5;
+    if(P.pos.y>240)P.pos.y=240;const pr=Math.hypot(P.pos.x,P.pos.z);if(pr>470){P.pos.x*=470/pr;P.pos.z*=470/pr;}if(DUN.on){P.pos.x=clamp(P.pos.x,DUN.x0+DUN.xm,DUN.x1-DUN.xm);let zl=DUN.zmin;for(const q of DUN.gates)if(q.open<1&&P.pos.z>q.z)zl=Math.max(zl,q.z+7);P.pos.z=clamp(P.pos.z,zl,DUN.z1-8);{const tp=DUN.y+Math.max(12,Math.min((DUN.h||24)*0.5,26)),lo=Math.min(tp-0.5,DUN.y+(charKey==='wyvern'?12.5:C.model?12:9));if(P.pos.y>tp)P.pos.y=tp;if(false&&C.fly&&P.pos.y<lo){P.pos.y+=Math.max((lo-P.pos.y)*0.35,Math.min(lo-P.pos.y,0.9));if(P.vel.y<0)P.vel.y=0;P.onGround=false;}}}if(CAVE.on){const dx=P.pos.x-CAVE.x,dz=P.pos.z-CAVE.z,d=Math.hypot(dx,dz),m=CAVE.R-14;if(d>m){P.pos.x=CAVE.x+dx*m/d;P.pos.z=CAVE.z+dz*m/d;}const top=Math.min(caveTop(Math.min(d,m))-5,CAVE.y+15);if(P.pos.y>top)P.pos.y=top;}if(TER.sky&&P.pos.y<WATER+5)P.pos.y=WATER+5;
     P.fireCd-=dt;P.inv-=dt;
     if(TER.lava&&(P.onGround||P.pos.y<=floorAt(P.pos.x,P.pos.z)+C.gOff+0.5)&&H(P.pos.x,P.pos.z)<WATER){hurt(30*dt,true);if(Math.random()<0.3)burst(P.pos,2,FIRE,3,8,0.4);}
     P.melCd-=dt;if(P.melT>0)P.melT-=dt;
@@ -5623,6 +5640,62 @@ const EMI={"🛡":0,"⚔":1,"🐉":2,"💀":3,"👑":4,"😇":5,"🔥":6,"🐲":
   const scan=r=>{const w=document.createTreeWalker(r,NodeFilter.SHOW_TEXT),L=[];let n;while((n=w.nextNode()))L.push(n);L.forEach(one);};
   new MutationObserver(ms=>{for(const m of ms){if(m.type==='characterData')one(m.target);else m.addedNodes.forEach(n=>{if(n.nodeType===3)one(n);else if(n.nodeType===1&&n.tagName!=='SCRIPT'&&n.tagName!=='STYLE')scan(n);});}}).observe(document.body,{childList:true,subtree:true,characterData:true});
   scan(document.body);}
+/* ---- story_mogi.py：シナリオ1の物語（模擬戦のワイバーン・封印ごしの魔王）。文はこのゲームの言葉 ---- */
+// 戦いの途中にはさむ紙芝居。終わると cb を呼んで戦いにもどる（スキップでも同じ）
+function midKami(sl,cb){state='story';TK.q.length=0;TK.cur=null;KAMI={sl,i:0,end:false,mid:cb||(()=>{})};kamiShow();
+  $('storyGo').dataset.end='';$('story').style.display='flex';sl.forEach(o=>{const im=new Image();im.src=`story/v2/${o.img}.jpg`;});}
+{const se=storyEnd;storyEnd=function(){if(KAMI&&KAMI.mid){const cb=KAMI.mid;KAMI.mid=null;initAudio();voStop();$('story').style.display='none';state='play';cb();return;}se();};}
+const wyvNm=()=>charKey==='wyvern'?'青のワイバーン':'緑のワイバーン';
+TPT['緑のワイバーン']='wyvern';TPT['青のワイバーン']='wyvern';TBOSS['緑のワイバーン']='rival';TBOSS['青のワイバーン']='rival';
+// ① ワイバーン戦の前：目付け役が「模擬戦を一本」
+{const wd=wyvDuel,W=ALLST.find(q=>q.key==='valley'),wv=W&&W.waves.find(w=>w.drg);
+  if(wv)wv.msg='🐉 模擬戦、一本勝負！ ワイバーンが低く突っこんできた！';
+  const fight=()=>{wd();const n=wyvNm(),e=EN.find(q=>q.wyv&&!q.dead);if(e)e.die='……参りました、若。お見事です';
+    TK.q.length=0;TK.cur=null;talk([[n,'参ります、若！'],['ME','……模擬戦で、本気の突進をするやつがあるか'],['💡 ヒント','ワイバーンは突進と風の弾で来る。横によけて、炎を当てよう']]);};
+  wyvDuel=function(){if(window.__mogiSeen||state!=='play'){fight();return;}window.__mogiSeen=1;const n=wyvNm(),D={ch:'第1章　竜の谷',t:'模擬戦'};
+    midKami([
+      {img:'valley_c2',l:'勇者の一行が逃げたあと。ねぐらの入り口に、ひとつの影がおりてきた。'},
+      {img:'valley_c2',who:n,l:'見つけましたよ、若。千年の寝ぼうとは、あきれた竜です'},
+      {img:'valley_c2',who:'ME',l:'……だれだ。目覚ましを頼んだ覚えは、ない'},
+      {img:'valley_c2',who:n,l:'若の目付け役です。千年、ここで目覚めを待っておりました'},
+      {img:'valley_c2',who:'ME',l:'（この体には、世話係がいたのか。……福利厚生は、前世よりいいな）'},
+      {img:'wyv_m1',who:n,l:'さあ、寝起きの稽古です。模擬戦を一本！ 手加減はいたしません'},
+      {img:'wyv_m1',who:'ME',l:'起きてすぐ体を動かすやつは、信用しないことにしている。……一本だけだ'}].map(o=>Object.assign(o,D)),
+      ()=>{fight();if(wv)banner(wv.msg,3);cineWave();});};}
+// ② 第1章のしめ（竜の3キャラ）：才能におどろく → 封印の魔王のおどし話 → 竜が食いつく
+{const V=TALKS.valley,o1=V.clear1,K=KIMG.valley,k1=K.c1,C1={};
+  const mk=n=>C1[n]||(C1[n]=[[n,'……まさか。この私が、若の火の届く間合いを読みちがえるとは'],
+    [n,'千年寝ていただけで、この伸び……。ああ、なんという才能。目付け役として、涙が出ます'],
+    ['ME','（火を半分しか出していないのは、だまっておこう。……泣かれると、めんどうだ）'],
+    [n,'ですが、調子に乗ってはいけません。言うことを聞かない竜は、地下の「封印の魔王」に食べられますよ'],
+    ['ME','……封印。魔王。くわしく聞こう。場所は、どこだ'],
+    [n,'こ、こわがるところです、若！ ……ねぐらの奥の、古い階段の下ですが'],
+    ['ME','人の寝床の下に、危険物か。……大家として、見回りに行く。お前も来い']]);
+  const ki=['wyv_m1','wyv_m1','wyv_m1','wyv_m2','wyv_m2','wyv_m2','dungeon_1'];
+  Object.defineProperty(V,'clear1',{configurable:true,enumerable:true,get(){return caveOK()?mk(wyvNm()):o1;}});
+  Object.defineProperty(K,'c1',{configurable:true,enumerable:true,get(){return caveOK()?ki:k1;}});}
+// ③ 最終章の始まり：封印ごしの取り引き　④ 魔王戦の掛け合い　⑤ しめの最後の一言
+{const M=TALKS.maou;
+  M.w[0]=[['ME','これが封印の扉か。いやな気配だ。前の職場を思い出す'],
+    ['魔王','おお、そこの竜！ よいところに来た。ついでに、この封印もこわしてくれぬか'],
+    ['魔王','なあに、どうせ古びて、じきに解ける封印だ。礼に、金は好きなだけやろう'],
+    ['ME','ことわる。封印は、おれが張り直しておく。寝床の下に、危険物は置けない'],
+    ['魔王','ま、待て！ 恨みがあるのは千年前の連中だけだ。今の世には、手を出さぬ！'],
+    ['ME','信用できないな。そう言うやつを、前世で山ほど見た'],
+    ['魔王','な、ならば、失われた古い魔法を見せてやる！ ……いや、竜が魔法など、興味ないわな……'],
+    ['ME','……古い魔法。見せろ。いま開ける'],
+    ['魔王','え']];
+  KIMG.maou.w=['maou_t1','maou_t2','maou_t2','maou_t1','maou_t2','maou_t1','maou_2','maou_3','maou_t2'];
+  M.w[1]=[['魔王','ほ、本当に解きおった……！ こやつ、正気か。まあよい、千年ぶりの外だ'],
+    ['ME','約束だ。古い魔法を見せろ。……出しおしみは、するな'],
+    ['魔王','よかろう。見物料は、おぬしの命だ！']];
+  if(M.clear&&M.clear.length)M.clear[M.clear.length-1]=['ME','竜だ。……次は、守りの術も見せてくれ。……灰になったか。残念だ'];
+  const T1=[['ME','いい術だ。組み立てが、見たことのない形をしている。……もう少し見せろ'],['魔王','な、なにを落ち着いて見ておる！']],
+    T2=[['ME','次を頼む。まだあるだろう、いちばん強いのが'],['魔王','なんなのだ、こやつは……！ ならば受けよ、千年みがいた奥義を！']];
+  const he=hitEnemy;hitEnemy=function(e,n){he(e,n);
+    if(e&&e.type==='demon'&&!e.dead&&state==='play'&&SCN===1&&STAGES[stage]&&STAGES[stage].key==='maou'){const k=e.hp/e.maxHp;
+      if(k<0.66&&!e.mt1){e.mt1=1;talk(T1);}else if(k<0.33&&!e.mt2){e.mt2=1;talk(T2);}}};}
+
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
 </body>
