@@ -781,7 +781,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116r';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116s';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1984,6 +1984,10 @@ function clawFx(ad,n,col){const g=new THREE.Group(),k=(C.mel?C.mel.r:12)/12,side
   for(let i=0;i<3;i++){const m=new THREE.Mesh(new THREE.RingGeometry(4.2+i*1.5,4.8+i*1.5,20,1,-0.9,1.8),new THREE.MeshBasicMaterial({color:i===1?0xffffff:col,transparent:true,opacity:0.95,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));m.rotation.set(-1.1,0,0);m.position.set(0,0,1);g.add(m);}
   g.scale.setScalar(k);fxAdd(g,0.26,(o,q)=>{o.rotation.z=(-0.7+q*1.6)*side;o.scale.setScalar(k*(0.7+q*0.7));o.children.forEach(c=>{c.material.opacity=0.95*(1-q);});});
   if(n){const q=P.pos.clone().addScaledVector(ad,7*k);burst(q,10,[col,0xffffff],3,22,0.35);glowFlash(q,col,10*k,0.25);shake(0.2);}}
+// ボスが現れた時：ボスの近くへ寄って、アップで映す
+function bossZoom(e){if(state!=='play'||window.NOCINE||!e||!e.mesh)return;setTimeout(()=>{if(state!=='play'||e.dead||CINE.k===7)return;const c=cpos(e),d=new V3(P.pos.x-c.x,0,P.pos.z-c.z);if(d.lengthSq()<1)d.set(0,0,1);d.normalize();
+    const R=Math.max(3,e.r*(e.sc&&e.sc>1?1:1)),q=c.clone().addScaledVector(d,R*2.4+7).add(new V3(d.z*R*0.7,R*0.35,-d.x*R*0.7));const fl=Math.max(floorAt(q.x,q.z),WATER)+1.5;if(q.y<fl)q.y=fl;
+    cine(7,1.8,{px:q.x,py:q.y,pz:q.z,lx:c.x,ly:c.y+R*0.15,lz:c.z});if(CINE.k===7){TS=0.25;tsT=1.7;}},60);}
 function slashAt(pos,yaw,col,R){const g=new THREE.RingGeometry(5,7.5,24,1,-1.2,2.4);const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:col||0xffffff,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));
   m.rotation.order='YXZ';m.rotation.set(-Math.PI/2+0.25,0,0);const h=new THREE.Group();h.add(m);h.position.copy(pos);h.rotation.y=yaw;h.scale.setScalar(R/7);scene.add(h);SLASH.push({h,m,t:0,fix:1});}
 function updSlash(dt){for(let i=SLASH.length-1;i>=0;i--){const q=SLASH[i];q.t+=dt;if(!q.fix)q.h.position.copy(P.pos);q.m.rotation.z=-1.2+q.t*9;q.m.material.opacity=0.9*(1-q.t/0.28);if(q.t>=0.28){scene.remove(q.h);SLASH.splice(i,1);}}}
@@ -2099,7 +2103,9 @@ function petHurt(p,n,cont){p.hp-=n;if(!cont){p.hitT=0.25;burst(p.g.position,6,[0
 function petHit(pp,r,dmg){for(const q of PETS){if(q.hp>0&&q.g.position.distanceTo(pp)<r+2.2){petHurt(q,dmg);return true;}}return false;}
 function tkShell(tg){const m=mouthPos();shoot(m,lob(m,tg,150,16),{from:'p',geo:'fire',mat:MAT.ball,size:2.6,r:2.8,splash:15,dmg:90*POW(),grav:16,life:4,smk:true,ball:true,trail:FIRE,col:[0xff9a30,0xffe080,0x888888]});
   glowFlash(m.clone(),0xffb040,16,0.3);burst(m,14,FIRE,4.5,22,0.4);smoke(m,5,4.5,1.4,0x777777,2);sfx('cannon',m);shake(0.3);ono(m.clone().add(new V3(0,5,0)),'ドン！','#ffd23a',40);P.atkM=0.3;}
-function breathe(tg){if(charKey==='orctank'&&(P.tkN=(P.tkN||0)+1)%4===0){tkShell(tg);return;}P.atkM=0.22;if(D.human==='hero')mixOnce(D.units[0].m.userData.mix,2.2);else if(D.human==='army')D.units.forEach(u=>{if(Math.random()<0.4)mixOnce(u.m.userData.mix,2);});else if(D.model&&!C.fly)mixOnce(D.body.userData.mix,2.4);
+function skyRock(tg){const m=mouthPos(),d=tg.clone().sub(m).normalize();shoot(m,d.multiplyScalar(210),{from:'p',geo:'rock',mat:C.br.mat,size:1.9,r:2.6,splash:9,dmg:70*POW(),life:1.6,trail:[0x9fdcff,0xffffff],col:C.br.col});
+  glowFlash(m.clone(),0x9fdcff,9,0.25);sfx('whoosh',null,0.7);P.atkM=0.3;if(D&&D.body&&D.body.userData.mix)mixOnce(D.body.userData.mix,2.2);if(!P.skyTip){P.skyTip=1;ono(m.clone().add(new V3(0,5,0)),'対空！','#9fdcff',40);}}
+function breathe(tg){if(charKey==='golem'&&tg.y>P.pos.y+8){skyRock(tg);P.fireCd=Math.min(P.fireCd,0.7);return;}if(charKey==='orctank'&&(P.tkN=(P.tkN||0)+1)%4===0){tkShell(tg);return;}P.atkM=0.22;if(D.human==='hero')mixOnce(D.units[0].m.userData.mix,2.2);else if(D.human==='army')D.units.forEach(u=>{if(Math.random()<0.4)mixOnce(u.m.userData.mix,2);});else if(D.model&&!C.fly)mixOnce(D.body.userData.mix,2.4);
   const m=mouthPos(),b=C.br;const nS=1+(UP.multi||0),sz=b.size*SZM(),sp=b.splash*SZM(),dm=b.dmg*POW();
   if(nS>1){const base=tg.clone(),dir=base.clone().sub(m),yaw0=Math.atan2(dir.x,dir.z),hz=Math.hypot(dir.x,dir.z);
     for(let i=0;i<nS;i++){const a=yaw0+(i-(nS-1)/2)*0.13;const t2=new V3(m.x+Math.sin(a)*hz,base.y,m.z+Math.cos(a)*hz);shoot1(m,t2,b,sz,sp,dm);}sfx(charKey==='wyvern'?'zapb':'fire',null,0.8);return;}
@@ -2406,7 +2412,7 @@ function addEnemy(type,x,z,y,o={}){
   const e={type,mesh:m,dr,hp:s.hp*(EASY?(s.boss?0.42:0.5):(s.boss?0.62:0.75)),maxHp:s.hp*(EASY?(s.boss?0.42:0.5):(s.boss?0.62:0.75)),r:s.r,hc:s.hc,val:s.val,dmg:s.dmg,fly:!!s.fly,boss:s.boss,t:rnd(0,5),cd:rnd(1,3),vy:0,vel:new V3(),cp:new V3(),
     seed:rnd(0,9),hx:0,hz:0,lx:0,lz:0,dvx:0,dvz:0,mv:'run',mt:1.5,state:'chase',ang:rnd(0,6.3),sum:8,met:6,st:0,sub:0,cnt:0,hitT:0,flyT:0,dodgeCd:2,
     thrower:type==='soldier'&&Math.random()<0.35,dashSeen:0,dead:false,perch:!!o.perch,bld:o.bld||null,inv:false,guard:false};
-  EN.push(e);if(type==='bigslime')e.sc=8.8;{const z=o.model?0:{ship:1.5,battleship:1.4,airship:1.3,bigairship:1.4,hero:0.65,priest:0.7,goblin:0.72,drak:2.2}[type];if(z){e.sc=z;e.r*=z;e.hc*=z;}}if(s.boss&&state==='play'){cutin(PTE[type]||s.ic,s.boss.replace(/^\S+\s/,''),'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');}return e;
+  EN.push(e);if(type==='bigslime')e.sc=8.8;{const z=o.model?0:{ship:1.5,battleship:1.4,airship:1.3,bigairship:1.4,hero:0.65,priest:0.7,goblin:0.72,drak:2.2}[type];if(z){e.sc=z;e.r*=z;e.hc*=z;}}if(s.boss&&state==='play'){cutin(PTE[type]||s.ic,s.boss.replace(/^\S+\s/,''),'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');bossZoom(e);}return e;
 }
 function hitEnemy(e,n){if(e.dead)return;
   if(e.inv){burst(cpos(e),3,GOLD,2,8,0.2);sfx('clang',e.mesh.position,0.5);return;}
@@ -2833,7 +2839,7 @@ function balShot(e,m){const big=e.bal>1;e.cd=big?rnd(4,5.5):rnd(2.8,4.2);const n
     shoot(from,v,{geo:'arrow',mat:MAT.arrow,size:big?2.3:1.6,fat:1.7,r:big?2:1.5,dmg:big?20:15,life:3.4,col:[0xcfa070,0xffffff]});}
   burst(m,8,[0xcfa070,0xffffff],2.5,12,0.3);sfx('whoosh',m,0.7);e.atkT=0.35;}
 // 将軍・王：オーガの動きに、地ならし（光る円→ドスン）・突進（王の2段目）・取りまきを呼ぶ・怒りの2段目を足した物
-function bossIntro(e,pt,ic){if(state!=='play')return;if(!PTS.includes('orcking'))PTS.push('orcking');cutin(PTS.includes(pt)?pt:ic,e.nm,'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');}
+function bossIntro(e,pt,ic){if(state!=='play')return;bossZoom(e);if(!PTS.includes('orcking'))PTS.push('orcking');cutin(PTS.includes(pt)?pt:ic,e.nm,'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');}
 function ksay(e,t){talk([[e.nm,t]]);bubble(e,t.length>16?t.slice(0,15)+'…':t,'boss',3);}
 function addGeneral(x,z,raw,label){const e=addEnemy('ogre',x,z,undefined,{model:MODEL.orc?'orc':undefined});
   e.gen=1;e.orc=0;e.boss='🪓 オーク将軍';e.nm='オーク将軍';s3Scale(e,MODEL.orc?0.6:0.85);e.r*=1.3;e.hp=e.maxHp=s3bhp(raw);e.val=Math.round(raw*0.7);e.dmg=20;e.sr=24;e.sw=EASY?1.5:1.2;e.sk=rnd(2,4);e.rk=99;e.cd=2.5;e.die='ぐ……王よ……すまぬ……';
@@ -3754,7 +3760,7 @@ function updSw(dt,t){if(!SW.on)return;SW.uT.value=t;if(state!=='play'){return;}c
     o.position.set(u.x,u.y,u.z);o.rotation.set(0,u.yaw,0);o.scale.setScalar(u.s);o.updateMatrix();im.setMatrixAt(i,o.matrix);}
   im.instanceMatrix.needsUpdate=true;if(SW.alive<=0)swClear();}
 function startWave(i){wave=i;const w=curWaves()[i];moodT=MOODS[w.mood];w.go();banner(w.msg,3);const tl=(TALKS[STAGES[stage].key]||{}).w;{const ti=i-(curWaves()[0].cave?1:0);if(tl&&tl[ti]&&ti>0)talk(tl[ti]);}thinWave();armyMore();cineWave();swWave(i);}
-function cineWave(){const L=EN.filter(e=>!e.dead);if(!L.length)return;
+function cineWave(){const L=EN.filter(e=>!e.dead);if(!L.length||CINE.k===7)return;
   {const wv=L.find(e=>e.wyv&&e.boss);if(wv){cine(5,2.4,{e:wv,k:6,fov:32,dy:9});if(CINE.k===5){TS=0.3;tsT=2.25;}return;}}
   if(CAVE.on&&L.some(e=>e.cave)){const G=L.filter(e=>e.cave);let x=0,z=0;G.forEach(e=>{x+=e.mesh.position.x/G.length;z+=e.mesh.position.z/G.length;});cine(4,2.8,{x,y:CAVE.y,z});if(CINE.k===4){TS=0.1;tsT=2.65;}return;}const b=L.find(e=>e.boss);let x=0,y=0,z=0,r=26,n=0;
   if(b){const c=cpos(b);x=c.x;y=c.y;z=c.z;r=Math.max(26,b.r*2.6);}
