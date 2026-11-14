@@ -47,7 +47,7 @@
   "file": "airship.glb",
   "h": 14,
   "ja": "飛空艇",
-  "rot": 0
+  "rot": 90
  },
  "walker": {
   "file": "walker.glb",
