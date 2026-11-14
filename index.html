@@ -830,7 +830,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116zx';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116zy';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -4045,6 +4045,8 @@ function s5Spawn(kind,x,z,y){let e;const rig=id=>MODEL[id]?id:(MODEL.rival?'riva
   else if(kind==='wybl'||kind==='guard'){e=addEnemy('rdrake',x,z,y,{model:'wyvern'});e.c2=1;e.sc=0.68;e.r=5.4;e.hp=e.maxHp=e.maxHp*(kind==='guard'?0.5:0.4);e.dmg=kind==='guard'?13:11;if(kind==='guard')s5Tint(e.mesh,0.42,0.38,0.5);}
   else if(kind==='earth'){e=addEnemy('gdrake',x,z,undefined,{model:'ground'});e.sc=1.15;e.r=ST.gdrake.r*1.15;s5Tint(e.mesh,0.62,0.66,0.8);}
   else if(kind==='king'){e=addEnemy('dking',x,z,y,{model:MODEL.dragonking?'dragonking':'elder'});e.rking=1;e.sc=4.0;e.r=ST.dking.r*4.0;e.hc=0;e.mesh.rotation.order='YXZ';}
+  if(e&&kind!=='keep'&&kind!=='king'){const fit=sc=>{const rt=sc/(e.sc||1);e.sc=sc;e.r*=rt;e.hc*=rt;};fit((e.sc||1)*(kind==='earth'?0.67:0.53));
+    setTimeout(()=>{if(e.dead||!e.mesh||!e.mesh.parent)return;e.mesh.updateMatrixWorld(true);const k0=e.mesh.scale.x||1,hh=new THREE.Box3().setFromObject(e.mesh).getSize(new V3()).y/k0;if(hh>2)fit(14.4/hh);},600);}
   if(e)s5Mark(e,kind==='king'?0xffa030:null);return e;}
 // 竜王：体力が3分の2で親衛を呼ぶ／3分の1で本気（動きが速くなる）。親衛は、竜王が倒れたら消える
 function kingStep(e,dt){const p=e.mesh.position,f=e.hp/e.maxHp;
