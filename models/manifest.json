@@ -747,5 +747,29 @@
   "h": 32,
   "ja": "石ブロックの巨人ゴーレム（表紙の姿。胸と目が青く光る。動き idle・walk・box_01・fall）",
   "rot": 0
+ },
+ "cliff_waterfall": {
+  "file": "cliff_waterfall.glb",
+  "h": 90,
+  "ja": "滝つきの断崖（苔と草）",
+  "rot": 0
+ },
+ "rock_big": {
+  "file": "rock_big.glb",
+  "h": 6,
+  "ja": "苔むした大岩のかたまり",
+  "rot": 0
+ },
+ "crag_peak": {
+  "file": "crag_peak.glb",
+  "h": 250,
+  "ja": "尖った岩山（ふもとに森・頂に雪）",
+  "rot": 0
+ },
+ "col_broken": {
+  "file": "col_broken.glb",
+  "h": 4,
+  "ja": "折れた石の柱（横たわる・苔）",
+  "rot": 0
  }
 }
