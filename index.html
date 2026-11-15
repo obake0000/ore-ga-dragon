@@ -217,6 +217,14 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 #scp .chb .tx{min-width:0}
 #scp .chb .tx b{margin-right:8px}
 @media (max-width:640px){#scp .chb .th{width:64px;height:36px}#scp .dot{width:12px;height:12px}}
+#scp .pic video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease;background:#05081a;pointer-events:none}
+#scp .pic video.on{opacity:1;pointer-events:auto}
+#scp .dot.v{width:0;height:0;border-style:solid;border-width:7px 0 7px 12px;border-color:transparent transparent transparent #c8962e;background:none;border-radius:0;margin:0 1px}
+#scp .dot.v.on{background:none;border-left-color:#ffcf4a}
+#scp .chb .thw{position:relative;flex:none;display:block;line-height:0}
+#scp .chb .pl{position:absolute;right:4px;bottom:4px;width:18px;height:18px;border-radius:50%;background:#e0300cee;border:1px solid #ffe9b0}
+#scp .chb .pl::after{content:"";position:absolute;left:6px;top:4px;border-style:solid;border-width:4px 0 4px 7px;border-color:transparent transparent transparent #fff}
+@media (max-width:640px){#scp .dot.v{border-width:6px 0 6px 11px}}
 @media (prefers-reduced-motion:reduce){#scp .pic img{transition:none}}
 #waza{display:none;z-index:40;background:#0a0612f2;align-items:flex-start;justify-content:center}
 #waza .wbox{width:100%;max-width:1180px;margin:0 auto}
@@ -437,7 +445,7 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 <div id="story" class="ov"><div class="box"><div class="ch" id="stCh"></div><h2 id="stT"></h2><div class="kami" id="kami"><img id="stPic" alt=""><div class="kn" id="stN"></div></div><div id="stL"></div><div class="sbtns"><button class="btn sm" id="storySkip">スキップ ▶▶</button><button class="btn" id="storyGo">出撃！</button></div></div></div>
 <div id="paused" class="ov"><div class="box"><h1>一時停止</h1><div class="sub">Esc か P キーでも、つづきにもどれる</div><div class="gos"><button class="btn" id="resume">つづける</button><button class="btn sm" id="wazaBtn2">📖 技の一覧</button><button class="btn sm" id="quit">竜をえらびなおす</button></div></div></div>
 <div id="waza" class="ov"><div class="wbox"><div class="wh"><h2>技の一覧</h2><button class="btn sm" id="wazaX">とじる ✕</button></div><div class="wsub" id="wazaSub"></div><div class="wg" id="wazaG"></div></div></div>
-<div id="scp" class="ov" role="dialog" aria-modal="true" aria-labelledby="scpH"><div class="sbox"><div class="sh"><h2 id="scpH">シナリオの概要</h2><button class="btn sm" id="scpX" aria-label="とじる">✕ とじる</button></div><div class="tabs" id="scpTabs" role="tablist"></div><div class="cols"><div><div class="pic" id="scpPic"><img id="scpA" alt=""><img id="scpB" alt=""><div class="cap" id="scpCap"></div><div class="bd" id="scpBd">ゲーム画面</div></div><div class="dots" id="scpDots"></div></div><div class="info"><h3 class="nm" id="scpNm"></h3><p class="ds" id="scpDs"></p><div class="st">章の並び</div><ul class="chs" id="scpChs"></ul><div class="st">ボス</div><div class="bs" id="scpBs"></div><p class="len">🔰 初心者モード 約6分／ふつう 約15分</p><div class="gos"><button class="btn" id="scpGo">このシナリオで遊ぶ</button></div></div></div></div></div>
+<div id="scp" class="ov" role="dialog" aria-modal="true" aria-labelledby="scpH"><div class="sbox"><div class="sh"><h2 id="scpH">シナリオの概要</h2><button class="btn sm" id="scpX" aria-label="とじる">✕ とじる</button></div><div class="tabs" id="scpTabs" role="tablist"></div><div class="cols"><div><div class="pic" id="scpPic"><img id="scpA" alt=""><img id="scpB" alt=""><video id="scpV" muted playsinline preload="none" aria-label="ゲームの動画"></video><div class="cap" id="scpCap"></div><div class="bd" id="scpBd">ゲーム画面</div></div><div class="dots" id="scpDots"></div></div><div class="info"><h3 class="nm" id="scpNm"></h3><p class="ds" id="scpDs"></p><div class="st">章の並び</div><ul class="chs" id="scpChs"></ul><div class="st">ボス</div><div class="bs" id="scpBs"></div><p class="len">🔰 初心者モード 約6分／ふつう 約15分</p><div class="gos"><button class="btn" id="scpGo">このシナリオで遊ぶ</button></div></div></div></div></div>
 <div id="over" class="ov">
   <div class="box"><h1 id="ovT">やられた…</h1><div class="sub" id="ovS"></div><div class="res" id="ovR"></div><button class="btn" id="again">竜をえらびなおす</button></div>
 </div>
@@ -830,7 +838,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aaj';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aak';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -4355,35 +4363,38 @@ function scpEsc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;
 function scpShow(i){
   const L=SCP.pics;if(!L.length)return;SCP.i=((i%L.length)+L.length)%L.length;
   const nx=SCP.fr?$('scpA'):$('scpB'),pv=SCP.fr?$('scpB'):$('scpA');SCP.fr^=1;
-  nx.src=L[SCP.i].u;nx.classList.remove('on');void nx.offsetWidth;nx.classList.add('on');pv.classList.remove('on');
-  $('scpCap').textContent=L[SCP.i].c;{const bd=$('scpBd');if(bd)bd.style.display=L[SCP.i].s?'block':'none';}document.querySelectorAll('#scpChs li.cl').forEach(li=>li.classList.toggle('on',li.dataset.k===L[SCP.i].k));
+  const it=L[SCP.i],vd=$('scpV');if(it.v&&vd){nx.classList.remove('on');pv.classList.remove('on');if(vd.getAttribute('src')!==it.u)vd.src=it.u;vd.classList.add('on');if(scpReduced())vd.controls=true;else{try{vd.currentTime=0;}catch(e){}try{const pr=vd.play();if(pr&&pr.catch)pr.catch(()=>{});}catch(e){}}}else{if(vd){vd.classList.remove('on');try{vd.pause();}catch(e){}}nx.src=it.u;nx.classList.remove('on');void nx.offsetWidth;nx.classList.add('on');pv.classList.remove('on');}
+  $('scpCap').textContent=L[SCP.i].c;{const bd=$('scpBd');if(bd){bd.style.display=L[SCP.i].s?'block':'none';bd.textContent=L[SCP.i].v?'ゲームの動画':'ゲーム画面';}}document.querySelectorAll('#scpChs li.cl').forEach(li=>li.classList.toggle('on',li.dataset.k===L[SCP.i].k));
   document.querySelectorAll('#scpDots .dot').forEach((d,k)=>{d.classList.toggle('on',k===SCP.i);d.setAttribute('aria-current',k===SCP.i?'true':'false');});}
-function scpTimer(){clearInterval(SCP.tm);SCP.tm=0;if(SCP.open&&!scpReduced()&&SCP.pics.length>1)SCP.tm=setInterval(()=>scpShow(SCP.i+1),4500);}
+function scpTimer(){clearTimeout(SCP.tm);SCP.tm=0;if(SCP.open&&!scpReduced()&&SCP.pics.length>1)SCP.tm=setTimeout(()=>{scpShow(SCP.i+1);scpTimer();},(SCP.pics[SCP.i]&&SCP.pics[SCP.i].v)?6400:4500);}
 function scpView(n){
   if(!scnHas(n))n=1;SCP.n=n;const tok=++SCP.tok,I=SCI[n]||{d:'',b:[]};
   document.querySelectorAll('#scpTabs .tab').forEach(t=>{const on=+t.dataset.n===n;t.classList.toggle('on',on);t.setAttribute('aria-selected',on?'true':'false');});
   $('scpNm').textContent='シナリオ'+n+'：'+SCNM[n];$('scpDs').textContent=I.d;
   const sts=SCK[n].map(k=>ALLST.find(q=>q.key===k)).filter(Boolean);
-  $('scpChs').innerHTML=sts.map(q=>'<li class="cl" data-k="'+q.key+'"><button type="button" class="chb"><img class="th" src="story/st/'+q.key+'_1.jpg" alt="" loading="lazy" onerror="this.remove()"><span class="tx"><b>'+scpEsc(q.ch)+'</b>'+scpEsc(q.place||q.title)+'</span></button></li>').join('');
+  $('scpChs').innerHTML=sts.map(q=>'<li class="cl" data-k="'+q.key+'"><button type="button" class="chb"><span class="thw"><img class="th" src="story/st/'+q.key+'_1.jpg" alt="" loading="lazy" onerror="this.parentNode.remove()">'+(SCPV[q.key]?'<i class="pl"></i>':'')+'</span><span class="tx"><b>'+scpEsc(q.ch)+'</b>'+scpEsc(q.place||q.title)+'</span></button></li>').join('');
   $('scpBs').innerHTML=I.b.map(b=>{const s=SBI[b[0]]||(b[1]?'chara/'+b[1]+'.webp':'');return s?'<span class="bo"><img src="'+s+'" alt="" onerror="this.parentNode.classList.add(\'nf\');this.remove()">'+scpEsc(b[0])+'</span>':'<span class="bo nf">'+scpEsc(b[0])+'</span>';}).join('');
   $('scpGo').textContent='このシナリオで遊ぶ';
-  clearInterval(SCP.tm);SCP.tm=0;SCP.pics=[];$('scpDots').innerHTML='';$('scpCap').textContent='';$('scpA').classList.remove('on');$('scpB').classList.remove('on');
-  const cand=[];sts.forEach(q=>{const c=q.ch+'　'+(q.place||q.title);[1,2,3].forEach(j=>cand.push({u:'story/v2/'+q.key+'_'+j+'.jpg',c:c,k:q.key}));[1,2].forEach(j=>cand.push({u:'story/st/'+q.key+'_'+j+'.jpg',c:c,k:q.key,s:1}));});
-  Promise.all(cand.map(c=>new Promise(r=>{const im=new Image();im.onload=()=>r(true);im.onerror=()=>r(false);im.src=c.u;}))).then(ok=>{
+  clearInterval(SCP.tm);SCP.tm=0;SCP.pics=[];$('scpDots').innerHTML='';$('scpCap').textContent='';$('scpA').classList.remove('on');$('scpB').classList.remove('on');{const vd=$('scpV');if(vd){vd.classList.remove('on');try{vd.pause();}catch(e){}}}
+  const cand=[];sts.forEach(q=>{const c=q.ch+'　'+(q.place||q.title),K=q.key,pa=j=>({u:'story/v2/'+K+'_'+j+'.jpg',c:c,k:K}),sh=j=>({u:'story/st/'+K+'_'+j+'.jpg',c:c,k:K,s:1});cand.push(pa(1));if(SCPV[K])cand.push({u:'story/st/'+K+'.mp4',c:c,k:K,s:1,v:1});cand.push(pa(2),sh(1),pa(3),sh(2));});
+  Promise.all(cand.map(c=>c.v?Promise.resolve(true):new Promise(r=>{const im=new Image();im.onload=()=>r(true);im.onerror=()=>r(false);im.src=c.u;}))).then(ok=>{
     if(tok!==SCP.tok||!SCP.open)return;SCP.pics=cand.filter((c,k)=>ok[k]);scpRows();
-    $('scpDots').innerHTML=SCP.pics.length>1?SCP.pics.map((c,k)=>'<button class="dot" aria-label="'+(k+1)+'枚目：'+scpEsc(c.c)+'"></button>').join(''):'';
+    $('scpDots').innerHTML=SCP.pics.length>1?SCP.pics.map((c,k)=>'<button class="dot'+(c.v?' v':'')+'" aria-label="'+(k+1)+'枚目：'+(c.v?'ゲームの動画　':c.s?'ゲーム画面　':'')+scpEsc(c.c)+'"></button>').join(''):'';
     document.querySelectorAll('#scpDots .dot').forEach((d,k)=>d.addEventListener('click',()=>{scpShow(k);scpTimer();}));
     $('scpPic').classList.toggle('kb',!scpReduced());SCP.fr=0;scpShow(0);scpTimer();});}
 /* ---- 概要の窓：ボスのアイコンと章の行（scn_panel2.py） ---- */
 const SBI={'迷宮の番人':'chara/drak.webp','オーク将軍':'chara/orcgeneral.webp','ケルベロス':'chara/cerberus.webp','うごく城':'chara/boss/walker.webp','巨大戦艦と空中戦艦':'chara/boss/airship.webp','木造の竜':'chara/boss/wooddragon.webp','木の巨大戦車':'chara/boss/woodtank.webp','悪魔の将軍':'chara/boss/devilgeneral.webp','骨の巨人王':'chara/boss/bonegiant.webp','天馬騎士団長':'chara/boss/pegasus.webp','天使将軍':'chara/boss/angelgeneral.webp','守護天使長':'chara/boss/guardian.webp','さんごの大ガニ':'chara/boss/crab.webp','リヴァイアサン':'chara/boss/leviathan.webp'};
 function scpRows(){document.querySelectorAll('#scpChs li.cl').forEach(li=>{const k=li.dataset.k,b=li.querySelector('button');if(!b)return;
   b.onclick=()=>{let i=SCP.pics.findIndex(c=>c.k===k&&c.s);if(i<0)i=SCP.pics.findIndex(c=>c.k===k);if(i<0)return;scpShow(i);scpTimer();if(innerWidth<=640){try{$('scpPic').scrollIntoView({block:'center',behavior:'smooth'});}catch(e){}}};});}
+/* ---- 概要の窓：章ごとのゲーム動画（scn_panel3.py） ---- */
+const SCPV={archangel:1,bonefield:1,castle:1,coralsea:1,deepsea:1,dragongrave:1,dragonking:1,dungeon:1,golem:1,hellgate:1,maou:1,maoujo:1,orcfort:1,orcking:1,orcwood:1,peak:1,sea:1,seaking:1,skygate:1,skytemple:1,town:1,valley:1};
+$('scpV').addEventListener('error',()=>{if(SCP.open&&SCP.pics[SCP.i]&&SCP.pics[SCP.i].v&&SCP.pics.length>1){scpShow(SCP.i+1);scpTimer();}});
 function scpOpen(){
   if(state!=='select')return;SCP.open=true;
   $('scpTabs').innerHTML=[1,2,3,4,5,6,7].filter(scnHas).map(n=>'<button class="tab" role="tab" data-n="'+n+'"><span class="no">'+(n===SCN?'★':n)+'</span>'+scpEsc(SCNM[n])+'</button>').join('');
   document.querySelectorAll('#scpTabs .tab').forEach(t=>t.addEventListener('click',()=>scpView(+t.dataset.n)));
   const w=$('scp');w.style.display='flex';w.scrollTop=0;scpView(SCN);try{$('scpGo').focus({preventScroll:true});}catch(e){}}
-function scpClose(){SCP.open=false;SCP.tok++;clearInterval(SCP.tm);SCP.tm=0;$('scp').style.display='none';try{$('scn').focus({preventScroll:true});}catch(e){}}
+function scpClose(){SCP.open=false;SCP.tok++;clearInterval(SCP.tm);SCP.tm=0;{const vd=$('scpV');if(vd){try{vd.pause();}catch(e){}}}$('scp').style.display='none';try{$('scn').focus({preventScroll:true});}catch(e){}}
 $('scn').addEventListener('click',scpOpen);
 $('scpX').addEventListener('click',scpClose);
 $('scp').addEventListener('click',e=>{if(e.target===$('scp')||e.target.classList.contains('sbox'))scpClose();});
