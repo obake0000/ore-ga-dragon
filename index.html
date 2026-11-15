@@ -937,7 +937,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aas';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aat';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1631,13 +1631,13 @@ function buildCastle(cx,cz){GATE=null;
   [['front',0,30,62,4],['back',0,-30,62,4],['left',-30,0,4,62],['right',30,0,4,62]].forEach(([n,x,z,w,d])=>{const g=new THREE.Group();const b=box(w,14,d,ms);b.position.y=7;b.receiveShadow=true;g.add(b);
     const cren=Math.max(w,d)/4;for(let i=0;i<cren;i++){const c=box(w>d?2:4.4,1.6,w>d?4.4:2,ms);const o=-Math.max(w,d)/2+2+i*4;c.position.set(w>d?o:0,14.8,w>d?0:o);g.add(c);}
     if(n==='front'){const gt=box(10,10,1,mat(0x3a2a1a));gt.position.set(0,5,2.2);g.add(gt);}
-    attachRow(g,'castle_wall',Math.max(w,d),15.6,d+2,w>d);if(n==='front'){GATE=gmLeaves(g,0,0,4.2,14,11);GATE.kind='castle';GATE.x=cx;GATE.z=cz+30;GATE.hz=cz+28;GATE.root=g;}
-    g.position.set(cx+x,cy,cz+z);walls[n]=addBld(g,700,80,'wall');walls[n].armor=0.5;walls[n].solid=true;});
-  [[-30,30],[30,30],[-30,-30],[30,-30]].forEach(([x,z])=>{const g=new THREE.Group();const t=mesh(new THREE.CylinderGeometry(5,5.5,24,12),ms);t.position.y=12;g.add(t);const r=mesh(new THREE.ConeGeometry(6.5,9,12),mr);r.position.y=28.5;g.add(r);attachModel(g,'castle_tower');g.position.set(cx+x,cy,cz+z);const b=addBld(g,800,100,'tower');b.armor=0.5;b.solid=true;});
+    attachRow(g,'castle_wall',Math.max(w,d),15.6,d+2,w>d);if(n==='front'){GATE=gmLeaves(g,0,0,4.2,14,11);GATE.kind='castle';GATE.x=cx;GATE.z=cz+30;GATE.hz=cz+28;GATE.root=g;GATE.pend=[cx,cy,cz+30];}
+    g.position.set(cx+x,cy,cz+z);walls[n]=addBld(g,700,80,'wall');walls[n].armor=0.75;walls[n].solid=true;});
+  [[-30,30],[30,30],[-30,-30],[30,-30]].forEach(([x,z])=>{const g=new THREE.Group();const t=mesh(new THREE.CylinderGeometry(5,5.5,24,12),ms);t.position.y=12;g.add(t);const r=mesh(new THREE.ConeGeometry(6.5,9,12),mr);r.position.y=28.5;g.add(r);attachModel(g,'castle_tower');g.position.set(cx+x,cy,cz+z);const b=addBld(g,800,100,'tower');b.armor=0.75;b.solid=true;});
   {const g=new THREE.Group();const k=box(18,28,18,ms);k.position.y=14;g.add(k);const kr=mesh(new THREE.ConeGeometry(14,12,4),mr);kr.position.y=34;kr.rotation.y=Math.PI/4;g.add(kr);
     const pole=mesh(new THREE.CylinderGeometry(0.2,0.2,10),mat(0x3a2a1a));pole.position.y=44;g.add(pole);const fl=mesh(new THREE.PlaneGeometry(5,3),new THREE.MeshLambertMaterial({color:0x2050c0,side:THREE.DoubleSide}));fl.position.set(2.5,47,0);g.add(fl);
     attachModel(g,'castle_keep');g.position.set(cx,cy,cz);const kb=addBld(g,1600,300,'keep');kb.armor=0.5;kb.solid=true;}
-  CASTLE={cx,cz,cy,walls};
+  CASTLE={cx,cz,cy,walls};try{gmGate3();}catch(er){console.warn('gate3',er);}
 }
 /* ---- 町（碁盤の目に家を並べる） ---- */
 function buildTown(cx,cz,R,S,o={}){
@@ -2504,7 +2504,7 @@ function gmOut(x,z,r){for(let it=0;it<3;it++){let hit=false;for(const b of BLD){
       if(x>bx.min.x-r&&x<bx.max.x+r&&z>bx.min.z-r&&z<bx.max.z+r){const dl=x-(bx.min.x-r),dr=(bx.max.x+r)-x,df=z-(bx.min.z-r),db=(bx.max.z+r)-z,m=Math.min(dl,dr,df,db);
         if(m===dl)x=bx.min.x-r-0.5;else if(m===dr)x=bx.max.x+r+0.5;else if(m===df)z=bx.min.z-r-0.5;else z=bx.max.z+r+0.5;hit=true;}}
     if(!hit)break;}return [x,z];}
-function gmFo(k){return [(k%5-2)*3.2,-Math.floor(k/5)*3.4];}
+function gmFo(k){return [(k%5-2)*(GATE&&GATE.g3?2.5:3.2),-Math.floor(k/5)*3.4];}
 function gmStart(i){const G=GATE;if(!G||!gmOk()||state!=='play')return;let n=0,q=0;const d0=2.6,dq=3.0;
   if(G.kind==='castle'){const seen=new Set();
     for(const e of EN){const U=e.fu;if(!U||e.dead||U.gm||U.gdone||seen.has(U))continue;seen.add(U);const L=U.m.filter(m=>!m.dead);if(!L.length)continue;
@@ -2532,14 +2532,42 @@ function gmBEnd(B){B.gm=null;if(!SW.u)return;for(const u of SW.u)if(u.gh&&SW.B&&
 function gmU(u,dt){const G=GATE;if(!G){u.gh=0;return null;}u.gt+=dt;if(u.gt<u.gd)return [u.x,u.z];
   const ex=G.ex||0;if(u.z>G.z+22+ex){u.gh=0;return null;}return [G.x+u.gl,G.z+26+ex];}
 // とびらの動き（時計は自前。ゲームがとまっていても、とびらだけは動いてよい）
-function gmAnim(dt){const G=GATE;if(!G||!G.root)return;
+function gmAnim(dt){const G=GATE;if(!G||!G.root)return;gmReinf(dt);
   if(G.tg){let any=false;for(const e of EN){if(!e.dead&&e.fu&&e.fu.gm){any=true;break;}}
     if(!any&&SW.on){if(SW.B){for(const B of SW.B)if(B.gm){any=true;break;}}else if(SW.u){for(const u of SW.u)if(u.gh&&!u.dead){any=true;break;}}}
     if(any)G.cl=3.5;else{G.cl-=dt;if(G.cl<=0)G.tg=0;}}
   const dg=G.tg-G.open;if(Math.abs(dg)>1e-4){G.open+=Math.max(-dt*0.4,Math.min(dt*0.5,dg));
     if(G.tg&&G.open<0.85&&Math.random()<dt*6)smoke(new V3(G.x+rnd(-6,6),floorAt(G.x,G.z)+1,G.z+4),1,4,1.6,0x9a8a70,2);}
-  const a=G.open*G.open*(3-2*G.open)*1.5;if(G.L){G.L.rotation.y=-a;G.R.rotation.y=a;}}
+  const a=G.open*G.open*(3-2*G.open)*1.5;if(G.L){G.L.rotation.y=-a;G.R.rotation.y=a;}gmClip();}
 (function gmLoop(){let t0=performance.now();const f=()=>{const t=performance.now(),dt=Math.min(0.1,(t-t0)/1000);t0=t;try{gmAnim(dt);}catch(er){}requestAnimationFrame(f);};requestAnimationFrame(f);})();
+// ---- 王都の城門（モデル）：同じモデルを3つ重ねて、切り取りで「アーチ」「左のとびら」「右のとびら」に分ける。とびらだけ回して開く ----
+const GT3={H:19,SX:1.3,A:0.235,Y:0.58,hp:400};
+function gmGate3(){const G=GATE,M=MODEL.castle_gate;if(!G||!G.pend||!M||G.g3)return;const [cx,cy,cz]=G.pend;
+  const bb=new THREE.Box3().setFromObject(M.scene),sz=bb.getSize(new V3()),k=GT3.H/sz.y,kx=k*GT3.SX,W=sz.x*kx,Dp=sz.z*k,a=W*GT3.A,hh=GT3.H*GT3.Y;
+  const g=new THREE.Group();g.position.set(cx,cy,cz+3+Dp/2-0.8);
+  const mk=()=>{const h=new THREE.Group(),m=M.scene.clone(true);m.rotation.y=M.rot||0;m.scale.set(kx,k,k);m.position.set(-(bb.min.x+bb.max.x)/2*kx,-bb.min.y*k,-(bb.min.z+bb.max.z)/2*k);h.add(m);const ms=[];
+    m.traverse(o=>{if(o.isMesh){o.material=Array.isArray(o.material)?o.material.map(q=>q.clone()):o.material.clone();o.castShadow=true;(Array.isArray(o.material)?o.material:[o.material]).forEach(q=>ms.push(q));}});h.userData.ms=ms;return h;};
+  const arch=mk();g.add(arch);G.alp=[new THREE.Plane(new V3(1,0,0),-a),new THREE.Plane(new V3(-1,0,0),-a),new THREE.Plane(new V3(0,1,0),-hh)];G.awp=G.alp.map(q=>q.clone());
+  arch.userData.ms.forEach(m=>{m.clippingPlanes=G.awp;m.clipIntersection=true;m.needsUpdate=true;});
+  const hole=new THREE.Mesh(new THREE.PlaneGeometry(a*2,hh),new THREE.MeshBasicMaterial({color:0x0c0a08}));hole.position.set(0,hh/2,-Dp*0.42);g.add(hole);
+  const lv=[];[-1,1].forEach(sg=>{const pv=new THREE.Group();pv.position.set(sg*a,0,0);const lf=mk();lf.position.x=-sg*a;pv.add(lf);g.add(pv);
+    pv.userData.lp=[new THREE.Plane(new V3(-sg,0,0),0),new THREE.Plane(new V3(sg,0,0),a),new THREE.Plane(new V3(0,-1,0),hh)];pv.userData.wp=pv.userData.lp.map(q=>q.clone());
+    lf.userData.ms.forEach(m=>{m.clippingPlanes=pv.userData.wp;m.needsUpdate=true;});lv.push(pv);});
+  R.localClippingEnabled=true;const b=addBld(g,GT3.hp,150,'gate');b.solid=true;
+  if(G.L)G.L.visible=false;if(G.R)G.R.visible=false;G.L=lv[0];G.R=lv[1];G.lv=lv;G.g3=g;G.bld=b;gmClip();}
+// 切り取りの面を、門の今の位置・とびらの今の角度に合わせる（門がくずれて沈む時も合う）
+function gmClip(){const G=GATE;if(!G||!G.g3)return;G.g3.updateMatrixWorld(true);G.alp.forEach((q,i)=>G.awp[i].copy(q).applyMatrix4(G.g3.matrixWorld));
+  for(const pv of G.lv)pv.userData.lp.forEach((q,i)=>pv.userData.wp[i].copy(q).applyMatrix4(pv.matrixWorld));}
+// 援軍：門が生きている間、ときどき門が開いて、本物の敵の兵の隊が出てくる
+function gmReinf(dt){const G=GATE;if(!G||G.kind!=='castle'||!G.g3||!gmOk()||state!=='play'||PAUSED||LVUP||cineOn||typeof s2Sol!=='function')return;
+  if(G.bld&&G.bld.dead){if(!G.brk){G.brk=1;banner('🚪 城門をやぶった！ もう援軍は出てこない',2.8);}return;}
+  const Wv=curWaves()[wave];if(!Wv||Wv.duel)return;G.rT=(G.rT===undefined?20:G.rT)-dt;if(G.rT>0)return;G.rT=EASY?32:24;
+  if((G.rN||0)>=4)return;let n=0;for(const e of EN)if(!e.dead&&e.type==='soldier')n++;if(n>60||!EN.some(e=>!e.dead&&!e.rf))return;
+  const n0=EN.length;s2Sol(G.x,G.z+44,4,5);if(EN.length===n0)return;const U=EN[EN.length-1].fu;if(!U)return;G.rN=(G.rN||0)+1;
+  const L=U.m.filter(m=>!m.dead);U.gm={d:1.4,t:0,len:Math.ceil(L.length/5)*3.4};U.x=G.x;U.z=G.z-20;U.yaw=0;
+  L.forEach((m,k)=>{m.rf=1;m.fo0=m.fo;m.fo=gmFo(k);m.ginv=!m.inv;if(m.ginv)m.inv=true;m.mesh.visible=false;const q=m.mesh.position;q.x=U.x+m.fo[0];q.z=U.z+m.fo[1];q.y=floorAt(q.x,q.z);});
+  G.tg=1;G.cl=3.5;const c=new V3(G.x,floorAt(G.x,G.z)+3,G.z+8);sfx('boom',c,0.6);sfx('crash',c,0.4);smoke(c,10,6,2.6,0x9a8a70,6);banner('🚪 城門が開いた！ 兵の隊が出てくる',2.2);}
+{const g0=gmStart;gmStart=function(i){if(GATE){GATE.rT=18;GATE.rN=0;}return g0.apply(this,arguments);};}
 // 建物は通りぬけられない：ぶつかったら外へ押し出す。横から行けば止まり、屋根より高ければ上を通る。
 function bldBlock(dt){
   const pad=C.human?1.3:C.fly?1.8:1.3,x0=P.bpx,z0=P.bpz,have=x0!==undefined&&Math.hypot(P.pos.x-x0,P.pos.z-z0)<14;
