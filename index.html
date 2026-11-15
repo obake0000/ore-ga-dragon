@@ -1098,7 +1098,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTY';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYM';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -7927,7 +7927,13 @@ R.domElement.addEventListener('touchend',e=>{for(const t of e.changedTouches){if
 document.querySelectorAll('#touch .b').forEach(b=>{b.addEventListener('touchstart',e=>{e.preventDefault();if(b.dataset.k==='sp')special();else if(b.dataset.k==='sp2')special2();else act();},{passive:false});});
 
 /* ================= 画面の流れ（えらぶ→戦う→負けたらえらびなおす） ================= */
-{const box_=$('cards');for(const k of ['dragon','wyvern','ground','hero','army','golem','orctank','airship']){const c=CH[k];const d=document.createElement('div');d.className='card';d.dataset.k=k;
+// ---- 11/16 遊べる魔王：人の姿 → 牛の魔物 → 黒い煙の魔人（体力が減るごとに変身） ----
+Object.assign(CH,{maou:{name:'魔王',em:'😈',tag:'地上・三段変身',ds:'封印から出てきた魔王。最初は人の姿。体力が3分の2を切ると牛の魔物、3分の1を切ると黒い煙の魔人に変身して、どんどん強くなる。',hp:430,spd:17,turn:2.0,fly:false,range:150,
+  br:{mat:new THREE.MeshBasicMaterial({color:0xc060ff}),geo:'bolt',dmg:46,cd:0.7,spd:150,life:1.6,size:1.5,splash:7,col:[0xc060ff,0x8020ff,0xffffff],trail:[0xc060ff,0x6010c0],flash:0xb040ff},
+  sp:'thunder',spN:'天罰の雷',spD:'敵の頭の上に、紫の雷を落とす',sp2:'gbeam',sp2N:'闇の光線',sp2D:'前へ太い光線を放つ',dash:'guard',dashN:'闇の守り',dashD:'その場で守りをかため、受けるダメージをへらす',mel:{r:12,dmg:90,cd:0.6,ono:'ドゴッ！'},
+  model:{id:'blackknight',w:3,h:6,d:2.4,mouth:[0,1.5,1.6]},camB:24,camU:9,gOff:3,stat:[4,3,4]}});
+const MAOUF=[{id:'blackknight',w:3,h:6,d:2.4,nm:'人の姿',spd:17,dmg:1},{id:'demon',w:6,h:10,d:5,nm:'牛の魔物',spd:15,dmg:1.35},{id:'anc_darkdemon',w:9,h:15,d:7,nm:'黒い煙の魔人',spd:19,dmg:1.8,black:1}];
+{const box_=$('cards');for(const k of ['dragon','wyvern','ground','hero','army','golem','orctank','airship','maou']){const c=CH[k];const d=document.createElement('div');d.className='card';d.dataset.k=k;
   const bar=(l,v)=>`<div class="st"><span>${l}</span><div class="bar"><i style="width:${v*20}%"></i></div></div>`;
   d.innerHTML=`<img class="pti" src="chara/${k}.webp" alt=""><div class="nm">${c.name}<span class="tag">${c.tag}</span></div><div class="ds">${c.ds}</div>${bar('体力',c.stat[0])}${bar('速さ',c.stat[1])}${bar('攻撃',c.stat[2])}`;
   d.addEventListener('click',()=>{initAudio();setChar(k);sfx('roar',null,0.3);});box_.appendChild(d);}}
@@ -10399,6 +10405,18 @@ function nuraTick(dt){for(const e of EN){if(e.dead||e.s8!=='y_nura')continue;con
 // レッドキャップ（遊ぶ側）：敵の攻撃に反応して横へ跳ぶ（残像）
 function rcDodge(dt){if(state!=='play'||charKey!=='redcap'||!D)return;P.rcd=(P.rcd||0)-dt;if(P.rcd>0)return;for(const q of PROJ){if(q.from==='p'||!q.m)continue;const d=q.m.position.distanceTo(P.pos);if(d<9&&Math.random()<0.6){ghostAt(D.g,0xff6040);const v=q.vel.clone().setY(0).normalize();P.pos.add(new V3(-v.z,0,v.x).multiplyScalar(Math.random()<0.5?9:-9));P.inv=Math.max(P.inv,0.5);P.rcd=1.2;ono(P.pos.clone().add(new V3(0,4,0)),'ひらり','#ffb090',26);break;}}}
 {const ut16=updTheme;updTheme=function(dt,t){ut16.apply(this,arguments);try{nuraTick(dt);rcDodge(dt);}catch(err){console.warn('nura',err);}};}
+// 魔王の変身：体力の割合で姿を入れかえる（見た目・大きさ・速さ・攻撃の強さ）。変身の時は少し回復して、光と台詞
+function maouForm(i,show){if(charKey!=='maou'||!D||!D.body)return;const F=MAOUF[i];if(!F||D.mf===i)return;D.mf=i;
+  const inner=D.inner,old=D.body;inner.remove(old);const body=makeProxy(F.w,F.h,F.d,0x6a4a7a,false);attachModel(body,MODEL[F.id]?F.id:'demon');inner.add(body);D.body=body;if(D.units&&D.units[0])D.units[0].m=body;
+  if(F.black)body.traverse(o=>{if(o.isMesh&&o.material&&o.material.color){o.material=o.material.clone();o.material.color.multiplyScalar(0.22);if('emissive' in o.material){o.material.emissive=new THREE.Color(0x2a0838);o.material.emissiveIntensity=0.6;}}});
+  C.gOff=F.h/2;inner.position.y=-C.gOff;D.mouth.position.set(0,F.h*0.25,F.d*0.7);C.camB=18+F.h*1.2;C.camU=6+F.h*0.4;C.spd=F.spd;P.sp=C.sp;P.maouK=F.dmg;C.mel.r=8+F.w*1.2;
+  if(show&&state==='play'){P.hp=Math.min(P.maxHp,P.hp+P.maxHp*0.2);P.inv=Math.max(P.inv,1.5);glowFlash(P.pos.clone(),0xb040ff,50,0.8);burst(P.pos,60,[0xb040ff,0x200030,0xffffff],6,40,1);shake(0.9);sfx('roar',null,1);
+    try{glory('魔王、'+(i===1?'第二形態':'最終形態')+'！',F.nm+'に変身した');}catch(_){}}}
+function maouTick(){if(charKey!=='maou'||state!=='play'||!D)return;const r=P.hp/Math.max(1,P.maxHp);const want=r<1/3?2:r<2/3?1:0;if(want>(D.mf||0))maouForm(want,true);}
+{const sc0=setChar;setChar=function(k){const r=sc0.apply(this,arguments);try{if(k==='maou'){D.mf=-1;maouForm(0,false);}}catch(err){console.warn('maou',err);}return r;};}
+{const ut17=updTheme;updTheme=function(dt,t){ut17.apply(this,arguments);try{maouTick();}catch(_){}};}
+// 魔王の弾は、変身するほど強くなる
+{const sh0=shoot;shoot=function(pos,vel,o){if(charKey==='maou'&&o&&o.from==='p'&&P.maouK&&P.maouK!==1){o=Object.assign({},o);o.dmg=(o.dmg||0)*P.maouK;if(o.size)o.size*=Math.min(1.5,P.maouK);}return sh0.call(this,pos,vel,o);};}
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
 </body>
