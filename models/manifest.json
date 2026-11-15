@@ -1575,5 +1575,71 @@
   "h": 3,
   "ja": "聖なるカラス",
   "rot": 0
+ },
+ "anc_stormdemon": {
+  "file": "anc_stormdemon.glb",
+  "h": 12,
+  "ja": "嵐の魔人（下半身が煙）",
+  "rot": 0
+ },
+ "anc_darkdemon": {
+  "file": "anc_darkdemon.glb",
+  "h": 10,
+  "ja": "闇の魔人",
+  "rot": 0
+ },
+ "anc_dogustatue": {
+  "file": "anc_dogustatue.glb",
+  "h": 6,
+  "ja": "土偶の砲台",
+  "rot": 0
+ },
+ "anc_doguhead": {
+  "file": "anc_doguhead.glb",
+  "h": 6,
+  "ja": "土偶の頭",
+  "rot": 0
+ },
+ "anc_dogucannon": {
+  "file": "anc_dogucannon.glb",
+  "h": 5,
+  "ja": "土偶の大砲",
+  "rot": 0
+ },
+ "anc_kofun": {
+  "file": "anc_kofun.glb",
+  "h": 14,
+  "ja": "古墳の入口",
+  "rot": 0
+ },
+ "anc_dotaku": {
+  "file": "anc_dotaku.glb",
+  "h": 5,
+  "ja": "銅鐸",
+  "rot": 0
+ },
+ "anc_tribal": {
+  "file": "anc_tribal.glb",
+  "h": 3.2,
+  "ja": "古代の戦士",
+  "rot": 0
+ },
+ "anc_hall": {
+  "file": "anc_hall.glb",
+  "h": 16,
+  "ja": "縄文の大きな祭りの家",
+  "rot": 0
+ },
+ "anc_hut": {
+  "file": "anc_hut.glb",
+  "h": 8,
+  "ja": "竪穴住居",
+  "rot": 0
+ },
+ "anc_stone": {
+  "file": "anc_stone.glb",
+  "h": 9,
+  "ja": "立石と銅鏡",
+  "rot": 0
  }
 }
