@@ -1845,5 +1845,11 @@
   "h": 4,
   "ja": "古代のそり",
   "rot": 0
+ },
+ "bomber_modern_bomb": {
+  "file": "bomber_modern_bomb.glb",
+  "h": 3.2,
+  "ja": "現代型航空爆弾（Hunyuan3D 2.1）",
+  "rot": 0
  }
 }

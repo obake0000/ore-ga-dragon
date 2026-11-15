@@ -1114,7 +1114,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0A';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABC';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -1123,7 +1123,7 @@ async function loadModels(){try{await loadModels0();}finally{loadDone();}}
 async function loadModels0(){
   if(!THREE.GLTFLoader||location.protocol==='file:')return;
   try{const r=await fetch('models/manifest.json',{cache:'no-store'});if(!r.ok)return;const mf=await r.json();LOADN=Object.keys(mf).length;const ld=new THREE.GLTFLoader();
-    const PRI=['nurarihyon','y_origami','y_oni','y_whitefox','y_karasu','skelmage','skel','skeleton','slime2','imp','dragon','wyvern2','wyvern','ground','hero','army','golem','orctank','airship','redcap','kraken','kraken2','archangel','angelstatue','p8bomber','p8fighter'];const ENT=Object.entries(mf).sort((a,b)=>{const ia=PRI.indexOf(a[0]),ib=PRI.indexOf(b[0]);return (ia<0?99:ia)-(ib<0?99:ib);});
+    const PRI=['nurarihyon','y_origami','y_oni','y_whitefox','y_karasu','skelmage','skel','skeleton','slime2','imp','dragon','wyvern2','wyvern','ground','hero','army','golem','orctank','airship','redcap','kraken','kraken2','archangel','angelstatue','p8bomber','bomber_modern_bomb','p8fighter'];const ENT=Object.entries(mf).sort((a,b)=>{const ia=PRI.indexOf(a[0]),ib=PRI.indexOf(b[0]);return (ia<0?99:ia)-(ib<0?99:ib);});
     let qi=0,priLeft=ENT.filter(e=>PRI.includes(e[0])).length;const one=([id,v])=>new Promise(res=>(function lo(n){ld.load('models/'+v.file+'?v='+ASSET_V+(n?'&r='+n:''),g=>{
       g.scene.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;(Array.isArray(o.material)?o.material:[o.material]).forEach(mt=>{if(!mt)return;if(mt.map){mt.map.encoding=THREE.LinearEncoding;mt.map.needsUpdate=true;}if(mt.emissiveMap)mt.emissiveMap.encoding=THREE.LinearEncoding;if('metalness' in mt){mt.metalness=0;mt.metalnessMap=null;mt.roughness=0.85;mt.roughnessMap=null;}mt.needsUpdate=true;});}});
       let sk=false;g.scene.traverse(o=>{if(o.isSkinnedMesh)sk=true;});if(id==='wyvern')fixWyvernLeg(g.scene);if(id==='dragon')addJaw(g.scene);if(id==='p8rex')rexJaw(g.scene);MODEL[id]={scene:g.scene,skin:sk,anims:g.animations||[],rot:(v.rot!==undefined?v.rot:-90)*Math.PI/180};layModel(id);if(id==='airship')prepAirProp(g.scene);loadStep();modelArrived(id);res();},undefined,()=>{if(n<2){setTimeout(()=>lo(n+1),600);return;}loadStep();res();});})(0));
@@ -2059,7 +2059,7 @@ const FIREMATS=new Set([MAT.fire,MAT.big,MAT.dfire,MAT.bfire]);
 const ESHOT=[];
 function eShotOk(pos){const n=performance.now();for(let i=ESHOT.length-1;i>=0;i--)if(n-ESHOT[i].t>450)ESHOT.splice(i,1);
   let c=0;for(const q of PROJ)if(q.from!=='p'&&q.geo!=='arrow')c++;if(c>=10)return false;for(const q of ESHOT)if(q.p.distanceToSquared(pos)<900)return false;ESHOT.push({t:n,p:pos.clone()});return true;}
-function shoot(pos,vel,o){if(o&&o.from!=='p'&&o.geo!=='arrow'&&state==='play'&&!eShotOk(pos))return;const m=new THREE.Mesh(GEO[o.geo||'fire'],o.mat);m.position.copy(pos);m.scale.setScalar((o.size||1)*(o.ball?0.4:1)*(o.from!=='p'&&o.geo!=='arrow'?0.72:1));if(o.fat){m.scale.x*=o.fat;m.scale.y*=o.fat;}scene.add(m);
+function shoot(pos,vel,o){if(o&&o.from!=='p'&&o.geo!=='arrow'&&state==='play'&&!eShotOk(pos))return;const m=o.geo==='modernBomb'?modernBombMesh():new THREE.Mesh(GEO[o.geo||'fire'],o.mat);m.position.copy(pos);m.scale.setScalar((o.size||1)*(o.ball?0.4:1)*(o.from!=='p'&&o.geo!=='arrow'?0.72:1));if(o.fat){m.scale.x*=o.fat;m.scale.y*=o.fat;}scene.add(m);
   if(FXT.ok&&(!o.geo||o.geo==='fire')&&!o.ball&&!(o.from==='p'&&o.mat===MAT.fire)){const fs=new THREE.Sprite(new THREE.SpriteMaterial({map:fxT(0,4),color:(o.col&&o.col[0])||0xffa030,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false}));fs.scale.set(4.4,4.4,1);fs.material.rotation=rnd(0,6.3);m.add(fs);m.userData.fs=fs;}
   let glow=null;
   if(o.geo==='arrow'){m.add(new THREE.Mesh(GEO.ahead,AMAT.head));m.add(new THREE.Mesh(GEO.afeath,o.holyArrow?o.mat:o.from==='p'?AMAT.feath:AMAT.feathR));if(o.holyArrow){m.children[0].material=o.mat;glow=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xffed90,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,opacity:0.6}));glow.scale.set(2.5,2.5,1);m.add(glow);}else o.trail=null;}
@@ -2093,7 +2093,7 @@ function updProj(dt){
   for(let i=PROJ.length-1;i>=0;i--){const p=PROJ[i],pp=p.m.position;p.life-=dt;p.vel.y-=p.grav*dt;
     if(p.homing){tmp.subVectors(P.pos,pp).normalize().multiplyScalar(p.vel.length());p.vel.lerp(tmp,Math.min(1,dt*1.3));}
     pp.addScaledVector(p.vel,dt);if(RANKS.n&&p.from==='p')ranksHit(pp,(p.splash||0)*0.45+p.r+1.6);
-    if(p.geo==='arrow'||p.geo==='beam'||p.geo==='bolt'||p.geo==='bomberBullet'||p.geo==='ufoLaser'||p.geo==='ufoMissile')p.m.lookAt(tmp.copy(pp).add(p.vel));else if(p.crag)cragFly(p,dt);else if(p.geo==='rock')p.m.rotation.x+=dt*6;
+    if(p.geo==='arrow'||p.geo==='beam'||p.geo==='bolt'||p.geo==='bomberBullet'||p.geo==='modernBomb'||p.geo==='ufoLaser'||p.geo==='ufoMissile')p.m.lookAt(tmp.copy(pp).add(p.vel));else if(p.crag)cragFly(p,dt);else if(p.geo==='rock')p.m.rotation.x+=dt*6;
     if(p.geo==='bolt'){if(Math.random()<0.5)p.m.geometry=ZGEO[(Math.random()*ZGEO.length)|0];p.glow.material.opacity=0.5+Math.random()*0.5;if(Math.random()<0.35)burst(pp,1,ZAP,p.size*1.6,10,0.18);}
     else if(p.glow){const f=0.85+Math.random()*0.35;p.glow.scale.set(3.4*f,3.4*f,1);p.glow.material.rotation+=dt*5;}
     if(p.glow&&p.geo!=='bolt'){if(Math.random()<0.55)flame(pp,1,p.size*2.3,0.42,tmp2.copy(p.vel).multiplyScalar(-0.06),p.mat===MAT.dfire?1:p.mat===MAT.bfire?2:0);}
@@ -4704,13 +4704,13 @@ function skillA(SK){const SPZ=(1+0.15*(UP.sp||0))*(EASY?1:0.8);{
     for(let i=1;i<=7;i++)setTimeout(()=>{if(state!=='play')return;const c=gpos(new V3(g0.x+d.x*i*15,0,g0.z+d.z*i*15));spikes(c,11*SPZ,7,0x7a6448);shock(c,0xffd08a,16*SPZ);smoke(c,3,6,1.6,0x9a8a68,3);debris(c,4,[0x8a7a5a,0x6a5a3a],1.3);fxDust(c);sfx('crash',c,0.5);shake(0.35);
       for(const e of EN){if(e.dead)continue;const q=cpos(e);if(Math.hypot(q.x-c.x,q.z-c.z)<15*SPZ+e.r&&q.y-c.y<26){hitEnemy(e,125*SPM());if(!e.dead&&!e.fly&&!e.perch&&e.type!=='cannon')e.vy=14;}}
       for(const b of BLD){if(!b.dead&&b.box.distanceToPoint(c)<13*SPZ)hitBld(b,170*SPM());}},i*85);}
-  else if(SK==='bombs'){const d=new V3(Math.sin(P.yaw),0,Math.cos(P.yaw)),N=9+2*(UP.sp||0);sfx('whoosh');
+  else if(SK==='bombs'){const d=new V3(Math.sin(P.yaw),0,Math.cos(P.yaw)),N=9+2*(UP.sp||0),modern=charKey==='bomber';sfx('whoosh');
     // 真下と前へ、爆弾をつぎつぎに落とす（近くの地上の敵をねらう）
     for(let i=0;i<N;i++)setTimeout(()=>{if(state!=='play')return;const f=P.pos.clone().add(new V3(rnd(-7,7),-4,rnd(-7,7)));
       const tg=EN.filter(e=>!e.dead&&!e.fly).map(e=>cpos(e).clone()).filter(c=>Math.hypot(c.x-f.x,c.z-f.z)<70).sort((a,b)=>Math.hypot(a.x-f.x,a.z-f.z)-Math.hypot(b.x-f.x,b.z-f.z))[i%3];
       const fall=Math.max(0.5,Math.sqrt(Math.max(1,f.y-floorAt(f.x,f.z))*2/40)+0.3);
       const v=tg?new V3((tg.x-f.x)/fall,-12,(tg.z-f.z)/fall):new V3(d.x*26+rnd(-10,10),-12,d.z*26+rnd(-10,10));
-      shoot(f,v,{from:'p',geo:'fire',mat:MAT.ball,size:2.2,r:3,splash:19*SPZ,dmg:95*SPM(),grav:40,life:7,smk:true,ball:true,col:[0xff9a30,0xffe080,0x888888]});sfx('cannon',null,0.35);},i*110);}
+      shoot(f,v,{from:'p',geo:modern?'modernBomb':'fire',mat:MAT.ball,size:modern?1:2.2,r:3,splash:19*SPZ,dmg:95*SPM(),grav:40,life:7,smk:!modern,ball:!modern,col:[0xff9a30,0xffe080,0x888888]});if(modern)PROJ[PROJ.length-1].m.lookAt(f.clone().add(v));sfx('cannon',null,0.35);},i*110);}
 }}
 function skillB(SK){const SPZ=(1+0.15*(UP.sp||0))*(EASY?1:0.8),K=SPM();{
   const ring=(c0,r,dmg,up)=>{for(const e of EN){if(e.dead)continue;const c=cpos(e);if(Math.hypot(c.x-c0.x,c.z-c0.z)<r+e.r&&Math.abs(c.y-c0.y)<r*0.8){hitEnemy(e,dmg);if(up&&!e.fly&&!e.perch&&e.type!=='cannon')e.vy=up;}}
@@ -4733,9 +4733,16 @@ function skillB(SK){const SPZ=(1+0.15*(UP.sp||0))*(EASY?1:0.8),K=SPM();{
   else if(SK==='gbeam'){const m=mouthPos(),d=(autoTarget()||aimPoint()).clone().sub(m).normalize(),L=230;try{mixOnce(D.body.userData.mix,1.4);}catch(_){}
     megaBeam(m,d,L,SPZ,K);}
   else if(SK==='broadside'){const list=EN.filter(e=>!e.dead).map(e=>({e,d:cpos(e).distanceTo(P.pos)})).filter(o=>o.d<260).sort((a,b)=>a.d-b.d).slice(0,8+2*(UP.sp||0));const rx=Math.cos(P.yaw),rz=-Math.sin(P.yaw);
+    const compact=charKey==='bomber',shell=compact
+      ?{geo:'bomberBullet',mat:C.br.mat,size:1}
+      :{geo:'fire',mat:MAT.ball,size:2,trail:[0xff9a30,0xffe080]};
     for(let i=0;i<Math.max(6,list.length);i++){const sd=i%2?1:-1,o=list[i];
       setTimeout(()=>{if(state!=='play')return;const m=P.pos.clone().add(new V3(rx*sd*5,-1,rz*sd*5)),tg=o&&!o.e.dead?cpos(o.e).clone():aimPoint().clone().add(new V3(rnd(-25,25),0,rnd(-25,25)));
-        shoot(m.clone(),tg.sub(m).normalize().multiplyScalar(190),{from:'p',geo:'fire',mat:MAT.ball,size:2,r:3,splash:14*SPZ,dmg:105*K,life:2.5,trail:[0xff9a30,0xffe080],col:[0xff9a30,0xffe080,0x888888]});burst(m,10,FIRE,4,16,0.35);smoke(m,3,4,1.5,0x777777,2);sfx('cannon',null,0.5);},i*70);}
+        const vel=tg.sub(m).normalize().multiplyScalar(190);
+        shoot(m.clone(),vel,{from:'p',...shell,r:3,splash:14*SPZ,dmg:105*K,life:2.5,col:[0xff9a30,0xffe080,0x888888]});
+        if(compact){PROJ[PROJ.length-1].m.lookAt(m.clone().add(vel));burst(m,4,FIRE,1,10,0.16);}
+        else{burst(m,10,FIRE,4,16,0.35);smoke(m,3,4,1.5,0x777777,2);}
+        sfx('cannon',null,0.5);},i*70);}
     shake(0.5);flashV=0.3;ono(P.pos.clone().add(new V3(0,8,0)),'ドドドドン！','#ffd08a',50);}
 }}
 
@@ -11281,6 +11288,14 @@ function flightImpact(speed,nx,nz,dt){
   P.crashCd=vertical?0.8:0.6;
   crash(damage,null,nx,nz);
   return true;
+}
+
+// Hunyuan3D 2.1で生成した現代型の航空爆弾。形状・材質は全弾で共有する。
+function modernBombMesh(){
+ const model=MODEL.bomber_modern_bomb;
+ if(model){const g=model.scene.clone(true);g.userData.modernBomb=true;return g;}
+ // 通信失敗時だけ小さい弾を使い、火の玉へは戻さない。
+ return new THREE.Mesh(GEO.bomberBullet,C.br.mat);
 }
 
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
