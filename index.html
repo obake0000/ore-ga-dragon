@@ -1113,7 +1113,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFG';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHI';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -2123,6 +2123,8 @@ function explode(p){const pp=p.m.position;const big=p.splash>10&&!p.tk;if(p.dkSm
 
 /* ================= 竜（えらべる3体） ================= */
 // 息（自動で出る弾）の cd は「次の弾までの秒」。11/14 に全キャラ約2倍にのばした（連射が激しすぎたため）。短くしすぎない
+const BANK_TIME=0.42,BANK_NAME='回避・急旋回',BANK_DESC='左右に入力しながら押すと、向きと高さを保って横回避。入力なしなら反転する';
+const UFO_BANK_NAME='離陸・回避・急旋回';
 const CH={
   dragon:{name:'レッドドラゴン',em:'🐉',tag:'空を飛ぶ',ds:'空も飛べる、バランス型。炎の息と大火球で、まとめて焼きはらう。',hp:260,spd:50,turn:1.8,fly:true,range:210,
     br:{mat:MAT.fire,dmg:38,cd:0.5,spd:170,life:2.2,size:1.1,splash:5,col:FIRE},sp:'bigfire',spN:'大火球',sp2:'flamering',sp2N:'炎の渦',dash:'charge',dashN:'突進',mel:{r:10,dmg:40,cd:0.6,ono:'バシィッ！'},col:[0xc0281c,0xf0b040],s:1.38,o:{},gOff:3.7,stat:[3,3,3]},
@@ -2140,8 +2142,8 @@ const CH={
   orctank:{name:'オークキング',em:'👑',tag:'地上・リングで戦車に30秒変身',ds:'最初はオークキングが大斧で戦う。金のリングをくぐると、とげだらけのデラックス戦車に30秒乗りこむ。弩の矢を撃ち続け、近くの敵は体当たりでひきつぶす。必殺技は大砲3連発と、とげの突撃。スペースで装甲をかため、重い体で攻撃を受けとめる。',hp:460,spd:34,turn:3.0,fly:false,range:170,
     br:{mat:new THREE.MeshBasicMaterial({color:0xffe08a}),geo:'arrow',dmg:36,cd:0.45,spd:190,life:1.5,size:1.8,splash:2,col:[0xffd060,0xff9a30,0xffffff],trail:[0xffd060,0xff8a20],flash:0xffc040},sp:'tkflame',spN:'火炎放射',spD:'前の近い敵を、太い炎で焼きはらう',sp2:'tkrush',sp2N:'とげの突撃',sp2D:'まっすぐ突っこみ、ふれた敵をひきつぶす。その間は無敵',dash:'guard',dashN:'装甲かため',dashD:'その場でかたまり、受けるダメージを8割へらす',mel:{r:15,dmg:95,cd:0.6,ono:'ドガッ！'},
     model:{id:'kingtank',w:20,h:22,d:30,mouth:[0,5,15]},camB:40,camU:16,gOff:6.05,stat:[4,3,4]},
-  airship:{name:'飛空艇',em:'🎈',tag:'空を飛ぶ・大砲',ds:'王国の飛空艇に乗って戦う。大砲を前の敵へ撃ち続ける。必殺技は真下への爆弾の雨と、全砲門の一斉射撃。スペースで高度を保って急旋回し、弾をかわす。',hp:300,spd:42,turn:1.5,fly:true,range:230,
-    br:{mat:MAT.ball,dmg:48,cd:0.6,spd:160,life:2,size:1.2,splash:6,col:[0xff9a30,0xffe080,0x888888]},sp:'bombs',spN:'爆弾の雨',sp2:'broadside',sp2N:'全砲門斉射',dash:'climb',dashN:'急上下',mel:{r:12,dmg:36,cd:0.6,ono:'ドンッ！'},
+  airship:{name:'飛空艇',em:'🎈',tag:'空を飛ぶ・大砲',ds:'王国の飛空艇に乗って戦う。大砲を前の敵へ撃ち続ける。必殺技は真下への爆弾の雨と、全砲門の一斉射撃。スペースで回避。左右入力中は敵を向いたまま横へよけ、入力なしなら急反転する。',hp:300,spd:42,turn:1.5,fly:true,range:230,
+    br:{mat:MAT.ball,dmg:48,cd:0.6,spd:160,life:2,size:1.2,splash:6,col:[0xff9a30,0xffe080,0x888888]},sp:'bombs',spN:'爆弾の雨',sp2:'broadside',sp2N:'全砲門斉射',dash:'bank',dashN:BANK_NAME,dashD:BANK_DESC,mel:{r:12,dmg:36,cd:0.6,ono:'ドンッ！'},
     model:{id:'airship',w:14,h:19,d:27,center:1,mouth:[0,-5,13]},camB:46,camU:15,gOff:10.8,stat:[3,2,4]}};
 
 /* ================= レッドキャップゴブリン（プレイできる・敵にも出る） ================= */
@@ -2364,12 +2366,12 @@ Object.assign(CH.airship,{spD:'下と前へ爆弾をつぎつぎ落とす',sp2D:
 // 遊べる大天使：四枚の翼で飛び、光の矢と巨人召喚で戦う。
 Object.assign(CH,{archangel:{name:'大天使',em:'😇',tag:'空を飛ぶ・光の巨人召喚',ds:'四枚の翼で空を飛ぶ大天使。光の矢を放ち、光の巨人を6秒間呼び出して周囲の敵を打ち払う。もうひとつの必殺技は、天から降りそそぐ光の柱。',hp:300,spd:43,turn:2.3,fly:true,range:220,
   br:{mat:new THREE.MeshBasicMaterial({color:0xfff3b0}),geo:'arrow',dmg:42,cd:0.55,spd:210,life:1.6,size:1.35,splash:4,col:[0xfff3b0,0xffd050,0xffffff],trail:[0xfff3b0,0xffd050],flash:0xffed90},
-  sp:'lightgiant',spN:'光の巨人召喚',spD:'前に光の巨人を6秒間呼び、周囲の敵を打ち払う',sp2:'pillars',sp2N:'光の柱',sp2D:'近くの敵へ、天から光の柱を落とす',dash:'climb',dashN:'翼の急上下',dashD:'四枚の翼で高さを変え、弾をかわす',mel:{r:11,dmg:65,cd:0.55,ono:'ザシュッ！'},
+  sp:'lightgiant',spN:'光の巨人召喚',spD:'前に光の巨人を6秒間呼び、周囲の敵を打ち払う',sp2:'pillars',sp2N:'光の柱',sp2D:'近くの敵へ、天から光の柱を落とす',dash:'bank',dashN:BANK_NAME,dashD:BANK_DESC,mel:{r:11,dmg:65,cd:0.55,ono:'ザシュッ！'},
   model:{id:'archangel',w:12,h:7.5,d:7,mouth:[0,1.2,3]},camB:29,camU:10,gOff:3.75,stat:[3,4,4]}});
 // 竜騎士：小さな飛竜に騎士が乗る、八騎の飛行部隊。
 Object.assign(CH,{dragonknight:{name:'竜騎士',em:'⚔️',tag:'空を飛ぶ・8騎の編隊',ds:'小さな飛竜に乗る8騎の弓騎士。小さな炎と矢を交互に連射する。必殺技は全騎の小火炎連射と、矢の連続斉射。体力が減ると騎数も減る。',hp:360,spd:40,turn:2.1,fly:true,range:210,
   br:{mat:MAT.fire,dmg:34,cd:0.42,spd:180,life:1.8,size:0.8,splash:4,col:FIRE},
-  sp:'dkflame',spN:'小火炎一斉射撃',spD:'全騎が小さな炎を3回に分けて撃ちこむ',sp2:'dkarrows',sp2N:'竜騎士の矢嵐',sp2D:'騎士たちが4回の斉射で、多数の矢を前方へ放つ',dash:'climb',dashN:'編隊の急上下',dashD:'部隊全体で高度を変えて弾をかわす',mel:{r:15,dmg:48,cd:0.6,ono:'ザシュッ！'},
+  sp:'dkflame',spN:'小火炎一斉射撃',spD:'全騎が小さな炎を3回に分けて撃ちこむ',sp2:'dkarrows',sp2N:'竜騎士の矢嵐',sp2D:'騎士たちが4回の斉射で、多数の矢を前方へ放つ',dash:'bank',dashN:BANK_NAME,dashD:BANK_DESC,mel:{r:15,dmg:48,cd:0.6,ono:'ザシュッ！'},
   model:{id:'wyvern2',w:16.5,h:3.3,d:15.4,mouth:[0,0,6.6]},camB:43,camU:16,gOff:1.65,stat:[4,4,3]}});
 // 遊べる海王：三つ又の槍と水の弾。体力半分で超大型の姿へ。
 Object.assign(CH,{seaking:{name:'海王',em:'🔱',tag:'地上・リングで30秒巨大化',ds:'三つ又の槍を持つ海の王。水の弾を放ち、近くの敵は槍でなぎ払う。金のリングをくぐると30秒間、超大型の海王へ変身して攻撃が強くなる。海流砲と大津波で敵を押し流す。',hp:480,spd:22,turn:2.0,fly:false,range:190,
@@ -2379,7 +2381,7 @@ Object.assign(CH,{seaking:{name:'海王',em:'🔱',tag:'地上・リングで30�
 // 大型爆撃機：機銃を細かく連射し、爆弾を投下する飛行キャラ。
 Object.assign(CH,{bomber:{name:'大型爆撃機',em:'✈️',tag:'空を飛ぶ・機銃と爆弾',ds:'大型爆撃機を操縦して戦う。速く小さな機銃弾を連射し、真下と前方へ爆弾の雨を落とす。もうひとつの必殺技は全砲門斉射。仲間は戦闘機。',hp:320,spd:46,turn:1.7,fly:true,range:240,
   br:{mat:new THREE.MeshBasicMaterial({color:0xffe6a0}),geo:'bomberBullet',dmg:12,cd:0.18,spd:240,life:1.3,size:0.7,splash:0,col:[0xffe6a0,0xffb840,0xffffff]},
-  sp:'bombs',spN:'爆弾の雨',spD:'下と前へ爆弾をつぎつぎ落とす',sp2:'broadside',sp2N:'全砲門斉射',sp2D:'左右の大砲で、敵をいっせいに撃つ',dash:'climb',dashN:'急上下',dashD:'高度をすばやくかえて、敵の弾をかわす',mel:{r:13,dmg:40,cd:0.7,ono:'ガツン！'},
+  sp:'bombs',spN:'爆弾の雨',spD:'下と前へ爆弾をつぎつぎ落とす',sp2:'broadside',sp2N:'全砲門斉射',sp2D:'左右の大砲で、敵をいっせいに撃つ',dash:'bank',dashN:BANK_NAME,dashD:BANK_DESC,mel:{r:13,dmg:40,cd:0.7,ono:'ガツン！'},
   model:{id:'p8bomber',w:30,h:6,d:26,center:1,mouth:[0,-0.5,12]},camB:49,camU:17,gOff:3.5,stat:[3,4,4]}});
 const SKINFO={};Object.keys(CH).forEach(k=>{const c=CH[k];if(!c.sp)return;SKINFO[c.sp]={n:c.spN,d:c.spD,img:`chara/sk/${k}_sp.webp`};SKINFO[c.sp2]={n:c.sp2N,d:c.sp2D,img:`chara/sk/${k}_sp2.webp`};});
 SKINFO.dkrush={n:'全騎一斉突撃',d:'全騎が前方へ突撃して戻る',img:'chara/sk/army_sp.webp'};SKINFO.bigfire.img='chara/sk/dragon_sp.webp';
@@ -2729,14 +2731,6 @@ function updDie(dt){for(let i=DIEL.length-1;i>=0;i--){const o=DIEL[i],m=o.m,q=m.
     else{if(!o.air)m.rotation.x=Math.max(-1.5,m.rotation.x-5.5*dt);if(o.t>0.8){const k=Math.max(0,1-(o.t-0.8)/0.5);m.scale.setScalar(o.sc*Math.max(0.02,k));}if(o.t>1.3){scene.remove(m);DIEL.splice(i,1);}}}}
 // ===== 重い乗り物の回避と、クラーケンの墨はき =====
 const INKC=[0x1a1030,0x3a2060,0x000000],INKP=[];
-// 飛空艇：急上下。低い所では上へ、高い所では下へ、弾をかわす高さのずらし（無敵なし）
-function climbAir(){if(state!=='play'||LVUP||PAUSED||(P.dodgeCd||0)>0||P.en<12)return;P.en-=12;P.dodgeCd=1.4;
-  const gh=dunFloorY(P.pos.x,P.pos.z)+C.gOff,alt=P.pos.y-gh,up=(alt<60&&P.pos.y<205)||alt<=14;
-  if(!up)P.vel.y=-Math.min(125,(alt-6)*3.2);else P.vel.y=125;
-  P.climbDir=P.vel.y>0?1:-1;
-  sfx('whoosh',null,0.9);burst(P.pos,16,[0xffffff,0xcfeaff],3,22,0.45);smoke(P.pos,4,6,1.2,0xdddddd,3);
-  for(let i=1;i<=4;i++)setTimeout(()=>{if(state!=='play')return;burst(P.pos,5,[0xffffff,0xcfeaff],2.4,10,0.4);smoke(P.pos,1,5,0.9,0xdddddd,3);},i*90);
-  ono(P.pos.clone().add(new V3(0,12,0)),P.climbDir>0?'ゴォッ！ 急上昇':'ヒュゥゥ！ 急降下','#e8f6ff',32);}
 // クラーケン：墨はき。前へ太く長い墨をふきだす。当たった敵は黒くそまって5秒おそくなり、墨は地面に5.5秒のこって焼きつづける
 function inkSpray(){const fw=new V3(Math.sin(P.yaw),0,Math.cos(P.yaw)),rt=new V3(fw.z,0,-fw.x),o=mouthPos();o.y=Math.max(o.y,P.pos.y-1);const L=74,PW=POW();
   sfx('whoosh',null,1);sfx('boom',null,0.35);shake(0.2);
@@ -5071,7 +5065,7 @@ function dash(){if(state!=='play'||LVUP||PAUSED||(P.dodgeCd||0)>0||P.en<12)retur
   const rx=-Math.cos(P.yaw),rz=Math.sin(P.yaw),pw=C.fly?78:C.human?48:58;P.vel.x+=rx*sd*pw;P.vel.z+=rz*sd*pw;if(C.fly)P.vel.y+=6;else if(P.onGround){P.vy=10;P.onGround=false;}
   sfx('whoosh',null,0.9);burst(P.pos,14,[0xffffff,0xcfeaff],2.2,16,0.35);ono(P.pos.clone().add(new V3(0,5,0)),'ヒュッ','#e8f6ff',26);}
 // スペースキーの動き。キャラの重さで変える：突進（前へ体当たり）／横回避／防御
-function act(){if((charKey==='hero'||charKey==='redcap')&&state==='play'&&!LVUP&&!PAUSED&&P.onGround){P.vy=charKey==='redcap'?22:26;P.onGround=false;sfx('whoosh',null,0.6);smoke(tmp.set(P.pos.x,P.pos.y-C.gOff,P.pos.z),3,3,0.8,0x9a8a68,2);return;}const k=C.dash||'dodge';if(k==='charge')dashOld();else if(k==='guard')guard();else if(k==='climb')bankAir();else if(k==='krpull')krPull();else dash();}
+function act(){if((charKey==='hero'||charKey==='redcap')&&state==='play'&&!LVUP&&!PAUSED&&P.onGround){P.vy=charKey==='redcap'?22:26;P.onGround=false;sfx('whoosh',null,0.6);smoke(tmp.set(P.pos.x,P.pos.y-C.gOff,P.pos.z),3,3,0.8,0x9a8a68,2);return;}const k=C.dash||'dodge';if(k==='charge')dashOld();else if(k==='guard')guard();else if(k==='bank')bankAir();else if(k==='krpull')krPull();else dash();}
 // 防御（重いキャラ用）：1.3秒、受けるダメージを8割へらす。その間は足がおそくなる。次に使えるまで2秒
 const GSH=new THREE.Mesh(new THREE.SphereGeometry(1,22,14),new THREE.MeshBasicMaterial({color:0x7fc8ff,transparent:true,opacity:0.25,depthWrite:false,side:THREE.DoubleSide,fog:false}));GSH.visible=false;scene.add(GSH);
 function guard(){if(state!=='play'||LVUP||PAUSED||(P.guardCd||0)>0||P.en<12)return;P.en-=12;P.guardT=1.3;P.guardCd=2;sfx('clang',null,0.8);
@@ -8026,7 +8020,7 @@ const MAOUF=[{id:'blackknight',w:3,h:6,d:2.4,nm:'人の姿',spd:17,dmg:1},{id:'d
 // UFOは空中で光線、着地すると大型ロボになってミサイルを撃つ。
 Object.assign(CH,{ufo:{name:'UFO',em:'🛸',tag:'空と地上・大型ロボに変形',ds:'空では円盤から光線を撃つ。地面の近くで大型ロボに自動変形し、歩きながらミサイルを撃つ。上を向くかスペースで離陸してUFOに戻る。変形すると光と音が広がる。',hp:370,spd:43,turn:2.1,fly:true,range:220,
   br:{mat:new THREE.MeshBasicMaterial({color:0x70f6ff}),geo:'ufoLaser',dmg:34,cd:0.34,spd:220,life:1.35,size:1,splash:3,col:[0x70f6ff,0xb0ffff,0xffffff]},
-  sp:'gbeam',spN:'破壊光線',spD:'前へ太い光線を放ち、敵をつらぬく',sp2:'broadside',sp2N:'全砲門斉射',sp2D:'まわりの敵へ一斉に砲弾を放つ',dash:'climb',dashN:'離陸・急上下',dashD:'ロボなら離陸してUFOに戻る。空中では急上下してかわす',
+  sp:'gbeam',spN:'破壊光線',spD:'前へ太い光線を放ち、敵をつらぬく',sp2:'broadside',sp2N:'全砲門斉射',sp2D:'まわりの敵へ一斉に砲弾を放つ',dash:'bank',dashN:UFO_BANK_NAME,dashD:'ロボなら離陸。飛行中は'+BANK_DESC,
   mel:{r:12,dmg:70,cd:0.7,ono:'ガシャン！'},model:{id:'p8ufo',w:12,h:4,d:12,mouth:[0,-0.3,5]},camB:32,camU:12,gOff:2,stat:[4,4,4]}});
 // 巨大化する魔法使い：体力半分で禁じられた巨大化の術を使う。
 Object.assign(CH,{gwizard:{name:'巨大化する魔法使い',em:'🧙',tag:'地上・リングで30秒巨大化',ds:'魔法の弾と雷、光線で戦う魔法使い。金のリングをくぐると30秒間、巨大な魔術師に変身し、杖と魔法の弾が強くなる。仲間は勇者・戦士・僧侶。時間切れで元の姿へ戻る。変身中のリングで残り30秒に戻せる。',hp:360,spd:23,turn:2.2,fly:false,range:220,
@@ -8122,7 +8116,13 @@ function frame(now){
     const kx=(keys.ArrowRight||keys.KeyD?1:0)-(keys.ArrowLeft||keys.KeyA?1:0),ky=(keys.ArrowDown||keys.KeyS?1:0)-(keys.ArrowUp||keys.KeyW?1:0);
     if(kx)sx=kx*0.8;if(ky)sy=ky*0.8;
     const dz=v=>Math.abs(v)<0.08?0:Math.sign(v)*(Math.abs(v)-0.08)/0.92;
-    const tm=feelTurn(),banking=P.bankT>0;if(banking){P.bankT=Math.max(0,P.bankT-dt);const k=1-P.bankT/0.42,e=k*k*(3-2*k);P.yaw=P.bankFrom+P.bankAngle*e;}else P.yaw-=dz(sx)*C.turn*tm*dt;PYR=Math.abs(dz(sx))*C.turn*tm;
+    const tm=feelTurn(),banking=P.bankT>0;
+    if(banking){
+      P.bankT=Math.max(0,P.bankT-dt);
+      const k=1-P.bankT/BANK_TIME,e=k*k*(3-2*k);
+      P.yaw=P.bankFrom+P.bankAngle*e;
+    }else P.yaw-=dz(sx)*C.turn*tm*dt;
+    PYR=Math.abs(dz(sx))*C.turn*tm;
     const pmin=C.fly?-0.95:-0.45,pmax=C.fly?0.95:1.0;
     P.pitch+=(((MOBK.on&&!C.fly)?clamp(-dz(sy)*0.15,-0.08,0.1):clamp(-dz(sy)*1.1,pmin,pmax))-P.pitch)*Math.min(1,dt*2.5);/* 11/16 スマホの地上キャラは、前に進んでも空を見上げない */
     if(banking)P.pitch=0;
@@ -8140,7 +8140,15 @@ function frame(now){
       const speedMul=feelFly(dt,ad,slow,banking);
       const spd=slow?14:P.dashT>0?C.spd*(C.human?2.2:3):C.spd*speedMul*((P.ringT||0)>0?1.5:1);
       const mv=ad.clone().multiplyScalar(spd);
-      if((charKey==='dragon'||charKey==='wyvern'||charKey==='archangel')&&P.onGround&&!(P.dashT>0)){const wk=charKey==='archangel'?0.24:charKey==='wyvern'?(D&&D.g.userData.flap&&D.g.userData.flap.wy3?WY3.walk:0.24):RIGCF.walk;mv.x*=wk;mv.z*=wk;}P.vel.lerp(mv,1-Math.exp(-(banking?22:P.dashT>0&&!slow?10:feelRate(mv.length(),slow))*dt));P.pos.addScaledVector(P.vel,dt);
+      if((charKey==='dragon'||charKey==='wyvern'||charKey==='archangel')&&P.onGround&&!(P.dashT>0)){const wk=charKey==='archangel'?0.24:charKey==='wyvern'?(D&&D.g.userData.flap&&D.g.userData.flap.wy3?WY3.walk:0.24):RIGCF.walk;mv.x*=wk;mv.z*=wk;}
+      if(banking&&P.bankSide){
+        const sideSpeed=(slow?14:clamp(C.spd*1.1,50,64))*Math.min(1,P.bankT/0.1)*P.bankSide;
+        if(slow)mv.multiplyScalar(Math.sqrt(Math.max(0,1-(sideSpeed/14)**2)));
+        mv.x-=Math.cos(P.bankFrom)*sideSpeed;
+        mv.z+=Math.sin(P.bankFrom)*sideSpeed;
+      }
+      P.vel.lerp(mv,1-Math.exp(-(banking?22:P.dashT>0&&!slow?10:feelRate(mv.length(),slow))*dt));
+      P.pos.addScaledVector(P.vel,dt);
       dunPush();const gh=dunBodyY()+C.gOff;if(P.onGround&&P.pitch<0.1&&!(P.dashT>0)&&P.pos.y<gh+3.5&&P.pos.y>gh&&(DUN.on||H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER)){P.pos.y=gh;if(P.vel.y>0)P.vel.y=0;}
       if(P.pos.y<gh){
         const x=P.pos.x,z=P.pos.z,land=DUN.on||H(x,z)>WATER||bridgeY(x,z)>WATER;
@@ -8168,6 +8176,7 @@ function frame(now){
       bldBlock(dt);if(P.onGround&&!(P.wadeS>0.5)&&Math.random()<0.15)smoke(tmp.set(P.pos.x,gh-C.gOff+0.5,P.pos.z),1,1.4,0.6,0xa8987a,1.5);
     }
     collide(dt);
+    if(banking&&P.bankT===0)endBank();
     if(P.pos.y>240)P.pos.y=240;const pr=Math.hypot(P.pos.x,P.pos.z);if(pr>470){P.pos.x*=470/pr;P.pos.z*=470/pr;}if(DUN.on){P.pos.x=clamp(P.pos.x,DUN.x0+DUN.xm,DUN.x1-DUN.xm);let zl=DUN.zmin;for(const q of DUN.gates)if(q.open<1&&P.pos.z>q.z)zl=Math.max(zl,q.z+7);P.pos.z=clamp(P.pos.z,zl,DUN.z1-8);{const tp=DUN.y+Math.max(12,Math.min((DUN.h||24)*0.5,26)),lo=Math.min(tp-0.5,DUN.y+(charKey==='wyvern'?12.5:C.model?12:9));if(P.pos.y>tp)P.pos.y=tp;if(false&&C.fly&&P.pos.y<lo){P.pos.y+=Math.max((lo-P.pos.y)*0.35,Math.min(lo-P.pos.y,0.9));if(P.vel.y<0)P.vel.y=0;P.onGround=false;}}}if(CAVE.on){const dx=P.pos.x-CAVE.x,dz=P.pos.z-CAVE.z,d=Math.hypot(dx,dz),m=CAVE.R-14;if(d>m){P.pos.x=CAVE.x+dx*m/d;P.pos.z=CAVE.z+dz*m/d;}const top=Math.min(caveTop(Math.min(d,m))-5,CAVE.y+15);if(P.pos.y>top)P.pos.y=top;}if(TER.sky&&P.pos.y<WATER+5)P.pos.y=WATER+5;
     P.fireCd-=dt;P.inv-=dt;
     if(TER.lava&&(P.onGround||P.pos.y<=floorAt(P.pos.x,P.pos.z)+C.gOff+0.5)&&H(P.pos.x,P.pos.z)<WATER){hurt(30*dt,true);if(Math.random()<0.3)burst(P.pos,2,FIRE,3,8,0.4);}
@@ -8188,7 +8197,7 @@ function frame(now){
     const wf=D.g.userData.flap,wk0=(wf&&wf.nw)?wf.wk:0;const yr=(P.yaw-P.lastYaw)/Math.max(dt,1e-4);P.lastYaw=P.yaw;P.roll+=(clamp(-yr*0.3,-0.7,0.7)*(C.fly?1-wk0*0.8:0.15)-P.roll)*Math.min(1,dt*5);
     D.g.position.copy(P.pos);
     const tilt=C.fly?(-P.pitch*0.55-clamp(P.vel.y/60,-0.4,0.4)*0.4)*(1-wk0):-P.pitch*0.15;
-    D.g.rotation.set(tilt,P.yaw,P.roll,'YXZ');if(P.bankT>0)D.g.rotation.z+=Math.sign(P.bankAngle)*Math.sin((1-P.bankT/0.42)*Math.PI)*0.75;slopeTilt(dt);
+    D.g.rotation.set(tilt,P.yaw,P.roll,'YXZ');if(P.bankT>0)D.g.rotation.z+=(P.bankSide?P.bankSide*0.5:Math.sign(P.bankAngle)*0.75)*Math.sin((1-P.bankT/BANK_TIME)*Math.PI);slopeTilt(dt);
     // 攻撃の動き：弾を出すたびに、体を前へ突き出して頭を下げる。ダメージの動き：のけぞって、うしろへはじかれ、ふるえる
     if(state==='play'){const fw=tmp2.set(Math.sin(P.yaw),0,Math.cos(P.yaw));
       if(P.atkM>0){P.atkM-=dt;const o=Math.sin((1-Math.max(0,P.atkM)/0.22)*Math.PI);D.g.position.addScaledVector(fw,o*(C.human?0.5:1.4));if(!D.human&&!(D.model&&!C.fly))D.g.rotation.x+=o*(C.fly?0.15:0.09);}
@@ -10734,6 +10743,7 @@ function ufoStats(i){const c=CH.ufo,f=UFOF[i];c.fly=i===0;c.gOff=f.h/2;c.spd=f.s
   inner.position.y=-CH.ufo.gOff;g.add(inner);mouth.position.fromArray(UFOF[0].mouth);g.add(mouth);
   return {g,inner,mouth,body:forms[0],forms,uf:0,ufLock:0,units:[{m:forms[0],x:0,z:0,front:1}],guns:[],model:k};};}
 function ufoForm(i,show){if(charKey!=='ufo'||!D||!D.forms||D.uf===i)return;
+  if(P.bankT>0)endBank();
   const oldOff=C.gOff;D.uf=i;ufoStats(i);D.forms.forEach((b,j)=>{b.visible=j===i;b.position.y=0;});D.body=D.forms[i];D.units[0].m=D.body;
   D.inner.position.y=-C.gOff;D.mouth.position.fromArray(UFOF[i].mouth);P.pos.y+=C.gOff-oldOff;D.g.position.copy(P.pos);P.fireCd=Math.min(P.fireCd,C.br.cd);D.ufLock=0.8;
   if(i){P.vy=Math.min(0,P.vel.y);P.onGround=true;}else{P.vy=0;P.onGround=false;}
@@ -11119,16 +11129,25 @@ function courtMix(o,dt){const e=o.court;if(!e||e.dead){o.mx.update(dt);return;}
  if(attack){const w=name==='slash'?[1.7,2.5]:[0.12,1.5],dur=state==='sw1'?1.1:1.0,k=clamp(1-e.gt/dur,0,1);a.paused=true;a.time=Math.min(a.getClip().duration-0.001,w[0]+(w[1]-w[0])*k);o.mx.update(0);}
  else{a.paused=false;a.timeScale=name==='walk'?0.9:1;o.mx.update(dt);}
 }
-function bankAir(){if(state!=='play'||LVUP||PAUSED||(P.dodgeCd||0)>0||P.en<12)return;
- const key=(keys.ArrowRight||keys.KeyD?1:0)-(keys.ArrowLeft||keys.KeyA?1:0),side=key||(TJ.id!==null?TJ.dx/60:MS.x||0);
- P.en-=12;P.dodgeCd=1.1;P.bankT=0.42;P.bankFrom=P.yaw;P.bankAngle=Math.abs(side)>0.15?-Math.sign(side)*Math.PI*0.65:Math.PI;
- P.pitch=0;P.vel.y=0;P.inv=Math.max(P.inv,0.3);sfx('whoosh',null,0.55);ono(P.pos.clone().add(new V3(0,6,0)),'急旋回！','#e8f6ff',24);
+function bankAir(){
+ if(state!=='play'||LVUP||PAUSED||!C.fly||(P.dodgeCd||0)>0||P.en<12)return;
+ const key=(keys.ArrowRight||keys.KeyD?1:0)-(keys.ArrowLeft||keys.KeyA?1:0);
+ const side=key||(TJ.id!==null?TJ.dx/60:MS.x||0);
+ P.en-=12;P.dodgeCd=1.1;P.bankT=BANK_TIME;P.bankFrom=P.yaw;
+ P.bankSide=Math.abs(side)>0.15?Math.sign(side):0;
+ P.bankAngle=P.bankSide?0:Math.PI;
+ P.pitch=0;P.vel.y=0;P.inv=Math.max(P.inv,0.3);
+ sfx('whoosh',null,0.55);ono(P.pos.clone().add(new V3(0,6,0)),P.bankSide?'横回避！':'急旋回！','#e8f6ff',24);
 }
-for(const k of ['airship','archangel','dragonknight','bomber','ufo']){
- const c=CH[k];c.dashN=k==='ufo'?'離陸・急旋回':'急旋回';c.dashD=k==='ufo'?'ロボなら離陸。飛行中は高さを保って急旋回する':'左右に入力しながら押すと、その方向へ急旋回。入力なしなら反転する';
+function endBank(){
+ if(P.bankSide){
+  const x=-Math.cos(P.bankFrom),z=Math.sin(P.bankFrom),side=P.vel.x*x+P.vel.z*z;
+  P.vel.x-=x*side;P.vel.z-=z*side;
+ }
+ P.bankT=P.bankSide=0;
 }
-SKDASH['急旋回']='dash_dodge';SKDASH['離陸・急旋回']='dash_dodge';
-{const before=setupStage;setupStage=function(){P.bankT=0;return before.apply(this,arguments);};}
+SKDASH[BANK_NAME]=SKDASH[UFO_BANK_NAME]='dash_dodge';
+{const before=setupStage;setupStage=function(){P.bankT=P.bankSide=0;return before.apply(this,arguments);};}
 
 
 // ride_1116：勇者は天馬、レッドキャップは鷹。R／乗るボタンで乗り降り。
@@ -11136,7 +11155,7 @@ const RIDES={hero:{id:'pegasus',nm:'天馬',w:10,h:6.2,d:9,spd:39},redcap:{id:'h
 const RIDEBASE={};
 for(const key of Object.keys(RIDES)){
  const c=CH[key];RIDEBASE[key]={};for(const k of ['fly','model','gOff','camB','camU','spd','turn','dash','dashN','dashD'])RIDEBASE[key][k]=c[k];
- c.ds+=' Rキーか「'+RIDES[key].nm+'に乗る」で飛行。乗っている間はスペースで急旋回。もう一度乗り降りボタンを押すと着地する。';
+ c.ds+=' Rキーか「'+RIDES[key].nm+'に乗る」で飛行。騎乗中は左右入力＋スペースで横回避、入力なしで急反転。もう一度乗り降りボタンを押すと着地する。';
 }
 function rideRelease(root){if(!root)return;const own=g=>{while(g){if(g===root)return true;g=g.parent;}return false;};
  for(let i=MIX.length-1;i>=0;i--)if(own(MIX[i].g)){MIX[i].mx.stopAllAction();MIX.splice(i,1);}
@@ -11155,19 +11174,19 @@ function rideSpot(){const pos=P.pos,valid=(x,z)=>{const y=floorAt(x,z);if(H(x,z)
  for(let r=0;r<=180;r+=12)for(let i=0;i<(r?24:1);i++){const a=i/24*Math.PI*2,q=valid(pos.x+Math.sin(a)*r,pos.z+Math.cos(a)*r);if(q)return q;}return null;
 }
 function rideOff(pos){const key=D.riding;if(!key)return;const sp=P.sp,sp2=P.sp2,yaw=P.yaw,at=pos||P.pos.clone();
- rideRestore(key);setChar(key);P.sp=sp;P.sp2=sp2;P.pos.set(at.x,floorAt(at.x,at.z)+C.gOff,at.z);P.yaw=P.lastYaw=yaw;P.pitch=0;P.vel.set(0,0,0);P.vy=0;P.onGround=true;P.bankT=0;D.g.position.copy(P.pos);skUI();$('tdash').textContent=C.dashN;
+ rideRestore(key);setChar(key);P.sp=sp;P.sp2=sp2;P.pos.set(at.x,floorAt(at.x,at.z)+C.gOff,at.z);P.yaw=P.lastYaw=yaw;P.pitch=0;P.vel.set(0,0,0);P.vy=0;P.onGround=true;P.bankT=P.bankSide=0;D.g.position.copy(P.pos);skUI();$('tdash').textContent=C.dashN;
  ringsBuild();sfx('whoosh',null,0.35);
 }
 function rideToggle(){if(state!=='play'||PAUSED||LVUP||!RIDES[charKey]||D.landing)return;
- if(D.riding){const spot=rideSpot();if(!spot){ono(P.pos.clone(),'近くの陸へ移動しよう','#ffe0a0',24);return;}P.dvE=P.dvS=0;D.landing={from:P.pos.clone(),to:spot,t:0};P.bankT=0;return;}
+ if(D.riding){const spot=rideSpot();if(!spot){ono(P.pos.clone(),'近くの陸へ移動しよう','#ffe0a0',24);return;}P.dvE=P.dvS=0;D.landing={from:P.pos.clone(),to:spot,t:0};endBank();return;}
  if(DUN.on||CAVE.on){ono(P.pos.clone(),'外に出てから乗ろう','#ffe0a0',24);return;}
  const f=RIDES[charKey],next=rideBuild(charKey);if(!next){ono(P.pos.clone(),'乗り物を読み込み中…','#ffe0a0',24);return;}
- rideRelease(D.g);scene.remove(D.g);D=next;scene.add(D.g);C.fly=true;C.model={id:f.id};C.gOff=f.h/2;C.camB=29;C.camU=11;C.spd=f.spd;C.turn=2.2;C.dash='climb';C.dashN='急旋回';C.dashD='左右の入力方向へ急旋回。入力なしなら反転する';
+ rideRelease(D.g);scene.remove(D.g);D=next;scene.add(D.g);C.fly=true;C.model={id:f.id};C.gOff=f.h/2;C.camB=29;C.camU=11;C.spd=f.spd;C.turn=2.2;C.dash='bank';C.dashN=BANK_NAME;C.dashD=BANK_DESC;
  P.pos.y=Math.max(P.pos.y,floorAt(P.pos.x,P.pos.z)+C.gOff+10);P.vel.set(0,0,0);P.vy=0;P.pitch=0.05;P.onGround=false;P.inv=Math.max(P.inv,0.6);D.g.position.copy(P.pos);D.g.rotation.y=P.yaw;
  ringsBuild();skUI();$('tdash').textContent=C.dashN;sfx('whoosh',null,0.5);
 }
-{const before=setChar;setChar=function(k){if(D&&D.riding){rideRelease(D.g);rideRestore(D.riding);}rideRestore(k);P.bankT=0;return before.apply(this,arguments);};}
-{const before=startGame;startGame=function(){if(D&&D.riding){const k=D.riding;rideRestore(k);setChar(k);}P.bankT=0;return before.apply(this,arguments);};}
+{const before=setChar;setChar=function(k){if(D&&D.riding){rideRelease(D.g);rideRestore(D.riding);}rideRestore(k);P.bankT=P.bankSide=0;return before.apply(this,arguments);};}
+{const before=startGame;startGame=function(){if(D&&D.riding){const k=D.riding;rideRestore(k);setChar(k);}P.bankT=P.bankSide=0;return before.apply(this,arguments);};}
 {const before=act;act=function(){if(D&&D.riding){if(!D.landing)bankAir();return;}return before.apply(this,arguments);};}
 {const before=setupStage;setupStage=function(){if(D&&D.landing)D.landing=null;const r=before.apply(this,arguments);if(D&&D.riding&&(DUN.on||CAVE.on))rideOff(P.pos.clone());return r;};}
 // 攻撃は元のキャラの2つの技を保つ。影走りは乗っている間も前方への突進として働く。
@@ -11257,7 +11276,7 @@ function ringFormSet(level,notify=true){const key=charKey,cf=RFORMS[key];if(!cf)
   else if(key==='cube'){cubeForm(level,false);if(level&&notify)D.body.userData.cb.t=0;}
   else if(key==='dragonking'){rideRelease(D.body);dragonkingForm(level,false);}
  }finally{RFORM.busy=false;OKT=0;}
- P.pos.set(at.x,feet+C.gOff,at.z);P.yaw=P.lastYaw=yaw;P.sp=sp;P.sp2=sp2;P.hp=hp;P.en=en;P.vel.copy(vel);P.vy=vy;P.bankT=0;D.g.position.copy(P.pos);D.g.rotation.y=yaw;
+ P.pos.set(at.x,feet+C.gOff,at.z);P.yaw=P.lastYaw=yaw;P.sp=sp;P.sp2=sp2;P.hp=hp;P.en=en;P.vel.copy(vel);P.vy=vy;P.bankT=P.bankSide=0;D.g.position.copy(P.pos);D.g.rotation.y=yaw;
  if(C.fly&&level){P.pos.y=Math.max(P.pos.y,floorAt(at.x,at.z)+C.gOff+7);P.onGround=false;D.g.position.copy(P.pos);}else{P.vy=Math.min(0,P.vy||0);P.vel.y=Math.min(0,P.vel.y);}
  RFORM.key=key;RFORM.level=level;RFORM.total=level?(cf.names.length===3&&level===1?60:30):0;RFORM.left=RFORM.total;
  if(!level){P.dashT=0;P.atkM=0;P.melT=0;P.inv=Math.max(P.inv,0.5);}
