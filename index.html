@@ -961,7 +961,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazp';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazq';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -9496,6 +9496,45 @@ function cvfxUpd(){const nw=performance.now(),rdt=Math.min(0.05,Math.max(0,(nw-C
   f.headB.getWorldPosition(CVFX.p);const t=nw/1000,fl=1+0.16*Math.sin(t*31)+0.1*Math.sin(t*53+1.3),z=CVFX.k*(chg?1.25:1);
   a.visible=b.visible=true;a.position.copy(CVFX.p);b.position.copy(CVFX.p);a.scale.setScalar(2.2*z*fl);b.scale.setScalar(5.2*z*(2-fl));a.material.opacity=0.95*CVFX.k;b.material.opacity=0.55*CVFX.k;}
 {const up0=updPose;updPose=function(){up0.apply(this,arguments);try{cvfxUpd();}catch(e){if(!CVFX.er){CVFX.er=1;console.warn('cover_fx',e);}}};}
+
+/* DL3_ON 迷宮の敵の大きさ・ゴーレムの色・広がる炎・暗い石段・扉の板だけ開く（dun_look3.py） */
+{const DL3={K:{goblin:1.7,skel:1.6,slime:1.25,redcap:1.5,bat:1.25,imp:1.25,drak:1.5,ogre:1.2,golem:1.3,biggolem:1.5},   // 迷宮の中の敵の倍率
+  GC:[1.08,1.02,0.95],GE:[0.06,0.05,0.03],     // ゴーレムの色のかけ算（DL2 の色の上から）と、足す自分の光
+  ST:[0.5,0.46,0.44],                        // 扉の前の石段の色のかけ算（暗い石）
+  bm:new V3(),bL:0,sp:null};window.DL3=DL3;
+const D3A=new V3(),D3B=new V3();
+// 敵の大きさ（出た次のコマで1回だけ）と、ゴーレムの色
+function dl3Tick(dt,rdt){if(!DUN.on||DUN.maou)return;
+  for(let i=0;i<EN.length;i++){const e=EN[i];if(e.dead)continue;
+    if(!e._d3){if(!e._d3w){e._d3w=1;continue;}e._d3=1;const k=DL3.K[e.type];if(k&&e.mesh){e.sc=(e.sc||1)*k;e.r*=k;e.hc*=k;if(e.gk)e.gk*=k;}}
+    if(e._d2&&!e._d3c&&e._gl&&e._gl.mats){e._d3c=1;for(const m of e._gl.mats){m.color.multiply(new THREE.Color(DL3.GC[0],DL3.GC[1],DL3.GC[2]));if(m._e0)m._e0.add(new THREE.Color(DL3.GE[0],DL3.GE[1],DL3.GE[2]));}}}
+  // 炎が当たった時の白い光を弱める（DL2 が毎コマ決めた後で）
+  if(window.DL2&&DL2.gol)for(const G of DL2.gol){const hot=Math.min(1,(G.e._gl&&G.e._gl.burn)||0);G.star.material.opacity*=0.7-0.4*hot;G.star.scale.multiplyScalar(0.72-0.2*hot);G.plate.scale.multiplyScalar(0.8);for(const b of G.bolts)b.material.opacity=Math.min(b.material.opacity,0.6);const gl=G.e._gl;if(gl&&gl.halo){gl.halo.scale.multiplyScalar(0.62);gl.halo.material.opacity*=0.6;gl.core.scale.multiplyScalar(0.75);}}}
+// 炎の筒：迷宮の中では、先が広がるだいだい色に。先に火のかたまり
+const _bc=breathCone;breathCone=function(m,to){_bc.apply(this,arguments);try{const o=BRC.m;if(!o)return;
+  if(DUN.on&&!DUN.maou){const L=o.scale.y,k=L<50?2.3-L*0.016:1.5;o.scale.x*=k;o.scale.z*=k;o.material.color.setHex(0xff8a34);o.material.opacity=Math.min(o.material.opacity,0.12);DL3.bm.copy(m);DL3.bL=L;
+    if(state==='play'&&Math.random()<0.75){D3A.subVectors(to,m).multiplyScalar(1/(L||1));const r=1.2+L*0.12;D3B.set(to.x+rnd(-1,1)*r,to.y+rnd(-0.6,1)*r,to.z+rnd(-1,1)*r).addScaledVector(D3A,-L*0.12);
+      D3A.multiplyScalar(L*0.55);D3A.x+=rnd(-1,1)*L*0.3;D3A.y+=rnd(-0.3,1)*L*0.22;D3A.z+=rnd(-1,1)*L*0.3;flame(D3B,1,2.6+L*0.08,0.36,D3A,0,4);}}
+  else{o.material.color.setHex(0xffffff);DL3.bL=0;}}catch(_){}};
+// 炎のつぶ：迷宮の中の息は、先へ行くほど大きく（口もとは細いまま）
+const _fl=flame;flame=function(pos,n,size,life,vel,type,spd){if(vel===FBV&&DL3.bL>0&&DUN.on&&!DUN.maou){if(Math.random()<0.5)return;const q=Math.min(1,pos.distanceTo(DL3.bm)/DL3.bL);size*=1+q*q*0.9;}return _fl.call(this,pos,n,size,life,vel,type,spd);};
+// 大きな光：迷宮の中では、白っぽい物をだいだい色に、少し小さく（画面が白くとばないように）
+const _gf=glowFlash;const D3C=new THREE.Color();glowFlash=function(pos,col,size,life){if(DUN.on&&!DUN.maou&&size>=12){D3C.set(col);if(D3C.r>0.7&&D3C.g>0.6&&D3C.b>0.45&&D3C.b<=D3C.r)col=0xffa040;size*=0.7;}return _gf.call(this,pos,col,size,life);};
+// 封印の扉を「板」と「わく」に分ける（板＝まん中のうすい所：竜の彫り・鎖・印）
+function dl3Split(g){if(DL3.sp&&DL3.sp.src===g)return DL3.sp;g.computeBoundingBox();const bb=g.boundingBox,H=bb.max.y-bb.min.y,cx=(bb.min.x+bb.max.x)/2,cz=(bb.min.z+bb.max.z)/2,P0=g.attributes.position,I=g.index;if(!I||!(H>0))return null;
+  const leaf=[],frame=[],ok=i=>Math.abs(P0.getX(i)-cx)<0.205*H&&Math.abs(P0.getZ(i)-cz)<0.105*H&&(P0.getY(i)-bb.min.y)<0.87*H;
+  for(let t=0;t<I.count;t+=3){const a=I.getX(t),b=I.getX(t+1),c=I.getX(t+2);((ok(a)?1:0)+(ok(b)?1:0)+(ok(c)?1:0)>=2?leaf:frame).push(a,b,c);}
+  if(leaf.length<300||frame.length<300)return null;const gl=g.clone(),gf=g.clone();gl.setIndex(leaf);gf.setIndex(frame);return DL3.sp={src:g,leaf:gl,frame:gf};}
+function dl3Build(o){if(!o||o.kind==='maou'||!DUN.g)return;const g=DUN.g,gy=DUN.y,cx=o.cx,z0=DUN.z0;
+  // 扉の前の石段を暗い石の色に
+  try{for(const c of g.children){if(c.isGroup&&Math.abs(c.position.x-cx)<0.01&&Math.abs(c.position.z-(z0+29))<0.01&&Math.abs(c.position.y-(gy+0.3))<0.01){c.traverse(q=>{if(q.isMesh&&q.material&&q.material.color){q.material=q.material.clone();q.material.color.multiply(new THREE.Color(DL3.ST[0],DL3.ST[1],DL3.ST[2]));}});break;}}}catch(_){}
+  // 封印の扉：わくは残して、板だけが下がる
+  try{const D=DUN.door;if(D&&D.md&&window.DL2&&DL2.sd){let ms=null;D.md.traverse(q=>{if(q.isMesh&&!ms)ms=q;});const sp=ms&&dl3Split(ms.geometry);
+    if(sp){D.g.updateMatrixWorld(true);const fm=new THREE.Mesh(sp.frame,ms.material);fm.matrixAutoUpdate=false;fm.matrix.copy(new THREE.Matrix4().copy(D.g.matrixWorld).invert().multiply(ms.matrixWorld));fm.castShadow=false;fm.receiveShadow=false;D.g.add(fm);ms.geometry=sp.leaf;
+      const hole=new THREE.Mesh(new THREE.PlaneGeometry(40,58),new THREE.MeshBasicMaterial({color:0x040308}));hole.position.set(0,29,5.2);D.g.add(hole);}}}catch(er){console.warn('dun_look3 door',er);}}
+const _db3=dunBuild;dunBuild=function(o){const r=_db3.apply(this,arguments);try{dl3Build(o);}catch(er){console.warn('dun_look3',er);}return r;};
+const _ud3=updDun;updDun=function(dt,rdt){_ud3.apply(this,arguments);try{dl3Tick(dt||0,rdt||0);}catch(_){}};
+}
 
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
