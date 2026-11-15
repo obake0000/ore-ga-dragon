@@ -830,7 +830,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aai';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aaj';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -6310,11 +6310,11 @@ function mslTick(dt){const S=MSL;if(!S.on)return;const e=S.e;if(!e||e.dead||!EN.
   T.clear=[['魔王','ま、待て……おぬし、よけるとか守るとか、せんのか？ 一回も？'],['ME','よける？ ……その発想は無かった。焼けば止まる'],
     ['魔王','千年みがいた奥義を、ぜんぶ顔で受けおって……この、石頭の大トカゲめ……'],['ME','竜だ。……さて。次は、守りの術を見せてくれ']];T.clear[0]=['魔王','ま、待て……おぬし、よけるとか守るとか、せんのか？ ふつう、するじゃろ！'];T.clear[2]=['魔王','千年みがいた奥義を、顔で受けおって……この、石頭の大トカゲめ……'];
   KIMG.maou.c=['maou_c1','maou_c2','maou_c3','maou_c4'];
-  ENDS[1]=['魔王の千年ぶんの奥義は、竜のうろこを、少しあたためただけだった。','竜の手の中で、火の玉がふくらんでいく。魔王の顔から、血の気が引いた。――つづく。'];
-  ENDIMG[1]=['maou_c2','maou_c4'];ENDT[1]='つづく';}
+  ENDS[1]=['――思い返せば、あれが魔王の千年ぶんの奥義だった。竜のうろこを、少しあたためただけだったが。','竜は、同じくらいの火を、そっと返してみた。黒こげの魔王を見下ろして、竜は首をかしげる。「……なぜ、防御も反撃も、しなかったのだ？」――つづく。'];
+  ENDIMG[1]=['maou_e1','maou_e2'];ENDT[1]='つづく';}
 // ⑥ 体力0の時の知らせ　と　結果の画面の見出し
 {const ke=killEnemy;killEnemy=function(e,quiet){const m=!quiet&&e&&!e.dead&&e.type==='demon'&&SCN===1&&state==='play'&&STAGES[stage]&&STAGES[stage].key==='maou';ke(e,quiet);if(m)banner('🔥 魔王の術を、すべて受けきった！',2.6);};
- const se=showEnd;showEnd=function(win){se(win);if(win&&SCN===1){$('ovT').textContent='つづく…';$('ovS').textContent=`${C.name}の手の中で、火の玉はまだ燃えている。魔王との決着は、次の物語で。`;}};}
+ const se=showEnd;showEnd=function(win){se(win);if(win&&SCN===1){$('ovT').textContent='つづく…';$('ovS').textContent=`魔王は、まだ返事ができない。${C.name}との決着は、次の物語で。`;}};}
 
 /* ---- size_fit.py：人と小物の大きさを、王国編のふつうの槍の兵（体 約1.6）のものさしにそろえる ---- */
 const SZB={soldier:1.65,captain:1.8,skelmage:1.6};
