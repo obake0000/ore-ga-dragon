@@ -506,6 +506,22 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 @media (min-width:901px) and (min-height:860px){#skp{max-width:840px;gap:5px}.sk{flex-direction:column;align-items:stretch;gap:4px;padding:5px}.sk .si{width:100%}.sk .sn{font-size:13px;white-space:normal}.sk .sd{font-size:11px;line-height:1.35}.sk .kk{font-size:10px}}
 /* 11/15 ふみさん「こういう配置に最初の画面変更」：技の札は、どの画面でも「大きな絵が上・文が下」 */
 @media (min-width:641px){#skp{max-width:1100px;gap:10px;margin-bottom:8px}.sk{flex-direction:column;align-items:stretch;gap:6px;padding:7px 8px}.sk .si{width:100%;aspect-ratio:auto;height:clamp(70px,12.5vh,190px)}#select .cards .card>.pti{min-height:clamp(48px,9vh,140px)}.sk .sn{font-size:15px;white-space:normal}.sk .sd{font-size:12px;line-height:1.4;min-height:0}.sk .kk{font-size:11px}.sk .pl{width:30px;height:30px;right:7px;bottom:7px}}
+/* 11/16 キャラが22体にふえたので、パソコンでも「顔の札を2段（11列）＋選んだキャラの詳しい札」にする */
+@media (min-width:641px){
+ body:not(.mob) #select .cards{grid-template-columns:repeat(11,minmax(0,1fr))!important;grid-template-rows:repeat(2,auto)!important;flex:none!important;min-height:0!important;gap:6px!important;max-width:1180px!important}
+ body:not(.mob) #select .cards .card{padding:4px!important;border-radius:10px;display:block!important}
+ body:not(.mob) #select .cards .card .pti{height:clamp(52px,8.5vh,92px)!important;min-height:0!important;width:100%;object-fit:cover;border-radius:7px;margin-bottom:2px}
+ body:not(.mob) #select .cards .card .nm{font-size:11.5px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;letter-spacing:-.04em}
+ body:not(.mob) #select .cards .card .tag,body:not(.mob) #select .cards .card .ds,body:not(.mob) #select .cards .card .st{display:none!important}
+ body:not(.mob) #seld{display:grid;grid-template-columns:96px 1fr 1fr;gap:4px 14px;width:100%;max-width:1180px;margin:2px auto 6px;background:#000c;border:2px solid #ffb030;border-radius:12px;padding:8px 12px;align-items:center}
+ body:not(.mob) #seld .pti{grid-row:span 2;width:96px;height:96px;object-fit:cover;border-radius:9px}
+ body:not(.mob) #seld .nm{font-size:22px;font-weight:900;display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+ body:not(.mob) #seld .nm .tag{display:inline-block;font-size:12px;font-weight:800;background:#ffffff22;border-radius:10px;padding:1px 9px;font-family:sans-serif;margin:0}
+ body:not(.mob) #seld .ds{grid-column:2/4;font-size:13.5px;line-height:1.5;margin:0;opacity:.92}
+ body:not(.mob) #seld .sts{grid-column:3;grid-row:1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+ body:not(.mob) #seld .st{font-size:11px;margin:0;gap:4px}body:not(.mob) #seld .st span{width:auto}
+ body:not(.mob) #select .how{display:none}
+}
 /* 11/15 スマホのキャラ選び：顔の列＋選んだキャラの詳しい札＋技3つ＋出撃 */
 #seld{display:none}
 body.mob #select{padding:8px 10px 0}
@@ -1096,9 +1112,9 @@ function updTheme(dt,t){antiHaze(dt);if(TER.grave)graveTick(dt,t);if(TER.forest&
 /* ================= Tripo で作った3Dモデル（models\manifest.json があれば使う） ================= */
 const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
-const PMODEL={wyvern:'wyvern2'};
+const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMK';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLP';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -1107,7 +1123,7 @@ async function loadModels(){try{await loadModels0();}finally{loadDone();}}
 async function loadModels0(){
   if(!THREE.GLTFLoader||location.protocol==='file:')return;
   try{const r=await fetch('models/manifest.json',{cache:'no-store'});if(!r.ok)return;const mf=await r.json();LOADN=Object.keys(mf).length;const ld=new THREE.GLTFLoader();
-    const PRI=['dragon','wyvern2','wyvern','ground','hero','army','golem','orctank','airship','redcap','kraken','kraken2'];const ENT=Object.entries(mf).sort((a,b)=>{const ia=PRI.indexOf(a[0]),ib=PRI.indexOf(b[0]);return (ia<0?99:ia)-(ib<0?99:ib);});
+    const PRI=['nurarihyon','y_origami','y_oni','y_whitefox','y_karasu','skelmage','skel','skeleton','slime2','imp','dragon','wyvern2','wyvern','ground','hero','army','golem','orctank','airship','redcap','kraken','kraken2','archangel','angelstatue','p8bomber','p8fighter'];const ENT=Object.entries(mf).sort((a,b)=>{const ia=PRI.indexOf(a[0]),ib=PRI.indexOf(b[0]);return (ia<0?99:ia)-(ib<0?99:ib);});
     let qi=0,priLeft=ENT.filter(e=>PRI.includes(e[0])).length;const one=([id,v])=>new Promise(res=>(function lo(n){ld.load('models/'+v.file+'?v='+ASSET_V+(n?'&r='+n:''),g=>{
       g.scene.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;(Array.isArray(o.material)?o.material:[o.material]).forEach(mt=>{if(!mt)return;if(mt.map){mt.map.encoding=THREE.LinearEncoding;mt.map.needsUpdate=true;}if(mt.emissiveMap)mt.emissiveMap.encoding=THREE.LinearEncoding;if('metalness' in mt){mt.metalness=0;mt.metalnessMap=null;mt.roughness=0.85;mt.roughnessMap=null;}mt.needsUpdate=true;});}});
       let sk=false;g.scene.traverse(o=>{if(o.isSkinnedMesh)sk=true;});if(id==='wyvern')fixWyvernLeg(g.scene);if(id==='dragon')addJaw(g.scene);if(id==='p8rex')rexJaw(g.scene);MODEL[id]={scene:g.scene,skin:sk,anims:g.animations||[],rot:(v.rot!==undefined?v.rot:-90)*Math.PI/180};layModel(id);if(id==='airship')prepAirProp(g.scene);loadStep();modelArrived(id);res();},undefined,()=>{if(n<2){setTimeout(()=>lo(n+1),600);return;}loadStep();res();});})(0));
@@ -2042,7 +2058,7 @@ function eShotOk(pos){const n=performance.now();for(let i=ESHOT.length-1;i>=0;i-
 function shoot(pos,vel,o){if(o&&o.from!=='p'&&o.geo!=='arrow'&&state==='play'&&!eShotOk(pos))return;const m=new THREE.Mesh(GEO[o.geo||'fire'],o.mat);m.position.copy(pos);m.scale.setScalar((o.size||1)*(o.ball?0.4:1)*(o.from!=='p'&&o.geo!=='arrow'?0.72:1));if(o.fat){m.scale.x*=o.fat;m.scale.y*=o.fat;}scene.add(m);
   if(FXT.ok&&(!o.geo||o.geo==='fire')&&!o.ball&&!(o.from==='p'&&o.mat===MAT.fire)){const fs=new THREE.Sprite(new THREE.SpriteMaterial({map:fxT(0,4),color:(o.col&&o.col[0])||0xffa030,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false}));fs.scale.set(4.4,4.4,1);fs.material.rotation=rnd(0,6.3);m.add(fs);m.userData.fs=fs;}
   let glow=null;
-  if(o.geo==='arrow'){m.add(new THREE.Mesh(GEO.ahead,AMAT.head));m.add(new THREE.Mesh(GEO.afeath,o.from==='p'?AMAT.feath:AMAT.feathR));o.trail=null;}
+  if(o.geo==='arrow'){m.add(new THREE.Mesh(GEO.ahead,AMAT.head));m.add(new THREE.Mesh(GEO.afeath,o.holyArrow?o.mat:o.from==='p'?AMAT.feath:AMAT.feathR));if(o.holyArrow){m.children[0].material=o.mat;glow=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xffed90,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,opacity:0.6}));glow.scale.set(2.5,2.5,1);m.add(glow);}else o.trail=null;}
   else if(o.geo==='bolt'){m.geometry=ZGEO[(Math.random()*ZGEO.length)|0];m.material=ZMAT;glow=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0x7fc8ff,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,opacity:0.8}));if(o.from==='p'){glow.scale.set(3.4,3.4,1);m.scale.multiplyScalar(1.3);m.scale.x*=1.7;m.scale.y*=1.7;const st=new THREE.Mesh(ZST,ZSTM);st.position.z=-8;m.add(st);}else glow.scale.set(5,5,1);m.add(glow);}
   else if(FIREMATS.has(o.mat)&&!o.ball){glow=new THREE.Sprite(new THREE.SpriteMaterial({map:FLT,color:o.mat.color.clone().lerp(new THREE.Color(0xff3000),0.35),blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,opacity:0.6}));glow.scale.set(3,3,1);m.add(glow);}
   PROJ.push(Object.assign({m,glow,vel:vel.clone(),life:3,grav:0,r:1,splash:0,dmg:5,from:'e',col:FIRE},o));{const q=PROJ[PROJ.length-1];if(q.from!=='p'&&q.geo!=='arrow')q.r*=0.85;if(q.crag)cragInit(q);}}
@@ -2073,7 +2089,7 @@ function updProj(dt){
   for(let i=PROJ.length-1;i>=0;i--){const p=PROJ[i],pp=p.m.position;p.life-=dt;p.vel.y-=p.grav*dt;
     if(p.homing){tmp.subVectors(P.pos,pp).normalize().multiplyScalar(p.vel.length());p.vel.lerp(tmp,Math.min(1,dt*1.3));}
     pp.addScaledVector(p.vel,dt);if(RANKS.n&&p.from==='p')ranksHit(pp,(p.splash||0)*0.45+p.r+1.6);
-    if(p.geo==='arrow'||p.geo==='beam'||p.geo==='bolt')p.m.lookAt(tmp.copy(pp).add(p.vel));else if(p.crag)cragFly(p,dt);else if(p.geo==='rock')p.m.rotation.x+=dt*6;
+    if(p.geo==='arrow'||p.geo==='beam'||p.geo==='bolt'||p.geo==='bomberBullet'||p.geo==='ufoLaser'||p.geo==='ufoMissile')p.m.lookAt(tmp.copy(pp).add(p.vel));else if(p.crag)cragFly(p,dt);else if(p.geo==='rock')p.m.rotation.x+=dt*6;
     if(p.geo==='bolt'){if(Math.random()<0.5)p.m.geometry=ZGEO[(Math.random()*ZGEO.length)|0];p.glow.material.opacity=0.5+Math.random()*0.5;if(Math.random()<0.35)burst(pp,1,ZAP,p.size*1.6,10,0.18);}
     else if(p.glow){const f=0.85+Math.random()*0.35;p.glow.scale.set(3.4*f,3.4*f,1);p.glow.material.rotation+=dt*5;}
     if(p.glow&&p.geo!=='bolt'){if(Math.random()<0.55)flame(pp,1,p.size*2.3,0.42,tmp2.copy(p.vel).multiplyScalar(-0.06),p.mat===MAT.dfire?1:p.mat===MAT.bfire?2:0);}
@@ -2118,7 +2134,7 @@ const CH={
   golem:{name:'ゴーレム',em:'🗿',tag:'地上・岩の巨人',ds:'岩でできた巨人。足は遅いが、とても硬い。近くの敵をなぐりとばすのが得意。遠くへは岩を投げる。必殺技は地割れと破壊光線。',hp:520,spd:15,turn:1.9,fly:false,range:115,
     br:{mat:mat(0x8a7a5a),geo:'rock',dmg:85,cd:1.8,spd:115,life:1.5,size:2.3,splash:11,col:[0x8a7a5a,0x6a5a3a,0xc0b090]},sp:'fissure',spN:'地割れ',sp2:'gbeam',sp2N:'破壊光線',dash:'guard',dashN:'防御',mel:{r:17,dmg:115,cd:0.55,ono:'ドゴッ！'},
     model:{id:'golem',w:4.9,h:7.2,d:3.8,mouth:[0,-0.75,1.5]},camB:23,camU:9.5,gOff:3.6,stat:[5,1,5]},
-  orctank:{name:'オークの戦車',em:'🛞',tag:'地上・弓と砲と体当たり',ds:'オークキングが乗る、とげだらけのデラックス戦車。弩の矢を撃ち続け、近くの敵は体当たりでひきつぶす。必殺技は大砲3連発と、とげの突撃。スペースで装甲をかため、重い体で攻撃を受けとめる。',hp:460,spd:34,turn:3.0,fly:false,range:170,
+  orctank:{name:'オークキング',em:'👑',tag:'地上・体力半分で戦車に乗る',ds:'最初はオークキングが大斧で戦う。体力が半分を切ると、とげだらけのデラックス戦車に乗りこむ。弩の矢を撃ち続け、近くの敵は体当たりでひきつぶす。必殺技は大砲3連発と、とげの突撃。スペースで装甲をかため、重い体で攻撃を受けとめる。',hp:460,spd:34,turn:3.0,fly:false,range:170,
     br:{mat:new THREE.MeshBasicMaterial({color:0xffe08a}),geo:'arrow',dmg:36,cd:0.45,spd:190,life:1.5,size:1.8,splash:2,col:[0xffd060,0xff9a30,0xffffff],trail:[0xffd060,0xff8a20],flash:0xffc040},sp:'tkflame',spN:'火炎放射',spD:'前の近い敵を、太い炎で焼きはらう',sp2:'tkrush',sp2N:'とげの突撃',sp2D:'まっすぐ突っこみ、ふれた敵をひきつぶす。その間は無敵',dash:'guard',dashN:'装甲かため',dashD:'その場でかたまり、受けるダメージを8割へらす',mel:{r:15,dmg:95,cd:0.6,ono:'ドガッ！'},
     model:{id:'kingtank',w:20,h:22,d:30,mouth:[0,5,15]},camB:40,camU:16,gOff:6.05,stat:[4,3,4]},
   airship:{name:'飛空艇',em:'🎈',tag:'空を飛ぶ・大砲',ds:'王国の飛空艇に乗って戦う。大砲を前の敵へ撃ち続ける。必殺技は真下への爆弾の雨と、全砲門の一斉射撃。スペースで急上昇・急降下して弾をかわす。',hp:300,spd:42,turn:1.5,fly:true,range:230,
@@ -2342,7 +2358,28 @@ Object.assign(CH.army,{spD:'大砲と矢で、敵をいっせいに撃つ',sp2D:
 Object.assign(CH.golem,{spD:'前へ岩のトゲがつぎつぎ生える',sp2D:'長い光線で、直線の敵をつらぬく',dashD:'しばらく、受けるダメージを8割へらす'});
 Object.assign(CH.airship,{spD:'下と前へ爆弾をつぎつぎ落とす',sp2D:'左右の大砲で、敵をいっせいに撃つ',dashD:'高さをすばやくかえて、弾をかわす'});
 // 必殺技の表：技の名前 → 表示名・ひとこと・小さな絵。入れかえた技もこの表で出す
+// 遊べる大天使：四枚の翼で飛び、光の矢と巨人召喚で戦う。
+Object.assign(CH,{archangel:{name:'大天使',em:'😇',tag:'空を飛ぶ・光の巨人召喚',ds:'四枚の翼で空を飛ぶ大天使。光の矢を放ち、光の巨人を6秒間呼び出して周囲の敵を打ち払う。もうひとつの必殺技は、天から降りそそぐ光の柱。',hp:300,spd:43,turn:2.3,fly:true,range:220,
+  br:{mat:new THREE.MeshBasicMaterial({color:0xfff3b0}),geo:'arrow',dmg:42,cd:0.55,spd:210,life:1.6,size:1.35,splash:4,col:[0xfff3b0,0xffd050,0xffffff],trail:[0xfff3b0,0xffd050],flash:0xffed90},
+  sp:'lightgiant',spN:'光の巨人召喚',spD:'前に光の巨人を6秒間呼び、周囲の敵を打ち払う',sp2:'pillars',sp2N:'光の柱',sp2D:'近くの敵へ、天から光の柱を落とす',dash:'climb',dashN:'翼の急上下',dashD:'四枚の翼で高さを変え、弾をかわす',mel:{r:11,dmg:65,cd:0.55,ono:'ザシュッ！'},
+  model:{id:'archangel',w:12,h:7.5,d:7,mouth:[0,1.2,3]},camB:29,camU:10,gOff:3.75,stat:[3,4,4]}});
+// 竜騎士：小さな飛竜に騎士が乗る、八騎の飛行部隊。
+Object.assign(CH,{dragonknight:{name:'竜騎士',em:'⚔️',tag:'空を飛ぶ・8騎の編隊',ds:'小さな飛竜に騎士が乗る8騎の部隊。体力が減ると騎数も減る。炎の息を撃ち、一斉突撃で敵をつらぬく。もうひとつの必殺技は大火球。',hp:360,spd:40,turn:2.1,fly:true,range:210,
+  br:{mat:MAT.fire,dmg:34,cd:0.42,spd:180,life:1.8,size:0.8,splash:4,col:FIRE},
+  sp:'dkrush',spN:'全騎一斉突撃',spD:'残っている全騎が前方へ突撃して敵をつらぬき、隊列へ戻る',sp2:'bigfire',sp2N:'大火球',sp2D:'前へ大きな火球を放つ',dash:'climb',dashN:'編隊の急上下',dashD:'部隊全体で高度を変えて弾をかわす',mel:{r:15,dmg:48,cd:0.6,ono:'ザシュッ！'},
+  model:{id:'wyvern2',w:30,h:6,d:28,mouth:[0,0,12]},camB:52,camU:20,gOff:3,stat:[4,4,3]}});
+// 遊べる海王：三つ又の槍と水の弾。体力半分で超大型の姿へ。
+Object.assign(CH,{seaking:{name:'海王',em:'🔱',tag:'地上・体力半分で超大型に変身',ds:'三つ又の槍を持つ海の王。水の弾を放ち、近くの敵は槍でなぎ払う。体力が半分になると超大型の海王へ変身し、攻撃が強くなる。海流砲と大津波で敵を押し流す。',hp:480,spd:22,turn:2.0,fly:false,range:190,
+  br:{mat:MAT.water,dmg:45,cd:0.65,spd:170,life:1.7,size:1.3,splash:6,col:WATC},
+  sp:'seabeam',spN:'海流砲',spD:'前へ太い海流を放ち、直線の敵をつらぬく',sp2:'seatide',sp2N:'大津波',sp2D:'まわりへ大波を広げ、敵を吹きとばす',dash:'guard',dashN:'海の守り',dashD:'水の守りで、受けるダメージをへらす',mel:{r:12,dmg:85,cd:0.65,ono:'ザバァッ！'},
+  model:{id:'seakingman',w:7.4,h:6.7,d:3,mouth:[1.8,1.0,2.4]},camB:26,camU:10,gOff:3.35,stat:[5,2,4]}});
+// 大型爆撃機：機銃を細かく連射し、爆弾を投下する飛行キャラ。
+Object.assign(CH,{bomber:{name:'大型爆撃機',em:'✈️',tag:'空を飛ぶ・機銃と爆弾',ds:'大型爆撃機を操縦して戦う。速く小さな機銃弾を連射し、真下と前方へ爆弾の雨を落とす。もうひとつの必殺技は全砲門斉射。仲間は戦闘機。',hp:320,spd:46,turn:1.7,fly:true,range:240,
+  br:{mat:new THREE.MeshBasicMaterial({color:0xffe6a0}),geo:'bomberBullet',dmg:12,cd:0.18,spd:240,life:1.3,size:0.7,splash:0,col:[0xffe6a0,0xffb840,0xffffff]},
+  sp:'bombs',spN:'爆弾の雨',spD:'下と前へ爆弾をつぎつぎ落とす',sp2:'broadside',sp2N:'全砲門斉射',sp2D:'左右の大砲で、敵をいっせいに撃つ',dash:'climb',dashN:'急上下',dashD:'高度をすばやくかえて、敵の弾をかわす',mel:{r:13,dmg:40,cd:0.7,ono:'ガツン！'},
+  model:{id:'p8bomber',w:30,h:6,d:26,center:1,mouth:[0,-0.5,12]},camB:49,camU:17,gOff:3.5,stat:[3,4,4]}});
 const SKINFO={};Object.keys(CH).forEach(k=>{const c=CH[k];if(!c.sp)return;SKINFO[c.sp]={n:c.spN,d:c.spD,img:`chara/sk/${k}_sp.webp`};SKINFO[c.sp2]={n:c.sp2N,d:c.sp2D,img:`chara/sk/${k}_sp2.webp`};});
+SKINFO.dkrush.img='chara/sk/army_sp.webp';SKINFO.bigfire.img='chara/sk/dragon_sp.webp';
 SKINFO.tkcannon={n:'大砲3連発',d:'近い敵3体へ、大きな砲弾を3発うちこむ',img:'chara/sk/orctank_sp.webp'};
 const SKB={flamering:1,discharge:1,boulder:1,spin:1,arrowrain:1,gbeam:1,broadside:1};
 // 「地響き」は地面を踏む技なので、飛ぶキャラでは出さない
@@ -2353,8 +2390,8 @@ function skUI(){const a=SKINFO[P.sp],b=SKINFO[P.sp2];
   $('hint').innerHTML=`<b>🖱️ マウス</b> 行きたい方を指す<br><b>🔥 息</b> 前の敵へ自動<br><b>左クリック</b> ${a.n}　<b>右クリック</b> ${b.n}<br><b>スペース</b> ${C.dashN}　<b>Esc</b> 一時停止`;
   $('tsp').textContent=a.n;$('tsp2').textContent=b.n;}
 // ゴーレム・飛空艇の体（3Dモデルをそのまま1体。竜と同じ使い方ができる入れ物にする）
-function makePlayerModel(k){const c=CH[k],M=c.model,g=new THREE.Group(),inner=new THREE.Group();inner.position.y=M.center?0:-c.gOff;g.add(inner);
-  const body=makeProxy(M.w,M.h,M.d,0x8a7a6a,!!M.center);inner.add(body);attachModel(body,M.id);
+function makePlayerModel(k){if(k==='dragonknight')return makeDragonknight();const c=CH[k],M=c.model,g=new THREE.Group(),inner=new THREE.Group();inner.position.y=M.center?0:-c.gOff;g.add(inner);
+  const body=makeProxy(M.w,M.h,M.d,0x8a7a6a,!!M.center);if(k==='nurarihyon'){attachModel(body,M.id);inner.add(body);}else if(k==='archangel'||k==='bomber'||k==='slime'||k==='necromancer'){attachModel(body,M.id);inner.add(body);const mx=body.userData.mix;if(mx&&mx.idle)mx.loco=mx.idle;}else{inner.add(body);attachModel(body,M.id);}
   const mouth=new THREE.Object3D();mouth.position.set(M.mouth[0],M.mouth[1],M.mouth[2]);g.add(mouth);return {g,inner,mouth,units:[{m:body,x:0,z:0,front:1}],guns:[],model:k,body};}
 // 勇者・兵隊の隊の体（竜と同じ使い方ができる入れ物にする）
 function makePlayerHuman(k){const g=new THREE.Group(),inner=new THREE.Group();inner.position.y=-CH[k].gOff;g.add(inner);
@@ -2511,7 +2548,7 @@ function wizTfmTick(e,dt){e.tt+=dt;const k=Math.min(1,e.tt/1.5),p=e.mesh.positio
   if(e.tt>=1.5){e.tfm=0;e.giant=1;e.inv=false;e.fly=false;e.sc=WIZ_SC;e.r=WZR;e.hc=WZH;e.vy=0;
     e.hp=e.maxHp=e.gh||(EASY?900:1400);e.val=Math.max(e.val||0,1500);e.gs='walk';e.gt=0;e.cd=1.4;e.done=0;
     shock(p,0xc050ff,46);burst(p,50,PURP,6,30,1.0);shake(0.8);sfx('boom',p,0.7);glowFlash(p.clone(),0xe0a0ff,26,0.5);
-    say('魔術師','ふははは！ この大きさなら、竜もただのトカゲよ！');}}
+    say('魔術師','ふははは！ この大きさなら、よそ者など虫けらよ！');}}
 // 巨大化した魔術師：歩いて近づき、なぐる（弾は撃たない）
 function wizGiantAI(e,dt){
   const p=e.mesh.position,dx=P.pos.x-p.x,dz=P.pos.z-p.z,hd=Math.hypot(dx,dz)||1,dy=P.pos.y-p.y,d3=cpos(e).distanceTo(P.pos),R=e.r;
@@ -2668,7 +2705,7 @@ const ORCSL=new THREE.MeshBasicMaterial({color:0xc8f040,side:THREE.DoubleSide});
 // レッドキャップの中ボス：1体だけ。体力は10倍ほど・大きめ・足が速い・弓は2〜3本
 function addRedcapBoss(x,z){const e=addRedcap(x,z);e.sc=1.6;e.r*=1.6;e.hc*=1.6;e.spd=27;e.dmg=14;e.hp=e.maxHp=s3bhp(300);e.val=700;e.boss='🔴 レッドキャップ';e.nm='レッドキャップ';e.cd=1.2;
   e.die='ちっ……赤い帽子が……泥に……';if(!PTS.includes('redcap'))PTS.push('redcap');
-  bossIntro(e,'redcap','🧢');setTimeout(()=>{if(state==='play'&&!e.dead)say('レッドキャップ','赤い帽子は、血でそめる物さ。竜さんよ、そこで待ってな！');},900);return e;}
+  bossIntro(e,'redcap','🧢');setTimeout(()=>{if(state==='play'&&!e.dead)say('レッドキャップ','赤い帽子は、血でそめる物さ。よそ者さんよ、そこで待ってな！');},900);return e;}
 // ---- やられた時の見た目：ふっ飛んで倒れる／回りながら落ちる／つぶれる
 const DIEL=[],DIENO=['cannon','bigcannon','siegecart','ship','battleship','seal','orccart','orcfort','skyfort','ballista','kraken','seaserpent'];
 function dieOk(e){return DIEL.length<14&&e.mesh&&!e.perch&&!e.cat&&!e.bal&&(!!dieKind(e)||(e.r<14&&!DIENO.includes(e.type)&&!(e._o&&DIENO.includes(e._o.model))));}
@@ -3000,7 +3037,7 @@ function s7TentTick(dt){
 // 敵のクラーケンの動き（海王いがい）。true を返したら、元の動きは通らない
 function s7KrAct(e,dt,p,dx,dz,hd,d3,half){
   if(e.k7===undefined){e.k7=1;e.r0=e.r;e.hc0=e.hc;e.dvCd=rnd(4,7);e.tcd=0;if(e.st<=0)e.st=7;}
-  if(!e.said){e.said=1;say('王','海の主よ、目を覚ませ！ あの竜を海の底へ！');e.st=8;}
+  if(!e.said){e.said=1;say('王','海の主よ、目を覚ませ！ あの者を海の底へ！');e.st=8;}
   const base=WATER-2,hr=e.hp/e.maxHp,DY=WATER-21;e.st-=dt;e.dvCd-=dt;
   const act=()=>{let n=0;for(const q of S7T)if(q.o===e)n++;return n;};
   if(e.state==='dive'){
@@ -4271,7 +4308,7 @@ const TJ={id:null,x0:0,y0:0,dx:0,dy:0},MS={x:0,y:0};
 function aimDir(){return new V3(Math.sin(P.yaw)*Math.cos(P.pitch),Math.sin(P.pitch),Math.cos(P.yaw)*Math.cos(P.pitch));}
 function hurt(n,cont){if(state!=='play'||P.dashT>0||(P.dodgeT||0)>0)return;if(charKey==='army')n*=0.88;if(EASY)n*=0.4;if(SCN===5)n*=0.7;
   if(P.guardT>0){n*=0.2;if(!cont&&P.inv<=0){burst(P.pos.clone().add(new V3(0,2,0)),12,[0x80c0ff,0xffffff],2.6,20,0.3);sfx('clang',null,0.6);ono(P.pos.clone().add(new V3(rnd(-3,3),9,0)),'ガキン！','#bfe8ff',32);}}
-  if(!cont){if(P.inv>0)return;P.inv=0.12;shake(0.35);sfx('hit',null,0.5);sfx('ouch',null,0.6);dmgFlash();burst(P.pos.clone().add(new V3(0,2,0)),16,[0xff3020,0xffa040,0xffffff],2.4,24,0.45);if(n>=3)ono(P.pos.clone().add(new V3(rnd(-3,3),7,0)),'-'+Math.round(n),'#ff4a3a',30);}else if((P.hitFx||0)<0.08)P.hitFx=0.12;P.hp-=n;
+  if(!cont){if(P.inv>0)return;P.inv=0.12;shake(0.35);sfx('hit',null,0.5);sfx('ouch',null,0.6);dmgFlash();burst(P.pos.clone().add(new V3(0,2,0)),16,[0xff3020,0xffa040,0xffffff],2.4,24,0.45);if(n>=3)ono(P.pos.clone().add(new V3(rnd(-3,3),7,0)),'-'+Math.round(n),'#ff4a3a',30);}else if((P.hitFx||0)<0.08)P.hitFx=0.12;P.hp-=n;if(n>0&&P.hp>0&&charKey==='slime')slimeChild();
   const dm=$('dmg');dm.style.opacity=Math.min(0.85,parseFloat(dm.style.opacity||0)+(cont?n*0.05:0.5));if(P.hp<=0){P.hp=0;die();}}
 function shake(s){shakeT=Math.max(shakeT,s);}
 const HITC=new THREE.Color(1,0.12,0.05);
@@ -4352,16 +4389,16 @@ function pickLv(i){if(!LVUP||!LVOPT[i])return;const u=LVOPT[i];if(u.adv){const q
   if(u.k==='hp'){P.maxHp=Math.round(P.maxHp*1.15);P.hp=P.maxHp;}if(u.k==='pet')addPet();if(u.k==='sp')$('enl').textContent=`⚡ 必殺ゲージ（${SPC()}で必殺技）`;
   LVUP=false;LVQ--;$('lvup').style.display='none';updLvHud();banner(u.ic+' '+u.nm+'！',1.6);sfx('heal',null,0.6);if(LVQ>0)setTimeout(()=>{if(state==='play'&&!LVUP)showLv();},350);}
 // 11/16 ふみさん「仲間はドラゴン固定じゃなく、キャラによって分ける。最大3体」
-const PETM={dragon:[['dragon',1]],wyvern:[['wyvern2',1]],ground:[['ground',0]],hero:[['wizard',0],['priest',0],['archer',0]],army:[['archer',0],['captain',0],['soldier',0]],golem:[['bgolem',0]],orctank:[['goblin',0],['hawkrider',1],['orc',0]],airship:[['griffin',1],['p8drone',1],['griffin',1]],redcap:[['goblin',0],['hawkrider',1],['goblin',0]],kraken:[['shark',0],['fishman',0],['shark',0]]};
-const PETH={wizard:3.4,priest:3.4,archer:3.2,captain:3.4,soldier:3.2,bgolem:5,goblin:2.6,orc:3.6,hawkrider:4,griffin:4.4,p8drone:3,shark:4,fishman:3.2,ground:4};
+const PETM={dragon:[['dragon',1]],wyvern:[['wyvern2',1]],ground:[['ground',0]],hero:[['wizard',0],['priest',0],['archer',0]],army:[['archer',0],['captain',0],['soldier',0]],golem:[['bgolem',0]],orctank:[['orcgeneral',0],['orcgeneral',0],['orcgeneral',0]],airship:[['airship',1],['airship',1],['airship',1]],maou:[['imp',1],['devilsoldier',0],['imp',1]],redcap:[['goblin',0],['hawkrider',1],['goblin',0]],kraken:[['fishman',0],['fishman',0],['fishman',0]]};
+const PETH={orcgeneral:4.6,airship:3.2,imp:2.6,devilsoldier:3.4,wizard:3.4,priest:3.4,archer:3.2,captain:3.4,soldier:3.2,bgolem:5,goblin:2.6,orc:3.6,hawkrider:4,griffin:4.4,p8drone:3,shark:4,fishman:3.2,ground:4};
 function addPet(){const L=PETM[charKey]||PETM.dragon,pk=L[PETS.length%L.length],mid=pk[0],fly=!!pk[1];let g;
   if(fly&&(mid==='dragon'||mid==='wyvern2')){const c=CH[mid==='wyvern2'?'wyvern':'dragon'];const d=makeDragon(c.col[0],c.col[1],c.s*0.38,c.o);(attachModel(d.g,mid)||attachModel(d.g,'dragon'));g=d.g;}
-  else{const h=PETH[mid]||3.4;g=makeProxy(h*0.5,h,h*0.45,0x888888);if(!attachModel(g,mid)){const c=CH.dragon,d=makeDragon(c.col[0],c.col[1],c.s*0.38,c.o);attachModel(d.g,'dragon');g=d.g;}}
+  else{const h=PETH[mid]||3.4;g=mid==='p8fighter'?makeProxy(11,h,10,0x888888,true):makeProxy(h*0.5,h,h*0.45,0x888888);if(!attachModel(g,mid)){const c=CH.dragon,d=makeDragon(c.col[0],c.col[1],c.s*0.38,c.o);attachModel(d.g,'dragon');g=d.g;}}
   g.position.copy(P.pos);scene.add(g);PETS.push({g,id:charKey,mid,fly,cd:rnd(0,0.5),ph:PETS.length,hp:70,max:70,hitT:0});}
 function updPets(dt,t){const n=PETS.length;PETS.forEach((p,i)=>{const a=t*1.3+i*Math.PI*2/n;tmp3.set(P.pos.x+Math.cos(a)*9,P.pos.y+4+Math.sin(t*2.2+i)*1.2,P.pos.z+Math.sin(a)*9);
   if(!p.fly)tmp3.y=floorAt(tmp3.x,tmp3.z)+0.3;else if(!C.fly)tmp3.y=Math.max(tmp3.y,floorAt(tmp3.x,tmp3.z)+5);p.g.position.lerp(tmp3,1-Math.exp(-6*dt));p.g.rotation.y=P.tgt?Math.atan2(P.tgt.x-p.g.position.x,P.tgt.z-p.g.position.z):P.yaw;
   p.cd-=dt;if(P.tgt&&p.cd<=0){p.cd=1.7;const b=CH[p.id].br,v=P.tgt.clone().sub(p.g.position).normalize().multiplyScalar(b.spd);
-    shoot(p.g.position.clone(),v,{from:'p',mat:b.mat,geo:b.geo==='bolt'?'bolt':undefined,size:b.size*0.6,r:1.2,splash:b.splash*0.5,dmg:b.dmg*0.85*POW(),life:b.life*0.8,trail:b.col,col:b.col});}
+    shoot(p.g.position.clone(),v,{from:'p',mat:b.mat,geo:b.geo==='bomberBullet'?'bomberBullet':b.geo==='bolt'?'bolt':undefined,size:b.size*0.6,r:1.2,splash:b.splash*0.5,dmg:b.dmg*0.85*POW(),life:b.life*0.8,trail:b.col,col:b.col});}
   // 近くの敵にかじられる
   for(const e of EN){if(e.dead||!e.dmg)continue;if(cpos(e).distanceTo(p.g.position)<e.r+3)petHurt(p,e.dmg*dt*0.7,true);}
   if(p.hitT>0){p.hitT-=dt;p.g.scale.setScalar(1+Math.sin(p.hitT*40)*0.12);}else p.g.scale.setScalar(1);});
@@ -4390,12 +4427,15 @@ function tkShell(tg){const m=mouthPos();shoot(m,lob(m,tg,150,16),{from:'p',geo:'
   glowFlash(m.clone(),0xffb040,16,0.3);burst(m,14,FIRE,4.5,22,0.4);smoke(m,5,4.5,1.4,0x777777,2);sfx('cannon',m);shake(0.3);ono(m.clone().add(new V3(0,5,0)),'ドン！','#ffd23a',40);P.atkM=0.3;}
 function skyRock(tg){const m=mouthPos(),d=tg.clone().sub(m).normalize();shoot(m,d.multiplyScalar(210),{from:'p',geo:'rock',mat:C.br.mat,size:1.9,r:2.6,splash:9,dmg:70*POW(),life:1.6,trail:[0x9fdcff,0xffffff],col:C.br.col});
   glowFlash(m.clone(),0x9fdcff,9,0.25);sfx('whoosh',null,0.7);P.atkM=0.3;if(D&&D.body&&D.body.userData.mix)mixOnce(D.body.userData.mix,2.2);if(!P.skyTip){P.skyTip=1;ono(m.clone().add(new V3(0,5,0)),'対空！','#9fdcff',40);}}
-function breathe(tg){if(charKey==='golem'&&tg.y>P.pos.y+8){skyRock(tg);P.fireCd=Math.min(P.fireCd,0.7);return;}if(charKey==='orctank'&&(P.tkN=(P.tkN||0)+1)%4===0){tkShell(tg);return;}P.atkM=0.22;if(D.human==='hero')mixOnce(D.units[0].m.userData.mix,2.2);else if(D.human==='army'){}else if(D.model&&!C.fly)mixOnce(D.body.userData.mix,2.4);
+function breathe(tg){if(charKey==='golem'&&tg.y>P.pos.y+8){skyRock(tg);P.fireCd=Math.min(P.fireCd,0.7);return;}if(charKey==='orctank'&&(P.tkN=(P.tkN||0)+1)%4===0){tkShell(tg);return;}P.atkM=charKey==='bomber'?0:0.22;if(D.human==='hero')mixOnce(D.units[0].m.userData.mix,2.2);else if(D.human==='army'){}else if(D.model&&!C.fly)mixOnce(D.body.userData.mix,2.4);
   const m=mouthPos(),b=C.br;const nS=1+(UP.multi||0),sz=b.size*SZM(),sp=b.splash*SZM(),dm=b.dmg*POW();
   if(nS>1){const base=tg.clone(),dir=base.clone().sub(m),yaw0=Math.atan2(dir.x,dir.z),hz=Math.hypot(dir.x,dir.z);
     for(let i=0;i<nS;i++){const a=yaw0+(i-(nS-1)/2)*0.13;const t2=new V3(m.x+Math.sin(a)*hz,base.y,m.z+Math.cos(a)*hz);shoot1(m,t2,b,sz,sp,dm);}sfx(charKey==='wyvern'?'zapb':'fire',null,0.8);return;}
   shoot1(m,tg,b,sz,sp,dm,true);}
 function shoot1(m,tg,b,sz,sp,dm,snd){
+  if(b.geo==='ufoLaser'||b.geo==='ufoMissile'){ufoShot(m,tg,b,sz,sp,dm,snd);return;}
+  if(b.geo==='bomberBullet'){bomberShot(m,tg,b,sz,dm,snd);return;}
+  if(charKey==='archangel'&&b===C.br){shoot(m,tg.clone().sub(m).normalize().multiplyScalar(b.spd),{from:'p',mat:b.mat,geo:'arrow',holyArrow:true,size:sz,r:1.8,splash:sp,dmg:dm,life:b.life,trail:b.trail,col:b.col});glowFlash(m.clone(),b.flash,6,0.12);if(snd)sfx('zapb',null,0.35);return;}
   if(b.geo==='arrow'){const v=lob(m,tg.clone().add(new V3(rnd(-1.5,1.5),rnd(-1,1),rnd(-1.5,1.5))),b.spd*0.75,28);shoot(m,v,{from:'p',mat:b.mat,geo:'arrow',size:sz,r:1.8*sz/b.size,splash:sp,dmg:dm,life:b.life*1.8,grav:28,col:b.col,trail:b.trail});if(b.flash){glowFlash(m.clone(),b.flash,8,0.16);burst(m,4,b.col,2.6,14,0.22);}if(snd)sfx('fire',null,0.25);return;}
   const d=tg.clone().sub(m).normalize();d.x+=rnd(-0.02,0.02);d.y+=rnd(-0.02,0.02);d.z+=rnd(-0.02,0.02);
   shoot(m,d.multiplyScalar(b.spd).add(P.vel),{from:'p',mat:b.mat,geo:b.geo,size:sz,r:1.6*sz/b.size,splash:sp,dmg:dm,life:b.life,trail:b.col,col:b.col});burst(m,2,b.col,2.5,8,0.25);if(b.geo==='bolt')zapMuzzle(m,d,tg);
@@ -4614,6 +4654,12 @@ function skillA(SK){const SPZ=(1+0.15*(UP.sp||0))*(EASY?1:0.8);{
     flashV=0.8;sfx('thunder',null,0.8);sfx('zap');
     list.forEach((o,i)=>{const c=cpos(o.e).clone();setTimeout(()=>{if(state!=='play')return;bolt(new V3(c.x+rnd(-10,10),c.y+130,c.z+rnd(-10,10)),c,0xe8f6ff);bolt(new V3(c.x+rnd(-6,6),c.y+130,c.z+rnd(-6,6)),c,0x9fdcff);magicCircle(gpos(c),0x9fdcff,14,1.8);pillar(gpos(c),0xd8f0ff,4,140,1.0);glowFlash(c,0xe8f6ff,34,0.5);fxStrike(c,i);hitEnemy(o.e,95*SPM());},i*70);});
     if(list.length<3){BLD.filter(b=>!b.dead&&b.box.distanceToPoint(P.pos)<200).slice(0,3-list.length).forEach(b=>{const c=b.box.getCenter(new V3());c.y=b.box.max.y;bolt(new V3(c.x,c.y+130,c.z),c,0xe8f6ff);if(!C.human)hitBld(b,130*SPM());});}}
+  else if(SK==='dkrush'){dragonknightRush();}
+  else if(SK==='lightgiant'){archangelSummon();}
+  else if(SK==='seabeam'){seakingBeam();}
+  else if(SK==='seatide'){seakingTide();}
+  else if(SK==='hyakki'){nuraParade();}
+  else if(SK==='deadarmy'){necroArmy();}
   else if(SK==='pillars'){const ad=aimDir();
     const list=EN.filter(e=>!e.dead).map(e=>{const v=tmp.subVectors(cpos(e),P.pos);return {e,d:v.length(),s:v.length()*(1+v.angleTo(ad)*0.6)};}).filter(o=>o.d<240).sort((a,b)=>a.s-b.s).slice(0,6+2*(UP.sp||0));
     flashV=0.6;sfx('zap');
@@ -5290,7 +5336,7 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);
       break;}
     case 'wizard':{
       if(e.duel&&!e.giant&&!e.tfm&&e.hp<e.maxHp*0.45)wizTransform(e);if(e.tfm&&!e.giant){wizTfmTick(e,dt);break;}if(e.duel&&!e.giant)e.cd-=dt*0.6;if(false){e.giant=1;e.grow=0;e.hp=e.maxHp=480;e.r=8;e.boss='🧙 巨大魔術師';e.val=600;e.cd=2;e.sum=0;
-        burst(p,60,PURP,6,30,1.2);shock(p,0xc050ff,40);shake(0.8);sfx('roar',p);cutin('wizard','魔術師','負けてたまるか…！ 禁じられた巨大化の術！');setTimeout(()=>{if(!e.dead)say('魔術師','ふははは！ この大きさなら、竜もただのトカゲよ！');},1200);}
+        burst(p,60,PURP,6,30,1.2);shock(p,0xc050ff,40);shake(0.8);sfx('roar',p);cutin('wizard','魔術師','負けてたまるか…！ 禁じられた巨大化の術！');setTimeout(()=>{if(!e.dead)say('魔術師','ふははは！ この大きさなら、よそ者など虫けらよ！');},1200);}
       if(e.giant){wizGiantAI(e,dt);break;}if(false){if(e.grow<1){e.grow=Math.min(1,e.grow+dt*0.8);e.sc=1+4*e.grow*e.grow;if(Math.random()<0.6)burst(p,2,PURP,4,10,0.5);}
         e.ang+=dt*0.35;tmp2.set(P.pos.x+Math.cos(e.ang)*55,Math.max(P.pos.y+12,floorAt(p.x,p.z)+16),P.pos.z+Math.sin(e.ang)*55);fly(e,tmp2,20,dt,1);faceP(e);
         if(e.cd<=0&&e.grow>=1){e.cd=rnd(2,3);const f=p.clone();f.y+=5;const r=Math.random();
@@ -5314,7 +5360,7 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);
           burst(m,30,FIRE,6,30,0.5);smoke(m,14,6,2.5,0x777777,3);sfx('cannon',m);sfx('boom',m,0.5);if(hd<150)shake(0.3);}}
       if(e.chg&&Math.random()<0.5)burst(cpos(e),1,FIRE,3,5,0.4);
       break;}
-    case 'wooddragon':case 'siegecart':case 'cerberus':{grav(e,dt);e.st-=dt;if(!e.said){e.said=1;say('王国の技師','木の竜、出撃！ 竜には竜だ！');sfx('roar',p,0.6);}
+    case 'wooddragon':case 'siegecart':case 'cerberus':{grav(e,dt);e.st-=dt;if(!e.said){e.said=1;say('王国の技師','木の竜、出撃！ 怪物には怪物だ！');sfx('roar',p,0.6);}
       if(e.state==='chase'){walk(e,P.pos.x,P.pos.z,hd>20?9:0,dt);
         if(e.cd<=0){const r=Math.random();
           if(r<0.45&&hd<130){e.state='breath';e.st=2;e.sub=0;}
@@ -5328,7 +5374,7 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);
         if(!e.done&&d3<e.r+6){e.done=true;hurt(e.dmg);shake(0.6);}if(e.st<=0){e.state='chase';e.cd=half?1.4:2.4;}}
       else{faceP(e);if(e.st<=0){e.state='chase';e.cd=2;}}
       if(d3<e.r+5)hurt(e.dmg*0.3*dt,true);break;}
-    case 'walker':{grav(e,dt);if(!e.said){e.said=1;e.big=1;e.sc=1.48;e.r=26.5;e.hc=29.6;e.hp=e.maxHp=e.hp*1.5;if(e.intro===1)wkIntro(e);else{say('王','城よ、立て！ あの竜を踏みつぶせ！');sfx('roar',p);}}
+    case 'walker':{grav(e,dt);if(!e.said){e.said=1;e.big=1;e.sc=1.48;e.r=26.5;e.hc=29.6;e.hp=e.maxHp=e.hp*1.5;if(e.intro===1)wkIntro(e);else{say('王','城よ、立て！ あの者を踏みつぶせ！');sfx('roar',p);}}
       if(e.intro===1&&wkIntroTick(e,dt))break;
       if(e.big){const fr=e.hp/e.maxHp,tg=fr<0.25?3:fr<0.5?2:fr<0.75?1:0;if(e.stgT>0)e.stgT-=dt;else if((e.stg|0)<tg){e.stg=(e.stg|0)+1;e.stgT=1.3;wkBreak(e,e.stg);if(e.stg===1)e.sub=Math.max(e.sub,1.8);if(e.stg===2){e.sub=Math.max(e.sub,2.5);e.met=Math.max(e.met,2.5);}}}
       const sg=e.big?(e.stg|0):0;walk(e,P.pos.x,P.pos.z,hd>(e.big?(sg===3?30:80):40)?(half?7:5)*(e.big?1.4*[1,1.3,0.75,1.9][sg]:1):0,dt);e.mesh.rotation.z=Math.sin(e.t*2.2)*(e.big?0.025:0.04)+(sg===2?0.1+Math.sin(e.t*1.3)*0.04:sg===3?0.05:0);
@@ -5363,9 +5409,9 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);
       if(e.cd<=0&&hd<220){e.cd=rnd(3,4.2);const side=tmp.set(-dz/hd,0,dx/hd);
         for(let k=-1;k<=1;k++){const m=p.clone();m.y+=4;m.x+=side.x*0+dx/hd*k*4;m.z+=dz/hd*k*4;const tg=tmp2.copy(P.pos).addScaledVector(P.vel,0.8);tg.x+=rnd(-10,10);tg.z+=rnd(-10,10);
           shoot(m,lob(m,tg,90,20),{geo:'fire',mat:MAT.ball,size:1.3,r:1.8,splash:10,dmg:13,grav:20,life:6,smk:true,ball:true,col:[0xff9a30,0xffe080,0x888888]});burst(m,8,FIRE,3,12,0.3);smoke(m,3,3,1.4,0x888888,1);}
-        sfx('cannon',p,0.6);if(Math.random()<0.4)bubble(e,['撃てー！','右舷、砲撃！','竜を沈めろ！'][(Math.random()*3)|0],'shout',1.4);}
+        sfx('cannon',p,0.6);if(Math.random()<0.4)bubble(e,['撃てー！','右舷、砲撃！','侵入者を沈めろ！'][(Math.random()*3)|0],'shout',1.4);}
       break;}
-    case 'battleship':{if(!e.said){e.said=1;say('艦長','全砲塔、竜へ向け！ 王の海を守れ！');}
+    case 'battleship':{if(!e.said){e.said=1;say('艦長','全砲塔、あの者へ向け！ 王の海を守れ！');}
       floatOn(e,dt,P.pos.x+Math.cos(e.ang)*130,P.pos.z+Math.sin(e.ang)*130,8);e.ang+=dt*0.06;
       e.sub-=dt;if(e.sub<=0&&hd<320){e.sub=half?1.8:2.6;for(let k=-1;k<=1;k++){const m=p.clone();m.y+=9;m.x+=dx/hd*k*10;m.z+=dz/hd*k*10;const t=m.distanceTo(P.pos)/120;
           const tg=tmp2.copy(P.pos).addScaledVector(P.vel,t*0.6);tg.x+=rnd(-8,8);tg.z+=rnd(-8,8);
@@ -5375,7 +5421,7 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);
       if(Math.random()<0.15)smoke(tmp.copy(p).setY(p.y+16),1,5,2,0x444444,6);
       if(half&&!e.p2){e.p2=1;say('艦長','まだ沈まん！ 援軍の船を呼べ！');for(let k=0;k<2;k++){const [x,z]=ringPos(80,140);addEnemy('ship',x,z);}}
       break;}
-    case 'bigairship':{if(!e.said){e.said=1;say('空中戦艦の将軍','空も海も王のもの。竜よ、落ちろ！');}
+    case 'bigairship':{if(!e.said){e.said=1;say('空中戦艦の将軍','空も海も王のもの。よそ者よ、落ちろ！');}
       e.ang+=dt*0.18;tmp2.set(P.pos.x+Math.cos(e.ang)*95,Math.max(P.pos.y+45,floorAt(p.x,p.z)+60),P.pos.z+Math.sin(e.ang)*95);fly(e,tmp2,18,dt,0.6);
       e.mesh.rotation.y=Math.atan2(e.vel.x,e.vel.z);e.mesh.rotation.z=Math.sin(e.t*0.7)*0.04;if(e.vol>0){e.volT-=dt;while(e.vol>0&&e.volT<=0){e.volT+=0.06;e.vol--;const k=e.vol-8,f=p.clone();f.y-=7;f.x+=rnd(-8,8);f.z+=rnd(-8,8);const tg=new V3(P.pos.x+Math.cos(e.volA)*k*4.5,P.pos.y,P.pos.z+Math.sin(e.volA)*k*4.5);shoot(f,tg.sub(f).normalize().multiplyScalar(125),{geo:'arrow',mat:MAT.arrow,size:0.9,r:1.1,dmg:5,life:3,col:[0x999080]});}}
       if(e.cd<=0&&hd<260){e.cd=half?2.4:3.4;const r=Math.random();
@@ -5383,7 +5429,7 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);
         else{for(let k=0;k<6;k++){const f=p.clone();f.x+=rnd(-12,12);f.z+=rnd(-12,12);shootAtP(f,95,{mat:MAT.fire,size:1.3,r:1.8,dmg:9,life:3,trail:FIRE,col:FIRE});}sfx('cannon',p,0.5);}}
       e.sum-=dt;if(e.sum<=0){e.sum=14;for(let k=0;k<2;k++)addEnemy('airship',p.x+rnd(-20,20),p.z+rnd(-20,20),p.y-5);bubble(e,'飛空艇、発進！','boss',1.6);}
       if(d3<e.r+4)hurt(e.dmg*dt,true);break;}
-    case 'kraken':{if(s7KrAct(e,dt,p,dx,dz,hd,d3,half))break;if(!e.said){e.said=1;say('王','海の主よ、目を覚ませ！ あの竜を海の底へ！');e.st=8;}
+    case 'kraken':{if(s7KrAct(e,dt,p,dx,dz,hd,d3,half))break;if(!e.said){e.said=1;say('王','海の主よ、目を覚ませ！ あの者を海の底へ！');e.st=8;}
       const base=WATER-2;e.st-=dt;
       if(e.state==='chase'||e.state==='up'){e.state='up';e.inv=false;p.y+=(base-p.y)*Math.min(1,dt*3);faceP(e);
         if(e.cd<=0){e.cd=half?1.6:2.4;
@@ -5526,8 +5572,8 @@ function orcCall(e,kind,n){const q=e.mesh.position;n=Math.max(1,Math.round(n*(EA
   for(let i=0;i<n;i++){const x=q.x+rnd(-34,34),z=q.z+rnd(-34,34);if(kind==='dog')addDog(x,z);else if(S3.live()<S3.cap)addOrc(x,z,{elite:kind==='elite'});}
   burst(q,26,GOLD,5,24,0.8);sfx('roar',q,0.5);}
 function orcBossAI(e,dt,dx,dz,hd,d3){const p=e.mesh.position,K=!!e.king,R=e.hp<e.maxHp*(K?0.5:0.4);grav(e,dt);e.sk-=dt;e.rk-=dt;
-  if(!e.said){e.said=1;ksay(e,K?'この森は、わしの庭だ。庭を荒らす竜は、串焼きにしてくれる！':'竜め、ここから先へは、通さんぞ！');}
-  if(K&&!e.s1&&e.hp<e.maxHp*0.75){e.s1=1;ksay(e,'やろうども、竜を囲め！');orcCall(e,'dog',6);}
+  if(!e.said){e.said=1;ksay(e,K?'この森は、わしの庭だ。庭を荒らすよそ者は、串焼きにしてくれる！':'よそ者め、ここから先へは、通さんぞ！');}
+  if(K&&!e.s1&&e.hp<e.maxHp*0.75){e.s1=1;ksay(e,'やろうども、あいつを囲め！');orcCall(e,'dog',6);}
   if(R&&!e.p2){e.p2=1;e.state='roar';e.st=1.3;e.sk=1.5;teleOff(e);ksay(e,K?'ぐおおお！ 王の本気を、見せてやる！':'まだだ……！ 牙が折れても、斧は折れん！');
     const g=new V3(p.x,floorAt(p.x,p.z),p.z);shock(g,0xff7040,40);shock(g,0xffd23a,26);shake(1);flashV=Math.max(flashV,0.3);burst(cpos(e),50,FIRE,6,35,1);orcCall(e,'orc',K?8:4);}
   if(K&&!e.s3&&e.hp<e.maxHp*0.25){e.s3=1;ksay(e,'砦は燃えても、王は燃えんぞ！');orcCall(e,'elite',5);}
@@ -5689,7 +5735,7 @@ const TKSK={
 function tankRider(g,H,Dp,base){if(!MODEL.orcking||g.userData.rider)return;const k=H/26*1.2,r=makeProxy(4.4*k,7.2*k,3.6*k,0x4a7a2a);attachModel(r,'orcking');r.position.set(0,base+H*0.8,-Dp*0.04);g.add(r);g.userData.rider=r;}
 const TKSEAT=[0.62,-0.12];
 function tankAI(e,dt,dx,dz,hd,d3){const p=e.mesh.position;grav(e,dt);
-  if(!e.said){e.said=1;if(e.boss){tankRider(e.mesh,26,36,0);say('オークキング','がはは！ わしのデラックス戦車の出番だ。竜など、ひきつぶしてくれる！');}}
+  if(!e.said){e.said=1;if(e.boss){tankRider(e.mesh,26,36,0);say('オークキング','がはは！ わしのデラックス戦車の出番だ。よそ者など、ひきつぶしてくれる！');}}
   if(e.rt>0){e.rt-=dt;p.x+=e.rx*dt;p.z+=e.rz*dt;e.mesh.rotation.y=Math.atan2(e.rx,e.rz);if(Math.random()<0.6)smoke(p,1,4,1,0x9a8a68,3);
     if(!e.done&&d3<e.r+6){e.done=1;hurt(e.dmg+6);shake(0.6);sfx('crash',p);ono(cpos(e),'ガシャーン！','#ffd23a',50);burst(P.pos,16,SPARK,3,22,0.4);}return;}
   if(e.wt>0){e.wt-=dt;faceP(e);teleSet(e,e.boss?17:9,1-Math.max(0,e.wt)/0.8,0xff4020);if(e.wt<=0){teleOff(e);e.rx=dx/hd*72;e.rz=dz/hd*72;e.rt=1.0;e.done=0;sfx('whoosh',p);}return;}
@@ -5931,7 +5977,7 @@ const STAGES=[
 
   {key:'p8war',p8:1,ch:'第1章',title:'鉄と煙の世界',place:'灰色の戦線',
    ter:{amp:0.28,ox:1500,oz:900,flats:[[0,120,55,3,1],[0,-115,140,2,1]],dirt:[[0,-115,150],[0,120,60]],grass:0x5e6248,hill:0x55583f,rock:0x5a564e,snow:0x8a8880,sand:0x4e4a38,dirtC:0x5c5138,water:0x4a4a38,trees:0,rocks:16,rockC:0x55524a,ruins:-1,stacks:0,spires:0,start:[0,120]},
-   story:['暴れすぎた竜に、女神はついに書類を投げた。「もう、わたしの管轄の外へ行ってください」空に、黒いさけ目が開いた。','落ちた先は、灰色の空の下。泥と鉄条網と、えんえん続く塹壕。鉄の車が煙を吐き、鉄の鳥がうなっている。魔法の気配は、どこにも無い。','どこの国の、だれの戦争かは知らない。だが、こちらを見たとたん、全部の銃口がそろってこちらを向いた。……仲がいいな。'],
+   story:['暴れすぎたきみに、女神はついに書類を投げた。「もう、わたしの管轄の外へ行ってください」空に、黒いさけ目が開いた。','落ちた先は、灰色の空の下。泥と鉄条網と、えんえん続く塹壕。鉄の車が煙を吐き、鉄の鳥がうなっている。魔法の気配は、どこにも無い。','どこの国の、だれの戦争かは知らない。だが、こちらを見たとたん、全部の銃口がそろってこちらを向いた。……仲がいいな。'],
    waves:[
     {name:'塹壕の小銃兵',msg:'🪖 塹壕から、小銃兵がいっせいに撃ってくる！',get mood(){return S8MD?S8MD.a:0;},clr:'🏃 前線は、くずれた！ 体力が少し回復',go(){
       s8Grp('rifle',13,0,-45,110,7);s8Grp('rifle',11,0,-112,110,7);s8Grp('rifle',8,0,-180,100,7);s8Grp('flak',4,0,-140,90,30);s8Air('fighter',4);}},
@@ -5955,7 +6001,7 @@ const STAGES=[
       s8Grp('robot',10,0,-90,120,60);s8Air('drone',8);}}]},
   {key:'p8dino',p8:1,ch:'第3章',title:'太古の密林',place:'牙の森',
    ter:{amp:1.0,ox:-900,oz:1700,flats:[[0,120,50,3,1],[0,-130,100,3,1]],dirt:[[0,-130,70]],forest:1,grass:0x2f5a2a,hill:0x34502a,dirtC:0x4a4028,leaf:0x1f5a26,trunk:0x4a3420,water:0x2a6a5a,trees:520,rocks:30,ruins:-1,start:[0,120]},
-   story:['三つ目の世界は、むし暑かった。見上げるような巨木と、人の背より高いシダ。遠くで、山が火をふいている。','銃も、機械も、言葉も無い。あるのは、牙と爪と、腹をすかせた目だけ。茂みのあちこちで、小さな肉食の竜が、こちらを数えている。','……竜？ 親戚か。いや、火も吐けないし、翼も無い。話も通じない。遠い親戚ほど、めんどうな物は無い。'],
+   story:['三つ目の世界は、むし暑かった。見上げるような巨木と、人の背より高いシダ。遠くで、山が火をふいている。','銃も、機械も、言葉も無い。あるのは、牙と爪と、腹をすかせた目だけ。茂みのあちこちで、小さな肉食の恐竜が、こちらを数えている。','……さて、どう話しかけたものか。牙に、話は通じない。腹をすかせた相手ほど、めんどうな物は無い。'],
    waves:[
     {name:'小型竜の群れ',msg:'🦖 茂みから、小型の肉食竜の群れが飛び出した！',get mood(){return S8MD?S8MD.e:0;},clr:'🏃 群れは、ちりぢりに逃げた！ 体力が少し回復',go(){
       s8Rng('raptor',34,70,170);pteraFlock(14,1);}},
@@ -6054,7 +6100,7 @@ if(T){
   {name:'超大型大砲車「竜ごろし」',msg:'💣 王国の秘密兵器、超大型大砲車「竜ごろし」が来た！',mood:5,go(){
     const DM=MODEL.dslayer?'dslayer':'bigcannon',b=s2a('siegecart',0,-205,undefined,{model:DM});b.sc=1.3;b.r*=1.3;b.hc*=1.3;b.said=1;
     {const sv=ST.siegecart.boss;ST.siegecart.boss=undefined;try{for(const x of [-42,42]){const e=s2a('siegecart',x,-192,undefined,{model:DM});e.sc=1.0;e.hp=e.maxHp=e.maxHp*0.4;e.val=Math.round(e.val*0.4);e.said=1;}}finally{ST.siegecart.boss=sv;}}  // 竜ごろしは3台（11/15 ふみさん）
-    say('王国の技師','竜ごろし、出撃！ 竜には大砲だ！');sfx('roar',null,0.5);
+    say('王国の技師','竜ごろし、出撃！ 侵入者には大砲だ！');sfx('roar',null,0.5);
     s2A('soldier',10,0,-190,25,20);s2A('cannon',3,0,-180,40,15);s2R('airship',2,120,180,40);s2R('dknight',3,110,170,24,36);s2R('wizard',3,50,90,10);}}];
 }
 if(C){
@@ -6887,11 +6933,11 @@ const TALKS={
           [['兵隊長','援軍が来たぞ！ 大砲を前へ！'],['ME','数だけは多いな。安心しろ、火は全員ぶんある']],
           [['王国の技師','見よ、わが最高傑作「木の竜」！ 本物の竜など時代おくれだ！'],['ME','木で、竜を。……まきを自分で運んでくるとは、礼儀正しい']]],
        clear:[['王国の技師','わ、わしの木の竜が…。王さまに、なんと言えば…'],['ME','こう伝えろ。「よく燃えました」。……次は、お前たちの城だ']]},
- castle:{w:[[['王','竜め、国境の町まで焼きおって！ 全軍、城を守れ！'],['ME','先に手を出したのは、そっちだ。おれは火を返しに来ただけだ。利子つきでな']],
-            [['勇者','竜よ、ここから先へは行かせない！'],['ME','お前が伝説の勇者か。いい目だ。……おしいな、やとい主が悪い'],['勇者','町を焼いた罪、この剣でつぐなってもらう！'],['ME','罪を数えるなら、紙が足りないぞ。お互いにな']],
+ castle:{w:[[['王','よそ者め、国境の町まで焼きおって！ 全軍、城を守れ！'],['ME','先に手を出したのは、そっちだ。おれは火を返しに来ただけだ。利子つきでな']],
+            [['勇者','異界の者よ、ここから先へは行かせない！'],['ME','お前が伝説の勇者か。いい目だ。……おしいな、やとい主が悪い'],['勇者','町を焼いた罪、この剣でつぐなってもらう！'],['ME','罪を数えるなら、紙が足りないぞ。お互いにな']],
             [['王','勇者まで倒されただと…！ 城よ、立ち上がれ！'],['ME','城に足を。……逃げ足まで建てたのか。税金のむだづかいだな']]],
          clear:[['勇者','ぐっ…王は、海へ逃げるつもりだ。それに…城の地下には、悪魔が封じられている'],['ME','悪魔だと。……まずは王だ。逃げた被告は、追うことにしている']]},
- sea:{w:[[['王','ここまで来れば…艦隊よ、竜を海にしずめろ！'],['ME','海の上に逃げたか。助かる。消火の手間がはぶける']],
+ sea:{w:[[['王','ここまで来れば…艦隊よ、あの者を海にしずめろ！'],['ME','海の上に逃げたか。助かる。消火の手間がはぶける']],
          [['魔術師','王の命により、海の底の怪物を呼びさます！ クラーケンよ、目を覚ませ！'],['ME','タコか。……焼きかげんは、選ばせてやれないぞ']],
          [['王','最後の切り札じゃ！ 巨大戦艦、空中戦艦、撃てぇ！'],['ME','切り札の多い王だな。――判決、丸焼き。控訴は、あの世でやれ']]],
       clear:[['王','ま、待て…！ わしがしずめば、地下の封印を守る者がいなくなるぞ…！'],['ME','封印か。勇者も言っていたな。……ゆいごんは、短いほうがいい']]},
@@ -6902,7 +6948,7 @@ const TALKS={
           [['魔王','千年ぶりの外の空気だ。封印を解いたのは、お前か。礼を言うぞ、竜'],['ME','礼はいらない。開けたのは、焼くためだ'],['魔王','手を組まぬか。金でも国でも、望むだけくれてやろう'],['ME','千年ぶんの家賃を、先に払え。……払えないなら、灰で払ってもらう']]],
        clear:[['魔王','ま、待て……おぬし、よけるとか守るとか、せんのか？ 一回も？'],['ME','よける？ ……その発想は無かった。焼けば止まる'],['魔王','千年みがいた奥義を、ぜんぶ顔で受けおって……この、石頭の大トカゲめ……'],['ME','竜だ。……灰になったか。そうじが楽でいい']]},
  peak:{w:[[['ライバル','久しぶりだな。空の王は、ひとりでいい'],['ME','千年たっても変わらないな。……墓は、見晴らしのいい所にしてやる']],
-          [['古の竜','若き竜よ。空の王を名乗るなら、わしを越えてゆけ'],['ライバル','…おれの負けだ。だが、じいさんには勝てるかな'],['ME','見ていろ。年寄りには、やさしくする主義だ。弱火でな']]],
+          [['古の竜','若き者よ。空の王を名乗るなら、わしを越えてゆけ'],['ライバル','…おれの負けだ。だが、じいさんには勝てるかな'],['ME','見ていろ。年寄りには、やさしくする主義だ。弱火でな']]],
        clear:[['古の竜','見事だ…。空は、お前にまかせよう'],['ME','引き受けた。……女神に伝えてくれ。罰は、たいへん楽しんでいる、と']]}};
 
 /* ---- シナリオ4：魔王討伐編 ---- */
@@ -6943,17 +6989,17 @@ function makeCerberus(){const g=new THREE.Group(),dk=mat(0x2a1a22),rd=new THREE.
     [-1,1].forEach(sd=>{const ey=new THREE.Mesh(new THREE.SphereGeometry(0.28*u,6,5),rd);ey.position.set((k*2.6+sd*0.8)*u,9*u,hz+1.3*u);g.add(ey);});});
   const tl=box(0.8*u,0.8*u,4*u,dk);tl.position.set(0,6.4*u,-6.5*u);tl.rotation.x=-0.5;g.add(tl);return g;}
 // 黒い騎士の戦いのかけ声
-const S4HL={start:'……来たか、竜。ここから先へは、通さない。',leap:'……ふっ。',beam:'闇よ、つらぬけ。',combo:'逃がさない。',pillar:'地の底から、さばきを。',guard:'効かぬ。',summon:'骨の兵よ、起きろ。',p2:'……ここからが、本気だ。',sky:'空でも、届く。'};
+const S4HL={start:'……来たか、よそ者。ここから先へは、通さない。',leap:'……ふっ。',beam:'闇よ、つらぬけ。',combo:'逃がさない。',pillar:'地の底から、さばきを。',guard:'効かぬ。',summon:'骨の兵よ、起きろ。',p2:'……ここからが、本気だ。',sky:'空でも、届く。'};
 // 黒い騎士の顔絵（chara\blackknight.webp ができたら使う。無い間は顔なしで出る）
 {const im=new Image();im.onload=()=>{TPT['黒い騎士']='blackknight';if(typeof PTS!=='undefined'&&!PTS.includes('blackknight'))PTS.push('blackknight');PTE.bknight='blackknight';};im.src='chara/blackknight.webp';}
 ENDS[4]=['魔王の城は、静かに崩れ落ちた。骨の軍団も、悪魔の兵も、三つ首の犬も、もう動かない。','こちらから討ちに行く。それだけのことで、長い戦いは終わった。','空は、きみのものだ。','遠くの空で、女神が頭をかかえた。「罰のつもりだったのに、魔王まで倒すなんて……次は、アリにします」'];
 ENDT[4]='魔王の城、陥落';
 Object.assign(TALKS,{
- hellgate:{w:[[['ME','……門か。表札も呼び鈴も無い。不親切な家だ'],['魔王','来たか、竜よ。わが軍団は、骨と角を合わせて数千。数えるのは、ぬしに任せる'],['ME','数える手間は、はぶく。まとめて灰にすれば、数は合う']],
+ hellgate:{w:[[['ME','……門か。表札も呼び鈴も無い。不親切な家だ'],['魔王','来たか、よそ者よ。わが軍団は、骨と角を合わせて数千。数えるのは、ぬしに任せる'],['ME','数える手間は、はぶく。まとめて灰にすれば、数は合う']],
              [['ME','杖の骸骨が、後ろから撃ってくる。……前に出ない指揮官は、どこの世界も同じだ']],
              [['ME','門番が出てきたな。……親玉が出るのは、兵が尽きたからだ']]],
           clear:[['魔王','門が……！ よかろう、城まで来るがいい。わが城には、番犬も騎士もいるぞ'],['ME','招待状と受け取る。……手みやげは、火でいいか']]},
- bonefield:{w:[[['魔王','荒野に眠る骨は、みな、わが兵。巨人よ、立ち上がれ'],['ME','墓荒らしか。いい趣味とは言えないな'],['ME','寝起きの悪さなら、おれも負けない。起こした責任は、取ってもらう']],
+ bonefield:{w:[[['魔王','荒野に眠る骨は、みな、わが兵。巨人よ、立ち上がれ'],['ME','墓荒らしか。いい趣味とは言えないな'],['ME','叩き起こしたのは、そっちだ。責任は、取ってもらう']],
                [['ME','二体目か。骨でできているぶん、風通しがいい。……火も通りやすい']],
                [['ME','骨の王か。でかいな。……骨は燃えにくい。強火で、しっかりいく']]],
             clear:[['魔王','骨が……！ ならば城で待つ。最後の扉は、わが騎士が守っている'],['ME','骨の巨人に、番犬に、騎士か。……客を迎える気だけは、満々だな']]},
@@ -7229,17 +7275,17 @@ TBOSS['大天使']='archangel';
 ENDS[6]=['大天使の翼は、白い羽を雲のあいだにまき散らして消えた。天空の神殿は、半分が空き地になった。','天の軍勢は、もう竜に向かってこない。向かってくる翼が、のこっていない。','空は、きみのものだ。雲の上でも、下でも。','ずっと上の雲のすき間で、女神が頬づえをついた。「罰のつもりだったのに、天使まで全滅とは……予算が足りません。次は、ダンゴムシにします」'];
 ENDT[6]='雲の上の決着';
 Object.assign(TALKS,{
- skygate:{w:[[['女神','聞こえますか、竜。あなたは暴れすぎました。天の軍勢を送ります。おとなしく、反省なさい'],['ME','暴れた覚えはない。仕事をしていただけだ。……ところで、天の軍勢に残業代は出るのか'],['女神','出ません。天使は、やりがいで働いています'],['ME','気の毒に。さっさと片づけて、定時で帰してやる']],
+ skygate:{w:[[['女神','聞こえますか、異界の者よ。あなたは暴れすぎました。天の軍勢を送ります。おとなしく、反省なさい'],['ME','暴れた覚えはない。仕事をしていただけだ。……ところで、天の軍勢に残業代は出るのか'],['女神','出ません。天使は、やりがいで働いています'],['ME','気の毒に。さっさと片づけて、定時で帰してやる']],
              [['ME','翼のある馬か。駐車場がいらなくて、便利そうだ'],['ME','便利なものは、燃やしてから使い方を考える']],
              [['ME','騎士団長か。……乗っている騎士より、馬のほうが降参したそうな顔をしている']]],
           clear:[['女神','まあ……門が、焼けてしまいました。先祖代々の、ありがたい門だったのに'],['ME','請求書は、天の国あてに回してくれ'],['女神','……大天使を向かわせます。神殿から先へは、一歩も通しません']]},
  skytemple:{w:[[['大天使','女神さまの命により、ここから先は通さぬ。引き返すなら、今のうちだ'],['ME','引き返す道は、もう燃えた。……前に進むしかないらしい'],['大天使','ならば、神殿の守りを見せよう。盾を上げよ、守りの天使たち！'],['ME','丁寧な警告だ。礼に、丁寧に焼いてやる']],
                [['ME','歌うように撃ってくる。……聖歌隊の発表会に、乱入した気分だ']],
-               [['大天使','守護天使長よ、神殿を頼む！ 竜を、柱の一本にも近づけるな！'],['ME','盾が大きいな。……盾ごと焼けば、どちらも用がなくなる']]],
-            clear:[['大天使','神殿の守りが、破られた……！ 見事だ、竜。だが、ここからは私が相手だ'],['ME','やっと本人か。奥の間で待て。……玄関の片づけは、こちらでしておく']]},
- archangel:{w:[[['大天使','親衛の天使たちよ、女神さまをお守りせよ！ 竜を一歩も進ませるな！'],['ME','ずいぶんな人数だ。……全員の名前を覚える気は、最初からない']],
+               [['大天使','守護天使長よ、神殿を頼む！ 侵入者を、柱の一本にも近づけるな！'],['ME','盾が大きいな。……盾ごと焼けば、どちらも用がなくなる']]],
+            clear:[['大天使','神殿の守りが、破られた……！ 見事だ、異界の者よ。だが、ここからは私が相手だ'],['ME','やっと本人か。奥の間で待て。……玄関の片づけは、こちらでしておく']]},
+ archangel:{w:[[['大天使','親衛の天使たちよ、女神さまをお守りせよ！ 侵入者を一歩も進ませるな！'],['ME','ずいぶんな人数だ。……全員の名前を覚える気は、最初からない']],
                 [['ME','翼が多いと、的も多い。数える手間が、はぶけていい']],
-                [['大天使','……来たな、竜。女神さまに代わり、この炎の剣で、お前を止める'],['ME','剣が燃えている。保険には、入っているのか'],['大天使','……減らず口を。四枚の翼よ、光となれ！']]],
+                [['大天使','……来たな、異界の者よ。女神さまに代わり、この炎の剣で、お前を止める'],['ME','剣が燃えている。保険には、入っているのか'],['大天使','……減らず口を。四枚の翼よ、光となれ！']]],
             clear:[['大天使','……私の、負けか。翼が、軽い……'],['女神','……大天使まで、倒れるとは。天の軍勢は、もう動けません'],['ME','説教は、終わりか。なら、おれは空に帰る'],['女神','せめて、反省の言葉くらい……'],['ME','考えておく。……焼いたあとで']]}});
 
 /* ---- シナリオ7：海王編 ---- */
@@ -7571,53 +7617,53 @@ function s7BigSlime(){const f=TER.flats[2]||TER.flats[1],[x,z]=s7Land(f,0.4),e=s
   add('seaking',1,()=>s7Slimes(10));}
 
 Object.assign(TALKS,{
- coralsea:{w:[[['ME','焼き魚がうまかった。あとは知らん。……海の下で、誰か怒っているのか？'],['海王','わが国民を、串に刺して食うとは。竜よ、勘定は海の底で払ってもらう'],['ME','国民？ ……あれは、ただの昼めしだと思っていた']],
+ coralsea:{w:[[['ME','焼き魚がうまかった。あとは知らん。……海の下で、誰か怒っているのか？'],['海王','わが国民を、串に刺して食うとは。異界の者よ、勘定は海の底で払ってもらう'],['ME','国民？ ……あれは、ただの昼めしだと思っていた']],
              [['ME','カニまで出てきた。……カニは、焼くより、ゆでるほうが好みだ']],
              [['海王','さんごの島の番人、大ガニよ。そのハサミは、鉄をも切るぞ'],['ME','鉄は食わない。カニは食う']]],
           clear:[['海王','島々は、突破されたか。ならば、渦の海で待つ。海の底の底へ、引きずりこんでやる'],['ME','引きずりこむ前に、まず、つかまえてみろ']]},
  deepsea:{w:[[['ME','海が、ぐるぐる回っている。……目が回る前に、片づけよう'],['海王','渦は、わが海の息づかい。ここは、泳げぬ者の墓場だ'],['ME','泳ぐ予定は無い。飛ぶか、歩く。どちらも、乾いたままだ']],
             [['ME','クラーケンまで出てきた。タコは、焼くとうまい。……焼き魚の次は、焼きダコだ']],
-            [['海王','渦の番人、リヴァイアサンよ。その竜を、海の底へ巻きこめ'],['ME','でかいな。S字に曲がっている。……まっすぐにしてやる。そのほうが焼きやすい']]],
+            [['海王','渦の番人、リヴァイアサンよ。その者を、海の底へ巻きこめ'],['ME','でかいな。S字に曲がっている。……まっすぐにしてやる。そのほうが焼きやすい']]],
          clear:[['海王','渦の海も、抜けたか。よかろう。余みずから、相手をしてやる'],['ME','やっと本人だ。……長かった。昼めしの代金にしては']]},
- seaking:{w:[[['海王','来たか、竜。ここは余の宮殿の真上。ひれ伏して、あやまるがよい'],['ME','あやまる？ ……もう一匹、焼いてからでいいか'],['海王','無礼な。親衛隊よ、その竜を海の泡に変えよ']],
+ seaking:{w:[[['海王','来たか、異界の者。ここは余の宮殿の真上。ひれ伏して、あやまるがよい'],['ME','あやまる？ ……もう一匹、焼いてからでいいか'],['海王','無礼な。親衛隊よ、その者を海の泡に変えよ']],
             [['ME','親衛隊は、手ごたえがあった。金のよろいは、焼くと熱いのか？'],['海王','大波に乗れ、カニとサメよ。余が出るまでもなく、片づけよ']],
-            [['海王','もうよい。余みずから、出る'],['ME','人の形か。魚の王にしては、足があるな。……昼めしの親戚だと思ったが'],['海王','魚を、ばかにするな！ 三つ又の槍よ、竜をつらぬけ！']]],
-         clear:[['海王','余の海が……。竜よ、そなたは強い。だが、海は、忘れぬぞ'],['ME','忘れてもいい。……ごちそうさま']]}});
+            [['海王','もうよい。余みずから、出る'],['ME','人の形か。魚の王にしては、足があるな。……昼めしの親戚だと思ったが'],['海王','魚を、ばかにするな！ 三つ又の槍よ、あの者をつらぬけ！']]],
+         clear:[['海王','余の海が……。異界の者よ、そなたは強い。だが、海は、忘れぬぞ'],['ME','忘れてもいい。……ごちそうさま']]}});
 
 // ---- シナリオ3：オークキング編の会話（主人公＝寝起きが悪く、えらそうで、乾いた冗談を言う）。文は全部こちらで書いた物 ----
-TALKS.orcwood={w:[[['オークキング','……ほう。眠っていた竜が、起きたか。この森の木は、もうすべて、わしの物だ'],['ME','寝起きに、いきなり所有権の話か。……寝床の庭までは、貸した覚えがない'],['オークキング','野郎ども、竜の首を取れ！ 取った者には、勲章をひとつくれてやる！'],['ME','勲章は、灰になるぞ。名前を彫れるかは、あやしいが']],
+TALKS.orcwood={w:[[['オークキング','……ほう。よそ者が、迷いこんだか。この森の木は、もうすべて、わしの物だ'],['ME','いきなり所有権の話か。……ここは、だれの庭でもなかったはずだ'],['オークキング','野郎ども、よそ者の首を取れ！ 取った者には、勲章をひとつくれてやる！'],['ME','勲章は、灰になるぞ。名前を彫れるかは、あやしいが']],
                   [['ME','犬に乗って、鷹に乗って。……動物園の遠足か'],['ゴブリン','空もわれらの道だ！ 乗り心地は、最高だぞ！']],
-                  [['オークキング','将軍よ、行け。竜を足止めしろ。その間に、砦の門を閉めておけ'],['ME','逃げる支度か。……判決を、急ぐ理由ができた']]],
+                  [['オークキング','将軍よ、行け。あいつを足止めしろ。その間に、砦の門を閉めておけ'],['ME','逃げる支度か。……判決を、急ぐ理由ができた']]],
          clear:[['ME','軍勢は、ちりぢりになった。……森の奥に、さらに大きな影が見える'],['ME','木の砦か。たき火の薪にしては、少し大きい']]};
 TALKS.orcfort={w:[[['ME','木の壁に、木のやぐら。……全部まとめて、火種だな'],['オークキング','せいぜい燃やせ。壁の数だけ、わしの兵がいるのだ'],['ME','それなら、数える手間は、かからないな']],
-                  [['オーク将軍','バリスタ、構えーっ！ 竜は、でかい的だぞ！'],['ME','的がでかいは、ほめ言葉として受け取っておく']],
+                  [['オーク将軍','バリスタ、構えーっ！ あいつは、でかい的だぞ！'],['ME','的がでかいは、ほめ言葉として受け取っておく']],
                   [['オーク将軍','門を開けろ！ 王さまの親衛隊を、迎え入れるのだ！'],['ME','門を開けてくれるのか。ご親切に。……こちらからは、火を差し入れよう']]],
          clear:[['オーク将軍','ばかな……鉄よりかたい砦が……'],['ME','木だ。……鉄では、ない。さて、王の広間はどこだ']]};
-TALKS.orcking={w:[[['オークキング','よく来た、竜。ここまで来た者は、貴様がはじめてだ'],['ME','道が、よく燃えていたからな。案内の手間が、はぶけた'],['オークキング','だが、わが親衛隊を越えられるか！']],
+TALKS.orcking={w:[[['オークキング','よく来た、よそ者。ここまで来た者は、貴様がはじめてだ'],['ME','道が、よく燃えていたからな。案内の手間が、はぶけた'],['オークキング','だが、わが親衛隊を越えられるか！']],
                   [['オーク将軍','王の前には、一歩も通さん！'],['ME','通る気はない。上から行く']],
                   [['オークキング','……よかろう。わし自身が、相手をしてやる。覚悟しろ'],['ME','王さま自ら、とは光栄だ。……火葬場の予約は、すんだか']]],
-         clear:[['オークキング','……見事だ、竜よ。森も、砦も、玉座まで、失った'],['ME','玉座は、座りごこちが悪そうだった。惜しくは、ないだろう'],['オークキング','ふ……ふはは。次に生まれる時は、木こりになりたいものだ'],['ME','それがいい。切るのは、木だけにしておけ']]};
+         clear:[['オークキング','……見事だ、よそ者よ。森も、砦も、玉座まで、失った'],['ME','玉座は、座りごこちが悪そうだった。惜しくは、ないだろう'],['オークキング','ふ……ふはは。次に生まれる時は、木こりになりたいものだ'],['ME','それがいい。切るのは、木だけにしておけ']]};
 TPT['オークキング']='orcking';
 ENDS[3]=['オークキングは倒れ、木の砦は、森ごと灰になった。残ったのは、ぷすぷす鳴る丸太だけだ。','軍旗も、槍も、鷹も、もう竜をおびやかさない。犬は、いつのまにか、散歩にもどっていた。','空は、きみのものだ。','遠くの空で、女神が小さくため息をついた。「罰のつもりだったのに……次は、薪にします」'];
 ENDT[3]='森の勝者';
 /* ---- シナリオ2の会話（人間の軍との戦いだけ） ---- */
 TALKS.town.w=[
- [['兵隊長','竜だ！ 目を覚ましたぞ！ 王の命令だ、この砦で討ち取れ！'],['ME','起き抜けに、軍隊のお出迎えか。……目覚ましにしては、にぎやかすぎる'],['兵隊長','竜は災い。それが王国の教えだ！ 撃てーっ！'],['ME','先に撃ったな。記録した。――正当防衛、成立だ']],
+ [['兵隊長','よそ者だ！ 来たぞ！ 王の命令だ、この砦で討ち取れ！'],['ME','着いたとたん、軍隊のお出迎えか。……歓迎にしては、にぎやかすぎる'],['兵隊長','よそ者は災い。それが王国の教えだ！ 撃てーっ！'],['ME','先に撃ったな。記録した。――正当防衛、成立だ']],
  [['兵隊長','援軍が来たぞ！ 大砲を前へ！'],['ME','数だけは多いな。安心しろ、火は全員ぶんある']],
  [['兵隊長','王宮の竜騎士団が到着だ！ 空からも、地上からも囲め！'],['ME','空まで人手が足りているとは、景気のいい国だ。……税金の使い道が、よく分かる']],
- [['王国の技師','見よ、わが最高傑作「竜ごろし」！ 竜を狩るためだけに作った、超大型の大砲車だ！ 本物の竜など時代おくれだ！'],['ME','名前に目的を書くとは、正直な機械だ。……火薬を自分で運んでくるとは、礼儀正しい']]];
+ [['王国の技師','見よ、わが最高傑作「竜ごろし」！ 侵入者を狩るためだけに作った、超大型の大砲車だ！ 並の兵器など時代おくれだ！'],['ME','名前に目的を書くとは、正直な機械だ。……火薬を自分で運んでくるとは、礼儀正しい']]];
 TALKS.town.clear=[['王国の技師','わ、わしの竜ごろしが…。王さまに、なんと言えば…'],['ME','こう伝えろ。「よく燃えました」。……次は、お前たちの城だ']];
 TALKS.castle.w=[
  TALKS.castle.w[0],
- [['王','騎士団よ、前へ！ 王都の誇りを、あの竜に見せてやれ！'],['ME','誇りの数なら、焼いて数えられる。……ひとり、ひとり、ていねいにな']],
+ [['王','騎士団よ、前へ！ 王都の誇りを、あの者に見せてやれ！'],['ME','誇りの数なら、焼いて数えられる。……ひとり、ひとり、ていねいにな']],
  TALKS.castle.w[1],
  TALKS.castle.w[2]];
 TALKS.castle.w.splice(2,0,[['魔術師','宮廷魔術師が、お相手しよう。ほかの兵は下がらせた。一対一だ'],['ME','気がきくな。……見物人が少ないほうが、火の通りがいい']]);
 TALKS.castle.clear=[['勇者','ぐっ…王は、海へ逃げるつもりだ。港には、艦隊が待っている'],['ME','まずは王だ。逃げた被告は、追うことにしている']];
 TALKS.sea.w=[
  TALKS.sea.w[0],
- [['王','空の守りは、まだ残っておる！ 竜騎士団よ、あの竜を海に落とせ！'],['ME','空を飛ぶ相手に、空から来るとは。……ずいぶん、勇気のある職場だな']],
- [['王','艦隊の誇り、巨大戦艦を見せてやれ！ 竜の翼を、海の上で折るのだ！'],['ME','船は大きいほど、よく燃える。……海の上なのに、不思議な話だ']],
+ [['王','空の守りは、まだ残っておる！ 竜騎士団よ、あの者を海に落とせ！'],['ME','空を飛ぶ相手に、空から来るとは。……ずいぶん、勇気のある職場だな']],
+ [['王','艦隊の誇り、巨大戦艦を見せてやれ！ あの者の足を、海の上で止めるのだ！'],['ME','船は大きいほど、よく燃える。……海の上なのに、不思議な話だ']],
  TALKS.sea.w[2]];
 TALKS.sea.clear=[['王','ま、待て…！ わしの国が…艦隊が…すべて…'],['ME','ゆいごんは、短いほうがいい。……国ごと、もう灰だ']];
 /* ---- シナリオ2〜7の紙芝居（汎用）：章の key → 語りの3行。転生の話にはふれない ---- */
@@ -7661,7 +7707,7 @@ Object.assign(ENDT,{2:'王国の終わり',3:'静かな森',4:'夜明け',5:'空
 if(typeof ENDIMG!=='undefined')for(let n=2;n<=7;n++){const L=SCK[n].filter(k=>ALLST.some(q=>q.key===k)),k=L[L.length-1];if(k)ENDIMG[n]=[k+'_c',k+'_c',k+'_c',k+'_c'];}
 /* ---- シナリオ5の会話 ---- */
 TALKS.dragongrave={w:[
-  [['竜王','よく来た、若き竜。ここは、王に逆らった竜たちのねむる谷だ'],['ME','感じのいい観光地だな。……パンフレットには、のっていなかったが'],['竜王','お前のような姿の竜も、みな起こしてやった。同じ顔と戦うがいい'],['ME','同族とは、やりにくい。……いや、態度が悪いぶん、むしろやりやすい']],
+  [['竜王','よく来た、異界の者よ。ここは、王に逆らった竜たちのねむる谷だ'],['ME','感じのいい観光地だな。……パンフレットには、のっていなかったが'],['竜王','お前を迎えに、竜たちを、みな起こしてやった。数と戦うがいい'],['ME','大人数の歓迎は、苦手だ。……いや、態度が悪いぶん、むしろやりやすい']],
   [['ME','氷に雷。……天気予報みたいな連中だな'],['💡 ヒント','敵の竜は、体にうすい赤い光をまとっている。味方ではない']],
   [['ME','親せきの集まりみたいに、だんだん増えてきたな']],
   [['竜王','まだ立っているか。ならば、墓守の竜を起こそう'],['ME','墓守に、定年はないのか']]],
@@ -7670,7 +7716,7 @@ TALKS.dragonking={w:[
   [['竜王','よく来た。わしが、竜の王だ'],['ME','肩書きが長いな。名刺は、持っていない'],['竜王','空は、王のためにある。従わぬ竜は、翼を折られて墓場でねむる'],['ME','聞きおぼえのある方針だ。……ただ、おれは、ひざまずくのが苦手でな']],
   [['竜王','親衛では足りぬか。ならば、精鋭を出そう'],['ME','精鋭にも、残業はあるのか']],
   [['竜王','精鋭まで倒したか。ならば、わし自らが相手をしよう'],['ME','自らとは光栄だ。……ことわったら？'],['竜王','この空に、逃げ場はない'],['ME','なら、ことわる理由もなくなった。――判決、丸焼き']]],
- clear:[['竜王','見事だ……。王の座は、お前のものだ'],['ME','いらない。すわりっぱなしは、腰に悪い'],['竜王','ふふ……。ならば、空を自由に飛ぶがいい。それが、竜の王だ'],['ME','肩書きは、いらないが。……空だけは、もらっておく']]};
+ clear:[['竜王','見事だ……。王の座は、お前のものだ'],['ME','いらない。すわりっぱなしは、腰に悪い'],['竜王','ふふ……。ならば、空を自由に飛ぶがいい。それが、空の王だ'],['ME','肩書きは、いらないが。……空だけは、もらっておく']]};
 TPT['竜王']='';TBOSS['竜王']='dking';
 // 竜王編の台本が後から足した語り・終わりの文を、汎用の文でもう一度上書きする
 kgenApply();ENDS[5]=['竜王は、ゆっくりと翼をたたみ、雲の海へ沈んでいった。','竜たちは道をあけ、空はしんと静まりかえった。','いちばん高い空は、きみのものだ。','雲の上で、古の竜がつぶやいた。「やれやれ。若い者は、元気でよいのう」'];ENDT[5]='空の王';
@@ -7684,19 +7730,19 @@ bt('dungeon',2,[['よろいの竜人','……ほう。人の言葉を話す竜�
 bt('town',3,[],[['王国の技師','ご心配なく！ 試し撃ちは三回、うち二回は、わしの足もとに当たった！'],['ME','当たったなら、成功だ。……ただし、もう一回やると、あんたの席が空く'],['王国の技師','ならば、実戦で名を上げるまで！ 竜ごろし、前進！']]);
 bt('sea',2,[],[['艦長','巨大戦艦の艦長だ。大砲は百門。ひとつ、お見せしよう'],['ME','百門か。数えるのに、日が暮れる。……燃えるのは、すぐ終わるのにな'],['艦長','強がりを！ 全砲門、開け！']]);
 bt('sea',3,[['空中戦艦の将軍','空中戦艦、浮上！ 海も空も、わが王国の庭だ'],['ME','庭に、でかい物を置いたな。……手入れは、燃やすのが一番早い'],['空中戦艦の将軍','落ちるのは、貴様だ。重さなら、こちらが上だぞ'],['ME','重いなら、なおさらだ。落ちる時の音が、よく響く']],[]);
-bt('orcwood',2,[],[['オーク将軍','王のご命令だ。竜よ、ここから先は、通さん。体の大きさなら、負けんぞ'],['ME','大きさで勝負か。……燃えやすさでも、お前のほうが上だ'],['オーク将軍','だまれ！ 火など、わが筋肉で、はね返してくれる'],['ME','筋肉は、焼くとうまそうだ']]);
-bt('orcfort',1,[],[['王国の技師','お待たせした！ 王国の技師、ただいま参上。木の竜の、試運転にまいった'],['ME','人間が、オークの砦で、何をしている。……客先は、ここか'],['王国の技師','オークは、お得意さまだ。木の竜は、竜より軽くて、竜より安い。……そして、竜よりよく燃える'],['ME','最後の一言が、正直すぎる。売る気があるのか'],['王国の技師','燃えるかどうかは、これから分かる！ 木の竜、前へ！ 返品は受けつけんぞ']]);
-bt('orcfort',2,[],[['オーク将軍','親衛隊長、出番だ！ 門のなかは、王の庭。竜は、一匹も通すな'],['ME','門を開けておいて、通すなとは。……通らせたいのか、通らせたくないのか'],['オーク将軍','つべこべ言うな！ 通れるのは、親衛隊の盾の、すき間だけだ'],['ME','では、すき間から、火を通す。熱は、よく通る']]);
-bt('orcking',1,[],[['オーク将軍','上から、だと？ 空を飛ぶとは、ずるいぞ！'],['ME','ずるくない。羽がある。生まれつきの装備だ'],['オーク将軍','ならば、親衛隊長ふたりで、お相手する！ ふたりぶんの、勲章だ！'],['ME','勲章の置き場所を、先に決めておけ。灰の中だと、探しにくい']]);
-bt('hellgate',2,[['悪魔の将軍','……ここまで来たか、竜。門番の仕事は、通さぬこと。通すのは、墓場だけだ']],[['悪魔の将軍','兵なら、まだいる。この角と、この牙と、この腹筋だ'],['ME','腹筋は、焼くと、かたくなる。……焼き加減は、自己責任でな']]);
+bt('orcwood',2,[],[['オーク将軍','王のご命令だ。よそ者よ、ここから先は、通さん。体の大きさなら、負けんぞ'],['ME','大きさで勝負か。……燃えやすさでも、お前のほうが上だ'],['オーク将軍','だまれ！ 火など、わが筋肉で、はね返してくれる'],['ME','筋肉は、焼くとうまそうだ']]);
+bt('orcfort',1,[],[['王国の技師','お待たせした！ 王国の技師、ただいま参上。木の竜の、試運転にまいった'],['ME','人間が、オークの砦で、何をしている。……客先は、ここか'],['王国の技師','オークは、お得意さまだ。木の竜は、本物より軽くて、本物より安い。……そして、本物よりよく燃える'],['ME','最後の一言が、正直すぎる。売る気があるのか'],['王国の技師','燃えるかどうかは、これから分かる！ 木の竜、前へ！ 返品は受けつけんぞ']]);
+bt('orcfort',2,[],[['オーク将軍','親衛隊長、出番だ！ 門のなかは、王の庭。よそ者は、ひとりも通すな'],['ME','門を開けておいて、通すなとは。……通らせたいのか、通らせたくないのか'],['オーク将軍','つべこべ言うな！ 通れるのは、親衛隊の盾の、すき間だけだ'],['ME','では、すき間から、火を通す。熱は、よく通る']]);
+bt('orcking',1,[],[['オーク将軍','上から、だと？ ずるいぞ！'],['ME','ずるくない。これが、おれの戦い方だ'],['オーク将軍','ならば、親衛隊長ふたりで、お相手する！ ふたりぶんの、勲章だ！'],['ME','勲章の置き場所を、先に決めておけ。灰の中だと、探しにくい']]);
+bt('hellgate',2,[['悪魔の将軍','……ここまで来たか、よそ者。門番の仕事は、通さぬこと。通すのは、墓場だけだ']],[['悪魔の将軍','兵なら、まだいる。この角と、この牙と、この腹筋だ'],['ME','腹筋は、焼くと、かたくなる。……焼き加減は、自己責任でな']]);
 bt('bonefield',2,[['魔王','骨の王よ、目覚めよ。荒野の骨を、すべて集めた、わが最高の巨人だ']],[['魔王','骨は、焼けても、形が残る。何度でも、組み直せるぞ'],['ME','組み直す前に、粉にしておく。……ほうきと、ちり取りが、要るな']]);
 bt('dragongrave',3,[],[['竜王','墓守は、千年眠り、千年起きて、千年眠る。休みは、ちゃんとある'],['ME','千年周期の休みか。……有給が、とれる気がしないな'],['竜王','おしゃべりは終わりだ。墓守よ、新入りを、迎えてやれ'],['ME','新入りは、こちらか。……失礼した。あいさつは、火で済ませる']]);
-bt('skygate',2,[['天馬騎士団長','天馬騎士団長、見参！ 空は、われらの領分。竜は、地をはえ！']],[['天馬騎士団長','いくぞ、天馬！ ……馬よ、そんな顔をするな。今日は、勝つ日だ'],['ME','降参するなら、いまのうちだ。馬のぶんも、受けつける']]);
-bt('skytemple',1,[['守護天使長','聖歌隊、歌え！ わが盾のうしろから、竜へ向けて、光を届けよ！']],[['守護天使長','私語は、慎め。ここは神殿だ。静かに、焼かれるがよい'],['ME','静かに焼かれる？ 注文が、むずかしいな。……火は、うるさいほうが得意だ']]);
-bt('skytemple',2,[],[['守護天使長','盾は、神殿の門より重い。竜ごときに、折れはせぬ'],['ME','折る気はない。焼く。……盾の裏の、あなたごとだ'],['守護天使長','不敬な！ 光の盾よ、悪しきものを、はね返せ！'],['ME','はね返したいなら、鏡をみがいておけ。炎は、まっすぐ行くぞ']]);
-bt('coralsea',1,[['海王','岩場の守りだ。カニよ、竜の足をはさんで、海へ引きずりこめ']],[['海王','カニは、国民の自慢だ。見た目より、ずっと素早いぞ'],['ME','見た目は、でかくて遅そうだ。……ゆで時間は、長めに見ておく']]);
+bt('skygate',2,[['天馬騎士団長','天馬騎士団長、見参！ 空は、われらの領分。侵入者は、地をはえ！']],[['天馬騎士団長','いくぞ、天馬！ ……馬よ、そんな顔をするな。今日は、勝つ日だ'],['ME','降参するなら、いまのうちだ。馬のぶんも、受けつける']]);
+bt('skytemple',1,[['守護天使長','聖歌隊、歌え！ わが盾のうしろから、あの者へ向けて、光を届けよ！']],[['守護天使長','私語は、慎め。ここは神殿だ。静かに、焼かれるがよい'],['ME','静かに焼かれる？ 注文が、むずかしいな。……火は、うるさいほうが得意だ']]);
+bt('skytemple',2,[],[['守護天使長','盾は、神殿の門より重い。あの者ごときに、折れはせぬ'],['ME','折る気はない。焼く。……盾の裏の、あなたごとだ'],['守護天使長','不敬な！ 光の盾よ、悪しきものを、はね返せ！'],['ME','はね返したいなら、鏡をみがいておけ。炎は、まっすぐ行くぞ']]);
+bt('coralsea',1,[['海王','岩場の守りだ。カニよ、あの者の足をはさんで、海へ引きずりこめ']],[['海王','カニは、国民の自慢だ。見た目より、ずっと素早いぞ'],['ME','見た目は、でかくて遅そうだ。……ゆで時間は、長めに見ておく']]);
 bt('coralsea',2,[],[['海王','食うと言ったな。ならば、食われる覚悟のある者だけが、はさまれてみよ'],['ME','はさまれる気は、ない。……先に、ゆでる'],['海王','さんごの海は、わが庭。庭を荒らす者には、潮のしっぺ返しを！']]);
-bt('deepsea',1,[['海王','深みの怪物、クラーケンよ。その腕で、竜を、渦の底へ引きこめ']],[['海王','八本の腕は、八通りのわなだ。逃げ場など、ないぞ'],['ME','八本か。一本ずつ焼くと、八回かかる。……まとめて焼くほうが、経済的だ']]);
+bt('deepsea',1,[['海王','深みの怪物、クラーケンよ。その腕で、あの者を、渦の底へ引きこめ']],[['海王','八本の腕は、八通りのわなだ。逃げ場など、ないぞ'],['ME','八本か。一本ずつ焼くと、八回かかる。……まとめて焼くほうが、経済的だ']]);
 bt('deepsea',2,[],[['海王','リヴァイアサンは、海のはじまりより、ここにいる。お前より、ずっと年上だ'],['ME','年上は、敬う主義だ。……ただし、敬うのは、弱火のあいだだけだ'],['海王','強がりも、そこまで。渦よ、巻け！']]);
 })();
 /* ---- シナリオ6：雲の海（ter.sky）に合わせる（scn6_fit.py） ---- */
@@ -7928,12 +7974,47 @@ document.querySelectorAll('#touch .b').forEach(b=>{b.addEventListener('touchstar
 
 /* ================= 画面の流れ（えらぶ→戦う→負けたらえらびなおす） ================= */
 // ---- 11/16 遊べる魔王：人の姿 → 牛の魔物 → 黒い煙の魔人（体力が減るごとに変身） ----
-Object.assign(CH,{maou:{name:'魔王',em:'😈',tag:'地上・三段変身',ds:'封印から出てきた魔王。最初は人の姿。体力が3分の2を切ると牛の魔物、3分の1を切ると黒い煙の魔人に変身して、どんどん強くなる。',hp:430,spd:17,turn:2.0,fly:false,range:150,
+Object.assign(CH,{maou:{name:'魔王',em:'😈',tag:'三段変身・第二形態から空を飛ぶ',ds:'封印から出てきた魔王。最初は人の姿。体力が3分の2を切ると牛の魔物、3分の1を切ると黒い煙の魔人に変身して、どんどん強くなる。',hp:430,spd:17,turn:2.0,fly:false,range:150,
   br:{mat:new THREE.MeshBasicMaterial({color:0xc060ff}),geo:'bolt',dmg:46,cd:0.7,spd:150,life:1.6,size:1.5,splash:7,col:[0xc060ff,0x8020ff,0xffffff],trail:[0xc060ff,0x6010c0],flash:0xb040ff},
   sp:'thunder',spN:'天罰の雷',spD:'敵の頭の上に、紫の雷を落とす',sp2:'gbeam',sp2N:'闇の光線',sp2D:'前へ太い光線を放つ',dash:'guard',dashN:'闇の守り',dashD:'その場で守りをかため、受けるダメージをへらす',mel:{r:12,dmg:90,cd:0.6,ono:'ドゴッ！'},
   model:{id:'blackknight',w:3,h:6,d:2.4,mouth:[0,1.5,1.6]},camB:24,camU:9,gOff:3,stat:[4,3,4]}});
 const MAOUF=[{id:'blackknight',w:3,h:6,d:2.4,nm:'人の姿',spd:17,dmg:1},{id:'demon',w:6,h:10,d:5,nm:'牛の魔物',spd:15,dmg:1.35},{id:'anc_darkdemon',w:9,h:15,d:7,nm:'黒い煙の魔人',spd:19,dmg:1.8,black:1}];
-{const box_=$('cards');for(const k of ['dragon','wyvern','ground','hero','army','golem','orctank','airship','maou']){const c=CH[k];const d=document.createElement('div');d.className='card';d.dataset.k=k;
+// UFOは空中で光線、着地すると大型ロボになってミサイルを撃つ。
+Object.assign(CH,{ufo:{name:'UFO',em:'🛸',tag:'空と地上・大型ロボに変形',ds:'空では円盤から光線を撃つ。地面の近くで大型ロボに自動変形し、歩きながらミサイルを撃つ。上を向くかスペースで離陸してUFOに戻る。変形すると光と音が広がる。',hp:370,spd:43,turn:2.1,fly:true,range:220,
+  br:{mat:new THREE.MeshBasicMaterial({color:0x70f6ff}),geo:'ufoLaser',dmg:34,cd:0.34,spd:220,life:1.35,size:1,splash:3,col:[0x70f6ff,0xb0ffff,0xffffff]},
+  sp:'gbeam',spN:'破壊光線',spD:'前へ太い光線を放ち、敵をつらぬく',sp2:'broadside',sp2N:'全砲門斉射',sp2D:'まわりの敵へ一斉に砲弾を放つ',dash:'climb',dashN:'離陸・急上下',dashD:'ロボなら離陸してUFOに戻る。空中では急上下してかわす',
+  mel:{r:12,dmg:70,cd:0.7,ono:'ガシャン！'},model:{id:'p8ufo',w:12,h:4,d:12,mouth:[0,-0.3,5]},camB:32,camU:12,gOff:2,stat:[4,4,4]}});
+// 巨大化する魔法使い：体力半分で禁じられた巨大化の術を使う。
+Object.assign(CH,{gwizard:{name:'巨大化する魔法使い',em:'🧙',tag:'地上・体力半分で巨大化',ds:'魔法の弾と雷、光線で戦う魔法使い。体力が半分になると巨大な魔術師に変身し、杖と魔法の弾が強くなる。仲間は勇者・戦士・僧侶。巨大化は回復しても続き、再出撃で元の姿に戻る。',hp:360,spd:23,turn:2.2,fly:false,range:220,
+  br:{mat:new THREE.MeshBasicMaterial({color:0xb070ff}),geo:'bolt',dmg:40,cd:0.55,spd:175,life:1.8,size:1.1,splash:5,col:[0xb070ff,0x7040d0,0xffffff],trail:[0xb070ff,0x7040d0],flash:0xb070ff},
+  sp:'thunder',spN:'天罰の雷',spD:'近くの敵へ雷を落とす',sp2:'gbeam',sp2N:'魔力の光線',sp2D:'前へ太い光線を放ち、敵をつらぬく',dash:'guard',dashN:'魔法の守り',dashD:'魔法の守りで受けるダメージをへらす',mel:{r:9,dmg:55,cd:0.65,ono:'バシッ！'},
+  model:{id:'wizard',w:3.6,h:4.8,d:3.6,mouth:[0.8,1.1,2]},camB:23,camU:9,gOff:2.4,stat:[4,3,4]}});
+// 合体キューブ：72個の小さな立方体が、体力に応じて人型・竜型へ合体する。
+Object.assign(CH,{cube:{name:'合体キューブ',em:'🧊',tag:'地上・三段合体',ds:'小さな立方体の群れで戦う。体力が3分の2を切ると人型、3分の1を切ると竜型へ合体し、攻撃が強くなる。回復しても合体を保ち、再出撃で群れに戻る。',hp:480,spd:24,turn:2.1,fly:false,range:180,
+  br:{mat:new THREE.MeshBasicMaterial({color:0x80dfff}),geo:'bolt',dmg:36,cd:0.5,spd:180,life:1.7,size:1,splash:4,col:[0x9ff0ff,0x2a5cff,0x8a3cff],trail:[0x9ff0ff,0x2a5cff],flash:0x9ff0ff},
+  sp:'fissure',spN:'地割れ',spD:'前へ岩のトゲを走らせ、敵を打ち上げる',sp2:'gbeam',sp2N:'破壊光線',sp2D:'合体した力で太い光線を放つ',dash:'guard',dashN:'防御',dashD:'立方体の守りで受けるダメージをへらす',mel:{r:10,dmg:60,cd:0.6,ono:'ガシャン！'},
+  model:{w:10,h:6,d:10,mouth:[0,0.5,4]},camB:29,camU:12,gOff:3,stat:[5,3,4]}});
+// 巨大スライム：酸の弾と体当たり。被弾で生まれる手下とレア札の仲間は別枠。
+Object.assign(CH,{slime:{name:'巨大スライム',em:'🟢',tag:'地上・被弾で手下がふえる',ds:'酸の弾と体当たりで戦う。攻撃を受けるたびに小さなスライムが1匹ふえ、近くの敵に突撃してはじける。手下は最大10匹。レア札の仲間は別枠の小悪魔。',hp:500,spd:23,turn:2.2,fly:false,range:150,
+  br:{mat:new THREE.MeshBasicMaterial({color:0xa6f238}),dmg:42,cd:0.65,spd:145,life:1.5,size:1.35,splash:6,col:[0xa6f238,0x54b82e,0xe9ff9c]},
+  sp:'quake',spN:'のしかかり地響き',spD:'大きな体を地面にたたきつけ、近くの敵を吹きとばす',sp2:'fissure',sp2N:'地割れ体当たり',sp2D:'地面を割る衝撃を前へ走らせる',dash:'charge',dashN:'ぷるぷる突進',dashD:'前へ体当たりして、ふれた敵を吹きとばす',mel:{r:11,dmg:85,cd:0.65,ono:'ぷよん！'},
+  model:{id:'slime2',w:11,h:7,d:10,mouth:[0,0.4,5]},camB:29,camU:12,gOff:3.5,stat:[5,3,4]}});
+// 遊べる竜王：金色がかった人の姿から、体力半分で巨大な竜へ。
+Object.assign(CH,{dragonking:{name:'竜王',em:'👑',tag:'体力半分で巨大な竜に変身',ds:'金色のよろいをまとう竜の王。炎の弾と剣で戦い、体力が半分になると巨大な竜に変身する。真の姿では空を飛び、強い炎と爪で敵をなぎ払う。',hp:500,spd:23,turn:2.0,fly:false,range:210,
+  br:{mat:MAT.fire,dmg:44,cd:0.6,spd:170,life:2,size:1.2,splash:6,col:FIRE},
+  sp:'bigfire',spN:'大火球',spD:'前へ大きな火球を放ち、まとめて焼きはらう',sp2:'flamering',sp2N:'炎の渦',sp2D:'まわりへ炎を広げ、近くの敵を焼きはらう',dash:'guard',dashN:'竜王の守り',dashD:'守りをかため、受けるダメージをへらす',mel:{r:10,dmg:80,cd:0.6,ono:'ザシュッ！'},
+  model:{id:'blackknight',w:3.2,h:6,d:2.8,mouth:[0,1.2,2]},camB:24,camU:9,gOff:3,stat:[5,3,4]}});
+// ネクロマンサー：倒した敵の場所から骸骨兵を起こす。古い兵から崩れ、最大8体。
+Object.assign(CH,{necromancer:{name:'ネクロマンサー',em:'💀',tag:'地上・死者を味方にする',ds:'紫の魂の弾を放つ骸骨の魔術師。倒した敵の場所から骸骨兵が起き上がって戦う。兵は最大8体で、古い兵から崩れて消える。死者の軍勢で8体を一度に呼べる。',hp:280,spd:20,turn:2.4,fly:false,range:160,
+  br:{mat:new THREE.MeshBasicMaterial({color:0xb060ff}),dmg:38,cd:0.6,spd:130,life:1.8,size:1.15,splash:5,col:[0xb060ff,0x6420b0,0xe8ccff],trail:[0xb060ff,0x6420b0],flash:0xb060ff},
+  sp:'deadarmy',spN:'死者の軍勢',spD:'骸骨兵を8体、一度に呼び出す。古い兵から入れかわる',sp2:'pillars',sp2N:'光の柱',sp2D:'近くの敵へ、空から魔法の光の柱を落とす',dash:'guard',dashN:'闇の守り',dashD:'闇をまとい、受けるダメージをへらす',mel:{r:8,dmg:45,cd:0.7,ono:'バシュッ！'},
+  model:{id:'skelmage',w:3.8,h:5.8,d:3.2,mouth:[0,1,2]},camB:23,camU:9,gOff:2.9,stat:[3,3,5]}});
+// ぬらりひょん：本人の攻撃は控えめ。妖怪は最大8体、突撃して消え、時間で補充される。
+Object.assign(CH,{nurarihyon:{name:'ぬらりひょん',em:'👺',tag:'地上・妖怪の総大将',ds:'まわりを回る妖怪が近くの敵へ突撃し、当たると消える。手下は時間とともに1体ずつふえ、最大8体。敵の弾は残像を残して横へよける。百鬼夜行で鬼を横一列に呼び、突撃させる。レア札の仲間は別枠の烏天狗。',hp:290,spd:21,turn:2.5,fly:false,range:150,
+  br:{mat:new THREE.MeshBasicMaterial({color:0xc08aff}),geo:'bolt',dmg:16,cd:0.95,spd:135,life:1.5,size:0.8,splash:2,col:[0xc08aff,0x7040b0,0xffffff],trail:[0xc08aff,0x7040b0],flash:0xc08aff},
+  sp:'hyakki',spN:'百鬼夜行',spD:'手下を8体の鬼に入れかえ、横一列で前へ突撃させる',sp2:'thunder',sp2N:'落雷',sp2D:'近くの敵に妖術の雷を落とす',dash:'guard',dashN:'妖怪の守り',dashD:'身をかため、受けるダメージをへらす',mel:{r:6,dmg:20,cd:0.8,ono:'ぺしっ！'},
+  model:{id:'nurarihyon',w:3.6,h:5.4,d:3.2,mouth:[0,1,1.8]},camB:26,camU:11,gOff:2.7,stat:[3,3,5]}});
+{const box_=$('cards');for(const k of ['dragon','wyvern','ground','hero','army','golem','orctank','airship','maou','archangel','dragonknight','seaking','bomber','ufo','gwizard','cube','slime','dragonking','necromancer','nurarihyon']){const c=CH[k];const d=document.createElement('div');d.className='card';d.dataset.k=k;
   const bar=(l,v)=>`<div class="st"><span>${l}</span><div class="bar"><i style="width:${v*20}%"></i></div></div>`;
   d.innerHTML=`<img class="pti" src="chara/${k}.webp" alt=""><div class="nm">${c.name}<span class="tag">${c.tag}</span></div><div class="ds">${c.ds}</div>${bar('体力',c.stat[0])}${bar('速さ',c.stat[1])}${bar('攻撃',c.stat[2])}`;
   d.addEventListener('click',()=>{initAudio();setChar(k);sfx('roar',null,0.3);});box_.appendChild(d);}}
@@ -7957,7 +8038,7 @@ function startGame(from){initAudio();
 function updSeld(){const b=$('seld'),c=document.querySelector('#cards .card.on')||document.querySelector('#cards .card[data-k="'+charKey+'"]');if(!b||!c)return;const x=c.cloneNode(true);const st=[...x.querySelectorAll('.st')];const w=document.createElement('div');w.className='sts';st.forEach(e=>w.appendChild(e));x.appendChild(w);b.innerHTML=x.innerHTML;}
 function updGo(){setTimeout(updSeld,0);$('go').textContent=reached?`${C.name}で${STAGES[reached].ch}から`:`${C.name}で出撃`;$('first').style.display=reached?'inline-block':'none';renderSk();}
 // 選んでいるキャラの技3つ（小さな絵・操作・名前・ひとこと）。絵が読めなくても文字だけで分かる
-const PETJA={dragon:'小さな赤い竜',wyvern2:'小さなワイバーン',ground:'小さな地竜',wizard:'魔法使い',priest:'僧侶',archer:'弓兵',captain:'隊長',soldier:'兵士',bgolem:'小さな岩人形',goblin:'ゴブリン',hawkrider:'鷹乗り',orc:'オーク',griffin:'グリフォン',p8drone:'ドローン',shark:'サメ',fishman:'魚人'};
+const PETJA={orcgeneral:'オーク将軍',airship:'小さな飛空艇',imp:'小悪魔',devilsoldier:'悪魔の兵',dragon:'小さな赤い竜',wyvern2:'小さなワイバーン',ground:'小さな地竜',wizard:'魔法使い',priest:'僧侶',archer:'弓兵',captain:'隊長',soldier:'兵士',bgolem:'小さな岩人形',goblin:'ゴブリン',hawkrider:'鷹乗り',orc:'オーク',griffin:'グリフォン',p8drone:'ドローン',shark:'サメ',fishman:'魚人'};
 // 11/16 ふみさん「キャラ選択画面で、変身（上級技）や仲間も表示」
 function skExtra(){try{const L=(typeof PETM!=='undefined'&&(PETM[charKey]||PETM.dragon))||[],pets=[...new Set(L.map(p=>PETJA[p[0]]||p[0]))].join('・');
   const adv=[C.sp,C.sp2].filter(k=>k&&ADVN[k]&&SKINFO[k]).map(k=>`<span class="adv">${SKINFO[k].n} → ${ADVN[k].join(' → ')}</span>`).join('');
@@ -8065,9 +8146,9 @@ function frame(now){
   clouds.forEach((c,i)=>{c.position.x+=dt*(2+i%3);if(c.position.x>1050)c.position.x=-1050;});updTheme(dt,t);
   // カメラ
   if(state==='story'){const f=TER.flats[0]||[0,-100],a=t*0.1,fy=floorAt(f[0],f[1]);cam.position.set(f[0]+Math.sin(a)*190,fy+75,f[1]+Math.cos(a)*190);camLook.set(f[0],fy+8,f[1]);cam.lookAt(camLook);}
-  else if(state==='select'){{const k=charKey==='redcap'?0.5:charKey==='hero'?0.72:charKey==='army'?1.8:C.model?1.7:1;cam.position.set(P.pos.x+16*k,P.pos.y+4*k,P.pos.z-18*k);}camLook.copy(P.pos);camLook.y+=1;camLook.x+=4;cam.lookAt(camLook);}
+  else if(state==='select'){{const k=charKey==='redcap'?0.5:charKey==='hero'?0.72:charKey==='army'?1.8:charKey==='dragonknight'?2.5:C.model?1.7:1;cam.position.set(P.pos.x+16*k,P.pos.y+4*k,P.pos.z-18*k);}camLook.copy(P.pos);camLook.y+=1;camLook.x+=4;cam.lookAt(camLook);}
   else{if(cineOn)cam.position.copy(GCAM);const pc=C.fly?P.pitch*0.8:P.pitch*0.5;const cd=new V3(Math.sin(P.yaw)*Math.cos(pc),Math.sin(pc),Math.cos(P.yaw)*Math.cos(pc));
-    let back=(C.camB||(charKey==='army'?34:C.fly?24:20))*(ccam()?0.58:1),up=(C.camU||(charKey==='army'?15:C.fly?7:8))*(ccam()?0.36:1);const cE=window.camE?camE():null;if(cE){back=cE.b;up=cE.u;}if(MOBK.on){const k=(cam.aspect<1?(MOBK.kp||2.0):(MOBK.kl||1.4))/(!cE&&ccam()?0.58:1);back*=k;up*=k*(ccam()?2.2:1.1);}/* スマホは引きぎみ */{const gz=EN.find(e=>e.giant&&!e.dead&&Math.hypot(e.mesh.position.x-P.pos.x,e.mesh.position.z-P.pos.z)<160);GZK.w+=((gz?1:0)-GZK.w)*Math.min(1,rdt*2);if(GZK.w>0.01){back*=1+1.3*GZK.w;up=up+(up*1.6+10)*GZK.w;}}  // 巨大な敵が近い時は大きく引く
+    let back=(C.camB||(charKey==='army'?34:C.fly?24:20))*(ccam()?0.58:1),up=(C.camU||(charKey==='army'?15:C.fly?7:8))*(ccam()?0.36:1);const cE=window.camE?camE():null;if(cE){back=cE.b;up=cE.u;}if(MOBK.on&&!DUN.on&&!CAVE.on){const k=(cam.aspect<1?(MOBK.kp||2.0):(MOBK.kl||1.4))/(!cE&&ccam()?0.58:1);back*=k;up*=k*(ccam()?2.2:1.1);}else if(MOBK.on){back*=1.15;}/* スマホは引きぎみ */{const gz=EN.find(e=>e.giant&&!e.dead&&Math.hypot(e.mesh.position.x-P.pos.x,e.mesh.position.z-P.pos.z)<160);GZK.w+=((gz?1:0)-GZK.w)*Math.min(1,rdt*2);if(GZK.w>0.01){back*=1+1.3*GZK.w;up=up+(up*1.6+10)*GZK.w;}}  // 巨大な敵が近い時は大きく引く
     const tg=tmp.copy(P.pos).addScaledVector(cd,-back).add(tmp2.set(0,up,0));{const lt=cE?cE.lt:ccam();if(lt){tg.x-=Math.cos(P.yaw)*back*lt;tg.z+=Math.sin(P.yaw)*back*lt;if(DUN.on){tg.x=clamp(tg.x,DUN.x0+(cE?S1X:4),DUN.x1-(cE?S1X:4));tg.z=clamp(tg.z,DUN.z0+4,DUN.z1-4);}}}const cg=floorAt(tg.x,tg.z)+2;if(tg.y<cg)tg.y=cg;
     cam.position.lerp(tg,1-Math.exp(-(P.dashT>0?4.5:9)*rdt));camLook.copy(P.pos).addScaledVector(aimDir(),cE?cE.L:ccam()?46:40).add(tmp2.set(0,4+(cE?cE.dy:0),0));if(ORB.on)orbCam(rdt,tg);cam.lookAt(camLook);
     if(!C.fly&&!C.human&&P.onGround&&D.g.userData.flap){cam.position.y+=Math.abs(Math.sin(D.g.userData.flap.lp))*Math.min(1,vv/30)*0.45;}
@@ -9033,27 +9114,27 @@ function s8World(L){S8.key=L;S8.smT=0;
 
 /* ---------- 言葉：会話・紙芝居の絵・終わりの文・選択画面 ---------- */
 Object.assign(TALKS,{
- p8war:{w:[[['司令官','未確認の大型飛行物体だ！ 所属は不明、翼は二枚、口から火！ ……報告書に、何と書けばいい！'],['ME','竜だ。そのまま書け。……こちらも前の職場で、報告書には苦労した'],['司令官','敵でも味方でもないなら、撃て！ 全軍、対空射撃！'],['ME','話し合いの前に撃つ。どこの世界でも、段取りは同じか。……なら、こちらも段取りどおりに焼く']],
+ p8war:{w:[[['司令官','未確認の大型の侵入者だ！ 所属は不明、見たこともない大きさ！ ……報告書に、何と書けばいい！'],['ME','異界の客だ。そのまま書け。……こちらも前の職場で、報告書には苦労した'],['司令官','敵でも味方でもないなら、撃て！ 全軍、対空射撃！'],['ME','話し合いの前に撃つ。どこの世界でも、段取りは同じか。……なら、こちらも段取りどおりに焼く']],
            [['司令官','戦車隊、前へ！ 爆撃隊は上から押さえろ！ 鉄と火薬の量なら、負けん！'],['ME','鉄の箱に、鉄の鳥。……火に弱い物ばかり、よく集めたな']],
            [['司令官','切り札を出す。超重戦車「陸の戦艦」、前進！ 予算三年ぶんの鉄だ！'],['ME','三年ぶんか。……三分で、鉄くずにする。予算の話は、聞かなかったことにしよう']]],
         clear:[['司令官','……全軍、撤退。報告書には「天災」と書く。天災なら、だれの責任でもない'],['ME','うまい書き方だ。前の職場に、ほしかった人材だ。……おっと。また、空がさけた']]},
- p8robo:{w:[[['統括機','未登録の生体を検知。種別：トカゲ。大きさ：規格外。火器：口。……分類できません'],['ME','分類は「客」でいい。すぐ帰る。出口は、どこだ'],['統括機','出口は、ありません。未登録の物は、排除します。これは、規則です'],['ME','規則か。……規則を守らない相手の後しまつが、前の仕事だった。守りすぎる相手は、はじめてだ']],
+ p8robo:{w:[[['統括機','未登録の生体を検知。種別：不明。大きさ：規格外。火器：不明。……分類できません'],['ME','分類は「客」でいい。すぐ帰る。出口は、どこだ'],['統括機','出口は、ありません。未登録の物は、排除します。これは、規則です'],['ME','規則か。……規則を守らない相手の後しまつが、前の仕事だった。守りすぎる相手は、はじめてだ']],
             [['統括機','巡回部隊の損失、百パーセント。重装部隊を投入します。費用は、あなたに請求します'],['ME','請求書は、女神に回せ。あいつが、ここへ落とした']],
             [['統括機','部隊では、排除できません。当機が、直接、排除します。都市統括機、起動'],['ME','町の親玉は、町より大きいのか。……電気代が、高そうだ'],['統括機','電気代は、問題ありません。あなたを排除すれば、採算が合います']]],
-         clear:[['統括機','……排除、失敗。記録します。「竜は、規格外」……再起動まで、百年……'],['ME','百年、ゆっくり休め。……働きすぎだ、おまえは。さて、次のさけ目だ']]},
- p8dino:{w:[[['ME','おい。同じ「竜」のよしみだ。道を、あけてくれ'],['小型竜','ギャッ！ ギャギャッ！'],['ME','……通じない。目が、「肉だ」と言っている。前の世界の機械のほうが、まだ話ができた']],
+         clear:[['統括機','……排除、失敗。記録します。「この客は、規格外」……再起動まで、百年……'],['ME','百年、ゆっくり休め。……働きすぎだ、おまえは。さて、次のさけ目だ']]},
+ p8dino:{w:[[['ME','おい。通りすがりの客だ。道を、あけてくれ'],['小型竜','ギャッ！ ギャギャッ！'],['ME','……通じない。目が、「肉だ」と言っている。前の世界の機械のほうが、まだ話ができた']],
             [['ME','角が三本のやつが、突っこんでくる。草を食うくせに、気が短い'],['ME','空には、皮の翼のやつ。……この森は、全員が腹ぺこか、全員がきげんが悪いかの、どちらかだ']],
             [['暴君竜','グオオオオオオッ！！'],['ME','でかいな。あごだけで、おれの頭より大きい。……この森の王か'],['ME','王どうし、あいさつは一つだ。どちらが食う側か、決めよう']]],
-         clear:[['ME','強かった。火も翼も無しで、あそこまでやるとは。……親戚として、少し、ほこらしい'],['ME','焼き加減は、聞かないでくれ。……また、空がさけた。今度は、やけに、角ばったさけ目だ']]},
+         clear:[['ME','強かった。牙と爪だけで、あそこまでやるとは。……同じ戦う者として、少し、ほこらしい'],['ME','焼き加減は、聞かないでくれ。……また、空がさけた。今度は、やけに、角ばったさけ目だ']]},
  p8anc:{w:[[['ME','土の人形が、行進している。……だれかが作って、だれかが動かしている'],['土偶','（目が、ぼうっと光った）'],['ME','返事の代わりに光るのか。……まぶしいだけだ']],
             [['ME','地ひびき。……山が歩いてくる。いや、毛の生えた山だ'],['ME','この世界の獣は、全員、体が大きい。食べる物が、多いのだろう']],
-            [['太陽の王','空に太陽は、二つもいらぬ。……三つ目の火よ、おまえは、どこから来た'],['ME','火を吐く竜は、空から落ちてきた。女神のせいだ'],['太陽の王','ならば、わたしの光で、もといた空へ帰してやろう'],['ME','帰り道は、自分で焼いて作る']]],
+            [['太陽の王','空に太陽は、二つもいらぬ。……三つ目の火よ、おまえは、どこから来た'],['ME','落ちてきた客は、空からやってきた。女神のせいだ'],['太陽の王','ならば、わたしの光で、もといた空へ帰してやろう'],['ME','帰り道は、自分で焼いて作る']]],
          clear:[['ME','土の国の王は、光になって空へのぼった。……太陽が、一つにもどった'],['ME','空が、またさけた。今度のさけ目は、まっすぐな線だけでできている']]},
  p8poly:{w:[[['管理者','あなたは、不具合です。三つの世界を横断し、三つとも壊しました。記録に、あなたの居場所はありません'],['ME','壊したのは、撃ってきた連中だけだ。……それと、おれをここへ落としたのは、女神だ。苦情は、あっちへ'],['管理者','女神は、管轄がちがいます。ここは、すべての世界の管理層。不具合は、削除します'],['ME','消される側に回るのは、はじめてだ。前世では、いつも消す側だった。……なれない役は、やらない主義でな']],
             [['管理者','立方体の損失を確認。砲台を展開します。あなたの動きは、すべて計算ずみです'],['ME','計算ずみなら、結果も知っているだろう。……知っていて続けるのは、仕事熱心と言うより、がんこだ']],
             [['管理者','計算を、やり直しました。結果は、同じです。わたしが、直接、削除します'],['ME','形が、ころころ変わるな。三角、四角、……何角だ、それは'],['管理者','形は、問題ではありません。わたしは、すべての形です'],['ME','なら、すべての形を、まとめて焼く。手間が、はぶける']]],
          clear:[['管理者','……削除、失敗。あなたは、不具合では……ありません。「仕様」として、記録します……'],['ME','仕様か。悪くない肩書きだ。……元の世界への出口を、開けてもらおう。それで、貸し借りなしだ']]}});
-ENDS[8]=['管理者は、光の粒になって、格子の中へとけていった。最後に、元の世界へのさけ目を、一つだけ開けて。','鉄の世界も、機械の世界も、牙の世界も、もう竜を追ってこない。どの世界の記録にも、竜は「仕様」と書いてある。','なつかしい空にもどると、風には、ちゃんと魔法のにおいがした。空は、きみのものだ。となりの世界の空も、少しだけ。','遠くの空で、女神が書類の山にうもれていた。「管轄の外へ出したら、苦情が四つの世界から……次は、石ころにします。石ころなら、どこへも行けません」'];
+ENDS[8]=['管理者は、光の粒になって、格子の中へとけていった。最後に、元の世界へのさけ目を、一つだけ開けて。','鉄の世界も、機械の世界も、牙の世界も、もう追ってこない。どの世界の記録にも、きみは「仕様」と書いてある。','なつかしい空にもどると、風には、ちゃんと魔法のにおいがした。空は、きみのものだ。となりの世界の空も、少しだけ。','遠くの空で、女神が書類の山にうもれていた。「管轄の外へ出したら、苦情が四つの世界から……次は、石ころにします。石ころなら、どこへも行けません」'];
 ENDT[8]='ただいま';
 // 紙芝居の絵：名前は p8_<章>_<番号>。絵のファイル（story\v2\<名前>.jpg）が無い間は、今ある絵を仮に当てる（P8FB）。ファイルが置かれたら、自動で本物に切りかわる
 const P8IMG={p8war:{s:['p8_war_1','p8_war_2','p8_war_3'],w:'p8_war_4',c:'p8_war_c'},p8robo:{s:['p8_robo_1','p8_robo_2','p8_robo_3'],w:'p8_robo_4',c:'p8_robo_c'},p8dino:{s:['p8_dino_1','p8_dino_2','p8_dino_3'],w:'p8_dino_4',c:'p8_dino_c'},p8anc:{s:['p8_anc_1','p8_anc_2','p8_anc_3'],w:'p8_anc_4',c:'p8_anc_c'},p8poly:{s:['p8_poly_1','p8_poly_2','p8_poly_3'],w:'p8_poly_4',c:'p8_poly_c'}},
@@ -9066,7 +9147,7 @@ function s8ImgApply(){for(const k in P8IMG){const S=ALLST.find(q=>q.key===k),I=P
 s8ImgApply();
 if(location.protocol!=='file:')Object.keys(P8FB).forEach(n=>{const im=new Image();im.onload=()=>{P8OK[n]=1;s8ImgApply();};im.onerror=()=>{};im.src='story/v2/'+n+'.jpg';});
 // 選択画面のシナリオの概要
-if(typeof SCI!=='undefined')SCI[8]={d:'女神に「管轄の外」へ飛ばされた竜が、次元のさけ目を落ちて、4つの世界をわたる。鉄と煙の戦場、ネオンの機械の都、恐竜の密林、そして面と線だけの4次元の世界。最後に待つのは、すべての世界の「管理者」。',b:[['超重戦車「陸の戦艦」'],['都市統括機'],['暴君竜'],['管理者']]};
+if(typeof SCI!=='undefined')SCI[8]={d:'女神に「管轄の外」へ飛ばされた主人公が、次元のさけ目を落ちて、4つの世界をわたる。鉄と煙の戦場、ネオンの機械の都、恐竜の密林、そして面と線だけの4次元の世界。最後に待つのは、すべての世界の「管理者」。',b:[['超重戦車「陸の戦艦」'],['都市統括機'],['暴君竜'],['管理者']]};
 // 結果の画面の文（シナリオ8）
 {const se8=showEnd;showEnd=function(win){se8.apply(this,arguments);try{if(win&&SCN===8)$('ovS').textContent=`${C.name}は、鉄の軍も、機械の都も、太古の森も、世界の管理者もこえて、帰ってきた。空はきみのものだ。となりの世界の空も、少しだけ。`;}catch(_){}};}
 // 起動のいちばん初めにシナリオ8の章を作った時は、まだここまで来ていなかったので、景色をもう一度作る
@@ -10127,10 +10208,10 @@ const Y9MD={a:3,b:5,c:10};
 ALLST.push(
  {key:'y9town',ch:'第1章',title:'百鬼夜行',place:'妖怪の城下町',
   ter:{amp:0.7,ox:2300,oz:-800,flats:[[0,-90,150,3,1],[0,120,50,3,1]],dirt:[[0,-90,130],[0,120,40]],grass:0x4a3036,hill:0x3c2c32,rock:0x4a3c40,sand:0x2a1a14,dirtC:0x2a1c18,water:0xff5a1a,lava:true,leaf:0x3a2a30,trunk:0x2a2026,trees:160,rocks:30,start:[0,120]},
-  story:['女神の書類が、また一枚ふえた。「次は、東のはての島国です。妖怪が、ちょっと多めです」','ついた先は、夜の城下町。赤い提灯の下を、鬼と折り紙の鳥と、からくり人形が歩いている。','町の奥の城に住むのは、妖怪の総大将・ぬらりひょん。留守番の鬼たちが、竜を見つけて騒ぎだした。'],
+  story:['女神の書類が、また一枚ふえた。「次は、東のはての島国です。妖怪が、ちょっと多めです」','ついた先は、夜の城下町。赤い提灯の下を、鬼と折り紙の鳥と、からくり人形が歩いている。','町の奥の城に住むのは、妖怪の総大将・ぬらりひょん。留守番の鬼たちが、よそ者を見つけて騒ぎだした。'],
   waves:[
    {name:'百鬼夜行',msg:'👹 提灯の下を、鬼の行列がやってくる！',mood:Y9MD.a,clr:'🏃 行列は、ちりぢりになった！ 体力が少し回復',go(){s8Grp('y_oni',14,0,-60,100,30);s8Grp('y_clock',8,0,-110,80,20);s8Air('y_origami',10);}},
-   {name:'女狩人と黒曜の僧',msg:'🏹 屋根の上から、竜狩りの女狩人がねらっている！',mood:Y9MD.a,go(){s8Grp('y_hunter',8,0,-90,110,40);s8Grp('y_monk',5,0,-140,80,20);s8Grp('y_oni',10,0,-70,100,30);s8Air('y_origami',8);}},
+   {name:'女狩人と黒曜の僧',msg:'🏹 屋根の上から、よそ者狩りの女狩人がねらっている！',mood:Y9MD.a,go(){s8Grp('y_hunter',8,0,-90,110,40);s8Grp('y_monk',5,0,-140,80,20);s8Grp('y_oni',10,0,-70,100,30);s8Air('y_origami',8);}},
    {name:'火をふく大ガマ',msg:'🐸 地ひびきとともに、火をふく大ガマがあらわれた！',mood:Y9MD.a,go(){const b=s8Spawn('y_toad',0,-150,undefined,{boss:'🐸 火をふく大ガマ',sc:2.3});if(b){b.die='……ゲコォ……（火が消えた）';s8BossIn(b,'🐸','火をふく大ガマ');}s8Grp('y_oni',8,0,-100,90,30);s8Air('y_origami',6);}}]},
  {key:'y9castle',ch:'第2章',title:'からくり城',place:'からくりの城',
   ter:{amp:0.5,ox:2600,oz:-1100,flats:[[0,-150,120,3,1],[0,120,50,3,1]],dirt:[[0,-150,110]],grass:0x4a3438,hill:0x40303a,rock:0x4a3c44,sand:0x2a1a14,dirtC:0x2a1c18,water:0xff5a1a,lava:true,trees:90,rocks:24,start:[0,120]},
@@ -10141,7 +10222,7 @@ ALLST.push(
    {name:'侍の鎧の巨兵',msg:'🏯 天守のかげから、侍の鎧の巨兵が立ち上がった！',mood:Y9MD.b,go(){const b=s8Spawn('y_mech',0,-170,undefined,{boss:'🏯 侍の鎧の巨兵'});if(b){b.die='……ギ……ギ……（大きな歯車が、とまった）';s8BossIn(b,'🏯','侍の鎧の巨兵');}s8Grp('y_karakuri',4,0,-120,90,30);s8Air('y_kite',3);}}]},
  {key:'y9lord',ch:'最終章',title:'ぬらりひょん',place:'月見の天守',
   ter:{amp:0.8,ox:2900,oz:-1400,flats:[[0,-160,120,3,1],[0,120,50,3,1]],dirt:[[0,-160,100]],grass:0x3a2a34,hill:0x34262e,rock:0x44363e,sand:0x2a1a14,dirtC:0x241818,water:0xff5a1a,lava:true,leaf:0x3a2440,trunk:0x2a2228,trees:120,rocks:30,start:[0,120]},
-  story:['天守の上は、満月だった。蓮の台の上で、頭の長い老人が、のんびり茶をすすっている。','「よう来なすった、竜どの。わしの家で好き勝手とは、なかなかの客じゃ」','白い狐と麒麟が、総大将のまわりに集まった。夜は、まだ長い。'],
+  story:['天守の上は、満月だった。蓮の台の上で、頭の長い老人が、のんびり茶をすすっている。','「よう来なすった、お客人。わしの家で好き勝手とは、なかなかの客じゃ」','白い狐と麒麟が、総大将のまわりに集まった。夜は、まだ長い。'],
   waves:[
    {name:'白狐と麒麟',msg:'🦊 白い狐の群れと、空かける麒麟があらわれた！',mood:Y9MD.c,clr:'🏃 狐たちは、霧にきえた！ 体力が少し回復',go(){s8Grp('y_fox',6,0,-90,100,40);s8Air('y_kirin',4);s8Grp('y_fiery',2,0,-130,60,20);s8Grp('y_oni',10,0,-70,100,30);}},
    {name:'大妖怪の行進',msg:'👹 山のような大妖怪が、何体も城下へなだれこむ！',mood:Y9MD.c,go(){y9Giants(5);s8Grp('y_hunter',8,0,-90,100,40);s8Air('y_origami',8);s8Air('y_heli',4);}},
@@ -10149,7 +10230,7 @@ ALLST.push(
 for(const k of ['y9town','y9castle','y9lord']){const S=ALLST.find(q=>q.key===k);S.waves.forEach(w=>{const g=w.go;w.go=function(){const n=EN.length;g.apply(this,arguments);for(let i=EN.length-1;i>=n;i--){const e=EN[i];if(e&&!e.s8&&!e.boss){scene.remove(e.mesh);EN.splice(i,1);}}};});}  // 妖怪の目じるしの無い余分な兵は出さない
 SCK[9]=['y9town','y9castle','y9lord'];SCNM[9]='ぬらりひょん編';
 if(typeof ENDIMG!=='undefined')ENDIMG[9]=['y9end_1','y9end_2','y9end_3'];ENDT[9]='妖怪の島の朝';
-ENDS[9]=['妖怪の総大将は、月を見ながら笑って消えた。城下町の提灯が、ひとつ、またひとつと消えていく。','鬼も、からくりも、狐も、もう竜の前に出てこない。出てくる勇気が、残っていない。','島国の空も、きみのものだ。','遠くの空で、女神が書類をめくった。「……次は、どこへ送ればいいんでしょう」'];
+ENDS[9]=['妖怪の総大将は、月を見ながら笑って消えた。城下町の提灯が、ひとつ、またひとつと消えていく。','鬼も、からくりも、狐も、もう、きみの前に出てこない。出てくる勇気が、残っていない。','島国の空も、きみのものだ。','遠くの空で、女神が書類をめくった。「……次は、どこへ送ればいいんでしょう」'];
 // ---- 章の建物（壊せる）と飾り ----
 function bldPut(id,x,z,w,h,d,hp,val,type,rot){if(!MODEL[id])return null;if(H(x,z)<WATER+1)return null;const g=new THREE.Group();const b=box(w,h,d,mat(0x888888));b.position.y=h/2;g.add(b);return place(g,x,z,rot===undefined?rnd(0,6.283):rot,hp,val,type||'house',id);}
 // 多くの小さな建物を、平らな所に。L＝[[モデル,幅,高さ,奥行き],…]、n＝数
@@ -10371,7 +10452,7 @@ function maouSkin(dm){if(!MODEL.anc_darkdemon||dm.mskin)return;dm.mesh.updateMat
 // ---- 11/16 ふみさん「海王・ゴブリンキング（戦車）は体力半分で変形」「竜王は人の姿から、体力半分で巨大化」 ----
 function dkHuman(){const h=addEnemy('wizard',0,-170,undefined,{model:MODEL.blackknight?'blackknight':undefined});h.mesh.scale.multiplyScalar(2.2);h.r*=2.2;h.hc*=2.2;h.boss='👑 竜王（人の姿）';h.nm='竜王';h.hp=h.maxHp=EASY?900:1800;h.val=800;h.dkh=1;h.said=1;
   try{h.mesh.traverse(o=>{if(o.isMesh&&o.material&&o.material.color){o.material=o.material.clone();o.material.color.lerp(new THREE.Color(0xc8a040),0.25);if('emissive' in o.material)o.material.emissive=new THREE.Color(0x3a1a00);}});}catch(_){}
-  try{bubble(h,'千年竜か。……竜の王の座は、一つしかない','boss',2.6);}catch(_){}try{bossZoom(h);}catch(_){}}
+  try{bubble(h,'よそ者か。……空の王の座は、一つしかない','boss',2.6);}catch(_){}try{bossZoom(h);}catch(_){}}
 function tfTick(){if(state!=='play')return;for(const e of EN){if(e.dead||e.tfd)continue;const half=e.hp<e.maxHp*0.5;if(!half)continue;
   if(e.king&&!e.tk2&&ST.orctank){e.tfd=1;e.tk2=1;const q=e.mesh.position.clone(),t=addEnemy('orctank',q.x,q.z);t.said=1;tankRider(t.mesh,26,36,0);t.boss='👑 オークキング（デラックス戦車）';t.hp=t.maxHp=Math.round(e.maxHp*0.7);t.val=e.val;
     killEnemy(e,true);glowFlash(q,0xffd060,40,0.6);smoke(q,14,10,3,0x8a7a58,6);shake(0.8);sfx('boom',q,1);try{say('オークキング','まだだ！ わしには、デラックス戦車がある！');}catch(_){}ono(q.clone().add(new V3(0,14,0)),'変形！ デラックス戦車！','#ffd060',56);try{bossZoom(t);}catch(_){}continue;}
@@ -10410,7 +10491,7 @@ function rcDodge(dt){if(state!=='play'||charKey!=='redcap'||!D)return;P.rcd=(P.r
 function maouForm(i,show){if(charKey!=='maou'||!D||!D.body)return;const F=MAOUF[i];if(!F||D.mf===i)return;D.mf=i;
   const inner=D.inner,old=D.body;inner.remove(old);const body=makeProxy(F.w,F.h,F.d,0x6a4a7a,false);attachModel(body,MODEL[F.id]?F.id:'demon');inner.add(body);D.body=body;if(D.units&&D.units[0])D.units[0].m=body;
   if(F.black)body.traverse(o=>{if(o.isMesh&&o.material&&o.material.color){o.material=o.material.clone();o.material.color.multiplyScalar(0.22);if('emissive' in o.material){o.material.emissive=new THREE.Color(0x2a0838);o.material.emissiveIntensity=0.6;}}});
-  C.gOff=F.h/2;inner.position.y=-C.gOff;D.mouth.position.set(0,F.h*0.25,F.d*0.7);C.camB=18+F.h*1.2;C.camU=6+F.h*0.4;C.spd=F.spd;P.sp=C.sp;P.maouK=F.dmg;C.mel.r=8+F.w*1.2;
+  C.gOff=F.h/2;inner.position.y=-C.gOff;C.fly=i>=1;if(i>=1&&state==='play'){P.vy=Math.max(P.vy||0,10);P.onGround=false;}D.mouth.position.set(0,F.h*0.25,F.d*0.7);C.camB=18+F.h*1.2;C.camU=6+F.h*0.4;C.spd=F.spd;P.sp=C.sp;P.maouK=F.dmg;C.mel.r=8+F.w*1.2;
   if(show&&state==='play'){P.hp=Math.min(P.maxHp,P.hp+P.maxHp*0.2);P.inv=Math.max(P.inv,1.5);glowFlash(P.pos.clone(),0xb040ff,50,0.8);burst(P.pos,60,[0xb040ff,0x200030,0xffffff],6,40,1);shake(0.9);sfx('roar',null,1);
     try{glory('魔王、'+(i===1?'第二形態':'最終形態')+'！',F.nm+'に変身した');}catch(_){}}}
 function maouTick(){if(charKey!=='maou'||state!=='play'||!D)return;const r=P.hp/Math.max(1,P.maxHp);const want=r<1/3?2:r<2/3?1:0;if(want>(D.mf||0))maouForm(want,true);}
@@ -10460,6 +10541,414 @@ const XW={
 PK15.p8anc=(PK15.p8anc||[]).concat([['anc_fort',4,24,2],['anc_shrine',8,18,1.2],['anc_kiln',12,9,1],['anc_stonetomb',8,14,1.4],['anc_suntemple',3,34,1.2],['anc_platform',8,7,1.6]]);
 DECOR15.y9lord=(DECOR15.y9lord||[]).concat([['y_demonstatue',3,34]]);DECOR15.y9town=(DECOR15.y9town||[]).concat([['y_demonstatue',2,30]]);
 DECOR15.p8anc=(DECOR15.p8anc||[]).concat([['anc_haniwaboat',4,12],['anc_sled',6,4],['anc_goddess',1,60,'far']]);
+// 光の巨人は敵とは別の味方。再召喚・章移動・キャラ変更時にも残さない。
+Object.assign(PETM,{archangel:[['angelarcher',1],['angelsword',1],['angel',1]]});
+Object.assign(PETH,{angelarcher:3.2,angelsword:3.4,angel:3.4});
+Object.assign(PETJA,{angelarcher:'天使の弓兵',angelsword:'天使の剣士',angel:'小さな天使'});
+SKPOOL.archangel=['lightgiant','pillars'];
+ULTL.lightgiant='光の巨人よ、我とともに戦え！';
+let ARCHGIANT=null;
+function archangelClear(){if(!ARCHGIANT)return;const q=ARCHGIANT;scene.remove(q.g);q.materials.forEach(m=>m.dispose());q.proxy.dispose();ARCHGIANT=null;}
+function archangelSummon(){
+  archangelClear();const g=makeProxy(26,32,20,0xffefb0,false),proxy=g.children[0].geometry;
+  // 世界の位置を決めるより先に取りつける。モデルの形は既存の天使像を使う。
+  attachModel(g,'angelstatue');const materials=[];
+  g.traverse(o=>{if(!o.isMesh)return;const tint=m=>{const c=m.clone();c.color.setHex(0xffefb0);if(c.emissive){c.emissive.setHex(0xffd45a);c.emissiveIntensity=0.9;}c.transparent=true;c.opacity=0.9;materials.push(c);return c;};o.material=Array.isArray(o.material)?o.material.map(tint):tint(o.material);});
+  const f=new V3(Math.sin(P.yaw),0,Math.cos(P.yaw));g.position.copy(P.pos).addScaledVector(f,36);g.position.y=Math.max(floorAt(g.position.x,g.position.z),P.pos.y-24);g.rotation.y=P.yaw;
+  scene.add(g);ARCHGIANT={g,materials,proxy,t:0,cd:0,pulses:0,power:SPM(),y:g.position.y};
+  magicCircle(g.position.clone(),0xffed90,25,1.2);glowFlash(g.position.clone().add(new V3(0,16,0)),0xffed90,48,0.65);sfx('zap',g.position,0.7);
+  if(D&&D.body)mixOnce(D.body.userData.mix,1.5);
+}
+function archangelTick(dt){const q=ARCHGIANT;if(!q)return;if(state!=='play'){archangelClear();return;}if(PAUSED||LVUP)return;
+  q.t+=dt;if(q.t>=6){glowFlash(q.g.position.clone().add(new V3(0,16,0)),0xffed90,28,0.4);archangelClear();return;}
+  q.g.position.y=q.y+Math.sin(q.t*2)*0.6;const fade=Math.min(1,q.t/0.25,(6-q.t)/0.8);q.materials.forEach(m=>m.opacity=0.88*fade);
+  q.cd-=dt;if(q.cd>0)return;q.cd+=0.75;q.pulses++;
+  const c=q.g.position.clone().add(new V3(0,14,0));shock(c,0xffed90,42);magicCircle(q.g.position.clone(),0xffd050,36,0.65);
+  for(const e of EN){if(e.dead)continue;const p=cpos(e);if(Math.hypot(p.x-c.x,p.z-c.z)<42+e.r&&Math.abs(p.y-c.y)<48){hitEnemy(e,52*q.power);if(!e.dead&&!e.fly&&!e.perch&&e.type!=='cannon')e.vy=12;}}
+  burst(c,12,[0xffefb0,0xffd050,0xffffff],3,22,0.5);
+}
+{const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);archangelTick(dt);};}
+{const prev=clearWorld;clearWorld=function(){archangelClear();return prev.apply(this,arguments);};}
+{const prev=setChar;setChar=function(){archangelClear();return prev.apply(this,arguments);};}
+// ---- 遊ぶオークキング：最初は歩きのオークキング、体力半分で戦車へ ----
+const ORK0={};let OKT=0;
+function okKing(){if(!D||!D.g)return;const c=CH.orctank;for(const k of ['gOff','camB','camU','spd'])if(ORK0[k]===undefined)ORK0[k]=c[k];
+  D.g.scale.setScalar(1);D.g.traverse(o=>{if(o.isMesh||o.isSkinnedMesh)o.visible=false;});
+  const h=8,body=makeProxy(4.2,h,3.4,0x6a8a3a,false);attachModel(body,MODEL.orcking?'orcking':'orc');D.inner.position.set(0,-h/2,0);D.inner.add(body);D.okb=body;D.ok=1;
+  c.gOff=h/2;c.camB=24;c.camU=9;c.spd=19;if(D.mouth)D.mouth.position.set(0,h*0.2,2.4);}
+function okRestore(){const c=CH.orctank;for(const k in ORK0)c[k]=ORK0[k];}
+{const sc1=setChar;setChar=function(k){if(k==='orctank')okRestore();const r=sc1.apply(this,arguments);try{if(k==='orctank'&&!OKT)okKing();}catch(err){console.warn('okKing',err);}return r;};}
+function okTick(){if(charKey!=='orctank'||!D||!D.ok||state!=='play')return;if(P.hp>P.maxHp*0.5)return;
+  const p=P.pos.clone(),y=P.yaw,hp=P.hp,mx=P.maxHp;OKT=1;okRestore();setChar('orctank');OKT=0;P.pos.copy(p);P.yaw=y;P.maxHp=mx;P.hp=Math.min(mx,hp+mx*0.2);P.inv=Math.max(P.inv,1.5);
+  glowFlash(p,0xffd060,40,0.6);smoke(p,14,10,3,0x8a7a58,6);shake(0.8);sfx('boom',p,1);try{glory('オークキング、戦車に乗りこんだ！','デラックス戦車で、ひきつぶせ');}catch(_){}}
+{const tk0=tkProps;tkProps=function(dt){if(D&&D.ok)return;return tk0.apply(this,arguments);};}
+{const ut18=updTheme;updTheme=function(dt,t){ut18.apply(this,arguments);try{okTick();}catch(_){}};}
+// 各騎は親に入れる前にモデルを取りつけ、隊列の座標へ置く。
+function makeDragonknight(){
+  const g=new THREE.Group(),inner=new THREE.Group(),body=new THREE.Group(),units=[];
+  inner.position.y=-CH.dragonknight.gOff;g.add(inner);inner.add(body);
+  for(let row=0;row<4;row++)for(let side=0;side<2;side++){
+    const m=new THREE.Group(),mount=makeProxy(9,3.8,7,0x387548,false),rider=makeProxy(1.5,2.6,1.6,0x444858,false);
+    attachModel(mount,'wyvern2');attachModel(rider,'blackknight');
+    rider.position.set(0,2.0,0.1);const mx=rider.userData.mix;if(mx&&mx.idle)mx.loco=mx.idle;
+    m.add(mount,rider);const x=(side?1:-1)*(5+row*2.5),z=10-row*6.5;m.position.set(x,0,z);body.add(m);
+    const muzzle=new THREE.Object3D();muzzle.position.set(0,2.0,3.7);m.add(muzzle);
+    units.push({m,mount,rider,muzzle,x,z,ph:row*0.8+side*1.4});
+  }
+  const mouth=new THREE.Object3D();mouth.position.set(0,0,14);g.add(mouth);
+  return {g,inner,body,mouth,units,guns:[],model:'dragonknight',dk:true,shot:0,rush:null};
+}
+function dragonknightRush(){if(!D||!D.dk)return;
+  D.rush={t:0,power:SPM(),hits:new Set(),last:D.units.map(u=>u.m.getWorldPosition(new V3())),active:D.units.map(u=>u.m.visible)};
+  P.inv=Math.max(P.inv,1.2);sfx('whoosh',null,0.9);shock(P.pos.clone(),0xffd080,18);
+  for(const u of D.units)if(u.m.visible)mixOnce(u.rider.userData.mix,2);
+}
+function dragonknightTick(dt,t){if(!D||!D.dk)return;const d=D;
+  const count=state==='select'?8:Math.ceil(8*clamp(P.hp/Math.max(1,P.maxHp),0,1));
+  const q=d.rush;if(q&&(state!=='play'))d.rush=null;
+  if(PAUSED||LVUP)return;
+  if(d.rush)d.rush.t+=dt;
+  const rush=d.rush,k=rush?Math.min(1,rush.t/1.5):0,advance=rush?(k<0.7?48*k/0.7:48*(1-k)/0.3):0;
+  d.units.forEach((u,i)=>{u.m.visible=i<count;u.m.position.set(u.x,Math.sin(t*3+u.ph)*0.32,u.z+advance);u.rider.rotation.x=rush?-0.3:0;});
+  if(!rush)return;
+  d.g.updateMatrixWorld(true);
+  const near=new V3();d.units.forEach((u,i)=>{const p=u.m.getWorldPosition(new V3());
+    if(u.m.visible&&rush.active[i]&&k<=0.7){const line=new THREE.Line3(rush.last[i],p);
+      for(const e of EN){if(e.dead||rush.hits.has(e))continue;const c=cpos(e);line.closestPointToPoint(c,true,near);
+        if(near.distanceTo(c)<6+(e.r||0)){rush.hits.add(e);hitEnemy(e,(100+count*12)*rush.power);burst(c,10,FIRE,3,16,0.35);}}
+      if(Math.random()<dt*16)burst(p,1,[0xffd080,0xfff0c0],1,3,0.25);
+    }rush.last[i].copy(p);
+  });
+  if(k>=1)d.rush=null;
+}
+{const prev=mouthPos;mouthPos=function(){if(D&&D.dk){const a=D.units.filter(u=>u.m.visible);if(a.length)return a[(D.shot++)%a.length].muzzle.getWorldPosition(new V3());}return prev.apply(this,arguments);};}
+{const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);dragonknightTick(dt,t);};}
+{const prev=clearWorld;clearWorld=function(){if(D&&D.dk)D.rush=null;return prev.apply(this,arguments);};}
+Object.assign(PETM,{dragonknight:[['wyvern2',1]]});
+PETH.wyvern2=3.8;
+SKPOOL.dragonknight=['dkrush','bigfire','flamering','thunder'];
+ULTL.dkrush='全騎、突撃！';
+// 親へ入れる前に模型を取りつけ、変身しても足もとの世界座標を保つ。
+const SEAKINGF=[
+  {id:'seakingman',w:7.4,h:6.7,d:3,back:26,up:10,spd:22,reach:12,dmg:85,shot:45,size:1.3,splash:6},
+  {id:'seaking',w:40,h:36,d:30,back:82,up:32,spd:18,reach:30,dmg:145,shot:72,size:2.4,splash:11}
+];
+function seakingBody(i){const f=SEAKINGF[i],b=makeProxy(f.w,f.h,f.d,0x408ab0,false);attachModel(b,f.id);return b;}
+function seakingStats(i){const f=SEAKINGF[i],c=CH.seaking;c.gOff=f.h/2;c.camB=f.back;c.camU=f.up;c.spd=f.spd;c.mel.r=f.reach;c.mel.dmg=f.dmg;c.br.dmg=f.shot;c.br.size=f.size;c.br.splash=f.splash;}
+{const prev=makePlayerModel;makePlayerModel=function(k){if(k!=='seaking')return prev.apply(this,arguments);
+  seakingStats(0);const g=new THREE.Group(),inner=new THREE.Group(),body=seakingBody(0),mouth=new THREE.Object3D();
+  inner.position.y=-CH.seaking.gOff;inner.add(body);g.add(inner);mouth.position.set(1.8,1,2.4);g.add(mouth);
+  return {g,inner,body,mouth,units:[{m:body,x:0,z:0,front:1}],guns:[],model:k,sf:0};};}
+function seakingForm(i,show){if(charKey!=='seaking'||!D||D.sf===i)return;
+  const f=SEAKINGF[i],oldOff=C.gOff,old=D.body,body=seakingBody(i);D.inner.remove(old);
+  // 古い入れ物だけを処分する。共有している模型の素材は残す。
+  const proxy=old.children[0];if(proxy&&proxy.isMesh){proxy.geometry.dispose();proxy.material.dispose();}
+  D.inner.add(body);D.body=body;D.units[0].m=body;D.sf=i;seakingStats(i);
+  D.inner.position.y=-C.gOff;D.mouth.position.set(f.w*0.24,f.h*0.15,f.d*0.55);
+  P.pos.y+=C.gOff-oldOff;D.g.position.copy(P.pos);
+  if(show){P.inv=Math.max(P.inv,2);const foot=gpos(P.pos.clone());shock(foot,0x80d0ff,48);burst(P.pos,48,WATC,5,32,0.9);glowFlash(P.pos.clone(),0x80d0ff,48,0.7);shake(0.8);sfx('roar',null,0.9);glory('海王、真の姿！','超大型の体と三つ又の槍で、なぎ払え');ringsToGround();}}
+function seakingTick(){if(charKey==='seaking'&&D&&D.sf===0&&state==='play'&&!PAUSED&&!LVUP&&P.hp>0&&P.hp<=P.maxHp*0.5)seakingForm(1,true);}
+{const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);seakingTick();};}
+// 回復しても戦闘中は巨大な姿を保ち、新しい出撃では人の姿へ戻る。
+{const prev=startGame;startGame=function(){if(charKey==='seaking')seakingForm(0,false);return prev.apply(this,arguments);};}
+function seakingBeam(){const m=mouthPos(),d=(autoTarget()||aimPoint()).clone().sub(m).normalize();mixOnce(D.body.userData.mix,1.4);megaBeam(m,d,230,(D.sf?1.6:1)*SZM(),SPM());}
+function seakingTide(){const c=P.pos.clone(),r=(D.sf?55:32)*SZM();mixOnce(D.body.userData.mix,1.8);dome(c,0x4aa0e0,r,0.85);shock(gpos(c),0x80d0ff,r);magicCircle(gpos(c),0x80d0ff,r,1.0);for(const e of EN){if(e.dead)continue;const p=cpos(e);if(Math.hypot(p.x-c.x,p.z-c.z)>r+e.r||Math.abs(p.y-c.y)>r+e.r)continue;hitEnemy(e,(D.sf?190:145)*SPM());if(!e.dead&&!e.fly&&!e.perch)e.vy=18;}burst(c,36,WATC,4,30,0.7);sfx('whoosh',null,0.9);shake(0.5);}
+{const prev=melee;melee=function(){if(charKey!=='seaking')return prev.apply(this,arguments);
+  P.melT=0.3;P.melA=0.45;P.melCd=C.mel.cd;mixOnce(D.body.userData.mix,1.8);const ad=aimDir();ad.y=0;ad.normalize();
+  for(const e of EN){if(e.dead)continue;const p=cpos(e),v=p.clone().sub(P.pos),dy=Math.abs(p.y-(P.pos.y-C.gOff+C.gOff*0.5));v.y=0;const d=v.length();if(d>C.mel.r+e.r||dy>C.gOff+12+e.r||d>3&&v.normalize().dot(ad)<-0.2)continue;hitEnemy(e,C.mel.dmg*POW());burst(p,8,WATC,3,14,0.35);}
+  meleeRock(ad);slashFx(0x80d0ff);sfx('slash',null,0.8);};}
+Object.assign(PETM,{seaking:[['fishman',0]]});
+SKPOOL.seaking=['seabeam','seatide'];
+ULTL.seabeam='海流よ、つらぬけ！';ULTL.seatide='大波よ、押し流せ！';
+// 機銃は細い曳光弾。共通の強化・自動照準・当たり判定をそのまま使う。
+GEO.bomberBullet=new THREE.CylinderGeometry(0.13,0.13,3.6,6);
+GEO.bomberBullet.rotateX(Math.PI/2);
+function bomberShot(m,tg,b,sz,dm,snd){const v=tg.clone().sub(m).normalize().multiplyScalar(b.spd).add(P.vel);
+  shoot(m,v,{from:'p',mat:b.mat,geo:b.geo,size:sz,r:1.3*sz/b.size,splash:0,dmg:dm,life:b.life,col:b.col});
+  const q=PROJ[PROJ.length-1];q.m.lookAt(m.clone().add(v));
+  burst(m,2,b.col,0.8,7,0.08);if(snd)sfx('fire',null,0.2);
+}
+Object.assign(PETM,{bomber:[['p8fighter',1]]});
+Object.assign(PETH,{p8fighter:2.4});
+Object.assign(PETJA,{p8fighter:'戦闘機'});
+SKPOOL.bomber=['bombs','broadside'];
+// 二つの姿を一度だけ作る。attachModelは親へ足す前に行う。
+const UFOF=[
+  {id:'p8ufo',w:12,h:4,d:12,spd:43,back:32,up:12,mouth:[0,-0.3,5]},
+  {id:'p8mech',w:9,h:12,d:8,spd:23,back:34,up:13,mouth:[2.2,2.2,3.8]}
+];
+const UFOBR=[CH.ufo.br,{mat:new THREE.MeshLambertMaterial({color:0xc6d0dc}),geo:'ufoMissile',dmg:65,cd:0.85,spd:120,life:2.2,size:1.2,splash:9,col:[0xffa040,0xffe0a0,0xffffff]}];
+GEO.ufoLaser=new THREE.CylinderGeometry(0.2,0.2,7,8);GEO.ufoLaser.rotateX(Math.PI/2);
+GEO.ufoMissile=new THREE.CylinderGeometry(0.3,0.3,2.8,8);GEO.ufoMissile.rotateX(Math.PI/2);
+const UFONO=new THREE.ConeGeometry(0.31,0.85,8);UFONO.rotateX(Math.PI/2);
+const UFONM=new THREE.MeshBasicMaterial({color:0xff7840});
+function ufoStats(i){const c=CH.ufo,f=UFOF[i];c.fly=i===0;c.gOff=f.h/2;c.spd=f.spd;c.camB=f.back;c.camU=f.up;c.br=UFOBR[i];c.mel.r=i?14:12;c.mel.dmg=i?95:70;}
+{const prev=makePlayerModel;makePlayerModel=function(k){if(k!=='ufo')return prev.apply(this,arguments);
+  ufoStats(0);const g=new THREE.Group(),inner=new THREE.Group(),mouth=new THREE.Object3D();
+  const forms=UFOF.map((f,i)=>{const b=makeProxy(f.w,f.h,f.d,0x8ca8bc,false);attachModel(b,f.id);b.visible=i===0;inner.add(b);const mx=b.userData.mix;if(mx){mx.pl=i===1;if(!i&&mx.idle)mx.loco=mx.idle;}return b;});
+  inner.position.y=-CH.ufo.gOff;g.add(inner);mouth.position.fromArray(UFOF[0].mouth);g.add(mouth);
+  return {g,inner,mouth,body:forms[0],forms,uf:0,ufLock:0,units:[{m:forms[0],x:0,z:0,front:1}],guns:[],model:k};};}
+function ufoForm(i,show){if(charKey!=='ufo'||!D||!D.forms||D.uf===i)return;
+  const oldOff=C.gOff;D.uf=i;ufoStats(i);D.forms.forEach((b,j)=>{b.visible=j===i;b.position.y=0;});D.body=D.forms[i];D.units[0].m=D.body;
+  D.inner.position.y=-C.gOff;D.mouth.position.fromArray(UFOF[i].mouth);P.pos.y+=C.gOff-oldOff;D.g.position.copy(P.pos);P.fireCd=Math.min(P.fireCd,C.br.cd);D.ufLock=0.8;
+  if(i){P.vy=Math.min(0,P.vel.y);P.onGround=true;}else{P.vy=0;P.onGround=false;}
+  if(show){const col=i?0xffb050:0x70f6ff;glowFlash(P.pos.clone(),col,26,0.55);burst(P.pos,32,[col,0xffffff],4,25,0.6);shock(gpos(P.pos.clone()),col,15);sfx('clang',null,0.85);sfx('whoosh',null,0.7);shake(0.3);ono(P.pos.clone().add(new V3(0,8,0)),i?'大型ロボに変形！':'UFOに変形！',i?'#ffd080':'#a0faff',28);}}
+function ufoTakeoff(){if(charKey!=='ufo'||!D||D.uf!==1)return;ufoForm(0,true);P.pos.y=Math.max(P.pos.y,dunBodyY()+C.gOff+7);P.vel.y=34;P.pitch=Math.max(P.pitch,0.35);D.g.position.copy(P.pos);}
+function ufoTick(dt){if(charKey!=='ufo'||!D||!D.forms||state!=='play'||PAUSED||LVUP||P.hp<=0)return;
+  D.ufLock=Math.max(0,D.ufLock-dt);if(D.ufLock>0)return;
+  const alt=P.pos.y-C.gOff-dunBodyY();
+  if(D.uf===0&&alt<=1.1&&P.vel.y<=2){ufoForm(1,true);}
+  else if(D.uf===1){const up=P.pitch>0.24||(MOBK.on&&TJ.id!==null&&TJ.dy<-24);if(up){ufoTakeoff();}else if(alt>5){ufoForm(0,true);}}
+}
+{const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);ufoTick(dt);};}
+{const prev=act;act=function(){if(charKey==='ufo'&&D&&D.uf===1){if(state==='play'&&!PAUSED&&!LVUP)ufoTakeoff();return;}return prev.apply(this,arguments);};}
+{const prev=startGame;startGame=function(){if(charKey==='ufo')ufoForm(0,false);return prev.apply(this,arguments);};}
+// 通常攻撃は共通の強化倍率と命中判定を使う。ミサイルには機首と排気を足す。
+function ufoShot(m,tg,b,sz,sp,dm,snd){const v=tg.clone().sub(m).normalize().multiplyScalar(b.spd).add(P.vel),missile=b.geo==='ufoMissile';
+  shoot(m,v,{from:'p',mat:b.mat,geo:b.geo,size:sz,r:1.7*sz/b.size,splash:sp,dmg:dm,life:b.life,col:b.col,trail:missile?b.col:null,smk:missile});
+  const q=PROJ[PROJ.length-1];q.m.lookAt(m.clone().add(v));if(missile){const tip=new THREE.Mesh(UFONO,UFONM);tip.position.z=1.8;q.m.add(tip);}
+  glowFlash(m.clone(),missile?0xffb050:0x70f6ff,5,0.12);if(snd)sfx(missile?'fire':'zapb',null,0.35);
+}
+Object.assign(PETM,{ufo:[['p8drone',1]]});
+SKPOOL.ufo=['gbeam','broadside','bombs'];
+// 模型は親へ足す前に取りつける。二つの姿を保持し、足もとの位置をそろえる。
+const GWIZARDF=[
+  {id:'wizard',w:3.6,h:4.8,d:3.6,back:23,up:9,spd:23,reach:9,hit:55,shot:40,size:1.1,splash:5,mouth:[0.8,1.1,2]},
+  {id:'gwizard',w:14,h:20,d:12,back:51,up:22,spd:20,reach:22,hit:115,shot:68,size:2,splash:9,mouth:[3,4,7]}
+];
+function gwizardStats(i){const f=GWIZARDF[i],c=CH.gwizard;c.gOff=f.h/2;c.camB=f.back;c.camU=f.up;c.spd=f.spd;c.mel.r=f.reach;c.mel.dmg=f.hit;c.br.dmg=f.shot;c.br.size=f.size;c.br.splash=f.splash;}
+{const prev=makePlayerModel;makePlayerModel=function(k){if(k!=='gwizard')return prev.apply(this,arguments);
+  gwizardStats(0);const g=new THREE.Group(),inner=new THREE.Group(),mouth=new THREE.Object3D();
+  const forms=GWIZARDF.map((f,i)=>{const b=makeProxy(f.w,f.h,f.d,0x8060a0,false);attachModel(b,f.id);b.visible=i===0;inner.add(b);if(b.userData.mix)b.userData.mix.pl=true;return b;});
+  inner.position.y=-CH.gwizard.gOff;g.add(inner);mouth.position.fromArray(GWIZARDF[0].mouth);g.add(mouth);
+  return {g,inner,mouth,forms,body:forms[0],gf:0,units:[{m:forms[0],x:0,z:0,front:1}],guns:[],model:k};};}
+function gwizardForm(i,show){if(charKey!=='gwizard'||!D||!D.forms||D.gf===i)return;
+  const oldOff=C.gOff;D.gf=i;gwizardStats(i);D.forms.forEach((b,j)=>{b.visible=j===i;});D.body=D.forms[i];D.units[0].m=D.body;
+  D.inner.position.y=-C.gOff;D.mouth.position.fromArray(GWIZARDF[i].mouth);P.pos.y+=C.gOff-oldOff;D.g.position.copy(P.pos);
+  if(show){P.inv=Math.max(P.inv,2);const foot=gpos(P.pos.clone());magicCircle(foot,0xb070ff,24,1.3);shock(foot,0xb070ff,32);burst(P.pos,48,[0xb070ff,0x7040d0,0xffffff],5,32,0.9);glowFlash(P.pos.clone(),0xb070ff,38,0.7);shake(0.7);sfx('roar',null,0.9);glory('禁じられた巨大化の術！','巨大な魔術師に変身！ 杖と魔法の弾が強くなった');ringsToGround();}}
+function gwizardTick(){if(charKey==='gwizard'&&D&&D.gf===0&&state==='play'&&!PAUSED&&!LVUP&&P.hp>0&&P.hp<=P.maxHp*0.5)gwizardForm(1,true);}
+{const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);gwizardTick();};}
+{const prev=startGame;startGame=function(){if(charKey==='gwizard')gwizardForm(0,false);return prev.apply(this,arguments);};}
+Object.assign(PETM,{gwizard:[['hero',0],['soldier',0],['priest',0]]});
+Object.assign(PETH,{hero:3.4});
+Object.assign(PETJA,{hero:'勇者'});
+// 既存の兵士の呼び名は保ち、このキャラの仲間欄だけ「戦士」と表示する。
+{const prev=skExtra;skExtra=function(){const text=prev.apply(this,arguments);return charKey==='gwizard'?text.replace('勇者・兵士・僧侶','勇者・戦士・僧侶'):text;};}
+SKPOOL.gwizard=['thunder','gbeam','pillars','discharge'];
+// 新しい模型を作らず、敵のcbFbとcbShapeを使う。敵のAIは呼ばない。
+const CUBEF=[
+  {nm:'立方体の群れ',h:6,back:29,up:12,spd:24,reach:10,hit:60,shot:36,size:1,splash:4,mouth:[0,0.5,4]},
+  {nm:'人型',h:10.2,back:33,up:14,spd:21,reach:14,hit:95,shot:50,size:1.3,splash:6,mouth:[0,2.2,2]},
+  {nm:'竜型',h:8.2,back:42,up:18,spd:28,reach:18,hit:125,shot:68,size:1.7,splash:8,mouth:[0,3.1,9.8]}
+];
+function cubeShape(i){if(i===0)return Array.from({length:CBN},(_,j)=>{const a=j%18*Math.PI*2/18+(Math.floor(j/18)%2)*0.17,r=8+(Math.floor(j/18)%2)*3;return new V3(Math.cos(a)*r,2+Math.floor(j/18)*3.6,Math.sin(a)*r);});
+  const points=cbShape(i===1?'man':'drg'),min=Math.min(...points.map(v=>v.y));points.forEach(v=>v.y+=1.15-min);return points;}
+function cubeStats(i){const f=CUBEF[i],c=CH.cube;c.gOff=f.h/2;c.camB=f.back;c.camU=f.up;c.spd=f.spd;c.mel.r=f.reach;c.mel.dmg=f.hit;c.br.dmg=f.shot;c.br.size=f.size;c.br.splash=f.splash;}
+{const prev=makePlayerModel;makePlayerModel=function(k){if(k!=='cube')return prev.apply(this,arguments);
+  cubeStats(0);const g=new THREE.Group(),inner=new THREE.Group(),mouth=new THREE.Object3D(),body=cbFb(),u=body.userData.cb,points=cubeShape(0);
+  body.scale.setScalar(0.4);u.to=points;u.from=points.map(v=>v.clone());u.t=1;u.cs.forEach((c,j)=>c.position.copy(points[j]));inner.add(body);inner.position.y=-CH.cube.gOff;g.add(inner);mouth.position.fromArray(CUBEF[0].mouth);g.add(mouth);
+  return {g,inner,mouth,body,cf:0,units:[{m:body,x:0,z:0,front:1}],guns:[],model:k};};}
+function cubeForm(i,show){if(charKey!=='cube'||!D||D.cf===undefined||D.cf===i)return;
+  const oldOff=C.gOff,u=D.body.userData.cb;D.cf=i;cubeStats(i);u.from=u.cs.map(c=>c.position.clone());u.to=cubeShape(i);u.t=show?0:1;
+  if(!show)u.cs.forEach((c,j)=>{c.position.copy(u.to[j]);c.rotation.set(0,0,0);});
+  D.inner.position.y=-C.gOff;D.mouth.position.fromArray(CUBEF[i].mouth);P.pos.y+=C.gOff-oldOff;D.g.position.copy(P.pos);
+  if(show){P.inv=Math.max(P.inv,1.8);glowFlash(P.pos.clone(),0x9ff0ff,24,0.5);burst(P.pos,32,[0x9ff0ff,0x2a5cff,0x8a3cff],3,22,0.65);shock(gpos(P.pos.clone()),0x9ff0ff,20);shake(0.45);sfx('clang',null,0.8);glory('合体！ '+CUBEF[i].nm+'！','立方体が組み変わり、攻撃が強くなった');}}
+function cubeTick(dt,t){if(charKey!=='cube'||!D||D.cf===undefined||PAUSED||LVUP||!(state==='play'||state==='select'))return;
+  if(state==='play'&&P.hp>0){const r=P.hp/Math.max(1,P.maxHp),want=r<1/3?2:r<2/3?1:0;if(want>D.cf)cubeForm(want,true);}
+  const u=D.body.userData.cb;u.t=Math.min(1,u.t+dt/1.3);
+  u.cs.forEach((c,j)=>{if(u.t<1){const k=clamp(u.t*1.6-(j%9)*0.07,0,1),sm=k*k*(3-2*k),mid=Math.sin(Math.PI*sm)*5;c.position.lerpVectors(u.from[j],u.to[j],sm);c.position.x+=Math.sign(c.position.x||j%2-0.5)*mid*0.5;c.position.y+=mid;c.rotation.set(sm*Math.PI*2*(j%3===0),sm*Math.PI*2*(j%3===1),0);}
+    else{c.position.copy(u.to[j]);c.rotation.set(0,0,0);if(D.cf===0){c.position.y+=Math.sin(t*2.5+j*0.7)*0.7;c.rotation.set(t*0.35+j,t*0.25,0);}else{c.position.y+=Math.sin(t*3+j)*0.12;if(D.cf===1&&j>=32&&j<42&&P.melT>0)c.position.y+=Math.sin((1-P.melT/0.3)*Math.PI)*5;if(D.cf===2&&j>=27&&j<55)c.position.y+=Math.sin(t*5)*1.6*((j-27)%14/2)/6;}}});
+}
+{const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);cubeTick(dt,t);};}
+{const prev=startGame;startGame=function(){if(charKey==='cube')cubeForm(0,false);return prev.apply(this,arguments);};}
+Object.assign(PETM,{cube:[['bgolem',0]]});
+SKPOOL.cube=['fissure','gbeam','quake','boulder'];
+// 手下の模型は最大10匹分を使い回す。敵側のスライムやPETMとは混ぜない。
+const SLIMES=[],SLIMEPOOL=[];
+function slimeChild(){if(charKey!=='slime'||state!=='play'||SLIMES.length>=10)return;
+  let q=SLIMEPOOL.find(q=>!q.active);
+  if(!q){const g=makeProxy(2.8,1.8,2.6,0x9adb3a,false);attachModel(g,'slime2');q={g,active:false,t:0};SLIMEPOOL.push(q);}
+  q.active=true;q.t=0;const a=SLIMEPOOL.indexOf(q)*Math.PI*2/10;
+  q.g.position.set(P.pos.x+Math.cos(a)*8,0,P.pos.z+Math.sin(a)*8);q.g.position.y=floorAt(q.g.position.x,q.g.position.z)+0.1;
+  q.g.scale.setScalar(1);q.g.visible=true;scene.add(q.g);SLIMES.push(q);
+  burst(q.g.position.clone().add(new V3(0,1,0)),8,GOO,1.2,7,0.3);
+}
+function slimeRemove(i,pop){const q=SLIMES[i];if(pop){burst(q.g.position.clone().add(new V3(0,1,0)),16,GOO,2.2,16,0.45);sfx('small',q.g.position,0.4);}
+  q.active=false;q.g.visible=false;scene.remove(q.g);SLIMES.splice(i,1);
+}
+function slimeClear(){for(let i=SLIMES.length-1;i>=0;i--)slimeRemove(i,false);}
+function slimeTick(dt,t){if(charKey!=='slime'||!D)return;if(PAUSED||LVUP)return;
+  if(state==='select'||state==='play'){const bounce=Math.sin(t*(state==='play'?7:3))*0.045,hit=state==='play'&&P.melT>0?Math.sin(P.melT/0.3*Math.PI):0;
+    D.body.scale.set(1+bounce+hit*0.12,1-bounce*1.5-hit*0.18,1+bounce+hit*0.18);D.body.position.z=hit*2.2;}
+  if(state!=='play'||P.hp<=0){if(state!=='story')slimeClear();return;}if(!(dt>0))return;
+  for(let i=SLIMES.length-1;i>=0;i--){const q=SLIMES[i],p=q.g.position;q.t+=dt;let enemy=null,best=85;
+    for(const e of EN){if(e.dead||e.rise)continue;const c=cpos(e);if(Math.abs(c.y-(floorAt(c.x,c.z)+1))>6+(e.r||0))continue;const d=p.distanceTo(c);if(d<best){best=d;enemy=e;}}
+    const a=t*0.7+SLIMEPOOL.indexOf(q)*Math.PI*2/10,target=enemy?cpos(enemy).clone():new V3(P.pos.x+Math.cos(a)*9,0,P.pos.z+Math.sin(a)*9);
+    const before=p.clone().add(new V3(0,1,0)),dx=target.x-p.x,dz=target.z-p.z,dist=Math.hypot(dx,dz),step=Math.min(dist,(enemy?38:26)*dt);
+    if(dist>0.01){p.x+=dx/dist*step;p.z+=dz/dist*step;q.g.rotation.y=Math.atan2(dx,dz);}
+    p.y=floorAt(p.x,p.z)+0.1+Math.abs(Math.sin(q.t*12))*0.4;q.g.scale.set(1.05,0.92+Math.sin(q.t*12)*0.08,1.05);
+    if(enemy){const near=new V3();new THREE.Line3(before,p.clone().add(new V3(0,1,0))).closestPointToPoint(cpos(enemy),true,near);
+      if(near.distanceTo(cpos(enemy))<(enemy.r||1)+1.6){hitEnemy(enemy,65*POW());slimeRemove(i,true);}}
+  }
+}
+{const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);slimeTick(dt,t);};}
+{const prev=clearWorld;clearWorld=function(){slimeClear();return prev.apply(this,arguments);};}
+{const prev=setChar;setChar=function(k){slimeClear();return prev.apply(this,arguments);};}
+{const prev=die;die=function(){slimeClear();return prev.apply(this,arguments);};}
+Object.assign(PETM,{slime:[['imp',1]]});
+SKPOOL.slime=['quake','fissure','boulder'];
+const DRAGONKINGF=[
+  {id:'blackknight',w:3.2,h:6,d:2.8,back:24,up:9,spd:23,reach:10,dmg:80,shot:44,size:1.2,splash:6},
+  {id:'dragonking',w:38,h:26,d:38,back:72,up:28,spd:40,reach:26,dmg:135,shot:76,size:2.2,splash:11}
+];
+function dragonkingStats(i){const f=DRAGONKINGF[i],c=CH.dragonking;c.gOff=f.h/2;c.camB=f.back;c.camU=f.up;c.spd=f.spd;c.fly=i===1;c.mel.r=f.reach;c.mel.dmg=f.dmg;c.mel.ono=i?'ガブッ！':'ザシュッ！';c.br.dmg=f.shot;c.br.size=f.size;c.br.splash=f.splash;}
+function dragonkingBody(i){const f=DRAGONKINGF[i],body=makeProxy(f.w,f.h,f.d,0xc8a040,false);
+  // 必ず親へ入れる前に模型を取りつける。
+  attachModel(body,f.id);
+  if(i===0)body.traverse(o=>{if(!o.isMesh||!o.visible)return;const tint=m=>{const a=m.clone();if(a.color)a.color.lerp(new THREE.Color(0xc8a040),0.4);if(a.emissive){a.emissive.setHex(0x3a1a00);a.emissiveIntensity=0.6;}return a;};o.material=Array.isArray(o.material)?o.material.map(tint):tint(o.material);});
+  return body;}
+{const prev=makePlayerModel;makePlayerModel=function(k){if(k!=='dragonking')return prev.apply(this,arguments);
+  dragonkingStats(0);const g=new THREE.Group(),inner=new THREE.Group(),body=dragonkingBody(0),mouth=new THREE.Object3D();
+  inner.position.y=-CH.dragonking.gOff;inner.add(body);g.add(inner);mouth.position.set(0,1.2,2);g.add(mouth);
+  return {g,inner,body,mouth,units:[{m:body,x:0,z:0,front:1}],guns:[],model:k,dkf:0};};}
+function dragonkingForm(i,show){if(charKey!=='dragonking'||!D||D.dkf===i)return;
+  const f=DRAGONKINGF[i],oldOff=C.gOff,old=D.body,body=dragonkingBody(i);D.inner.remove(old);
+  // 共有の模型やテクスチャは処分しない。人の姿専用の色素材だけ解放する。
+  if(D.dkf===0)old.traverse(o=>{if(o.isMesh&&o.visible)(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>m.dispose());});
+  const proxy=old.children[0];if(proxy&&proxy.isMesh){proxy.geometry.dispose();proxy.material.dispose();}
+  D.inner.add(body);D.body=body;D.units[0].m=body;D.dkf=i;D.fmG=null;dragonkingStats(i);
+  D.inner.position.y=-C.gOff;D.mouth.position.set(0,i?f.h*0.15:1.2,i?f.d*0.44:2);
+  P.pos.y+=C.gOff-oldOff;D.g.position.copy(P.pos);
+  if(show){P.inv=Math.max(P.inv,2);P.vy=10;P.onGround=false;glowFlash(P.pos.clone(),0xffc040,60,0.8);burst(P.pos,60,FIRE,6,40,1);shake(0.8);sfx('roar',null,1);glory('竜王、真の姿！','巨大な竜に変身した。空を飛び、炎でなぎ払え！');}
+}
+function dragonkingTick(){if(charKey==='dragonking'&&D&&D.dkf===0&&state==='play'&&!PAUSED&&!LVUP&&P.hp>0&&P.hp<=P.maxHp*0.5)dragonkingForm(1,true);}
+{const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);dragonkingTick();};}
+// 回復で姿が往復するのを防ぎ、再出撃時に初期の姿と能力へ戻す。
+{const prev=startGame;startGame=function(){if(charKey==='dragonking')dragonkingForm(0,false);return prev.apply(this,arguments);};}
+Object.assign(PETM,{dragonking:[['wyvern2',1]]});
+SKPOOL.dragonking=['bigfire','flamering','thunder','gbeam'];
+// 敵軍・レア札の仲間とは別の味方兵。模型は最大8体分を使い回す。
+const NECRO=[],NECROPOOL=[];let necroSerial=0;
+function necroRemove(q,crumble){const i=NECRO.indexOf(q);if(i<0)return;
+  if(crumble){const p=q.g.position.clone().add(new V3(0,1.4,0));debris(p,7,[0xd8cfb4,0x988e79],0.32);burst(p,10,[0xb060ff,0x665077],1.3,9,0.4);}
+  q.active=false;q.g.visible=false;scene.remove(q.g);NECRO.splice(i,1);
+}
+function necroClear(){for(const q of NECRO.slice())necroRemove(q,false);}
+function necroRaise(pos){if(charKey!=='necromancer'||state!=='play'||P.hp<=0)return null;
+  if(NECRO.length>=8)necroRemove(NECRO[0],true);
+  let q=NECROPOOL.find(q=>!q.active);
+  if(!q){const mid=NECROPOOL.length%2?'skeleton':'skel',g=makeProxy(2.4,3.6,2.2,0xc8c0ac,false);attachModel(g,mid);q={g,mid,active:false};NECROPOOL.push(q);}
+  q.active=true;q.serial=++necroSerial;q.age=0;q.cd=0.15;q.g.scale.setScalar(1);q.g.rotation.set(0,P.yaw,0);q.g.visible=true;
+  q.g.position.set(pos.x,floorAt(pos.x,pos.z)-3.3,pos.z);scene.add(q.g);
+  const mx=q.g.userData.mix;if(mx&&!MIX.includes(mx))MIX.push(mx);
+  NECRO.push(q);magicCircle(new V3(pos.x,floorAt(pos.x,pos.z),pos.z),0xa45bff,2.2,0.8);
+  burst(q.g.position.clone().add(new V3(0,4,0)),8,[0xb060ff,0xe8ccff],1.2,6,0.5);return q;
+}
+function necroArmy(){if(charKey!=='necromancer'||state!=='play')return;
+  const f=new V3(Math.sin(P.yaw),0,Math.cos(P.yaw)),r=new V3(f.z,0,-f.x);
+  for(let i=0;i<8;i++)necroRaise(P.pos.clone().addScaledVector(f,7+Math.floor(i/4)*5).addScaledVector(r,(i%4-1.5)*4));
+  magicCircle(gpos(P.pos),0xa45bff,13,1.4);glowFlash(P.pos.clone(),0xb060ff,12,0.7);sfx('roar',null,0.6);shake(0.35);
+}
+function necroTick(dt,t){if(charKey!=='necromancer')return;
+  if(state!=='play'||P.hp<=0){if(state!=='story')necroClear();return;}if(PAUSED||LVUP||!(dt>0))return;
+  for(const q of NECRO.slice()){q.age+=dt;q.cd-=dt;const p=q.g.position;
+    if(q.age<0.6){p.y=floorAt(p.x,p.z)-3.3*(1-q.age/0.6);continue;}
+    let enemy=null,best=70;for(const e of EN){if(e.dead||e.rise)continue;const c=cpos(e);
+      if(Math.abs(c.y-(floorAt(c.x,c.z)+1.8))>4+(e.r||0))continue;
+      const d=Math.hypot(c.x-p.x,c.z-p.z);if(d<best){best=d;enemy=e;}}
+    const i=NECRO.indexOf(q),fw=7+Math.floor(i/4)*4,side=(i%4-1.5)*3.8;
+    const target=enemy?cpos(enemy).clone():new V3(P.pos.x+Math.sin(P.yaw)*fw+Math.cos(P.yaw)*side,0,P.pos.z+Math.cos(P.yaw)*fw-Math.sin(P.yaw)*side);
+    const dx=target.x-p.x,dz=target.z-p.z,dist=Math.hypot(dx,dz),reach=enemy?(enemy.r||1)+2.4:0.6,step=Math.min(Math.max(0,dist-reach),(enemy?24:28)*dt);
+    if(dist>0.01){p.x+=dx/dist*step;p.z+=dz/dist*step;q.g.rotation.y=Math.atan2(dx,dz);}
+    p.y=floorAt(p.x,p.z)+(step>0?Math.abs(Math.sin(t*10+q.serial))*0.12:0);
+    if(enemy&&dist<=reach+0.3&&q.cd<=0){q.cd=0.85;mixOnce(q.g.userData.mix,1.5);slashAt(p.clone().add(new V3(0,1.6,0)),q.g.rotation.y,0xcaa0ff,2.2);hitEnemy(enemy,30*POW());}
+  }
+}
+// 死亡前の座標を保存する。片づけ用の静かな削除や同じ敵の二重処理では増員しない。
+{const prev=killEnemy;killEnemy=function(e,quiet){const raise=e&&!e.dead&&!quiet&&charKey==='necromancer'&&state==='play'&&P.hp>0,pos=raise?e.mesh.position.clone():null;
+  const r=prev.apply(this,arguments);if(raise&&e.dead)necroRaise(pos);return r;};}
+{const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);necroTick(dt,t);};}
+{const prev=clearWorld;clearWorld=function(){necroClear();return prev.apply(this,arguments);};}
+{const prev=setChar;setChar=function(k){necroClear();return prev.apply(this,arguments);};}
+{const prev=die;die=function(){necroClear();return prev.apply(this,arguments);};}
+SKINFO.deadarmy={n:'死者の軍勢',d:'骸骨兵8体を一度に呼ぶ。古い兵から入れかわる',img:'chara/sk/necromancer_sp.webp'};
+ULTL.deadarmy='目覚めよ、死者の軍勢！';
+Object.assign(PETM,{necromancer:[['skel',0],['skeleton',0]]});
+Object.assign(PETH,{skel:3.6,skeleton:3.6});Object.assign(PETJA,{skel:'骸骨の番兵',skeleton:'骸骨の兵'});
+SKPOOL.necromancer=['deadarmy','pillars','thunder','gbeam'];
+// 味方の妖怪だけを管理する。百鬼夜行も同じ8体枠。敵軍やレア札の仲間とは混ぜない。
+const NURA=[],NURAPOOL=[],NURAKIN=['y_origami','y_oni','y_whitefox'];
+let nuraClock=0.2,nuraSerial=0,nuraDodgeCd=0;
+function nuraRemove(q,pop){const i=NURA.indexOf(q);if(i<0)return;
+  if(pop)burst(q.g.position.clone().add(new V3(0,1.5,0)),12,[0xc08aff,0xe8d4ff,0x7040b0],2,13,0.45);
+  q.active=false;q.target=null;q.g.visible=false;scene.remove(q.g);NURA.splice(i,1);
+}
+function nuraClear(){for(const q of NURA.slice())nuraRemove(q,false);nuraClock=0.2;nuraDodgeCd=0;}
+function nuraCall(mid,pos,line){if(charKey!=='nurarihyon'||state!=='play'||P.hp<=0||NURA.length>=8||!MODEL[mid])return null;
+  let q=NURAPOOL.find(q=>!q.active&&q.mid===mid);
+  if(!q){const bird=mid==='y_origami',g=makeProxy(bird?3.2:3.4,bird?1.8:3.4,bird?3:4,0xa080cf,false);attachModel(g,mid);q={g,mid,active:false};NURAPOOL.push(q);}
+  q.active=true;q.age=0;q.serial=++nuraSerial;q.mode=line?'line':'orbit';q.target=null;q.life=4;q.dir=line?line.clone():null;
+  q.slot=Array.from({length:8},(_,i)=>i).find(i=>!NURA.some(x=>x.slot===i));
+  q.g.visible=true;q.g.scale.setScalar(1);q.g.rotation.set(0,P.yaw,0);q.g.position.copy(pos);q.g.position.y=floorAt(pos.x,pos.z)+(mid==='y_origami'?2.6:0.1);
+  scene.add(q.g);const mx=q.g.userData.mix;if(mx&&!MIX.includes(mx))MIX.push(mx);NURA.push(q);
+  burst(q.g.position.clone().add(new V3(0,1,0)),7,[0xc08aff,0xe8d4ff],1.3,7,0.4);return q;
+}
+// 敵側のnuraTickと同じ、進行方向に直角な横一列の配置。
+function nuraParade(){if(charKey!=='nurarihyon'||state!=='play'||P.hp<=0)return;
+  for(const q of NURA.slice())nuraRemove(q,true);
+  const f=new V3(Math.sin(P.yaw),0,Math.cos(P.yaw)),side=new V3(-f.z,0,f.x);
+  for(let i=0;i<8;i++)nuraCall('y_oni',P.pos.clone().addScaledVector(f,8).addScaledVector(side,(i-3.5)*4.5),f);
+  nuraClock=2.4;mixOnce(D.body.userData.mix);magicCircle(gpos(P.pos),0xc08aff,12,1);sfx('roar',null,0.6);shake(0.3);
+}
+// 骨入り模型の循環する管理データを複製から除き、残像の骨を現在の姿勢で固定する。
+function nuraAfterimage(){const saved=[];let pose;
+  D.g.traverse(o=>{saved.push([o,o.userData]);o.userData={};});
+  try{pose=THREE.SkeletonUtils.clone(D.g);}finally{for(const [o,data] of saved)o.userData=data;}
+  pose.updateMatrixWorld(true);ghostAt(pose,0xc08aff);
+}
+// rcDodgeの横移動とghostAtを利用。近づいてくる弾だけに反応し、連続回避はしない。
+function nuraEvade(dt){nuraDodgeCd=Math.max(0,nuraDodgeCd-dt);if(nuraDodgeCd>0)return;
+  for(const q of PROJ){if(q.from==='p'||!q.m||!q.vel)continue;const toward=P.pos.clone().sub(q.m.position);
+    if(toward.length()>11||q.vel.dot(toward)<=0)continue;const v=q.vel.clone().setY(0);if(v.lengthSq()<0.01)continue;v.normalize();
+    const side=new V3(-v.z,0,v.x),sign=Math.random()<0.5?1:-1;
+    for(const k of [sign,-sign]){const dest=P.pos.clone().addScaledVector(side,8*k),h=floorAt(dest.x,dest.z),oldH=floorAt(P.pos.x,P.pos.z);
+      if(Math.hypot(dest.x,dest.z)>465||Math.abs(h-oldH)>4)continue;
+      if(DUN.on&&(dest.x<DUN.x0+DUN.xm||dest.x>DUN.x1-DUN.xm||dest.z<DUN.zmin||dest.z>DUN.z1-8||DUN.gates.some(g=>g.open<1&&(dest.z-g.z)*(P.pos.z-g.z)<=0)))continue;
+      if(CAVE.on&&Math.hypot(dest.x-CAVE.x,dest.z-CAVE.z)>CAVE.R-14)continue;
+      let blocked=false;for(let i=1;i<=4;i++){const p=P.pos.clone().lerp(dest,i/4),b=bldAt(p.x,p.z,2);if(b.hit&&b.top>h+1){blocked=true;break;}}if(blocked)continue;
+      nuraAfterimage();dest.y+=h-oldH;P.pos.copy(dest);D.g.position.copy(P.pos);P.inv=Math.max(P.inv,0.55);nuraDodgeCd=1.2;
+      ono(P.pos.clone().add(new V3(0,4,0)),'すいっ','#e8c8ff',26);sfx('whoosh',null,0.35);return;
+    }
+  }
+}
+function nuraPlayTick(dt,t){if(charKey!=='nurarihyon'||!D)return;
+  if(state!=='play'||P.hp<=0){if(state!=='story')nuraClear();return;}if(PAUSED||LVUP||!(dt>0))return;
+  nuraEvade(dt);nuraClock-=dt;
+  if(nuraClock<=0){if(NURA.length<8){const a=t*0.8+nuraSerial*2.4;nuraCall(NURAKIN[nuraSerial%3],P.pos.clone().add(new V3(Math.cos(a)*8,0,Math.sin(a)*8)),null);}nuraClock=2.4;}
+  for(const q of NURA.slice()){q.age+=dt;const p=q.g.position,old=p.clone().add(new V3(0,1.4,0));
+    if(q.mode==='orbit'&&q.age>0.65){let best=65;for(const e of EN){if(e.dead||e.rise)continue;const c=cpos(e);if(Math.abs(c.y-floorAt(c.x,c.z)-1.5)>6+(e.r||0))continue;
+        const d=p.distanceTo(c);if(d<best){best=d;q.target=e;}}
+      if(q.target){q.mode='rush';q.life=3.5;}}
+    if(q.mode==='rush'&&(!q.target||q.target.dead)){q.target=null;q.mode='orbit';}
+    if(q.mode==='line'){p.addScaledVector(q.dir,38*dt);q.g.rotation.y=Math.atan2(q.dir.x,q.dir.z);}
+    else{const a=t*0.8+q.slot*Math.PI/4,target=q.mode==='rush'?cpos(q.target).clone():new V3(P.pos.x+Math.cos(a)*9,0,P.pos.z+Math.sin(a)*9),dx=target.x-p.x,dz=target.z-p.z,d=Math.hypot(dx,dz),step=Math.min(d,(q.mode==='rush'?42:30)*dt);
+      if(d>0.01){p.x+=dx/d*step;p.z+=dz/d*step;q.g.rotation.y=Math.atan2(dx,dz);}}
+    p.y=floorAt(p.x,p.z)+(q.mid==='y_origami'?2.6+Math.sin(t*5+q.slot)*0.5:0.1);
+    if(q.mode!=='orbit'){q.life-=dt;const segment=new THREE.Line3(old,p.clone().add(new V3(0,1.4,0))),near=new V3();let hit=null;
+      for(const e of EN){if(e.dead||e.rise)continue;const c=cpos(e);segment.closestPointToPoint(c,true,near);if(near.distanceTo(c)<(e.r||1)+1.8){hit=e;break;}}
+      if(hit){const damage=q.mode==='line'?110*SPM():72*POW();nuraRemove(q,true);hitEnemy(hit,damage);sfx('small',p,0.4);}
+      else if(q.life<=0)nuraRemove(q,true);
+    }
+  }
+}
+{const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);nuraPlayTick(dt,t);};}
+{const prev=clearWorld;clearWorld=function(){nuraClear();return prev.apply(this,arguments);};}
+{const prev=setChar;setChar=function(k){nuraClear();return prev.apply(this,arguments);};}
+{const prev=die;die=function(){nuraClear();return prev.apply(this,arguments);};}
+SKINFO.hyakki={n:'百鬼夜行',d:'手下を鬼8体に入れかえ、横一列で前へ突撃させる',img:'chara/sk/nurarihyon_sp.webp'};
+ULTL.hyakki='百鬼、横一列に並べい！';
+Object.assign(PETM,{nurarihyon:[['y_karasu',1]]});Object.assign(PETH,{y_karasu:3.5});Object.assign(PETJA,{y_karasu:'烏天狗'});
+SKPOOL.nurarihyon=['hyakki','thunder','pillars'];
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
 </body>
