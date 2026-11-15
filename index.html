@@ -1098,7 +1098,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgy';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgys';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -4231,6 +4231,11 @@ function tankBash(ad,n){const f=new V3().copy(P.pos).addScaledVector(ad,C.mel.r*
 const WV={warn:0};
 // 11/15 ふみさん「勇者を倒した・魔王の封印が解けた、などにメリハリがない。すぐ次が始まるとだめ。倒した余韻が大事」
 // ボスや大事な場面を片付けた時：ゆっくり（スロー）→ 竜がほえる → 金の大きな文字 → 少し間をおいてから次の波
+// 11/15 ふみさん「ボスのあと雑魚が残ると切れが悪い。間をとって雑魚が消えるのがいい」
+// ボスを倒したら1.4秒待って、ほかのボスがいなければ、残った雑魚を煙とともに消す（逃げ散る）
+function bossSweep(){clearTimeout(bossSweep.t);bossSweep.t=setTimeout(()=>{try{if(state!=='play')return;if(EN.some(x=>!x.dead&&x.boss&&!x.fall))return;
+  const L=EN.filter(x=>!x.dead&&!x.boss&&!x.fall);L.forEach((x,i)=>setTimeout(()=>{if(x.dead||state!=='play')return;const c=cpos(x);smoke(c,4,3+(x.r||2),1.2,0xd8d0c0,3);killEnemy(x,true);},i*25));
+  if(L.length>2){const q=P.pos.clone().add(new V3(0,8,0));ono(q,'雑魚は逃げ出した！','#ffe9b0',34);}}catch(e){}},1400);}
 function glory(big,small){try{let d=$('glory');if(!d){d=document.createElement('div');d.id='glory';d.innerHTML='<div class="gr"></div><div class="gb"></div><div class="gs"></div>';$('banner').parentNode.appendChild(d);
    const st=document.createElement('style');st.textContent='#glory{position:fixed;inset:0;pointer-events:none;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0}'
    +'#glory.on{animation:glin 5.6s ease forwards}#glory .gr{position:absolute;inset:-20%;background:repeating-conic-gradient(from 0deg,#ffd76a33 0 6deg,#0000 6deg 18deg);-webkit-mask-image:radial-gradient(circle,#000 10%,#0000 55%);mask-image:radial-gradient(circle,#000 10%,#0000 55%);animation:grsp 6s linear infinite}'
@@ -5044,7 +5049,7 @@ function hitEnemy(e,n){if(e.dead)return;
   if(e.hp<=0)killEnemy(e);}
 const drkLift=0.173;{const _ae=addEnemy;addEnemy=function(type){const e=_ae.apply(this,arguments);try{if(type==='drak'&&e&&e.mesh&&!e.dl){e.dl=1;const h=e.mesh.children[e.mesh.children.length-1];if(h&&h.isGroup)h.position.y+=drkLift;}}catch(_){}return e;};}
 const DIE={orctank:'わ、わしの……デラックス戦車が……！',ogre:'グ……オオ……',drak:'……見事だ。同じ、竜の血か……',biggolem:'……ゴ、ゴゴ……',wizard:'そんな…わしの魔力が…',hero:'すまない…みんな…',demon:'この私が…トカゲごときに…',rival:'…強くなったな。',wooddragon:'……ギギ……ギ……',walker:'城が……ローンが、まだ……',elder:'見事だ、若き竜よ。空はお前のものだ。',battleship:'総員、退艦…！ 泳げる者から…！',bigairship:'空の…王の船が…！',kraken:'ゴボ…ゴボボ……'};
-function killEnemy(e,quiet){if(e.dead)return;if(e.boss&&state==='play'&&!quiet&&!WV.majT)WV.maj=String(e.boss).replace(/^\S+\s+/,'').replace(/（.*?）/g,'');if(e.s6x&&!quiet&&state==='play'){s6xCrumble(e);quiet=true;}e.dead=true;if(e.king&&!e.tk2&&state==='play'&&!quiet&&ST.orctank){e.tk2=1;const q=e.mesh.position,t=addEnemy('orctank',q.x,q.z);t.said=1;tankRider(t.mesh,26,36,0);say('オークキング','まだだ！ わしには、デラックス戦車がある！');shake(0.6);}if((e.boss||e.type==='biggolem'||e.type==='bigskel')&&state==='play'&&!quiet)bossFall(e);else if(state==='play'&&!quiet&&dieOk(e))dieFall(e);else scene.remove(e.mesh);if(e.type==='bigslime'&&state==='play'&&!quiet)slimeSplit(e);score+=e.val;kills++;addXp(e.val);
+function killEnemy(e,quiet){if(e.dead)return;if(e.boss&&state==='play'&&!quiet)bossSweep();if(e.boss&&state==='play'&&!quiet&&!WV.majT)WV.maj=String(e.boss).replace(/^\S+\s+/,'').replace(/（.*?）/g,'');if(e.s6x&&!quiet&&state==='play'){s6xCrumble(e);quiet=true;}e.dead=true;if(e.king&&!e.tk2&&state==='play'&&!quiet&&ST.orctank){e.tk2=1;const q=e.mesh.position,t=addEnemy('orctank',q.x,q.z);t.said=1;tankRider(t.mesh,26,36,0);say('オークキング','まだだ！ わしには、デラックス戦車がある！');shake(0.6);}if((e.boss||e.type==='biggolem'||e.type==='bigskel')&&state==='play'&&!quiet)bossFall(e);else if(state==='play'&&!quiet&&dieOk(e))dieFall(e);else scene.remove(e.mesh);if(e.type==='bigslime'&&state==='play'&&!quiet)slimeSplit(e);score+=e.val;kills++;addXp(e.val);
   if(state==='play'){combo++;comboT=3.5;if(combo>maxCombo)maxCombo=combo;score+=Math.round(e.val*Math.min(combo,40)*0.05);showCombo();}
   const c=cpos(e);burst(c,e.fall?16:e.boss?70:14,e.type==='rival'?(e.wyv?WGRN:BLUE):e.type==='demon'||e.type==='imp'?PURP:e.type==='slime'?GOO:FIRE,e.fall?4:e.boss?9:3,e.boss?50:16,e.boss?1.4:0.7);
   if(!quiet)sfx(e.boss?'boom':'small',c,e.boss?1:0.5);if(e.boss)ono(c,'ズドーン!!','#ff5a1a',72);else if(e.r>=4)ono(c,'ドカッ！','#ffd23a',40);
