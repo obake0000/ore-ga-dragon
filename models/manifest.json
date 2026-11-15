@@ -771,5 +771,31 @@
   "h": 4,
   "ja": "折れた石の柱（横たわる・苔）",
   "rot": 0
+ },
+ "rocktorii": {
+  "file": "rocktorii.glb",
+  "h": 22,
+  "ja": "岩の鳥居（苔・しめ縄）"
+ },
+ "dragonskel": {
+  "file": "dragonskel.glb",
+  "h": 18,
+  "ja": "竜の骨格（とぐろを巻いた全身の骨）"
+ },
+ "dragonskull": {
+  "file": "dragonskull.glb",
+  "h": 16,
+  "ja": "竜のどくろ（角つき・口が開く）"
+ },
+ "skyisle": {
+  "file": "skyisle.glb",
+  "h": 30,
+  "ja": "浮島（草・白い柱・滝・下は岩のつらら）"
+ },
+ "ground2": {
+  "file": "ground2.glb",
+  "h": 6,
+  "ja": "アースドラゴン（新・岩のよろいと琥珀のとげ・骨入り・歩く動き）",
+  "rot": 0
  }
 }
