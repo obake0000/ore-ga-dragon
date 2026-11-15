@@ -1251,5 +1251,263 @@
   "h": 12,
   "ja": "戦車を囲むとげの大盾の輪",
   "rot": 0
+ },
+ "y_samuraihunter": {
+  "file": "y_samuraihunter.glb",
+  "h": 2.3,
+  "ja": "侍の女狩人（市女笠・弓・骨入り）",
+  "rot": 0
+ },
+ "y_oni": {
+  "file": "y_oni.glb",
+  "h": 2.6,
+  "ja": "鬼の足軽（青い鬼・陣笠・骨入り）",
+  "rot": 0
+ },
+ "y_crystalmonk": {
+  "file": "y_crystalmonk.glb",
+  "h": 2.4,
+  "ja": "黒曜の仮面の僧（骨入り）",
+  "rot": 0
+ },
+ "y_clockwork": {
+  "file": "y_clockwork.glb",
+  "h": 1.6,
+  "ja": "からくり職人の小人形（骨入り）",
+  "rot": 0
+ },
+ "y_karakuri": {
+  "file": "y_karakuri.glb",
+  "h": 3.2,
+  "ja": "からくり人形の武者（骨入り）",
+  "rot": 0
+ },
+ "y_fierywarrior": {
+  "file": "y_fierywarrior.glb",
+  "h": 4,
+  "ja": "火祭りの戦士（赤い毛・骨入り）",
+  "rot": 0
+ },
+ "y_whitefox": {
+  "file": "y_whitefox.glb",
+  "h": 4,
+  "ja": "白い狐の霊（乗り物・骨入り Walk）",
+  "rot": 0
+ },
+ "y_firetoad": {
+  "file": "y_firetoad.glb",
+  "h": 5,
+  "ja": "火をふく大ガマ（骨入り Walk）",
+  "rot": 0
+ },
+ "y_crabyokai": {
+  "file": "y_crabyokai.glb",
+  "h": 4,
+  "ja": "鎧のカニ妖怪（骨入り Walk）",
+  "rot": 0
+ },
+ "y_firedragon": {
+  "file": "y_firedragon.glb",
+  "h": 8,
+  "ja": "火の竜（朱色）",
+  "rot": 0
+ },
+ "y_bronzebell": {
+  "file": "y_bronzebell.glb",
+  "h": 5,
+  "ja": "青銅の釣り鐘",
+  "rot": 0
+ },
+ "y_origami": {
+  "file": "y_origami.glb",
+  "h": 1.4,
+  "ja": "折り紙の鳥",
+  "rot": 0
+ },
+ "y_lotus": {
+  "file": "y_lotus.glb",
+  "h": 4,
+  "ja": "蓮の台",
+  "rot": 0
+ },
+ "y_samuraimech": {
+  "file": "y_samuraimech.glb",
+  "h": 24,
+  "ja": "侍の鎧の巨兵（からくり兵器）",
+  "rot": 0
+ },
+ "y_kirin": {
+  "file": "y_kirin.glb",
+  "h": 4,
+  "ja": "麒麟",
+  "rot": 0
+ },
+ "y_odako": {
+  "file": "y_odako.glb",
+  "h": 6,
+  "ja": "大凧",
+  "rot": 0
+ },
+ "y_machiya1": {
+  "file": "y_machiya1.glb",
+  "h": 8,
+  "ja": "町家（二階建て・提灯）",
+  "rot": 0
+ },
+ "y_machiya2": {
+  "file": "y_machiya2.glb",
+  "h": 6,
+  "ja": "わらぶきの民家",
+  "rot": 0
+ },
+ "y_toro": {
+  "file": "y_toro.glb",
+  "h": 4.5,
+  "ja": "石灯籠",
+  "rot": 0
+ },
+ "y_tenshu": {
+  "file": "y_tenshu.glb",
+  "h": 60,
+  "ja": "天守（白い城）",
+  "rot": 0
+ },
+ "y_pagoda": {
+  "file": "y_pagoda.glb",
+  "h": 40,
+  "ja": "五重塔",
+  "rot": 0
+ },
+ "y_lanternpole": {
+  "file": "y_lanternpole.glb",
+  "h": 7,
+  "ja": "赤い提灯の棚",
+  "rot": 0
+ },
+ "p8train": {
+  "file": "p8train.glb",
+  "h": 10,
+  "ja": "装甲列車の機関車（架空）",
+  "rot": 0
+ },
+ "p8traincar": {
+  "file": "p8traincar.glb",
+  "h": 8,
+  "ja": "装甲列車の砲車（架空）",
+  "rot": 0
+ },
+ "p8apart": {
+  "file": "p8apart.glb",
+  "h": 14,
+  "ja": "こわれたレンガのアパート",
+  "rot": 0
+ },
+ "p8factory": {
+  "file": "p8factory.glb",
+  "h": 18,
+  "ja": "煙突のある工場",
+  "rot": 0
+ },
+ "p8shop": {
+  "file": "p8shop.glb",
+  "h": 8,
+  "ja": "こわれた角の店",
+  "rot": 0
+ },
+ "p8watertower": {
+  "file": "p8watertower.glb",
+  "h": 16,
+  "ja": "鉄の給水塔",
+  "rot": 0
+ },
+ "p8neonbldg": {
+  "file": "p8neonbldg.glb",
+  "h": 30,
+  "ja": "ネオンの集合住宅",
+  "rot": 0
+ },
+ "p8kiosk": {
+  "file": "p8kiosk.glb",
+  "h": 6,
+  "ja": "ネオンの屋台",
+  "rot": 0
+ },
+ "p8futank": {
+  "file": "p8futank.glb",
+  "h": 4,
+  "ja": "未来のホバー戦車",
+  "rot": 0
+ },
+ "p8ufo": {
+  "file": "p8ufo.glb",
+  "h": 3,
+  "ja": "UFO（円盤）",
+  "rot": 0
+ },
+ "p8mothership": {
+  "file": "p8mothership.glb",
+  "h": 30,
+  "ja": "巨大UFO（母船）",
+  "rot": 0
+ },
+ "p8car": {
+  "file": "p8car.glb",
+  "h": 2,
+  "ja": "赤いスポーツカー（変形前）",
+  "rot": 0
+ },
+ "godballista": {
+  "file": "godballista.glb",
+  "h": 5,
+  "ja": "神のバリスタ（金と白・翼）",
+  "rot": 0
+ },
+ "skychariot": {
+  "file": "skychariot.glb",
+  "h": 6,
+  "ja": "空かける戦闘馬車（天馬2頭）",
+  "rot": 0
+ },
+ "orchut": {
+  "file": "orchut.glb",
+  "h": 7,
+  "ja": "オークの小屋",
+  "rot": 0
+ },
+ "demonhut": {
+  "file": "demonhut.glb",
+  "h": 8,
+  "ja": "魔界の小さな祠",
+  "rot": 0
+ },
+ "skychapel": {
+  "file": "skychapel.glb",
+  "h": 9,
+  "ja": "天の小さな礼拝堂",
+  "rot": 0
+ },
+ "bonehut": {
+  "file": "bonehut.glb",
+  "h": 6,
+  "ja": "竜の骨の小屋",
+  "rot": 0
+ },
+ "nurarihyon": {
+  "file": "nurarihyon.glb",
+  "h": 2.6,
+  "ja": "ぬらりひょん（妖怪の総大将・紫の着物・骨入り idle・walk・cast_a_spell）",
+  "rot": 0
+ },
+ "p8carbot": {
+  "file": "p8carbot.glb",
+  "h": 3,
+  "ja": "車から変形したロボ（骨入り idle・walk・box_01）",
+  "rot": 0
+ },
+ "bigwolf": {
+  "file": "bigwolf.glb",
+  "h": 6,
+  "ja": "オーク将軍の大オオカミ（骨入り Walk）",
+  "rot": 0
  }
 }
