@@ -305,6 +305,10 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 }
 @media (max-width:640px){#map{width:110px;height:110px}#mute{top:130px}#pause{top:162px}#fs{top:194px}#combo{top:232px;font-size:15px}#combo b{font-size:38px}#wave{font-size:15px}#remain,#score{font-size:13px}#speech{top:96px;font-size:15px}}
 .bub,.ono,#cutin .nm,#banner,#select h1,#over h1,#paused h1,#combo,.card .nm,.btn,#stN,#story h2,#story .ch,.ttl .sub{font-family:"Dela Gothic One","M PLUS Rounded 1c",sans-serif;font-weight:400}
+/* 吹き出しは読みやすい丸ゴシックで（11/15 ふみさん「吹き出しの中のフォントが読みにくい」） */
+.bub{font-family:"M PLUS Rounded 1c","Yu Gothic UI","Meiryo",sans-serif;font-weight:800;font-size:17px;letter-spacing:.03em;line-height:1.4;padding:6px 13px}
+.bub.boss{font-size:19px}
+@media (max-width:640px){.bub{font-size:14px;padding:5px 10px}}
 @media (max-width:560px){.card .nm{font-size:15px;letter-spacing:-.04em}}
 #select h1.logo{line-height:0;background:none;filter:none}#select h1.logo img{width:min(520px,86vw);height:auto;filter:drop-shadow(0 6px 12px rgba(0,0,0,.55))}
 
@@ -500,6 +504,8 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 .sk .sd{min-height:2.7em}
 }
 @media (min-width:901px) and (min-height:860px){#skp{max-width:840px;gap:5px}.sk{flex-direction:column;align-items:stretch;gap:4px;padding:5px}.sk .si{width:100%}.sk .sn{font-size:13px;white-space:normal}.sk .sd{font-size:11px;line-height:1.35}.sk .kk{font-size:10px}}
+/* 11/15 ふみさん「こういう配置に最初の画面変更」：技の札は、どの画面でも「大きな絵が上・文が下」 */
+@media (min-width:641px){#skp{max-width:1100px;gap:10px;margin-bottom:8px}.sk{flex-direction:column;align-items:stretch;gap:6px;padding:7px 8px}.sk .si{width:100%;aspect-ratio:auto;height:clamp(70px,12.5vh,190px)}#select .cards .card>.pti{min-height:clamp(48px,9vh,140px)}.sk .sn{font-size:15px;white-space:normal}.sk .sd{font-size:12px;line-height:1.4;min-height:0}.sk .kk{font-size:11px}.sk .pl{width:30px;height:30px;right:7px;bottom:7px}}
 </style>
 </head>
 <body>
@@ -979,19 +985,24 @@ const DECOR15={
   coralsea:[['seaspire',6,22,'water'],['buoy',6,3.2,'water']],
   deepsea:[['seaspire',7,26,'water'],['buoy',4,3.2,'water']],
   seaking:[['seaspire',6,26,'water'],['buoy',5,3.2,'water']],
-  p8war:[['sandbags',10,2.4],['hedgehog',10,2.4],['tankwreck',5,3.4]],
+  p8war:[['sandbags',10,2.4],['hedgehog',10,2.4],['tankwreck',5,3.4],['p8battleship',3,22,'farsea']],
   p8robo:[['container',10,3.2],['neonlamp',12,9]],
   p8dino:[['fern',16,4.5],['volcano',2,140,'far']]};
 function decor15b(key){const L=DECOR15[key];if(!L)return;const st=TER.start||[0,120];
   for(const [id,n,hh,where] of L){if(!MODEL[id])continue;let put=0;
-    for(let k=0;k<n*30&&put<n;k++){const far=where==='far',a=rnd(0,6.283),r=far?rnd(420,520):rnd(50,250),x=Math.sin(a)*r,z=Math.cos(a)*r,hy=H(x,z);
+    for(let k=0;k<n*60&&put<n;k++){const fs=where==='farsea',far=where==='far'||fs,a=rnd(0,6.283),r=fs?rnd(180,330):far?rnd(420,520):rnd(50,250),x=Math.sin(a)*r,z=Math.cos(a)*r,hy=H(x,z);
       if(Math.hypot(x-st[0],z-st[1])<38)continue;
-      if(where==='water'?hy>WATER-1.5:(!far&&hy<WATER+1.2))continue;
+      if((where==='water'||fs)?hy>WATER-2.5:(!far&&hy<WATER+1.2))continue;
       if(!far&&BLD.some(b=>b.box&&b.box.distanceToPoint(new V3(x,b.box.min.y,z))<6))continue;
       const m=cloneModel(id);if(!m)break;m.updateMatrixWorld(true);const sz=new THREE.Box3().setFromObject(m).getSize(new V3()),kk=hh/Math.max(sz.y,1e-3);m.scale.multiplyScalar(kk);
       const g=new THREE.Group();g.add(m);g.updateMatrixWorld(true);const b=new THREE.Box3().setFromObject(g),c=b.getCenter(new V3());m.position.x-=c.x;m.position.z-=c.z;m.position.y-=b.min.y;
-      g.position.set(x,where==='water'?WATER-0.6:(far?hy-6:floorAt(x,z)-0.2),z);g.rotation.y=rnd(0,6.283);scene.add(g);TERRAIN.push(g);put++;}}}
-function updTheme(dt,t){if(TER.grave)graveTick(dt,t);if(TER.forest&&THEME.flies)for(const sp of THEME.flies){const u=sp.userData;sp.position.set(u.x+Math.sin(t*0.5+u.ph)*3,u.y+Math.sin(t*0.9+u.ph*2)*1.4,u.z+Math.cos(t*0.4+u.ph)*3);sp.material.opacity=0.45+0.4*Math.sin(t*2.2+u.ph*3);}if(THEME.isles)for(const g of THEME.isles)g.position.y=g.userData.y+Math.sin(t*0.25+g.userData.ph)*2.2;
+      g.position.set(x,(where==='water'||fs)?WATER-0.6:(far?hy-6:floorAt(x,z)-0.2),z);g.rotation.y=rnd(0,6.283);scene.add(g);TERRAIN.push(g);put++;
+      if(!far){const sz=b.getSize(new V3()),r=g.rotation.y;COLS.push({t:1,x,z,c:Math.cos(r),s:Math.sin(r),hw:sz.x*0.42,hd:sz.z*0.42,y0:g.position.y,y1:g.position.y+sz.y*0.95});}}}}  // すりぬけないように当たり判定
+// 大きな光の玉（足し算で光る絵）の中にカメラが入ると、画面ぜんぶが青や金にかぶる。近い時だけ薄くする
+const HAZE={L:[],t:0};
+function antiHaze(dt){HAZE.t-=dt;if(HAZE.t<=0){HAZE.t=1.5;HAZE.L.length=0;const RT=TERRAIN.concat(CAVE.g?[CAVE.g]:[]);for(const r of RT)if(r&&r.traverse)r.traverse(o=>{if(o.isSprite&&o.material&&o.material.blending===THREE.AdditiveBlending&&o.scale.x>=9){if(o.userData.hz0===undefined)o.userData.hz0=o.material.opacity;HAZE.L.push(o);}});}
+  const cp=cam.position,w=new V3();for(const o of HAZE.L){if(!o.parent)continue;o.getWorldPosition(w);const d=w.distanceTo(cp),s=o.scale.x*(o.parent.scale?o.parent.scale.x:1),k=clamp((d-s*0.35)/(s*0.6),0,1);o.material.opacity=o.userData.hz0*k;}}
+function updTheme(dt,t){antiHaze(dt);if(TER.grave)graveTick(dt,t);if(TER.forest&&THEME.flies)for(const sp of THEME.flies){const u=sp.userData;sp.position.set(u.x+Math.sin(t*0.5+u.ph)*3,u.y+Math.sin(t*0.9+u.ph*2)*1.4,u.z+Math.cos(t*0.4+u.ph)*3);sp.material.opacity=0.45+0.4*Math.sin(t*2.2+u.ph*3);}if(THEME.isles)for(const g of THEME.isles)g.position.y=g.userData.y+Math.sin(t*0.25+g.userData.ph)*2.2;
   {const cq=cam.position;for(const sp of THEME.puffs){sp.position.y=sp.userData.y+Math.sin(t*0.35+sp.userData.ph)*1.2;const d=sp.position.distanceTo(cq);sp.material.opacity=Math.min(0.9,Math.max(0,(d-45)/70)*0.9);}}
   if(THEME.rays.length)THEME.rays[0].children[0].material.opacity=0.26+0.08*Math.sin(t*0.6);
   const cp=cam.position;for(const g of THEME.near){const d=g.position.distanceTo(cp),o=CAVE.on?0:Math.min(0.9,Math.max(0,(d-60)/110)*0.9);if(g.userData.o!==o){g.userData.o=o;g.children.forEach(c=>{c.material.opacity=o;});g.visible=o>0.01;}}}
@@ -1001,7 +1012,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb15';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152x';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1084,13 +1095,14 @@ const FITK={archer:1.4};
 // 弓兵：弓を射る動きを、同じ骨の作りの別のモデルから借りる（骨の回転だけ）
 function animsFor(id){const M=MODEL[id];if(id!=='archer'||M.bow)return M.anims;M.bow=1;const src=['angelarcher','redcap','fishbow'].map(k=>MODEL[k]).find(m=>m&&m.anims.some(a=>a.name==='shoot'));
   if(src&&!M.anims.some(a=>a.name==='shoot')){const c=src.anims.find(a=>a.name==='shoot').clone();c.tracks=c.tracks.filter(t=>/(Spine|Shoulder|Arm|Hand|Neck|Head)[^.]*[.]quaternion$/.test(t.name));c.name='shoot';M.anims.push(c);}return M.anims;}
+const LIFT={bgolem:0.035,bgolem2:0.035,golem:0.035};
 function attachModel(g,id,er=0){if(!id||!MODEL[id])return false;const m=cloneModel(id);if(!m)return false;
   const p=g.position.clone(),r=g.rotation.clone(),s=g.scale.clone();g.position.set(0,0,0);g.rotation.set(0,0,0);g.scale.set(1,1,1);g.updateMatrixWorld(true);
   const b0=new THREE.Box3().setFromObject(g),s0=b0.getSize(new V3()),c0=b0.getCenter(new V3());
   const holder=new THREE.Group();m.rotation.y=MODEL[id].rot+er;holder.add(m);holder.updateMatrixWorld(true);
   const s1=new THREE.Box3().setFromObject(holder).getSize(new V3());
   const k=Math.min(s0.y/Math.max(s1.y,1e-3),Math.max(s0.x,s0.z)/Math.max(s1.x,s1.z,1e-3)*1.15)*(FITK[id]||1);m.scale.multiplyScalar(k);holder.updateMatrixWorld(true);
-  const b2=new THREE.Box3().setFromObject(holder),c2=b2.getCenter(new V3());m.position.x+=c0.x-c2.x;m.position.z+=c0.z-c2.z;m.position.y+=b0.min.y-b2.min.y;
+  const b2=new THREE.Box3().setFromObject(holder),c2=b2.getCenter(new V3());m.position.x+=c0.x-c2.x;m.position.z+=c0.z-c2.z;m.position.y+=b0.min.y-b2.min.y+(LIFT[id]||0)*s0.y;
   g.traverse(c=>{if(c.isMesh){c.visible=false;c.matrixAutoUpdate=false;}});g.add(holder);
   const A=animsFor(id);if(A.length){const mx=new THREE.AnimationMixer(m);const clip=A.find(a=>/run|walk|fly/i.test(a.name))||A.find(a=>/idle/i.test(a.name))||A[0];const act=mx.clipAction(clip);act.play();const acts={};A.forEach(a=>acts[a.name]=mx.clipAction(a));const o={mx,g,act,acts,loco:clip,idle:A.find(a=>/idle|wait|standing/i.test(a.name)),hit:A.find(a=>/slash|cast|attack|shoot|box|chop|pitch|kick|throw/i.test(a.name)),h:s0.y,cur:act};mx.addEventListener('finished',ev=>{if(ev.action===o.once){o.once=null;}});MIX.push(o);g.userData.mix=o;}
   if(id==='ground2'&&MODEL[id].skin&&g.userData.mix)addG2(g,holder,m);
@@ -1302,15 +1314,30 @@ function castleFires(){if(!CASTLE)return;const c=CASTLE;[[-30,30,31,2.6],[30,30,
 /* ---- 王都の予備の隊列（かざりの兵）。炎・爆発が近くに来るとふき飛ぶ。表紙の右下の「びっしり並ぶ軍」 ---- */
 const RANKS={n:0,im:[],p:[],on:[],w:-1,st:-1,fl:0},RZ=new THREE.Matrix4().makeScale(0,0,0);
 function ranksClear(){RANKS.im.forEach(m=>{scene.remove(m);m.geometry.dispose();});RANKS.im=[];RANKS.n=0;RANKS.p=[];RANKS.on=[];RANKS.fl=0;}
-function ranksBuild(blocks,K){ranksClear();const P0=[];
-  for(const [cx,cz,rows,cols] of blocks)for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const x=cx+(c-(cols-1)/2)*2.7,z=cz-r*2.7;if(H(x,z)<WATER+1)continue;P0.push(new V3(x,floorAt(x,z),z));}
+function ranksBuild(blocks,K){ranksClear();const P0=[],BI=[];RANKS.B=blocks.map(([cx,cz])=>({x:cx,z:cz,cd:rnd(3,6),mv:0}));
+  blocks.forEach(([cx,cz,rows,cols],bi)=>{for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const x=cx+(c-(cols-1)/2)*2.7,z=cz-r*2.7;if(H(x,z)<WATER+1)continue;P0.push(new V3(x,floorAt(x,z),z));BI.push(bi);}});
   const N=P0.length;if(!N)return;const G=[[new THREE.BoxGeometry(1.2,1.9,0.8).translate(0,1.25,0),0x34468c],[new THREE.BoxGeometry(0.8,0.8,0.8).translate(0,2.65,0),0xc9ced8],[new THREE.BoxGeometry(0.14,4,0.14).translate(0.75,2,0.2),0x6a4a2a]];
   {const bg=swBake(K||'human');if(bg){G.length=0;G.push([bg,0xffffff,bg.userData.map]);}}RANKS.im=G.map(([g,c,mp])=>{const im=new THREE.InstancedMesh(g,new THREE.MeshLambertMaterial(mp?{map:mp}:{color:c}),N);im.frustumCulled=false;scene.add(im);return im;});
   const d=new THREE.Object3D();P0.forEach((q,i)=>{d.position.copy(q);d.rotation.y=rnd(-0.08,0.08);d.scale.setScalar(rnd(0.95,1.08));d.updateMatrix();RANKS.im.forEach(m=>m.setMatrixAt(i,d.matrix));});
-  RANKS.im.forEach(m=>m.instanceMatrix.needsUpdate=true);RANKS.p=P0;RANKS.on=P0.map(()=>1);RANKS.n=N;RANKS.w=wave;RANKS.st=stage;}
+  RANKS.im.forEach(m=>m.instanceMatrix.needsUpdate=true);RANKS.p=P0;RANKS.on=P0.map(()=>1);RANKS.n=N;RANKS.w=wave;RANKS.st=stage;RANKS.bi=BI;RANKS.fv=P0.map(()=>null);RANKS.ph=P0.map(()=>rnd(0,6.3));RANKS.ry=P0.map(()=>rnd(-0.08,0.08));RANKS.sc=P0.map(()=>rnd(0.95,1.08));}
 function ranksHit(pos,r){if(pos.y>floorAt(pos.x,pos.z)+r+4)return;let k=0;const r2=r*r;for(let i=0;i<RANKS.p.length;i++){if(!RANKS.on[i])continue;const q=RANKS.p[i],dx=q.x-pos.x,dz=q.z-pos.z;if(dx*dx+dz*dz<r2){RANKS.on[i]=0;RANKS.n--;k++;RANKS.im.forEach(m=>m.setMatrixAt(i,RZ));if(k<4)burst(new V3(q.x,q.y+1.5,q.z),4,FIRE,2.2,10,0.5);}}
-  if(k){RANKS.im.forEach(m=>m.instanceMatrix.needsUpdate=true);score+=k*3;if(k>2)ono(pos,'うわあーっ！','#fff',30);}}
-function updRanks(rdt){if(!RANKS.im.length)return;if(stage!==RANKS.st||state==='select'){ranksClear();return;}
+  if(k){RANKS.im.forEach(m=>m.instanceMatrix.needsUpdate=true);score+=k*3;if(k>2)ono(pos,'うわあーっ！','#fff',30);}
+  if(RANKS.fv){const R2=(r*2.6)*(r*2.6);for(let i=0;i<RANKS.p.length;i++){if(!RANKS.on[i])continue;const q=RANKS.p[i],dx=q.x-pos.x,dz=q.z-pos.z,d2=dx*dx+dz*dz;if(d2<R2){const d=Math.sqrt(d2)||1;RANKS.fv[i]={x:dx/d*rnd(10,15),z:dz/d*rnd(10,15),t:rnd(1.0,1.8)};}}}}
+// 隊列が生きて動く（11/15 ふみさん「王国編、兵隊が大量に並んでるだけだとつまらん」）
+//  ・竜が近いと、隊ごと前進してくる（45 まで近づいたら止まって構える）・ときどき弓の一斉射撃・火が当たるとまわりが逃げ散る
+function ranksLive(dt){if(dt<=0)return;const px=P.pos.x,pz=P.pos.z,B=RANKS.B,t=performance.now()/1000;
+  for(const b of B){const dx=px-b.x,dz=pz-b.z,d=Math.hypot(dx,dz);b.mv=0;b.dx=0;b.dz=0;
+    if(d<210&&d>45){const sp=3.2;b.dx=dx/d*sp*dt;b.dz=dz/d*sp*dt;b.x+=b.dx;b.z+=b.dz;b.mv=1;}
+    b.cd-=dt;if(b.cd<=0){b.cd=rnd(4.5,7.5);if(d<150){let k=0;const mx=EASY?3:6;for(let i=0;i<RANKS.p.length&&k<mx;i++){if(!RANKS.on[i]||B[RANKS.bi[i]]!==b||Math.random()<0.7)continue;k++;const q=RANKS.p[i];
+        shootAtP(new V3(q.x,q.y+2.4,q.z),88,{geo:'arrow',mat:MAT.arrow,size:0.6,r:0.9,dmg:3,life:3.2,col:[0x999080]},0.6);}if(k)sfx('whoosh',new V3(b.x,floorAt(b.x,b.z)+3,b.z),0.35);}}}
+  const d=new THREE.Object3D();let ch=0;
+  for(let i=0;i<RANKS.p.length;i++){if(!RANKS.on[i])continue;const q=RANKS.p[i],b=B[RANKS.bi[i]],f=RANKS.fv[i];let mv=b&&b.mv;
+    if(b&&b.mv){const nx=q.x+b.dx,nz=q.z+b.dz;if(H(nx,nz)>WATER+0.6){q.x=nx;q.z=nz;}}
+    if(f){q.x+=f.x*dt;q.z+=f.z*dt;f.t-=dt;mv=1;if(f.t<=0||H(q.x,q.z)<WATER+0.6)RANKS.fv[i]=null;}
+    if(!mv)continue;q.y=floorAt(q.x,q.z);d.position.set(q.x,q.y+Math.abs(Math.sin(t*(f?14:8)+RANKS.ph[i]))*(f?0.45:0.22),q.z);
+    d.rotation.y=f?Math.atan2(f.x,f.z):Math.atan2(px-q.x,pz-q.z);d.scale.setScalar(RANKS.sc[i]);d.updateMatrix();RANKS.im.forEach(m=>m.setMatrixAt(i,d.matrix));ch=1;}
+  if(ch)RANKS.im.forEach(m=>m.instanceMatrix.needsUpdate=true);}
+function updRanks(rdt){if(!RANKS.im.length)return;if(stage!==RANKS.st||state==='select'){ranksClear();return;}if(state==='play'&&wave===RANKS.w&&!PAUSED&&RANKS.B)ranksLive(Math.min(rdt,0.05)*(TS||1));
   if(wave!==RANKS.w&&state==='play'){RANKS.fl+=rdt;if(RANKS.fl>0.12){RANKS.fl=0;let k=0;for(let i=0;i<RANKS.p.length&&k<14;i++)if(RANKS.on[i]){RANKS.on[i]=0;RANKS.n--;k++;RANKS.im.forEach(m=>m.setMatrixAt(i,RZ));smoke(new V3(RANKS.p[i].x,RANKS.p[i].y+1,RANKS.p[i].z),1,2,0.8,0xb8a888,0.5);}RANKS.im.forEach(m=>m.instanceMatrix.needsUpdate=true);if(!k)ranksClear();}}}
 function updEmit(dt){for(let i=EMIT.length-1;i>=0;i--){const e=EMIT[i];e.t-=dt;e.a+=dt;e.b+=dt;if(e.chk&&e.t>1.5&&!BLD.some(b=>!b.dead&&b.box&&b.box.containsPoint(e.chk)))e.t=1.5;
   const f=Math.min(1,e.t/2);
@@ -1992,7 +2019,7 @@ const CH={
   wyvern:{name:'ワイバーン',em:'🦅',tag:'空を飛ぶ・速い',ds:'いちばん速く、よく曲がる。雷の息を連射し、必殺技は前の敵6体に落雷。体力は少なめ。',hp:170,spd:60,turn:2.9,fly:true,range:240,
     br:{mat:MAT.zap,geo:'bolt',dmg:31,cd:0.36,spd:260,life:1.4,size:0.9,splash:3,col:ZAP},sp:'thunder',spN:'落雷',sp2:'discharge',sp2N:'放電',dashN:'緊急回避',mel:{r:9,dmg:30,cd:0.45,ono:'ズバッ！'},col:[0x2e8a5a,0xc8e070],s:1.15,o:{wy:1,eye:0xff5050},gOff:3.2,stat:[2,5,3]},
   ground:{name:'アースドラゴン',em:'🦖',tag:'地上を走る・かたい',ds:'飛べないが、いちばん硬くて力持ち。建物も体当たりでこわす。必殺技は足ぶみで地面ごと吹きとばす。',hp:460,spd:27,turn:1.6,fly:false,range:140,
-    br:{mat:MAT.big,dmg:70,cd:0.5,spd:120,life:1.15,size:1.6,splash:7,col:FIRE},sp:'quake',spN:'地響き',sp2:'boulder',sp2N:'岩投げ',dash:'charge',dashN:'突進',mel:{r:11,dmg:60,cd:0.7,ono:'ガブッ！'},col:[0x7a4a22,0xd8a050],s:1.25,o:{gr:1,eye:0xffa020},gOff:4.4,stat:[5,1,5]},
+    br:{mat:MAT.big,dmg:70,cd:0.5,spd:120,life:1.15,size:1.0,splash:7,col:FIRE},sp:'quake',spN:'地響き',sp2:'boulder',sp2N:'岩投げ',dash:'charge',dashN:'突進',mel:{r:11,dmg:60,cd:0.7,ono:'ガブッ！'},col:[0x7a4a22,0xd8a050],s:1.25,o:{gr:1,eye:0xffa020},gOff:4.4,stat:[5,1,5]},
   hero:{name:'勇者',em:'🛡️',tag:'地上・剣と光',ds:'人間の勇者になって戦う。近くの敵は剣で切り、遠くへは光の斬撃。必殺技は天から光の柱。',hp:340,spd:20,turn:2.2,fly:false,range:105,
     br:{mat:MAT.beam,geo:'beam',dmg:38,cd:0.75,spd:200,life:0.55,size:1,splash:4,col:SPARK},sp:'pillars',spN:'光の柱',sp2:'spin',sp2N:'回転斬り',dash:'charge',dashN:'ジャンプ・斬りこみ',human:1,gOff:1.85,camB:17,camU:6.5,stat:[4,3,4],slS:0.4,mel:{r:6.5,dmg:50,cd:0.4,ono:'ザシュッ！'}},
   army:{name:'王国の兵隊',em:'⚔️',tag:'地上・15人と大砲2門',ds:'兵隊15人と大砲2門の部隊を動かす。弓と槍で一斉に攻め、近くは槍でつく。必殺技は大砲の一斉砲撃。体力が減ると人数が減る。',hp:380,spd:14,turn:1.8,fly:false,range:170,
@@ -4262,12 +4289,12 @@ function cine(k,d,tg){if(state!=='play'||window.NOCINE)return;
   if(k===1){D.g.updateMatrixWorld(true);const bb=new THREE.Box3().setFromObject(D.g),s=bb.getSize(new V3()),c=bb.getCenter(new V3()),rw=Math.min(s.x,s.z)*0.5;
     CINE.tg={ox:c.x-P.pos.x,oy:c.y-P.pos.y,oz:c.z-P.pos.z,h:s.y,d:clamp(C.fly?Math.max(0.85*rw,0.9*s.y):Math.max(1.25*rw,1.9*s.y),5,30)};}}
 // 最初の場面（竜が正面・勇者3人）の後：カメラだけ竜のまわりをぐるっと回って、竜の後ろへ（切りかえで勇者と交差しない）
-const ORB={on:0,t:0,d:1.4,p0:new V3(),l0:new V3()};
-function orbCam(rdt,tg){ORB.t+=rdt;const q=Math.min(1,ORB.t/ORB.d),e=q*q*(3-2*q),c=P.pos;
+const GZK={w:0};const ORB={on:0,t:0,d:1.4,p0:new V3(),l0:new V3()};
+function orbCam(rdt,tg){ORB.t+=rdt;if(ORB.t<0){cam.position.copy(ORB.p0);camLook.copy(ORB.l0);return;}const q=Math.min(1,ORB.t/ORB.d),e=q*q*(3-2*q),c=P.pos;
   const a0=Math.atan2(ORB.p0.x-c.x,ORB.p0.z-c.z),a1=Math.atan2(tg.x-c.x,tg.z-c.z);let da=a1-a0;while(da>Math.PI)da-=6.2832;while(da<-Math.PI)da+=6.2832;
   const r0=Math.hypot(ORB.p0.x-c.x,ORB.p0.z-c.z),r1=Math.hypot(tg.x-c.x,tg.z-c.z),r=Math.max(r0+(r1-r0)*e,10+8*Math.sin(Math.PI*e)),a=a0+da*e,y=ORB.p0.y+(tg.y-ORB.p0.y)*e+3*Math.sin(Math.PI*e);
   cam.position.set(c.x+Math.sin(a)*r,y,c.z+Math.cos(a)*r);camLook.lerpVectors(ORB.l0,camLook,e);if(q>=1)ORB.on=0;}
-function cineEnd(){const k=CINE.k;CINE.k=0;if(k===4&&CAVE.on&&state==='play'){ORB.t=0;ORB.p0.copy(cam.position);ORB.l0.copy(camLook);ORB.on=1;}if(k>1){if(cutT<=0)document.body.classList.remove('lbx');if(state==='play'){if(ultT<=0){TS=1;tsT=0;}if(LVQ&&!LVUP)showLv();}}}
+function cineEnd(){const k=CINE.k;CINE.k=0;if(k===4&&CAVE.on&&state==='play'){ORB.t=0;ORB.d=1.4;ORB.p0.copy(cam.position);ORB.l0.copy(camLook);ORB.on=1;}if(k>1){if(cutT<=0)document.body.classList.remove('lbx');if(state==='play'){if(ultT<=0){TS=1;tsT=0;}if(LVQ&&!LVUP)showLv();}}}
 const ROYAL_ROT=0;
 /* ---- 必殺技の見せ場（赤い竜）：口を開けてほえるポーズのモデルに入れかえる ---- */
 const ROAR={g:null,mo:null,gl:null,gc:null,on:false,use:false,yaw:0,v:[0,1],t:0,em:0,H:11.5,mouth:new V3()};
@@ -4879,7 +4906,7 @@ function addEnemy(type,x,z,y,o={}){
   const e={type,mesh:m,dr,hp:s.hp*(EASY?(s.boss?0.42:0.5):(s.boss?0.62:0.75)),maxHp:s.hp*(EASY?(s.boss?0.42:0.5):(s.boss?0.62:0.75)),r:s.r,hc:s.hc,val:s.val,dmg:s.dmg,fly:!!s.fly,boss:s.boss,t:rnd(0,5),cd:rnd(1,3),vy:0,vel:new V3(),cp:new V3(),
     seed:rnd(0,9),hx:0,hz:0,lx:0,lz:0,dvx:0,dvz:0,mv:'run',mt:1.5,state:'chase',ang:rnd(0,6.3),sum:8,met:6,st:0,sub:0,cnt:0,hitT:0,flyT:0,dodgeCd:2,
     thrower:type==='soldier'&&Math.random()<0.35,dashSeen:0,dead:false,perch:!!o.perch,bld:o.bld||null,inv:false,guard:false};
-  EN.push(e);if(type==='bigslime')e.sc=8.8;{const z=o.model?0:{ship:1.5,battleship:1.4,airship:1.3,bigairship:1.4,hero:0.65,priest:0.7,goblin:0.72,drak:2.86,orccart:0.8,orctank:0.52,kraken:1.05}[type];if(z){e.sc=z;e.r*=z;e.hc*=z;}}if(s.boss&&state==='play'){cutin(PTE[type]||s.ic,s.boss.replace(/^\S+\s/,''),'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');bossZoom(e);}return e;
+  EN.push(e);if(type==='bigslime')e.sc=8.8;{const z=o.model?0:{ship:1.5,battleship:1.4,airship:1.3,bigairship:2.3,hero:0.65,priest:0.7,goblin:0.72,drak:2.0,orccart:0.8,orctank:0.52,kraken:1.05}[type];if(z){e.sc=z;e.r*=z;e.hc*=z;}}if(s.boss&&state==='play'){cutin(PTE[type]||s.ic,s.boss.replace(/^\S+\s/,''),'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');bossZoom(e);}return e;
 }
 function hitEnemy(e,n){if(e.dead)return;
   if(e.inv||BTK.on){burst(cpos(e),3,GOLD,2,8,0.2);sfx('clang',e.mesh.position,0.5);return;}
@@ -5868,7 +5895,8 @@ if(T){
     s2R('dknight',7,110,170,24,36);s2Knights(3,0,-150,50,20,14);s2Sol(0,-140,2,7);s2Line({fx:0,fz:1,lx:1,lz:0},-170,4,16,0,(x,z)=>s2Cat(x,z));
     s2P(3,0,-150,20,10);s2R('airship',2,120,180,40);s2R('wizard',5,50,90,10);}},
   {name:'超大型大砲車「竜ごろし」',msg:'💣 王国の秘密兵器、超大型大砲車「竜ごろし」が来た！',mood:5,go(){
-    const b=s2a('siegecart',0,-205,undefined,{model:'bigcannon'});b.sc=1.7;b.r*=1.7;b.hc*=1.7;b.said=1;
+    const DM=MODEL.dslayer?'dslayer':'bigcannon',b=s2a('siegecart',0,-205,undefined,{model:DM});b.sc=1.3;b.r*=1.3;b.hc*=1.3;b.said=1;
+    {const sv=ST.siegecart.boss;ST.siegecart.boss=undefined;try{for(const x of [-42,42]){const e=s2a('siegecart',x,-192,undefined,{model:DM});e.sc=1.0;e.hp=e.maxHp=e.maxHp*0.4;e.val=Math.round(e.val*0.4);e.said=1;}}finally{ST.siegecart.boss=sv;}}  // 竜ごろしは3台（11/15 ふみさん）
     say('王国の技師','竜ごろし、出撃！ 竜には大砲だ！');sfx('roar',null,0.5);
     s2A('soldier',10,0,-190,25,20);s2A('cannon',3,0,-180,40,15);s2R('airship',2,120,180,40);s2R('dknight',3,110,170,24,36);s2R('wizard',3,50,90,10);}}];
 }
@@ -6229,6 +6257,13 @@ function caveParty(){caveBuild();moodT=MOODS[6];updMood(0,true);const cx=CAVE.x,
 // ねぐらを静かに出る（壁は破らない）：画面を暗くして、そのあいだに洞窟を片付け、谷に出たところで明るくする
 function caveLeave(){if(!CAVE.on)return;let d=$('cvfade');if(!d){d=document.createElement('div');d.id='cvfade';d.style.cssText='position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity .45s;z-index:40';document.body.appendChild(d);}
   d.style.opacity='1';setTimeout(()=>{caveClear();moodT=MOODS[0];updMood(0,true);setTimeout(()=>{d.style.opacity='0';banner('🌄 ねぐらを出て、谷へ',2.4);},120);},460);}
+// ワイバーン戦の前：洞窟の中を片付けて、ねぐらの入口（岩山）を竜の背中側に置き、その前から始める
+function caveFront(){const cx=CAVE.x,cz=CAVE.z,yaw=P.yaw,fx=Math.sin(yaw),fz=Math.cos(yaw);caveClear();moodT=MOODS[0];updMood(0,true);
+  if(MODEL.cavemouth){const m=cloneModel('cavemouth');if(m){m.updateMatrixWorld(true);const sz=new THREE.Box3().setFromObject(m).getSize(new V3()),k=46/Math.max(sz.y,1e-3);m.scale.multiplyScalar(k);
+    const g=new THREE.Group();g.add(m);g.updateMatrixWorld(true);const b=new THREE.Box3().setFromObject(g),c=b.getCenter(new V3());m.position.x-=c.x;m.position.z-=c.z;m.position.y-=b.min.y;
+    const mx=cx-fx*44,mz=cz-fz*44;g.position.set(mx,floorAt(mx,mz)-1,mz);g.rotation.y=yaw;scene.add(g);TERRAIN.push(g);{const sz=b.getSize(new V3());COLS.push({t:1,x:mx,z:mz,c:Math.cos(yaw),s:Math.sin(yaw),hw:sz.x*0.42,hd:sz.z*0.42,y0:g.position.y,y1:g.position.y+sz.y*0.9});}}}
+  P.pos.x=cx+fx*6;P.pos.z=cz+fz*6;P.pos.y=Math.max(P.pos.y,floorAt(P.pos.x,P.pos.z)+(C.fly?8:C.gOff));P.vel.set(0,0,0);
+  ORB.p0.set(P.pos.x+fx*34+fz*10,P.pos.y+9,P.pos.z+fz*34-fx*10);ORB.l0.set(cx-fx*30,P.pos.y+8,cz-fz*30);cam.position.copy(ORB.p0);camLook.copy(ORB.l0);ORB.t=-0.9;ORB.d=2.0;ORB.on=1;}
 function caveFlee(){if(CAVE.flee)return;CAVE.flee=true;CAVE.out=false;CAVE.t=0;EN.forEach(e=>{if(e.cave)e.inv=true;});TK.q.length=0;
   talk([['勇者','くっ……寝起きでこの強さか！ 引くぞ、王都で立て直す！'],['ME','逃げ足だけは一流だな。……やれやれ、二度寝するか。']]);TS=0.3;tsT=0.8;shake(0.4);}
 function caveBreak(){if(!CAVE.on)return;const c=new V3(CAVE.x,CAVE.y+46,CAVE.z);debris(c,36,[0x7a6658,0x4a3e36,0x9a8a7a],5);
@@ -6250,7 +6285,7 @@ function updCave(dt,rdt){if(!CAVE.on||state!=='play')return;caveAnim(CAVE.at=(CA
 /* ---- 第1章：勇者の次は、緑のワイバーンとの一騎打ち（竜のキャラだけ） ---- */
 const WGRN=[0x7dff6a,0xc8ffb0,0x2fd060,0xffffff];
 function wyvTint(g){g.traverse(o=>{if(!o.isMesh||!o.visible||!o.material||o.material.isMeshBasicMaterial)return;o.material=o.material.clone();o.material.color.setRGB(0.8,1.5,0.42);});}
-function wyvDuel(){const a=P.yaw,fx=Math.sin(a),fz=Math.cos(a),inC=CAVE.on,dd0=inC?Math.min(S1R.wyvD,CAVE.R-34):S1R.wyvD;let x=P.pos.x+fx*dd0,z=P.pos.z+fz*dd0;if(inC){const ox=x-CAVE.x,oz=z-CAVE.z,od=Math.hypot(ox,oz),mm=CAVE.R-30;if(od>mm){x=CAVE.x+ox*mm/od;z=CAVE.z+oz*mm/od;}}{const d=Math.hypot(x,z);if(d>300){x*=300/d;z*=300/d;}}
+function wyvDuel(){if(CAVE.on)caveFront();const a=P.yaw,fx=Math.sin(a),fz=Math.cos(a),inC=CAVE.on,dd0=inC?Math.min(S1R.wyvD,CAVE.R-34):S1R.wyvD;let x=P.pos.x+fx*dd0,z=P.pos.z+fz*dd0;if(inC){const ox=x-CAVE.x,oz=z-CAVE.z,od=Math.hypot(ox,oz),mm=CAVE.R-30;if(od>mm){x=CAVE.x+ox*mm/od;z=CAVE.z+oz*mm/od;}}{const d=Math.hypot(x,z);if(d>300){x*=300/d;z*=300/d;}}
   const blue=charKey==='wyvern',gm=!blue&&!!MODEL.wyvern2,e=addEnemy('rival',x,z,floorAt(x,z)+9,{model:gm?'wyvern2':'wyvern'});e.wyv=1;e.boss=blue?'🐉 青のワイバーン':'🐉 緑のワイバーン';e.hp=e.maxHp=EASY?260:380;e.dmg=14;e.val=900;e.p2=1;e.r=7;
   if(!MAT.wind)MAT.wind=new THREE.MeshBasicMaterial({color:0x8dff7a});if(!blue&&!gm)wyvTint(e.mesh);
   const dx=P.pos.x-x,dz=P.pos.z-z,dd=Math.hypot(dx,dz)||1;e.state='charge';e.st=1.7;e.done=false;e.vel.set(dx/dd*60,0,dz/dd*60);e.cd=2.5;e.mesh.rotation.y=Math.atan2(dx,dz);
@@ -6437,7 +6472,7 @@ function updPose(){if(MODEL_JAW&&charKey==='dragon'&&D&&D.g){const j=D.g.userDat
     else{B.LeftArm.rotation.set(0,0,sw*1.5);B.RightArm.rotation.set(0,0,-sw*1.5);B.LeftForeArm.rotation.set(1.05+sw,0,0.3);B.RightForeArm.rotation.set(1.05-sw,0,-0.3);
       for(const n of ['LeftUpLeg','RightUpLeg','LeftLeg','RightLeg'])if(B[n])B[n].rotation.set(n.includes('Up')?0.12:0.25,0,0);}}}
 // 近いカメラ（竜が左手前・敵が正面）を使う場面：広間・洞窟の勇者戦・ワイバーン戦。返す値は右への寄せ方
-function ccam(){return DUN.on?DUN.lat:CAVE.on?0:EN.some(e=>e.wyv&&!e.dead)?0.7:0;}
+function ccam(){return 0;}
 /* ---- 軍勢（むれ）：数百体を1つの形でまとめて描く。弾・突進・体当たり・必殺技でなぎ払える ---- */
 const SWK={town:'human',castle:'human',sea:'human',orcwood:'orc',orcfort:'orc',orcking:'orc',hellgate:'bone',bonefield:'bone',peak:'dragon',dragongrave:'dragon',dragonking:'dragon',skygate:'angel',skytemple:'angel',archangel:'angel',coralsea:'fish',deepsea:'fish',seaking:'fish'};
 const SWT={human:{sky:0,c:[0x8a94a8,0x3a5ac8,0xf0c8a0],nm:'王国の軍勢',ic:'⚔️',form:1},orc:{sky:0,c:[0x5a4a34,0x4f7a34,0x6fa040],nm:'オークの軍勢',ic:'🪓',form:1},bone:{sky:0,c:[0xcfc8b4,0x7a2440,0xe8e2d0],nm:'骸骨の軍勢',ic:'💀',form:1},
@@ -6521,6 +6556,7 @@ function thinWave(){let k=0;for(let i=EN.length-1;i>=0;i--){const e=EN[i];if(e.b
 // 章の地形・建物を作る
 function addFlags(){if(orcLand())return;const F=[];for(const f of TER.flats){if(f[4])continue;const n=Math.max(4,Math.min(12,Math.round(f[2]/7)));for(let i=0;i<n;i++){const a=i/n*6.283+f[0]*0.01,rr=f[2]*0.85,x=f[0]+Math.cos(a)*rr,z=f[1]+Math.sin(a)*rr,y=H(x,z);if(y<WATER+0.8)continue;F.push([x,y,z]);}}
   if(!F.length)return;
+  if(MODEL.royalbanner&&['town','castle','sea'].includes(STAGES[stage]&&STAGES[stage].key)){const mg=modelGeo('royalbanner',13);if(mg){const im=new THREE.InstancedMesh(mg.g,mg.m,F.length),o=new THREE.Object3D();F.forEach(([x,y,z],i)=>{o.position.set(x,y-0.3,z);o.rotation.set(0,Math.atan2(-x,-z)+rnd(-0.3,0.3),0);o.scale.setScalar(rnd(0.9,1.1));o.updateMatrix();im.setMatrixAt(i,o.matrix);});im.castShadow=true;scene.add(im);TERRAIN.push(im);return;}}  // 王国の章は Tripo の王家の旗（11/15）
   const pg=new THREE.CylinderGeometry(0.16,0.2,10,5);pg.translate(0,5,0);const fg=new THREE.PlaneGeometry(4.2,2.5);fg.translate(2.2,0,0);
   const pm=new THREE.InstancedMesh(pg,new THREE.MeshLambertMaterial({color:0xe8e0c8}),F.length),fm=new THREE.InstancedMesh(fg,new THREE.MeshLambertMaterial({color:0xffffff,side:THREE.DoubleSide}),F.length);
   const o=new THREE.Object3D(),cols=[0x2a5fd0,0xf4f4f4,0xd02a2a,0xf0c030],c=new THREE.Color();
@@ -7789,6 +7825,7 @@ function frame(now){
       if(P.pos.y<gh){P.pos.y=gh;if(P.vel.y<-crT()&&(P.crashCd||0)<=0&&!C.human&&H(P.pos.x,P.pos.z)>WATER){P.crashCd=0.8;crash((-P.vel.y-crT()*0.8)*0.5,null,0,0);P.vel.y=20;}else if(P.vel.y<0)P.vel.y=0;}
       bldBlock(dt);const bt={hit:null};if(false){const need=bt.top+C.gOff-P.pos.y;P.pos.y+=Math.min(need,(need>5?24:50)*dt);if(P.vel.y<0)P.vel.y*=0.6;if(need>2.5&&!C.human){{const hv=Math.hypot(P.vel.x,P.vel.z);if(hv>crT()&&(P.crashCd||0)<=0){P.crashCd=0.8;crash((hv-crT()*0.72)*0.5,null,P.vel.x/hv,P.vel.z/hv);P.vel.x*=0.3;P.vel.z*=0.3;}}hitBld(bt.hit,90*dt);if(Math.random()<0.25){debris(P.pos,1,[0x9a8a72,0xa03a2a],0.8);shake(0.1);}}}
       P.onGround=P.pos.y<=gh+0.5&&(DUN.on||H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER);
+      if(charKey==='wyvern'){const hv=gh+5;if(P.pos.y<hv){P.pos.y+=(hv-P.pos.y)*Math.min(1,dt*7);if(P.vel.y<0)P.vel.y=0;}P.onGround=false;}  // ワイバーンは地上を歩かない：地面すれすれを飛びつづける（11/15 ふみさん）
     }else{
       const fx=Math.sin(P.yaw),fz=Math.cos(P.yaw);const bt={hit:null};const smash=!C.human&&(P.bCt||0)>0;
       
@@ -7843,7 +7880,7 @@ function frame(now){
   if(state==='story'){const f=TER.flats[0]||[0,-100],a=t*0.1,fy=floorAt(f[0],f[1]);cam.position.set(f[0]+Math.sin(a)*190,fy+75,f[1]+Math.cos(a)*190);camLook.set(f[0],fy+8,f[1]);cam.lookAt(camLook);}
   else if(state==='select'){{const k=charKey==='redcap'?0.5:charKey==='hero'?0.72:charKey==='army'?1.8:C.model?1.7:1;cam.position.set(P.pos.x+16*k,P.pos.y+4*k,P.pos.z-18*k);}camLook.copy(P.pos);camLook.y+=1;camLook.x+=4;cam.lookAt(camLook);}
   else{if(cineOn)cam.position.copy(GCAM);const pc=C.fly?P.pitch*0.8:P.pitch*0.5;const cd=new V3(Math.sin(P.yaw)*Math.cos(pc),Math.sin(pc),Math.cos(P.yaw)*Math.cos(pc));
-    let back=(C.camB||(charKey==='army'?34:C.fly?24:20))*(ccam()?0.58:1),up=(C.camU||(charKey==='army'?15:C.fly?7:8))*(ccam()?0.36:1);const cE=window.camE?camE():null;if(cE){back=cE.b;up=cE.u;}
+    let back=(C.camB||(charKey==='army'?34:C.fly?24:20))*(ccam()?0.58:1),up=(C.camU||(charKey==='army'?15:C.fly?7:8))*(ccam()?0.36:1);const cE=window.camE?camE():null;if(cE){back=cE.b;up=cE.u;}{const gz=EN.find(e=>e.giant&&!e.dead&&Math.hypot(e.mesh.position.x-P.pos.x,e.mesh.position.z-P.pos.z)<160);GZK.w+=((gz?1:0)-GZK.w)*Math.min(1,rdt*2);if(GZK.w>0.01){back*=1+1.3*GZK.w;up=up+(up*1.6+10)*GZK.w;}}  // 巨大な敵が近い時は大きく引く
     const tg=tmp.copy(P.pos).addScaledVector(cd,-back).add(tmp2.set(0,up,0));{const lt=cE?cE.lt:ccam();if(lt){tg.x-=Math.cos(P.yaw)*back*lt;tg.z+=Math.sin(P.yaw)*back*lt;if(DUN.on){tg.x=clamp(tg.x,DUN.x0+(cE?S1X:4),DUN.x1-(cE?S1X:4));tg.z=clamp(tg.z,DUN.z0+4,DUN.z1-4);}}}const cg=floorAt(tg.x,tg.z)+2;if(tg.y<cg)tg.y=cg;
     cam.position.lerp(tg,1-Math.exp(-(P.dashT>0?4.5:9)*rdt));camLook.copy(P.pos).addScaledVector(aimDir(),cE?cE.L:ccam()?46:40).add(tmp2.set(0,4+(cE?cE.dy:0),0));if(ORB.on)orbCam(rdt,tg);cam.lookAt(camLook);
     if(!C.fly&&!C.human&&P.onGround&&D.g.userData.flap){cam.position.y+=Math.abs(Math.sin(D.g.userData.flap.lp))*Math.min(1,vv/30)*0.45;}
@@ -8326,7 +8363,7 @@ function hlCam(T,rdt){const h=T.lpE;if(!h||h.dead)return;const c=cpos(h),mp=T.mi
 };}
 
 /* ---- シナリオ1：きょりとカメラ（s1_kyori_cam.py）---- */
-const S1X=14,S1K={big:[10,6.5,14],cave:{far:[28,9.5,0],near:[23,8.5,3],k0:18,k1:70,lmin:26,lmax:60,dy:0.4,fv:2},in:{far:[11,4.5,6],near:[2,5,12],k0:18,k1:70,lmin:16,lmax:46,dy:0.5,fv:10},duel:{far:[13,4.5,6],near:[8,4,11],k0:25,k1:90,lmin:20,lmax:50,dy:0.5,fv:8}},S1R={drak:13,demon:34,wyv:33,knight:14,wyvD:90};
+const S1X=14,S1K={big:[16,7,0],cave:{far:[28,9.5,0],near:[23,8.5,0],k0:18,k1:70,lmin:26,lmax:60,dy:0.4,fv:2},in:{far:[22,7,0],near:[17,6.5,0],k0:18,k1:70,lmin:16,lmax:46,dy:0.5,fv:10},duel:{far:[24,7,0],near:[19,6.5,0],k0:25,k1:90,lmin:20,lmax:50,dy:0.5,fv:8}},S1R={drak:13,demon:34,wyv:33,knight:14,wyvD:90};
 function s1CamOK(){return SCN===1&&state==='play'&&(charKey==='dragon'||charKey==='wyvern'||charKey==='ground')&&!CINE.k&&!cineOn&&!GRAP.on;}
 const CAME={b:0,u:0,s:0,L:40,w:0,t:0,fv:0};
 function camE(){if(!s1CamOK()){CAME.w=Math.max(0,CAME.w-0.08);if(CAME.w<=0){CAME.fv=0;return null;}}
@@ -8342,7 +8379,7 @@ function camE(){if(!s1CamOK()){CAME.w=Math.max(0,CAME.w-0.08);if(CAME.w<=0){CAME
   const b=b0+(Kb-b0)*w,u=u0+(Ku-u0)*w,s0=b0*(ccam()||0),s=s0+(Ks-s0)*w;
   const ay=Math.sin(P.pitch)*L,by=P.pos.y+ay+4,dy=fy===null?0:clamp((fy-by)*KK.dy,-6,0)*w;
   CAME.fv=-KK.fv*kn*w;
-  return {b,u,lt:s/Math.max(b,1),L:l0+(L-l0)*w,dy};}
+  return {b,u,lt:0,L:l0+(L-l0)*w,dy};}
 // 相手との間合い：よろいの竜人は近くまで来る／魔王とワイバーンは、竜をまわる輪をせばめる
 {const w0=walk;walk=function(e,tx,tz,spd,dt){if(spd&&e.thrower&&e.cave&&SCN===1&&Math.hypot(tx-e.mesh.position.x,tz-e.mesh.position.z)<S1R.knight)spd=0;if(!spd&&SCN===1&&e.type==='drak'&&!e.king&&!e.gen&&state==='play'){const d=Math.hypot(tx-e.mesh.position.x,tz-e.mesh.position.z);if(d>S1R.drak)spd=6.5;}return w0.call(this,e,tx,tz,spd,dt);};
  const f0=fly;fly=function(e,target,spd,dt,k){if(SCN===1&&state==='play'&&e&&(e.type==='demon'||e.wyv)){const R=e.type==='demon'?S1R.demon:S1R.wyv,R0=e.type==='demon'?65:58,dx=target.x-P.pos.x,dz=target.z-P.pos.z,h=Math.hypot(dx,dz);if(h>R&&h<R0*1.3){target.x=P.pos.x+dx/h*R;target.z=P.pos.z+dz/h*R;}}return f0.call(this,e,target,spd,dt,k);};}

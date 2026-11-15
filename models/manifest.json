@@ -120,7 +120,7 @@
  "battleship": {
   "file": "battleship.glb",
   "h": 16,
-  "ja": "巨大戦艦",
+  "ja": "巨大戦艦（王家の帆船の軍艦・3層の大砲・竜の船首像）",
   "rot": 0
  },
  "kraken": {
@@ -222,7 +222,7 @@
  "drak": {
   "file": "drak.glb",
   "h": 3.2,
-  "ja": "よろいの竜人",
+  "ja": "よろいの竜人（赤い鱗・鋼のよろい・大斧・骨入り idle・run・slash）",
   "rot": 0
  },
  "orc": {
@@ -1214,6 +1214,30 @@
   "file": "orcgeneral.glb",
   "h": 3.4,
   "ja": "オーク将軍（角の兜・とげの肩当て・大斧・骨入り idle・walk・slash・斧のたたきつけ）",
+  "rot": 0
+ },
+ "cavemouth": {
+  "file": "cavemouth.glb",
+  "h": 46,
+  "ja": "ねぐらの入口（岩山の洞窟・骨と金貨）",
+  "rot": 0
+ },
+ "dslayer": {
+  "file": "dslayer.glb",
+  "h": 9,
+  "ja": "超大型大砲車「竜ごろし」（竜のどくろの砲口・青い旗）",
+  "rot": 0
+ },
+ "royalbanner": {
+  "file": "royalbanner.glb",
+  "h": 13,
+  "ja": "王家の旗（青い布に金の獅子・金の穂先）",
+  "rot": 0
+ },
+ "p8battleship": {
+  "file": "p8battleship.glb",
+  "h": 16,
+  "ja": "現代の戦艦（もとの巨大戦艦。戦争の章の海に遠景で出す）",
   "rot": 0
  }
 }
