@@ -1114,7 +1114,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTU';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXY';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -2135,7 +2135,7 @@ const CH={
   golem:{name:'ゴーレム',em:'🗿',tag:'地上・岩の巨人',ds:'岩でできた巨人。足は遅いが、とても硬い。近くの敵をなぐりとばすのが得意。遠くへは岩を投げる。必殺技は地割れと破壊光線。',hp:520,spd:15,turn:1.9,fly:false,range:115,
     br:{mat:mat(0x8a7a5a),geo:'rock',dmg:85,cd:1.8,spd:115,life:1.5,size:2.3,splash:11,col:[0x8a7a5a,0x6a5a3a,0xc0b090]},sp:'fissure',spN:'地割れ',sp2:'gbeam',sp2N:'破壊光線',dash:'guard',dashN:'防御',mel:{r:17,dmg:115,cd:0.55,ono:'ドゴッ！'},
     model:{id:'golem',w:4.9,h:7.2,d:3.8,mouth:[0,-0.75,1.5]},camB:23,camU:9.5,gOff:3.6,stat:[5,1,5]},
-  orctank:{name:'オークキング',em:'👑',tag:'地上・体力半分で戦車に乗る',ds:'最初はオークキングが大斧で戦う。体力が半分を切ると、とげだらけのデラックス戦車に乗りこむ。弩の矢を撃ち続け、近くの敵は体当たりでひきつぶす。必殺技は大砲3連発と、とげの突撃。スペースで装甲をかため、重い体で攻撃を受けとめる。',hp:460,spd:34,turn:3.0,fly:false,range:170,
+  orctank:{name:'オークキング',em:'👑',tag:'地上・リングで戦車に30秒変身',ds:'最初はオークキングが大斧で戦う。金のリングをくぐると、とげだらけのデラックス戦車に30秒乗りこむ。弩の矢を撃ち続け、近くの敵は体当たりでひきつぶす。必殺技は大砲3連発と、とげの突撃。スペースで装甲をかため、重い体で攻撃を受けとめる。',hp:460,spd:34,turn:3.0,fly:false,range:170,
     br:{mat:new THREE.MeshBasicMaterial({color:0xffe08a}),geo:'arrow',dmg:36,cd:0.45,spd:190,life:1.5,size:1.8,splash:2,col:[0xffd060,0xff9a30,0xffffff],trail:[0xffd060,0xff8a20],flash:0xffc040},sp:'tkflame',spN:'火炎放射',spD:'前の近い敵を、太い炎で焼きはらう',sp2:'tkrush',sp2N:'とげの突撃',sp2D:'まっすぐ突っこみ、ふれた敵をひきつぶす。その間は無敵',dash:'guard',dashN:'装甲かため',dashD:'その場でかたまり、受けるダメージを8割へらす',mel:{r:15,dmg:95,cd:0.6,ono:'ドガッ！'},
     model:{id:'kingtank',w:20,h:22,d:30,mouth:[0,5,15]},camB:40,camU:16,gOff:6.05,stat:[4,3,4]},
   airship:{name:'飛空艇',em:'🎈',tag:'空を飛ぶ・大砲',ds:'王国の飛空艇に乗って戦う。大砲を前の敵へ撃ち続ける。必殺技は真下への爆弾の雨と、全砲門の一斉射撃。スペースで高度を保って急旋回し、弾をかわす。',hp:300,spd:42,turn:1.5,fly:true,range:230,
@@ -2370,7 +2370,7 @@ Object.assign(CH,{dragonknight:{name:'竜騎士',em:'⚔️',tag:'空を飛ぶ�
   sp:'dkflame',spN:'小火炎一斉射撃',spD:'全騎が小さな炎を3回に分けて撃ちこむ',sp2:'dkarrows',sp2N:'竜騎士の矢嵐',sp2D:'騎士たちが4回の斉射で、多数の矢を前方へ放つ',dash:'climb',dashN:'編隊の急上下',dashD:'部隊全体で高度を変えて弾をかわす',mel:{r:15,dmg:48,cd:0.6,ono:'ザシュッ！'},
   model:{id:'wyvern2',w:16.5,h:3.3,d:15.4,mouth:[0,0,6.6]},camB:43,camU:16,gOff:1.65,stat:[4,4,3]}});
 // 遊べる海王：三つ又の槍と水の弾。体力半分で超大型の姿へ。
-Object.assign(CH,{seaking:{name:'海王',em:'🔱',tag:'地上・体力半分で超大型に変身',ds:'三つ又の槍を持つ海の王。水の弾を放ち、近くの敵は槍でなぎ払う。体力が半分になると超大型の海王へ変身し、攻撃が強くなる。海流砲と大津波で敵を押し流す。',hp:480,spd:22,turn:2.0,fly:false,range:190,
+Object.assign(CH,{seaking:{name:'海王',em:'🔱',tag:'地上・リングで30秒巨大化',ds:'三つ又の槍を持つ海の王。水の弾を放ち、近くの敵は槍でなぎ払う。金のリングをくぐると30秒間、超大型の海王へ変身して攻撃が強くなる。海流砲と大津波で敵を押し流す。',hp:480,spd:22,turn:2.0,fly:false,range:190,
   br:{mat:MAT.water,dmg:45,cd:0.65,spd:170,life:1.7,size:1.3,splash:6,col:WATC},
   sp:'seabeam',spN:'海流砲',spD:'前へ太い海流を放ち、直線の敵をつらぬく',sp2:'seatide',sp2N:'大津波',sp2D:'まわりへ大波を広げ、敵を吹きとばす',dash:'guard',dashN:'海の守り',dashD:'水の守りで、受けるダメージをへらす',mel:{r:12,dmg:85,cd:0.65,ono:'ザバァッ！'},
   model:{id:'seakingman',w:7.4,h:6.7,d:3,mouth:[1.8,1.0,2.4]},camB:26,camU:10,gOff:3.35,stat:[5,2,4]}});
@@ -2433,12 +2433,12 @@ function ringsBuild(){ringsClear();RINGS.ck=charKey;const g=new THREE.Group(),ge
     for(let k=0;k<4;k++){if(!COLS.some(q=>Math.hypot(q.x-x,q.z-z)<(q.t===0?q.r:Math.max(q.hw,q.hd))+RNG_R+5))break;x*=1.1;z*=1.1;}
     const y=Math.max(floorAt(x,z),WATER)+30+12*Math.sin(i*1.7+stage*2),h=new THREE.Group();h.position.set(x,y,z);h.rotation.y=-a;
     const m2=new THREE.MeshBasicMaterial({color:0xffc060,transparent:true,opacity:0.3,blending:THREE.AdditiveBlending,depthWrite:false});h.add(new THREE.Mesh(geo,m1));h.add(new THREE.Mesh(geo2,m2));h.add(new THREE.Mesh(gpl,gpm));g.add(h);
-    RINGS.L.push({h,m2,x,y,z,airR:charKey==='dragonknight'?11:RNG_R,nx:-Math.sin(a),nz:Math.cos(a),pd:0,cd:0,ph:i});}
+    RINGS.L.push({h,m2,x,y,z,rid:i,airR:charKey==='dragonknight'?11:RNG_R,nx:-Math.sin(a),nz:Math.cos(a),pd:0,cd:0,ph:i});}
   scene.add(g);RINGS.g=g;if(!C.fly)ringsToGround();}
 function ringPass(r){P.ringT=1.6;{const w=new THREE.Mesh(new THREE.TorusGeometry(r.R||r.airR||RNG_R,0.28,6,40),new THREE.MeshBasicMaterial({color:0xfff0c0,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));w.position.set(r.x,r.y,r.z);w.quaternion.copy(r.h.quaternion);fxAdd(w,0.55,(o,k)=>{o.scale.setScalar(1+k*1.6);o.material.opacity=1-k;});}
   r.cd=16;r.h.visible=false;RINGS.ch++;RINGS.cht=r.R?12:7;const n=RINGS.ch,c=new V3(r.x,r.y,r.z);P.en=Math.min(100,P.en+14);P.hp=Math.min(P.maxHp,P.hp+P.maxHp*0.03);score+=40*n;
   burst(c,26,GOLD,3,26,0.7);glowFlash(c,0xffd860,22,0.4);sfx('heal',null,0.5);ono(c,n>1?`${n}連続！ ＋ゲージ`:'リング！ ＋ゲージ','#ffd84a',36);
-  if(!RINGS.tip){RINGS.tip=true;say('💡 ヒント','金の輪をくぐると、必殺ゲージと体力が少したまる。続けてくぐると点が上がる');}}
+  if(!RINGS.tip){RINGS.tip=true;say('💡 ヒント',RFORMS[charKey]?(RFORMS[charKey].names.length===3?'金のリングで60秒変身！ 変身中にもう1個取ると、最終形態に30秒変身する。':'金のリングで30秒変身！ 変身中にもう1個取ると、残り30秒に戻る。'):'金の輪をくぐると、必殺ゲージと体力が少したまる。続けてくぐると点が上がる');}}
 /* ---- 地上のキャラ用の輪（rock_ring.py）：飛べないキャラの時は、空の輪を地面に立て直す。下の端が地面すれすれで、走ってくぐれる ---- */
 // 輪の半径：体の大きさに合わせる（人は小さく、戦車・クラーケンは大きく）
 function ringGR(){return ({hero:5,redcap:5,army:7,golem:8,ground:9,orctank:10,kraken:13})[charKey]||(C.human?5:9);}
@@ -2462,7 +2462,7 @@ function ringsToGround(){const g=RINGS.g,R=ringGR(),k=R/RNG_R,N=RINGS.L.length,a
 function updRings(rdt,t){if(BRC.m&&BRC.m.visible&&--BRC.k<=0)BRC.m.visible=false;if((P.ringT||0)>0&&!PAUSED&&!LVUP){P.ringT-=rdt;if(state==='play'&&Math.random()<0.7)burst(tmp.copy(P.pos).addScaledVector(P.vel,-0.03),1,GOLD,1.5,7,0.5);}if(RINGS.ck!==charKey&&state==='play')ringsBuild();const g=RINGS.g;if(!g)return;const cave=typeof CAVE!=='undefined'&&CAVE.on,on=state==='play'&&!cave;g.visible=state!=='select'&&!cave;if(RINGS.cht>0){RINGS.cht-=rdt;if(RINGS.cht<=0)RINGS.ch=0;}
   for(const r of RINGS.L){if(r.cd>0){if(!PAUSED&&!LVUP)r.cd-=rdt;if(r.cd<=0){r.h.visible=true;r.pd=0;}else continue;}
     r.h.scale.setScalar((r.airR||RNG_R)/RNG_R*(1+0.05*Math.sin(t*2.2+r.ph)));r.m2.opacity=0.22+0.14*Math.sin(t*3+r.ph);
-    if(!on)continue;const dx=P.pos.x-r.x,dy=P.pos.y-r.y,dz=P.pos.z-r.z,d=dx*r.nx+dz*r.nz;
+    if(!on)continue;const dx=P.pos.x-r.x,dy=P.pos.y-r.y-(r.R&&RFORMS[charKey]?Math.max(0,C.gOff-r.R*0.86):0),dz=P.pos.z-r.z,d=dx*r.nx+dz*r.nz;
     if(r.pd&&d*r.pd<0&&Math.abs(d)<12){const rx=dx-r.nx*d,rz=dz-r.nz*d;if(r.R?rx*rx+rz*rz<(r.R+1.5)*(r.R+1.5)&&Math.abs(dy)<r.R+1:rx*rx+dy*dy+rz*rz<((r.airR||RNG_R)+2)*((r.airR||RNG_R)+2))ringPass(r);}
     if(d)r.pd=d;}}
 /* ---- ゴーレム（自分で使う方）：ロボットで戦う感じ。足音・殴りの重さ・胸の光 ---- */
@@ -7983,7 +7983,7 @@ document.querySelectorAll('#touch .b').forEach(b=>{b.addEventListener('touchstar
 
 /* ================= 画面の流れ（えらぶ→戦う→負けたらえらびなおす） ================= */
 // ---- 11/16 遊べる魔王：人の姿 → 牛の魔物 → 黒い煙の魔人（体力が減るごとに変身） ----
-Object.assign(CH,{maou:{name:'魔王',em:'😈',tag:'三段変身・第二形態から空を飛ぶ',ds:'封印から出てきた魔王。最初は人の姿。体力が3分の2を切ると牛の魔物、3分の1を切ると黒い煙の魔人に変身して、どんどん強くなる。',hp:430,spd:17,turn:2.0,fly:false,range:150,
+Object.assign(CH,{maou:{name:'魔王',em:'😈',tag:'リングで二段階変身・変身中は飛行',ds:'封印から出てきた魔王。最初は人の姿。金のリングで牛の魔物に60秒変身。変身中にもう1個くぐると黒い煙の魔人に30秒変身する。時間切れで人の姿に戻る。',hp:430,spd:17,turn:2.0,fly:false,range:150,
   br:{mat:new THREE.MeshBasicMaterial({color:0xc060ff}),geo:'bolt',dmg:46,cd:0.7,spd:150,life:1.6,size:1.5,splash:7,col:[0xc060ff,0x8020ff,0xffffff],trail:[0xc060ff,0x6010c0],flash:0xb040ff},
   sp:'thunder',spN:'天罰の雷',spD:'敵の頭の上に、紫の雷を落とす',sp2:'gbeam',sp2N:'闇の光線',sp2D:'前へ太い光線を放つ',dash:'guard',dashN:'闇の守り',dashD:'その場で守りをかため、受けるダメージをへらす',mel:{r:12,dmg:90,cd:0.6,ono:'ドゴッ！'},
   model:{id:'blackknight',w:3,h:6,d:2.4,mouth:[0,1.5,1.6]},camB:24,camU:9,gOff:3,stat:[4,3,4]}});
@@ -7994,12 +7994,12 @@ Object.assign(CH,{ufo:{name:'UFO',em:'🛸',tag:'空と地上・大型ロボに�
   sp:'gbeam',spN:'破壊光線',spD:'前へ太い光線を放ち、敵をつらぬく',sp2:'broadside',sp2N:'全砲門斉射',sp2D:'まわりの敵へ一斉に砲弾を放つ',dash:'climb',dashN:'離陸・急上下',dashD:'ロボなら離陸してUFOに戻る。空中では急上下してかわす',
   mel:{r:12,dmg:70,cd:0.7,ono:'ガシャン！'},model:{id:'p8ufo',w:12,h:4,d:12,mouth:[0,-0.3,5]},camB:32,camU:12,gOff:2,stat:[4,4,4]}});
 // 巨大化する魔法使い：体力半分で禁じられた巨大化の術を使う。
-Object.assign(CH,{gwizard:{name:'巨大化する魔法使い',em:'🧙',tag:'地上・体力半分で巨大化',ds:'魔法の弾と雷、光線で戦う魔法使い。体力が半分になると巨大な魔術師に変身し、杖と魔法の弾が強くなる。仲間は勇者・戦士・僧侶。巨大化は回復しても続き、再出撃で元の姿に戻る。',hp:360,spd:23,turn:2.2,fly:false,range:220,
+Object.assign(CH,{gwizard:{name:'巨大化する魔法使い',em:'🧙',tag:'地上・リングで30秒巨大化',ds:'魔法の弾と雷、光線で戦う魔法使い。金のリングをくぐると30秒間、巨大な魔術師に変身し、杖と魔法の弾が強くなる。仲間は勇者・戦士・僧侶。時間切れで元の姿へ戻る。変身中のリングで残り30秒に戻せる。',hp:360,spd:23,turn:2.2,fly:false,range:220,
   br:{mat:new THREE.MeshBasicMaterial({color:0xb070ff}),geo:'bolt',dmg:40,cd:0.55,spd:175,life:1.8,size:1.1,splash:5,col:[0xb070ff,0x7040d0,0xffffff],trail:[0xb070ff,0x7040d0],flash:0xb070ff},
   sp:'thunder',spN:'天罰の雷',spD:'近くの敵へ雷を落とす',sp2:'gbeam',sp2N:'魔力の光線',sp2D:'前へ太い光線を放ち、敵をつらぬく',dash:'guard',dashN:'魔法の守り',dashD:'魔法の守りで受けるダメージをへらす',mel:{r:9,dmg:55,cd:0.65,ono:'バシッ！'},
   model:{id:'wizard',w:3.6,h:4.8,d:3.6,mouth:[0.8,1.1,2]},camB:23,camU:9,gOff:2.4,stat:[4,3,4]}});
 // 合体キューブ：72個の小さな立方体が、体力に応じて人型・竜型へ合体する。
-Object.assign(CH,{cube:{name:'合体キューブ',em:'🧊',tag:'地上・三段合体',ds:'小さな立方体の群れで戦う。体力が3分の2を切ると人型、3分の1を切ると竜型へ合体し、攻撃が強くなる。回復しても合体を保ち、再出撃で群れに戻る。',hp:480,spd:24,turn:2.1,fly:false,range:180,
+Object.assign(CH,{cube:{name:'合体キューブ',em:'🧊',tag:'地上・リングで二段階合体',ds:'小さな立方体の群れで戦う。金のリングで人型に60秒合体。合体中にもう1個くぐると竜型に30秒合体する。時間切れで立方体の群れに戻る。',hp:480,spd:24,turn:2.1,fly:false,range:180,
   br:{mat:new THREE.MeshBasicMaterial({color:0x80dfff}),geo:'bolt',dmg:36,cd:0.5,spd:180,life:1.7,size:1,splash:4,col:[0x9ff0ff,0x2a5cff,0x8a3cff],trail:[0x9ff0ff,0x2a5cff],flash:0x9ff0ff},
   sp:'fissure',spN:'地割れ',spD:'前へ岩のトゲを走らせ、敵を打ち上げる',sp2:'gbeam',sp2N:'破壊光線',sp2D:'合体した力で太い光線を放つ',dash:'guard',dashN:'防御',dashD:'立方体の守りで受けるダメージをへらす',mel:{r:10,dmg:60,cd:0.6,ono:'ガシャン！'},
   model:{w:10,h:6,d:10,mouth:[0,0.5,4]},camB:29,camU:12,gOff:3,stat:[5,3,4]}});
@@ -8009,7 +8009,7 @@ Object.assign(CH,{slime:{name:'巨大スライム',em:'🟢',tag:'地上・被�
   sp:'quake',spN:'のしかかり地響き',spD:'大きな体を地面にたたきつけ、近くの敵を吹きとばす',sp2:'fissure',sp2N:'地割れ体当たり',sp2D:'地面を割る衝撃を前へ走らせる',dash:'charge',dashN:'ぷるぷる突進',dashD:'前へ体当たりして、ふれた敵を吹きとばす',mel:{r:11,dmg:85,cd:0.65,ono:'ぷよん！'},
   model:{id:'slime2',w:11,h:7,d:10,mouth:[0,0.4,5]},camB:29,camU:12,gOff:3.5,stat:[5,3,4]}});
 // 遊べる竜王：金色がかった人の姿から、体力半分で巨大な竜へ。
-Object.assign(CH,{dragonking:{name:'竜王',em:'👑',tag:'体力半分で巨大な竜に変身',ds:'金色のよろいをまとう竜の王。炎の弾と剣で戦い、体力が半分になると巨大な竜に変身する。真の姿では空を飛び、強い炎と爪で敵をなぎ払う。',hp:500,spd:23,turn:2.0,fly:false,range:210,
+Object.assign(CH,{dragonking:{name:'竜王',em:'👑',tag:'リングで巨大な竜に30秒変身',ds:'金色のよろいをまとう竜の王。炎の弾と剣で戦い、金のリングをくぐると30秒間、巨大な竜に変身する。真の姿では空を飛び、強い炎と爪で敵をなぎ払う。',hp:500,spd:23,turn:2.0,fly:false,range:210,
   br:{mat:MAT.fire,dmg:44,cd:0.6,spd:170,life:2,size:1.2,splash:6,col:FIRE},
   sp:'bigfire',spN:'大火球',spD:'前へ大きな火球を放ち、まとめて焼きはらう',sp2:'flamering',sp2N:'炎の渦',sp2D:'まわりへ炎を広げ、近くの敵を焼きはらう',dash:'guard',dashN:'竜王の守り',dashD:'守りをかため、受けるダメージをへらす',mel:{r:10,dmg:80,cd:0.6,ono:'ザシュッ！'},
   model:{id:'blackknight',w:3.2,h:6,d:2.8,mouth:[0,1.2,2]},camB:24,camU:9,gOff:3,stat:[5,3,4]}});
@@ -10504,7 +10504,7 @@ function maouForm(i,show){if(charKey!=='maou'||!D||!D.body)return;const F=MAOUF[
   C.gOff=F.h/2;inner.position.y=-C.gOff;C.fly=i>=1;if(i>=1&&state==='play'){P.vy=Math.max(P.vy||0,10);P.onGround=false;}D.mouth.position.set(0,F.h*0.25,F.d*0.7);C.camB=18+F.h*1.2;C.camU=6+F.h*0.4;C.spd=F.spd;P.sp=C.sp;P.maouK=F.dmg;C.mel.r=8+F.w*1.2;
   if(show&&state==='play'){P.hp=Math.min(P.maxHp,P.hp+P.maxHp*0.2);P.inv=Math.max(P.inv,1.5);glowFlash(P.pos.clone(),0xb040ff,50,0.8);burst(P.pos,60,[0xb040ff,0x200030,0xffffff],6,40,1);shake(0.9);sfx('roar',null,1);
     try{glory('魔王、'+(i===1?'第二形態':'最終形態')+'！',F.nm+'に変身した');}catch(_){}}}
-function maouTick(){if(charKey!=='maou'||state!=='play'||!D)return;const r=P.hp/Math.max(1,P.maxHp);const want=r<1/3?2:r<2/3?1:0;if(want>(D.mf||0))maouForm(want,true);}
+function maouTick(){} // プレイヤーの変身はリングで行う。
 {const sc0=setChar;setChar=function(k){const r=sc0.apply(this,arguments);try{if(k==='maou'){D.mf=-1;maouForm(0,false);}}catch(err){console.warn('maou',err);}return r;};}
 {const ut17=updTheme;updTheme=function(dt,t){ut17.apply(this,arguments);try{maouTick();}catch(_){}};}
 // 魔王の弾は、変身するほど強くなる
@@ -10569,10 +10569,7 @@ function okKing(){if(!D||!D.g)return;const c=CH.orctank;for(const k of ['gOff','
   c.gOff=h/2;c.camB=24;c.camU=9;c.spd=19;if(D.mouth)D.mouth.position.set(0,h*0.2,2.4);}
 function okRestore(){const c=CH.orctank;for(const k in ORK0)c[k]=ORK0[k];}
 {const sc1=setChar;setChar=function(k){if(k==='orctank')okRestore();const r=sc1.apply(this,arguments);try{if(k==='orctank'&&!OKT)okKing();}catch(err){console.warn('okKing',err);}return r;};}
-function okTick(){if(charKey!=='orctank'||!D||!D.ok||state!=='play')return;if(P.hp>P.maxHp*0.5)return;
-  const p=P.pos.clone(),y=P.yaw,hp=P.hp,mx=P.maxHp;OKT=1;okRestore();setChar('orctank');OKT=0;P.pos.copy(p);P.yaw=y;P.maxHp=mx;P.hp=Math.min(mx,hp+mx*0.2);P.inv=Math.max(P.inv,1.5);
-  glowFlash(p,0xffd060,40,0.6);smoke(p,14,10,3,0x8a7a58,6);shake(0.8);sfx('boom',p,1);try{glory('オークキング、戦車に乗りこんだ！','デラックス戦車で、ひきつぶせ');}catch(_){}}
-{const tk0=tkProps;tkProps=function(dt){if(D&&D.ok)return;return tk0.apply(this,arguments);};}
+function okTick(){} // 戦車への変身はリングで行う。
 {const ut18=updTheme;updTheme=function(dt,t){ut18.apply(this,arguments);try{okTick();}catch(_){}};}
 // 各騎は親に入れる前にモデルを取りつけ、隊列の座標へ置く。
 function makeDragonknight(){
@@ -10642,7 +10639,7 @@ function seakingForm(i,show){if(charKey!=='seaking'||!D||D.sf===i)return;
   D.inner.position.y=-C.gOff;D.mouth.position.set(f.w*0.24,f.h*0.15,f.d*0.55);
   P.pos.y+=C.gOff-oldOff;D.g.position.copy(P.pos);
   if(show){P.inv=Math.max(P.inv,2);const foot=gpos(P.pos.clone());shock(foot,0x80d0ff,48);burst(P.pos,48,WATC,5,32,0.9);glowFlash(P.pos.clone(),0x80d0ff,48,0.7);shake(0.8);sfx('roar',null,0.9);glory('海王、真の姿！','超大型の体と三つ又の槍で、なぎ払え');ringsToGround();}}
-function seakingTick(){if(charKey==='seaking'&&D&&D.sf===0&&state==='play'&&!PAUSED&&!LVUP&&P.hp>0&&P.hp<=P.maxHp*0.5)seakingForm(1,true);}
+function seakingTick(){} // プレイヤーの変身はリングで行う。
 {const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);seakingTick();};}
 // 回復しても戦闘中は巨大な姿を保ち、新しい出撃では人の姿へ戻る。
 {const prev=startGame;startGame=function(){if(charKey==='seaking')seakingForm(0,false);return prev.apply(this,arguments);};}
@@ -10721,7 +10718,7 @@ function gwizardForm(i,show){if(charKey!=='gwizard'||!D||!D.forms||D.gf===i)retu
   const oldOff=C.gOff;D.gf=i;gwizardStats(i);D.forms.forEach((b,j)=>{b.visible=j===i;});D.body=D.forms[i];D.units[0].m=D.body;
   D.inner.position.y=-C.gOff;D.mouth.position.fromArray(GWIZARDF[i].mouth);P.pos.y+=C.gOff-oldOff;D.g.position.copy(P.pos);
   if(show){P.inv=Math.max(P.inv,2);const foot=gpos(P.pos.clone());magicCircle(foot,0xb070ff,24,1.3);shock(foot,0xb070ff,32);burst(P.pos,48,[0xb070ff,0x7040d0,0xffffff],5,32,0.9);glowFlash(P.pos.clone(),0xb070ff,38,0.7);shake(0.7);sfx('roar',null,0.9);glory('禁じられた巨大化の術！','巨大な魔術師に変身！ 杖と魔法の弾が強くなった');ringsToGround();}}
-function gwizardTick(){if(charKey==='gwizard'&&D&&D.gf===0&&state==='play'&&!PAUSED&&!LVUP&&P.hp>0&&P.hp<=P.maxHp*0.5)gwizardForm(1,true);}
+function gwizardTick(){} // プレイヤーの変身はリングで行う。
 {const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);gwizardTick();};}
 {const prev=startGame;startGame=function(){if(charKey==='gwizard')gwizardForm(0,false);return prev.apply(this,arguments);};}
 Object.assign(PETM,{gwizard:[['hero',0],['soldier',0],['priest',0]]});
@@ -10749,7 +10746,6 @@ function cubeForm(i,show){if(charKey!=='cube'||!D||D.cf===undefined||D.cf===i)re
   D.inner.position.y=-C.gOff;D.mouth.position.fromArray(CUBEF[i].mouth);P.pos.y+=C.gOff-oldOff;D.g.position.copy(P.pos);
   if(show){P.inv=Math.max(P.inv,1.8);glowFlash(P.pos.clone(),0x9ff0ff,24,0.5);burst(P.pos,32,[0x9ff0ff,0x2a5cff,0x8a3cff],3,22,0.65);shock(gpos(P.pos.clone()),0x9ff0ff,20);shake(0.45);sfx('clang',null,0.8);glory('合体！ '+CUBEF[i].nm+'！','立方体が組み変わり、攻撃が強くなった');}}
 function cubeTick(dt,t){if(charKey!=='cube'||!D||D.cf===undefined||PAUSED||LVUP||!(state==='play'||state==='select'))return;
-  if(state==='play'&&P.hp>0){const r=P.hp/Math.max(1,P.maxHp),want=r<1/3?2:r<2/3?1:0;if(want>D.cf)cubeForm(want,true);}
   const u=D.body.userData.cb;u.t=Math.min(1,u.t+dt/1.3);
   u.cs.forEach((c,j)=>{if(u.t<1){const k=clamp(u.t*1.6-(j%9)*0.07,0,1),sm=k*k*(3-2*k),mid=Math.sin(Math.PI*sm)*5;c.position.lerpVectors(u.from[j],u.to[j],sm);c.position.x+=Math.sign(c.position.x||j%2-0.5)*mid*0.5;c.position.y+=mid;c.rotation.set(sm*Math.PI*2*(j%3===0),sm*Math.PI*2*(j%3===1),0);}
     else{c.position.copy(u.to[j]);c.rotation.set(0,0,0);if(D.cf===0){c.position.y+=Math.sin(t*2.5+j*0.7)*0.7;c.rotation.set(t*0.35+j,t*0.25,0);}else{c.position.y+=Math.sin(t*3+j)*0.12;if(D.cf===1&&j>=32&&j<42&&P.melT>0)c.position.y+=Math.sin((1-P.melT/0.3)*Math.PI)*5;if(D.cf===2&&j>=27&&j<55)c.position.y+=Math.sin(t*5)*1.6*((j-27)%14/2)/6;}}});
@@ -10816,7 +10812,7 @@ function dragonkingForm(i,show){if(charKey!=='dragonking'||!D||D.dkf===i)return;
   P.pos.y+=C.gOff-oldOff;D.g.position.copy(P.pos);
   if(show){P.inv=Math.max(P.inv,2);P.vy=10;P.onGround=false;glowFlash(P.pos.clone(),0xffc040,60,0.8);burst(P.pos,60,FIRE,6,40,1);shake(0.8);sfx('roar',null,1);glory('竜王、真の姿！','巨大な竜に変身した。空を飛び、炎でなぎ払え！');}
 }
-function dragonkingTick(){if(charKey==='dragonking'&&D&&D.dkf===0&&state==='play'&&!PAUSED&&!LVUP&&P.hp>0&&P.hp<=P.maxHp*0.5)dragonkingForm(1,true);}
+function dragonkingTick(){} // プレイヤーの変身はリングで行う。
 {const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);dragonkingTick();};}
 // 回復で姿が往復するのを防ぎ、再出撃時に初期の姿と能力へ戻す。
 {const prev=startGame;startGame=function(){if(charKey==='dragonking')dragonkingForm(0,false);return prev.apply(this,arguments);};}
@@ -11064,7 +11060,7 @@ function dkSalvoTick(dt){const d=D;if(!d||!d.dk)return;d.g.updateMatrixWorld(tru
 
 
 // court_bank_1116：静止状態の箱ではなく、骨で動いた頂点から足元を測る。
-function posedModelBounds(root){root.updateWorldMatrix(true,true);const inv=new THREE.Matrix4().copy(root.matrixWorld).invert(),b=new THREE.Box3(),v=new V3();
+function posedModelBounds(root){root.updateWorldMatrix(true,true);root.updateMatrixWorld(true);const inv=new THREE.Matrix4().copy(root.matrixWorld).invert(),b=new THREE.Box3(),v=new V3();
  root.traverseVisible(o=>{if(!o.isMesh||!o.geometry||!o.geometry.attributes.position)return;if(o.material&&!Array.isArray(o.material)&&o.material.visible===false)return;
    const a=o.geometry.attributes.position;if(o.isSkinnedMesh)o.skeleton.update();
    for(let i=0;i<a.count;i++){v.fromBufferAttribute(a,i);if(o.isSkinnedMesh)o.boneTransform(i,v);v.applyMatrix4(o.matrixWorld).applyMatrix4(inv);b.expandByPoint(v);}
@@ -11196,6 +11192,55 @@ function squadCard(){const u=UPS.find(u=>u.k==='pet');Object.assign(u,SQUADPETBA
 {const before=resetLv;resetLv=function(){for(const p of PETS)if(p.squad)rideRelease(p.g);return before.apply(this,arguments);};}
 {const before=setupStage;setupStage=function(){const r=before.apply(this,arguments);for(const p of PETS)if(p.squad){p.target=null;p.scan=0;p.g.position.copy(squadHome(p));if(!p.fly)p.g.position.y=DUN.on?DUN.y:floorAt(p.g.position.x,p.g.position.z);p.g.rotation.y=P.yaw;squadPlace(p,0);}return r;};}
 CH.army.ds+=' 仲間のレア札1枚で5人の別部隊が加わる（最大3部隊）。';CH.dragonknight.ds+=' 仲間のレア札1枚で5騎の別編隊が加わる（最大3部隊）。';squadCard();
+
+
+// ring_forms_1116：体力ではなく金のリングで一時変身。第2形態60秒→第3形態30秒。
+const RFORMS={orctank:{names:['オークキング','戦車']},seaking:{names:['海王','超大型の海王']},gwizard:{names:['魔法使い','巨大魔術師']},dragonking:{names:['人の姿','巨大な竜']},maou:{names:['人の姿','牛の魔物','黒い煙の魔人']},cube:{names:['立方体の群れ','人型','竜型']}};
+const RFORM={key:null,level:0,left:0,total:0,queued:false,busy:false};
+function ringFormClear(){RFORM.key=null;RFORM.level=0;RFORM.left=RFORM.total=0;RFORM.queued=false;}
+function ringFormLayout(){const cds=new Map(RINGS.L.map(r=>[r.rid,r.cd])),chain=RINGS.ch,ct=RINGS.cht;ringsBuild();RINGS.ch=chain;RINGS.cht=ct;
+ for(const r of RINGS.L){r.cd=cds.get(r.rid)||0;r.h.visible=r.cd<=0;r.pd=0;}}
+function ringFormSet(level,notify=true){const key=charKey,cf=RFORMS[key];if(!cf)return;
+ const oldLevel=RFORM.key===key?RFORM.level:0,at=P.pos.clone(),feet=at.y-C.gOff,yaw=P.yaw,sp=P.sp,sp2=P.sp2,hp=P.hp,en=P.en,vy=P.vy,vel=P.vel.clone();RFORM.busy=true;
+ try{
+  if(key==='orctank'){rideRelease(D.g);OKT=level?1:0;okRestore();setChar(key);OKT=0;}
+  else if(key==='maou'){rideRelease(D.body);maouForm(level,false);}
+  else if(key==='seaking'){rideRelease(D.body);seakingForm(level,false);}
+  else if(key==='gwizard'){gwizardForm(level,false);
+   if(level&& !D.body.userData.rfFeet){const b=D.body,mx=b.userData.mix;if(mx)mx.mx.update(0);const box=posedModelBounds(b),holder=b.children[b.children.length-1];if(!box.isEmpty())holder.position.y-=box.min.y;b.traverse(o=>{if(o.isSkinnedMesh)o.frustumCulled=false;});b.userData.rfFeet=1;}}
+  else if(key==='cube'){cubeForm(level,false);if(level&&notify)D.body.userData.cb.t=0;}
+  else if(key==='dragonking'){rideRelease(D.body);dragonkingForm(level,false);}
+ }finally{RFORM.busy=false;OKT=0;}
+ P.pos.set(at.x,feet+C.gOff,at.z);P.yaw=P.lastYaw=yaw;P.sp=sp;P.sp2=sp2;P.hp=hp;P.en=en;P.vel.copy(vel);P.vy=vy;P.bankT=0;D.g.position.copy(P.pos);D.g.rotation.y=yaw;
+ if(C.fly&&level){P.pos.y=Math.max(P.pos.y,floorAt(at.x,at.z)+C.gOff+7);P.onGround=false;D.g.position.copy(P.pos);}else{P.vy=Math.min(0,P.vy||0);P.vel.y=Math.min(0,P.vel.y);}
+ RFORM.key=key;RFORM.level=level;RFORM.total=level?(cf.names.length===3&&level===1?60:30):0;RFORM.left=RFORM.total;
+ if(!level){P.dashT=0;P.atkM=0;P.melT=0;P.inv=Math.max(P.inv,0.5);}
+ ringFormLayout();skUI();if(notify){sfx(level?'heal':'whoosh',null,0.5);if(level){P.inv=Math.max(P.inv,1);burst(P.pos,12,[0xffd77a,0xfff2bf],1.5,12,0.4);banner(cf.names[level]+'に変身！ '+RFORM.total+'秒',2);}else if(oldLevel)banner('変身終了 · リングでまた変身',2);}
+ ringFormHud();
+}
+function ringFormCollect(){const cf=RFORMS[charKey];if(!cf||state!=='play'||PAUSED||LVUP||P.hp<=0)return;const cur=RFORM.key===charKey?RFORM.level:0,next=Math.min(cf.names.length-1,cur+1);
+ if(next===cur){RFORM.left=RFORM.total=30;banner('変身時間が30秒に戻った！',1.6);ringFormHud();return;}ringFormSet(next,true);
+}
+function ringFormTick(dt){if(RFORM.level&&RFORM.key===charKey&&state==='play'&&!PAUSED&&!LVUP&&P.hp>0){RFORM.left=Math.max(0,RFORM.left-dt);if(RFORM.left<=0)ringFormSet(0,true);}ringFormHud();}
+{const before=ringPass;ringPass=function(r){if(RFORMS[charKey]&&(state!=='play'||PAUSED||LVUP||P.hp<=0||r.cd>0))return;before.apply(this,arguments);if(RFORMS[charKey])RFORM.queued=true;};}
+{const before=updRings;updRings=function(dt,t){ringFormTick(dt);before.apply(this,arguments);if(RFORM.queued){RFORM.queued=false;ringFormCollect();}};}
+{const before=setChar;setChar=function(k){if(!RFORM.busy)ringFormClear();return before.apply(this,arguments);};}
+{const before=startGame;startGame=function(){if(RFORM.level&&RFORM.key===charKey)ringFormSet(0,false);ringFormClear();return before.apply(this,arguments);};}
+const rfHud=document.createElement('div');rfHud.id='ringform';rfHud.setAttribute('aria-live','off');rfHud.innerHTML='<span></span><i><b></b></i>';document.body.appendChild(rfHud);
+const rfStyle=document.createElement('style');rfStyle.textContent='#ringform{position:fixed;left:16px;top:156px;z-index:12;width:224px;max-width:calc(100vw - 155px);padding:6px 8px;background:#15101dcc;border:1px solid #e6c26b;border-radius:7px;color:#fff1c0;font:700 12px "M PLUS Rounded 1c",sans-serif;pointer-events:none;display:none}#ringform>i{display:block;height:3px;background:#ffffff25;margin-top:5px;border-radius:2px}#ringform>i>b{display:block;height:100%;background:#ffd66c;border-radius:2px}#ringform.rfSoon{border-color:#ff917b;color:#ffd0be}@media(max-height:500px){#ringform{top:149px;padding:4px 7px;font-size:11px;width:200px}}';document.head.appendChild(rfStyle);
+function ringFormHud(){const cf=RFORMS[charKey],on=state==='play'&&!!cf;rfHud.style.display=on?'block':'none';if(!on)return;
+ const level=RFORM.key===charKey?RFORM.level:0;rfHud.querySelector('span').textContent=level?cf.names[level]+' · 残り'+Math.ceil(RFORM.left)+'秒':'金のリングで'+(cf.names.length===3?'60秒変身':'30秒変身');rfHud.querySelector('i').style.display=level?'block':'none';rfHud.querySelector('b').style.width=(level?100*RFORM.left/RFORM.total:0)+'%';rfHud.classList.toggle('rfSoon',!!level&&RFORM.left<=5);}
+{const before=skExtra;skExtra=function(){const text=before.apply(this,arguments),cf=RFORMS[charKey];if(!cf)return text;return text+'<div class="skx"><b>◎ リング変身</b> '+(cf.names.length===3?'1個目で'+cf.names[1]+'（60秒）、変身中の次の1個で'+cf.names[2]+'（30秒）。':'リングをくぐると'+cf.names[1]+'に30秒変身。')+'時間切れで元の姿へ。'+(cf.names.length===3?'最終形態で':'変身中に')+'リングを取ると残り30秒に戻る。</div>';};}
+
+
+// 城内の通路にも変身用リング。門で区切られた各区画に2個ずつ置く。
+function ringFormRoom(){return !!RFORMS[charKey]&&DUN.on;}
+{const before=ringsToGround;ringsToGround=function(){if(ringFormRoom())return;return before.apply(this,arguments);};}
+{const before=ringsBuild;ringsBuild=function(){const r=before.apply(this,arguments);RINGS.dunRef=ringFormRoom()?DUN.g:null;if(!RINGS.dunRef)return r;
+ const zs=[DUN.zmin,...DUN.gates.map(g=>g.z).filter(z=>z>DUN.zmin+14&&z<DUN.z1-26),DUN.z1-12].sort((a,b)=>a-b),spots=[],cx=(DUN.x0+DUN.x1)/2;
+ for(let i=0;i<zs.length-1;i++){const lo=zs[i]+12,hi=zs[i+1]-12;if(hi<=lo)continue;spots.push({x:cx-7,z:lo+(hi-lo)*0.27},{x:cx+7,z:lo+(hi-lo)*0.73});}
+ RINGS.L.forEach((q,i)=>{if(i>=spots.length){RINGS.g.remove(q.h);return;}const p=spots[i];q.x=p.x;q.z=p.z;q.R=9;q.y=DUN.y+dunSt(p.x,p.z)+q.R*0.86;q.nx=0;q.nz=1;q.pd=0;q.airR=9;q.h.position.set(q.x,q.y,q.z);q.h.rotation.set(0,0,0);});RINGS.L=RINGS.L.slice(0,spots.length);return r;};}
+{const before=updRings;updRings=function(){if((ringFormRoom()?DUN.g:null)!==RINGS.dunRef&&(ringFormRoom()||RINGS.dunRef))ringsBuild();return before.apply(this,arguments);};}
 
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
