@@ -937,7 +937,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aaz';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aaza';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1682,8 +1682,8 @@ function buildWorld(L){
     makeChurch(-150,-210,Math.PI/2);makeMill(150,-215);makeMill(-170,-120);
     [[-60,-200],[60,-200],[-130,-80],[130,-80]].forEach(([x,z])=>T.towers.push(makeWatchtower(x,z)));
     // 岩山の上の白い王城（遠くの景色。こわせない）
-    if(MODEL.royalcastle){const c=cloneModel('royalcastle'),bb=new THREE.Box3().setFromObject(c),sz=bb.getSize(new V3()),ct=bb.getCenter(new V3()),g=new THREE.Group(),x=30,z=-392,y=H(x,z);c.position.set(-ct.x,-bb.min.y,-ct.z);g.add(c);g.scale.setScalar(225/sz.y);
-      g.position.set(x,y-16,z);g.rotation.y=ROYAL_ROT;c.traverse(o=>{if(o.isMesh){o.castShadow=false;o.material=o.material.clone();o.material.color.setRGB(1.25,1.25,1.3);o.material.fog=false;}});scene.add(g);TERRAIN.push(g);T.royal=new V3(x,y+105,z);}
+    if(MODEL.royalcastle){const c=cloneModel(MODEL.royalcastle2?'royalcastle2':'royalcastle'),bb=new THREE.Box3().setFromObject(c),sz=bb.getSize(new V3()),ct=bb.getCenter(new V3()),g=new THREE.Group(),x=30,z=-392,y=H(x,z);c.position.set(-ct.x,-bb.min.y,-ct.z);g.add(c);g.scale.setScalar(225/sz.y);
+      g.position.set(x,y-16,z);g.rotation.y=ROYAL_ROT;c.traverse(o=>{if(o.isMesh){o.castShadow=false;o.material=o.material.clone();if(MODEL.royalcastle2)o.material.color.setRGB(1.4,1.4,1.46);else o.material.color.setRGB(1.25,1.25,1.3);o.material.fog=false;}});scene.add(g);TERRAIN.push(g);T.royal=new V3(x,y+105,z);}
   }else if(L==='sea'){
     [[-14,-160],[0,-150],[14,-160],[-8,-180],[10,-185],[-22,-178],[24,-174]].forEach(([x,z],i)=>i%2?makeHouse2(x,z,rnd(0,6.3)):makeHouse(x,z,rnd(0,6.3)));
     makeWarehouse(-30,-145,0.2);makeWarehouse(30,-148,-0.3);makeWell(0,-168);
