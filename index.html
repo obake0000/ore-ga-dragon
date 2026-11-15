@@ -1098,7 +1098,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwg';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgy';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -4146,9 +4146,20 @@ function attachWy3(g){const M=MODEL.wyvern3;if(!M||!M.skin||!THREE.SkeletonUtils
     const mx=new THREE.AnimationMixer(m),acts={};M.anims.forEach(a=>acts[a.name]=mx.clipAction(a));acts.idle.play();acts.walk.play();acts.idle.setEffectiveWeight(0);acts.walk.setEffectiveWeight(0);
     const o={mx,g,act:acts.idle,acts,wy3:f,h:bb.max.y-bb.min.y};MIX.push(o);g.userData.mix=o;g.userData.flap=f;
     g.position.copy(p0);g.rotation.copy(r0);g.scale.copy(s0);return true;}catch(e){console.warn('attachWy3',e);return false;}}
+// 11/15 ふみさん「ワイバーン速すぎ・顔が右を向いている・歩けないのはだめ」
+// 敵のワイバーンに、自分用と同じ骨入りの wyvern3（歩く・止まる動きつき）を付ける。地面に降りて歩いて近づき、かみつく
+function wyvRig(e){if(e.wyR)return;e.wyR=1;try{if(MODEL.wyvern3&&attachWy3(e.mesh)){e.mesh.userData.mv={vx:0,vz:0,vy:0,gnd:false};e.wy3=1;}}catch(x){}}
+function wyvWalk(e,dt,p){const gy=floorAt(p.x,p.z)+(CH.wyvern.gOff||3.2)*(e.mesh.scale.x||1);const dx=P.pos.x-p.x,dz=P.pos.z-p.z,d=Math.hypot(dx,dz)||1;
+  e.st-=dt;const near=d<e.r+10,v=near?0:11;e.vel.set(dx/d*v,0,dz/d*v);
+  if(p.y>gy+0.5){p.y+=Math.max(-26*dt,(gy-p.y)*Math.min(1,dt*3));e.vel.x*=0.4;e.vel.z*=0.4;}else{p.y=gy;}
+  p.x+=e.vel.x*dt;p.z+=e.vel.z*dt;e.mesh.rotation.set(0,Math.atan2(dx,dz),0);const g=p.y<=gy+0.6;
+  const m=e.mesh.userData.mv;if(m){m.gnd=g;m.vx=e.vel.x;m.vz=e.vel.z;m.vy=0;}
+  if(g&&Math.random()<0.08)smoke(tmp3.set(p.x,p.y-1,p.z),1,2,0.6,0xa8987a,2);
+  e.bite-=dt;if(near&&e.bite<=0&&Math.abs(P.pos.y-p.y)<14){e.bite=1.3;hurt(e.dmg?e.dmg*0.6:6);shake(0.4);ono(p.clone().lerp(P.pos,0.5),'ガブッ！','#d8ffb0',40);sfx('small',p,0.7);}
+  if(e.st<=0){e.state='chase';e.cd=2.2;if(m)m.gnd=false;e.vel.set(0,14,0);smoke(tmp3.set(p.x,p.y-1,p.z),8,5,1.2,0xa8987a,4);sfx('roar',p,0.4);}}
 function updWy3(o,dt){const f=o.wy3,me=typeof D!=='undefined'&&D&&f.g===D.g,play=typeof state!=='undefined'&&state==='play',K=WY3;
-  const gnd=me&&play&&P.onGround;f.w+=clamp((gnd?1:0)-f.w,-dt/K.tUp,dt/K.tDn);const s=rigSm(f.w);f.wk=s;const k=1-s;
-  const vx=me&&play?P.vel.x:0,vz=me&&play?P.vel.z:0,vy=me&&play?(P.vel.y||0):0,sp=Math.hypot(vx,vz),r=sp/Math.max(me?C.spd:60,1);
+  const MV=!me&&f.g.userData.mv,gnd=me?(play&&P.onGround):!!(MV&&MV.gnd);f.w+=clamp((gnd?1:0)-f.w,-dt/K.tUp,dt/K.tDn);const s=rigSm(f.w);f.wk=s;const k=1-s;
+  const vx=me&&play?P.vel.x:MV?MV.vx:0,vz=me&&play?P.vel.z:MV?MV.vz:0,vy=me&&play?(P.vel.y||0):MV?(MV.vy||0):0,sp=Math.hypot(vx,vz),r=sp/Math.max(me?C.spd:MV?40:60,1);
   // 飛び立ち・着地
   if(me&&play){if(f.og===true&&!P.onGround&&vy>3){f.to=0.6;f.ph=-0.5;smoke(tmp3.set(P.pos.x,P.pos.y-C.gOff+0.6,P.pos.z),7,5,1.2,0xa8987a,4);}
     else if(f.og===false&&P.onGround){f.ld=0.38;smoke(tmp3.set(P.pos.x,P.pos.y-C.gOff+0.6,P.pos.z),Math.min(14,6+(f.vyp||0)*-0.15|0),5.5,1.4,0xa8987a,4);}
@@ -5383,9 +5394,10 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);
       break;}
     case 'rival':case 'rdrake':case 'gkeep':{const dr=e.dr;e.st-=dt;if(e.gOf&&e.gOf.dead){killEnemy(e,true);break;}
       if(half&&!e.p2){e.p2=1;if(e.type==='rival'){say('ライバル','やるじゃないか…本気でいくぞ！');sfx('roar',p);}}
-      if(e.state==='chase'){if(e.wyv)wyvDodge(e,dt);e.ang+=dt*0.6;tmp2.set(P.pos.x+Math.cos(e.ang)*58,P.pos.y+8+Math.sin(e.t*0.8)*10,P.pos.z+Math.sin(e.ang)*58);fly(e,tmp2,48,dt,1.6);
+      if(e.wyv)wyvRig(e);if(e.wyv&&e.state==='walk'){wyvWalk(e,dt,p);break;}
+      if(e.state==='chase'){if(e.wyv)wyvDodge(e,dt);e.ang+=dt*(e.wyv?0.32:0.6);tmp2.set(P.pos.x+Math.cos(e.ang)*58,P.pos.y+8+Math.sin(e.t*0.8)*10,P.pos.z+Math.sin(e.ang)*58);fly(e,tmp2,e.wyv?28:48,dt,1.6);if(e.wyv&&e.mesh.userData.mv){const m=e.mesh.userData.mv;m.gnd=false;m.vx=e.vel.x;m.vz=e.vel.z;m.vy=e.vel.y;}
         e.mesh.rotation.y=Math.atan2(e.vel.x,e.vel.z);animDragon(dr,e.t,6);
-        if(e.cd<=0){const r=Math.random();if(r<0.4){e.state='breath';e.st=half?2.8:2.2;e.sub=0;}else if(r<0.7){e.state='charge';e.st=1.3;e.done=false;e.vel.copy(tmp.subVectors(P.pos,p).normalize().multiplyScalar(100));burst(p,20,e.wyv?WGRN:BLUE,5,25,0.5);sfx('roar',p,0.6);}
+        if(e.cd<=0){const r=Math.random();if(e.wyv&&r>0.62){e.state='walk';e.st=rnd(4,5.5);e.bite=1;}else if(r<0.4){e.state='breath';e.st=half?2.8:2.2;e.sub=0;}else if(r<0.7){e.state='charge';e.st=e.wyv?1.8:1.3;e.done=false;e.vel.copy(tmp.subVectors(P.pos,p).normalize().multiplyScalar(e.wyv?62:100));burst(p,20,e.wyv?WGRN:BLUE,5,25,0.5);sfx('roar',p,0.6);}
           else{e.state='barrage';e.st=0.6;const m=dr.mouth.getWorldPosition(new V3());const base=tmp.subVectors(P.pos,m).normalize();const n=half?7:5;for(let k=0;k<n;k++){const a=(k-(n-1)/2)*0.16;shoot(m,base.clone().applyAxisAngle(new V3(0,1,0),a).multiplyScalar(85),{mat:e.wyv?MAT.wind:MAT.bfire,size:2.2,r:2.6,splash:8,dmg:e.wyv?7:15,life:4,trail:e.wyv?WGRN:BLUE,col:e.wyv?WGRN:BLUE});}sfx('boom',p,0.5);}}}
       else if(e.state==='breath'){fly(e,tmp2.copy(p),5,dt);faceP(e);animDragon(dr,e.t,8);e.sub-=dt;
         if(e.sub<=0){e.sub=half?0.05:0.08;const m=dr.mouth.getWorldPosition(new V3());const v=tmp.subVectors(P.pos,m).normalize();v.x+=rnd(-0.05,0.05);v.y+=rnd(-0.05,0.05);v.z+=rnd(-0.05,0.05);
