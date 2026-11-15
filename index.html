@@ -937,7 +937,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aap';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aaq';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -4008,7 +4008,7 @@ function skillA(SK){const SPZ=(1+0.15*(UP.sp||0))*(EASY?1:0.8);{
   else if(SK==='pillars'){const ad=aimDir();
     const list=EN.filter(e=>!e.dead).map(e=>{const v=tmp.subVectors(cpos(e),P.pos);return {e,d:v.length(),s:v.length()*(1+v.angleTo(ad)*0.6)};}).filter(o=>o.d<240).sort((a,b)=>a.s-b.s).slice(0,6+2*(UP.sp||0));
     flashV=0.6;sfx('zap');
-    list.forEach((o,i)=>{const c=cpos(o.e).clone();setTimeout(()=>{if(state!=='play')return;const hm=C.human,pr=hm?Math.min(7,Math.max(2.5,(o.e.r||2)*0.7)):7;bolt(new V3(c.x,c.y+(hm?64:140),c.z),c,0xfff2a0);burst(c,hm?12:20,GOLD,hm?2.8:5,22,0.7);shock(new V3(c.x,floorAt(c.x,c.z),c.z),0xfff2a0,pr*2);pillar(gpos(c),0xffd040,pr,hm?68:170,1.8);magicCircle(gpos(c),0xfff2a0,pr*2.3,2.0);glowFlash(c,0xfff2a0,hm?14:30,0.6);hitEnemy(o.e,115*SPM());},i*90);});
+    list.forEach((o,i)=>{const c=cpos(o.e).clone();setTimeout(()=>{if(state!=='play')return;const hm=C.human,pr=hm?Math.min(7,Math.max(1.7,(o.e.r||2)*0.7)):7;bolt(new V3(c.x,c.y+(hm?32:140),c.z),c,0xfff2a0);burst(c,hm?8:20,GOLD,hm?2:5,22,0.7);shock(new V3(c.x,floorAt(c.x,c.z),c.z),0xfff2a0,pr*2);pillar(gpos(c),0xffd040,pr,hm?Math.max(34,pr*9):170,1.8);magicCircle(gpos(c),0xfff2a0,pr*2.3,2.0);glowFlash(c,0xfff2a0,hm?Math.max(8,pr*3.5):30,0.6);hitEnemy(o.e,115*SPM());},i*90);});
     if(list.length<3&&!C.human){BLD.filter(b=>!b.dead&&b.box.distanceToPoint(P.pos)<200).slice(0,3-list.length).forEach(b=>{const c=b.box.getCenter(new V3());c.y=b.box.max.y;bolt(new V3(c.x,c.y+140,c.z),c,0xfff2a0);if(!C.human)hitBld(b,140*SPM());});}}
   else if(SK==='barrage'){const ad=aimDir();
     const list=EN.filter(e=>!e.dead).map(e=>{const v=tmp.subVectors(cpos(e),P.pos);return {e,d:v.length(),s:v.length()*(1+v.angleTo(ad)*0.6)};}).filter(o=>o.d<260).sort((a,b)=>a.s-b.s);
@@ -5600,7 +5600,7 @@ function updCave(dt,rdt){if(!CAVE.on||state!=='play')return;caveAnim(CAVE.at=(CA
 /* ---- 第1章：勇者の次は、緑のワイバーンとの一騎打ち（竜のキャラだけ） ---- */
 const WGRN=[0x7dff6a,0xc8ffb0,0x2fd060,0xffffff];
 function wyvTint(g){g.traverse(o=>{if(!o.isMesh||!o.visible||!o.material||o.material.isMeshBasicMaterial)return;o.material=o.material.clone();o.material.color.setRGB(0.8,1.5,0.42);});}
-function wyvDuel(){const a=P.yaw,fx=Math.sin(a),fz=Math.cos(a);let x=P.pos.x+fx*125,z=P.pos.z+fz*125;{const d=Math.hypot(x,z);if(d>300){x*=300/d;z*=300/d;}}
+function wyvDuel(){const a=P.yaw,fx=Math.sin(a),fz=Math.cos(a);let x=P.pos.x+fx*S1R.wyvD,z=P.pos.z+fz*S1R.wyvD;{const d=Math.hypot(x,z);if(d>300){x*=300/d;z*=300/d;}}
   const blue=charKey==='wyvern',gm=!blue&&!!MODEL.wyvern2,e=addEnemy('rival',x,z,floorAt(x,z)+9,{model:gm?'wyvern2':'wyvern'});e.wyv=1;e.boss=blue?'🐉 青のワイバーン':'🐉 緑のワイバーン';e.hp=e.maxHp=EASY?260:380;e.dmg=14;e.val=900;e.p2=1;e.r=7;
   if(!MAT.wind)MAT.wind=new THREE.MeshBasicMaterial({color:0x8dff7a});if(!blue&&!gm)wyvTint(e.mesh);
   const dx=P.pos.x-x,dz=P.pos.z-z,dd=Math.hypot(dx,dz)||1;e.state='charge';e.st=1.7;e.done=false;e.vel.set(dx/dd*60,0,dz/dd*60);e.cd=2.5;e.mesh.rotation.y=Math.atan2(dx,dz);
@@ -7193,13 +7193,13 @@ function frame(now){
   if(state==='story'){const f=TER.flats[0]||[0,-100],a=t*0.1,fy=floorAt(f[0],f[1]);cam.position.set(f[0]+Math.sin(a)*190,fy+75,f[1]+Math.cos(a)*190);camLook.set(f[0],fy+8,f[1]);cam.lookAt(camLook);}
   else if(state==='select'){{const k=charKey==='redcap'?0.5:charKey==='hero'?0.72:charKey==='army'?1.8:C.model?1.7:1;cam.position.set(P.pos.x+16*k,P.pos.y+4*k,P.pos.z-18*k);}camLook.copy(P.pos);camLook.y+=1;camLook.x+=4;cam.lookAt(camLook);}
   else{if(cineOn)cam.position.copy(GCAM);const pc=C.fly?P.pitch*0.8:P.pitch*0.5;const cd=new V3(Math.sin(P.yaw)*Math.cos(pc),Math.sin(pc),Math.cos(P.yaw)*Math.cos(pc));
-    const back=(C.camB||(charKey==='army'?34:C.fly?24:20))*(ccam()?0.58:1),up=(C.camU||(charKey==='army'?15:C.fly?7:8))*(ccam()?0.36:1);
-    const tg=tmp.copy(P.pos).addScaledVector(cd,-back).add(tmp2.set(0,up,0));{const lt=ccam();if(lt){tg.x-=Math.cos(P.yaw)*back*lt;tg.z+=Math.sin(P.yaw)*back*lt;if(DUN.on){tg.x=clamp(tg.x,DUN.x0+4,DUN.x1-4);tg.z=clamp(tg.z,DUN.z0+4,DUN.z1-4);}}}const cg=floorAt(tg.x,tg.z)+2;if(tg.y<cg)tg.y=cg;
-    cam.position.lerp(tg,1-Math.exp(-(P.dashT>0?4.5:9)*rdt));camLook.copy(P.pos).addScaledVector(aimDir(),ccam()?46:40).add(tmp2.set(0,4,0));cam.lookAt(camLook);
+    let back=(C.camB||(charKey==='army'?34:C.fly?24:20))*(ccam()?0.58:1),up=(C.camU||(charKey==='army'?15:C.fly?7:8))*(ccam()?0.36:1);const cE=window.camE?camE():null;if(cE){back=cE.b;up=cE.u;}
+    const tg=tmp.copy(P.pos).addScaledVector(cd,-back).add(tmp2.set(0,up,0));{const lt=cE?cE.lt:ccam();if(lt){tg.x-=Math.cos(P.yaw)*back*lt;tg.z+=Math.sin(P.yaw)*back*lt;if(DUN.on){tg.x=clamp(tg.x,DUN.x0+(cE?S1X:4),DUN.x1-(cE?S1X:4));tg.z=clamp(tg.z,DUN.z0+4,DUN.z1-4);}}}const cg=floorAt(tg.x,tg.z)+2;if(tg.y<cg)tg.y=cg;
+    cam.position.lerp(tg,1-Math.exp(-(P.dashT>0?4.5:9)*rdt));camLook.copy(P.pos).addScaledVector(aimDir(),cE?cE.L:ccam()?46:40).add(tmp2.set(0,4+(cE?cE.dy:0),0));cam.lookAt(camLook);
     if(!C.fly&&!C.human&&P.onGround&&D.g.userData.flap){cam.position.y+=Math.abs(Math.sin(D.g.userData.flap.lp))*Math.min(1,vv/30)*0.45;}
     if(shakeT>0){shakeT-=rdt;const s=shakeT*1.6;cam.position.x+=rnd(-s,s);cam.position.y+=rnd(-s,s);}
     if(C.fly&&!C.human)cam.rotateZ(-P.roll*0.3);}
-  cineCam(rdt);const fovT=cineOn&&CINE.fov?CINE.fov:state!=='play'?65:C.human?(P.dashT>0?78:65):62+Math.min(16,vv*0.14)+(P.dashT>0?8:0)+((P.ringT||0)>0?8:0);if(Math.abs(cam.fov-fovT)>0.1){cam.fov+=(fovT-cam.fov)*Math.min(1,rdt*(cineOn?16:6));cam.updateProjectionMatrix();}
+  cineCam(rdt);const fovT=cineOn&&CINE.fov?CINE.fov:state!=='play'?65:C.human?(P.dashT>0?78:65):62+(typeof CAME!=='undefined'?CAME.fv:0)+Math.min(16,vv*0.14)+(P.dashT>0?8:0)+((P.ringT||0)>0?8:0);if(Math.abs(cam.fov-fovT)>0.1){cam.fov+=(fovT-cam.fov)*Math.min(1,rdt*(cineOn?16:6));cam.updateProjectionMatrix();}
   sun.position.copy(P.pos).addScaledVector(MC.dir,200);sun.target.position.copy(P.pos);
   updMood(rdt,false);
   // 文字
@@ -7674,6 +7674,34 @@ function hlCam(T,rdt){const h=T.lpE;if(!h||h.dead)return;const c=cpos(h),f=HLP.F
     else{if(h._lp){h._lp=0;h._lpS=0;h._lpH=0;hlPose(h,0,0,0,0);}
       if(h.mv==='windup'&&h.next==='leap'){hlPose(h,-0.28,0,0,0);h._lpW=1;}else if(h._lpW){h._lpW=0;hlPose(h,0,0,0,0);}}}
 };}
+
+/* ---- シナリオ1：きょりとカメラ（s1_kyori_cam.py）---- */
+const S1X=14,S1K={big:[10,6.5,14],in:{far:[11,4.5,6],near:[2,5,12],k0:18,k1:70,lmin:16,lmax:46,dy:0.5,fv:10},duel:{far:[13,4.5,6],near:[8,4,11],k0:25,k1:90,lmin:20,lmax:50,dy:0.5,fv:8}},S1R={drak:13,demon:34,wyv:33,knight:14,wyvD:90};
+function s1CamOK(){return SCN===1&&state==='play'&&(charKey==='dragon'||charKey==='wyvern'||charKey==='ground')&&!CINE.k&&!cineOn&&!GRAP.on;}
+const CAME={b:0,u:0,s:0,L:40,w:0,t:0,fv:0};
+function camE(){if(!s1CamOK()){CAME.w=Math.max(0,CAME.w-0.08);if(CAME.w<=0){CAME.fv=0;return null;}}
+  let K=null;if(CAVE.on&&!CAVE.flee||DUN.on)K=window.S1KX||S1K.in;else if(EN.some(e=>e.wyv&&!e.dead))K=S1K.duel;
+  if(!K&&CAME.w<=0)return null;
+  const now=performance.now(),dt=Math.min(0.1,(now-(CAME.t||now))/1000);CAME.t=now;
+  const sOK=s1CamOK()&&K;CAME.w+=((sOK?1:0)-CAME.w)*Math.min(1,dt*3.2);if(CAME.w<0.01&&!sOK)return null;
+  // 見る先：いちばん近いボス（なければ近い敵）までのきょりに、ねらいが交わるようにする
+  let fd=K?K.lmax:46,best=1e9,fy=null,fr=2;for(const e of EN){if(e.dead||e.inv&&!e.boss)continue;const q=e.mesh.position,d=Math.hypot(q.x-P.pos.x,q.z-P.pos.z);const sc=e.boss?d*0.5:d;if(sc<best){best=sc;fd=d;fy=q.y+(e.hc||2);fr=e.r||2;}}
+  const KK=K||S1K.in,L=clamp(fd*0.92,KK.lmin,KK.lmax),w=CAME.w;
+  const b0=(C.camB||(C.fly?24:20))*(ccam()?0.58:1),u0=(C.camU||(C.fly?7:8))*(ccam()?0.36:1),l0=ccam()?46:40;
+  const kn=1-clamp((fd-KK.k0)/(KK.k1-KK.k0),0,1),rk=clamp((fr-3)/8,0,1),nr=KK.near.map((v,j)=>v+(S1K.big[j]-v)*rk),Kb=KK.far[0]+(nr[0]-KK.far[0])*kn,Ku=KK.far[1]+(nr[1]-KK.far[1])*kn,Ks=KK.far[2]+(nr[2]-KK.far[2])*kn;
+  const b=b0+(Kb-b0)*w,u=u0+(Ku-u0)*w,s0=b0*(ccam()||0),s=s0+(Ks-s0)*w;
+  const ay=Math.sin(P.pitch)*L,by=P.pos.y+ay+4,dy=fy===null?0:clamp((fy-by)*KK.dy,-6,0)*w;
+  CAME.fv=-KK.fv*kn*w;
+  return {b,u,lt:s/Math.max(b,1),L:l0+(L-l0)*w,dy};}
+// 相手との間合い：よろいの竜人は近くまで来る／魔王とワイバーンは、竜をまわる輪をせばめる
+{const w0=walk;walk=function(e,tx,tz,spd,dt){if(spd&&e.thrower&&e.cave&&SCN===1&&Math.hypot(tx-e.mesh.position.x,tz-e.mesh.position.z)<S1R.knight)spd=0;if(!spd&&SCN===1&&e.type==='drak'&&!e.king&&!e.gen&&state==='play'){const d=Math.hypot(tx-e.mesh.position.x,tz-e.mesh.position.z);if(d>S1R.drak)spd=6.5;}return w0.call(this,e,tx,tz,spd,dt);};
+ const f0=fly;fly=function(e,target,spd,dt,k){if(SCN===1&&state==='play'&&e&&(e.type==='demon'||e.wyv)){const R=e.type==='demon'?S1R.demon:S1R.wyv,R0=e.type==='demon'?65:58,dx=target.x-P.pos.x,dz=target.z-P.pos.z,h=Math.hypot(dx,dz);if(h>R&&h<R0*1.3){target.x=P.pos.x+dx/h*R;target.z=P.pos.z+dz/h*R;}}return f0.call(this,e,target,spd,dt,k);};}
+// 場面の始まりの立ち位置：石の広間・巨人の間・魔王の間の最初の波で、竜を低く・奥へ進めて、相手を近くにする（前は高さ 24〜26・入口 z=120）
+// S1S[章]＝[z, 高さ（ゆかから）, ゴーレムの z]
+const S1S={drakD:75,dungeon:[92,8],golem:[82,8,32],maou:[84,8,100]};  // maou の3つ目＝魔王の間（2つ目の波）で竜を置く z（魔王は z=56 に立つ。前は 116 で、60 はなれていた）
+{const sw0=startWave;startWave=function(i){const K=S1S[(STAGES[stage]||{}).key];if(K&&i===0&&SCN===1&&DUN.on&&(charKey==='dragon'||charKey==='wyvern'||charKey==='ground')&&P.pos.z>K[0]+6){P.pos.z=K[0];P.pos.y=DUN.y+K[1]+(charKey==='dragon'?3:0);P.vel.set(0,0,0);}
+  const r=sw0.apply(this,arguments);try{if(i===2&&SCN===1&&DUN.on&&(STAGES[stage]||{}).key==='dungeon'){const g=EN.find(e=>e.type==='drak');if(g&&g.mesh.position.z<P.pos.z-S1S.drakD)g.mesh.position.z=Math.max(-250,P.pos.z-S1S.drakD);}
+  if(i===1&&SCN===1&&DUN.on&&(STAGES[stage]||{}).key==='maou'&&(charKey==='dragon'||charKey==='wyvern'||charKey==='ground')&&P.pos.z>S1S.maou[2]+6){P.pos.z=S1S.maou[2];P.vel.set(0,0,0);}if(K&&K[2]&&i===0&&SCN===1&&DUN.on&&(STAGES[stage]||{}).key==='golem'){const g=EN.find(e=>e.type==='biggolem');if(g&&g.mesh.position.z<K[2])g.mesh.position.z=K[2];}}catch(_){}return r;};}
 
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
