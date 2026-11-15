@@ -506,6 +506,32 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 @media (min-width:901px) and (min-height:860px){#skp{max-width:840px;gap:5px}.sk{flex-direction:column;align-items:stretch;gap:4px;padding:5px}.sk .si{width:100%}.sk .sn{font-size:13px;white-space:normal}.sk .sd{font-size:11px;line-height:1.35}.sk .kk{font-size:10px}}
 /* 11/15 ふみさん「こういう配置に最初の画面変更」：技の札は、どの画面でも「大きな絵が上・文が下」 */
 @media (min-width:641px){#skp{max-width:1100px;gap:10px;margin-bottom:8px}.sk{flex-direction:column;align-items:stretch;gap:6px;padding:7px 8px}.sk .si{width:100%;aspect-ratio:auto;height:clamp(70px,12.5vh,190px)}#select .cards .card>.pti{min-height:clamp(48px,9vh,140px)}.sk .sn{font-size:15px;white-space:normal}.sk .sd{font-size:12px;line-height:1.4;min-height:0}.sk .kk{font-size:11px}.sk .pl{width:30px;height:30px;right:7px;bottom:7px}}
+/* 11/15 ふみさん「スマホ対応：カメラ少し引きぎみ・台詞小さく・コマンドももっと小さく」 */
+@media (pointer:coarse){
+ #tsp{right:12px!important;bottom:86px!important;width:60px!important;height:60px!important}
+ #tsp2{right:80px!important;bottom:58px!important;width:54px!important;height:54px!important}
+ #tdash{right:12px!important;bottom:16px!important;width:56px!important;height:56px!important}
+ #touch .b{font-size:11px!important;line-height:1.15;background:#0006!important}
+ #talk{width:min(400px,86vw);padding:6px 9px;gap:8px;bottom:10px;border-radius:12px;border-width:1.5px}
+ #talk img{width:40px;height:40px;border-radius:8px}
+ #talk .tn{font-size:11px;margin-bottom:0}
+ #talk .tt{font-size:13px;line-height:1.4}
+ #talk.ex .tt{font-size:15px}
+ .bub{font-size:11.5px!important;padding:3px 8px!important;border-width:2px!important}
+ .bub.boss{font-size:13px!important}
+ #map{width:92px!important;height:92px!important;top:8px!important;right:8px!important}
+ #mute,#pause,#fs{right:8px!important;font-size:11px!important;padding:2px 8px!important}
+ #mute{top:106px!important}#pause{top:132px!important}#fs{top:158px!important}
+ #combo{top:190px!important;font-size:13px!important}#combo b{font-size:28px!important}
+ #speech{font-size:13px!important;top:84px!important}
+}
+@media (pointer:coarse) and (orientation:portrait){#talk{top:96px;bottom:auto;height:auto}}
+@media (pointer:coarse) and (orientation:landscape){
+ #talk{left:12px;transform:none;width:min(380px,48vw);bottom:8px;animation:none}
+ #mute,#pause,#fs{right:108px!important}#mute{top:8px!important}#pause{top:34px!important}#fs{top:60px!important}
+ #combo{top:104px!important}
+}
+@media (max-height:520px){#select .sk .si,#select .sk .sd{display:none}#select h1.logo img{width:150px!important}#select .sub{font-size:11px}}
 </style>
 </head>
 <body>
@@ -4302,7 +4328,7 @@ function cine(k,d,tg){if(state!=='play'||window.NOCINE)return;
   if(k===1){D.g.updateMatrixWorld(true);const bb=new THREE.Box3().setFromObject(D.g),s=bb.getSize(new V3()),c=bb.getCenter(new V3()),rw=Math.min(s.x,s.z)*0.5;
     CINE.tg={ox:c.x-P.pos.x,oy:c.y-P.pos.y,oz:c.z-P.pos.z,h:s.y,d:clamp(C.fly?Math.max(0.85*rw,0.9*s.y):Math.max(1.25*rw,1.9*s.y),5,30)};}}
 // 最初の場面（竜が正面・勇者3人）の後：カメラだけ竜のまわりをぐるっと回って、竜の後ろへ（切りかえで勇者と交差しない）
-const GZK={w:0};const ORB={on:0,t:0,d:1.4,p0:new V3(),l0:new V3()};
+const MOBK={on:typeof matchMedia==='function'&&matchMedia('(pointer:coarse)').matches};const GZK={w:0};const ORB={on:0,t:0,d:1.4,p0:new V3(),l0:new V3()};
 function orbCam(rdt,tg){ORB.t+=rdt;if(ORB.t<0){cam.position.copy(ORB.p0);camLook.copy(ORB.l0);return;}const q=Math.min(1,ORB.t/ORB.d),e=q*q*(3-2*q),c=P.pos;
   const a0=Math.atan2(ORB.p0.x-c.x,ORB.p0.z-c.z),a1=Math.atan2(tg.x-c.x,tg.z-c.z);let da=a1-a0;while(da>Math.PI)da-=6.2832;while(da<-Math.PI)da+=6.2832;
   const r0=Math.hypot(ORB.p0.x-c.x,ORB.p0.z-c.z),r1=Math.hypot(tg.x-c.x,tg.z-c.z),r=Math.max(r0+(r1-r0)*e,10+8*Math.sin(Math.PI*e)),a=a0+da*e,y=ORB.p0.y+(tg.y-ORB.p0.y)*e+3*Math.sin(Math.PI*e);
@@ -7907,7 +7933,7 @@ function frame(now){
   if(state==='story'){const f=TER.flats[0]||[0,-100],a=t*0.1,fy=floorAt(f[0],f[1]);cam.position.set(f[0]+Math.sin(a)*190,fy+75,f[1]+Math.cos(a)*190);camLook.set(f[0],fy+8,f[1]);cam.lookAt(camLook);}
   else if(state==='select'){{const k=charKey==='redcap'?0.5:charKey==='hero'?0.72:charKey==='army'?1.8:C.model?1.7:1;cam.position.set(P.pos.x+16*k,P.pos.y+4*k,P.pos.z-18*k);}camLook.copy(P.pos);camLook.y+=1;camLook.x+=4;cam.lookAt(camLook);}
   else{if(cineOn)cam.position.copy(GCAM);const pc=C.fly?P.pitch*0.8:P.pitch*0.5;const cd=new V3(Math.sin(P.yaw)*Math.cos(pc),Math.sin(pc),Math.cos(P.yaw)*Math.cos(pc));
-    let back=(C.camB||(charKey==='army'?34:C.fly?24:20))*(ccam()?0.58:1),up=(C.camU||(charKey==='army'?15:C.fly?7:8))*(ccam()?0.36:1);const cE=window.camE?camE():null;if(cE){back=cE.b;up=cE.u;}{const gz=EN.find(e=>e.giant&&!e.dead&&Math.hypot(e.mesh.position.x-P.pos.x,e.mesh.position.z-P.pos.z)<160);GZK.w+=((gz?1:0)-GZK.w)*Math.min(1,rdt*2);if(GZK.w>0.01){back*=1+1.3*GZK.w;up=up+(up*1.6+10)*GZK.w;}}  // 巨大な敵が近い時は大きく引く
+    let back=(C.camB||(charKey==='army'?34:C.fly?24:20))*(ccam()?0.58:1),up=(C.camU||(charKey==='army'?15:C.fly?7:8))*(ccam()?0.36:1);const cE=window.camE?camE():null;if(cE){back=cE.b;up=cE.u;}if(MOBK.on){const k=cam.aspect<1?1.7:1.3;back*=k;up*=k;}  // スマホは引きぎみ{const gz=EN.find(e=>e.giant&&!e.dead&&Math.hypot(e.mesh.position.x-P.pos.x,e.mesh.position.z-P.pos.z)<160);GZK.w+=((gz?1:0)-GZK.w)*Math.min(1,rdt*2);if(GZK.w>0.01){back*=1+1.3*GZK.w;up=up+(up*1.6+10)*GZK.w;}}  // 巨大な敵が近い時は大きく引く
     const tg=tmp.copy(P.pos).addScaledVector(cd,-back).add(tmp2.set(0,up,0));{const lt=cE?cE.lt:ccam();if(lt){tg.x-=Math.cos(P.yaw)*back*lt;tg.z+=Math.sin(P.yaw)*back*lt;if(DUN.on){tg.x=clamp(tg.x,DUN.x0+(cE?S1X:4),DUN.x1-(cE?S1X:4));tg.z=clamp(tg.z,DUN.z0+4,DUN.z1-4);}}}const cg=floorAt(tg.x,tg.z)+2;if(tg.y<cg)tg.y=cg;
     cam.position.lerp(tg,1-Math.exp(-(P.dashT>0?4.5:9)*rdt));camLook.copy(P.pos).addScaledVector(aimDir(),cE?cE.L:ccam()?46:40).add(tmp2.set(0,4+(cE?cE.dy:0),0));if(ORB.on)orbCam(rdt,tg);cam.lookAt(camLook);
     if(!C.fly&&!C.human&&P.onGround&&D.g.userData.flap){cam.position.y+=Math.abs(Math.sin(D.g.userData.flap.lp))*Math.min(1,vv/30)*0.45;}
