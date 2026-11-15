@@ -961,7 +961,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazq';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazr';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -970,7 +970,7 @@ async function loadModels0(){
   try{const r=await fetch('models/manifest.json',{cache:'no-store'});if(!r.ok)return;const mf=await r.json();LOADN=Object.keys(mf).length;const ld=new THREE.GLTFLoader();
     await Promise.all(Object.entries(mf).map(([id,v])=>new Promise(res=>(function lo(n){ld.load('models/'+v.file+'?v='+ASSET_V+(n?'&r='+n:''),g=>{
       g.scene.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;(Array.isArray(o.material)?o.material:[o.material]).forEach(mt=>{if(!mt)return;if(mt.map){mt.map.encoding=THREE.LinearEncoding;mt.map.needsUpdate=true;}if(mt.emissiveMap)mt.emissiveMap.encoding=THREE.LinearEncoding;if('metalness' in mt){mt.metalness=0;mt.metalnessMap=null;mt.roughness=0.85;mt.roughnessMap=null;}mt.needsUpdate=true;});}});
-      let sk=false;g.scene.traverse(o=>{if(o.isSkinnedMesh)sk=true;});if(id==='wyvern')fixWyvernLeg(g.scene);if(id==='dragon')addJaw(g.scene);MODEL[id]={scene:g.scene,skin:sk,anims:g.animations||[],rot:(v.rot!==undefined?v.rot:-90)*Math.PI/180};if(id==='airship')prepAirProp(g.scene);loadStep();res();},undefined,()=>{if(n<2){setTimeout(()=>lo(n+1),600);return;}loadStep();res();});})(0))));
+      let sk=false;g.scene.traverse(o=>{if(o.isSkinnedMesh)sk=true;});if(id==='wyvern')fixWyvernLeg(g.scene);if(id==='dragon')addJaw(g.scene);MODEL[id]={scene:g.scene,skin:sk,anims:g.animations||[],rot:(v.rot!==undefined?v.rot:-90)*Math.PI/180};layModel(id);if(id==='airship')prepAirProp(g.scene);loadStep();res();},undefined,()=>{if(n<2){setTimeout(()=>lo(n+1),600);return;}loadStep();res();});})(0))));
     mkRival();
     if(Object.keys(MODEL).length){console.log('3Dモデルを読んだ:',Object.keys(MODEL).join(','));if(state==='select'||state==='story'){setupStage(stage);setChar(charKey);}}
   }catch(e){}
@@ -1034,6 +1034,10 @@ function fixWyvernLeg(sc){sc.updateMatrixWorld(true);const v=new V3(),P0=new V3(
   sc.traverse(o=>{if(!o.isMesh)return;const pa=o.geometry.attributes.position,inv=new THREE.Matrix4().copy(o.matrixWorld).invert();let n=0;
     for(let i=0;i<pa.count;i++){v.fromBufferAttribute(pa,i).applyMatrix4(o.matrixWorld);if(v.y<0.28&&v.x>0.05&&Math.abs(v.z)<0.08){v.sub(P0).multiplyScalar(0.12).add(P0).applyMatrix4(inv);pa.setXYZ(i,v.x,v.y,v.z);n++;}}
     if(n){pa.needsUpdate=true;o.geometry.computeVertexNormals();o.geometry.computeBoundingBox();o.geometry.computeBoundingSphere();}});}
+// 骨の置き物を寝かせる：立った犬の骨に見えるモデルを、横にたおして少しつぶし、くずれた骨の山にする（読みこんだ直後に1回）
+const LAYM={bonearch:[1.45,0.7],cbones:[1.45,0.7],p8bones:[1.45,0.7]};
+function layModel(id){const M=MODEL[id],q=LAYM[id];if(!M||!q||M.lay)return;M.lay=1;const w=new THREE.Group(),sq=new THREE.Group(),sc=M.scene;sc.rotation.z=q[0];sq.add(sc);sq.scale.y=q[1];w.add(sq);w.updateMatrixWorld(true);
+  const bb=new THREE.Box3().setFromObject(w);sq.position.set(-(bb.min.x+bb.max.x)/2,-bb.min.y,-(bb.min.z+bb.max.z)/2);w.name=sc.name;M.scene=w;}
 function cloneModel(id){const M=MODEL[id];if(!M)return null;return (THREE.SkeletonUtils&&(M.anims.length||M.skin))?THREE.SkeletonUtils.clone(M.scene):M.scene.clone(true);}
 // 形だけの仮の見た目を、同じ大きさ・同じ足もとの3Dモデルに入れかえる
 const FITK={archer:1.4};
@@ -7557,10 +7561,10 @@ function s4Gate(T){
   s4Deco('dcastle',60,70,40,0,H(0,-430)-0.3,-430,0);
   for(let i=0;i<6;i++){const a=rnd(0,6.3),r=rnd(90,200);makeRuin(Math.sin(a)*r,-150+Math.cos(a)*r,true);}}
 function s4Bones(T){
-  [[-48,-92,0.3,24],[48,-92,-0.3,24],[-118,-165,0.9,28]].forEach(([x,z,r,h])=>s4Put('bonearch',22*h/24,h,28*h/24,x,z,r,1400,200));
-  s4Put('bonearch',44,44,52,0,-255,0,4000,500);
+  [[-48,-92,0.3,24],[48,-92,-0.3,24],[-118,-165,0.9,28]].forEach(([x,z,r,h])=>s4Put('bonearch',27*h/24,10*h/24,28*h/24,x,z,r,1400,200));
+  s4Put('bonearch',50,19,52,0,-255,0,4000,500);
   const L=[];for(let i=0,t=0;i<7&&t<200;t++){const x=rnd(-210,210),z=rnd(-270,70);if(Math.abs(x)<30&&z>-200&&z<-60)continue;
-    if(Math.hypot(x,z+115)<28||Math.hypot(x+75,z+125)<28||Math.hypot(x-75,z+155)<28||Math.hypot(x,z+170)<34)continue;L.push([x,z,rnd(0,6.3),rnd(5,12)]);i++;}
+    if(Math.hypot(x,z+115)<28||Math.hypot(x+75,z+125)<28||Math.hypot(x-75,z+155)<28||Math.hypot(x,z+170)<34)continue;L.push([x,z,rnd(0,6.3),rnd(2.5,6)]);i++;}
   s4Inst('bonearch',L);
   s4Deco('dcastle',60,70,40,150,H(150,-400)-0.3,-400,-0.45);}
 function s4Hall(){const y=DUN.y,z0=DUN.z0;
