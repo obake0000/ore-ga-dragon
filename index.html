@@ -937,7 +937,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aaza';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazb';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -5605,7 +5605,56 @@ const STAGES=[
    waves:[
     {name:'竜王の親衛',msg:'⚔️ 竜王の親衛の竜たちが、玉座の前に立ちふさがる！',mood:8,go(){for(let i=0;i<2;i++)s5Spawn('bone',...s5Ring(120,170),P.pos.y+rnd(18,30));for(let i=0;i<7;i++)s5Spawn('guard',...s5Ring(110,190),P.pos.y+rnd(8,30));sfx('roar');}},
     {name:'親衛の精鋭',msg:'⚔️ 親衛の精鋭が、黒い翼をそろえて舞いおりる！',mood:8,go(){for(let i=0;i<2;i++)s5Spawn('bone',...s5Ring(120,170),P.pos.y+rnd(18,30));s5Spawn('thun',...s5Ring(120,170),P.pos.y+rnd(18,30));for(let i=0;i<6;i++)s5Spawn('guard',...s5Ring(110,190),P.pos.y+rnd(8,30));sfx('roar');}},
-    {name:'竜王',msg:'👑 黒い雲が割れ、竜王が舞いおりる！',mood:4,go(){const b=s5Spawn('king',0,-210,P.pos.y+70);sfx('roar');}}]}
+    {name:'竜王',msg:'👑 黒い雲が割れ、竜王が舞いおりる！',mood:4,go(){const b=s5Spawn('king',0,-210,P.pos.y+70);sfx('roar');}}]},
+
+  {key:'p8war',p8:1,ch:'第1章',title:'鉄と煙の世界',place:'灰色の戦線',
+   ter:{amp:0.28,ox:1500,oz:900,flats:[[0,120,55,3,1],[0,-115,140,2,1]],dirt:[[0,-115,150],[0,120,60]],grass:0x5e6248,hill:0x55583f,rock:0x5a564e,snow:0x8a8880,sand:0x4e4a38,dirtC:0x5c5138,water:0x4a4a38,trees:0,rocks:16,rockC:0x55524a,ruins:-1,stacks:0,spires:0,start:[0,120]},
+   story:['暴れすぎた竜に、女神はついに書類を投げた。「もう、わたしの管轄の外へ行ってください」空に、黒いさけ目が開いた。','落ちた先は、灰色の空の下。泥と鉄条網と、えんえん続く塹壕。鉄の車が煙を吐き、鉄の鳥がうなっている。魔法の気配は、どこにも無い。','どこの国の、だれの戦争かは知らない。だが、こちらを見たとたん、全部の銃口がそろってこちらを向いた。……仲がいいな。'],
+   waves:[
+    {name:'塹壕の小銃兵',msg:'🪖 塹壕から、小銃兵がいっせいに撃ってくる！',get mood(){return S8MD?S8MD.a:0;},clr:'🏃 前線は、くずれた！ 体力が少し回復',go(){
+      s8Grp('rifle',13,0,-45,110,7);s8Grp('rifle',11,0,-112,110,7);s8Grp('rifle',8,0,-180,100,7);s8Grp('flak',4,0,-140,90,30);s8Air('fighter',4);}},
+    {name:'戦車と爆撃機',msg:'✈️ 戦車隊が前進！ 空からは、大型爆撃機が来る！',get mood(){return S8MD?S8MD.a:0;},clr:'🏃 戦車隊は、鉄くずになった！ 体力が少し回復',go(){
+      s8Grp('tank',5,0,-120,90,40);s8Grp('rifle',18,0,-100,110,50);s8Air('fighter',5);s8Air('bomber',2);
+      const b=s8Spawn('bomber',0,-200,P.pos.y+46,{boss:'✈️ 大型爆撃機',sc:2.2,hk:6,val:1500,dmg:16});b.die='……メーデー、メーデー……！（黒い煙を引いて、落ちていった）';s8BossIn(b,'✈️','大型爆撃機');}},
+    {name:'超重戦車',msg:'🛡️ 地ひびきとともに、超重戦車「陸の戦艦」があらわれた！',get mood(){return S8MD?S8MD.b:0;},go(){
+      const b=s8Spawn('supertank',0,-175,undefined,{boss:'🛡️ 超重戦車「陸の戦艦」'});b.die='……予算が……三年ぶんの鉄が……！（砲塔が、ゆっくりかたむいた）';s8BossIn(b,'🛡️','超重戦車「陸の戦艦」');
+      s8Grp('tank',3,0,-120,90,40);s8Grp('rifle',14,0,-90,110,50);s8Grp('flak',2,0,-150,80,20);s8Air('fighter',4);}}]},
+  {key:'p8robo',p8:1,ch:'第2章',title:'ネオンの都',place:'眠らない都',
+   ter:{amp:0,ox:0,oz:0,flats:[[0,0,330,3,1]],dirt:[],grass:0x161a26,hill:0x12141e,rock:0x181a26,snow:0x222636,sand:0x161a26,dirtC:0x161a26,water:0x0a0c18,trees:0,rocks:0,ruins:-1,stacks:0,spires:0,start:[0,120]},
+   story:['さけ目の先は、夜だった。ただし、暗くない。空までとどく塔が、青と桃色の光で、ぎらぎらと光っている。','歩いているのは、人ではない。白いよろいのロボットと、赤い目玉の飛ぶ機械。町ぜんたいが、ひとつの機械のように動いている。','「未登録の生体を検知。分類不能。排除します」……どの世界でも、最初のあいさつは同じらしい。'],
+   waves:[
+    {name:'巡回部隊',msg:'🤖 ロボット兵の巡回部隊が、列を組んで来る！',get mood(){return S8MD?S8MD.c:0;},clr:'⚡ 巡回部隊は、止まった！ 体力が少し回復',go(){
+      s8Grp('robot',30,0,-80,120,70);s8Air('drone',10);}},
+    {name:'重装部隊',msg:'🦾 重装ロボの部隊が、地面をゆらして来る！',get mood(){return S8MD?S8MD.c:0;},clr:'⚡ 重装部隊は、止まった！ 体力が少し回復',go(){
+      s8Grp('mech',4,0,-110,80,40);const b=s8Spawn('mech',0,-150,undefined,{boss:'🦾 重装ロボ隊長',sc:1.7,hk:3.4,val:1300,dmg:22});b.die='……キノウ、テイシ……';s8BossIn(b,'🦾','重装ロボ隊長');
+      s8Grp('robot',16,0,-90,120,60);s8Air('drone',8);}},
+    {name:'都市統括機',msg:'🏙️ 塔のあいだから、巨大な人型ロボ「都市統括機」が立ち上がる！',get mood(){return S8MD?S8MD.d:0;},go(){
+      const b=s8Spawn('titan',0,-190,undefined,{boss:'🏙️ 都市統括機'});b.die='……排除、失敗。記録します。「竜は、規格外」……';s8BossIn(b,'🏙️','都市統括機');
+      s8Grp('robot',10,0,-90,120,60);s8Air('drone',8);}}]},
+  {key:'p8dino',p8:1,ch:'第3章',title:'太古の密林',place:'牙の森',
+   ter:{amp:1.0,ox:-900,oz:1700,flats:[[0,120,50,3,1],[0,-130,100,3,1]],dirt:[[0,-130,70]],forest:1,grass:0x2f5a2a,hill:0x34502a,dirtC:0x4a4028,leaf:0x1f5a26,trunk:0x4a3420,water:0x2a6a5a,trees:520,rocks:30,ruins:-1,start:[0,120]},
+   story:['三つ目の世界は、むし暑かった。見上げるような巨木と、人の背より高いシダ。遠くで、山が火をふいている。','銃も、機械も、言葉も無い。あるのは、牙と爪と、腹をすかせた目だけ。茂みのあちこちで、小さな肉食の竜が、こちらを数えている。','……竜？ 親戚か。いや、火も吐けないし、翼も無い。話も通じない。遠い親戚ほど、めんどうな物は無い。'],
+   waves:[
+    {name:'小型竜の群れ',msg:'🦖 茂みから、小型の肉食竜の群れが飛び出した！',get mood(){return S8MD?S8MD.e:0;},clr:'🏃 群れは、ちりぢりに逃げた！ 体力が少し回復',go(){
+      s8Rng('raptor',34,70,170);s8Air('ptera',6);}},
+    {name:'三本角の突進',msg:'🦏 三本角の竜が、木をなぎたおして突っこんでくる！',get mood(){return S8MD?S8MD.e:0;},clr:'🏃 三本角の群れは、森へ帰った！ 体力が少し回復',go(){
+      s8Grp('trike',4,0,-130,70,50);const b=s8Spawn('trike',0,-170,undefined,{boss:'🦏 三本角の長',sc:1.7,hk:3.6,val:1400,dmg:22});b.die='ブオォォ……（地ひびきを立てて、横だおしになった）';s8BossIn(b,'🦏','三本角の長');
+      s8Rng('raptor',16,70,160);s8Air('ptera',8);}},
+    {name:'暴君竜',msg:'🦖 森がしずまり返る。……密林の王、暴君竜だ！',get mood(){return S8MD?S8MD.f:0;},go(){
+      const b=s8Spawn('rex',0,-175,undefined,{boss:'🦖 暴君竜'});b.die='グ……オォ……（森の王は、ゆっくりと、ひざを折った）';s8BossIn(b,'🦖','暴君竜');
+      s8Rng('raptor',12,70,160);s8Air('ptera',4);}}]},
+  {key:'p8poly',p8:1,ch:'最終章',title:'四次元の格子',place:'管理者の間',
+   ter:{amp:0,ox:0,oz:0,flats:[[0,0,330,3,1]],dirt:[],grass:0x06060e,hill:0x06060e,rock:0x06060e,snow:0x06060e,sand:0x06060e,dirtC:0x06060e,water:0x04040a,trees:0,rocks:0,ruins:-1,stacks:0,spires:0,start:[0,120]},
+   story:['最後のさけ目の先には、何も無かった。空も、土も、風も無い。あるのは、どこまでも続く光の格子と、宙に浮かぶ立方体だけ。','立方体は、回るたびに形が変わる。内がわが外に、外がわが内に。見ていると、目がおかしくなる。ここは、たて・よこ・高さの、もう一つ先らしい。','「不具合を発見。世界番号、不一致。削除を開始します」……ようやく、責任者が出てきた。'],
+   waves:[
+    {name:'立方体の行進',msg:'🟦 立方体の兵が、格子の上を転がってくる！',get mood(){return S8MD?S8MD.g:0;},clr:'◆ 立方体は、線にもどった！ 体力が少し回復',go(){
+      s8Grp('cube',34,0,-80,130,80);s8Air('tetra',10);}},
+    {name:'八面体の砲台',msg:'🔶 八面体の砲台が、輪になって浮かび上がる！',get mood(){return S8MD?S8MD.g:0;},clr:'◆ 砲台は、点にもどった！ 体力が少し回復',go(){
+      for(let i=0;i<s8N(6);i++){const a=i/6*6.283;s8Spawn('octa',Math.cos(a)*95,-60+Math.sin(a)*95,floorAt(0,-60)+18);}
+      s8Air('tetra',12);s8Grp('cube',18,0,-80,130,80);}},
+    {name:'管理者',msg:'◆ 格子がゆがみ、形を変え続ける多面体「管理者」があらわれた！',get mood(){return S8MD?S8MD.h:0;},go(){
+      const b=s8Spawn('admin',0,-150,P.pos.y+24,{boss:'◆ 管理者'});b.die='……削除、失敗。あなたは「仕様」です……（管理者は、光の粒になって、ほどけた）';s8BossIn(b,'◆','管理者');
+      s8Grp('cube',10,0,-80,120,70);s8Air('tetra',6);}}]}
 ];
 const ENDING=['古の竜もライバルも、静かに翼をたたんで雲の中へ消えていった。','魔物も、王国も、悪魔も、もう竜をおびやかさない。おびやかす口が、残っていない。','空は、きみのものだ。','遠くの空で、女神が小さくため息をついた。「罰のつもりだったのに……次は、ミジンコにします」'];
 let stage=0,wave=-1,waveWait=0,reached=0;
@@ -5613,13 +5662,13 @@ const WAVES=STAGES.flatMap(s=>s.waves);
 /* ---- シナリオ：1＝地下の迷宮（勇者→ワイバーン→洞窟→ゴーレム→魔王）／2＝王国との戦い（今までの6章） ---- */
 const ENDING1=['封印の扉のむこうで、魔王は灰になって消えた。','勇者も、魔物も、魔王も、もう竜をおびやかさない。おびやかす口が、残っていない。','空は、きみのものだ。','遠くの空で、女神が小さくため息をついた。「罰のつもりだったのに……次は、ミジンコにします」'];
 function scnHas(n){return !!SCK[n]&&SCK[n].some(k=>ALLST.some(q=>q.key===k));}
-function scnNext(n){for(let i=1;i<=7;i++){const m=(n-1+i)%7+1;if(scnHas(m))return m;}return 1;}
-function setScn(n){SCN=scnHas(n)?n:1;STAGES.length=0;SCK[SCN].forEach(k=>{const q=ALLST.find(q=>q.key===k);if(q)STAGES.push(q);});chRenum();const b=$('scn');if(b){b.textContent='📖 シナリオ'+SCN+'：'+SCNM[SCN];b.title=[1,2,3,4,5,6,7].filter(scnHas).map(i=>'シナリオ'+i+'＝'+SCNM[i]).join('／')+'。押すとシナリオの概要が開きます';}}
+function scnNext(n){for(let i=1;i<=8;i++){const m=(n-1+i)%8+1;if(scnHas(m))return m;}return 1;}
+function setScn(n){SCN=scnHas(n)?n:1;STAGES.length=0;SCK[SCN].forEach(k=>{const q=ALLST.find(q=>q.key===k);if(q)STAGES.push(q);});chRenum();const b=$('scn');if(b){b.textContent='📖 シナリオ'+SCN+'：'+SCNM[SCN];b.title=[1,2,3,4,5,6,7,8].filter(scnHas).map(i=>'シナリオ'+i+'＝'+SCNM[i]).join('／')+'。押すとシナリオの概要が開きます';}}
 // レッドキャップの群れ：オークキング編 第1章の第1波に9体／地下の迷宮の2つ目の波に5体（元の波の中身は書きかえず、あとに足す）
 {const w1=typeof S3W!=='undefined'&&S3W.wood1;if(typeof w1==='function')S3W.wood1=function(){w1.apply(this,arguments);};const w2=S3W.wood2;S3W.wood2=function(){w2.apply(this,arguments);const q=ringPos(100,130);addRedcapBoss(q[0],q[1]);};const f3=S3W.fort3;S3W.fort3=function(){f3.apply(this,arguments);const q=ringPos(100,130);addRedcapBoss(q[0],q[1]);};const k3=S3W.king3;S3W.king3=function(){k3.apply(this,arguments);for(let i=0;i<6;i++)orcPut(rnd(-30,30),-140+rnd(-10,10),{});const K=EN.find(e=>e.king&&!e.dead);if(K)kfBuild(K);};
  const dg=STAGES.find(q=>q.key==='dungeon'),dw=dg&&dg.waves&&dg.waves[1];if(dw&&typeof dw.go==='function'){const g0=dw.go;dw.go=function(){g0.apply(this,arguments);const c=dunPos(-165,-60);rcSwarm(5,c[0],c[1],12);};}}
-const ALLST=STAGES.slice(),SCK={1:['valley','dungeon','golem','maou'],2:['valley','town','castle','sea'],3:['orcwood','orcfort','orcking'],4:['hellgate','bonefield','maoujo'],5:['peak','dragongrave','dragonking'],6:['skygate','skytemple','archangel'],7:['coralsea','deepsea','seaking']},
-  SCNM={1:'地下の迷宮',2:'王国編',3:'オークキング編',4:'魔王討伐編',5:'竜王編',6:'天使編',7:'海王編'};let SCN=1;
+const ALLST=STAGES.slice(),SCK={1:['valley','dungeon','golem','maou'],2:['valley','town','castle','sea'],3:['orcwood','orcfort','orcking'],4:['hellgate','bonefield','maoujo'],5:['peak','dragongrave','dragonking'],6:['skygate','skytemple','archangel'],7:['coralsea','deepsea','seaking'],8:['p8war','p8robo','p8dino','p8poly']},
+  SCNM={1:'地下の迷宮',2:'王国編',3:'オークキング編',4:'魔王討伐編',5:'竜王編',6:'天使編',7:'海王編',8:'並行世界編'};let SCN=1;
 // 終わりの文と、エピローグの題（シナリオごと。無ければ今までの文）
 const ENDS={1:ENDING1,2:['王の艦隊は、嵐の海に沈んだ。王国の旗は、もうどこにも立っていない。','兵も、城も、船も、もう竜をおびやかさない。おびやかす口が、残っていない。','空は、きみのものだ。','遠くの空で、女神が小さくため息をついた。「罰のつもりだったのに……次は、ミジンコにします」']},ENDT={};
 /* ---- シナリオ2：王国編（魔物なし。人間の軍との戦いだけ。町→王都→海の3章） ---- */
@@ -5821,7 +5870,7 @@ const SCPV={archangel:1,bonefield:1,castle:1,coralsea:1,deepsea:1,dragongrave:1,
 $('scpV').addEventListener('error',()=>{if(SCP.open&&SCP.pics[SCP.i]&&SCP.pics[SCP.i].v&&SCP.pics.length>1){scpShow(SCP.i+1);scpTimer();}});
 function scpOpen(){
   if(state!=='select')return;SCP.open=true;
-  $('scpTabs').innerHTML=[1,2,3,4,5,6,7].filter(scnHas).map(n=>'<button class="tab" role="tab" data-n="'+n+'"><span class="no">'+(n===SCN?'★':n)+'</span>'+scpEsc(SCNM[n])+'</button>').join('');
+  $('scpTabs').innerHTML=[1,2,3,4,5,6,7,8].filter(scnHas).map(n=>'<button class="tab" role="tab" data-n="'+n+'"><span class="no">'+(n===SCN?'★':n)+'</span>'+scpEsc(SCNM[n])+'</button>').join('');
   document.querySelectorAll('#scpTabs .tab').forEach(t=>t.addEventListener('click',()=>scpView(+t.dataset.n)));
   const w=$('scp');w.style.display='flex';w.scrollTop=0;scpView(SCN);try{$('scpGo').focus({preventScroll:true});}catch(e){}}
 function scpClose(){SCP.open=false;SCP.tok++;clearInterval(SCP.tm);SCP.tm=0;{const vd=$('scpV');if(vd){try{vd.pause();}catch(e){}}}$('scp').style.display='none';try{$('scn').focus({preventScroll:true});}catch(e){}}
@@ -8174,6 +8223,458 @@ clkWings=function(cx,cz){const zf=cz+30;CLK.tw.length=0;
 function clkRoyal(n){for(let i=n;i<TERRAIN.length;i++){const g=TERRAIN[i];if(!g||!g.isGroup)continue;const h=new THREE.Box3().setFromObject(g).getSize(new V3()).y;
   if(h>180&&h<260){g.scale.multiplyScalar(0.5);g.position.set(30,H(30,-380)-42,-380);if(WORLD&&WORLD.royal)WORLD.royal.set(30,g.position.y+90,-380);return;}}}
 {const bw=buildWorld;buildWorld=function(L){const n=TERRAIN.length,r=bw.apply(this,arguments);if(L==='castle'){try{clkRoyal(n);}catch(e){console.warn('clkRoyal',e);}}return r;};}
+
+/* ================= シナリオ8：並行世界編（scn8_para.py。ふみさん 11/15「現代の世界大戦風、未来のロボット世界、恐竜のジャングル と横断」「ポリゴンの4次元世界もステージに使用」） ================= */
+// 空の色（章の波は getter で読む。var なのは、起動のいちばん初めに章を作る時、まだこの行に来ていなくてもエラーにしないため）
+var S8MD=null;
+S8MD={a:MOODS.length};MOODS.push(mood(0x5a5d62,0xa39a86,0xffdcae,0.9,0.74,0,[0.45,0.7,0.4]));          // a 灰色の戦線
+S8MD.b=MOODS.length;MOODS.push(mood(0x3c2f33,0xb86c40,0xff9058,0.92,0.64,0,[0.85,0.2,0.3]));           // b 戦線の夕焼け（超重戦車）
+S8MD.c=MOODS.length;MOODS.push(mood(0x05061c,0x2c1450,0x9fd0ff,0.6,0.7,0.5,[0.3,0.8,0.4]));            // c ネオンの夜
+S8MD.d=MOODS.length;MOODS.push(mood(0x0c0424,0x5a1248,0xff80c8,0.66,0.7,0.3,[0.3,0.8,0.4]));           // d ネオンの夜（統括機）
+S8MD.e=MOODS.length;MOODS.push(mood(0x2c80d4,0xd4ecb4,0xfff0b4,1.12,0.9,0,[0.5,0.8,0.35]));            // e 密林の昼
+S8MD.f=MOODS.length;MOODS.push(mood(0x5c3444,0xf08c4c,0xffa458,1.0,0.72,0,[0.85,0.22,0.3]));           // f 火山の夕ばえ（暴君竜）
+S8MD.g=MOODS.length;MOODS.push(mood(0x02020c,0x12123c,0xa8c4ff,0.7,0.85,0,[0.3,0.9,0.3]));             // g 4次元
+S8MD.h=MOODS.length;MOODS.push(mood(0x0a0012,0x340a44,0xff70d8,0.74,0.85,0,[0.3,0.9,0.3]));            // h 4次元（管理者）
+const S8={cap:40,anim:[],uT:{value:0},hint:{},key:''};
+const S8C={poly:[0x40e8ff,0xff40d0,0xffffff],las:[0xff3050,0xffa0b0],cy:[0x40e8ff,0xc0f8ff],bul:[0xffe9a0,0xffffff],dust:[0x8a7a58,0xb8a880]};
+const S8M={bul:new THREE.MeshBasicMaterial({color:0xffe9a0}),las:new THREE.MeshBasicMaterial({color:0xff3050}),cy:new THREE.MeshBasicMaterial({color:0x40e8ff}),mg:new THREE.MeshBasicMaterial({color:0xff40d0}),wh:new THREE.MeshBasicMaterial({color:0xffffff}),ye:new THREE.MeshBasicMaterial({color:0xffe060}),red:new THREE.MeshBasicMaterial({color:0xff2a2a}),
+  line:new THREE.LineBasicMaterial({color:0xffffff})};
+GEO.p8bolt=new THREE.BoxGeometry(0.24,0.24,2.8);
+// 初心者モード：数を7割・体力を0.75倍（ほかのシナリオと同じ決め方）
+function s8N(n){return EASY?Math.max(1,Math.round(n*0.7)):n;}
+function s8Hp(raw,boss){return raw*(EASY?(boss?0.42:0.5)*0.75:(boss?0.62:0.75));}
+
+/* ---------- 仮の見た目（Tripo のモデルが無い間。入ったら attachModel が同じ大きさで入れかえる） ---------- */
+function s8P(g,w,h,d,c,x,y,z){const m=box(w,h,d,typeof c==='number'?mat(c):c);m.position.set(x,y,z);g.add(m);return m;}
+function s8Cy(g,r1,r2,h,c,x,y,z,ax,seg){const m=mesh(new THREE.CylinderGeometry(r1,r2,h,seg||10),typeof c==='number'?mat(c):c);m.position.set(x,y,z);if(ax==='z')m.rotation.x=Math.PI/2;else if(ax==='x')m.rotation.z=Math.PI/2;g.add(m);return m;}
+function s8Sp(g,r,c,x,y,z,sx,sy,sz){const m=mesh(new THREE.SphereGeometry(r,10,8),typeof c==='number'?mat(c):c);m.position.set(x,y,z);if(sx)m.scale.set(sx,sy,sz);g.add(m);return m;}
+// 第1章：小銃兵（人型）
+function s8FbRifle(){const m=makeHuman({skin:0xe8c4a0,armor:0x5f6650,cloth:0x4a5040,s:1}),u=m.userData,b=m.children[0];
+  const gun=box(0.09,0.09,1.5,mat(0x2a2620));gun.position.set(0,-0.7,0.45);u.armR.add(gun);u.armR.rotation.x=-1.1;
+  const hm=mesh(new THREE.SphereGeometry(0.34,10,6,0,Math.PI*2,0,Math.PI/2),mat(0x4e5544));hm.position.y=2.14;b.add(hm);s8P(b,0.5,0.6,0.25,0x6a5a3a,0,1.45,-0.35);return m;}
+// 中戦車：高さ3・長さ8
+function s8FbTank(){const g=new THREE.Group(),ol=0x5a5f48,dk=0x2e2f28;s8P(g,4.6,1.5,7.6,ol,0,1.45,0);[-1,1].forEach(k=>{s8P(g,1.1,1.3,8.2,dk,2.4*k,0.65,0);});
+  s8P(g,3.0,1.1,3.4,0x646a52,0,2.75,-0.3);s8Cy(g,0.24,0.24,4.6,dk,0,2.8,3.2,'z');s8Cy(g,0.5,0.5,0.4,dk,0,3.4,-0.6);return g;}
+// 高射砲（大砲の動きを借りるので piv・brl・muz が要る）：高さ3
+function s8FbFlak(){const g=new THREE.Group(),ol=0x5a5f48,dk=0x2e2f28;s8Cy(g,2.0,2.2,0.5,0x6a6654,0,0.25,0,null,12);
+  for(let i=0;i<8;i++){const a=i/8*6.283;s8P(g,0.9,0.55,0.5,0xa8946a,Math.cos(a)*2.3,0.5,Math.sin(a)*2.3).rotation.y=-a+1.57;}
+  s8P(g,1.2,1.3,1.2,ol,0,1.1,0);const piv=new THREE.Group();piv.position.y=1.9;g.add(piv);const brl=new THREE.Group();piv.add(brl);
+  [-1,1].forEach(k=>{const c=mesh(new THREE.CylinderGeometry(0.11,0.14,3.4,8),mat(dk));c.rotation.x=Math.PI/2;c.position.set(0.3*k,0,1.5);brl.add(c);});
+  const muz=new THREE.Object3D();muz.position.z=3.2;brl.add(muz);g.userData={piv,brl,muz};return g;}
+// 戦闘機：全長9・つばさ10。体の中心が原点
+function s8FbFighter(){const g=new THREE.Group(),ol=0x5a6050,lt=0xa8aca0,dk=0x2a2c28;s8P(g,1.2,1.3,7.4,ol,0,0,0);s8P(g,10.4,0.2,1.9,ol,0,-0.1,0.9);s8P(g,3.6,0.16,1.1,ol,0,0.2,-3.3);s8P(g,0.16,1.5,1.2,ol,0,0.9,-3.3);
+  s8P(g,1.0,0.3,7.0,lt,0,-0.6,0);s8Cy(g,0.62,0.5,0.9,dk,0,0,4.1,'z');const pr=s8Cy(g,1.5,1.5,0.06,new THREE.MeshBasicMaterial({color:0x808478,transparent:true,opacity:0.35}),0,0,4.6,'z',14);pr.castShadow=false;
+  s8P(g,0.8,0.5,1.4,0x9ad0e8,0,0.8,0.7);g.rotation.order='YXZ';return g;}
+// 爆撃機：全長21・つばさ27
+function s8FbBomber(){const g=new THREE.Group(),ol=0x545a4a,lt=0x9a9e92,dk=0x2a2c28;s8P(g,2.6,2.6,20,ol,0,0,0);s8P(g,27,0.4,4.6,ol,0,0.3,1.5);s8P(g,9.5,0.3,2.6,ol,0,0.6,-9);s8P(g,0.3,3.6,2.8,ol,0,2.2,-9);
+  s8P(g,2.2,0.5,19,lt,0,-1.2,0);s8Sp(g,1.3,0x9ad0e8,0,0,10.2,1,1,1.2);
+  [-9,-4.5,4.5,9].forEach(x=>{s8Cy(g,0.75,0.6,2.8,dk,x,-0.1,3.2,'z');const pr=s8Cy(g,1.7,1.7,0.06,new THREE.MeshBasicMaterial({color:0x808478,transparent:true,opacity:0.3}),x,-0.1,4.7,'z',14);pr.castShadow=false;});return g;}
+// 超重戦車「陸の戦艦」：高さ12・幅20・長さ32
+function s8FbSuper(){const g=new THREE.Group(),ol=0x4e5442,ol2=0x5c624e,dk=0x26271f;s8P(g,16,5,30,ol,0,4.5,0);[-1,1].forEach(k=>{s8P(g,3.4,4.2,32,dk,9.4*k,2.1,0);s8P(g,2.6,1.6,5,ol2,6.4*k,7.8,9);s8Cy(g,0.3,0.3,5,dk,6.4*k,7.9,12.6,'z');
+    s8Cy(g,0.9,1.1,5,dk,5*k,9.6,-11);});
+  s8P(g,10,3.6,12,ol2,0,8.8,-1);[-1.7,1.7].forEach(x=>{s8Cy(g,0.6,0.7,14,dk,x,9.2,11.5,'z');});s8P(g,3,1.4,3,ol,0,11.3,-3);return g;}
+// 第2章：ロボット兵（人型）
+function s8FbRobot(){const m=makeHuman({skin:0x20242c,armor:0xe4e8ee,cloth:0x3a4050,s:1}),u=m.userData,b=m.children[0];
+  const gun=box(0.14,0.16,1.3,mat(0x2a2e3a));gun.position.set(0,-0.7,0.4);u.armR.add(gun);u.armR.rotation.x=-1.1;const tp=new THREE.Mesh(new THREE.BoxGeometry(0.06,0.06,0.5),S8M.cy);tp.position.set(0,-0.7,1.0);u.armR.add(tp);
+  const vs=new THREE.Mesh(new THREE.BoxGeometry(0.4,0.1,0.1),S8M.cy);vs.position.set(0,2.13,0.25);b.add(vs);const ln=new THREE.Mesh(new THREE.BoxGeometry(0.08,0.7,0.06),S8M.cy);ln.position.set(0,1.4,0.25);b.add(ln);return m;}
+// ドローン：高さ1.5
+function s8FbDrone(){const g=new THREE.Group();s8Sp(g,0.7,0x30343e,0,0,0,1,0.75,1);const ey=new THREE.Mesh(new THREE.SphereGeometry(0.26,8,6),S8M.red);ey.position.set(0,-0.05,0.6);g.add(ey);
+  [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([a,b])=>{s8P(g,0.9,0.08,0.12,0x30343e,0.6*a,0.2,0.6*b).rotation.y=a*b*0.785;const r=s8Cy(g,0.45,0.45,0.05,new THREE.MeshBasicMaterial({color:0x40e8ff,transparent:true,opacity:0.45}),0.95*a,0.3,0.95*b,null,12);r.castShadow=false;});
+  s8Cy(g,0.08,0.08,0.8,0x20242c,0,-0.55,0.3,'z');return g;}
+// 重装ロボ：高さ6.4
+function s8FbMech(){const g=new THREE.Group(),gy=0x4a4e58,dk=0x2a2c34,ye=0xd8b020;[-1,1].forEach(k=>{s8P(g,1.3,2.6,1.6,dk,1.2*k,1.3,0);s8P(g,1.5,2.0,1.5,gy,3.0*k,4.2,0.2);s8Cy(g,0.5,0.6,2.4,dk,3.0*k,3.3,1.4,'z');s8P(g,1.6,0.5,1.7,ye,3.0*k,5.4,0.2);});
+  s8P(g,4.2,3.0,3.0,gy,0,4.2,0);s8P(g,4.3,0.5,3.1,ye,0,3.0,0);s8P(g,1.5,1.0,1.4,dk,0,6.0,0.2);const vs=new THREE.Mesh(new THREE.BoxGeometry(1.2,0.25,0.1),new THREE.MeshBasicMaterial({color:0xff9a20}));vs.position.set(0,6.1,0.95);g.add(vs);return g;}
+// 都市統括機：高さ34
+function s8FbTitan(){const g=new THREE.Group(),wh=0xdfe3ea,gy=0x4a4f5c,dk=0x23262e,N=k=>new THREE.MeshBasicMaterial({color:k});
+  [-1,1].forEach(k=>{s8P(g,5,13,6,gy,4*k,6.5,0);s8P(g,5.6,3,7.4,dk,4*k,1.5,0.6);s8P(g,4.4,6,5,wh,4*k,10,0.8);s8P(g,7,5,8,wh,11.5*k,27,0);s8P(g,4,13,4.4,gy,12*k,18,0);s8P(g,4.6,5,5,wh,12*k,10.5,0.4);
+    const l=new THREE.Mesh(new THREE.BoxGeometry(0.5,11,0.3),N(0x40e8ff));l.position.set(4*k,7,3.1);g.add(l);const a=new THREE.Mesh(new THREE.BoxGeometry(0.4,10,0.3),N(0x40e8ff));a.position.set(12*k,18,2.3);g.add(a);});
+  s8P(g,13,4,7,dk,0,14.5,0);s8P(g,16,10,9,wh,0,22,0);s8P(g,10,4,1,gy,0,23,4.6);const c=new THREE.Mesh(new THREE.BoxGeometry(3,3,0.4),N(0x40e8ff));c.position.set(0,22.5,5.2);g.add(c);
+  s8P(g,5,5,5.4,wh,0,30.5,0);s8P(g,6,1.4,6,gy,0,33.3,0);const ey=new THREE.Mesh(new THREE.BoxGeometry(4,0.9,0.4),N(0xff2a2a));ey.position.set(0,30.8,2.8);g.add(ey);s8Cy(g,0.2,0.2,5,dk,2.2,36,-1.5);return g;}
+// 第3章：小型の肉食竜（高さ1.6・長さ3.4）。足は人形と同じ名前（legL・legR・armL）で歩く動きを借りる
+function s8FbRaptor(){const g=new THREE.Group(),gr=0x5a8a3a,ye=0xc8b040,dk=0x2a3a1e;s8Sp(g,0.5,gr,0,1.05,0,0.85,0.9,2.1);s8Cy(g,0.3,0.03,1.9,gr,0,1.15,-1.7,'z',7).rotation.x=-Math.PI/2;
+  s8P(g,0.36,0.6,0.5,gr,0,1.45,0.9).rotation.x=-0.5;s8P(g,0.4,0.42,0.9,gr,0,1.62,1.45);s8P(g,0.1,0.25,0.5,ye,0,1.9,1.2);s8P(g,0.44,0.1,1.0,ye,0,1.2,-0.3);
+  const lg=k=>{const L=new THREE.Group();L.position.set(0.3*k,0.95,-0.1);const a=box(0.22,0.95,0.3,mat(dk));a.position.y=-0.47;L.add(a);g.add(L);return L;};
+  const u={legL:lg(-1),legR:lg(1),armL:new THREE.Object3D()};[-1,1].forEach(k=>{const ey=new THREE.Mesh(new THREE.SphereGeometry(0.06,6,5),S8M.ye);ey.position.set(0.2*k,1.72,1.7);g.add(ey);});g.userData=u;return g;}
+// 翼竜：つばさの幅8（グリフォンの羽ばたきを借りる。wL・wR・wL2・wR2）
+function s8FbPtera(){const g=new THREE.Group(),br=0x8a5a3a,or=0xc8783c,dk=0x4a2e1c;s8Sp(g,0.6,br,0,0,0,0.9,0.8,2.2);s8P(g,0.3,0.3,1.6,or,0,0.35,2.1);s8P(g,0.12,0.5,1.0,or,0,0.85,0.9).rotation.x=0.5;s8P(g,0.2,0.2,1.2,dk,0,0,-1.6);
+  const wing=k=>{const a=new THREE.Group();a.position.set(0.4*k,0.1,0.2);const w1=box(2.2,0.08,1.6,mat(br));w1.position.x=1.1*k;a.add(w1);const b=new THREE.Group();b.position.x=2.2*k;const w2=box(1.9,0.07,1.1,mat(or));w2.position.set(0.95*k,0,-0.1);b.add(w2);a.add(b);g.add(a);return {a,b};};
+  const L=wing(-1),Rr=wing(1);g.userData={wL:L.a,wR:Rr.a,wL2:L.b,wR2:Rr.b};g.rotation.order='YXZ';return g;}
+// 三本角の竜：高さ3.2・長さ7
+function s8FbTrike(){const g=new THREE.Group(),gy=0x6a7a5a,br=0x8a6a42,iv=0xe8e0c8,dk=0x3e4a34;s8Sp(g,1.5,gy,0,1.9,-0.4,1,0.95,1.9);[[-1,1.3],[1,1.3],[-1,-1.9],[1,-1.9]].forEach(([a,b])=>{s8Cy(g,0.42,0.48,1.5,dk,0.95*a,0.75,b);});
+  s8Cy(g,0.5,0.06,2.4,gy,0,1.7,-3.9,'z',7).rotation.x=-Math.PI/2;s8P(g,1.3,1.2,1.7,gy,0,1.9,2.6);const fr=mesh(new THREE.CylinderGeometry(1.7,1.5,0.25,12),mat(br));fr.rotation.x=1.2;fr.position.set(0,2.6,1.9);g.add(fr);
+  [-1,1].forEach(k=>{const h=mesh(new THREE.ConeGeometry(0.16,1.5,6),mat(iv));h.rotation.x=1.25;h.position.set(0.45*k,2.75,3.1);g.add(h);});const h=mesh(new THREE.ConeGeometry(0.16,0.7,6),mat(iv));h.rotation.x=1.2;h.position.set(0,2.05,3.75);g.add(h);return g;}
+// 暴君竜：高さ14・長さ27
+function s8FbRex(){const g=new THREE.Group(),gr=0x3e5a34,br=0x5a4a30,or=0xc8703a,iv=0xf0e8d0,dk=0x26321e;const bd=s8Sp(g,4.2,gr,0,8.4,-1,1,1,2.3);bd.rotation.x=-0.22;
+  const tl=mesh(new THREE.ConeGeometry(2.6,13,8),mat(gr));tl.rotation.x=-Math.PI/2-0.1;tl.position.set(0,7.8,-14.5);g.add(tl);
+  s8P(g,3.2,4.4,4.2,gr,0,11,6.2).rotation.x=-0.5;s8P(g,3.6,3.2,6.2,gr,0,12.4,10.4);s8P(g,3.2,1.2,5.4,br,0,10.4,10.6);
+  for(let i=0;i<6;i++)[-1,1].forEach(k=>{const t=mesh(new THREE.ConeGeometry(0.22,0.9,5),mat(iv));t.rotation.x=Math.PI;t.position.set(1.5*k,10.8,8.4+i*0.85);g.add(t);});
+  [-1,1].forEach(k=>{s8P(g,2.2,5.2,3.2,gr,2.6*k,5.8,-1.6).rotation.x=0.3;s8P(g,1.6,4.6,1.8,dk,2.6*k,2.3,-0.4);s8P(g,2.4,0.9,3.6,dk,2.6*k,0.45,0.6);s8P(g,0.6,1.8,0.6,gr,2.2*k,8.2,5.4).rotation.x=0.8;
+    const ey=new THREE.Mesh(new THREE.SphereGeometry(0.3,8,6),S8M.ye);ey.position.set(1.7*k,13.3,11.4);g.add(ey);});
+  for(let i=0;i<7;i++)s8P(g,0.5,0.7,1.2,or,0,12.9-i*0.45,-2+i*-1.6);return g;}
+// 最終章：面と線だけの敵（モデルなし。Three.js の形）
+const S8G={cube:new THREE.BoxGeometry(2.2,2.2,2.2),tet:new THREE.TetrahedronGeometry(2.3),oct:new THREE.OctahedronGeometry(3.2)};
+S8G.cubeE=new THREE.EdgesGeometry(S8G.cube);S8G.tetE=new THREE.EdgesGeometry(S8G.tet);S8G.octE=new THREE.EdgesGeometry(S8G.oct);
+const S8PM=[0x2060ff,0x20c8e8,0xa040ff,0xff40b0].map(c=>new THREE.MeshLambertMaterial({color:c,emissive:c,emissiveIntensity:0.35,flatShading:true}));
+function s8Poly(geo,edge,mi){const g=new THREE.Group(),r=new THREE.Group();g.add(r);const m=new THREE.Mesh(geo,S8PM[mi%S8PM.length]);m.castShadow=true;r.add(m);r.add(new THREE.LineSegments(edge,S8M.line));g.userData.roll=r;return g;}
+function s8FbCube(){const g=s8Poly(S8G.cube,S8G.cubeE,(Math.random()*2)|0);g.userData.roll.position.y=1.1;return g;}
+function s8FbTetra(){const g=s8Poly(S8G.tet,S8G.tetE,2+((Math.random()*2)|0));g.rotation.order='YXZ';return g;}
+function s8FbOcta(){const g=s8Poly(S8G.oct,S8G.octE,1);const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xffe060,transparent:true,opacity:0.7,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(9,9,1);g.add(gl);return g;}
+// 超立方体（4次元の立方体）の影：16個の点を4次元で回して、3次元にうつす。線32本
+const S8TV=[],S8TE=[];for(let i=0;i<16;i++){S8TV.push([(i&1)?1:-1,(i&2)?1:-1,(i&4)?1:-1,(i&8)?1:-1]);for(let b=0;b<4;b++){const j=i^(1<<b);if(j>i)S8TE.push(i,j);}}
+function s8Tess(col,size,thick){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(64*3),3));const grp=new THREE.Group(),mt=new THREE.LineBasicMaterial({color:col,transparent:true,opacity:0.95,fog:false});
+  const n=thick||1;for(let k=0;k<n;k++){const l=new THREE.LineSegments(g,mt);l.frustumCulled=false;if(k){const o=size*0.006;l.position.set(k===1?o:k===2?-o:0,k===3?o:k===4?-o:0,0);}grp.add(l);}
+  const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(16*3),3));const pt=new THREE.Points(pg,new THREE.PointsMaterial({color:0xffffff,size:size*0.07,map:GT,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,fog:false}));pt.frustumCulled=false;grp.add(pt);
+  grp.userData={g,pg,sz:size,mt};s8TessUpd(grp,0,1);return grp;}
+const S8T4=new Float32Array(48);
+function s8TessUpd(m,t,k){const u=m.userData,a=u.g.attributes.position,b=u.pg.attributes.position,sz=u.sz,c1=Math.cos(t*0.7*k),s1=Math.sin(t*0.7*k),c2=Math.cos(t*0.45*k),s2=Math.sin(t*0.45*k),c3=Math.cos(t*0.3*k),s3=Math.sin(t*0.3*k);
+  for(let i=0;i<16;i++){const v=S8TV[i],x1=v[0]*c1-v[3]*s1,w1=v[0]*s1+v[3]*c1,y1=v[1]*c2-w1*s2,w2=v[1]*s2+w1*c2,z1=v[2]*c3-x1*s3,x2=v[2]*s3+x1*c3,f=sz/(2.7-w2);S8T4[i*3]=x2*f;S8T4[i*3+1]=y1*f;S8T4[i*3+2]=z1*f;b.setXYZ(i,x2*f,y1*f,z1*f);}
+  for(let i=0;i<64;i++){const q=S8TE[i]*3;a.setXYZ(i,S8T4[q],S8T4[q+1],S8T4[q+2]);}a.needsUpdate=true;b.needsUpdate=true;}
+// 管理者：4つの形（四面体・立方体・二十面体・超立方体）を1つにまとめ、1つだけ見せる
+function s8FbAdmin(){const g=new THREE.Group(),sp=new THREE.Group();g.add(sp);const F=[];
+  const mk=(geo,c)=>{const q=new THREE.Group(),m=new THREE.Mesh(geo,new THREE.MeshLambertMaterial({color:c,emissive:c,emissiveIntensity:0.45,flatShading:true,transparent:true,opacity:0.9}));q.add(m);q.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo),S8M.line));sp.add(q);F.push(q);return q;};
+  mk(new THREE.TetrahedronGeometry(11),0xff40b0);mk(new THREE.BoxGeometry(13,13,13),0x2090ff);mk(new THREE.IcosahedronGeometry(10.5),0xffc030);
+  {const q=new THREE.Group(),ts=s8Tess(0xffffff,17,5);q.add(ts);const core=new THREE.Mesh(new THREE.OctahedronGeometry(4),new THREE.MeshBasicMaterial({color:0xff40d0}));q.add(core);q.userData.ts=ts;q.userData.core=core;sp.add(q);F.push(q);}
+  const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff60d0,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(40,40,1);g.add(gl);
+  F.forEach((q,i)=>q.visible=i===0);g.userData={spin:sp,forms:F,aura:gl};return g;}
+
+/* ---------- 敵の表：base＝動きを借りる今ある敵／type＝自分で動かす時の種類名／mid＝Tripo のモデル名／fb＝仮の見た目／hp は倍率をかける前 ---------- */
+Object.assign(ST,{p8drone:{hp:90,r:1.6,hc:0,val:70,dmg:6,fly:1,ic:'🛸'},p8raptor:{hp:100,r:1.8,hc:1.0,val:30,dmg:10,ic:'🦖'},p8trike:{hp:750,r:4.6,hc:2.0,val:260,dmg:18,ic:'🦏'},p8rex:{hp:6200,r:10,hc:8,val:3500,dmg:28,ic:'🦖'},
+  p8cube:{hp:120,r:1.9,hc:1.1,val:30,dmg:9,ic:'🟦'},p8octa:{hp:380,r:3.4,hc:0,val:200,dmg:10,fly:1,ic:'🔶'},p8admin:{hp:7200,r:10,hc:0,val:5000,dmg:28,fly:1,ic:'◆'}});
+const S8K={
+ rifle:{base:'soldier',mid:'p8rifle',fb:s8FbRifle,hum:1,sc:0.75,hp:110,r:1.9,hc:1.2,val:25,dmg:6,spd:9,stop:34,gun:{k:'bul',cd:[2.6,4.4],rng:130,spd:125,dmg:5},shout:['撃て、撃てーっ！','伏せろ！','あれは、何だ！','弾が、きかない！','衛生兵ーっ！']},
+ flak:{base:'cannon',mid:'p8flak',fb:s8FbFlak,sc:1.4,hp:260,r:2.0,hc:1.0,val:80,dmg:0,shout:['高度をねらえ！','撃ちまくれ！']},
+ tank:{base:'orccart',mid:'p8tank',fb:s8FbTank,hp:700,r:5,hc:1.8,val:240,dmg:16,nocd:1,shout:['前進！','ふみつぶせ！','砲塔、右！']},
+ fighter:{base:'dknight',mid:'p8fighter',fb:s8FbFighter,hp:170,r:3.6,hc:0,val:150,dmg:14,shout:['後ろにつけ！','でかい、でかすぎる！','撃ち落とせ！']},
+ bomber:{base:'airship',mid:'p8bomber',fb:s8FbBomber,hp:420,r:8,hc:0,val:220,dmg:10,ai:s8Bomber,shout:['投下、投下！','高度を保て！']},
+ supertank:{base:'orctank',mid:'p8supertank',fb:s8FbSuper,hp:4400,r:17,hc:6,val:3200,dmg:26,nocd:1,ai:s8Super,gun:{k:'bul',cd:[0.5,0.9],rng:170,spd:130,dmg:5,y:4}},
+ robot:{base:'soldier',mid:'p8robot',fb:s8FbRobot,hum:1,sc:1.2,hp:130,r:1.6,hc:0.85,val:30,dmg:7,spd:10,stop:30,gun:{k:'las',cd:[2.4,4.0],rng:120,spd:110,dmg:6},shout:['ハイジョ、シマス','標的ヲ、確認','未登録、未登録','エラー。エラー']},
+ drone:{base:'wizard',type:'p8drone',mid:'p8drone',fb:s8FbDrone,hp:90,r:1.6,hc:0,val:70,dmg:6,ai:s8Drone,gun:{k:'las',cd:[2.2,3.6],rng:110,spd:105,dmg:6,y:-0.4}},
+ mech:{base:'golem',mid:'p8mech',fb:s8FbMech,hum:0,hp:800,r:4.2,hc:3.4,val:260,dmg:18,gun:{k:'las',cd:[3.2,4.6],rng:140,spd:105,dmg:8,y:1},shout:['ジュウソウ、テンカイ','フミツブシ、マス']},
+ titan:{base:'biggolem',mid:'p8titan',fb:s8FbTitan,hp:4400,r:15.5,hc:17,val:3600,dmg:26,ai:s8Titan},
+ raptor:{base:'golem',type:'p8raptor',mid:'p8raptor',fb:s8FbRaptor,hum:1,pitch:1,sc:0.8,hp:100,r:2.2,hc:1.0,val:30,dmg:10,spd:19,ai:s8Raptor},
+ ptera:{base:'griffin',mid:'p8ptera',fb:s8FbPtera,sc:2,hp:150,r:1.8,hc:0,val:130,dmg:12,shout:['ギャアッ！','キィィーッ！']},
+ trike:{base:'golem',type:'p8trike',mid:'p8trike',fb:s8FbTrike,pitch:1,sc:0.8,hp:750,r:5.6,hc:2.4,val:260,dmg:18,spd:9,ai:s8Trike},
+ rex:{base:'golem',type:'p8rex',mid:'p8rex',fb:s8FbRex,pitch:1,hp:4400,r:10,hc:8,val:3500,dmg:28,ai:s8Rex},
+ cube:{base:'golem',type:'p8cube',fb:s8FbCube,hp:120,r:1.9,hc:1.1,val:30,dmg:9,spd:12,ai:s8Cube},
+ tetra:{base:'griffin',fb:s8FbTetra,hp:140,r:2.6,hc:0,val:120,dmg:12,ai:s8Spin},
+ octa:{base:'wizard',type:'p8octa',fb:s8FbOcta,hp:380,r:3.4,hc:0,val:200,dmg:10,ai:s8Octa},
+ admin:{base:'wizard',type:'p8admin',fb:s8FbAdmin,hp:5600,r:10,hc:0,val:5000,dmg:28,ai:s8Admin}};
+FLAP_ID.p8ptera={fl:1,amp:0.5};
+// 体を前後にかたむける（+＝前のめり／−＝のけぞり）。やられた時のゆれ（本体）と同じ入れ物 e._rx を使う
+function s8Tilt(e,v,dt){e._rx=(e._rx||0)+(v-(e._rx||0))*Math.min(1,dt*10);if(!(e.flT>0))e.mesh.rotation.x=e._rx;}
+function s8Hum(){let n=0;for(const q of EN)if(!q.dead&&q.s8&&S8K[q.s8].hum&&!q.boss)n++;return n;}
+// 敵を1体出す：借りる動きの種類で作ってから、見た目・強さ・目じるし（e.s8）を入れかえる
+function s8Spawn(kind,x,z,y,o){o=o||{};const K=S8K[kind];if(K.hum&&!o.boss&&s8Hum()>=S8.cap)return null;
+  const sb=ST[K.base],sv=sb.boss;sb.boss=undefined;let e;try{e=addEnemy(K.base,x,z,y,{model:'__s8'});}finally{sb.boss=sv;}
+  const old=e.mesh,m=K.fb();m.position.copy(old.position);if(old.rotation.order==='YXZ')m.rotation.order='YXZ';m.rotation.y=old.rotation.y;scene.remove(old);
+  const sc=(K.sc||1)*(o.sc||1);m.scale.setScalar(sc);if(K.mid&&MODEL[K.mid])attachModel(m,K.mid);scene.add(m);
+  if(K.pitch)m.rotation.order='YXZ';e.mesh=m;e.s8=kind;if(K.type)e.type=K.type;e.sc=sc;e.r=K.r*sc;e.hc=K.hc*sc;e.val=o.val||K.val;e.dmg=o.dmg||K.dmg;e.thrower=false;e.boss=undefined;e._sz=1;e.bsK=K.base==='biggolem'?1:0;
+  e.hp=e.maxHp=s8Hp(K.hp*(o.hk||1),!!o.boss||kind==='supertank'||kind==='titan'||kind==='rex'||kind==='admin');e.seed=rnd(0,9);e.said=1;if(K.shout)e.shout=K.shout;if(K.spd)e.spd=K.spd;
+  if(K.base==='biggolem')e.gk=sc*1.1;if(o.boss){e.boss=o.boss;e.die='……';}return e;}
+function s8BossIn(e,ic,nm){if(!e||state!=='play')return;cutin(ic,nm,'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');bossZoom(e);sfx('roar');}
+function s8Grp(kind,n,cx,cz,sx,sz,o){const L=[];for(let i=0;i<s8N(n);i++){const e=s8Spawn(kind,clamp(cx+rnd(-sx,sx),-290,290),clamp(cz+rnd(-sz,sz),-290,290),undefined,o);if(e)L.push(e);}return L;}
+function s8Rng(kind,n,a,b,o){const L=[];for(let i=0;i<s8N(n);i++){const [x,z]=ringPos(a,b),e=s8Spawn(kind,x,z,undefined,o);if(e)L.push(e);}return L;}
+function s8Air(kind,n,o){const L=[];for(let i=0;i<s8N(n);i++){const [x,z]=ringPos(100,180),e=s8Spawn(kind,x,z,P.pos.y+rnd(18,34),o);if(e)L.push(e);}return L;}
+// 弾（銃弾・光線）：まっすぐ飛ぶ細長い箱。出せた時だけ向きをそろえる（本体の弾の数の歯止めはそのまま効く）
+function s8Shoot(f,spd,k,dmg,lead){const n=PROJ.length,d=f.distanceTo(P.pos),t=d/spd,v=tmp2.copy(P.pos).addScaledVector(P.vel,t*(lead===undefined?0.5:lead)).sub(f).normalize().multiplyScalar(spd);
+  shoot(f,v,{geo:'p8bolt',mat:S8M[k],size:k==='bul'?0.7:1.1,r:k==='bul'?0.9:1.2,dmg:dmg,life:2.6,col:S8C[k]||S8C.cy});
+  if(PROJ.length>n){const q=PROJ[PROJ.length-1];q.m.lookAt(tmp.copy(f).add(v));return q;}return null;}
+function s8Gun(e,dt,p,hd,G){e.g8=(e.g8===undefined?rnd(0.6,G.cd[1]):e.g8)-dt;if(e.g8>0||hd>G.rng)return;e.g8=rnd(G.cd[0],G.cd[1]);const f=cpos(e).clone();f.y+=G.y===undefined?0.4:G.y;
+  if(s8Shoot(f,G.spd,G.k,G.dmg)){sfx(G.k==='bul'?'small':'zap',p,0.35);const mx=e.mesh.userData.mix;if(mx&&mx.hit)mixOnce(mx,1.9);else if(!e.boss)e.atkT=0.3;}}
+// 跳びかかり（小型竜・立方体・暴君竜）：山なりに飛んで、当たれば1回だけダメージ
+function s8Leap(e,dx,dz,dy,hmin,vmax){const h=Math.max(hmin||3,dy+2);let vy=Math.sqrt(80*h),T=vy/40;const Tm=Math.hypot(dx,dz)/(vmax||45);if(T<Tm){T=Tm;vy=40*T;}e.vy=vy;e.jx=dx/T*0.95;e.jz=dz/T*0.95;e.jT=e.jt=T*2+0.3;e.done=0;e.mesh.position.y+=0.2;}
+function s8Hop(e,dt,p,d3,on,word,col){e.jt-=dt;p.x+=e.jx*dt;p.z+=e.jz*dt;e.mesh.rotation.y=Math.atan2(e.jx,e.jz);
+  if(!e.done&&d3<e.r+4){e.done=1;hurt(e.dmg);ono(cpos(e),word,col,38);burst(cpos(e),8,[0xffffff,0xff6040],3,16,0.3);}
+  if((on&&e.jt<e.jT-0.2)||e.jt<=0){e.jt=0;return true;}return false;}
+
+/* ---------- 自分で動かす敵 ---------- */
+function s8Drone(e,dt,p,dx,dz,hd,d3){e.ang+=dt*(0.55+e.seed*0.05)*(e.seed>4.5?1:-1);const Rr=28+e.seed*2.4;
+  tmp2.set(P.pos.x+Math.cos(e.ang)*Rr,Math.max(P.pos.y+7+Math.sin(e.t*1.7+e.seed)*5,floorAt(p.x,p.z)+8),P.pos.z+Math.sin(e.ang)*Rr);fly(e,tmp2,30,dt,1.6);faceP(e);e.mesh.rotation.z=Math.sin(e.t*3+e.seed)*0.14;}
+function s8Raptor(e,dt,p,dx,dz,hd,d3){const on=grav(e,dt),dy=P.pos.y-p.y;
+  if(e.jt>0){s8Hop(e,dt,p,d3,on,'ガブッ！','#ffb060');s8Tilt(e,clamp(Math.atan2(-e.vy,Math.hypot(e.jx,e.jz)||1),-0.7,0.6),dt);return;}
+  s8Tilt(e,d3<e.r+5?0.25*Math.abs(Math.sin(e.t*9)):0,dt);walk(e,P.pos.x,P.pos.z,hd>2.5?e.spd:0,dt);animWalk(e,15);
+  if(e.cd<=0&&on&&hd<38&&dy>=3&&dy<46){e.cd=rnd(2.2,3.8);s8Leap(e,dx,dz,dy);if(Math.random()<0.25)bubble(e,'ギャッ！','shout',1);}
+  if(d3<e.r+4)hurt(e.dmg*dt,true);}
+function s8Trike(e,dt,p,dx,dz,hd,d3){grav(e,dt);const dy=P.pos.y-p.y;
+  if(e.rt>0){e.rt-=dt;p.x+=e.rx*dt;p.z+=e.rz*dt;e.mesh.rotation.y=Math.atan2(e.rx,e.rz);s8Tilt(e,0.16,dt);if(Math.random()<0.6)smoke(p,1,4,1,0x8a7a58,3);
+    if(!e.done&&d3<e.r+6){e.done=1;hurt(e.dmg+4);shake(0.5);sfx('crash',p);ono(cpos(e),'ドガッ！','#ffd23a',46);burst(P.pos,12,SPARK,3,20,0.4);}return;}
+  if(e.wt>0){e.wt-=dt;faceP(e);s8Tilt(e,-0.13+0.04*Math.sin(e.t*30),dt);teleSet(e,e.r*1.15,1-Math.max(0,e.wt)/0.8,0xff4020);if(e.wt<=0){teleOff(e);e.rx=dx/hd*66;e.rz=dz/hd*66;e.rt=1.1;e.done=0;sfx('whoosh',p);}return;}
+  s8Tilt(e,d3<e.r+6?0.12+0.12*Math.sin(e.t*8):0,dt);walk(e,P.pos.x,P.pos.z,hd>e.r+4?e.spd:0,dt);
+  if(e.cd<=0&&hd<90&&Math.abs(dy)<18){e.cd=rnd(4.5,6.5);e.wt=0.8;sfx('roar',p,0.5);if(e.boss||Math.random()<0.4)bubble(e,'ブオォーッ！','shout',1.2);}
+  else if(e.cd<=0&&hd<150&&dy>=18){e.cd=rnd(5,7);const f=cpos(e).clone();f.y+=2;shoot(f,lob(f,tmp2.copy(P.pos).addScaledVector(P.vel,0.8),55,30),{geo:'rock',mat:MAT.rock,size:2.4,r:2.8,splash:8,dmg:16,grav:30,life:6,col:[0x999080,0xbbaa90]});}
+  if(d3<e.r+5)hurt(e.dmg*dt,true);}
+function s8Cube(e,dt,p,dx,dz,hd,d3){const on=grav(e,dt),dy=P.pos.y-p.y,u=e.mesh.userData;
+  if(e.jt>0){s8Hop(e,dt,p,d3,on,'ガツッ！','#7fe8ff');if(u.roll)u.roll.rotation.x+=dt*10;return;}
+  walk(e,P.pos.x,P.pos.z,hd>3?e.spd:0,dt);if(u.roll)u.roll.rotation.x+=dt*(hd>3?5.5:1);
+  if(e.cd<=0&&on&&hd<36&&dy>=4&&dy<46){e.cd=rnd(2.4,4);s8Leap(e,dx,dz,dy);}
+  if(d3<e.r+3.5)hurt(e.dmg*dt,true);}
+function s8Spin(e,dt){const u=e.mesh.userData;if(u.roll){u.roll.rotation.z+=dt*5;u.roll.rotation.x+=dt*1.3;}}
+function s8Octa(e,dt,p,dx,dz,hd,d3){const u=e.mesh.userData;if(e.ox===undefined){e.ox=p.x;e.oz=p.z;e.cd=rnd(1.5,3.5);}
+  if(hd>130){const k=dt*7/hd;e.ox+=dx*k;e.oz+=dz*k;}tmp2.set(e.ox,floorAt(e.ox,e.oz)+17+Math.sin(e.t*1.2+e.seed)*3,e.oz);fly(e,tmp2,10,dt,1.2);
+  if(u.roll){u.roll.rotation.y+=dt*(e.aim>0?7:1.4);}
+  if(e.aim>0){e.aim-=dt;glowSet(e,0xffe060,0,0,0,10);if(e.aim<=0){glowOff(e);const f=p.clone();s8Shoot(f,95,'cy',e.dmg,0.6);sfx('zap',p,0.6);}}
+  else if(e.cd<=0&&hd<170){e.cd=rnd(2.6,3.8);if(Math.random()<0.4){addPillar(P.pos.x+P.vel.x*0.6,P.pos.z+P.vel.z*0.6,1.0);sfx('zap',p,0.4);}else e.aim=0.55;}}
+// 爆撃機（飛空艇の動きの上に足す）：ボスだけ「じゅうたん爆撃」と戦闘機よび
+function s8Bomber(e,dt,p,dx,dz,hd,d3,half){if(!e.boss)return;e.x1=(e.x1===undefined?4:e.x1)-dt;e.x2=(e.x2===undefined?9:e.x2)-dt;
+  if(e.x1<=0&&hd<230){e.x1=half?5:7;const vx=e.vel.x,vz=e.vel.z,l=Math.hypot(vx,vz)||1,ax=vx/l,az=vz/l;
+    for(let k=-3;k<=3;k++)addPillar(P.pos.x+P.vel.x*0.5+ax*k*11,P.pos.z+P.vel.z*0.5+az*k*11,1.0+(k+3)*0.12);
+    banner('💣 じゅうたん爆撃！ 赤い輪の列から出ろ',1.4);bubble(e,'爆弾倉、ひらけ！','boss',1.6);sfx('whoosh',p,0.6);}
+  if(e.x2<=0){e.x2=14;if(EN.filter(q=>!q.dead&&q.s8==='fighter').length<6){for(let k=0;k<2;k++)s8Spawn('fighter',p.x+rnd(-20,20),p.z+rnd(-20,20),p.y-4);bubble(e,'護衛機、前へ！','boss',1.6);}}}
+// 超重戦車（戦車の動きの上に足す）：主砲の一斉射（赤い輪の列）・体力が半分で増援の戦車
+function s8Super(e,dt,p,dx,dz,hd,d3,half){e.x1=(e.x1===undefined?5:e.x1)-dt;
+  if(e.x1<=0&&hd<240&&!(e.rt>0)&&!(e.wt>0)){e.x1=half?4.5:6.5;const n=half?7:5;for(let k=0;k<n;k++){const q=(k+1)/n;addPillar(p.x+dx*q*1.15+rnd(-5,5),p.z+dz*q*1.15+rnd(-5,5),0.9+k*0.13);}
+    if(!S8.hint.sup){S8.hint.sup=1;banner('💥 主砲の一斉射！ 赤い輪の列から出ろ',1.6);}bubble(e,'主砲、一斉射！','boss',1.6);const f=cpos(e).clone();f.y+=5;burst(f,24,FIRE,5,26,0.5);smoke(f,8,6,2,0x555555,5);sfx('cannon',p,1);shake(0.4);}
+  if(half&&!e.p2){e.p2=1;bubble(e,'増援を呼べ！ 全車、前へ！','boss',2.2);sfx('roar',p,0.7);for(let k=0;k<s8N(3);k++){const [x,z]=ringPos(90,150);s8Spawn('tank',x,z);}s8Air('fighter',3);}}
+// 都市統括機（巨大ゴーレムの動きの上に足す）：なぎ払い光線・ミサイルの雨・体力が半分でドローンよび
+const S8BM={g:null};
+function s8BeamMesh(){if(S8BM.g)return S8BM.g;const g=new THREE.Group(),c=new THREE.CylinderGeometry(1,1,1,10,1,true);c.translate(0,0.5,0);c.rotateX(Math.PI/2);
+  const m1=new THREE.Mesh(c,new THREE.MeshBasicMaterial({color:0x40e8ff,transparent:true,opacity:0.55,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide,fog:false})),m2=new THREE.Mesh(c,new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false,fog:false}));
+  m2.scale.set(0.4,0.4,1);g.add(m1,m2);g.frustumCulled=false;m1.frustumCulled=m2.frustumCulled=false;S8BM.g=g;return g;}
+function s8SegDist(a,b,q){const ab=tmp3.subVectors(b,a),t=clamp(tmp.subVectors(q,a).dot(ab)/Math.max(ab.lengthSq(),1e-4),0,1);return tmp.copy(a).addScaledVector(ab,t).distanceTo(q);}
+function s8Titan(e,dt,p,dx,dz,hd,d3,half){if(e.x1===undefined){e.x1=5;e.nx=0;}
+  const B=e.bm;
+  if(B){e.hold8=1;B.t+=dt;const hdp=new V3(p.x,p.y+e.hc*1.82,p.z),k=clamp((B.t-1.1)/1.6,0,1),gx=B.ax+(B.bx-B.ax)*k,gz=B.az+(B.bz-B.az)*k,G=new V3(gx,floorAt(gx,gz),gz),m=s8BeamMesh();
+    e.mesh.rotation.y=Math.atan2(gx-p.x,gz-p.z);
+    if(B.t<1.1){glowSet(e,0xff3040,0,e.hc*1.82/(e.sc||1),3/(e.sc||1),16+B.t*18);if(Math.random()<0.4)burst(hdp,2,[0xff3040,0xffffff],4,14,0.3);}
+    else{if(!B.on){B.on=1;glowOff(e);scene.add(m);sfx('zap',null,1);shake(0.5);ono(hdp,'ビィィィーッ！','#7fe8ff',60);}
+      m.position.copy(hdp);m.lookAt(G);const L=hdp.distanceTo(G);m.scale.set(3.2,3.2,L);
+      if(Math.random()<0.8){burst(G,4,S8C.cy,5,22,0.35);smoke(G,1,6,1.2,0x404858,3);}
+      if(s8SegDist(hdp,G,P.pos)<6.5)hurt(46*dt,true);
+      if(k>=1){scene.remove(m);if(B.tl)scene.remove(B.tl);e.bm=null;e.hold8=0;e.state='chase';e.cd=Math.max(e.cd,1.2);}}
+    return;}
+  e.hold8=0;e.x1-=dt;
+  if(e.x1<=0&&hd<230&&e.state==='chase'&&!(e.bs&&e.bs.ph)){e.x1=half?5:7.5;
+    if(e.nx++%2===0){const px=P.pos.x+P.vel.x*0.6,pz=P.pos.z+P.vel.z*0.6,nx=-dz/hd,nz=dx/hd,s=Math.random()<0.5?1:-1;
+      e.state='beam8';e.bm={t:0,on:0,ax:px+nx*55*s,az:pz+nz*55*s,bx:px-nx*55*s,bz:pz-nz*55*s};
+      const tl=new THREE.Mesh(new THREE.PlaneGeometry(4,110),new THREE.MeshBasicMaterial({color:0xff3040,transparent:true,opacity:0.5,depthWrite:false,side:THREE.DoubleSide,fog:false}));tl.rotation.x=-Math.PI/2;tl.rotation.z=Math.atan2(nx,nz);tl.position.set(px,floorAt(px,pz)+0.5,pz);scene.add(tl);e.bm.tl=tl;
+      if(!S8.hint.beam){S8.hint.beam=1;banner('⚠️ なぎ払い光線！ 赤い線からはなれろ',1.8);}bubble(e,'排除光線、照射','boss',1.6);sfx('roar',p,0.6);}
+    else{const n=half?9:6;for(let k=0;k<n;k++)addPillar(P.pos.x+(k?rnd(-32,32):P.vel.x*0.6),P.pos.z+(k?rnd(-32,32):P.vel.z*0.6),1.0+k*0.16);
+      if(!S8.hint.mis){S8.hint.mis=1;banner('🚀 ミサイルの雨！ 赤い輪から出ろ',1.6);}bubble(e,'ミサイル、発射','boss',1.6);sfx('whoosh',p,0.8);}}
+  if(half&&!e.p2){e.p2=1;bubble(e,'増援を、要請します','boss',2.2);sfx('roar',p,0.7);for(let k=0;k<s8N(7);k++){const [x,z]=ringPos(60,120);s8Spawn('drone',x,z,P.pos.y+rnd(10,26));}}}
+// 暴君竜：歩いて追う／とびかかってかむ／尾でなぎ払う／ほえる（輪が広がる）／岩をけり上げる。体力が半分で小型竜をよび、速くなる
+function s8Rex(e,dt,p,dx,dz,hd,d3,half){const on=grav(e,dt),dy=P.pos.y-p.y,m=e.mesh;
+  if(e.k0===undefined){e.k0=1;e.cd=2.5;e.nat=0;e.state='chase';e.st=0;}
+  e.st-=dt;
+  if(e.rw){const w=e.rw;w.r+=dt*(half?70:58);w.m.scale.setScalar(w.r);w.m.material.opacity=Math.max(0,0.8-w.r/170);
+    if(!w.hit&&Math.abs(Math.hypot(P.pos.x-w.x,P.pos.z-w.z)-w.r)<6&&P.pos.y<w.y+42){w.hit=1;hurt(e.dmg*0.8);ono(P.pos.clone().add(new V3(0,5,0)),'ビリビリッ！','#ffd23a',48);}
+    if(w.r>150){scene.remove(w.m);e.rw=null;}}
+  if(e.state==='leap'){p.x+=e.jx*dt;p.z+=e.jz*dt;m.rotation.y=Math.atan2(e.jx,e.jz);e.jt-=dt;s8Tilt(e,clamp(Math.atan2(-e.vy,Math.hypot(e.jx,e.jz)||1),-0.5,0.5)+(d3<e.r+16?0.2:0),dt);
+    if(!e.done&&d3<e.r+7){e.done=1;hurt(e.dmg+6);shake(0.7);ono(cpos(e),'ガブゥッ！','#ff5a3a',60);burst(P.pos,18,[0xff4030,0xffffff],4,24,0.4);sfx('crash',p);}
+    if((on&&e.jt<e.jT-0.25)||e.jt<=0){e.state='chase';e.cd=half?1.5:2.3;const g=new V3(p.x,floorAt(p.x,p.z),p.z);shock(g,0xd8c090,30);smoke(g,8,8,2,0x8a7a58,6);shake(0.6);sfx('boom',p,0.6);debris(g,8,[0x6a5a3a,0x4a4028],1.6);
+      if(Math.hypot(P.pos.x-p.x,P.pos.z-p.z)<24&&P.pos.y-g.y<10)hurt(e.dmg*0.6);}
+    return;}
+  if(e.state==='tail'){const k=1-Math.max(0,e.st)/0.6;m.rotation.y=e.ry0+k*Math.PI*2;s8Tilt(e,0.12,dt);if(Math.random()<0.7)smoke(p,1,6,1,0x8a7a58,e.r);
+    if(!e.done&&k>0.25&&hd<e.r+22&&Math.abs(dy)<18){e.done=1;hurt(e.dmg);shake(0.6);ono(P.pos.clone().add(new V3(0,5,0)),'バシィッ！','#ffd23a',54);sfx('crash',p);}
+    if(e.st<=0){m.rotation.y=e.ry0;e.state='chase';e.cd=half?1.4:2.2;}return;}
+  if(e.state==='wind'){faceP(e);s8Tilt(e,e.act==='roar'?-0.18+0.03*Math.sin(e.t*40):e.act==='leap'?0.22:-0.08,dt);teleSet(e,e.wR,1-Math.max(0,e.st)/e.wT,0xff4020);if(Math.random()<0.5)smoke(p,1,5,1.2,0x8a7a58,5);
+    if(e.st<=0){teleOff(e);
+      if(e.act==='leap'){s8Leap(e,dx,dz,Math.max(0,dy),5,80);e.state='leap';sfx('roar',p,0.8);}
+      else if(e.act==='tail'){e.state='tail';e.st=0.6;e.ry0=m.rotation.y;e.done=0;sfx('whoosh',p,0.9);}
+      else{e.state='chase';e.cd=half?1.8:2.8;const y=floorAt(p.x,p.z),rm=new THREE.Mesh(new THREE.RingGeometry(0.93,1,72),new THREE.MeshBasicMaterial({color:0xffe9b0,transparent:true,opacity:0.8,side:THREE.DoubleSide,depthWrite:false}));
+        rm.rotation.x=-Math.PI/2;rm.position.set(p.x,y+1,p.z);rm.scale.setScalar(10);scene.add(rm);e.rw={r:10,m:rm,x:p.x,z:p.z,y,hit:0};
+        sfx('roar',p,1);shake(0.9);ono(cpos(e),'グオオオオッ！！','#ff7a2a',70);bubble(e,'グオオオオッ！！','boss',1.8);if(!S8.hint.roar){S8.hint.roar=1;banner('⚠️ ほえ声の輪！ 高く飛ぶか、ダッシュでぬけろ',1.8);}}}
+    return;}
+  s8Tilt(e,e.rw&&e.rw.r<60?-0.18+0.03*Math.sin(e.t*40):(d3<e.r+9?0.18+0.16*Math.sin(e.t*7):0),dt);   // ほえている間はのけぞる／近い時は、かみつくように首をふる
+  walk(e,P.pos.x,P.pos.z,hd>e.r+5?(half?17:13):0,dt);
+  if(e.cd<=0&&hd<200&&!e.rw){const near=hd<e.r+20&&Math.abs(dy)<16,act=near?(e.nat++%2?'leap':'tail'):(['leap','roar','rock','leap'])[e.nat++%4];
+    if(act==='rock'){e.cd=half?1.6:2.4;const f=cpos(e).clone();f.y+=3;shoot(f,lob(f,tmp2.copy(P.pos).addScaledVector(P.vel,0.8),60,30),{geo:'rock',mat:MAT.rock,size:4,r:4,splash:12,dmg:22,grav:30,life:6,col:[0x999080,0xbbaa90]});smoke(p,6,6,1.4,0x8a7a58,6);sfx('small',p,0.8);}
+    else if(act==='leap'&&(dy>58||hd>105)){e.cd=0.4;}
+    else{e.state='wind';e.act=act;e.wT=e.st=act==='roar'?0.9:0.7;e.wR=act==='tail'?e.r+20:act==='roar'?26:e.r*1.2;sfx('roar',p,0.5);}}
+  if(half&&!e.p2){e.p2=1;bubble(e,'グルルル……！','boss',2);sfx('roar',p,1);shake(0.7);for(let k=0;k<s8N(9);k++){const [x,z]=ringPos(60,130);s8Spawn('raptor',x,z);}banner('🦖 暴君竜のほえ声に、小型竜が集まってきた！',2);}
+  if(d3<e.r+6)hurt(e.dmg*dt,true);}
+// 管理者：体力が 75%・50%・25% を切るたびに形を変える。四面体＝突き／立方体＝格子の柱と立方体よび／二十面体＝光の輪／超立方体＝全部
+const S8AF=['四面体','立方体','二十面体','超立方体'];
+function s8AdminForm(e,f){const u=e.mesh.userData;u.forms.forEach((q,i)=>q.visible=i===f);e.form=f;u.aura.material.color.setHex([0xff60d0,0x40a0ff,0xffd040,0xffffff][f]);}
+function s8Ring(e,x,y,z,spd,col){const rm=new THREE.Mesh(new THREE.TorusGeometry(1,0.012,6,72),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:0.95,fog:false}));rm.rotation.x=Math.PI/2;rm.position.set(x,y,z);rm.scale.setScalar(8);scene.add(rm);
+  const fl=new THREE.Mesh(new THREE.RingGeometry(0.9,1,72),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:0.35,side:THREE.DoubleSide,depthWrite:false,fog:false}));rm.add(fl);e.rings.push({m:rm,r:8,x,y,z,spd,hit:0});}
+function s8Admin(e,dt,p,dx,dz,hd,d3,half){const u=e.mesh.userData,fr=e.hp/e.maxHp,want=fr<0.25?3:fr<0.5?2:fr<0.75?1:0;
+  if(e.k0===undefined){e.k0=1;e.form=0;e.cd=2.5;e.nat=0;e.state='orbit';e.st=0;e.rings=[];e.ang=Math.atan2(p.z-P.pos.z,p.x-P.pos.x);}
+  e.st-=dt;const F=e.form;
+  u.spin.rotation.y+=dt*(e.state==='morph'?9:1.1+F*0.3);u.spin.rotation.x+=dt*(e.state==='morph'?6:0.6);u.aura.material.opacity=0.4+0.2*Math.sin(e.t*4);
+  if(F===3){const q=u.forms[3];s8TessUpd(q.userData.ts,e.t,2.2);q.userData.core.rotation.y-=dt*3;}
+  // 光の輪（広がる輪。輪と同じ高さにいると当たる。上か下へよける）
+  for(let i=e.rings.length-1;i>=0;i--){const w=e.rings[i];w.r+=dt*w.spd;w.m.scale.setScalar(w.r);w.m.material.opacity=Math.max(0,0.95-w.r/190);
+    if(!w.hit&&Math.abs(Math.hypot(P.pos.x-w.x,P.pos.z-w.z)-w.r)<5&&Math.abs(P.pos.y-w.y)<7.5){w.hit=1;hurt(e.dmg*0.8);ono(P.pos.clone().add(new V3(0,5,0)),'ジジッ！','#ffd040',46);}
+    if(w.r>170){scene.remove(w.m);e.rings.splice(i,1);}}
+  // 形を変える
+  if(want>F&&e.state!=='morph'&&e.state!=='dash'){e.state='morph';e.st=1.3;e.inv=true;e.nf=want;glowOff(e);sfx('roar',p,0.8);shake(0.6);shock(new V3(p.x,floorAt(p.x,p.z),p.z),0xffffff,60);burst(p,50,S8C.poly,6,40,0.9);
+    banner('◆ 管理者が、形を変える…… '+S8AF[want],2);bubble(e,['','形を、変更します。立方体','形を、変更します。二十面体','次元を、一つ上げます'][want],'boss',2.2);}
+  if(e.state==='morph'){fly(e,tmp2.copy(p),2,dt);const k=1-Math.max(0,e.st)/1.3;e.sc=1+Math.sin(k*Math.PI)*0.5;if(k>0.5&&e.form!==e.nf){s8AdminForm(e,e.nf);glowFlash(p,0xffffff,60,0.5);sfx('zap',p,1);}
+    if(e.st<=0){e.sc=1;e.inv=false;e.state='orbit';e.cd=1.2;e.nat=0;if(e.form===1||e.form===3){for(let k2=0;k2<s8N(e.form===3?8:6);k2++){const [x,z]=ringPos(50,110);s8Spawn('cube',x,z);}}if(e.form>=2)s8Air('tetra',4);}return;}
+  if(e.state==='aim'){fly(e,tmp2.copy(p),3,dt);glowSet(e,0xff40d0,0,0,0,26);if(Math.random()<0.6)burst(p,2,S8C.poly,4,14,0.3);
+    if(e.st<=0){glowOff(e);e.state='dash';e.st=1.0;e.done=0;e.vel.copy(tmp.set(P.pos.x+P.vel.x*0.3-p.x,P.pos.y+P.vel.y*0.3-p.y,P.pos.z+P.vel.z*0.3-p.z).normalize().multiplyScalar(F===3?120:100));sfx('whoosh',p,1);}return;}
+  if(e.state==='dash'){p.addScaledVector(e.vel,dt);const gh=floorAt(p.x,p.z)+e.r*0.6;if(p.y<gh)p.y=gh;if(Math.random()<0.8)burst(p,2,S8C.poly,5,6,0.35);
+    if(!e.done&&d3<e.r+5){e.done=1;hurt(e.dmg);shake(0.6);ono(cpos(e),'ズガッ！','#ff60d0',56);burst(P.pos,16,S8C.poly,4,22,0.4);}
+    if(e.st<=0||(e.done&&hd>90)){e.state='orbit';e.cd=F===3?1.0:1.8;e.vel.multiplyScalar(0.2);}return;}
+  // ふだん：まわりを回る
+  e.ang+=dt*(0.3+F*0.06)*(e.seed>4.5?1:-1);const Rr=F===1?62:50;tmp2.set(P.pos.x+Math.cos(e.ang)*Rr,Math.max(P.pos.y+(F===1?22:12)+Math.sin(e.t*0.9)*5,floorAt(p.x,p.z)+16),P.pos.z+Math.sin(e.ang)*Rr);fly(e,tmp2,F===3?40:30,dt,1.3);
+  if(e.cd<=0&&hd<230){const L=[['dash','dash','shard'],['pil','wall','dash'],['ring','ring','dash','pil'],['dash','ring','pil','wall','dash','ring']][F],act=L[e.nat++%L.length],fast=F===3?0.7:1;
+    if(act==='dash'){e.state='aim';e.st=0.75*fast;sfx('roar',p,0.5);bubble(e,'削除します','boss',1.2);}
+    else if(act==='shard'){e.cd=1.6;s8Shoot(p.clone(),105,'mg',e.dmg*0.4,0.6);sfx('zap',p,0.6);}
+    else if(act==='pil'){e.cd=2.4*fast;const n=F===3?7:5;for(let k=0;k<n;k++)addPillar(P.pos.x+(k?rnd(-28,28):P.vel.x*0.6),P.pos.z+(k?rnd(-28,28):P.vel.z*0.6),0.9+k*0.14);bubble(e,'座標を、指定','boss',1.4);sfx('zap',p,0.5);}
+    else if(act==='wall'){e.cd=2.8*fast;const ax=Math.random()<0.5,cx=Math.round(P.pos.x/10)*10,cz=Math.round(P.pos.z/10)*10;for(let k=-4;k<=4;k++){addPillar(ax?cx+k*10:cx,ax?cz:cz+k*10,1.1);addPillar(ax?cx+k*10:cx-26,ax?cz-26:cz+k*10,1.55);addPillar(ax?cx+k*10:cx+26,ax?cz+26:cz+k*10,1.55);}
+      if(!S8.hint.wall){S8.hint.wall=1;banner('⚠️ 格子の柱！ 赤い輪の列のあいだへ',1.8);}bubble(e,'格子を、閉じます','boss',1.4);sfx('zap',p,0.6);}
+    else{e.cd=2.6*fast;s8Ring(e,p.x,P.pos.y,p.z,F===3?66:54,0xffd040);if(F===3)s8Ring(e,p.x,P.pos.y+(Math.random()<0.5?12:-12),p.z,48,0x40e8ff);
+      if(!S8.hint.ring){S8.hint.ring=1;banner('⚠️ 光の輪！ 上か下へよけろ（地上ならジャンプ）',1.8);}bubble(e,'範囲を、消去','boss',1.4);sfx('roar',p,0.5);shake(0.3);}}
+  if(d3<e.r+4)hurt(e.dmg*0.4*dt,true);}
+
+/* ---------- 毎コマ：本体の敵の動きの前と後に足す ---------- */
+const s8ue=updEnemies;
+updEnemies=function(dt){const H8=[];
+  if(SCN===8&&!BTK.on)for(let i=0;i<EN.length;i++){const e=EN[i];if(!e.s8||e.dead)continue;const K=S8K[e.s8],p=e.mesh.position,dx=P.pos.x-p.x,dz=P.pos.z-p.z,hd=Math.hypot(dx,dz)||1,d3=cpos(e).distanceTo(P.pos),half=e.hp<e.maxHp/2;
+    if(K.nocd)e.cd=Math.max(e.cd,1.5);                                 // 借りた動きの「矢」を止める（戦車）
+    if(K.stop)e.spd=hd<K.stop?0.01:K.spd;                              // 銃を持つ兵は、近づきすぎない
+    if(K.ai)K.ai(e,dt,p,dx,dz,hd,d3,half);
+    if(K.gun&&!e.hold8)s8Gun(e,dt,p,hd,K.gun);
+    if(e.hold8){e.cd=Math.max(e.cd,0.6);H8.push(e,p.x,p.z,e.mesh.rotation.y);}}
+  s8ue(dt);
+  for(let i=0;i<H8.length;i+=4){const e=H8[i];if(e.dead)continue;const p=e.mesh.position;p.x=H8[i+1];p.z=H8[i+2];e.mesh.rotation.y=H8[i+3];}};
+// やられた時：残っている輪・光線を片づける
+function s8Clean(e){try{if(e.rw){scene.remove(e.rw.m);e.rw=null;}if(e.rings){e.rings.forEach(w=>scene.remove(w.m));e.rings.length=0;}if(e.bm){if(e.bm.tl)scene.remove(e.bm.tl);if(S8BM.g)scene.remove(S8BM.g);e.bm=null;}}catch(_){}}
+{const ke8=killEnemy;killEnemy=function(e,quiet){if(e&&e.s8&&!e.dead)s8Clean(e);return ke8.apply(this,arguments);};}
+// 軍勢を増やす仕組み（armyMore）は、シナリオ8では使わない（見た目を借りた敵が、元の兵隊の姿で足されてしまうため。数は波の表で決めてある）
+{const am8=armyMore;armyMore=function(){if(typeof SCN!=='undefined'&&SCN===8)return;return am8.apply(this,arguments);};}
+// まとめ描きの軍勢（swarm）：章ごとの種類を足す
+Object.assign(SWK,{p8war:'p8war',p8robo:'p8robo',p8dino:'p8dino',p8poly:'p8poly'});
+Object.assign(SWT,{p8war:{sky:0,c:[0x3e4234,0x5a6048,0xd8b890],nm:'鉄の軍勢',ic:'🪖',form:1},p8robo:{sky:0,c:[0x3a4050,0xdfe3ea,0x40e8ff],nm:'ロボットの軍勢',ic:'🤖',form:1,em:0x101820},
+  p8dino:{sky:1,fly:1,gap:13,c:[0x8a5a3a,0xc8783c,0xffc060],nm:'翼竜の群れ',ic:'🦖',s:1.6},p8poly:{sky:0,c:[0x2060ff,0xa040ff,0x40e8ff],nm:'立方体の軍勢',ic:'🟦',form:1,em:0x182040}});
+
+// 軍勢の形：Tripo のモデルが入ったら、それを使う（無い間は箱の人形）
+if(typeof SWMD!=='undefined')Object.assign(SWMD,{p8war:['p8rifle',4.1],p8robo:['p8robot',4.3],p8dino:['p8ptera',8,1]});
+
+/* ---------- 景色 ---------- */
+function s8Add(o){scene.add(o);TERRAIN.push(o);return o;}
+// 地面の色をぬり直す（章の空気に合わせる）
+function s8Recolor(fn){const t=TERRAIN[0];if(!t)return;const a=t.geometry.attributes.color,q=t.geometry.attributes.position,c=new THREE.Color();for(let i=0;i<a.count;i++){c.setRGB(a.getX(i),a.getY(i),a.getZ(i));fn(c,q.getX(i),q.getY(i),q.getZ(i));a.setXYZ(i,c.r,c.g,c.b);}a.needsUpdate=true;}
+function s8Inst(geo,mt,L,cols){const im=new THREE.InstancedMesh(geo,mt,Math.max(1,L.length)),d=new THREE.Object3D(),c=new THREE.Color();
+  L.forEach((q,i)=>{d.position.set(q[0],q[1],q[2]);d.rotation.set(q[6]||0,q[7]||0,q[8]||0);d.scale.set(q[3],q[4],q[5]);d.updateMatrix();im.setMatrixAt(i,d.matrix);if(cols)im.setColorAt(i,c.setHex(cols[i%cols.length]));});
+  im.count=L.length;im.instanceMatrix.needsUpdate=true;if(im.instanceColor)im.instanceColor.needsUpdate=true;im.frustumCulled=false;return s8Add(im);}
+// 第1章：泥の戦場（塹壕・土のう・鉄の障害物・砲弾のあと・こわれた町・黒い煙）
+function s8Ruin(){const g=new THREE.Group(),bc=[0x7a6a5c,0x6e5e52,0x857466],w=rnd(9,13),d=rnd(8,11);
+  s8P(g,w+2,1.2,d+2,0x5a5248,0,0.6,0);const wall=(ww,hh,x,z,ry)=>{const m=s8P(g,ww,hh,0.9,pick(bc),x,hh/2+0.4,z);m.rotation.y=ry;return m;};
+  for(let i=0;i<3;i++){wall(w/3,rnd(5,12),-w/3+i*w/3,-d/2,0);}for(let i=0;i<2;i++){wall(d/2,rnd(4,11),-w/2,-d/4+i*d/2,1.5708);}wall(d/2,rnd(3,9),w/2,-d/4,1.5708);wall(w/3,rnd(2,5),-w/3,d/2,0);
+  for(let i=0;i<4;i++)s8P(g,1.0,1.3,0.3,0x1e1c1a,-w/3+rnd(-1,1)+i*w/4.5,rnd(3,5),-d/2+0.4);return g;}
+function s8WorldWar(){const y0=(x,z)=>H(x,z),bag=[],hog=[],crt=[],tr=[],dt8=[];
+  s8Recolor(c=>{const l=c.r*0.3+c.g*0.5+c.b*0.2;c.setRGB(l*1.08+0.02,l*0.97+0.01,l*0.78);});   // 草の緑を消して、泥と灰色に
+  for(let i=0;i<64;i++){const a=rnd(0,6.283),r=rnd(50,310),x=Math.cos(a)*r,z=-60+Math.sin(a)*r;if(Math.hypot(x,z-120)<28)continue;const y=y0(x,z),h=rnd(5,9),ry=rnd(0,6.3);
+    dt8.push([x,y+h/2-0.3,z,1,h,1,rnd(-0.08,0.08),ry,rnd(-0.08,0.08)],[x+Math.sin(ry)*0.9,y+h*0.72,z+Math.cos(ry)*0.9,0.5,h*0.38,0.5,0.9,ry,0],[x-Math.sin(ry+1)*0.7,y+h*0.55,z-Math.cos(ry+1)*0.7,0.4,h*0.3,0.4,-0.8,ry+1,0]);}
+  s8Inst(new THREE.CylinderGeometry(0.16,0.42,1,6),new THREE.MeshLambertMaterial({color:0x2a241e}),dt8).castShadow=true;   // 焼けた木
+  for(const tz of [-45,-112,-180]){for(let i=0;i<10;i++){const x0=-130+i*26,zz=tz+(i%2?4:-4),zn=tz+((i+1)%2?4:-4);
+      tr.push([x0+13,y0(x0+13,zz)+0.14,zz,26.5,1,3.2,0,0,0]);if(i<9)tr.push([x0+26,y0(x0+26,tz)+0.14,tz,3.2,1,8.5,0,0,0]);
+      for(let k=0;k<17;k++){const x=x0+0.8+k*1.52;[-2.1,2.1].forEach(s=>{bag.push([x+rnd(-0.1,0.1),y0(x,zz+s)+0.28,zz+s,1,1,1,0,rnd(-0.15,0.15),0]);if(k%3)bag.push([x+0.7,y0(x,zz+s)+0.78,zz+s,1,1,1,0,rnd(-0.15,0.15),0]);});}}}
+  s8Inst(new THREE.BoxGeometry(1,0.12,1),new THREE.MeshLambertMaterial({color:0x2a2318}),tr).receiveShadow=true;
+  s8Inst(new THREE.BoxGeometry(1.45,0.5,0.7),new THREE.MeshLambertMaterial({color:0xffffff}),bag,[0xa8946a,0x9a8660,0xb49e74]);
+  for(let i=0;i<70;i++){const a=rnd(0,6.283),r=rnd(30,230),x=Math.cos(a)*r,z=-110+Math.sin(a)*r*0.8;if(Math.hypot(x,z-120)<30)continue;const y=y0(x,z)+0.9,ry=rnd(0,6.3);
+    hog.push([x,y,z,1,1,1,0.6,ry,0.5],[x,y,z,1,1,1,-0.6,ry+2.1,0.5],[x,y,z,1,1,1,0.2,ry+4.2,-0.9]);}
+  s8Inst(new THREE.BoxGeometry(0.22,0.22,3.4),new THREE.MeshLambertMaterial({color:0x3a3530}),hog);
+  for(let i=0;i<46;i++){const a=rnd(0,6.283),r=rnd(20,260),x=Math.cos(a)*r,z=-100+Math.sin(a)*r*0.85,s=rnd(3,9);crt.push([x,y0(x,z)+0.1,z,s,s,1,-Math.PI/2,0,0]);}
+  s8Inst(new THREE.CircleGeometry(1,14),new THREE.MeshLambertMaterial({color:0x2c261c}),crt);
+  // こわれた町（こわせる）
+  [[-95,-70],[-118,-92],[-84,-104],[-112,-128],[96,-138],[120,-160],[88,-168],[112,-196],[-30,-224],[34,-232]].forEach(([x,z])=>{const g=s8Ruin();place(g,x,z,rnd(0,6.3),140,60,'house',MODEL.p8ruin?'p8ruin':undefined);});
+  const SM=[[-100,-98],[104,-164],[-20,-232],[150,-40],[-160,-170]].map(([x,z])=>new V3(x,y0(x,z)+9,z));
+  S8.anim.push((dt,t)=>{S8.smT=(S8.smT||0)-dt;if(S8.smT<=0){S8.smT=0.3;const q=SM[(Math.random()*SM.length)|0];if(q.distanceTo(P.pos)<420)smoke(q,1,11,4,0x26262a,2.5);}});}
+// 第2章：ネオンの都（光る道・遠くの高層ビル・こわせるビル・光る柱・空の輪）
+function s8WinTex(){if(S8.wt)return S8.wt;const c=document.createElement('canvas');c.width=64;c.height=128;const x=c.getContext('2d');x.fillStyle='#0a0d18';x.fillRect(0,0,64,128);const cl=['#40e8ff','#ff40d0','#ffe9a0','#8a9cff','#40e8ff'];
+  for(let r=0;r<21;r++)for(let k=0;k<8;k++){if(Math.random()<0.48)continue;x.fillStyle=cl[(Math.random()*cl.length)|0];x.globalAlpha=rnd(0.45,1);x.fillRect(3+k*7.5,3+r*6,5,3.4);}x.globalAlpha=1;x.fillStyle='#40e8ff';x.fillRect(0,0,64,1.5);x.fillStyle='#ff40d0';x.fillRect(0,0,1.5,128);
+  S8.wt=new THREE.CanvasTexture(c);S8.wt.magFilter=THREE.NearestFilter;return S8.wt;}
+function s8RoadTex(){if(S8.rt)return S8.rt;const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d');x.fillStyle='#10131c';x.fillRect(0,0,256,256);
+  x.strokeStyle='#18c8e8';x.lineWidth=5;x.strokeRect(2.5,2.5,251,251);x.strokeStyle='rgba(255,64,208,0.75)';x.lineWidth=2.5;x.setLineDash([16,14]);x.beginPath();x.moveTo(128,0);x.lineTo(128,256);x.moveTo(0,128);x.lineTo(256,128);x.stroke();
+  x.setLineDash([]);x.strokeStyle='rgba(64,232,255,0.22)';x.lineWidth=1;for(let i=32;i<256;i+=32){x.beginPath();x.moveTo(i,0);x.lineTo(i,256);x.moveTo(0,i);x.lineTo(256,i);x.stroke();}
+  S8.rt=new THREE.CanvasTexture(c);S8.rt.wrapS=S8.rt.wrapT=THREE.RepeatWrapping;S8.rt.repeat.set(22,22);S8.rt.anisotropy=4;return S8.rt;}
+function s8Tower(w,h,d){const g=new THREE.Group(),m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshBasicMaterial({map:s8WinTex()}));m.position.y=h/2;g.add(m);
+  const cap=new THREE.Mesh(new THREE.BoxGeometry(w+0.6,0.6,d+0.6),Math.random()<0.5?S8M.cy:S8M.mg);cap.position.y=h+0.3;g.add(cap);return g;}
+function s8WorldRobo(){const t=TERRAIN[0];if(t)t.material=new THREE.MeshLambertMaterial({color:0x10131c});
+  const rd=new THREE.Mesh(new THREE.PlaneGeometry(700,700),new THREE.MeshBasicMaterial({map:s8RoadTex()}));rd.rotation.x=-Math.PI/2;rd.position.y=3.06;s8Add(rd);
+  const far=[],mfar=[],mg=MODEL.p8tower?modelGeo('p8tower',1):null;
+  for(let i=0;i<78;i++){const a=i/78*6.283+rnd(-0.05,0.05),r=rnd(mg?270:215,440),x=Math.cos(a)*r,z=-50+Math.sin(a)*r,w=rnd(14,30),h=rnd(40,150)*(r>300?1.25:1);far.push([x,H(x,z)+h/2-1,z,w,h,rnd(14,30),0,0,0]);}
+  s8Inst(new THREE.BoxGeometry(1,1,1),new THREE.MeshBasicMaterial({map:s8WinTex()}),far,[0xffffff,0xc8d8ff,0xffd0f0,0xa0b8e0]);
+  if(mg){for(let i=0;i<22;i++){const a=i/22*6.283+rnd(-0.08,0.08),r=rnd(205,265),x=Math.cos(a)*r,z=-50+Math.sin(a)*r,h=rnd(55,110);mfar.push([x,H(x,z)-1,z,h,h,h,0,rnd(0,6.3),0]);}s8Inst(mg.g,mg.m,mfar);}
+  // こわせるビル（広場のまわり）
+  for(let i=0;i<12;i++){const a=i/12*6.283+0.26,r=rnd(88,150),x=Math.cos(a)*r,z=-80+Math.sin(a)*r;if(Math.hypot(x,z-120)<45)continue;const g=s8Tower(rnd(9,13),rnd(16,32),rnd(9,13));place(g,x,z,rnd(0,6.3),300,140,'tower',MODEL.p8tower?'p8tower':undefined);}
+  const py=[];for(let i=0;i<40;i++){const a=rnd(0,6.283),r=rnd(25,165),x=Math.cos(a)*r,z=-80+Math.sin(a)*r;py.push([x,3+7,z,0.5,14,0.5,0,0,0]);}
+  s8Inst(new THREE.BoxGeometry(1,1,1),new THREE.MeshBasicMaterial({color:0xffffff}),py,[0x40e8ff,0xff40d0,0x8a9cff]);
+  const rg=[];[[0,120,-150,46,0x40e8ff],[-170,150,-60,34,0xff40d0],[180,170,-120,40,0xffe060]].forEach(([x,y,z,r,c])=>{const m=new THREE.Mesh(new THREE.TorusGeometry(r,0.9,6,48),new THREE.MeshBasicMaterial({color:c,fog:false}));m.position.set(x,y,z);m.rotation.x=1.2;s8Add(m);rg.push(m);});
+  S8.anim.push((dt,t)=>{rg.forEach((m,i)=>{m.rotation.z=t*(0.2+i*0.07);m.rotation.x=1.2+Math.sin(t*0.3+i)*0.25;});});}
+// 第3章：太古の密林（巨木・シダ・火山・大きな骨）
+function s8WorldDino(){const tg=MODEL.p8gianttree?modelGeo('p8gianttree',1):null,TR=[],CN=[],fern=[];
+  const NT=tg?12:18;for(let i=0;i<NT;i++){const a=i/NT*6.283+rnd(-0.12,0.12),r=rnd(125,300),x=Math.cos(a)*r,z=-60+Math.sin(a)*r;if(Math.hypot(x,z-120)<60||Math.hypot(x,z+130)<70)continue;const h=rnd(38,52),y=H(x,z);if(y<WATER+1)continue;
+    if(tg)TR.push([x,y-1,z,h,h,h,0,rnd(0,6.3),0]);else{TR.push([x,y+h*0.3,z,h*0.11,h*0.62,h*0.11,0,rnd(0,6.3),0]);for(let k=0;k<3;k++)CN.push([x+rnd(-7,7),y+h*(0.62+k*0.12),z+rnd(-7,7),h*0.32,h*0.2,h*0.32,0,0,0]);}
+    COLS.push({t:0,x,z,r:h*0.09,y0:y-3,y1:y+h*0.6});}
+  if(tg)s8Inst(tg.g,tg.m,TR);else{s8Inst(new THREE.CylinderGeometry(0.7,1.25,1,9),new THREE.MeshLambertMaterial({color:0x4a3420}),TR).castShadow=true;s8Inst(new THREE.SphereGeometry(1,9,7),new THREE.MeshLambertMaterial({color:0xffffff}),CN,[0x1f5a26,0x2a6a2c,0x184a20]).castShadow=true;}
+  const fg=new THREE.ConeGeometry(1.7,1.2,7,1,true);fg.rotateX(Math.PI);fg.translate(0,0.6,0);
+  for(let k=0;k<3000&&fern.length<520;k++){const x=rnd(-300,300),z=rnd(-300,300),y=H(x,z);if(y<WATER+1.2||y>30)continue;const s=rnd(0.8,2.2);fern.push([x,y-0.1,z,s,s*rnd(0.8,1.4),s,0,rnd(0,6.3),0]);}
+  s8Inst(fg,new THREE.MeshLambertMaterial({color:0xffffff,side:THREE.DoubleSide}),fern,[0x3f8a34,0x56a03c,0x2f7430,0x6aae40]);
+  // 火山（遠く）
+  const vx=150,vz=-430,vy=H(vx,vz),vo=new THREE.Mesh(new THREE.ConeGeometry(120,190,14,1,true),new THREE.MeshLambertMaterial({color:0x3a3230,side:THREE.DoubleSide,fog:false}));vo.position.set(vx,vy+60,vz);s8Add(vo);
+  const lv=new THREE.Mesh(new THREE.ConeGeometry(38,58,14,1,true),new THREE.MeshBasicMaterial({color:0xff5a18,fog:false}));lv.position.set(vx,vy+129,vz);s8Add(lv);
+  const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff6a20,transparent:true,opacity:0.8,blending:THREE.AdditiveBlending,depthWrite:false,fog:false}));gl.scale.set(150,120,1);gl.position.set(vx,vy+165,vz);s8Add(gl);
+  // 大きな骨
+  const bm=mat(0xe8e0c8);[[-70,-60,0.4],[86,-190,2.2],[-40,-235,4.0]].forEach(([x,z,ry])=>{const g=new THREE.Group(),y=H(x,z);
+    for(let i=0;i<6;i++){const rb=mesh(new THREE.TorusGeometry(3.4-i*0.25,0.28,5,10,Math.PI),bm);rb.position.set(0,0,i*2.1-5);g.add(rb);}s8P(g,0.6,0.6,13,bm,0,3.2,0);s8P(g,2.4,2,3.4,bm,0,1.2,8.4);
+    g.position.set(x,y,z);g.rotation.y=ry;if(MODEL.p8bones)attachModel(g,'p8bones');s8Add(g);});
+  const top=new V3(vx,vy+160,vz);S8.anim.push((dt,t)=>{S8.smT=(S8.smT||0)-dt;gl.material.opacity=0.65+0.2*Math.sin(t*2.3);if(S8.smT<=0){S8.smT=0.5;if(top.distanceTo(P.pos)<700)smoke(tmp3.set(top.x,top.y+22,top.z),1,26,5,0x4a4446,8);}});}
+// 最終章：面と線だけの4次元の世界（色が流れる格子の地面・浮かぶ立方体・回る超立方体の影）
+function s8WorldPoly(){const t=TERRAIN[0];
+  if(t)t.material=new THREE.MeshBasicMaterial({color:0x04040a});
+  // まわりの山：あらい三角の線だけで描く（広場の外だけ）
+  {const cg=new THREE.PlaneGeometry(1200,1200,44,44);cg.rotateX(-Math.PI/2);const pa=cg.attributes.position;for(let i=0;i<pa.count;i++)pa.setY(i,H(pa.getX(i),pa.getZ(i))+2.5);
+    const wf=new THREE.Mesh(cg,new THREE.ShaderMaterial({uniforms:{uT:S8.uT},wireframe:true,transparent:true,depthWrite:false,
+      vertexShader:'varying vec3 vW;void main(){vec4 w=modelMatrix*vec4(position,1.0);vW=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}',
+      fragmentShader:'uniform float uT;varying vec3 vW;void main(){float r=length(vW.xz);if(r<336.0)discard;vec3 c=0.5+0.5*cos(6.2831*(vec3(0.0,0.33,0.67)+vW.y*0.004+uT*0.05));gl_FragColor=vec4(c,0.8*smoothstep(336.0,380.0,r));}'}));s8Add(wf);}
+  const gm=new THREE.ShaderMaterial({uniforms:{uT:S8.uT},transparent:true,depthWrite:false,extensions:{derivatives:true},
+    vertexShader:'varying vec3 vW;void main(){vec4 w=modelMatrix*vec4(position,1.0);vW=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}',
+    fragmentShader:'uniform float uT;varying vec3 vW;void main(){vec2 q=vW.xz/10.0;vec2 g=abs(fract(q-0.5)-0.5)/fwidth(q);float l=1.0-min(min(g.x,g.y),1.0);vec2 q2=vW.xz/50.0;vec2 g2=abs(fract(q2-0.5)-0.5)/fwidth(q2);float l2=1.0-min(min(g2.x,g2.y)*0.6,1.0);vec2 c=floor(q);float fl=0.5+0.5*sin(c.x*1.7+c.y*2.3+uT*1.3);fl=fl*fl*fl*0.3;vec3 col=0.5+0.5*cos(6.2831*(vec3(0.0,0.33,0.67)+vW.x*0.0035+vW.z*0.0028+uT*0.06));float d=length(vW.xz-cameraPosition.xz);float fade=smoothstep(560.0,90.0,d);float a=(max(l*0.9,l2)+fl)*fade;gl_FragColor=vec4(col*(0.55+0.9*max(l,l2))+vec3(l2*0.35),a);}'});
+  const gp=new THREE.Mesh(new THREE.PlaneGeometry(668,668),gm);gp.rotation.x=-Math.PI/2;gp.position.y=3.07;gp.renderOrder=1;s8Add(gp);
+  // 浮かぶ立方体（まとめて1つで描く。毎コマ、ゆっくり回す）
+  const N=150,im=new THREE.InstancedMesh(new THREE.BoxGeometry(1,1,1),new THREE.MeshLambertMaterial({color:0xffffff,emissive:0x202040,flatShading:true}),N),d=new THREE.Object3D(),col=new THREE.Color(),Q=[];
+  for(let i=0;i<N;i++){const a=rnd(0,6.283),r=i<40?rnd(40,200):rnd(250,470),s=i<40?rnd(2,5):rnd(6,26);Q.push({x:Math.cos(a)*r,y:(i<40?rnd(30,90):rnd(30,220)),z:-60+Math.sin(a)*r,s,ph:rnd(0,6.3),w:rnd(0.1,0.5)*(i%2?1:-1),ax:rnd(0,6.3)});im.setColorAt(i,col.setHSL(rnd(0.5,0.92),0.9,0.55));}
+  im.instanceColor.needsUpdate=true;im.frustumCulled=false;s8Add(im);
+  // 超立方体の影：空に大きいのを1つ、まわりに小さいのを4つ
+  const TS8=[[0,150,-190,95,5,1],[-190,90,-40,36,3,1.6],[200,110,-110,42,3,1.3],[-110,70,-260,30,3,1.9],[120,60,90,26,3,2.2]].map(([x,y,z,s,th,k],i)=>{const m=s8Tess([0xffffff,0x40e8ff,0xff40d0,0xffe060,0x8a9cff][i],s,th);m.position.set(x,y,z);m.userData.k=k;s8Add(m);return m;});
+  S8.anim.push((dt,t)=>{for(let i=0;i<N;i++){const q=Q[i];d.position.set(q.x,q.y+Math.sin(t*0.4+q.ph)*4,q.z);d.rotation.set(q.ax+t*q.w,q.ph+t*q.w*0.7,0);d.scale.setScalar(q.s);d.updateMatrix();im.setMatrixAt(i,d.matrix);}im.instanceMatrix.needsUpdate=true;
+    TS8.forEach((m,i)=>{s8TessUpd(m,t+i*3,m.userData.k*0.6);m.userData.mt.color.setHSL((t*0.05+i*0.2)%1,0.9,0.7);});});}
+function s8World(L){S8.key=L;S8.smT=0;
+  if(L==='p8war')s8WorldWar();else if(L==='p8robo')s8WorldRobo();else if(L==='p8dino')s8WorldDino();else if(L==='p8poly')s8WorldPoly();}
+{const ss8=setupStage;setupStage=function(i){for(const e of EN)if(e.s8)s8Clean(e);ss8.apply(this,arguments);try{S8.anim.length=0;if(S8BM.g)scene.remove(S8BM.g);const S=STAGES[i],was=S8.nc;S8.nc=!!(S&&(S.key==='p8robo'||S.key==='p8poly'));if(was&&!S8.nc)for(const c of clouds){c.visible=true;c.userData.o=-1;}if(S&&S.p8)s8World(S.key);else S8.key='';}catch(err){console.error('s8World',err);}};}
+{const ut8=updTheme;updTheme=function(dt,t){ut8.apply(this,arguments);if(S8.nc)for(const c of clouds)c.visible=false;   // ネオンの都と4次元の世界は、雲を出さない
+  if(S8.anim.length){S8.uT.value=t;for(const f of S8.anim){try{f(dt,t);}catch(_){}}}};}
+
+/* ---------- 言葉：会話・紙芝居の絵・終わりの文・選択画面 ---------- */
+Object.assign(TALKS,{
+ p8war:{w:[[['司令官','未確認の大型飛行物体だ！ 所属は不明、翼は二枚、口から火！ ……報告書に、何と書けばいい！'],['ME','竜だ。そのまま書け。……こちらも前の職場で、報告書には苦労した'],['司令官','敵でも味方でもないなら、撃て！ 全軍、対空射撃！'],['ME','話し合いの前に撃つ。どこの世界でも、段取りは同じか。……なら、こちらも段取りどおりに焼く']],
+           [['司令官','戦車隊、前へ！ 爆撃隊は上から押さえろ！ 鉄と火薬の量なら、負けん！'],['ME','鉄の箱に、鉄の鳥。……火に弱い物ばかり、よく集めたな']],
+           [['司令官','切り札を出す。超重戦車「陸の戦艦」、前進！ 予算三年ぶんの鉄だ！'],['ME','三年ぶんか。……三分で、鉄くずにする。予算の話は、聞かなかったことにしよう']]],
+        clear:[['司令官','……全軍、撤退。報告書には「天災」と書く。天災なら、だれの責任でもない'],['ME','うまい書き方だ。前の職場に、ほしかった人材だ。……おっと。また、空がさけた']]},
+ p8robo:{w:[[['統括機','未登録の生体を検知。種別：トカゲ。大きさ：規格外。火器：口。……分類できません'],['ME','分類は「客」でいい。すぐ帰る。出口は、どこだ'],['統括機','出口は、ありません。未登録の物は、排除します。これは、規則です'],['ME','規則か。……規則を守らない相手の後しまつが、前の仕事だった。守りすぎる相手は、はじめてだ']],
+            [['統括機','巡回部隊の損失、百パーセント。重装部隊を投入します。費用は、あなたに請求します'],['ME','請求書は、女神に回せ。あいつが、ここへ落とした']],
+            [['統括機','部隊では、排除できません。当機が、直接、排除します。都市統括機、起動'],['ME','町の親玉は、町より大きいのか。……電気代が、高そうだ'],['統括機','電気代は、問題ありません。あなたを排除すれば、採算が合います']]],
+         clear:[['統括機','……排除、失敗。記録します。「竜は、規格外」……再起動まで、百年……'],['ME','百年、ゆっくり休め。……働きすぎだ、おまえは。さて、次のさけ目だ']]},
+ p8dino:{w:[[['ME','おい。同じ「竜」のよしみだ。道を、あけてくれ'],['小型竜','ギャッ！ ギャギャッ！'],['ME','……通じない。目が、「肉だ」と言っている。前の世界の機械のほうが、まだ話ができた']],
+            [['ME','角が三本のやつが、突っこんでくる。草を食うくせに、気が短い'],['ME','空には、皮の翼のやつ。……この森は、全員が腹ぺこか、全員がきげんが悪いかの、どちらかだ']],
+            [['暴君竜','グオオオオオオッ！！'],['ME','でかいな。あごだけで、おれの頭より大きい。……この森の王か'],['ME','王どうし、あいさつは一つだ。どちらが食う側か、決めよう']]],
+         clear:[['ME','強かった。火も翼も無しで、あそこまでやるとは。……親戚として、少し、ほこらしい'],['ME','焼き加減は、聞かないでくれ。……また、空がさけた。今度は、やけに、角ばったさけ目だ']]},
+ p8poly:{w:[[['管理者','あなたは、不具合です。三つの世界を横断し、三つとも壊しました。記録に、あなたの居場所はありません'],['ME','壊したのは、撃ってきた連中だけだ。……それと、おれをここへ落としたのは、女神だ。苦情は、あっちへ'],['管理者','女神は、管轄がちがいます。ここは、すべての世界の管理層。不具合は、削除します'],['ME','消される側に回るのは、はじめてだ。前世では、いつも消す側だった。……なれない役は、やらない主義でな']],
+            [['管理者','立方体の損失を確認。砲台を展開します。あなたの動きは、すべて計算ずみです'],['ME','計算ずみなら、結果も知っているだろう。……知っていて続けるのは、仕事熱心と言うより、がんこだ']],
+            [['管理者','計算を、やり直しました。結果は、同じです。わたしが、直接、削除します'],['ME','形が、ころころ変わるな。三角、四角、……何角だ、それは'],['管理者','形は、問題ではありません。わたしは、すべての形です'],['ME','なら、すべての形を、まとめて焼く。手間が、はぶける']]],
+         clear:[['管理者','……削除、失敗。あなたは、不具合では……ありません。「仕様」として、記録します……'],['ME','仕様か。悪くない肩書きだ。……元の世界への出口を、開けてもらおう。それで、貸し借りなしだ']]}});
+ENDS[8]=['管理者は、光の粒になって、格子の中へとけていった。最後に、元の世界へのさけ目を、一つだけ開けて。','鉄の世界も、機械の世界も、牙の世界も、もう竜を追ってこない。どの世界の記録にも、竜は「仕様」と書いてある。','なつかしい空にもどると、風には、ちゃんと魔法のにおいがした。空は、きみのものだ。となりの世界の空も、少しだけ。','遠くの空で、女神が書類の山にうもれていた。「管轄の外へ出したら、苦情が四つの世界から……次は、石ころにします。石ころなら、どこへも行けません」'];
+ENDT[8]='ただいま';
+// 紙芝居の絵：名前は p8_<章>_<番号>。絵のファイル（story\v2\<名前>.jpg）が無い間は、今ある絵を仮に当てる（P8FB）。ファイルが置かれたら、自動で本物に切りかわる
+const P8IMG={p8war:{s:['p8_war_1','p8_war_2','p8_war_3'],w:'p8_war_4',c:'p8_war_c'},p8robo:{s:['p8_robo_1','p8_robo_2','p8_robo_3'],w:'p8_robo_4',c:'p8_robo_c'},p8dino:{s:['p8_dino_1','p8_dino_2','p8_dino_3'],w:'p8_dino_4',c:'p8_dino_c'},p8poly:{s:['p8_poly_1','p8_poly_2','p8_poly_3'],w:'p8_poly_4',c:'p8_poly_c'}},
+  P8END=['p8_end_1','p8_end_2','p8_end_3','p8_end_4'],P8OK={},
+  P8FB={p8_war_1:'end_g',p8_war_2:'town_1',p8_war_3:'town_2',p8_war_4:'town_3',p8_war_c:'town_c',p8_robo_1:'golem_1',p8_robo_2:'golem_2',p8_robo_3:'golem_3',p8_robo_4:'golem_3',p8_robo_c:'golem_c',
+    p8_dino_1:'orcwood_1',p8_dino_2:'orcwood_2',p8_dino_3:'dragongrave_1',p8_dino_4:'dragongrave_2',p8_dino_c:'dragongrave_c',p8_poly_1:'archangel_1',p8_poly_2:'archangel_2',p8_poly_3:'archangel_3',p8_poly_4:'archangel_3',p8_poly_c:'archangel_c',
+    p8_end_1:'archangel_c',p8_end_2:'peak_c',p8_end_3:'peak_1',p8_end_4:'end_g'};
+function s8Img(n){return P8OK[n]?n:P8FB[n];}
+function s8ImgApply(){for(const k in P8IMG){const S=ALLST.find(q=>q.key===k),I=P8IMG[k],T=TALKS[k];if(!S||!T)continue;S.simg=I.s.map(s8Img);KIMG[k]={w:T.w[0].map(()=>s8Img(I.w)),c:T.clear.map(()=>s8Img(I.c))};}ENDIMG[8]=P8END.map(s8Img);}
+s8ImgApply();
+if(location.protocol!=='file:')Object.keys(P8FB).forEach(n=>{const im=new Image();im.onload=()=>{P8OK[n]=1;s8ImgApply();};im.onerror=()=>{};im.src='story/v2/'+n+'.jpg';});
+// 選択画面のシナリオの概要
+if(typeof SCI!=='undefined')SCI[8]={d:'女神に「管轄の外」へ飛ばされた竜が、次元のさけ目を落ちて、4つの世界をわたる。鉄と煙の戦場、ネオンの機械の都、恐竜の密林、そして面と線だけの4次元の世界。最後に待つのは、すべての世界の「管理者」。',b:[['超重戦車「陸の戦艦」'],['都市統括機'],['暴君竜'],['管理者']]};
+// 結果の画面の文（シナリオ8）
+{const se8=showEnd;showEnd=function(win){se8.apply(this,arguments);try{if(win&&SCN===8)$('ovS').textContent=`${C.name}は、鉄の軍も、機械の都も、太古の森も、世界の管理者もこえて、帰ってきた。空はきみのものだ。となりの世界の空も、少しだけ。`;}catch(_){}};}
+// 起動のいちばん初めにシナリオ8の章を作った時は、まだここまで来ていなかったので、景色をもう一度作る
+try{if(SCN===8&&(state==='select'||state==='story')){setupStage(stage);setChar(charKey);}}catch(_){}
 
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
