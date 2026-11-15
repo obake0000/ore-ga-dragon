@@ -6221,9 +6221,9 @@ function s1Flap(e,a){const h=e.mesh.userData.bh;if(!h)return;const b=h.userData.
 {const ae0=addEnemy;addEnemy=function(type){const e=ae0.apply(this,arguments);if(e&&(type==='bat'||type==='imp')&&MODEL[type]&&e.mesh){const c=e.mesh.children;e.mesh.userData.bh=c[c.length-1];}return e;};}
 // 勇者の一行：勇者（盾と飛びこみ斬り）・騎士（大きな兵。やりを投げる）・魔法使い（回復と結界）
 function caveParty(){caveBuild();moodT=MOODS[6];updMood(0,true);const cx=CAVE.x,cz=CAVE.z-13;if(C.fly)P.pos.y=CAVE.y+8;P.yaw=Math.PI;P.pitch=0;
-  const h=addEnemy('hero',cx-2.7,cz+0.5);h.cave=1;h.hp=h.maxHp=h.maxHp*0.5;h.dmg*=0.5;h.sum1=1;h.p2=1;h.said=1;h.mt=3.6;h.sc=0.7;h.r=ST.hero.r*0.7;h.hc=ST.hero.hc*0.7;
-  const k=addEnemy('soldier',cx+0.3,cz+1.6,undefined,{model:'captain'});k.cave=1;k.hp=k.maxHp=EASY?90:150;k.sc=1;k.thrower=true;k.val=120;k.cd=4.5;
-  const m=addEnemy('priest',cx+2.9,cz+0.5,undefined,{model:'merchant'});m.hop=MODEL.merchant?m.mesh.children[m.mesh.children.length-1]:null;m.cave=1;m.hp=m.maxHp=EASY?55:90;m.val=120;m.cd=5.5;m.sc=0.95;
+  const h=addEnemy('hero',cx,cz);h.cave=1;h.hp=h.maxHp=h.maxHp*0.5;h.dmg*=0.5;h.sum1=1;h.p2=1;h.said=1;h.mt=3.6;h.sc=0.7;h.r=ST.hero.r*0.7;h.hc=ST.hero.hc*0.7;
+  const k=addEnemy('soldier',cx+4.6,cz+2,undefined,{model:'captain'});k.cave=1;k.hp=k.maxHp=EASY?90:150;k.sc=1;k.thrower=true;k.val=120;k.cd=4.5;
+  const m=addEnemy('priest',cx-4.2,cz+0.6,undefined,{model:'merchant'});m.hop=MODEL.merchant?m.mesh.children[m.mesh.children.length-1]:null;m.cave=1;m.hp=m.maxHp=EASY?55:90;m.val=120;m.cd=5.5;m.sc=0.95;
   [h,k,m].forEach(e=>{e.mesh.rotation.y=0;});$('cutin').style.display='none';cutT=0;
   talk([['勇者','いたぞ、千年竜だ！ 眠っているうちに討つはずが……起きたか！'],['ME','……人のねぐらに、土足で三人。朝めしの前に、まず客から焼くか。'],['勇者','盾を前へ！ 魔法使いは結界を！ 行くぞ！'],['💡 ヒント','うしろの魔法使いが、勇者を回復して結界を張る。先に倒そう']]);}
 // ねぐらを静かに出る（壁は破らない）：画面を暗くして、そのあいだに洞窟を片付け、谷に出たところで明るくする
