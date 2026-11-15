@@ -1098,7 +1098,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpq';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqc';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -5973,6 +5973,8 @@ const STAGES=[
     {name:'八面体の砲台',msg:'🔶 八面体の砲台が、輪になって浮かび上がる！',get mood(){return S8MD?S8MD.g:0;},clr:'◆ 砲台は、点にもどった！ 体力が少し回復',go(){
       for(let i=0;i<s8N(6);i++){const a=i/6*6.283;s8Spawn('octa',Math.cos(a)*95,-60+Math.sin(a)*95,floorAt(0,-60)+18);}
       s8Air('tetra',12);s8Grp('cube',18,0,-80,130,80);}},
+    {name:'合体獣キューブ',msg:'🟦 立方体がつながって、巨人になった！ ……と思ったら、竜にもなる！',get mood(){return S8MD?S8MD.h:0;},clr:'◆ 合体獣は、ばらばらの立方体にもどった！ 体力が少し回復',go(){
+      const b=s8Spawn('cubebeast',0,-150,undefined,{boss:'🟦 合体獣キューブ'});if(b){b.die='……ガラガラガラ（立方体が、ばらばらにくずれた）';s8BossIn(b,'🟦','合体獣キューブ');}s8Air('tetra',4);}},
     {name:'管理者',msg:'◆ 格子がゆがみ、形を変え続ける多面体「管理者」があらわれた！',get mood(){return S8MD?S8MD.h:0;},go(){
       const b=s8Spawn('admin',0,-150,P.pos.y+24,{boss:'◆ 管理者'});b.die='……削除、失敗。あなたは「仕様」です……（管理者は、光の粒になって、ほどけた）';s8BossIn(b,'◆','管理者');
       s8Grp('cube',10,0,-80,120,70);s8Air('tetra',6);}}]}
@@ -10220,6 +10222,41 @@ function cityGrid(){const st=TER.start||[0,120],ids=['p8neonbldg','p8apart','p8t
   return put;}
 {const su2=setupStage;setupStage=function(i){TRN.on=0;TRN.rail=null;const r=su2.apply(this,arguments);try{const k=STAGES[i]&&STAGES[i].key;if(k==='p8war')warLines();if(k==='p8robo')cityGrid();}catch(e){console.warn('p8deco',e);}return r;};}
 {const ut11=updTheme;updTheme=function(dt,t){ut11.apply(this,arguments);try{trainTick(dt);}catch(_){}};}
+// ---- 11/16 ふみさん「立方体がつながって、人の形になったりドラゴンになったりして襲ってくるボス」 ----
+const CBN=72;
+function cbShape(kind){const L=[],add=(x,y,z)=>L.push(new V3(x,y,z));
+  if(kind==='man'){for(const sx of [-2.6,2.6])for(let y=0;y<4;y++)add(sx,1.3+y*2.5,0);                 // 足 8
+    for(let y=0;y<4;y++)for(let x=-1;x<=1;x++)for(const z of [-1.2,1.2])add(x*2.5,11+y*2.5,z);           // 胴 24
+    for(const sx of [-1,1])for(let k=0;k<5;k++)add(sx*(5+k*0.9),19.5-k*2.3,0.6*k*0);                       // うで 10
+    for(let x=0;x<2;x++)for(let y=0;y<2;y++)for(let z=0;z<2;z++)add(-1.25+x*2.5,22+y*2.5,-1.25+z*2.5);  // 頭 8
+    for(const sx of [-1,1])add(sx*8.8,9.5,1.5);}                                                            // こぶし 2
+  else{for(let k=0;k<8;k++)for(const sx of [-1.2,1.2])add(sx,8,-8+k*2.5);                                 // 胴 16
+    for(let k=0;k<5;k++)add(0,9.5+k*2.2,12+k*1.6);                                                         // 首 5
+    for(let x=0;x<2;x++)for(let z=0;z<3;z++)add(-1.25+x*2.5,21.5,20+z*2.4);                                // 頭 6
+    for(const sx of [-1,1])for(let k=0;k<7;k++)for(let r=0;r<2;r++)add(sx*(3.5+k*2.6),11+k*0.9-r*2.4,2-r*2.5-k*0.4); // つばさ 28
+    for(let k=0;k<7;k++)add(0,7.5-k*0.4,-11-k*2.5);                                                        // しっぽ 7
+    for(const sx of [-2.4,2.4])for(const z of [-5,5])add(sx,3.5,z);}                                       // 足 4
+  while(L.length<CBN)L.push(L[L.length%Math.max(1,L.length)].clone().add(new V3(rnd(-0.6,0.6),rnd(-0.6,0.6),rnd(-0.6,0.6))));return L.slice(0,CBN);}
+function cbFb(){const g=new THREE.Group(),geo=new THREE.BoxGeometry(2.3,2.3,2.3),eg=new THREE.EdgesGeometry(geo),cs=[];
+  const mA=new THREE.MeshLambertMaterial({color:0x2a5cff,emissive:0x0a1a60}),mB=new THREE.MeshLambertMaterial({color:0x8a3cff,emissive:0x2a0a50}),ml=new THREE.LineBasicMaterial({color:0x9ff0ff});
+  const T=cbShape('man');for(let i=0;i<CBN;i++){const c=new THREE.Mesh(geo,i%5===0?mB:mA);c.add(new THREE.LineSegments(eg,ml));c.position.copy(T[i]);c.castShadow=true;g.add(c);cs.push(c);}
+  g.userData.cb={cs,from:T.map(v=>v.clone()),to:T,t:1,mode:'man',sw:8,cd:2,atk:0};return g;}
+function cbAI(e,dt,p,dx,dz,hd,d3,half){const u=e.mesh.userData.cb;if(!u)return;e.spd=0.01;e.perch=true;e.cd=Math.max(e.cd||0,1);const gy=floorAt(p.x,p.z);
+  // 形の入れかえ：ばらけて → 組み直す
+  u.sw-=dt*(half?1.3:1);if(u.sw<=0){u.mode=u.mode==='man'?'drg':'man';u.sw=u.mode==='man'?9:8;u.from=u.cs.map(c=>c.position.clone());u.to=cbShape(u.mode);u.t=0;
+    ono(p.clone().add(new V3(0,26,0)),u.mode==='man'?'ガシャン！ 巨人の形！':'ガシャガシャ！ 竜の形！','#9ff0ff',46);sfx('boom',p,0.6);shake(0.4);}
+  if(u.t<1){u.t=Math.min(1,u.t+dt/1.3);u.cs.forEach((c,i)=>{const k=clamp((u.t*1.6-(i%9)*0.07),0,1),sm=k*k*(3-2*k),mid=Math.sin(Math.PI*sm)*7;c.position.lerpVectors(u.from[i],u.to[i],sm);c.position.x+=Math.sign(c.position.x||((i%2)-0.5))*mid*0.5;c.position.y+=mid;c.rotation.set(sm*6.28*(i%3===0?1:0),sm*6.28*(i%3===1?1:0),0);});}
+  else u.cs.forEach((c,i)=>{c.position.y=u.to[i].y+Math.sin(e.t*3+i)*0.12;});
+  e.mesh.rotation.y=Math.atan2(dx,dz);u.cd-=dt;
+  if(u.mode==='man'){e.hc=12;p.y+=((gy)-p.y)*Math.min(1,dt*3);if(hd>26){const v=(half?11:8)*dt;p.x+=dx/hd*v;p.z+=dz/hd*v;}
+    if(u.cd<=0&&hd<40){u.cd=half?2.2:3;u.atk=0.5;const f=p.clone();setTimeout(()=>{if(e.dead)return;burst(tmp3.set(f.x,gy+1,f.z),50,[0x9ff0ff,0x2a5cff,0xffffff],6,40,0.7);smoke(tmp3.set(f.x,gy+1,f.z),8,10,2,0x6080ff,6);shake(0.7);sfx('boom',f,1);
+      if(Math.hypot(P.pos.x-f.x,P.pos.z-f.z)<32&&P.pos.y-gy<16)hurt(e.dmg);ono(f.clone().add(new V3(0,4,0)),'ズドン！','#9ff0ff',56);},450);}
+    if(u.atk>0){u.atk-=dt;const k=Math.sin((0.5-u.atk)/0.5*Math.PI);u.cs.forEach((c,i)=>{if(i>=32&&i<42)c.position.y=u.to[i].y+k*6;});}}
+  else{e.hc=10;const ty=gy+18+Math.sin(e.t*0.9)*3;p.y+=(ty-p.y)*Math.min(1,dt*1.5);const a=Math.atan2(p.z-P.pos.z,p.x-P.pos.x)+dt*0.35,R=Math.max(45,Math.min(70,hd));const tx=P.pos.x+Math.cos(a)*R,tz=P.pos.z+Math.sin(a)*R;p.x+=(tx-p.x)*Math.min(1,dt*0.8);p.z+=(tz-p.z)*Math.min(1,dt*0.8);
+    u.cs.forEach((c,i)=>{if(i>=27&&i<55)c.position.y=u.to[i].y+Math.sin(e.t*5+(i<41?0:0.4))*1.6*((i-27)%7)/6;});
+    if(u.cd<=0&&hd<170){u.cd=half?0.8:1.2;const hm=u.cs[23].getWorldPosition(new V3());for(const sp of [-0.12,0,0.12]){try{s8Shoot(hm,110,'las',8,0.4);}catch(_){}}sfx('fire',hm,0.5);}}}
+Object.assign(ST,{p8cubebeast:{hp:6500,r:12,hc:12,val:3200,dmg:24,ic:'🟦'}});
+Object.assign(S8K,{cubebeast:{base:'golem',type:'p8cubebeast',fb:cbFb,hp:6500,r:12,hc:12,val:3200,dmg:24,ai:cbAI}});
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
 </body>
