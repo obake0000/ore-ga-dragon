@@ -386,7 +386,7 @@
  "archangel": {
   "file": "archangel.glb",
   "h": 7,
-  "ja": "大天使",
+  "ja": "大天使（4枚の翼・金髪・白と金のよろい・炎の大剣・骨入り idle・walk・slash・振り下ろし）",
   "rot": 0
  },
  "angelgeneral": {
@@ -458,7 +458,7 @@
  "crab": {
   "file": "crab.glb",
   "h": 6,
-  "ja": "巨大なカニ",
+  "ja": "巨大なカニ（サンゴとフジツボまみれのボスガニ・骨入り Walk）",
   "rot": 0
  },
  "leviathan": {
@@ -1238,6 +1238,18 @@
   "file": "p8battleship.glb",
   "h": 16,
   "ja": "現代の戦艦（もとの巨大戦艦。戦争の章の海に遠景で出す）",
+  "rot": 0
+ },
+ "tkram": {
+  "file": "tkram.glb",
+  "h": 8,
+  "ja": "戦車の前に付ける、とげの破城槌（どくろの鉄板）",
+  "rot": 0
+ },
+ "tkshield": {
+  "file": "tkshield.glb",
+  "h": 12,
+  "ja": "戦車を囲むとげの大盾の輪",
   "rot": 0
  }
 }
