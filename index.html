@@ -506,6 +506,54 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 @media (min-width:901px) and (min-height:860px){#skp{max-width:840px;gap:5px}.sk{flex-direction:column;align-items:stretch;gap:4px;padding:5px}.sk .si{width:100%}.sk .sn{font-size:13px;white-space:normal}.sk .sd{font-size:11px;line-height:1.35}.sk .kk{font-size:10px}}
 /* 11/15 ふみさん「こういう配置に最初の画面変更」：技の札は、どの画面でも「大きな絵が上・文が下」 */
 @media (min-width:641px){#skp{max-width:1100px;gap:10px;margin-bottom:8px}.sk{flex-direction:column;align-items:stretch;gap:6px;padding:7px 8px}.sk .si{width:100%;aspect-ratio:auto;height:clamp(70px,12.5vh,190px)}#select .cards .card>.pti{min-height:clamp(48px,9vh,140px)}.sk .sn{font-size:15px;white-space:normal}.sk .sd{font-size:12px;line-height:1.4;min-height:0}.sk .kk{font-size:11px}.sk .pl{width:30px;height:30px;right:7px;bottom:7px}}
+/* 11/15 スマホのキャラ選び：顔の列＋選んだキャラの詳しい札＋技3つ＋出撃 */
+#seld{display:none}
+body.mob #select{padding:8px 10px 0}
+body.mob #select .ttl{padding-bottom:4px;margin:0}
+body.mob #select h1.logo img{width:150px!important}
+body.mob #select .sub{display:none}
+body.mob #select .cards{display:flex!important;flex:none!important;min-height:0!important;grid-template-rows:none!important;overflow-x:auto;overflow-y:hidden;gap:6px;margin:0 0 6px!important;padding:2px 2px 6px;max-width:100%!important;width:100%;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+body.mob #select .cards .card{flex:0 0 70px;padding:3px!important;border-radius:10px;scroll-snap-align:start;overflow:hidden;display:block!important}
+body.mob #select .cards .card:hover{transform:none}
+body.mob #select .cards .card .pti{height:58px!important;width:100%;min-height:0!important;margin-bottom:2px;object-fit:cover;border-radius:7px}
+body.mob #select .cards .card .nm{font-size:10px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;letter-spacing:-.04em}
+body.mob #select .cards .card .tag,body.mob #select .cards .card .ds,body.mob #select .cards .card .st{display:none!important}
+body.mob #seld{display:grid;grid-template-columns:84px 1fr;gap:4px 10px;width:100%;background:#000c;border:2px solid #ffb030;border-radius:12px;padding:8px 10px;margin-bottom:6px;box-shadow:0 0 14px #ff9a3a55}
+body.mob #seld .pti{grid-row:span 2;width:84px;height:84px;object-fit:cover;border-radius:9px}
+body.mob #seld .nm{font-size:19px;font-weight:900;white-space:normal;display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px}
+body.mob #seld .nm .tag{margin:0;display:inline-block;font-size:11.5px;font-weight:800;background:#ffffff22;border-radius:10px;padding:1px 8px;font-family:sans-serif}
+@media (orientation:portrait){body.mob #select .ttl{margin-top:auto;padding-bottom:10px}body.mob #select h1.logo img{width:min(250px,64vw)!important}body.mob #select .gos{margin-bottom:auto}}
+body.mob #seld .ds{font-size:12.5px;line-height:1.5;opacity:.92;margin:0}
+body.mob #seld .sts{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+body.mob #seld .st{font-size:11px;margin:0;gap:4px}body.mob #seld .st span{width:auto}
+body.mob #select .how{font-size:11.5px;margin:0 0 4px;line-height:1.45;flex:none}
+body.mob #select .gos{gap:6px;padding:8px 10px 12px;margin:0 -10px;width:calc(100% + 20px);bottom:0}
+body.mob #skp{gap:5px;margin-bottom:2px}
+body.mob .sk{flex-direction:column;align-items:stretch;gap:3px;padding:4px}
+body.mob .sk .si{display:block!important;width:100%;aspect-ratio:16/9;height:auto}
+body.mob .sk .sn{font-size:12px;white-space:normal}
+body.mob .sk .sd{display:block!important;font-size:10.5px;line-height:1.3}
+body.mob .sk .kk{display:none}
+body.mob #select .gos .btn.sm{font-size:12.5px;padding:6px 12px}
+body.mob #select .gos #go{font-size:19px;padding:9px 34px;order:5}
+body.mob #select .gos #wazaBtn{order:6}
+@media (orientation:landscape){
+ body.mob #select{padding-top:4px}
+ body.mob #select .ttl{display:none}
+ body.mob #select .cards .card{flex-basis:58px}
+ body.mob #select .cards .card .pti{height:40px!important}
+ body.mob #seld{grid-template-columns:52px 1fr;padding:5px 8px;margin-bottom:4px}
+ body.mob #seld .pti{width:52px;height:52px}
+ body.mob #seld .nm{font-size:15px}
+ body.mob #seld .ds{font-size:11px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+ body.mob #seld .sts{grid-column:2}
+ body.mob #select .how{display:none}
+ body.mob #skp{max-width:640px}
+ body.mob .sk{flex-direction:row;align-items:center;gap:6px}
+ body.mob .sk .si{width:72px;flex:none}
+ body.mob .sk .sd{display:none!important}
+ body.mob #select .gos{padding:4px 10px 8px}
+}
 /* 11/15 ふみさん「スマホ対応：カメラ少し引きぎみ・台詞小さく・コマンドももっと小さく」 */
 @media (pointer:coarse){
  #tsp{right:12px!important;bottom:86px!important;width:60px!important;height:60px!important}
@@ -566,7 +614,7 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 <div id="title" data-layout-ok><div class="bg"></div><div class="kv" role="img" aria-label="俺がドラゴン。転生したらドラゴンだったので勇者も魔王も丸焼きにします。15分で終わる爽快アクションRPG"><video class="v1" muted loop playsinline preload="none" aria-hidden="true" data-src="story/kv_tl2.mp4"></video><video class="v2" muted loop playsinline preload="none" aria-hidden="true" data-src="story/kv_br2.mp4"></video></div><div class="ray"></div><div class="emb" id="emb"></div><div class="press" id="press">読み込み中… <span id="ldn">0%</span><i class="ldb"><i id="ldp"></i></i></div></div>
 <div id="select" class="ov">
   <div class="ttl"><h1 class="logo"><img src="story/logo2.webp" alt="俺がドラゴン。転生したらドラゴンだったので勇者も魔王も丸焼きにします。15分で終わる爽快アクションRPG"></h1><div class="sub">キャラをえらんで、魔物・軍隊・海の怪物・古の竜を倒せ</div></div>
-  <div class="cards" id="cards"></div>
+  <div class="cards" id="cards"></div><div id="seld" aria-live="polite"></div>
   <div class="how">🖱️ マウスで行きたい方へ　🔥 炎は前の敵へ自動　画面の端の矢印＝敵のいる方向（ピンクはボス）</div>
   <div class="gos"><div id="skp" aria-live="polite"></div><button class="btn sm" id="scn" title="シナリオ1＝勇者→ワイバーン→地下の迷宮→ゴーレム→魔王。シナリオ2＝今までの6章（町・王都・海・魔界の門・嵐の頂）。切りかえると第1章からになります">📖 シナリオ1：地下の迷宮</button><button class="btn sm" id="easy" title="受けるダメージが半分以下。敵の数と体力が少なく、必殺技もたまりやすい。10〜15分で終わります">🔰 初心者モード：オフ</button><button class="btn" id="go">この竜で出撃</button><button class="btn sm" id="first" style="display:none">第1章から</button><button class="btn sm" id="wazaBtn">📖 技の一覧</button></div>
 </div>
@@ -1050,7 +1098,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcd';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdm';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -7814,6 +7862,9 @@ document.querySelectorAll('#touch .b').forEach(b=>{b.addEventListener('touchstar
   d.innerHTML=`<img class="pti" src="chara/${k}.webp" alt=""><div class="nm">${c.name}<span class="tag">${c.tag}</span></div><div class="ds">${c.ds}</div>${bar('体力',c.stat[0])}${bar('速さ',c.stat[1])}${bar('攻撃',c.stat[2])}`;
   d.addEventListener('click',()=>{initAudio();setChar(k);sfx('roar',null,0.3);});box_.appendChild(d);}}
 rcCards();krCards();
+// 指で触る画面かどうかを body に印（キャラ選びの並べ方を変える）。操作の説明もスマホ用に
+if(matchMedia('(pointer:coarse)').matches){document.body.classList.add('mob');const h=document.querySelector('#select .how');if(h)h.textContent='👆 画面をなぞって移動　🔥 炎は前の敵へ自動　⭕ 右下の丸ボタンで技　画面の端の矢印＝敵のいる方向';
+  {const l=document.createElement('link');l.rel='preload';l.as='image';l.href='ui/icons.webp?v='+ASSET_V;document.head.appendChild(l);}}
 function clearWorld(){swClear();ringsClear();dunClear();ranksClear();caveClear();FALL.forEach(o=>scene.remove(o.e.mesh));FALL.length=0;EN.forEach(e=>scene.remove(e.mesh));EN.length=0;PROJ.forEach(p=>scene.remove(p.m));PROJ.length=0;PILL.forEach(q=>{scene.remove(q.rm);if(q.cm)scene.remove(q.cm);});PILL.length=0;
   EMIT.length=0;DEB.forEach(d=>scene.remove(d.m));DEBN=0;DEB.length=0;BLD.forEach(b=>{scene.remove(b.g);if(b.rub)scene.remove(b.rub);});BLD.length=0;S3.q.length=0;S3.fort=null;wave=-1;}
 // 章のはじめの強さ（レベルと強化）を覚えておく。やられても、ページを開き直しても、その章のはじめの強さで続けられる
@@ -7827,11 +7878,12 @@ function startGame(from){initAudio();
   score=0;kills=0;bldKills=0;waveWait=0;TS=1;P.sp=C.sp;P.sp2=C.sp2;resetLv();startTime=performance.now();const st=from!==undefined?from:reached;setupStage(st);combo=0;comboT=0;maxCombo=0;$('combo').style.opacity=0;
   if(CKPT&&CKPT.stage===st&&st>0){LV=CKPT.LV;XP=CKPT.XP;UP=Object.assign({},CKPT.UP);score=CKPT.score||0;kills=CKPT.kills||0;bldKills=CKPT.bldKills||0;P.maxHp=Math.round(C.hp*Math.pow(1.15,UP.hp||0));P.hp=P.maxHp;for(let i=0;i<(UP.pet||0);i++)addPet();if(CKPT.ch===charKey&&skOk(CKPT.sp)&&skOk(CKPT.sp2)&&CKPT.sp!==CKPT.sp2){P.sp=CKPT.sp;P.sp2=CKPT.sp2;}}
   skUI();$('enl').textContent=`⚡ 必殺ゲージ（${SPC()}で必殺技）`;updLvHud();showStory(st);}
-function updGo(){$('go').textContent=reached?`${C.name}で${STAGES[reached].ch}から`:`${C.name}で出撃`;$('first').style.display=reached?'inline-block':'none';renderSk();}
+function updSeld(){const b=$('seld'),c=document.querySelector('#cards .card.on')||document.querySelector('#cards .card[data-k="'+charKey+'"]');if(!b||!c)return;const x=c.cloneNode(true);const st=[...x.querySelectorAll('.st')];const w=document.createElement('div');w.className='sts';st.forEach(e=>w.appendChild(e));x.appendChild(w);b.innerHTML=x.innerHTML;}
+function updGo(){setTimeout(updSeld,0);$('go').textContent=reached?`${C.name}で${STAGES[reached].ch}から`:`${C.name}で出撃`;$('first').style.display=reached?'inline-block':'none';renderSk();}
 // 選んでいるキャラの技3つ（小さな絵・操作・名前・ひとこと）。絵が読めなくても文字だけで分かる
 function renderSk(){const b=$('skp');if(!b||!C)return;const esc=t=>String(t==null?'':t).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
   const L=[['sp','左クリック',C.spN,C.spD],['sp2','右クリック',C.sp2N,C.sp2D],['sp3','スペース',C.dashN,C.dashD]];
-  b.innerHTML=`<div class="skh">${esc(C.name)}<small class="pc">${esc(C.ds)}</small><small class="tc">右下の丸ボタンで出す</small></div>`+L.map(o=>`<div class="sk skv" data-skv="${charKey}|${o[0]}" role="button" tabindex="0"><div class="si"><img loading="lazy" src="chara/sk/${charKey}_${o[0]}.webp" alt="${esc(o[2])}のようす" onerror="this.style.visibility='hidden'"><i class="pl"></i></div><div class="sx"><b class="kk">${o[1]}</b><span class="sn">${esc(o[2])}</span><span class="sd">${esc(o[3])}</span></div></div>`).join('');}
+  b.innerHTML=`<div class="skh">${esc(C.name)}<small class="pc">${esc(C.ds)}</small><small class="tc">右下の丸ボタンで出す</small></div>`+L.map(o=>`<div class="sk skv" data-skv="${charKey}|${o[0]}" role="button" tabindex="0"><div class="si"><img decoding="async" fetchpriority="high" src="chara/sk/${charKey}_${o[0]}.webp?v=${ASSET_V}" alt="${esc(o[2])}のようす" onerror="this.style.visibility='hidden'"><i class="pl"></i></div><div class="sx"><b class="kk">${o[1]}</b><span class="sn">${esc(o[2])}</span><span class="sd">${esc(o[3])}</span></div></div>`).join('');}
 $('go').addEventListener('click',()=>startGame());
 function updEasy(){$('easy').textContent=EASY?'🔰 初心者モード：オン（短く終わる）':'🔰 初心者モード：オフ';$('easy').classList.toggle('on',EASY);}
 $('easy').addEventListener('click',()=>{EASY=!EASY;try{localStorage.setItem('dragon_easy',EASY?'1':'0');}catch(e){}updEasy();});updEasy();
