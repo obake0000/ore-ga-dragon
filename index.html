@@ -961,7 +961,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazm';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazn';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -5482,7 +5482,7 @@ const STAGES=[
    story:['巨人が崩れたその先に、鎖でしばられた大きな扉があった。','扉には赤い封印。千年前、だれかが魔王を閉じこめた。竜が眠ったのも、同じころだ。','封印の石をこわせば、扉は開く。開けて、焼く。それで全部、終わる。'],
    waves:[
     {name:'封印の扉',msg:'🔒 赤い封印の石を4つこわして、扉を開け！',mood:7,clr:'🔓 封印が解けた！ 扉のむこうから、いやな気配…',go(){doorSeals();}},
-    {name:'魔王',msg:'😈 扉のむこうは、魔王の間。魔王が目をさました…',mood:8,go(){maouRoom();{const dm=addEnemy('demon',0,DUN.z0+46,DUN.y+18);dm.sc=1.7;dm.r*=1.5;poseSet(dm,2);}for(let i=0;i<6;i++)addEnemy('imp',rnd(-15,15),DUN.z0+55+rnd(-15,15),DUN.y+20);sfx('roar');}}]},
+    {name:'魔王',msg:'🚪 扉のむこうは、封印の間。光の中に、だれかがいる…',mood:8,go(){maouRoom();{const dm=addEnemy('demon',0,DUN.z0+46,DUN.y+18);dm.sc=1.7;dm.r*=1.5;poseSet(dm,2);}for(let i=0;i<6;i++)addEnemy('imp',rnd(-15,15),DUN.z0+55+rnd(-15,15),DUN.y+20);sfx('roar');}}]},
   {key:'town',ch:'第2章',title:'炎の夜明け',place:'国境の町',
    ter:{amp:0.8,ox:400,oz:150,flats:[[0,-80,92,3]],dirt:[[0,-80,70]],grass:0x6a9a42,start:[0,140]},
    story:['魔物を追いはらった竜の前に、人間の王国の旗がひるがえる。お礼の旗では、なさそうだ。','国境の町は竜を狩る砦だった。見張り塔には弓兵、空には王国の飛空艇。','町を焼き、王国に竜の怒りを知らせろ。手紙より、火のほうが早く届く。'],
@@ -7819,7 +7819,7 @@ TPT['緑のワイバーン']='wyvern';TPT['青のワイバーン']='wyvern';TBOS
   if(wv)wv.msg='🐉 模擬戦、一本勝負！ ワイバーンが低く突っこんできた！';
   const fight=()=>{wd();const n=wyvNm(),e=EN.find(q=>q.wyv&&!q.dead);if(e)e.die='……参りました、若。お見事です';
     TK.q.length=0;TK.cur=null;talk([[n,'参ります、若！'],['ME','……模擬戦で、本気の突進をするやつがあるか'],['💡 ヒント','ワイバーンは突進と風の弾で来る。横によけて、炎を当てよう']]);};
-  wyvDuel=function(){if(window.__mogiSeen||state!=='play'){fight();return;}window.__mogiSeen=1;const n=wyvNm(),D={ch:'第1章　竜の谷',t:'模擬戦'};
+  wyvDuel=function(){if(window.__mogiSkip||state!=='play'){fight();return;}try{pacFade(1,0.01);setTimeout(()=>pacFade(0,0.9),150);}catch(_){}const n=wyvNm(),D={ch:'第1章　竜の谷',t:'模擬戦'};
     midKami([
       {img:'valley_c2',l:'勇者の一行が逃げたあと。ねぐらの入り口に、ひとつの影がおりてきた。'},
       {img:'valley_c2',who:n,l:'見つけましたよ、若。千年の寝ぼうとは、あきれた竜です'},
@@ -9347,15 +9347,9 @@ function msfTick(dt){const S=MSF;if(!S.on)return;const e=S.e;
   if(S.ph!==1&&S.ph!==4)e.mesh.rotation.y=Math.atan2(P.pos.x-q.x,P.pos.z-q.z);
   if(S.ph===0){BTK.on=true;BTK.t=1;
     if(S.ff>0){TK.q.length=0;if(TK.cur)TK.t=1e3;S.a=1;}
-    if(S.t>1.2&&!S.a){S.a=1;S.t=1.2;talk([['魔王','よくぞ、扉の封印を破ってくれたな、竜。千年ぶりの客だ'],
-      ['魔王','ついでだ。わしをしばる、この最後の封印も破ってくれぬか。礼に、金は好きなだけやろう'],
-      ['ME','ことわる。封印は、おれが張り直しておく。寝床の下に、危険物は置けない'],
-      ['魔王','ま、待て！ 恨みがあるのは千年前の連中だけだ。今の世には、手を出さぬ！'],
-      ['ME','信用できないな。そう言うやつを、前世で山ほど見た'],
-      ['魔王','な、ならば、失われた古い魔法を見せてやる！ ……いや、竜が魔法など、興味ないわな……'],
-      ['ME','……古い魔法。見せろ。いま破る'],['魔王','え']]);}
+    if(S.t>1.2&&!S.a){S.a=1;S.t=1.2;const D8={ch:'最終章　魔王の間',t:'封印の中の魔王'};try{pacFade(1,0.01);setTimeout(()=>pacFade(0,0.9),150);}catch(_){}midKami([{img:'maou_t1',l:'扉のむこうは、広い封印の間だった。祭だんの上、赤い光の輪の中から、だれかが、こちらを見ている。'},{img:'maou_t2',who:'魔王',l:'よくぞ、扉の封印を破ってくれたな、竜。千年ぶりの客だ。わしは、ここに封じられた魔王よ'},{img:'maou_2',who:'魔王',l:'ついでだ。わしをしばる、この最後の封印も、解いてくれぬか。どうせ古びて、いずれは解ける。礼に、金は好きなだけやろう'},{img:'maou_t1',who:'ME',l:'ことわる。封印は、おれが張り直しておく。寝床の下に、危険物は置けない'},{img:'maou_2',who:'魔王',l:'ま、待て！ わしを封じたのは、千年前の連中だ。今の世に、恨みは無い！'},{img:'maou_t1',who:'ME',l:'信用できないな。そう言うやつを、前世で山ほど見た'},{img:'maou_t2',who:'魔王',l:'な、ならば、千年前にほろんだ古い魔法を教えてやる！ ……いや、竜が魔法など、興味ないわな……'},{img:'maou_3',who:'ME',l:'……古い魔法。見せろ。いま、解く'},{img:'maou_3',who:'魔王',l:'え'}].map(o=>Object.assign(o,D8)),()=>{S.t=3;});}
     else if(S.a&&!S.hk&&S.t>5&&!idle){S.hk=1;banner('クリックで、会話を早送りできる',2.6);}
-    else if(S.a&&(S.ff>0||S.t>2.6&&idle)){S.ph=1;S.t=0;S.cd=2.4;BTK.on=false;banner('🔒 封印の鎖を、こわせ！ 魔王は、まだ動けない',3);sfx('roar',null,0.5);}}
+    else if(S.a&&(S.ff>0||S.t>2.6&&idle)){S.ph=1;S.t=0;S.cd=2.4;BTK.on=false;banner('🔓 封印の鎖を、焼き切れ！ 魔王は、まだ動けない',3);sfx('roar',null,0.5);}}
   else if(S.ph===1){e.cd=9;e.sum=9;e.met=9;msfUi(true,S.seal/S.seal0);
     if(S.poseT>0){S.poseT-=dt;if(S.poseT<=0)e.pose=2;}
     S.cd-=dt;if(S.cd<=0){S.cd=EASY?3.4:2.5;S.alt=!S.alt;const f=msfHand(S);e.pose=1;S.poseT=0.5;glowFlash(f.clone(),0xff40c0,8,0.3);sfx('zap',f,0.5);
@@ -9377,9 +9371,9 @@ function msfTick(dt){const S=MSF;if(!S.on)return;const e=S.e;
   else if(S.ph===3){BTK.on=true;BTK.t=1;
     if(S.ff>3){TK.q.length=0;if(TK.cur)TK.t=1e3;S.ult=null;e.pose=2;S.c=S.u=S.d=1;S.t=9;}
     if(S.ult)msfUltTick(S,dt);
-    else if(!S.c&&S.t>0.4){S.c=1;talk([['魔王','ほ、本当に破りおった……！ 破ってくれて、ありがとよ、竜'],['魔王','礼は――これだ。千年前、国をひとつ消した術よ！']]);}
+    else if(!S.c&&S.t>0.4){S.c=1;talk([['魔王','ほ、本当に解きおった……！ 解いてくれて、ありがとよ、竜'],['魔王','古い魔法だったな。礼は――これだ。千年前、国をひとつ消した術よ！']]);}
     else if(S.c&&!S.u&&S.t>1.6&&idle){S.u=1;msfUlt(S);}
-    else if(S.u&&!S.d){S.d=1;S.t=0;talk([['魔王','どうだ。骨も残るまい……'],['ME','……いい術だ。組み立てが、見たことのない形をしている。もう少し見せろ'],['魔王','な……効いておらんのか!?']]);}
+    else if(S.u&&!S.d){S.d=1;S.t=0;talk([['魔王','どうだ。骨も残るまい……'],['ME','……いい術だ。組み立ても、形も、出し方も、見たことがない。もう少し、見せてくれるか'],['魔王','な……効いておらんのか!?']]);}
     else if(S.d&&(S.ff>3||S.t>1.2&&idle)){S.ph=4;S.t=0;BTK.on=false;e.cd=1.6;e.sum=EASY?16:9;e.met=6;banner('⚔ 魔王が、全身で向かってくる！',2.2);sfx('roar',null,0.6);}}
   else if(S.ph===4){S.ang+=dt*0.4;const tx=S.cx+Math.sin(S.ang*1.2)*26,tz=clamp(Math.min(DUN.z0+48+Math.cos(S.ang)*9,P.pos.z-30),DUN.z0+14,DUN.z1-20),tg=MSV.a.set(tx,DUN.y+dunSt(q.x,q.z)+S.H*0.5+2.5+Math.sin(S.t*1.3)*1.5,tz),v=MSV.b.subVectors(tg,q),d=v.length();
     if(d>0.01)v.multiplyScalar(Math.min(22,d*2)/d);S.vel.lerp(v,Math.min(1,dt*1.5));if(!S.hold)q.addScaledVector(S.vel,dt);
@@ -9419,6 +9413,32 @@ function msfPost(dt,rdt){const S=MSF;if(!S.on||!S.g)return;const e=S.e,t=DUN.t,s
   return he.apply(this,arguments);};}
 {const se2=showEnd;showEnd=function(){try{msfSkipBtn(false);msfCam(false);msfUi(false);}catch(er){}return se2.apply(this,arguments);};}
 {const M=ALLST.find(q=>q.key==='maou'),wv=M&&M.waves[1];if(wv){const go1=wv.go;wv.go=function(){go1.call(this);if(SCN!==1)return;try{msfStart();}catch(er){console.warn('msfStart',er);msfClean();}};}}
+
+/* ---- s1_meri.py：シナリオ1のメリハリ（紙芝居を毎回・勝った後の順番・章の題の1枚）／魔王は「封印を解いてくれ」の紙芝居 ---- */
+const S1M={t0:-1e9,g:0,c:0,until:0,p:0};
+// B ワイバーンに勝った後：勝負あり → 子分 → 掛け合い → クリア → 紙芝居
+{const k1=killEnemy;killEnemy=function(e,quiet){const w=!!(e&&e.wyv&&!e.dead&&!quiet&&SCN===1&&state==='play'&&STAGES[stage]&&STAGES[stage].key==='valley');
+  if(w){TK.q.length=0;TK.cur=null;S1M.t0=performance.now();S1M.g=0;S1M.c=0;S1M.until=S1M.t0+9500;}
+  const r=k1.apply(this,arguments);
+  if(w)setTimeout(()=>{if(state!=='play')return;talk([[wyvNm(),'今日から、若のおそばに置いていただきます。……目付け役として、です'],['ME','……世話係に、子分まで付いた。前世より、待遇がいい']]);},3000);
+  return r;};
+ const b0=banner;banner=function(t,d){const el=performance.now()-S1M.t0;
+  if(el<7000&&typeof t==='string'){
+   if(t.indexOf('子分になった')>=0&&!S1M.g){S1M.g=1;b0('🏆 模擬戦、一本！ 勝負あり！',2.4);setTimeout(()=>{if(state==='play'){b0(t,d);try{sfx('lvup',null,0.6);}catch(_){}}},2600);return;}
+   if(t.indexOf('クリア！')>=0&&!S1M.c){S1M.c=1;setTimeout(()=>{if(state==='play')b0(t,d);},Math.max(0,6200-el));return;}}
+  return b0.apply(this,arguments);};
+ const pt0=petToast;petToast=function(t){const el=performance.now()-S1M.t0;if(el<2500){setTimeout(()=>pt0(t),2600-el);return;}return pt0.apply(this,arguments);};
+ const cg0=clearGap;clearGap=function(fn){const w=S1M.until-performance.now();if(S1M.p)return;
+  if(w>0&&SCN===1){S1M.p=1;waveWait=1e3;setTimeout(()=>{S1M.p=0;S1M.until=0;if(state==='play')cg0(fn);},w);return;}return cg0.apply(this,arguments);};}
+// C 章の終わりの紙芝居と、次の章の始まりの紙芝居の間に、章の題の1枚をはさむ
+{const ss0=showStory;showStory=function(i,ending,fromClear){ss0.apply(this,arguments);
+  try{if(fromClear&&!ending&&KAMI&&KAMI.sl){const S=STAGES[i],sl=KAMI.sl,j=sl.findIndex(o=>o.t!=='クリア！');
+    if(j>0&&S)sl.splice(j,0,{card:1,img:sl[j].img,ch:S.ch+'　'+S.place,t:S.title,l:'― '+S.ch+'　'+S.title+' ―',cs:S.ch,ct:S.title,cp:S.place});}}catch(_){}};
+ const ks0=kamiShow;kamiShow=function(){ks0.apply(this,arguments);try{const sd=KAMI.sl[KAMI.i];let c=$('kcard');
+  if(sd&&sd.card){if(!c){c=document.createElement('div');c.id='kcard';c.style.cssText='position:absolute;left:0;top:0;right:0;bottom:0;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:radial-gradient(ellipse at center,rgba(46,18,10,.82),rgba(6,4,8,.96));color:#fff;text-align:center;pointer-events:none;border-radius:inherit';$('kami').appendChild(c);}
+    c.innerHTML='<div style="font-size:clamp(16px,2.8vw,28px);letter-spacing:.34em;color:#ffd678;font-weight:800">'+sd.cs+'</div><div style="font-size:clamp(30px,6.4vw,70px);font-weight:900;letter-spacing:.12em;text-shadow:0 0 18px #ff7a30,0 4px 0 #5a1a08">'+sd.ct+'</div><div style="font-size:clamp(13px,2vw,20px);color:#d8c8b0;letter-spacing:.22em">― '+sd.cp+' ―</div>';
+    c.style.display='flex';}
+  else if(c)c.style.display='none';}catch(_){}};}
 
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
