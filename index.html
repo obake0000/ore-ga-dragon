@@ -1098,7 +1098,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgys';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgyst';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -5820,11 +5820,11 @@ const STAGES=[
    story:['暴れすぎた竜に、女神はあきれ果てた。天の軍勢が、白い翼をそろえて空をおおう。','雲の上には、天の国への門がある。門の前には、槍をかまえた天使の兵と、天馬に乗った騎士たち。','呼ばれる前に、こちらから行く。雲の上でも、燃えるものは燃える。'],
    waves:[
     {name:'天使の兵の軍勢',msg:'😇 天使の兵が、雲の上に整列している！',get mood(){return S6MD+0;},go(){
-      s6xWave(2);s6Add('angel',16,0,-110,85,40);s6Add('angelsword',6,0,-100,80,30);s6Add('angelarcher',4,0,-140,70,20);s6Add('lightangel',5,0,-150,60,20);s6Add('guardian',2,0,-120,50,20);s6Fly('pegasus',5);}},
-    {name:'天馬の騎士団',msg:'🐴 天馬の騎士団が、空から舞いおりる！',get mood(){return S6MD+0;},go(){
-      s6xWave(2);s6Fly('pegasus',11);s6Grif(3);s6Add('angel',8,0,-110,85,40);s6Add('angelsword',4,0,-100,80,30);s6Add('angelarcher',4,0,-140,70,20);s6Add('lightangel',3,0,-150,60,20);s6Add('guardian',2,0,-120,50,20);s6Platform(3);}},
+      s6Add('angel',16,0,-110,85,40);s6Add('angelsword',6,0,-100,80,30);s6Add('angelarcher',4,0,-140,70,20);s6Add('lightangel',5,0,-150,60,20);s6Add('guardian',2,0,-120,50,20);s6Fly('pegasus',5);}},
+    {name:'光の神殿',msg:'⛩️ 特大のバリスタを積んだ光の神殿が、雲の上にうかび上がる！',get mood(){return S6MD+0;},go(){
+      lightTemple();s6Fly('pegasus',6);s6Grif(3);s6Add('angel',8,0,-110,85,40);s6Add('angelsword',4,0,-100,80,30);s6Add('angelarcher',4,0,-140,70,20);s6Add('lightangel',3,0,-150,60,20);s6Add('guardian',2,0,-120,50,20);s6Platform(3);}},
     {name:'天馬騎士団長',msg:'👑 騎士団長が、金の翼をひろげてあらわれた！',get mood(){return S6MD+1;},go(){
-      s6xWave(3);const b=s6Spawn('pegasus',0,-170,P.pos.y+30,{boss:'🐴 天馬騎士団長',sc:2.0,hk:11,val:1500,dmg:20});s6BossIn(b,'🐴','天馬騎士団長');b.die='……翼が……もう、上がらない……';
+      const b=s6Spawn('pegasus',0,-170,P.pos.y+30,{boss:'🐴 天馬騎士団長',sc:2.0,hk:11,val:1500,dmg:20});s6BossIn(b,'🐴','天馬騎士団長');b.die='……翼が……もう、上がらない……';
       s6Fly('pegasus',7);s6Add('angel',12,0,-110,85,40);s6Add('lightangel',5,0,-150,60,20);s6Add('guardian',2,0,-120,50,20);}}]},
   {key:'skytemple',ch:'第2章',title:'神殿をせめろ',place:'天空の神殿',
    ter:{sky:1,amp:0.25,ox:450,oz:-1350,flats:[[0,-235,100,2,1],[170,-150,60,2,1]],dirt:[],grass:0xd4b872,hill:0x948ab0,rock:0x7f7aa0,snow:0xf0e8d4,sand:0xe6d4a0,dirtC:0xc9a85c,water:0xfff0d8,trees:0,rocks:0,ruins:-1,stacks:0,spires:0,start:[0,120]},
@@ -5847,7 +5847,7 @@ const STAGES=[
     {name:'雷光の親衛隊',msg:'⚡ 天馬と光の天使が、雷のように降りそそぐ！',get mood(){return S6MD+2;},go(){
       s6xWave(3);s6Fly('pegasus',12);s6Grif(4);s6Add('lightangel',10,0,-140,80,30);s6Add('angel',8,0,-95,85,40);s6Add('guardian',3,0,-115,60,20);}},
     {name:'大天使',msg:'😇 炎の剣をかかげて、4枚の翼の大天使があらわれる！',get mood(){return S6MD+3;},go(){
-      s6xWave(2);const b=s6Spawn('archangel',0,-150,P.pos.y+22,{boss:'😇 大天使',hk:1.25,val:3500});s6BossIn(b,'archangel','大天使');
+      s6xWave(1);const b=s6Spawn('archangel',0,-150,P.pos.y+22,{boss:'😇 大天使',hk:1.25,val:3500});s6BossIn(b,'archangel','大天使');b.summon=6;
       s6Add('lightangel',6,0,-130,70,25);s6Fly('pegasus',3);}}]},
 
   {key:'coralsea',ch:'第1章',title:'さんごの海',place:'さんごの海',
@@ -5881,7 +5881,7 @@ const STAGES=[
     {name:'海王の親衛隊',msg:'🔱 金のよろいの親衛隊が、海から上がってくる！',get mood(){return S7MD.c;},go(){
       s7Fish(5,'fishE');s7Fish(5);s7Bows(3);s7Sharks(2);}},
     {name:'うずまく大波',msg:'🌊 大波にのって、カニとサメの軍団が来る！',get mood(){return S7MD.c;},go(){
-      s7Crabs(2);s7Fish(3,'fishE');s7Fish(4);s7Bows(2);s7Sharks(3);}},
+      s7Crabs(18);s7Fish(3,'fishE');s7Fish(4);s7Bows(2);s7Sharks(3);}},
     {name:'海王',msg:'🔱 宮殿の前に、海王みずからが姿をあらわす…！',get mood(){return S7MD.c;},go(){
       const [x,z]=s7WaterPos(C.fly?75:60,C.fly?100:85);const k=s7Add('king',x,z);
       s7Cut('海王','🔱');s7Fish(7);s7Sharks(2);sfx('roar');}}]},
@@ -6171,7 +6171,11 @@ function scpView(n){
   $('scpBs').innerHTML=I.b.map(b=>{const s=SBI[b[0]]||(b[1]?'chara/'+b[1]+'.webp':'');return s?'<span class="bo"><img src="'+s+'" alt="" onerror="this.parentNode.classList.add(\'nf\');this.remove()">'+scpEsc(b[0])+'</span>':'<span class="bo nf">'+scpEsc(b[0])+'</span>';}).join('');
   $('scpGo').textContent='このシナリオで遊ぶ';
   clearInterval(SCP.tm);SCP.tm=0;SCP.pics=[];$('scpDots').innerHTML='';$('scpCap').textContent='';$('scpA').classList.remove('on');$('scpB').classList.remove('on');{const vd=$('scpV');if(vd){vd.classList.remove('on');try{vd.pause();}catch(e){}}}
-  const cand=[];sts.forEach(q=>{const c=q.ch+'　'+(q.place||q.title),K=q.key,pa=j=>({u:'story/v2/'+K+'_'+j+'.jpg',c:c,k:K}),sh=j=>({u:'story/st/'+K+'_'+j+'.jpg',c:c,k:K,s:1});cand.push(pa(1));if(SCPV[K])cand.push({u:'story/st/'+K+'.mp4',c:c,k:K,s:1,v:1});cand.push(pa(2),sh(1),pa(3),sh(2));});
+  // 11/15 ふみさん「サンプルが多すぎる」：イメージ画像1枚・ゲーム画面3枚・動画1本だけにする
+  const cand=[];{const cc=q=>q.ch+'　'+(q.place||q.title),pick=sts.length>3?[sts[0],sts[Math.floor(sts.length/2)],sts[sts.length-1]]:sts;
+   if(sts[0])cand.push({u:'story/v2/'+sts[0].key+'_1.jpg',c:cc(sts[0]),k:sts[0].key});
+   pick.forEach(q=>cand.push({u:'story/st/'+q.key+'_1.jpg',c:cc(q),k:q.key,s:1}));
+   const vq=sts.slice().reverse().find(q=>SCPV[q.key]);if(vq)cand.push({u:'story/st/'+vq.key+'.mp4',c:cc(vq),k:vq.key,s:1,v:1});}
   Promise.all(cand.map(c=>c.v?Promise.resolve(true):new Promise(r=>{const im=new Image();im.onload=()=>r(true);im.onerror=()=>r(false);im.src=c.u;}))).then(ok=>{
     if(tok!==SCP.tok||!SCP.open)return;SCP.pics=cand.filter((c,k)=>ok[k]);scpRows();
     $('scpDots').innerHTML=SCP.pics.length>1?SCP.pics.map((c,k)=>'<button class="dot'+(c.v?' v':'')+'" aria-label="'+(k+1)+'枚目：'+(c.v?'ゲームの動画　':c.s?'ゲーム画面　':'')+scpEsc(c.c)+'"></button>').join(''):'';
@@ -7444,7 +7448,7 @@ S7K.shark.hp=225;S7K.crab.hp=470;
   W('deepsea')[2].go=function(){const [x,z]=s7WaterPos(60,110);const b=s7Add('levi',x,z);
     s7Big(b,{nm:'リヴァイアサン',ic:'🐉',hp:5000,sc:0.8,val:2200,dmg:1.2,die:'グオォォ……（うずの底へ、ゆっくりしずんでいった）'});s7Serps(4);s7Sharks(5);s7Fish(12);s7Bows(4);s7Crabs(2);sfx('roar');};
   W('seaking')[0].go=function(){s7Fish(8,'fishE');s7Fish(10);s7Bows(6);s7Sharks(4);s7Serps(2);};
-  W('seaking')[1].go=function(){s7Crabs(3);s7Fish(5,'fishE');s7Fish(10);s7Bows(4);s7Sharks(6);s7Serps(3);};
+  W('seaking')[1].go=function(){s7Crabs(20);s7Fish(5,'fishE');s7Fish(10);s7Bows(4);s7Sharks(6);s7Serps(3);};
   W('seaking')[2].go=function(){const k=skSpawn();s7Cut('海王','🔱');if(k)bossZoom(k);s7Fish(12);s7Bows(4);s7Sharks(5);s7Serps(3);sfx('roar');};}
 
 // ---- 景色の置き物（scn7_fit2.py）：モデルがある時だけ置く ----
@@ -10149,6 +10153,27 @@ function wolfMount(e){if(!MODEL.bigwolf||e.wolf)return;const m=cloneModel('bigwo
    if(MODEL.skychariot)for(let j=0;j<(i+1);j++){const [x,z]=ringPos(90,160);addEnemy('dknight',x,z,P.pos.y+rnd(16,28),{model:'skychariot'});}}catch(err){console.error('angelwpn',err);}};});}}
 // ---- 毎コマ：変形・オオカミの足 ----
 {const ut9=updTheme;updTheme=function(dt,t){ut9.apply(this,arguments);try{carbotTick(dt);for(let i=WOLFMX.length-1;i>=0;i--){const o=WOLFMX[i];if(o.e.dead||!o.e.mesh.parent){WOLFMX.splice(i,1);continue;}const sp=o.e.vel?Math.hypot(o.e.vel.x,o.e.vel.z):1;o.mx.update(dt*(0.4+Math.min(1.6,sp/8)));}}catch(_){}};}
+// ---- 11/15 ふみさん「天界編が単調。特大のバリスタをたくさん積んだ光の神殿」「巨兵は第2章と最終章だけ。最終章は大天使が次々と巨兵を呼ぶ」 ----
+const LT={g:null,balls:[],down:0,t:0,y0:0};
+function lightTemple(){try{ltClear();const cx=0,cz=-235,gy=floorAt(cx,cz),Y=gy+40;const g=new THREE.Group();g.position.set(cx,Y,cz);
+  const deck=new THREE.Mesh(new THREE.CylinderGeometry(58,40,8,28),new THREE.MeshLambertMaterial({color:0xd9c48a,emissive:0x4a3a10}));g.add(deck);
+  const rim=new THREE.Mesh(new THREE.TorusGeometry(58,1.8,8,48),new THREE.MeshBasicMaterial({color:0xffd56a}));rim.rotation.x=Math.PI/2;rim.position.y=3.6;g.add(rim);
+  const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xfff0b0,transparent:true,opacity:0.55,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(170,60,1);gl.position.y=-12;g.add(gl);
+  if(MODEL.skytemple){const m=cloneModel('skytemple');if(m){m.updateMatrixWorld(true);const bb=new THREE.Box3().setFromObject(m),sz=bb.getSize(new V3()),k=64/Math.max(sz.x,sz.z,1e-3);m.scale.multiplyScalar(k);m.updateMatrixWorld(true);const b2=new THREE.Box3().setFromObject(m),c=b2.getCenter(new V3());m.position.x-=c.x;m.position.z-=c.z;m.position.y+=3.5-b2.min.y;g.add(m);}}
+  scene.add(g);LT.g=g;LT.y0=Y;LT.down=0;LT.balls=[];
+  const N=EASY?5:8;for(let i=0;i<N;i++){const a=i/N*Math.PI*2+0.2,x=cx+Math.cos(a)*48,z=cz+Math.sin(a)*48;
+    const e=addEnemy('cannon',x,z,Y+3.5,{model:MODEL.godballista?'godballista':undefined,perch:1});e.perch=true;e.bal=1;e._sz=1;e.mesh.scale.multiplyScalar(4.2);e.hp=e.maxHp=e.hp*4;e.val=(e.val||30)*4;e.r*=2.2;e.nm='特大のバリスタ';LT.balls.push(e);}
+ }catch(err){console.error('lightTemple',err);}}
+function ltClear(){if(LT.g){scene.remove(LT.g);LT.g=null;}LT.balls=[];LT.down=0;}
+function ltTick(dt){if(!LT.g)return;LT.t+=dt;
+  if(!LT.down){LT.g.position.y=LT.y0+Math.sin(LT.t*0.6)*1.2;LT.balls.forEach(e=>{if(e.dead)return;e.mesh.position.y=LT.g.position.y+3.5;if(!e.mesh.parent)scene.add(e.mesh);if(e.mesh.scale.x<4)e.mesh.scale.setScalar(4.2);});
+    if(LT.balls.length&&LT.balls.every(e=>e.dead)&&state==='play'){LT.down=0.01;glory('光の神殿を落とした！','特大のバリスタは、ぜんぶ燃えおちた');sfx('boom',LT.g.position,1);shake(0.8);}}
+  else{LT.down+=dt;LT.g.position.y-=dt*(8+LT.down*14);LT.g.rotation.z+=dt*0.05;if(Math.random()<0.5)smoke(tmp3.set(LT.g.position.x+rnd(-60,60),LT.g.position.y,LT.g.position.z+rnd(-60,60)),2,8,2,0xfff0d0,5);if(LT.down>4)ltClear();}}
+function angelSummon(dt){if(state!=='play'||!STAGES[stage]||STAGES[stage].key!=='archangel')return;const b=EN.find(e=>!e.dead&&e.summon!==undefined);if(!b)return;b.summon-=dt;if(b.summon>0)return;b.summon=EASY?11:8;
+  const left=S6ST.filter(q=>q.alive&&!q.st).length;if(left>0)s6xWave(1);else{const [x,z]=ringPos(60,110);const g=s6Spawn('guardian',x,z,undefined,{sc:2.3,hk:5,val:600,dmg:18});g.nm='光の巨兵';}
+  const c=cpos(b);glowFlash(c,0xfff3a0,40,0.6);ono(c.clone().add(new V3(0,10,0)),'巨兵よ、目ざめよ！','#fff3a0',40);sfx('roar',c,0.5);}
+{const su=setupStage;setupStage=function(){ltClear();return su.apply(this,arguments);};}
+{const ut10=updTheme;updTheme=function(dt,t){ut10.apply(this,arguments);try{ltTick(dt);angelSummon(dt);}catch(_){}};}
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
 </body>
