@@ -937,7 +937,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aax';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aay';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -1025,6 +1025,7 @@ function attachModel(g,id,er=0){if(!id||!MODEL[id])return false;const m=cloneMod
   const b2=new THREE.Box3().setFromObject(holder),c2=b2.getCenter(new V3());m.position.x+=c0.x-c2.x;m.position.z+=c0.z-c2.z;m.position.y+=b0.min.y-b2.min.y;
   g.traverse(c=>{if(c.isMesh){c.visible=false;c.matrixAutoUpdate=false;}});g.add(holder);
   const A=animsFor(id);if(A.length){const mx=new THREE.AnimationMixer(m);const clip=A.find(a=>/run|walk|fly/i.test(a.name))||A.find(a=>/idle/i.test(a.name))||A[0];const act=mx.clipAction(clip);act.play();const acts={};A.forEach(a=>acts[a.name]=mx.clipAction(a));const o={mx,g,act,acts,loco:clip,idle:A.find(a=>/idle|wait|standing/i.test(a.name)),hit:A.find(a=>/slash|cast|attack|shoot|box|chop|pitch|kick|throw/i.test(a.name)),h:s0.y,cur:act};mx.addEventListener('finished',ev=>{if(ev.action===o.once){o.once=null;}});MIX.push(o);g.userData.mix=o;}
+  if(id==='ground2'&&MODEL[id].skin&&g.userData.mix)addG2(g,holder,m);
   if(FLAP_ID[id]){if(MODEL[id].skin&&g.userData.mix)addRig(g,holder,m,id);else addFlap(g,holder,m,id);}
   g.position.copy(p);g.rotation.copy(r);g.scale.copy(s);return true;}
 // 攻撃の動き（斬る・魔法を唱える）を1回だけ流して、終わったらもとの動きにもどす
@@ -1034,7 +1035,8 @@ function mixOnce(o,sp=1.6){if(!o||!o.hit||o.once)return;const a=o.acts[o.hit.nam
   a.reset();a.setLoop(THREE.LoopOnce,1);a.clampWhenFinished=true;a.timeScale=k;a.time=w[0];a.play();o.cur.crossFadeTo(a,0.07,false);o.once=a;
   const back=o.cur;setTimeout(()=>{if(o.once===a)o.once=null;back.reset().play();a.crossFadeTo(back,0.18,false);o.cur=back;},Math.max(220,(w[1]-w[0])/k*1000-110));}
 function updMix(dt){for(let i=MIX.length-1;i>=0;i--){const o=MIX[i];if(!o.g.parent){MIX.splice(i,1);continue;}
-  if(o.rig){updRig(o,dt);continue;}
+  if(o.wy3){updWy3(o,dt);continue;}if(o.rig){updRig(o,dt);continue;}
+  if(o.g2){updG2(o,dt);continue;}
   // 歩く速さに合わせて足の動きを速く・遅くする（止まっている時はゆっくり）
   const e=o.g.matrixWorld.elements,qx=e[12],qz=e[14];if(o.last){const v=Math.hypot(qx-o.last.x,qz-o.last.z)/Math.max(dt,1e-3);if(o.pl===undefined){let a=o.g;while(a&&a!==D.g)a=a.parent;o.pl=!!a&&!C.fly;}o.v=(o.v||0)*0.85+Math.min(o.pl?Math.hypot(P.vel.x,P.vel.z)+PYR*3:v,200)*0.15;}else o.last=new V3();o.last.set(qx,0,qz);
   const ref=Math.max(o.h*0.45,0.5);
@@ -3824,6 +3826,164 @@ function s6Paint(L){const t=TERRAIN[0],k=S6PT[L];if(!k||!t||!t.geometry||!t.geom
     sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>'+D).replace('#include <begin_vertex>','#include <begin_vertex>\nvWP=position.xz;vFl=smoothstep(0.9,0.985,normal.y);').replace('#include <project_vertex>','#include <project_vertex>\nvDs=length(mvPosition.xyz);');
     sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>'+D).replace('#include <color_fragment>','#include <color_fragment>\n{float fd=(1.-smoothstep(90.,300.,vDs))*vFl;vec2 q=vWP/11.;vec2 id=floor(q);vec2 f=abs(fract(q)-.5);float ln=smoothstep(.455,.5,max(f.x,f.y));float hh=fract(sin(dot(id,vec2(12.9898,78.233)))*43758.5453);diffuseColor.rgb*=1.-(0.13*ln+0.06*hh)*fd;vec2 f2=abs(fract(vWP/66.)-.5);float gl=smoothstep(.478,.5,max(f2.x,f2.y));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.93,.74,.3),gl*.55*fd);}');};
   if(t.material&&t.material.dispose)t.material.dispose();t.material=m;}
+// ---- 新しいアースドラゴン（骨入りの ground2）----
+// 歩き＝Tripo の「歩く」（速さに合わせて速さ・強さを変える）。立ち・息・攻撃・足ぶみ・しっぽは、骨をこちらで回して歩きの上に足す。
+// 骨は「体の向き（+z が前）で見た軸」のまわりに回す。足す回転は、毎コマ歩きの姿（か元の姿）にもどってから足すので、たまっていかない。
+FITK.ground2=0.95;PMODEL.ground='ground2';
+const G2K={sp:0.31,spMax:3.4};
+function addG2(g,holder,m){const o=g.userData.mix;if(!o)return;g.updateMatrixWorld(true);holder.updateMatrixWorld(true);
+  const B={};m.traverse(x=>{if(x.isBone)B[x.name.replace(/[^A-Za-z0-9_]/g,'')]=x;});
+  const gq=g.getWorldQuaternion(new THREE.Quaternion()).invert();
+  const J=(n,w)=>{const b=B[n];if(!b||!b.parent)return null;const pq=b.parent.getWorldQuaternion(new THREE.Quaternion()).premultiply(gq).invert();
+    return {b,w:w===undefined?1:w,ax:new V3(1,0,0).applyQuaternion(pq).normalize(),au:new V3(0,1,0).applyQuaternion(pq).normalize(),base:b.quaternion.clone(),out:b.quaternion.clone()};};
+  const ch=a=>a.map(x=>J(x[0],x[1])).filter(Boolean);
+  const bb=new THREE.Box3().setFromObject(holder),sz=bb.getSize(new V3()),hb=B.tripoHead_2||null;
+  const f={g,holder,h:sz.y,L:sz.z,sp:G2K.sp*sz.z,fc:0,tp:Math.random()*6,wk:0,v:0,dh:0,fr:0,qr:0,qs:0,at:0,ak:0,tcd:0,last:new V3().copy(g.position),headB:hb,mo:null,
+    neck:ch([['tripoSpine_3',0.35],['tripoHead_0',0.8]]),head:ch([['tripoHead_1',0.7],['tripoHead_2',0.4]]),
+    spine:ch([['tripoSpine_1',1],['tripoSpine_2',1],['tripoSpine_3',1]]),tail:ch([['bone_32',1]]),
+    legF:ch([['tripo0_Left_Limb_0',1],['tripo0_Right_Limb_0',1]]),legF2:ch([['tripo0_Left_Limb_1',1],['tripo0_Right_Limb_1',1]]),legF3:ch([['tripo0_Left_Limb_2',1],['tripo0_Right_Limb_2',1]])};
+  // 口の位置＝頭の骨の先（体の前の端）。頭の骨から見た場所で覚えておく
+  if(hb){const w=hb.getWorldPosition(new V3());f.mo=hb.worldToLocal(new V3(0,w.y-sz.y*0.03,bb.max.z-sz.z*0.04));}
+  f.all=[].concat(f.neck,f.head,f.spine,f.tail,f.legF,f.legF2,f.legF3);
+  o.g2=f;}
+// 近接の動きの流れ：0〜0.28 引く（マイナス）→ 0.5 で前へ出きる（1）→ もどる（rigMel と同じ形。m は 0〜1）
+function g2m(m){return m<0.28?-0.6*Math.sin(m/0.28*1.571):m<0.5?-0.6+1.6*rigSm((m-0.28)/0.22):1-rigSm((m-0.5)/0.5);}
+function updG2(o,dt){const f=o.g2,g=o.g,me=(typeof D!=='undefined'&&D&&g===D.g),play=state==='play',q=g.position;
+  if(!me&&(o.e===undefined||(o.e===null&&f.fc%30===0)))o.e=EN.find(x=>x.mesh===g)||null;
+  const e=me?null:o.e;
+  // 進む速さ。足の速さは速さに合わせ、止まれば歩きを止める
+  const mv=Math.hypot(q.x-f.last.x,q.z-f.last.z)/Math.max(dt,1e-3);f.last.copy(q);
+  const vi=me?(play?Math.hypot(P.vel.x,P.vel.z):0):Math.min(mv,200);f.v+=(vi-f.v)*Math.min(1,dt*8);
+  f.wk+=clamp((f.v>1.5?1:0)-f.wk,-dt/0.22,dt/0.22);
+  o.act.setEffectiveWeight(f.wk<0.02?0:f.wk);o.act.timeScale=clamp(f.v/f.sp,0.35,G2K.spMax);
+  o.acc=(o.acc||0)+dt;f.fc++;const cx=q.x-cam.position.x,cz=q.z-cam.position.z,dc=cx*cx+cz*cz,every=dc>32400?4:dc>8100?2:1;
+  if(me||f.fc%every===0){o.mx.update(o.acc);o.acc=0;}
+  for(const j of f.all){if(!j.b.quaternion.equals(j.out))j.base.copy(j.b.quaternion);j.b.quaternion.copy(j.base);}
+  if(e&&(e.dead||e.hp<=0))return;
+  const t=(f.tp+=dt),br=Math.sin(t*1.5),id=1-f.wk;
+  // ゆっくり息をする（体を少し上下・頭を少し動かす・しっぽをゆらす）。歩いている間は、しっぽだけ小さくゆれる
+  let hp=Math.sin(t*0.9+1)*0.05*id,np=br*0.025*id,sp=br*0.014*id,sy=0,hy=Math.sin(t*0.55)*0.14*id,ty=Math.sin(t*0.8)*0.22*id+Math.sin(t*3.2)*0.14*f.wk*Math.min(1,f.v/f.sp/1.5),lr=0,hh=br*0.005*id,byaw=0;
+  if(me&&play){
+    // 近接：k=0 かみつき／1 角の突き上げ／2 しっぽのなぎ払い
+    if(P.melA>0){const s=g2m(1-Math.max(0,P.melA)/0.45),k=P.g2K||0,sd=P.melS||1;
+      if(k===0){np+=s*0.3;hp+=s*0.5;sp+=s*0.08;}
+      else if(k===1){np-=s*0.25;hp-=s*0.55;sp-=s*0.06;}
+      else{sy+=sd*s*0.22;ty-=sd*s*0.85;hp+=s*0.12;byaw=-sd*s*0.5;}}
+    // 突進：頭を下げて角を前に、体を低く
+    f.dh+=((P.dashT>0?1:0)-f.dh)*Math.min(1,dt*10);
+    np+=f.dh*0.35;hp+=f.dh*0.6;sp+=f.dh*0.14;hh-=f.dh*0.035;
+    // 弾を撃つ間：頭を上げて口を開く向きに
+    f.fr+=(((P.firing||P.atkM>0)?1:0)-f.fr)*Math.min(1,dt*9);const at=P.atkM>0?Math.sin((1-Math.max(0,P.atkM)/0.22)*Math.PI):0;
+    hp-=f.fr*0.3+at*0.22;np-=f.fr*0.15+at*0.1;
+    // 足ぶみ：前足を高く上げて待ち（qr＝上げ具合 0〜1）、地面を打つ瞬間に前へたたきつけて沈む（qs＝たたきつけ 0〜1）
+    if(P.g2Qs>0){P.g2Qs-=dt;f.qr+=(1-f.qr)*Math.min(1,dt*7);f.qs+=(0-f.qs)*Math.min(1,dt*10);}
+    else if(P.g2Sl>0){P.g2Sl-=dt;const k=P.g2Sl;f.qr+=(0-f.qr)*Math.min(1,dt*28);f.qs+=((k>0.48?1:0)-f.qs)*Math.min(1,dt*(k>0.48?28:3));}
+    else{f.qr+=(0-f.qr)*Math.min(1,dt*5);f.qs+=(0-f.qs)*Math.min(1,dt*5);}
+    lr=f.qr;sp-=lr*0.3;np-=lr*0.12;hp-=lr*0.25;hh+=lr*0.01;
+    sp+=f.qs*0.22;np+=f.qs*0.18;hp+=f.qs*0.25;hh-=f.qs*0.045;}
+  else if(e&&state==='play'){
+    // 敵：弾を撃った時と、近づいた時に、頭を突き出す
+    if(f.pcd!==undefined&&e.cd>f.pcd+1.2){f.at=0.55;f.ak=1;}f.pcd=e.cd;
+    f.tcd-=dt;const hd=Math.hypot(q.x-P.pos.x,q.z-P.pos.z);
+    if(!(f.at>0)&&f.tcd<=0&&hd<(e.r||5)+9){f.at=0.55;f.tcd=1.4;f.ak=0;}
+    if(f.at>0){f.at-=dt;const s=g2m(1-Math.max(0,f.at)/0.55);if(f.ak===0){np+=s*0.32;hp+=s*0.5;sp+=s*0.08;}else{np-=s*0.2;hp-=s*0.5;}}}
+  for(const j of f.neck)rigRot(j,np*j.w,hy*0.5*j.w);
+  for(const j of f.head)rigRot(j,hp*j.w,hy*0.5*j.w);
+  for(const j of f.spine)rigRot(j,sp*0.5,sy*0.34);
+  for(const j of f.tail)rigRot(j,0,ty);
+  if(lr||f.qs){const a=-1.5*lr-0.35*f.qs,b=0.7*lr,c=-0.3*lr;f.legF.forEach(j=>rigRot(j,a));f.legF2.forEach(j=>rigRot(j,b));f.legF3.forEach(j=>rigRot(j,c));}
+  for(const j of f.all)j.out.copy(j.b.quaternion);
+  if(byaw)g.rotation.y+=byaw;
+  if(me&&f.headB&&f.mo&&D.mouth&&D.mouth.parent){f.headB.updateWorldMatrix(true,false);D.mouth.position.copy(D.mouth.parent.worldToLocal(f.headB.localToWorld(RV.copy(f.mo))));}
+  f.holder.position.y=hh*f.h;}
+// 近接の3回（かみつき→突き上げ→しっぽのなぎ払い）と、足ぶみの「上げる→たたきつける」の合図
+{const _ml=melee;melee=function(){if(charKey==='ground'){P.g2N=((P.g2N||0)+1)%3;P.g2K=P.g2N===0?2:P.g2N-1;}return _ml.apply(this,arguments);};
+ const _us=useSkill;useSkill=function(k){if(k==='quake'&&charKey==='ground'&&state==='play'&&P.onGround&&P.en>=SPC()&&!LVUP&&!PAUSED&&ultT<=0&&performance.now()-(P.skLast||-1e9)>=SKGAP)P.g2Qs=1.6;return _us.apply(this,arguments);};
+ const _fq=fxQuake;fxQuake=function(){if(charKey==='ground'){P.g2Qs=0;P.g2Sl=0.6;}return _fq.apply(this,arguments);};}
+// ---- 骨入りのワイバーン（Tripo の wyvern3。骨78本。羽＝L_/R_ の Clavicle・Upperarm・Forearm・Hand）----
+// 立った姿勢の模型。空では pv（背骨の根もとが中心）を前へ倒して横長にし、地上では起こす。歩き・息は Tripo の動き（idle／walk）、羽ばたき・足をたたむ・首は骨をこちらで回す。
+// k＝大きさ／walk＝地上を歩く速さ（飛ぶ速さにかける）／vs＝walk の動きが timeScale 1 で進む速さ／fa＝飛ぶ時に前へ倒す角度［とどまる, 速い］
+const WY3={k:12,walk:0.09,vs:2.3,fa:[1.0,1.38],tUp:0.45,tDn:0.35,sq:0.5};
+function wyRot(j,a,b,c){if(!j)return;if(a)j.b.quaternion.premultiply(RQ.setFromAxisAngle(j.ax,a));if(b)j.b.quaternion.premultiply(RQ.setFromAxisAngle(j.au,b));if(c)j.b.quaternion.premultiply(RQ.setFromAxisAngle(j.ar,c));}
+function attachWy3(g){const M=MODEL.wyvern3;if(!M||!M.skin||!THREE.SkeletonUtils||!M.anims.some(a=>a.name==='idle')||!M.anims.some(a=>a.name==='walk'))return false;
+  try{const m=THREE.SkeletonUtils.clone(M.scene),p0=g.position.clone(),r0=g.rotation.clone(),s0=g.scale.clone();
+    g.position.set(0,0,0);g.rotation.set(0,0,0);g.scale.set(1,1,1);g.traverse(c=>{if(c.isMesh){c.visible=false;c.matrixAutoUpdate=false;}});
+    const hd=new THREE.Group(),pv=new THREE.Group();pv.add(m);hd.add(pv);g.add(hd);m.rotation.y=M.rot;m.scale.setScalar(WY3.k);g.updateMatrixWorld(true);
+    const B={};m.traverse(x=>{if(x.isBone)B[x.name.replace(/[^A-Za-z0-9_]/g,'')]=x;if(x.isMesh)x.frustumCulled=false;});
+    if(!B.Spine01||!B.Head||!B.L_Upperarm||!B.R_Upperarm){g.remove(hd);g.position.copy(p0);g.rotation.copy(r0);g.scale.copy(s0);return false;}
+    m.position.sub(B.Spine01.getWorldPosition(new V3()));g.updateMatrixWorld(true);   // 背骨の根もとを中心に
+    const bb=new THREE.Box3();m.traverse(x=>{if(x.isSkinnedMesh){x.geometry.computeBoundingBox();bb.union(x.geometry.boundingBox.clone().applyMatrix4(x.matrixWorld));}});
+    // 口の先：頭の骨に付いた点のうち、いちばん前（+z）の点を、頭の骨から見た場所で覚える
+    let mt=null;m.traverse(x=>{if(!x.isSkinnedMesh||mt)return;const hi=x.skeleton.bones.indexOf(B.Head);if(hi<0)return;const pa=x.geometry.attributes.position,si=x.geometry.attributes.skinIndex,sw=x.geometry.attributes.skinWeight,v=new V3();let bz=-1e9;
+      for(let i=0;i<pa.count;i++){const I=[si.getX(i),si.getY(i),si.getZ(i),si.getW(i)],W=[sw.getX(i),sw.getY(i),sw.getZ(i),sw.getW(i)];let bw=0,bi=-1;for(let q=0;q<4;q++)if(W[q]>bw){bw=W[q];bi=I[q];}if(bi!==hi)continue;v.fromBufferAttribute(pa,i).applyMatrix4(x.matrixWorld);if(v.z>bz){bz=v.z;mt=v.clone();}}});
+    const hb=B.Head,mtl=mt?hb.worldToLocal(mt):new V3(0,0.02,0.04);
+    const F=new V3(0,0,1),U=new V3(0,1,0),R=new V3(1,0,0);
+    const J=n=>{const b=B[n];if(!b||!b.parent)return null;const pq=b.parent.getWorldQuaternion(new THREE.Quaternion()).invert();return {b,ax:F.clone().applyQuaternion(pq).normalize(),au:U.clone().applyQuaternion(pq).normalize(),ar:R.clone().applyQuaternion(pq).normalize(),base:b.quaternion.clone(),out:b.quaternion.clone()};};
+    const side=n=>Math.sign(B[n].getWorldPosition(new V3()).x)||1;
+    const wing=a=>({sd:side(a+'_Upperarm'),j:['Clavicle','Upperarm','Forearm','Hand'].map(n=>J(a+'_'+n))});
+    const f={g,wy3:1,fl:1,nw:true,wk:0,w:0,ph:Math.random()*6,tp:Math.random()*6,lp:0,gl:0,dv:0,u:0,th:1,to:0,ld:0,ha:0,yt:0,ly:P.yaw,og:undefined,hd,pv,hdB:hb,mt:mtl,cz:0,
+      yS:-(CH.wyvern.gOff||3.2)-bb.min.y,sp:(bb.max.x-bb.min.x)/2,wings:[wing('L'),wing('R')],
+      nk:['NeckTwist01','NeckTwist02'].map(J),head:J('Head'),thigh:['L_Thigh','R_Thigh'].map(J),calf:['L_Calf','R_Calf'].map(J),foot:['L_Foot','R_Foot'].map(J),pel:J('Pelvis'),sp1:J('Spine01'),
+      U:{uAng:{value:0},uSh:{value:0},uSpan:{value:(bb.max.x-bb.min.x)/2},uPy:{value:0}}};
+    f.all=[].concat(f.wings[0].j,f.wings[1].j,f.nk,[f.head],f.thigh,f.calf,f.foot,[f.pel,f.sp1]).filter(Boolean);
+    const mx=new THREE.AnimationMixer(m),acts={};M.anims.forEach(a=>acts[a.name]=mx.clipAction(a));acts.idle.play();acts.walk.play();acts.idle.setEffectiveWeight(0);acts.walk.setEffectiveWeight(0);
+    const o={mx,g,act:acts.idle,acts,wy3:f,h:bb.max.y-bb.min.y};MIX.push(o);g.userData.mix=o;g.userData.flap=f;
+    g.position.copy(p0);g.rotation.copy(r0);g.scale.copy(s0);return true;}catch(e){console.warn('attachWy3',e);return false;}}
+function updWy3(o,dt){const f=o.wy3,me=typeof D!=='undefined'&&D&&f.g===D.g,play=typeof state!=='undefined'&&state==='play',K=WY3;
+  const gnd=me&&play&&P.onGround;f.w+=clamp((gnd?1:0)-f.w,-dt/K.tUp,dt/K.tDn);const s=rigSm(f.w);f.wk=s;const k=1-s;
+  const vx=me&&play?P.vel.x:0,vz=me&&play?P.vel.z:0,vy=me&&play?(P.vel.y||0):0,sp=Math.hypot(vx,vz),r=sp/Math.max(me?C.spd:60,1);
+  // 飛び立ち・着地
+  if(me&&play){if(f.og===true&&!P.onGround&&vy>3){f.to=0.6;f.ph=-0.5;smoke(tmp3.set(P.pos.x,P.pos.y-C.gOff+0.6,P.pos.z),7,5,1.2,0xa8987a,4);}
+    else if(f.og===false&&P.onGround){f.ld=0.38;smoke(tmp3.set(P.pos.x,P.pos.y-C.gOff+0.6,P.pos.z),Math.min(14,6+(f.vyp||0)*-0.15|0),5.5,1.4,0xa8987a,4);}
+    f.og=P.onGround;if(!P.onGround)f.vyp=vy;}else f.og=undefined;
+  // 羽ばたきの速さと大きさ
+  let spd=5,amp=0.7,glide=0;const dvE=me&&play?clamp(P.dvE||0,0,1):0;
+  if(me&&play){const up=Math.max(0,vy);
+    if(P.dashT>0||(P.ringT||0)>0||(r>1.12&&up<4)){spd=2.2;amp=0.3;glide=1;}      // 速い：ゆっくり大きく、風に乗る
+    else if(r<0.35){spd=8+up*0.1;amp=0.85;}                                  // とどまる：速く羽ばたく
+    else{spd=4+r*1.4+up*0.14;amp=0.7+Math.min(0.2,up*0.02);}}
+  else if(me)spd=5.5;
+  if(f.to>0){f.to-=dt;spd=Math.max(spd,7.5);amp=Math.max(amp,1);}
+  f.ph+=dt*spd;f.tp+=dt*(2+Math.min(3,sp*0.05));f.gl+=(glide-f.gl)*Math.min(1,dt*4);f.dv+=(dvE-f.dv)*Math.min(1,dt*5);
+  // 歩き（骨の動き）：止まる＝idle、動く＝walk。足の速さは進む速さに合わせる
+  const mw=clamp(sp/2.2,0,1),ws=clamp(sp/K.vs,0.5,3);f.mw=(f.mw||0)+(mw-(f.mw||0))*Math.min(1,dt*6);
+  o.acts.idle.setEffectiveWeight(s*(1-f.mw));o.acts.walk.setEffectiveWeight(s*f.mw);o.acts.walk.timeScale=ws;if(s>0.2&&f.mw>0.3)f.lp+=dt*ws*6.2832/1.1667;
+  o.mx.update(dt);
+  for(const j of f.all){if(!j.b.quaternion.equals(j.out))j.base.copy(j.b.quaternion);j.b.quaternion.copy(j.base);}
+  // ---- 体の向き：空＝前へ倒す／地上＝起こす
+  const fa=K.fa[0]+(K.fa[1]-K.fa[0])*Math.min(1,r/0.8)+(me&&play&&P.dashT>0?0.1:0)+f.dv*0.1;f.th+=(Math.min(1.5,fa)-f.th)*Math.min(1,dt*3.5);
+  const pit=k*f.th;f.pv.rotation.x=pit;
+  // しゃがみ：飛び立つ時・着地した時
+  let sq=0;if(f.ld>0){f.ld-=dt;sq=Math.sin(Math.PI*(1-Math.max(0,f.ld)/0.38))*0.7;}if(f.to>0){const t=1-f.to/0.6;sq=Math.max(sq,t<0.25?t/0.25:Math.max(0,1-(t-0.25)/0.35));}
+  f.pv.position.y=f.yS*s-sq*K.sq*Math.max(s,0.6)+(f.fl?Math.sin(f.ph-0.6)*0.45*(1-Math.min(1,r*2))*k:0);
+  // ---- 羽：空で羽ばたく／畳む／必殺で広げる
+  const uw=me&&play&&ultT>0;f.u+=((uw?1:0)-f.u)*Math.min(1,dt*(uw?3:1.2));
+  const fo=clamp((f.dv-0.15)/0.6,0,1),A=amp*(1-fo*0.85),w1=wvDn(f.ph,0.4),w2=wvDn(f.ph-0.7,0.4),w3=wvDn(f.ph-1.4,0.4),mean=(-0.5*(1-f.gl)-0.45*f.gl)*(1-fo)-1.0*fo+f.u*(0.7+0.5*s);
+  const sw=((0.12+0.2*f.gl)*(1-fo)+1.0*fo)*k-f.u*0.15;
+  for(const W of f.wings){const j=W.j,sd=W.sd,t1=A*w1,t2=A*w2,t3=A*w3;
+    wyRot(j[0],sd*(mean*0.1+t1*0.1)*k+sd*f.u*0.1*s,0,0);
+    wyRot(j[1],sd*(mean*0.5+t1*0.5)*k+sd*f.u*0.3*s,sd*sw*0.45,0);
+    wyRot(j[2],sd*(mean*0.25+t2*0.25)*k,sd*sw*0.6,0);
+    wyRot(j[3],sd*(mean*0.15+t3*0.15)*k,sd*sw*0.3,0);}
+  // ---- 足：空ではたたむ／しゃがむ
+  f.thigh.forEach(j=>wyRot(j,0,0,0.55*k-0.5*sq));f.calf.forEach(j=>wyRot(j,0,0,1.1*k+0.9*sq));f.foot.forEach(j=>wyRot(j,0,0,0.4*k-0.35*sq));
+  // しっぽ：骨が無いので、腰を少しゆらして、しっぽと体をゆらす
+  wyRot(f.pel,0,Math.sin(f.tp)*0.09*k,0);wyRot(f.sp1,0,-Math.sin(f.tp-0.6)*0.05*k,0);
+  // ---- 首・頭：空では頭が前を向くようにそらす。攻撃で前へ出す。曲がる向きへ向ける
+  let n=0,h=0;
+  if(me&&play){
+    if(P.melA>0){const s2=rigMel();n+=s2*0.45;h+=s2*0.35;}
+    if(P.atkM>0){const m=1-Math.max(0,P.atkM)/0.22,t=m<0.25?-0.5*rigSm(m/0.25):m<0.55?-0.5+1.5*rigSm((m-0.25)/0.3):1-rigSm((m-0.55)/0.45);n+=t*0.35;h-=Math.max(0,t)*0.12;}
+    if(uw){n-=0.25;h-=0.25;}
+    if(P.hitM>0)n-=Math.sin(Math.max(0,P.hitM)/0.38*Math.PI)*0.22;}
+  const aim=me&&play?(-P.pitch*(P.firing?0.45:0.2)):0;f.ha+=(aim-f.ha)*Math.min(1,dt*6);
+  const yr=me&&play?(P.yaw-f.ly)/Math.max(dt,1e-3):0;f.ly=me?P.yaw:f.ly;f.yt+=(clamp(yr*0.3,-0.5,0.5)-f.yt)*Math.min(1,dt*5);
+  const ca=-pit*0.95,sn=Math.sin(pit),cs=Math.cos(pit);   // 前へ倒した分だけ、首・頭を起こす
+  f.nk.forEach((j,i)=>wyRot(j,-f.yt*sn*0.4*k,f.yt*cs*0.4,ca*(0.2+i*0.1)+n*0.5+f.ha*0.2));
+  wyRot(f.head,-f.yt*sn*0.4*k,f.yt*cs*0.4,ca*0.5+h+n*0.2+f.ha*0.6);
+  for(const j of f.all)j.out.copy(j.b.quaternion);
+  // ---- 弾の出る場所（口）を、頭の骨に付けた点へ
+  if(me&&D.mouth&&D.mouth.parent){f.hdB.updateWorldMatrix(true,false);RV.copy(f.mt);f.hdB.localToWorld(RV);const pa=D.mouth.parent;pa.updateWorldMatrix(true,false);D.mouth.position.copy(pa.worldToLocal(RV));}}
 function slashAt(pos,yaw,col,R){const g=new THREE.RingGeometry(5,7.5,24,1,-1.2,2.4);const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:col||0xffffff,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));
   m.rotation.order='YXZ';m.rotation.set(-Math.PI/2+0.25,0,0);const h=new THREE.Group();h.add(m);h.position.copy(pos);h.rotation.y=yaw;h.scale.setScalar(R/7);scene.add(h);SLASH.push({h,m,t:0,fix:1});}
 function updSlash(dt){for(let i=SLASH.length-1;i>=0;i--){const q=SLASH[i];q.t+=dt;if(!q.fix)q.h.position.copy(P.pos);q.m.rotation.z=-1.2+q.t*9;q.m.material.opacity=0.9*(1-q.t/0.28);if(q.t>=0.28){scene.remove(q.h);SLASH.splice(i,1);}}}
@@ -3836,7 +3996,7 @@ function melee(){if(charKey==='dragon'&&D&&D.g.userData.flap&&D.g.userData.flap.
 let charKey='dragon',C=CH.dragon,D=null;
 let EASY=false;try{EASY=localStorage.getItem('dragon_easy')==='1';}catch(e){}
 const P={pos:new V3(0,40,120),vel:new V3(),vy:0,melT:0,melCd:0,yaw:Math.PI,pitch:-0.05,hp:260,maxHp:260,en:100,fireCd:0,dashT:0,dashHit:0,inv:0,roll:0,lastYaw:Math.PI,onGround:false,tgt:null,firing:false};
-function setChar(k){charKey=k;C=CH[k];P.sp=C.sp;P.sp2=C.sp2;if(D)scene.remove(D.g);if(C.human)D=makePlayerHuman(k);else if(C.model)D=makePlayerModel(k);else{D=makeDragon(C.col[0],C.col[1],C.s,C.o);(attachModel(D.g,PMODEL[k]||k)||attachModel(D.g,k));}if(k==='orctank')tankRider(D.g,22,30,-11);scene.add(D.g);if(typeof updGo==='function')updGo();
+function setChar(k){charKey=k;C=CH[k];P.sp=C.sp;P.sp2=C.sp2;if(D)scene.remove(D.g);if(C.human)D=makePlayerHuman(k);else if(C.model)D=makePlayerModel(k);else{D=makeDragon(C.col[0],C.col[1],C.s,C.o);((k==='wyvern'&&attachWy3(D.g))||attachModel(D.g,PMODEL[k]||k)||attachModel(D.g,k));}if(k==='orctank')tankRider(D.g,22,30,-11);scene.add(D.g);if(typeof updGo==='function')updGo();
   {const [sx,sz]=TER.start;P.pos.set(sx,floorAt(sx,sz)+(C.fly?40:C.gOff),sz);}
   document.querySelectorAll('.card').forEach(c=>c.classList.toggle('on',c.dataset.k===k));
   skUI();$('tdash').textContent=C.dashN;$('enl').textContent=`⚡ 必殺ゲージ（${SPC()}で必殺技）`;}
@@ -5438,7 +5598,7 @@ function s5Spawn(kind,x,z,y){let e;const rig=id=>MODEL[id]?id:(MODEL.rival?'riva
   else if(kind==='keep'){e=addEnemy('gkeep',x,z,y,{model:rig('bonedrake')});e.sc=3.4;e.r=ST.gkeep.r*3.4;e.hc=0;e.hp=e.maxHp;e.val=1800;e.c2=1;}
   else if(kind==='wygr'){const gm=!!MODEL.wyvern2;e=addEnemy('rdrake',x,z,y,{model:gm?'wyvern2':'wyvern'});e.wyv=1;e.c2=1;e.sc=0.78;e.r=6.2;e.hp=e.maxHp=e.maxHp*0.55;e.dmg=12;e.mesh.rotation.order='YXZ';if(!gm)wyvTint(e.mesh);}
   else if(kind==='wybl'||kind==='guard'){e=addEnemy('rdrake',x,z,y,{model:'wyvern'});e.c2=1;e.sc=0.68;e.r=5.4;e.hp=e.maxHp=e.maxHp*(kind==='guard'?0.5:0.4);e.dmg=kind==='guard'?13:11;if(kind==='guard')s5Tint(e.mesh,0.42,0.38,0.5);}
-  else if(kind==='earth'){e=addEnemy('gdrake',x,z,undefined,{model:'ground'});e.sc=1.15;e.r=ST.gdrake.r*1.15;s5Tint(e.mesh,0.62,0.66,0.8);}
+  else if(kind==='earth'){e=addEnemy('gdrake',x,z,undefined,{model:MODEL.ground2?'ground2':'ground'});e.sc=1.15;e.r=ST.gdrake.r*1.15;s5Tint(e.mesh,0.62,0.66,0.8);}
   else if(kind==='king'){e=addEnemy('dking',x,z,y,{model:MODEL.dragonking?'dragonking':'elder'});e.rking=1;e.sc=4.0;e.r=ST.dking.r*4.0;e.hc=0;e.mesh.rotation.order='YXZ';}
   if(e&&kind!=='keep'&&kind!=='king'){const fit=sc=>{const rt=sc/(e.sc||1);e.sc=sc;e.r*=rt;e.hc*=rt;};fit((e.sc||1)*(kind==='earth'?0.67:0.53));
     setTimeout(()=>{if(e.dead||!e.mesh||!e.mesh.parent)return;e.mesh.updateMatrixWorld(true);const k0=e.mesh.scale.x||1,hh=new THREE.Box3().setFromObject(e.mesh).getSize(new V3()).y/k0;if(hh>2)fit(14.4/hh);},600);}
@@ -7271,7 +7431,7 @@ function frame(now){
     P.dodgeCd=(P.dodgeCd||0)-dt;P.dashCd=(P.dashCd||0)-dt;P.guardCd=(P.guardCd||0)-dt;if(P.guardT>0)P.guardT-=dt;if(P.dodgeT>0){P.dodgeT-=dt;if(Math.random()<0.7)burst(P.pos,1,[0xffffff,0xd8f0ff],1.8,2,0.3);}
     if(C.fly){
       const ff=feelFly(dt,ad,slow),spd=P.dashT>0?C.spd*(C.human?2.2:3):slow?14:C.spd*(ff?ff.m:1+Math.max(0,-ad.y)*0.7)*((P.ringT||0)>0?1.5:1);const mv=(P.dashT>0?ad:ad).clone().multiplyScalar(spd);
-      if((charKey==='dragon'||charKey==='wyvern')&&P.onGround&&!(P.dashT>0)){const wk=charKey==='wyvern'?0.24:RIGCF.walk;mv.x*=wk;mv.z*=wk;}P.vel.lerp(mv,1-Math.exp(-(P.dashT>0?10:feelRate(mv.length(),slow))*dt));P.pos.addScaledVector(P.vel,dt);
+      if((charKey==='dragon'||charKey==='wyvern')&&P.onGround&&!(P.dashT>0)){const wk=charKey==='wyvern'?(D&&D.g.userData.flap&&D.g.userData.flap.wy3?WY3.walk:0.24):RIGCF.walk;mv.x*=wk;mv.z*=wk;}P.vel.lerp(mv,1-Math.exp(-(P.dashT>0?10:feelRate(mv.length(),slow))*dt));P.pos.addScaledVector(P.vel,dt);
       dunPush();const gh=dunBodyY()+C.gOff;if(P.onGround&&P.pitch<0.1&&!(P.dashT>0)&&P.pos.y<gh+3.5&&P.pos.y>gh&&(DUN.on||H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER)){P.pos.y=gh;if(P.vel.y>0)P.vel.y=0;}
       if(P.pos.y<gh){P.pos.y=gh;if(P.vel.y<-crT()&&(P.crashCd||0)<=0&&!C.human&&H(P.pos.x,P.pos.z)>WATER){P.crashCd=0.8;crash((-P.vel.y-crT()*0.8)*0.5,null,0,0);P.vel.y=20;}else if(P.vel.y<0)P.vel.y=0;}
       bldBlock(dt);const bt={hit:null};if(false){const need=bt.top+C.gOff-P.pos.y;P.pos.y+=Math.min(need,(need>5?24:50)*dt);if(P.vel.y<0)P.vel.y*=0.6;if(need>2.5&&!C.human){{const hv=Math.hypot(P.vel.x,P.vel.z);if(hv>crT()&&(P.crashCd||0)<=0){P.crashCd=0.8;crash((hv-crT()*0.72)*0.5,null,P.vel.x/hv,P.vel.z/hv);P.vel.x*=0.3;P.vel.z*=0.3;}}hitBld(bt.hit,90*dt);if(Math.random()<0.25){debris(P.pos,1,[0x9a8a72,0xa03a2a],0.8);shake(0.1);}}}
@@ -7316,7 +7476,7 @@ function frame(now){
     else GSH.visible=false;
     if(state==='play'&&P.dodgeT>0){const k=1-P.dodgeT/0.4,e=k<0.5?2*k*k:1-Math.pow(-2*k+2,2)/2;D.g.rotation.z+=(C.fly&&!C.model?-P.dodgeS*Math.PI*2*e:-P.dodgeS*Math.sin(k*Math.PI)*0.5);}
     // 前へ進む時は体を前に倒して飛ぶ姿に、とどまる時は起こして上下にゆれる
-    if(state==='play'&&C.fly&&!C.human&&!C.model){const r=Math.min(1.6,Math.hypot(P.vel.x,P.vel.z)/Math.max(C.spd,1)),cf=FLAP_ID[charKey]||{},f=D.g.userData.flap;
+    if(state==='play'&&C.fly&&!C.human&&!C.model&&!(D.g.userData.flap&&D.g.userData.flap.wy3)){const r=Math.min(1.6,Math.hypot(P.vel.x,P.vel.z)/Math.max(C.spd,1)),cf=FLAP_ID[charKey]||{},f=D.g.userData.flap;
       const want=(1-wk0)*((r<0.25?-0.08:Math.min(1,(r-0.25)/0.6))*(cf.lean||0.5)+(P.dashT>0?0.12:0)+(P.dvE||0)*0.2-clamp((P.vel.y||0)/80,-0.3,0.5)*0.5);P.lean=(P.lean||0)+(want-(P.lean||0))*Math.min(1,dt*3.5);D.g.rotation.x+=P.lean;
       if(f&&f.fl&&r<0.5)D.g.position.y+=Math.sin(f.ph-0.6)*0.7*(1-r*2)*(1-wk0);}
     if(state==='select')D.g.rotation.y=t*0.4+Math.PI;
@@ -7359,7 +7519,7 @@ requestAnimationFrame(frame);
 const ENI=['hero','soldier','archer','demon','airship','walker','elder','golem','bigcannon','wooddragon','wizard','bigairship','ship','battleship','kraken','seaserpent','wyvern','ground','dragon','ogre','griffin','dknight','captain','wyvern2','catapult','bgolem','goblin','skel','drak','orc','orcking','skeleton','skelmage','bigskeleton','devilsoldier','blackknight','cerberus','dragonking','dogrider','hawkrider','ballista','orcfort','orctank','troll','angel','archangel','angelgeneral','angelarcher','angelsword','fishman','fishbow','redcap','orcknight','skyfort','pegasus','seaking','shark','crab','leviathan','orccart','kingtank','gianttank','shieldman','gwizard','slime','bat','imp','cannon','priest','seal','bigslime','rival','icedrake','thundrake','bonedrake','merchant'],ENIX={},ENTM={skel:'skeleton',devilsol:'devilsoldier',bigskel:'bigskeleton',bknight:'blackknight',orctank:'kingtank',biggolem:'bgolem',orccart:'orctank'};
 ENI.forEach((id,i)=>{const im=new Image();im.onload=()=>{ENIX[id]=String.fromCharCode(0xE000+i);};im.src='chara/en/'+id+'.webp';});
 {const am=attachModel;attachModel=function(m,id){try{if(m&&id&&m.userData&&!m.userData.mdlId)m.userData.mdlId=id;}catch(_){}return am.apply(this,arguments);};}
-const ENAL={__s6:'angel',s7none:'fishman'};
+const ENAL={__s6:'angel',s7none:'fishman',ground2:'ground'};
 function enMdl(e){const u=e&&e.mesh&&e.mesh.userData;const id=(u&&u.mdlId)||(e&&e._o&&e._o.model)||ENTM[e.type]||e.type;return ENAL[id]||id;}
 function enIc(e){return ENIX[enMdl(e)]||ST[e.type].ic;}
 function enBossT(e){const c=ENIX[enMdl(e)];return c?String(e.boss).replace(/^\S+\s/,c+' '):e.boss;}
