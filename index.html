@@ -1114,7 +1114,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRS';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTU';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -4373,7 +4373,7 @@ function addXp(n){if(state!=='play')return;XP+=EASY?n*0.22:n*0.17;while(XP>=xpNe
 function upDs(u){const n=UP[u.k]||0,cd=C.br.cd;
   switch(u.k){case 'multi':return `1度に ${1+n}発 → <b>${2+n}発</b>`;case 'rate':return `1秒に ${(RATE()/cd).toFixed(1)}発 → <b>${(RATE()*1.07/cd).toFixed(1)}発</b>`;
     case 'size':return `大きさ ${Math.round(SZM()*100)}% → <b>${Math.round(SZM()*110)}%</b>`;case 'pow':return `いたさ ${Math.round(POW()*100)}% → <b>${Math.round(POW()*115)}%</b>`;case 'sp':return `必殺技 ${Math.round(Math.pow(1.3,n)*100)}% → <b>${Math.round(Math.pow(1.3,n)*130)}%</b><br>ゲージ ${SPC()} → <b>${SPC()-5}</b>`;
-    case 'pet':return `子分 ${PETS.length}匹 → <b>${PETS.length+1}匹</b>（やられることもある）`;case 'hp':return `体力の上限 ${Math.round(P.maxHp)} → <b>${Math.round(P.maxHp*1.15)}</b>`;}return u.ds;}
+    case 'pet':if(squadKind(charKey))return `援軍 ${PETS.length}部隊 → <b>${PETS.length+1}部隊</b><br>1部隊5${charKey==='dragonknight'?'騎':'人'}・最大3部隊`;return `子分 ${PETS.length}匹 → <b>${PETS.length+1}匹</b>（やられることもある）`;case 'hp':return `体力の上限 ${Math.round(P.maxHp)} → <b>${Math.round(P.maxHp*1.15)}</b>`;}return u.ds;}
 /* ---- 上級技：同じ必殺技を2段まで強くできる。段が上がると名前が変わり、続けて2回・3回出る ---- */
 const ADVN={bigfire:['業火球','滅びの業火'],flamering:['炎の大渦','紅蓮の嵐'],thunder:['大落雷','神鳴り'],discharge:['大放電','雷帝の怒り'],quake:['大地響き','天地崩し'],boulder:['巨岩投げ','隕石落とし'],pillars:['聖なる光柱','天の裁き'],spin:['旋風斬り','竜巻斬り'],
   barrage:['全軍砲撃','王国の総力'],arrowrain:['矢の嵐','万の矢'],fissure:['大地割り','奈落割り'],gbeam:['超破壊光線','滅びの光'],bombs:['爆弾の嵐','じゅうたん爆撃'],broadside:['乱れ撃ち','空の要塞'],tkcannon:['大砲6連発','大砲9連発'],tkflame:['大火炎放射','地獄の火炎放射'],tkrush:['とげの大突撃','地ならしの突撃']};
@@ -4399,11 +4399,11 @@ function pickLv(i){if(!LVUP||!LVOPT[i])return;const u=LVOPT[i];if(u.adv){const q
 // 11/16 ふみさん「仲間はドラゴン固定じゃなく、キャラによって分ける。最大3体」
 const PETM={dragon:[['dragon',1]],wyvern:[['wyvern2',1]],ground:[['ground',0]],hero:[['wizard',0],['priest',0],['archer',0]],army:[['archer',0],['captain',0],['soldier',0]],golem:[['bgolem',0]],orctank:[['orcgeneral',0],['orcgeneral',0],['orcgeneral',0]],airship:[['airship',1],['airship',1],['airship',1]],maou:[['imp',1],['devilsoldier',0],['imp',1]],redcap:[['goblin',0],['hawkrider',1],['goblin',0]],kraken:[['fishman',0],['fishman',0],['fishman',0]]};
 const PETH={orcgeneral:4.6,airship:3.2,imp:2.6,devilsoldier:3.4,wizard:3.4,priest:3.4,archer:3.2,captain:3.4,soldier:3.2,bgolem:5,goblin:2.6,orc:3.6,hawkrider:4,griffin:4.4,p8drone:3,shark:4,fishman:3.2,ground:4};
-function addPet(){const L=PETM[charKey]||PETM.dragon,pk=L[PETS.length%L.length],mid=pk[0],fly=!!pk[1];let g;
+function addPet(){if(squadKind(charKey))return addSquad(charKey);const L=PETM[charKey]||PETM.dragon,pk=L[PETS.length%L.length],mid=pk[0],fly=!!pk[1];let g;
   if(fly&&(mid==='dragon'||mid==='wyvern2')){const c=CH[mid==='wyvern2'?'wyvern':'dragon'];const d=makeDragon(c.col[0],c.col[1],c.s*0.38,c.o);(attachModel(d.g,mid)||attachModel(d.g,'dragon'));g=d.g;}
   else{const h=PETH[mid]||3.4;g=mid==='p8fighter'?makeProxy(11,h,10,0x888888,true):makeProxy(h*0.5,h,h*0.45,0x888888);if(!attachModel(g,mid)){const c=CH.dragon,d=makeDragon(c.col[0],c.col[1],c.s*0.38,c.o);attachModel(d.g,'dragon');g=d.g;}}
   g.position.copy(P.pos);scene.add(g);PETS.push({g,id:charKey,mid,fly,cd:rnd(0,0.5),ph:PETS.length,hp:70,max:70,hitT:0});}
-function updPets(dt,t){const n=PETS.length;PETS.forEach((p,i)=>{const a=t*1.3+i*Math.PI*2/n;tmp3.set(P.pos.x+Math.cos(a)*9,P.pos.y+4+Math.sin(t*2.2+i)*1.2,P.pos.z+Math.sin(a)*9);
+function updPets(dt,t){const n=PETS.length;PETS.forEach((p,i)=>{if(p.squad){squadTick(p,dt,t);return;}const a=t*1.3+i*Math.PI*2/n;tmp3.set(P.pos.x+Math.cos(a)*9,P.pos.y+4+Math.sin(t*2.2+i)*1.2,P.pos.z+Math.sin(a)*9);
   if(!p.fly)tmp3.y=floorAt(tmp3.x,tmp3.z)+0.3;else if(!C.fly)tmp3.y=Math.max(tmp3.y,floorAt(tmp3.x,tmp3.z)+5);p.g.position.lerp(tmp3,1-Math.exp(-6*dt));p.g.rotation.y=P.tgt?Math.atan2(P.tgt.x-p.g.position.x,P.tgt.z-p.g.position.z):P.yaw;
   p.cd-=dt;if(P.tgt&&p.cd<=0){p.cd=1.7;const b=CH[p.id].br,v=P.tgt.clone().sub(p.g.position).normalize().multiplyScalar(b.spd);
     shoot(p.g.position.clone(),v,{from:'p',mat:b.mat,geo:b.geo==='bomberBullet'?'bomberBullet':b.geo==='bolt'?'bolt':undefined,size:b.size*0.6,r:1.2,splash:b.splash*0.5,dmg:b.dmg*0.85*POW(),life:b.life*0.8,trail:b.col,col:b.col});}
@@ -4411,7 +4411,7 @@ function updPets(dt,t){const n=PETS.length;PETS.forEach((p,i)=>{const a=t*1.3+i*
   for(const e of EN){if(e.dead||!e.dmg)continue;if(cpos(e).distanceTo(p.g.position)<e.r+3)petHurt(p,e.dmg*dt*0.7,true);}
   if(p.hitT>0){p.hitT-=dt;p.g.scale.setScalar(1+Math.sin(p.hitT*40)*0.12);}else p.g.scale.setScalar(1);});
   for(let i=PETS.length-1;i>=0;i--)if(PETS[i].hp<=0){const q=PETS[i];burst(q.g.position,24,FIRE,2.5,22,0.6);smoke(q.g.position,4,3,1.2,0x5a5a5a,2);sfx('small',q.g.position,0.6);
-    ono(q.g.position.clone().add(new V3(0,3,0)),'子分がやられた…','#ffb0a0',24);scene.remove(q.g);PETS.splice(i,1);UP.pet=Math.max(0,(UP.pet||0)-1);updLvHud();}}
+    ono(q.g.position.clone().add(new V3(0,3,0)),q.squad?'援軍が全滅した…':'子分がやられた…','#ffb0a0',24);if(q.squad)rideRelease(q.g);scene.remove(q.g);PETS.splice(i,1);UP.pet=Math.max(0,(UP.pet||0)-1);updLvHud();}}
 /* ---- 子分：レアカード＋シナリオ1ではワイバーンに勝つと自然に付く（pet_wyv.py） ---- */
 const PETRARE=0.25;let PETG=0;
 {const st=document.createElement('style');st.textContent='.lvc.rare{padding:5px;background:linear-gradient(135deg,#fffbe0,#ffd23a 25%,#c98a00 50%,#fff0a0 75%,#ffc400);box-shadow:0 10px 26px #000a,0 0 0 1px #000,0 0 22px #ffd23acc;animation:lvcard .55s cubic-bezier(.2,1.3,.4,1) forwards,petrare 1.6s ease-in-out .6s infinite}'
@@ -4429,8 +4429,8 @@ function petToast(t){let d=$('petmsg');if(!d){d=document.createElement('div');d.
 {const sg0=startGame;startGame=function(from){PETG=0;const st=from!==undefined?from:reached,ck=(CKPT&&CKPT.stage===st&&st>0)?CKPT:null;
   const r=sg0.apply(this,arguments);
   try{if(SCN===1&&st>=1){if(ck&&ck.pg)PETG=1;else{PETG=1;if((UP.pet||0)<3){UP.pet=(UP.pet||0)+1;addPet();updLvHud();}}}}catch(x){}return r;};}
-function petHurt(p,n,cont){p.hp-=n;if(!cont){p.hitT=0.25;burst(p.g.position,6,[0xff4030,0xffa040],1.4,10,0.3);}}
-function petHit(pp,r,dmg){for(const q of PETS){if(q.hp>0&&q.g.position.distanceTo(pp)<r+2.2){petHurt(q,dmg);return true;}}return false;}
+function petHurt(p,n,cont){if(p.squad){const u=p.units.find(u=>u.hp>0);if(u)squadHurt(p,u,n,cont);return;}p.hp-=n;if(!cont){p.hitT=0.25;burst(p.g.position,6,[0xff4030,0xffa040],1.4,10,0.3);}}
+function petHit(pp,r,dmg){for(const q of PETS){if(q.squad){for(const u of q.units){if(u.hp>0&&squadPos(q,u).distanceTo(pp)<r+(q.fly?2.1:1.1)){squadHurt(q,u,dmg,false);return true;}}continue;}if(q.hp>0&&q.g.position.distanceTo(pp)<r+2.2){petHurt(q,dmg);return true;}}return false;}
 function tkShell(tg){const m=mouthPos();shoot(m,lob(m,tg,150,16),{from:'p',geo:'fire',mat:MAT.ball,size:1.5,r:2.8,splash:15,tk:1,dmg:90*POW(),grav:16,life:4,smk:true,ball:true,trail:FIRE,col:[0xff9a30,0xffe080,0x888888]});
   glowFlash(m.clone(),0xffb040,16,0.3);burst(m,14,FIRE,4.5,22,0.4);smoke(m,5,4.5,1.4,0x777777,2);sfx('cannon',m);shake(0.3);ono(m.clone().add(new V3(0,5,0)),'ドン！','#ffd23a',40);P.atkM=0.3;}
 function skyRock(tg){const m=mouthPos(),d=tg.clone().sub(m).normalize();shoot(m,d.multiplyScalar(210),{from:'p',geo:'rock',mat:C.br.mat,size:1.9,r:2.6,splash:9,dmg:70*POW(),life:1.6,trail:[0x9fdcff,0xffffff],col:C.br.col});
@@ -8049,9 +8049,9 @@ function updGo(){setTimeout(updSeld,0);$('go').textContent=reached?`${C.name}で
 // 選んでいるキャラの技3つ（小さな絵・操作・名前・ひとこと）。絵が読めなくても文字だけで分かる
 const PETJA={orcgeneral:'オーク将軍',airship:'小さな飛空艇',imp:'小悪魔',devilsoldier:'悪魔の兵',dragon:'小さな赤い竜',wyvern2:'小さなワイバーン',ground:'小さな地竜',wizard:'魔法使い',priest:'僧侶',archer:'弓兵',captain:'隊長',soldier:'兵士',bgolem:'小さな岩人形',goblin:'ゴブリン',hawkrider:'鷹乗り',orc:'オーク',griffin:'グリフォン',p8drone:'ドローン',shark:'サメ',fishman:'魚人'};
 // 11/16 ふみさん「キャラ選択画面で、変身（上級技）や仲間も表示」
-function skExtra(){try{const L=(typeof PETM!=='undefined'&&(PETM[charKey]||PETM.dragon))||[],pets=[...new Set(L.map(p=>PETJA[p[0]]||p[0]))].join('・');
+function skExtra(){try{const L=(typeof PETM!=='undefined'&&(PETM[charKey]||PETM.dragon))||[],pets=squadKind(charKey)?(charKey==='dragonknight'?'5騎ずつの竜騎士編隊':'隊長1人・槍兵2人・弓兵2人の5人部隊'):[...new Set(L.map(p=>PETJA[p[0]]||p[0]))].join('・');
   const adv=[C.sp,C.sp2].filter(k=>k&&ADVN[k]&&SKINFO[k]).map(k=>`<span class="adv">${SKINFO[k].n} → ${ADVN[k].join(' → ')}</span>`).join('');
-  return `<div class="skx"><div><b>🤝 仲間</b>（レベルアップのレア札で、最大3体）${pets}</div>${adv?`<div><b>⏫ 技の変身</b>（レベルアップの上級技）${adv}</div>`:''}</div>`;}catch(e){return '';}}
+  return `<div class="skx"><div><b>🤝 仲間</b>（レベルアップのレア札で、最大3${squadKind(charKey)?'部隊':'体'}）${pets}</div>${adv?`<div><b>⏫ 技の変身</b>（レベルアップの上級技）${adv}</div>`:''}</div>`;}catch(e){return '';}}
 {const st=document.createElement('style');st.textContent='#skp .skx{grid-column:1/-1;width:100%;font-size:12.5px;line-height:1.55;background:#000a;border:1px solid #ffb03055;border-radius:8px;padding:5px 9px;text-align:left}#skp .skx b{color:#ffd27a;margin-right:6px}#skp .skx .adv{display:inline-block;margin-right:10px;color:#ffe9c0}body.mob #skp .skx{font-size:11px;padding:4px 7px}';document.head.appendChild(st);}
 function renderSk(){const b=$('skp');if(!b||!C)return;const esc=t=>String(t==null?'':t).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
   const L=[['sp','左クリック',C.spN,C.spD],['sp2','右クリック',C.sp2N,C.sp2D],['sp3','スペース',C.dashN,C.dashD]];
@@ -11138,6 +11138,64 @@ function rideTick(dt){const f=RIDES[charKey],show=state==='play'&&!!f;rideButton
  if(landing&&dt>0&&!PAUSED&&!LVUP){landing.t+=dt;const t=Math.min(1,landing.t/1.2),k=t*t*(3-2*t);P.pos.copy(landing.from).lerp(landing.to,k);P.vel.set(0,0,0);P.vy=0;P.fireCd=Math.max(P.fireCd,0.1);D.g.position.copy(P.pos);if(t>=1)rideOff(landing.to);}
 }
 {const before=updTheme;updTheme=function(dt,t){before.apply(this,arguments);rideTick(dt);};}
+
+
+// ally_squads_1116：仲間1枠＝独立した5人／5騎の援軍。隊員ごとに攻撃・被弾する。
+function squadKind(key){return key==='army'||key==='dragonknight';}
+const SQUADCOL=[0x73bfff,0xffc766,0xc99cff];
+function squadHome(p){const side=p.slot===0?-1:p.slot===1?1:0,wide=p.fly?18:17,back=p.slot===2?-40:-18,y=P.yaw;
+ return new V3(P.pos.x+Math.cos(y)*side*wide-Math.sin(y)*back,P.pos.y+(p.fly?2:0),P.pos.z-Math.sin(y)*side*wide-Math.cos(y)*back);
+}
+function addSquad(key){if(PETS.filter(p=>p.squad&&p.id===key).length>=3)return;
+ const fly=key==='dragonknight',g=new THREE.Group(),units=[],used=new Set(PETS.filter(p=>p.squad).map(p=>p.slot)),slot=[0,1,2].find(i=>!used.has(i))||0;
+ const positions=fly?[[0,4],[-4,0],[4,0],[-8,-4],[8,-4]]:[[0,2.8],[-3,0],[3,0],[-2,-3.3],[2,-3.3]];
+ for(let i=0;i<5;i++){let m,body,role;
+  if(fly){m=new THREE.Group();const mount=makeProxy(4.95,2.09,3.85,0x387548,false),rider=makeProxy(0.825,1.43,0.88,0x444858,false);
+   attachModel(mount,'wyvern2');attachModel(rider,'blackknight');rider.position.set(0,1.1,0.055);const mx=rider.userData.mix;if(mx&&mx.idle)mx.loco=mx.idle;
+   const bow=bowMake();bow.scale.setScalar(0.55);bow.position.set(-0.36,1.38,0.36);m.add(mount,rider,bow);body=rider;role='rider';
+  }else{role=i===0?'captain':i<3?'spear':'bow';body=makeProxy(2.3,3.4,2.2,0x8594a5,false);attachModel(body,i===0?'captain':i<3?'soldier':'archer');m=new THREE.Group();m.add(body);}
+  m.position.set(positions[i][0],0,positions[i][1]);g.add(m);units.push({m,body,role,x:positions[i][0],z:positions[i][1],hp:70,cd:i*0.16+0.15,step:i,hitT:0});
+ }
+ // 小さな旗で部隊を見分ける。大きい輪や光は足さない。
+ const flag=new THREE.Group(),pole=new THREE.Mesh(new THREE.CylinderGeometry(0.035,0.035,2.4,5),new THREE.MeshLambertMaterial({color:0xc7b99b})),cloth=new THREE.Mesh(new THREE.PlaneGeometry(1.5,0.8),new THREE.MeshLambertMaterial({color:SQUADCOL[slot],side:THREE.DoubleSide}));
+ pole.position.y=1.2;cloth.position.set(0.75,2,0);flag.add(pole,cloth);flag.position.set(0,fly?2:3.1,0);units[0].m.add(flag);
+ const q={g,id:key,mid:fly?'wyvern2':'captain',fly,squad:true,slot,units,hp:350,max:350,target:null,scan:0};g.position.copy(squadHome(q));if(!fly)g.position.y=floorAt(g.position.x,g.position.z);g.rotation.y=P.yaw;scene.add(g);PETS.push(q);squadPlace(q,0);return q;
+}
+function squadPos(p,u){return u.m.getWorldPosition(new V3()).add(new V3(0,p.fly?1.2:1.7,0));}
+function squadPlace(p,dt){const g=p.g,co=Math.cos(g.rotation.y),sn=Math.sin(g.rotation.y);
+ for(const u of p.units){u.m.visible=u.hp>0;if(!u.m.visible)continue;
+  if(!p.fly){unitAvoid({g},u);let x=u.x+(u.ax||0),z=u.z+(u.az||0),wx=g.position.x+x*co+z*sn,wz=g.position.z-x*sn+z*co;
+   // 水の上へ隊列がはみ出す時は、本隊寄りの岸へ寄せる。
+   if(!DUN.on&&!CAVE.on&&H(wx,wz)<WATER+0.4){for(let k=1;k<=8;k++){const a=k/8,tx=wx+(P.pos.x-wx)*a,tz=wz+(P.pos.z-wz)*a;if(H(tx,tz)>WATER+0.6){const dx=tx-g.position.x,dz=tz-g.position.z;x=dx*co-dz*sn;z=dx*sn+dz*co;wx=tx;wz=tz;break;}}}
+   u.m.position.set(x,(DUN.on?DUN.y:floorAt(wx,wz))-g.position.y,z);
+  }else u.m.position.set(u.x,Math.sin((p.time||0)*3+u.step)*0.18,u.z);
+  if(u.hitT>0)u.hitT=Math.max(0,u.hitT-dt);u.body.scale.setScalar(u.hitT>0?1+Math.sin(u.hitT*40)*0.07:1);
+ }
+ g.updateMatrixWorld(true);
+}
+function squadHurt(p,u,n,cont){if(u.hp<=0)return;const before=u.hp;u.hp=Math.max(0,u.hp-n);p.hp=Math.max(0,p.hp-(before-u.hp));if(!cont)u.hitT=0.2;
+ if(u.hp<=0){const at=squadPos(p,u);u.m.visible=false;burst(at,4,[0xc9b8a0,0x929aa5],0.6,5,0.25);rideRelease(u.m);}
+}
+function squadTick(p,dt,t){if(dt<=0||PAUSED||LVUP||state!=='play')return;p.time=t;
+ const home=squadHome(p);if(!p.fly)home.y=DUN.on?DUN.y:floorAt(home.x,home.z);else home.y=Math.max(home.y,floorAt(home.x,home.z)+5);
+ if(p.g.position.distanceTo(home)>160)p.g.position.copy(home);else p.g.position.lerp(home,1-Math.exp(-3.2*dt));
+ p.g.rotation.y+=Math.atan2(Math.sin(P.yaw-p.g.rotation.y),Math.cos(P.yaw-p.g.rotation.y))*Math.min(1,dt*5);squadPlace(p,dt);
+ p.scan-=dt;if(p.scan<=0||p.target&&p.target.dead){p.scan=0.3;p.target=null;let nearest=(CH[p.id].range||170)**2;for(const e of EN){if(e.dead||e.inv)continue;const d=cpos(e).distanceToSquared(p.g.position);if(d<nearest){nearest=d;p.target=e;}}}
+ for(const u of p.units){if(u.hp<=0)continue;const at=squadPos(p,u),target=p.target&&!p.target.dead?p.target:null,tg=target?cpos(target).clone():null;u.cd-=dt;
+  if(tg){u.m.rotation.y=Math.atan2(tg.x-at.x,tg.z-at.z)-p.g.rotation.y;
+   if(u.cd<=0){if(p.fly||u.role==='bow'){u.cd=p.fly?1.55:1.6;const arrow=!p.fly||u.step++%2===1;
+     shoot(at,tg.sub(at).normalize().multiplyScalar(arrow?200:185),{from:'p',geo:arrow?'arrow':'dkember',mat:arrow?MAT.arrow:DKFIREMAT,size:arrow?0.65:0.3,r:arrow?0.75:0.65,splash:arrow?0:1.2,dmg:(p.fly?9:18)*POW(),life:1.5,col:arrow?[0xc3ad80]:FIRE,dkSmall:true,squad:p.slot,member:p.units.indexOf(u)});mixOnce(u.body.userData.mix,1.8);
+    }else if(at.distanceTo(tg)<(target.r||1)+5){u.cd=0.9;mixOnce(u.body.userData.mix,2);hitEnemy(target,20*POW());slashAt(at,p.g.rotation.y+u.m.rotation.y,0xe4dcbd,1.5);}}
+  }else u.m.rotation.y=0;
+  for(const e of EN){if(!e.dead&&e.dmg&&cpos(e).distanceTo(at)<(e.r||1)+1.6)squadHurt(p,u,e.dmg*dt*0.7,true);}
+ }
+}
+const SQUADPETBASE=Object.assign({},UPS.find(u=>u.k==='pet'));
+function squadCard(){const u=UPS.find(u=>u.k==='pet');Object.assign(u,SQUADPETBASE);if(squadKind(charKey)){u.ic='🚩';u.nm='5'+(charKey==='dragonknight'?'騎':'人')+'の援軍';u.ds=charKey==='dragonknight'?'5騎の竜騎士が別のV字編隊で加わり、小火炎と矢で援護する':'隊長1人・槍兵2人・弓兵2人が別部隊で加わり、いっしょに戦う';}}
+{const before=setChar;setChar=function(){const r=before.apply(this,arguments);squadCard();return r;};}
+{const before=resetLv;resetLv=function(){for(const p of PETS)if(p.squad)rideRelease(p.g);return before.apply(this,arguments);};}
+{const before=setupStage;setupStage=function(){const r=before.apply(this,arguments);for(const p of PETS)if(p.squad){p.target=null;p.scan=0;p.g.position.copy(squadHome(p));if(!p.fly)p.g.position.y=DUN.on?DUN.y:floorAt(p.g.position.x,p.g.position.z);p.g.rotation.y=P.yaw;squadPlace(p,0);}return r;};}
+CH.army.ds+=' 仲間のレア札1枚で5人の別部隊が加わる（最大3部隊）。';CH.dragonknight.ds+=' 仲間のレア札1枚で5騎の別編隊が加わる（最大3部隊）。';squadCard();
 
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
