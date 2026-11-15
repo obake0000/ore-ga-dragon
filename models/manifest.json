@@ -735,5 +735,11 @@
   "h": 1.6,
   "ja": "小悪魔",
   "rot": 0
+ },
+ "seakingman": {
+  "file": "seakingman.glb",
+  "h": 6,
+  "ja": "海王（人の姿・骨入り）",
+  "rot": 0
  }
 }
