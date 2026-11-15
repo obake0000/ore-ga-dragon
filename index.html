@@ -961,7 +961,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazv';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazx';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -5375,6 +5375,9 @@ function makeOrcGate(x,z,rot){const g=new THREE.Group(),wd=mat(0x6b4a2a),dk=mat(
     const tu=mesh(new THREE.ConeGeometry(0.7,3.6,5),mat(0xe8dcc0));tu.position.set(sg*3,15.8,0.4);tu.rotation.z=sg*0.3;g.add(tu);});
   const lt=box(22,1.6,2.4,dk);lt.position.y=14.6;g.add(lt);
   const bd=place(g,x,z,rot,360,120,'wall');bd.rot=rot;return bd;}
+// 砦のやぐら・玉座にかぶせるモデルの決めごと（top＝上の台の高さの割合／sk＝どくろの [幅,高さ,奥行き,向き,後ろへ,上へ,かたむき]／bn＝軍旗の [高さ,横,後ろ]）
+const ORCTW={w:12,up:5,top:0.9,sk:[17,14,17,Math.PI/2,-5.4,4.4,-0.12],bn:[13,10,-3]};
+function orcPart(g,id,w,h,d,er){const s=new THREE.Group(),bx=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshBasicMaterial({visible:false}));bx.position.y=h/2;s.add(bx);if(!attachModel(s,id,er||0))return null;g.add(s);return s;}
 function makeOrcTower(x,z,hh){const g=new THREE.Group(),wd=mat(0x6b4a2a),dk=mat(0x4e3420);
   [[-2.2,-2.2],[2.2,-2.2],[-2.2,2.2],[2.2,2.2]].forEach(([a,c])=>{const l=mesh(new THREE.CylinderGeometry(0.42,0.62,hh,6),wd);l.position.set(a,hh/2,c);g.add(l);});
   [0.35,0.7].forEach(k=>{const r=box(5.4,0.45,5.4,dk);r.position.y=hh*k;g.add(r);});
@@ -5384,7 +5387,8 @@ function makeOrcTower(x,z,hh){const g=new THREE.Group(),wd=mat(0x6b4a2a),dk=mat(
   const rf=mesh(new THREE.ConeGeometry(5.6,3.6,4),mat(0x5a3a24));rf.position.y=hh+6.4;rf.rotation.y=Math.PI/4;g.add(rf);
   const fl=mesh(new THREE.PlaneGeometry(3.4,2),new THREE.MeshLambertMaterial({color:0x8a1e1e,side:THREE.DoubleSide}));fl.position.set(1.8,hh+9.6,0);g.add(fl);
   const pl=mesh(new THREE.CylinderGeometry(0.12,0.12,4,5),mat(0x3a2a1a));pl.position.y=hh+8.4;g.add(pl);
-  const b=place(g,x,z,rnd(0,6),480,70,'tower');b.top=g.position.y+hh+0.7;return b;}
+  let tp=hh+0.7;if(MODEL.siege_tower){const kids=g.children.slice();if(orcPart(g,'siege_tower',ORCTW.w,hh+ORCTW.up,ORCTW.w)){kids.forEach(c=>{c.visible=false;});tp=(hh+ORCTW.up)*ORCTW.top;}}
+  const b=place(g,x,z,rnd(0,6),480,70,'tower');b.top=g.position.y+tp;return b;}
 function makeOrcKeep(x,z){const g=new THREE.Group(),wd=mat(0x6b4a2a),dk=mat(0x4e3420),rf=mat(0x5a3a24);
   const b0=box(46,13,34,wd);b0.position.y=6.5;g.add(b0);
   if(MODEL.orcfort){const bb=box(56,44,40,wd);bb.position.y=22;g.add(bb);}   // 本物のモデルは、この大きさの枠にはめる[3,9.5].forEach(y=>{const r=box(46.6,0.8,34.6,dk);r.position.y=y;g.add(r);});
@@ -5411,6 +5415,8 @@ function makeThrone(x,z){const g=new THREE.Group(),wd=mat(0x6b4a2a),dk=mat(0x4e3
   const s1=mesh(new THREE.CylinderGeometry(16,18,2.6,14),dk);s1.position.y=1.3;g.add(s1);const s2=mesh(new THREE.CylinderGeometry(10,12,2.6,12),wd);s2.position.y=3.9;g.add(s2);
   const sd=box(5,1.4,4.4,mat(0x3a2a1a));sd.position.y=6;g.add(sd);const bk=box(5.6,9,1.2,mat(0x3a2a1a));bk.position.set(0,10,-1.8);g.add(bk);
   [-1,1].forEach(sg=>{const ar=box(0.9,2.2,4.2,mat(0x3a2a1a));ar.position.set(sg*2.8,7,0);g.add(ar);const hn=mesh(new THREE.ConeGeometry(0.9,5,6),mat(0xe8dcc0));hn.position.set(sg*2.7,16,-1.8);hn.rotation.z=-sg*0.45;g.add(hn);});
+  if(MODEL.dragonskull){const K=ORCTW.sk,sk=orcPart(g,'dragonskull',K[0],K[1],K[2],K[3]);if(sk){sk.position.set(0,K[5],K[4]);sk.rotation.x=K[6];bk.visible=false;g.children.forEach(c=>{if(c.geometry&&c.geometry.type==='ConeGeometry')c.visible=false;});}}
+  if(MODEL.war_banner)[-1,1].forEach(sg=>{const B=ORCTW.bn,f=orcPart(g,'war_banner',4,B[0],4);if(f)f.position.set(sg*B[1],2.6,B[2]);});
   const bd=place(g,x,z,0,700,200,'keep');bd.armor=0.5;return bd;}
 function makeTotem(x,z){const g=new THREE.Group();const pl=mesh(new THREE.CylinderGeometry(0.5,0.7,14,6),mat(0x4a3220));pl.position.y=7;g.add(pl);
   [-1,1].forEach(sg=>{const hn=mesh(new THREE.ConeGeometry(0.4,2.6,5),mat(0xe8dcc0));hn.position.set(sg*0.9,13,0);hn.rotation.z=-sg*0.7;g.add(hn);});
@@ -9560,6 +9566,177 @@ function dl3Build(o){if(!o||o.kind==='maou'||!DUN.g)return;const g=DUN.g,gy=DUN.
 const _db3=dunBuild;dunBuild=function(o){const r=_db3.apply(this,arguments);try{dl3Build(o);}catch(er){console.warn('dun_look3',er);}return r;};
 const _ud3=updDun;updDun=function(dt,rdt){_ud3.apply(this,arguments);try{dl3Tick(dt||0,rdt||0);}catch(_){}};
 }
+
+/* ---- maou_seal2.py：魔王の間の2回め。暗い石のかべ・ひび光る台座・赤い鎖・小さな石のかけら・炎と魔法のぶつかり ---- */
+const M2={};
+// 石の絵とひびの光の絵（台座・杭・かけら用。かべのレンガの絵は使わない）
+function m2Tex(){if(M2.tx)return M2.tx;const N=256,cr=[];for(let j=0;j<10;j++){let px=Math.random()*N,py=Math.random()*N;const q=[[px,py]];for(let i=0;i<6;i++){px+=(Math.random()-0.5)*84;py+=(Math.random()-0.5)*84;q.push([px,py]);}cr.push(q);}
+  const mk=f=>{const c=document.createElement('canvas');c.width=c.height=N;f(c.getContext('2d'));const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;return t;};
+  const line=(x,col,w,bl)=>{x.strokeStyle=col;x.lineWidth=w;x.shadowColor='#ff5a18';x.shadowBlur=bl;x.lineCap='round';cr.forEach(q=>{x.beginPath();q.forEach((a,i)=>i?x.lineTo(a[0],a[1]):x.moveTo(a[0],a[1]));x.stroke();});x.shadowBlur=0;};
+  const s=mk(x=>{x.fillStyle='#24222c';x.fillRect(0,0,N,N);for(let r=0;r<4;r++)for(let i=0;i<4;i++){const v=34+Math.random()*30|0;x.fillStyle='rgb('+v+','+v+','+(v+12)+')';x.fillRect(i*64+3,r*64+3,58,58);}
+      for(let i=0;i<60;i++){x.fillStyle='rgba(0,0,0,'+(0.1+Math.random()*0.2)+')';x.fillRect(Math.random()*N,Math.random()*N,2+Math.random()*14,1+Math.random()*3);}line(x,'#0a0608',5,0);line(x,'#ff7a2a',2,10);});
+  const e=mk(x=>{x.fillStyle='#000';x.fillRect(0,0,N,N);line(x,'#c8441a',5,14);line(x,'#ffb050',2,0);});
+  return M2.tx={s,e};}
+function m2Mat(rx){const T=m2Tex(),a=T.s.clone(),b=T.e.clone();a.repeat.set(rx,1);b.repeat.set(rx,1);a.needsUpdate=b.needsUpdate=true;
+  return new THREE.MeshLambertMaterial({map:a,color:0xd8d8e8,emissive:0xffffff,emissiveMap:b,emissiveIntensity:0.9});}
+// 紫・だいだいの小さないなずまの絵
+function m2Bolt(){if(M2.bt)return M2.bt;const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d');x.translate(128,128);x.lineCap='round';x.lineJoin='round';
+  for(let i=0;i<8;i++){const a=i/8*6.283+Math.random()*0.5;let r=10;const pts=[[Math.cos(a)*r,Math.sin(a)*r]];while(r<120){r+=10+Math.random()*18;const aa=a+(Math.random()-0.5)*0.8;pts.push([Math.cos(aa)*r,Math.sin(aa)*r]);}
+    const col=i%3===0?'255,170,80':'230,150,255';x.shadowColor='rgba('+col+',1)';x.shadowBlur=12;x.strokeStyle='rgba('+col+',0.9)';x.lineWidth=4;x.beginPath();pts.forEach((p,j)=>j?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1]));x.stroke();
+    x.shadowBlur=0;x.strokeStyle='rgba(255,240,255,0.95)';x.lineWidth=1.5;x.stroke();}
+  return M2.bt=new THREE.CanvasTexture(c);}
+// 魔王の弾と竜の炎・弾がぶつかった所の、小さな火花といなずま
+function m2Hit(p){burst(p,8,[0xff8a30,0xe050ff,0xffb060],2.2,24,0.35);glowFlash(p.clone(),0xc060ff,9,0.22);
+  const s=new THREE.Sprite(new THREE.SpriteMaterial({map:m2Bolt(),color:0xffffff,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false}));s.position.copy(p);s.material.rotation=rnd(0,6.3);const z=rnd(9,14);
+  fxAdd(s,0.22,(o,k)=>{o.scale.setScalar(z*(0.6+k*0.6));o.material.opacity=0.9*(1-k);});}
+// 同じモデルをたくさん並べる（dun_look2.py の dl2Inst と同じ作り。あちらは外から呼べないので、ここに写す）
+function m2Inst(g,id,list,tint){const M=MODEL[id];if(!M||!list.length)return 0;let src=null;M.scene.updateMatrixWorld(true);M.scene.traverse(o=>{if(o.isMesh&&!src)src=o;});if(!src)return 0;
+  const bb=new THREE.Box3().setFromObject(M.scene),sz=bb.getSize(new V3()),ct=bb.getCenter(new V3()),base=new THREE.Matrix4().makeTranslation(-ct.x,-bb.min.y,-ct.z).multiply(src.matrixWorld);
+  const mt=src.material.clone();mt.color.setRGB(tint[0],tint[1],tint[2]);const grp={};list.forEach(q=>{const k=q.ck||0;(grp[k]||(grp[k]=[])).push(q);});
+  const m4=new THREE.Matrix4(),qt=new THREE.Quaternion(),eu=new THREE.Euler();
+  for(const k in grp){const L=grp[k],geo=src.geometry.clone(),im=new THREE.InstancedMesh(geo,mt,L.length),c=new V3();let rad=0;
+    L.forEach((q,i)=>{eu.set(0,q.ry||0,0);qt.setFromEuler(eu);m4.compose(new V3(q.x,q.y,q.z),qt,new V3(q.w/sz.x,q.h/sz.y,q.kz)).multiply(base);im.setMatrixAt(i,m4);c.add(new V3(q.x,q.y+q.h/2,q.z));});
+    c.multiplyScalar(1/L.length);L.forEach(q=>{rad=Math.max(rad,c.distanceTo(new V3(q.x,q.y+q.h/2,q.z))+Math.hypot(q.w,q.h)/2+sz.z*q.kz);});
+    geo.boundingSphere=new THREE.Sphere(c,rad);im.instanceMatrix.needsUpdate=true;im.castShadow=false;im.receiveShadow=false;im.raycast=()=>{};g.add(im);}
+  return list.length;}
+// 部屋：かべ・柱・もや・扉・たれ幕
+function m2Room(S){const g=DUN.g;if(!g||g.__m2)return;g.__m2=1;const cx=S.cx,w=DUN.x1-DUN.x0,d=DUN.z1-DUN.z0,h=DUN.h,gy=DUN.y,z0=DUN.z0,n=Math.max(3,Math.floor(d/42)),stp=(d-40)/n,DZ=(window.DL2&&DL2.DZ)||1;
+  const hb=new Set();if(MODEL.hbanner)MODEL.hbanner.scene.traverse(o=>{if(o.isMesh)(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>hb.add(m));});
+  // 1 かべ4枚を暗い青黒い石に。赤いもやをうすく
+  for(const c of g.children){if(c.isMesh&&c.geometry.type==='PlaneGeometry'){const P=c.geometry.parameters,m=c.material;
+      if(m.isMeshLambertMaterial&&m.map&&P.height===h){m.color.setHex(0x4c5676);m.emissive.setHex(0x03040a);}
+      else if(m.isMeshBasicMaterial&&m.blending===THREE.AdditiveBlending&&P.width===96&&P.height===150)m.opacity=0.12;}
+    else if(c.isSprite&&c.scale.x===120)c.material.opacity=0.18;}
+  // 1b 床（溶岩のひびの石）を少し暗く
+  { const fl=g.children[0];if(fl&&fl.isMesh&&fl.material&&fl.material.isMeshBasicMaterial&&fl.material.map)fl.material.color.setHex(0x8c8898);}
+  // 2 ピンクのアーチ柱・かべのたれ幕を外して、アーチのくぼみと柱の壁（dwall）を並べる
+  const wide=w>=140;
+  for(let i=g.children.length-1;i>=0;i--){const c=g.children[i],ax=Math.abs(c.position.x-cx);
+    const arch=c.isGroup&&Math.abs(ax-w/2)<6&&(Math.abs(c.scale.x-1)>1e-3||Math.abs(c.scale.z-1)>1e-3);
+    const ban=Math.abs(ax-(w/2-1.1))<0.06||(c.isMesh&&Math.abs(ax-(w/2-0.7))<0.06&&c.geometry.type==='PlaneGeometry'&&c.geometry.parameters.width<12);
+    if(arch||ban){g.remove(c);if(arch)c.traverse(q=>{if(q.isMesh&&q.material&&q.material.dispose)q.material.dispose();});}}
+  if(MODEL.dwall){const L=[],mh=wide?44:h-0.5;
+    for(let i=0;i<n;i++)for(const sx of [-1,1]){const z=z0+20+(i+0.5)*stp;L.push({x:cx+sx*w/2,y:gy+0.5,z,ry:sx*Math.PI/2,w:stp+0.3,h:mh,kz:DZ,ck:Math.floor((z-z0)/85)});}
+    m2Inst(g,'dwall',L,[0.5,0.55,0.8]);}
+  // 3 かざりの大きな扉（奥のかべの左右に1つずつ。開かない）と、赤いたれ幕
+  for(const sx of [-1,1]){const x=cx+sx*84;
+    if(MODEL.gdoor){const md=cloneModel('gdoor');md.rotation.y=MODEL.gdoor.rot;md.updateMatrixWorld(true);const b0=new THREE.Box3().setFromObject(md),k=40/(b0.max.y-b0.min.y);md.scale.multiplyScalar(k);md.updateMatrixWorld(true);
+      const b2=new THREE.Box3().setFromObject(md);md.position.x-=(b2.min.x+b2.max.x)/2;md.position.y-=b2.min.y;md.position.z-=b2.min.z;
+      md.traverse(q=>{if(q.isMesh){q.material=q.material.clone();q.material.color.setRGB(0.62,0.66,0.86);}});
+      const q=new THREE.Group();q.add(md);q.position.set(x,gy+0.5,z0+0.3);g.add(q);
+      const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff3a20,transparent:true,opacity:0.16,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(36,56,1);gl.position.set(x,gy+19,z0+8);g.add(gl);
+      dunPut(g,'hbanner',x+sx*-17,gy+12,z0+1.6,{h:28,ry:0,t:1.0});}}
+  for(let i=0;i<n;i+=2)for(const sx of [-1,1])dunPut(g,'hbanner',cx+sx*(w/2-2.7),gy+13,z0+20+(i+0.5)*stp,{h:24,ry:-sx*Math.PI/2,t:1.0});
+  // 4 柱・階段・かがり火の台などの石を、青黒く暗く（たれ幕は赤いまま）
+  const DK=new THREE.Color(0.6,0.64,0.9);g.traverse(o=>{if(!o.isMesh||o.isInstancedMesh)return;(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{if(m.userData&&m.userData.c0&&!hb.has(m)&&!m.isMeshBasicMaterial)m.color.copy(m.userData.c0).multiply(DK);});});}
+// 台座・杭・鎖・光の帯など、封印のまわり
+function m2Build(S){const g=S.g,cx=S.cx,az=S.az,ay=S.ay,AD=THREE.AdditiveBlending;
+  m2Room(S);
+  // 古い石の輪（箱7個）と杭（箱）を消す
+  for(const o of S.st){g.remove(o.m);o.m.geometry.dispose();}S.st=[];
+  for(let i=g.children.length-1;i>=0;i--){const c=g.children[i];if(c.isMesh&&c.geometry.type==='BoxGeometry'&&c.geometry.parameters.width===2.6){g.remove(c);c.geometry.dispose();}}
+  const side=m2Mat(5),cap=m2Mat(1),mats=[side,cap,cap];S.m2m=[side,cap];
+  const PG=new THREE.Group();PG.position.set(cx,ay,az);g.add(PG);
+  const lo=new THREE.Mesh(new THREE.CylinderGeometry(10.2,11.6,1.8,10),mats);lo.position.y=0.9;PG.add(lo);
+  // 魔王を持ち上げる：足の先が床の上（結晶の中）に来る高さ。腰から下を、赤く透ける結晶に閉じこめる
+  const e=S.e,yb=ay+S.H*0.5-2;S.pos.y=yb;e.mesh.position.copy(S.pos);const cyT=yb-S.H*0.05-ay;   // 結晶の上のふち（台座の上からの高さ）
+  const cm=new THREE.MeshPhongMaterial({color:0xff5a50,emissive:0x7a1008,specular:0xffd0c0,shininess:90,transparent:true,opacity:0.55,flatShading:true,depthWrite:false,side:THREE.DoubleSide});S.cm=cm;
+  const CG=new THREE.Group();PG.add(CG);S.ped={g:PG,up:CG};
+  const core=new THREE.Mesh(new THREE.CylinderGeometry(5.4,7.4,cyT-1,6,1),cm);core.position.y=1+(cyT-1)/2;core.rotation.y=0.3;CG.add(core);
+  for(let i=0;i<8;i++){const a=i/8*6.283+rnd(-0.2,0.2),r=rnd(6.2,7.6),hh=rnd(5,10),tl=rnd(0.25,0.5),sh=new THREE.Mesh(new THREE.CylinderGeometry(0.1,rnd(1.3,2.2),hh,5,1),cm);
+    const d=new V3(Math.sin(a)*Math.sin(tl),Math.cos(tl),Math.cos(a)*Math.sin(tl));sh.quaternion.setFromUnitVectors(MSV.up,d);sh.position.set(Math.sin(a)*r,1+hh*0.5*Math.cos(tl),Math.cos(a)*r);CG.add(sh);}
+  // 結晶の表面に光る文字
+  const rc=document.createElement('canvas');rc.width=256;rc.height=128;{const x=rc.getContext('2d');x.font='bold 40px serif';x.textAlign='center';x.textBaseline='middle';x.shadowColor='#ff6a20';x.shadowBlur=10;x.fillStyle='#ffd8a0';const RN='ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃ';for(let k=0;k<6;k++){x.fillText(RN[(k*2)%12],21+k*43,40);x.fillText(RN[(k*2+5)%12],42+k*43,100);}}
+  const rt=new THREE.CanvasTexture(rc);rt.wrapS=rt.wrapT=THREE.RepeatWrapping;rt.repeat.set(3,1);
+  const rn=new THREE.Mesh(new THREE.CylinderGeometry(5.8,7.9,cyT-1.5,24,1,true),new THREE.MeshBasicMaterial({map:rt,color:0xffa860,transparent:true,opacity:0.9,blending:AD,depthWrite:false,side:THREE.DoubleSide}));rn.position.y=1.2+(cyT-1.5)/2;CG.add(rn);S.rune=rn;
+  // 胴に巻きつく赤く光る鎖（輪を2本、X字に）
+  S.bind=[];const bm=new THREE.MeshLambertMaterial({color:0x6a4a50,emissive:0xd02c14});S.bindM=bm;
+  for(const sg of [-1,1]){const r=new THREE.Mesh(new THREE.TorusGeometry(5.6,0.62,5,16),bm);r.position.set(cx,yb-S.H*0.01,az);r.rotation.set(Math.PI/2+sg*0.22,0,0.1*sg);g.add(r);S.bind.push(r);}
+  const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff5a20,transparent:true,opacity:0.3,blending:AD,depthWrite:false}));gl.scale.set(36,36,1);gl.position.set(cx,ay+2,az+3);g.add(gl);S.pgl=gl;
+  // 結晶のかけら（くだける時にとぶ）
+  const geos=[new THREE.TetrahedronGeometry(1.3,0),new THREE.OctahedronGeometry(1,0),new THREE.IcosahedronGeometry(0.9,0),new THREE.TetrahedronGeometry(0.9,0)];
+  for(let i=0;i<18;i++){const a=i/18*6.283+rnd(-0.15,0.15),r=rnd(3,7.2),k=rnd(0.6,1.7),bb=new THREE.Mesh(geos[i%4],i%3===0?cap:cm);bb.scale.set(k*rnd(0.8,1.3),k*rnd(0.8,1.6),k*rnd(0.8,1.3));
+    bb.position.set(cx+Math.sin(a)*r,ay+rnd(2.5,cyT),az+Math.cos(a)*r);bb.rotation.set(rnd(0,6),rnd(0,6),rnd(0,6));g.add(bb);
+    S.st.push({m:bb,v:new V3(Math.sin(a),rnd(0.9,1.6),Math.cos(a)*0.6+0.5).multiplyScalar(rnd(14,22)),w:new V3(rnd(-5,5),rnd(-5,5),rnd(-5,5)),t:0});}
+  // 鎖の先を、魔王の持ち上がった体に合わせる（上の2本は肩、下の2本は胴の輪）
+  S.chn.forEach((c,ci)=>{const L0=c.a.distanceTo(c.b);if(ci<2)c.b.y+=yb-(ay+1.2);else c.b.set(cx+(ci===2?-1:1)*5.4,yb-S.H*0.01,az+2);
+    const d=new V3().subVectors(c.b,c.a),L=d.length();c.gl.position.lerpVectors(c.a,c.b,0.5);c.gl.position.y-=L*0.012;c.gl.quaternion.setFromUnitVectors(MSV.up,d.normalize());c.gl.scale.y=L/L0;c.mid.lerpVectors(c.a,c.b,0.5);});
+  // 杭：赤い印がともる石の柱
+  for(const sx of [-1,1]){const x=cx+sx*30,z=az+8.5,p=new THREE.Mesh(new THREE.CylinderGeometry(1.7,2.3,6.4,8),mats);p.position.set(x,ay+3.2,z);g.add(p);
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff4a20,transparent:true,opacity:0.7,blending:AD,depthWrite:false}));sp.scale.set(9,9,1);sp.position.set(x,ay+6.6,z);g.add(sp);}
+  // 鎖：黒ずんだ鉄の太い輪が赤く光る（封印の扉の鎖と同じ感じ）。輪をへらして、1つ1つが見える間隔に
+  g.remove(S.im);S.im.geometry.dispose();S.im.material.dispose();S.lk=[];
+  const q0b=new THREE.Quaternion(),qt=new THREE.Quaternion().setFromAxisAngle(MSV.up,Math.PI/2);
+  S.chn.forEach((c,ci)=>{const a=c.a,b=c.b,L=a.distanceTo(b),n=Math.max(4,Math.round(L/2.7)),dir=new V3().subVectors(b,a).normalize(),q0=new THREE.Quaternion().setFromUnitVectors(MSV.up,dir);
+    for(let i=0;i<n;i++){const t=(i+0.5)/n,pp=new V3().lerpVectors(a,b,t);pp.y-=Math.sin(t*Math.PI)*L*0.025;const q=q0.clone();if(i%2)q.multiply(qt);S.lk.push({p:pp,q,c:ci,v:new V3(),w:new V3(0,1,0),k:1});}
+    c.gl.material.opacity=0.3;c.gl.scale.set(1.5,1,1.5);});
+  S.im=new THREE.InstancedMesh(new THREE.TorusGeometry(1.15,0.42,6,10),new THREE.MeshLambertMaterial({color:0x6a4a50,emissive:0xd02c14}),S.lk.length);S.im.frustumCulled=false;g.add(S.im);msfLinks(S,0);
+  // 魔法陣・光の柱の色は、ほんの少し暗く
+  S.c1.material.opacity=0.8;S.pil.material.color.setHex(0xff7a30);
+  // ぶつかり合い用：魔王の手からの紫の光の帯と、小さないなずま
+  const mk=(col,op)=>new THREE.Mesh(new THREE.CylinderGeometry(1,1,1,10,1,true),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:op,blending:AD,depthWrite:false}));
+  S.bm=new THREE.Group();S.bm.add(mk(0xb040ff,0.45));S.bm.add(mk(0xff9ae8,0.55));S.bm.visible=false;g.add(S.bm);
+  S.bl=[];for(let i=0;i<3;i++){const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:m2Bolt(),color:0xffffff,transparent:true,opacity:0,blending:AD,depthWrite:false}));sp.visible=false;g.add(sp);S.bl.push(sp);}S.m2r=0;S.m2d=0;}
+{const b0=msfBuild;msfBuild=function(S){b0.apply(this,arguments);try{m2Build(S);}catch(er){console.warn('m2Build',er);}};}
+// 鎖の輪を置き直す（切れた輪はとんで落ちて消える）
+msfLinks=function(S,dt){if(!S.im)return;const M=MSV.m,sc=MSV.s,dq=MSV.q;
+  for(let i=0;i<S.lk.length;i++){const l=S.lk[i];if(S.chn[l.c].cut&&l.k>0){l.v.y-=38*dt;l.p.addScaledVector(l.v,dt);const fl=DUN.y+dunSt(l.p.x,l.p.z)+0.5;if(l.p.y<fl){l.p.y=fl;l.v.y*=-0.35;l.v.x*=0.6;l.v.z*=0.6;}
+      dq.setFromAxisAngle(l.w,dt*7);l.q.premultiply(dq);l.k-=dt/1.5;}
+    const k=Math.max(0,Math.min(1,l.k*3))*(S.chn[l.c].cut?0.8:1);sc.set(0.8*k,1.25*k,k);M.compose(l.p,l.q,sc);S.im.setMatrixAt(i,M);}
+  S.im.instanceMatrix.needsUpdate=true;};
+// 鎖が切れる：赤とだいだいの火花（金色にしない）
+msfCut=function(S,ci,big){const ch=S.chn[ci];if(!ch||ch.cut)return;ch.cut=1;ch.gl.visible=false;
+  for(const l of S.lk){if(l.c!==ci)continue;l.v.set(rnd(-1,1),rnd(0.2,1.4),rnd(0.2,1.2)).multiplyScalar(rnd(6,16));l.w.set(rnd(-1,1),rnd(-1,1),rnd(-1,1)).normalize();}
+  burst(ch.mid,big?22:14,[0xff6a30,0xffb060,0xff3018],3,24,0.6);glowFlash(ch.mid.clone(),0xff5a30,big?12:9,0.35);sfx('clang',null,0.8);ono(ch.mid.clone(),'パキン！','#ffb890',34);S.hot=1;};
+// 封印がくだける瞬間：小さな石のかけら（形いろいろ）・光る鎖の輪・魔法陣の破片
+msfShatter=function(S){const c=new V3(S.cx,S.ay+1,S.az);flashV=0.25;shake(1.0);sfx('boom',null,1);
+  shock(c,0xffa040,54);shock(c,0xff3028,34);burst(c.clone().add(new V3(0,4,0)),44,[0xffb040,0xff5030,0xffd090],6,34,1.0);glowFlash(c.clone().add(new V3(0,5,0)),0xff7030,24,0.5);
+  ono(c.clone().add(new V3(0,16,0)),'バキィィン!!','#ffd0a0',64);S.c1.visible=false;if(S.ped)S.ped.up.visible=false;if(S.bind)S.bind.forEach(r=>{r.visible=false;});S.st.forEach(o=>{o.t=0.001;});
+  debris(c.clone().add(new V3(0,5,0)),14,[0x4a4652,0x3a3642,0x6a6470,0x2c2a34],0.38);S.pf=1;S.lvF=1;S.flare=1;
+  // 魔法陣の破片：三角のかけら22・弧のかけら12（光る板。1回で描く）
+  const tg=new THREE.BufferGeometry();tg.setAttribute('position',new THREE.Float32BufferAttribute([-1.0,0,-0.7,1.2,0,-0.4,0,0,1.4],3));
+  const mt=col=>new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide});
+  const im=new THREE.InstancedMesh(tg,mt(0xff8a38),22);im.frustumCulled=false;S.g.add(im);
+  S.shd={im,t:0,L:[]};for(let i=0;i<22;i++){const a=i/22*6.283+rnd(-0.2,0.2),r=rnd(3,12);S.shd.L.push({p:new V3(S.cx+Math.sin(a)*r,S.ay+0.6,S.az+Math.cos(a)*r),v:new V3(Math.sin(a)*rnd(6,18),rnd(10,26),Math.cos(a)*rnd(6,18)+4),e:new THREE.Euler(rnd(0,6),rnd(0,6),rnd(0,6)),w:rnd(2,7),z:rnd(0.8,1.8)});}
+  const im2=new THREE.InstancedMesh(new THREE.TorusGeometry(1.6,0.22,4,8,1.3),mt(0xff5030),12);im2.frustumCulled=false;S.g.add(im2);
+  S.shd2={im:im2,t:0,L:[]};for(let i=0;i<12;i++){const a=i/12*6.283+rnd(-0.3,0.3),r=rnd(4,12);S.shd2.L.push({p:new V3(S.cx+Math.sin(a)*r,S.ay+1.2,S.az+Math.cos(a)*r),v:new V3(Math.sin(a)*rnd(8,20),rnd(12,28),Math.cos(a)*rnd(8,20)+4),e:new THREE.Euler(rnd(0,6),rnd(0,6),rnd(0,6)),w:rnd(2,6),z:rnd(0.9,1.7)});}};
+// 炎と魔法のぶつかり合い：魔王の手から紫の光の帯・小さないなずま・火花・床の岩のかけら（白くとばさない）
+msfClash=function(S,dt){const e=S.e;let on=false,X=MSV.c;
+  if(dt>0&&P.firing&&(charKey==='dragon'||charKey==='wyvern'||charKey==='ground')){const m=mouthPos(),c=cpos(e),v=MSV.d.subVectors(c,m),d=v.length();
+    if(d<70&&d>14&&v.angleTo(aimDir())<0.9){on=true;X.copy(m).addScaledVector(v,clamp(1-(e.r+12)/d,0.4,0.62));
+      const h=msfHand(S),hv=MSV.a.subVectors(X,h),L=hv.length()||1;if(Math.random()<0.5){MSV.b.copy(h).addScaledVector(hv,Math.random());burst(MSV.b,1,PURP,2.5,7,0.3);}
+      S.ks-=dt;if(S.ks<=0){S.ks=0.08;burst(X,3,[0xff8a30,0xe050ff,0xffb060],2.0,28,0.35);}
+      S.kb-=dt;if(S.kb<=0){S.kb=rnd(0.5,0.9);burst(X,6,PURP,2.6,36,0.3);glowFlash(X.clone(),0xc060ff,10,0.2);if(Math.random()<0.5)ono(X.clone().add(new V3(0,5,0)),'バチバチ！','#e9a0ff',30);}
+      S.m2d-=dt;if(S.m2d<=0){S.m2d=rnd(0.22,0.4);debris(new V3(X.x+rnd(-3,3),DUN.y+dunSt(X.x,X.z)+0.6,X.z+rnd(-3,3)),2,[0x5a5560,0x3e3a46,0x7a7480],0.45);}
+      S.m2r-=dt;if(S.m2r<=0){S.m2r=0.07;S.bl.forEach(b=>{b.material.rotation=rnd(0,6.3);b.userData.s=rnd(7,12);b.userData.o=rnd(0.4,0.8);b.position.set(X.x+rnd(-2,2),X.y+rnd(-2,2),X.z+rnd(-2,2));});}
+      S.sa=(S.sa||0)+dt*5;S.shl.position.copy(h).addScaledVector(hv,0.1);S.shl.lookAt(m);S.shl.rotateZ(S.sa);S.k1.position.copy(X);S.k2.position.copy(X);S.fc.position.set(X.x,DUN.y+dunSt(X.x,X.z)+0.8,X.z);
+      const fl=0.85+0.15*Math.sin(DUN.t*50);S.bm.position.copy(h).addScaledVector(hv,0.5);S.bm.quaternion.setFromUnitVectors(MSV.up,MSV.s.copy(hv).multiplyScalar(1/L));
+      S.bm.children[0].scale.set(1.5*fl,L,1.5*fl);S.bm.children[1].scale.set(0.55*fl,L,0.55*fl);}}
+  S.kw+=((on?1:0)-S.kw)*Math.min(1,dt*10);const w=S.kw,vis=w>0.03,f=0.85+0.15*Math.sin(DUN.t*31)+0.1*Math.sin(DUN.t*57);
+  S.k1.visible=S.k2.visible=S.shl.visible=S.fc.visible=S.bm.visible=vis;S.bl.forEach(b=>{b.visible=vis;if(vis){b.scale.setScalar(b.userData.s||10);b.material.opacity=(b.userData.o||0.6)*w;}});if(!vis)return;
+  S.k1.material.opacity=0.2*w;S.k1.scale.setScalar(5.5*f);S.k2.material.opacity=0.2*w;S.k2.scale.setScalar(14*f);S.shl.material.opacity=0.7*w;S.fc.material.opacity=0.4*w;S.fc.rotation.z+=dt*0.8;
+  S.bm.children[0].material.opacity=0.45*w;S.bm.children[1].material.opacity=0.55*w;};
+// 魔王の弾が、竜の炎の筋・竜の弾に重なった所に、小さな火花といなずま（見た目だけ。弾は消さない）
+function m2Proj(S,dt){if(!(S.ph===1||S.ph===4)||dt<=0)return;const ms=[],ps=[];for(const q of PROJ){if(!q.m||!q.m.parent)continue;if(q.from==='p')ps.push(q);else if(q.geo!=='arrow')ms.push(q);}
+  if(!ms.length)return;let m=null,ad=null;if(P.firing&&(charKey==='dragon'||charKey==='wyvern'||charKey==='ground')){m=mouthPos().clone();ad=aimDir().clone();}
+  for(const a of ms){if(a._m2)continue;const ap=a.m.position;
+    if(m){MSV.a.subVectors(ap,m);const t=MSV.a.dot(ad);if(t>6&&t<75){MSV.b.copy(m).addScaledVector(ad,t);if(MSV.b.distanceTo(ap)<4.5){a._m2=1;m2Hit(ap.clone());continue;}}}
+    for(const b of ps){if(b.m.position.distanceTo(ap)<4+(b.r||1)){a._m2=1;m2Hit(ap.clone());break;}}}}
+function m2Post(S,dt,rdt){if(!S.on||!S.g)return;const t=DUN.t,sn=Math.sin;
+  if(S.im&&S.im.visible){const h=S.hot||0;S.im.material.emissive.setRGB(0.78+0.2*sn(t*4)+h*0.4,0.15+h*0.25,0.07);}
+  if(S.pil.visible)S.pil.material.opacity*=(S.pf>0?0.5:S.ph<2?0.5:1);
+  if(S.m2m){const k=0.82+0.18*sn(t*2.2)+(S.lvF||0)*1.2;S.m2m.forEach(m=>{m.emissiveIntensity=k;});}
+  if(S.pgl){S.pgl.visible=S.ph<3;S.pgl.material.opacity=(S.ph<2?0.26+0.08*sn(t*2.6):0.2*Math.max(0,1-(S.ph>=3?1:S.t/1.5)))*1;}
+  if(S.shd2){const D=S.shd2;D.t+=dt;const k=D.t/1.1;if(k>=1){S.g.remove(D.im);D.im.geometry.dispose();D.im.material.dispose();S.shd2=null;}
+    else{D.L.forEach((l,i)=>{l.v.y-=22*dt;l.p.addScaledVector(l.v,dt);l.e.x+=l.w*dt;l.e.z+=l.w*0.7*dt;MSV.q.setFromEuler(l.e);MSV.s.setScalar(l.z*(1-k*0.5));MSV.m.compose(l.p,MSV.q,MSV.s);D.im.setMatrixAt(i,MSV.m);});D.im.instanceMatrix.needsUpdate=true;D.im.material.opacity=0.9*(1-k*k);}}
+  if(S.cm&&S.ped.up.visible){const k=0.5+0.5*sn(t*2.4)+(S.hot||0)*0.6;S.cm.emissive.setRGB(0.38+0.22*k,0.05+0.04*k,0.04);S.rune.rotation.y+=rdt*0.25;S.rune.material.opacity=0.65+0.3*sn(t*3);}
+  if(S.bindM)S.bindM.emissive.setRGB(0.78+0.2*sn(t*4)+(S.hot||0)*0.4,0.15,0.07);
+  // 全身解放の魔王：足の先が、床・階段・祭だんにめりこまない高さに浮かせる。まわりの赤い輪・光は足の下へ、うしろの赤い光はうすく
+  if(S.ph>=2&&S.ph<5&&S.e&&!S.e.dead){const q=S.pos;let fm=0;for(const dx of [-9,0,9])for(const dz of [-12,0,12,24])fm=Math.max(fm,dunSt(q.x+dx,q.z+dz));
+    const need=DUN.y+fm+S.H*0.5+3.5;if(S.ph>=3&&q.y<need){q.y=need;S.e.mesh.position.y=need;}
+    S.bg.material.opacity*=0.45;S.rg.forEach(r=>{r.position.y=q.y-S.H*0.5-0.4;r.material.opacity*=0.6;});}
+  m2Proj(S,dt);}
+{const p0=msfPost;msfPost=function(dt,rdt){p0.apply(this,arguments);try{m2Post(MSF,dt,rdt);}catch(er){console.warn('m2Post',er);}};}
 
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>

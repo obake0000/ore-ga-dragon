@@ -1029,5 +1029,167 @@
   "file": "logwall.glb",
   "h": 9.6,
   "ja": "丸太のかべ（とがった丸太のさく・一区画。牙の砦のかべ用。town_wall と同じ形）"
+ },
+ "orctent": {
+  "file": "orctent.glb",
+  "h": 8,
+  "ja": "オークのテント（毛皮・骨の飾り）",
+  "rot": 0
+ },
+ "orcwall": {
+  "file": "orcwall.glb",
+  "h": 8,
+  "ja": "オークの丸太の柵（一区画）",
+  "rot": 0
+ },
+ "orctower": {
+  "file": "orctower.glb",
+  "h": 28,
+  "ja": "オークの木のやぐら",
+  "rot": 0
+ },
+ "orcthrone": {
+  "file": "orcthrone.glb",
+  "h": 18,
+  "ja": "オークキングの玉座（牙つき・丸い台）",
+  "rot": 0
+ },
+ "orctotem": {
+  "file": "orctotem.glb",
+  "h": 16,
+  "ja": "オークのトーテム（火の鉢つき）",
+  "rot": 0
+ },
+ "ribcage": {
+  "file": "ribcage.glb",
+  "h": 16,
+  "ja": "竜のあばら骨（地面から突き出る）",
+  "rot": 0
+ },
+ "dkthrone": {
+  "file": "dkthrone.glb",
+  "h": 40,
+  "ja": "竜王の玉座の台（黒曜石・金の角）",
+  "rot": 0
+ },
+ "skystairs": {
+  "file": "skystairs.glb",
+  "h": 30,
+  "ja": "天の白い大階段",
+  "rot": 0
+ },
+ "skypillar": {
+  "file": "skypillar.glb",
+  "h": 24,
+  "ja": "雲をまとう白い柱",
+  "rot": 0
+ },
+ "angelfountain": {
+  "file": "angelfountain.glb",
+  "h": 8,
+  "ja": "天使の像の泉",
+  "rot": 0
+ },
+ "holycrystal": {
+  "file": "holycrystal.glb",
+  "h": 8,
+  "ja": "金色に光る聖なる水晶",
+  "rot": 0
+ },
+ "seaspire": {
+  "file": "seaspire.glb",
+  "h": 20,
+  "ja": "海の岩の塔（海藻・鳥の巣）",
+  "rot": 0
+ },
+ "buoy": {
+  "file": "buoy.glb",
+  "h": 3,
+  "ja": "鐘つきの浮き",
+  "rot": 0
+ },
+ "bonefence": {
+  "file": "bonefence.glb",
+  "h": 5,
+  "ja": "骨のとげの柵",
+  "rot": 0
+ },
+ "lavaspire": {
+  "file": "lavaspire.glb",
+  "h": 14,
+  "ja": "溶岩の割れ目のある黒い岩",
+  "rot": 0
+ },
+ "tombstones": {
+  "file": "tombstones.glb",
+  "h": 4,
+  "ja": "墓石のかたまり",
+  "rot": 0
+ },
+ "deadtree": {
+  "file": "deadtree.glb",
+  "h": 10,
+  "ja": "枯れた黒い木",
+  "rot": 0
+ },
+ "wardrum": {
+  "file": "wardrum.glb",
+  "h": 3,
+  "ja": "オークの太鼓",
+  "rot": 0
+ },
+ "bonfire": {
+  "file": "bonfire.glb",
+  "h": 3,
+  "ja": "オークのたき火（肉を焼く）",
+  "rot": 0
+ },
+ "weaponrack": {
+  "file": "weaponrack.glb",
+  "h": 3,
+  "ja": "オークの武器立て",
+  "rot": 0
+ },
+ "sandbags": {
+  "file": "sandbags.glb",
+  "h": 2,
+  "ja": "土のう（塹壕のかべ）",
+  "rot": 0
+ },
+ "hedgehog": {
+  "file": "hedgehog.glb",
+  "h": 2,
+  "ja": "鉄の障害物（有刺鉄線）",
+  "rot": 0
+ },
+ "tankwreck": {
+  "file": "tankwreck.glb",
+  "h": 3,
+  "ja": "こわれた戦車（印なし）",
+  "rot": 0
+ },
+ "container": {
+  "file": "container.glb",
+  "h": 3,
+  "ja": "ネオンの貨物コンテナ",
+  "rot": 0
+ },
+ "neonlamp": {
+  "file": "neonlamp.glb",
+  "h": 8,
+  "ja": "ネオンの街灯",
+  "rot": 0
+ },
+ "fern": {
+  "file": "fern.glb",
+  "h": 4,
+  "ja": "シダとソテツの茂み",
+  "rot": 0
+ },
+ "volcano": {
+  "file": "volcano.glb",
+  "h": 120,
+  "ja": "煙を上げる火山（遠景）",
+  "rot": 0
  }
 }
