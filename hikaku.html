@@ -34,7 +34,7 @@ small{color:#b9afcf}
 </style></head><body><main>
 <a class="back" href="./">▶ ゲームを遊ぶ</a>
 <h1>渡された絵 と ゲーム画面の見比べ</h1>
-<p><small>2026年11月15日　版 1116aar　（左：渡された絵　右：ゲームの画面）</small></p>
+<p><small>2026年11月15日　版 1116aax　（左：渡された絵　右：ゲームの画面）</small></p>
 <p class="lead">結論：11/15 の直し（谷の景色・ゴーレム・疾走感・王都・洞窟・シナリオ1のカメラ）を入れた今のゲームで、表紙の4コマと迷宮・ゴーレム・魔王・ワイバーンの衝突の絵を撮り直しました。谷の山とがけ、ゴーレムの青い光、速く飛ぶ筋、王都の明るさは絵に近づきました。洞窟と一部のワイバーンの絵は、撮り直すと前より悪かったので前のままです。まだ届いていない所は、各章の「まだちがう所」に書きました。</p>
 <p class="lead" style="font-size:15px">✍ <b>文字で指示できます。</b>各コマの下の黄色い箱で、直したい所にチェック → コピー → Claude Code に貼ってください。コマの見出しも文字で選べます。　関連：<a href="https://dragon-taihi-fumi.surge.sh/">前後の対比</a>／<a href="https://dragon-kamishibai-fumi.surge.sh/">紙芝居の一覧</a>／<a href="https://dragon-shincho-fumi.surge.sh/">身長くらべ</a></p><div class="toc"><a href="#s1">表紙の4コマ</a><a href="#s2">勇者の一行との戦い（洞窟）</a><a href="#s3">ワイバーンとの一騎打ち</a><a href="#s4">地下の迷宮</a><a href="#s5">封印の扉の前のゴーレム戦</a><a href="#s6">魔王の間</a><a href="#s7">こわれる時のかけら（前と今）</a></div>
 <section id="s1"><h2>表紙の4コマ</h2><img src="hikaku.jpg" alt="表紙の4コマ：渡された絵とゲームの画面">
@@ -71,7 +71,7 @@ small{color:#b9afcf}
 <a class="back" href="./">▶ ゲームを遊ぶ</a>　<a href="story.html">物語を1枚で読むページ</a>
 </main><div class="sjb"><div class="sjr"><span>えらんだ指示：<b class="sjn2">0</b>件</span><button type="button" class="sja">まとめてコピー</button><button type="button" class="sjv g">文を見る</button><button type="button" class="sjx g">全部はずす</button><span class="sjm2"></span></div><textarea readonly></textarea></div><script>
 (function(){
-  var CFG={"page": "見くらべ", "ver": "1116aar", "url": "https://obake0000.github.io/ore-ga-dragon/hikaku.html"},KEY='shiji_'+CFG.page;
+  var CFG={"page": "見くらべ", "ver": "1116aax", "url": "https://obake0000.github.io/ore-ga-dragon/hikaku.html"},KEY='shiji_'+CFG.page;
   var boxes=[].slice.call(document.querySelectorAll('.sj'));
   function rows(b){return [].slice.call(b.querySelectorAll('.sjp')).map(function(r){return {k:r.querySelector('.sjk'),n:r.querySelector('.sjn').textContent,i:r.querySelector('.sji')};});}
   function textOf(b){var L=[];rows(b).forEach(function(r){if(!r.k.checked)return;var v=r.i.value.trim();if(r.n==='そのほか'){if(v)L.push('・'+v);}else L.push('・'+r.n+'：'+(v||b.dataset.dflt));});

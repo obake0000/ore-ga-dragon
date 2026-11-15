@@ -937,7 +937,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aaw';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aax';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -7839,6 +7839,45 @@ const S1S={drakD:75,dungeon:[92,8],golem:[82,8,32],maou:[84,8,100]};  // maou �
 {const sw0=startWave;startWave=function(i){const K=S1S[(STAGES[stage]||{}).key];if(K&&i===0&&SCN===1&&DUN.on&&(charKey==='dragon'||charKey==='wyvern'||charKey==='ground')&&P.pos.z>K[0]+6){P.pos.z=K[0];P.pos.y=DUN.y+K[1]+(charKey==='dragon'?3:0);P.vel.set(0,0,0);}
   const r=sw0.apply(this,arguments);try{if(i===2&&SCN===1&&DUN.on&&(STAGES[stage]||{}).key==='dungeon'){const g=EN.find(e=>e.type==='drak');if(g&&g.mesh.position.z<P.pos.z-S1S.drakD)g.mesh.position.z=Math.max(-250,P.pos.z-S1S.drakD);}
   if(i===1&&SCN===1&&DUN.on&&(STAGES[stage]||{}).key==='maou'&&(charKey==='dragon'||charKey==='wyvern'||charKey==='ground')&&P.pos.z>S1S.maou[2]+6){P.pos.z=S1S.maou[2];P.vel.set(0,0,0);}if(K&&K[2]&&i===0&&SCN===1&&DUN.on&&(STAGES[stage]||{}).key==='golem'){const g=EN.find(e=>e.type==='biggolem');if(g&&g.mesh.position.z<K[2])g.mesh.position.z=K[2];}}catch(_){}return r;};}
+
+/* ---- castle_look2.py：燃える城壁・攻城やぐら・隊列・軍旗（Tripo）と、奥の城の置き直し ---- */
+// モデル1つを「高さ th」に合わせる（長い向きを x に）。形（fit）と、中の mesh の組を返す
+function clkFit(id,th,align){const M=MODEL[id];if(!M)return null;const root=M.scene.clone(true);root.rotation.y=M.rot||0;root.updateMatrixWorld(true);
+  let bb=new THREE.Box3().setFromObject(root),sz=bb.getSize(new V3());
+  if(align&&sz.z>sz.x*1.05){root.rotation.y+=Math.PI/2;root.updateMatrixWorld(true);bb=new THREE.Box3().setFromObject(root);sz=bb.getSize(new V3());}
+  const ct=bb.getCenter(new V3()),k=th/Math.max(sz.y,1e-3),fit=new THREE.Matrix4().makeScale(k,k,k).multiply(new THREE.Matrix4().makeTranslation(-ct.x,-bb.min.y,-ct.z));
+  const ms=[];root.traverse(o=>{if(o.isMesh&&!o.isSkinnedMesh)ms.push(o);});return {fit,ms,sz:sz.clone().multiplyScalar(k)};}
+// 同じ物を list（{x,y,z,ry,s}）の数だけ、InstancedMesh で置く
+function clkPlace(F,list,tint){if(!F||!list.length)return;const Q=new THREE.Quaternion(),E=new THREE.Euler(),one=new V3(1,1,1);
+  for(const o of F.ms){let mt=o.material;if(tint){mt=mt.clone();if(mt.color)mt.color.multiplyScalar(tint);}const im=new THREE.InstancedMesh(o.geometry,mt,list.length),base=o.matrixWorld;
+    list.forEach((q,i)=>{E.set(0,q.ry||0,0);Q.setFromEuler(E);const sc=q.s||1,P=new THREE.Matrix4().compose(new V3(q.x,q.y,q.z),Q,one.clone().setScalar(sc));im.setMatrixAt(i,P.multiply(F.fit).multiply(base));});
+    im.frustumCulled=false;scene.add(im);TERRAIN.push(im);}}
+function clkSpanY(x,z,L){return Math.min(floorAt(x-L/2,z),floorAt(x,z),floorAt(x+L/2,z));}
+clkWings=function(cx,cz){const zf=cz+30;CLK.tw.length=0;
+  // 1) 燃える城壁を城門の左右に長く
+  const W=clkFit('castle_wall_burning',26,true);
+  if(W){const Lw=W.sz.x,ov=Lw*0.06,st=Lw-ov,list=[];
+    for(const sd of [-1,1])for(let i=0;i<3;i++){const x0=cx+sd*(31+Lw/2-ov+i*st);if(H(x0-Lw/2,zf)<WATER+0.8||H(x0+Lw/2,zf)<WATER+0.8)continue;
+      const y=clkSpanY(x0,zf,Lw)-1.2;list.push({x:x0,y,z:zf,ry:0});CLK.tw.push({x:x0+sd*Lw*0.38,y:y+25,z:zf,s:1.3,pil:(i%2===0)?1:0});}
+    clkPlace(W,list,1.6);}
+  // 2) 攻城やぐら（かざり）。町の家・隊列・本物の投石機を避けた所
+  const SG=clkFit('siege_tower',18,false);
+  if(SG){const list=[[-112,-186,0],[112,-186,0]].filter(([x,z])=>H(x,z)>WATER+1.5).map(([x,z,ry])=>({x,y:floorAt(x,z)-0.3,z,ry}));clkPlace(SG,list);}
+  // 隊列のかたまり（かざり）：左の草地・右の外・城の中庭のうしろ
+  const AB=clkFit('army_block',4,false);
+  if(AB){const sx=AB.sz.x||20,list=[[-72,-76,0],[72,-76,0],[-118,-82,0],[118,-82,0],[-170,-150,0],[-60,-262,0]].filter(([x,z])=>H(x,z)>WATER+1.5).slice(0,3).map(([x,z,ry])=>({x,y:floorAt(x,z)-0.2,z,ry,s:Math.min(1.4,24/sx)}));clkPlace(AB,list);}
+  // 3) 軍旗（隊の間）
+  const WB=clkFit('war_banner',12,false);
+  if(WB){const list=[[-61,-165],[61,-165],[-10,-153],[10,-153]].filter(([x,z])=>H(x,z)>WATER+1.5).map(([x,z])=>({x,y:floorAt(x,z)-0.2,z,ry:0}));clkPlace(WB,list);}
+  // かざりの投石機（当たり・攻撃なし）
+  [[-66,-140,0],[-22,-132,0],[22,-132,0],[66,-140,0]].forEach(([x,z,ry])=>{const g=new THREE.Group();const b=new THREE.Mesh(new THREE.BoxGeometry(11,9,14),new THREE.MeshBasicMaterial({visible:false}));b.position.y=4.5;g.add(b);
+    g.position.set(x,floorAt(x,z),z);g.rotation.y=ry;if(!attachModel(g,'catapult')){const w=mat(0x7a5a34);const a=box(1.2,1.2,12,w);a.position.set(0,6,0);a.rotation.x=-0.5;g.add(a);const bs=box(7,2,9,w);bs.position.y=1;g.add(bs);}scene.add(g);TERRAIN.push(g);});};
+// 煙の柱をうすく・細く（空をおおわない）
+{const up=updParts;updParts=function(dt){up.apply(this,arguments);for(const p of CLK.pil){if(p.life<=0)continue;p.s.material.opacity*=0.5;p.s.scale.multiplyScalar(0.75);}};}
+// 4) 奥の城：王都の章だけ、遠景の白い王城を小さくして奥へ
+function clkRoyal(n){for(let i=n;i<TERRAIN.length;i++){const g=TERRAIN[i];if(!g||!g.isGroup)continue;const h=new THREE.Box3().setFromObject(g).getSize(new V3()).y;
+  if(h>180&&h<260){g.scale.multiplyScalar(0.5);g.position.set(30,H(30,-380)-42,-380);if(WORLD&&WORLD.royal)WORLD.royal.set(30,g.position.y+90,-380);return;}}}
+{const bw=buildWorld;buildWorld=function(L){const n=TERRAIN.length,r=bw.apply(this,arguments);if(L==='castle'){try{clkRoyal(n);}catch(e){console.warn('clkRoyal',e);}}return r;};}
 
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
