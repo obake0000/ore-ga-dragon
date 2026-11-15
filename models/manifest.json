@@ -270,7 +270,7 @@
  "cerberus": {
   "file": "cerberus.glb",
   "h": 7,
-  "ja": "ケルベロス",
+  "ja": "ケルベロス（骨入り・歩く動き）",
   "rot": 0
  },
  "dragonking": {
@@ -1190,6 +1190,30 @@
   "file": "volcano.glb",
   "h": 120,
   "ja": "煙を上げる火山（遠景）",
+  "rot": 0
+ },
+ "priest": {
+  "file": "priest.glb",
+  "h": 2.3,
+  "ja": "僧侶（白い法衣・胸に金の太陽・骨入り idle・cast_a_spell）",
+  "rot": 0
+ },
+ "p8face": {
+  "file": "p8face.glb",
+  "h": 3,
+  "ja": "ポリゴンの顔（白と水色の多面体の仮面）",
+  "rot": 0
+ },
+ "p8goddess": {
+  "file": "p8goddess.glb",
+  "h": 5,
+  "ja": "女神（光輪・長い衣・骨入り。ゲームでは線だけで光らせる）",
+  "rot": 0
+ },
+ "orcgeneral": {
+  "file": "orcgeneral.glb",
+  "h": 3.4,
+  "ja": "オーク将軍（角の兜・とげの肩当て・大斧・骨入り idle・walk・slash・斧のたたきつけ）",
   "rot": 0
  }
 }
