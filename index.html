@@ -1098,7 +1098,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBC';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTY';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -5056,7 +5056,7 @@ function hitEnemy(e,n){if(e.dead)return;
   if(e.hp<=0)killEnemy(e);}
 const drkLift=0.173;{const _ae=addEnemy;addEnemy=function(type){const e=_ae.apply(this,arguments);try{if(type==='drak'&&e&&e.mesh&&!e.dl){e.dl=1;const h=e.mesh.children[e.mesh.children.length-1];if(h&&h.isGroup)h.position.y+=drkLift;}}catch(_){}return e;};}
 const DIE={orctank:'わ、わしの……デラックス戦車が……！',ogre:'グ……オオ……',drak:'……見事だ。同じ、竜の血か……',biggolem:'……ゴ、ゴゴ……',wizard:'そんな…わしの魔力が…',hero:'すまない…みんな…',demon:'この私が…トカゲごときに…',rival:'…強くなったな。',wooddragon:'……ギギ……ギ……',walker:'城が……ローンが、まだ……',elder:'見事だ、若き竜よ。空はお前のものだ。',battleship:'総員、退艦…！ 泳げる者から…！',bigairship:'空の…王の船が…！',kraken:'ゴボ…ゴボボ……'};
-function killEnemy(e,quiet){if(e.dead)return;if(e.boss&&state==='play'&&!quiet)bossSweep();if(e.boss&&state==='play'&&!quiet&&!WV.majT)WV.maj=String(e.boss).replace(/^\S+\s+/,'').replace(/（.*?）/g,'');if(e.s6x&&!quiet&&state==='play'){s6xCrumble(e);quiet=true;}e.dead=true;if(e.king&&!e.tk2&&state==='play'&&!quiet&&ST.orctank){e.tk2=1;const q=e.mesh.position,t=addEnemy('orctank',q.x,q.z);t.said=1;tankRider(t.mesh,26,36,0);say('オークキング','まだだ！ わしには、デラックス戦車がある！');shake(0.6);}if((e.boss||e.type==='biggolem'||e.type==='bigskel')&&state==='play'&&!quiet)bossFall(e);else if(state==='play'&&!quiet&&dieOk(e))dieFall(e);else scene.remove(e.mesh);if(e.type==='bigslime'&&state==='play'&&!quiet)slimeSplit(e);score+=e.val;kills++;addXp(e.val);
+function killEnemy(e,quiet){if(e.dead)return;if(e.boss&&state==='play'&&!quiet)bossSweep();if(e.boss&&state==='play'&&!quiet&&!WV.majT)WV.maj=String(e.boss).replace(/^\S+\s+/,'').replace(/（.*?）/g,'');if(e.s6x&&!quiet&&state==='play'){s6xCrumble(e);quiet=true;}e.dead=true;if(false&&e.king&&!e.tk2&&state==='play'&&!quiet&&ST.orctank){e.tk2=1;const q=e.mesh.position,t=addEnemy('orctank',q.x,q.z);t.said=1;tankRider(t.mesh,26,36,0);say('オークキング','まだだ！ わしには、デラックス戦車がある！');shake(0.6);}if((e.boss||e.type==='biggolem'||e.type==='bigskel')&&state==='play'&&!quiet)bossFall(e);else if(state==='play'&&!quiet&&dieOk(e))dieFall(e);else scene.remove(e.mesh);if(e.type==='bigslime'&&state==='play'&&!quiet)slimeSplit(e);score+=e.val;kills++;addXp(e.val);
   if(state==='play'){combo++;comboT=3.5;if(combo>maxCombo)maxCombo=combo;score+=Math.round(e.val*Math.min(combo,40)*0.05);showCombo();}
   const c=cpos(e);burst(c,e.fall?16:e.boss?70:14,e.type==='rival'?(e.wyv?WGRN:BLUE):e.type==='demon'||e.type==='imp'?PURP:e.type==='slime'?GOO:FIRE,e.fall?4:e.boss?9:3,e.boss?50:16,e.boss?1.4:0.7);
   if(!quiet)sfx(e.boss?'boom':'small',c,e.boss?1:0.5);if(e.boss)ono(c,'ズドーン!!','#ff5a1a',72);else if(e.r>=4)ono(c,'ドカッ！','#ffd23a',40);
@@ -5927,7 +5927,7 @@ const STAGES=[
    waves:[
     {name:'竜王の親衛',msg:'⚔️ 竜王の親衛の竜たちが、玉座の前に立ちふさがる！',mood:8,go(){for(let i=0;i<2;i++)s5Spawn('bone',...s5Ring(120,170),P.pos.y+rnd(18,30));for(let i=0;i<7;i++)s5Spawn('guard',...s5Ring(110,190),P.pos.y+rnd(8,30));sfx('roar');}},
     {name:'親衛の精鋭',msg:'⚔️ 親衛の精鋭が、黒い翼をそろえて舞いおりる！',mood:8,go(){for(let i=0;i<2;i++)s5Spawn('bone',...s5Ring(120,170),P.pos.y+rnd(18,30));s5Spawn('thun',...s5Ring(120,170),P.pos.y+rnd(18,30));for(let i=0;i<6;i++)s5Spawn('guard',...s5Ring(110,190),P.pos.y+rnd(8,30));sfx('roar');}},
-    {name:'竜王',msg:'👑 黒い雲が割れ、竜王が舞いおりる！',mood:4,go(){const b=s5Spawn('king',0,-210,P.pos.y+70);sfx('roar');}}]},
+    {name:'竜王',msg:'👑 玉座から、黒いよろいの男が立ち上がる。……竜王の、人の姿だ！',mood:4,go(){dkHuman();sfx('roar');}}]},
 
   {key:'p8war',p8:1,ch:'第1章',title:'鉄と煙の世界',place:'灰色の戦線',
    ter:{amp:0.28,ox:1500,oz:900,flats:[[0,120,55,3,1],[0,-115,140,2,1]],dirt:[[0,-115,150],[0,120,60]],grass:0x5e6248,hill:0x55583f,rock:0x5a564e,snow:0x8a8880,sand:0x4e4a38,dirtC:0x5c5138,water:0x4a4a38,trees:0,rocks:16,rockC:0x55524a,ruins:-1,stacks:0,spires:0,start:[0,120]},
@@ -10020,7 +10020,7 @@ const PK15={
  p8war:[['p8ruin',24,6,1.5],['sandbags',30,2.5,2],['hedgehog',20,3,1.2],['container',20,3.4,2.2],['tankwreck',10,4,2],['p8tower',10,12,0.5]],
  p8robo:[['container',26,3.4,2.2],['neonlamp',24,9,0.25],['p8tower',16,14,0.5],['p8ruin',20,6,1.5],['deb_metal',20,3,1.6]],
  p8dino:[['p8gianttree',14,14,0.6],['fern',30,4,1.2],['p8bones',24,5,1.8],['p8ruin',20,6,1.5],['rock_big',20,5,1.2]],
- p8anc:[['anc_hut',30,9,1.4],['anc_hall',6,16,1.6],['anc_kofun',4,16,2.2],['anc_stone',14,10,0.4],['anc_dotaku',10,6,0.6],['rocktorii',8,12,1]],
+ p8anc:[['anc_hut',50,13,1.4],['anc_hall',14,26,1.6],['anc_kofun',8,26,2.2],['anc_stone',20,16,0.4],['anc_dotaku',14,10,0.6],['rocktorii',10,16,1]],
  p8poly:[['p8tower',26,40,0.4],['p8neonbldg',22,36,0.45],['p8apart',18,30,0.55],['container',30,6,2.2],['p8ruin',30,12,1.4],['neonlamp',16,10,0.25],['col_broken',24,12,0.5]]};
 function bldPack15(key){const L=PK15[key];if(!L)return 0;const st=TER.start||[0,120],dun=DUN.on;let tot=0;
   for(const [id,n,h,asp] of L){let put=0;
@@ -10120,25 +10120,25 @@ function carbotTick(dt){CARBOT.t-=dt;if(CARBOT.t>0)return;CARBOT.t=0.2;if(!MODEL
 const Y9MD={a:3,b:5,c:10};
 ALLST.push(
  {key:'y9town',ch:'第1章',title:'百鬼夜行',place:'妖怪の城下町',
-  ter:{amp:0.5,ox:2300,oz:-800,flats:[[0,-90,150,3,1],[0,120,50,3,1]],dirt:[[0,-90,130],[0,120,40]],grass:0x3e5634,hill:0x44503a,leaf:0x2e4a2c,trunk:0x4a3020,trees:260,rocks:20,start:[0,120]},
+  ter:{amp:0.7,ox:2300,oz:-800,flats:[[0,-90,150,3,1],[0,120,50,3,1]],dirt:[[0,-90,130],[0,120,40]],grass:0x4a3036,hill:0x3c2c32,rock:0x4a3c40,sand:0x2a1a14,dirtC:0x2a1c18,water:0xff5a1a,lava:true,leaf:0x3a2a30,trunk:0x2a2026,trees:160,rocks:30,start:[0,120]},
   story:['女神の書類が、また一枚ふえた。「次は、東のはての島国です。妖怪が、ちょっと多めです」','ついた先は、夜の城下町。赤い提灯の下を、鬼と折り紙の鳥と、からくり人形が歩いている。','町の奥の城に住むのは、妖怪の総大将・ぬらりひょん。留守番の鬼たちが、竜を見つけて騒ぎだした。'],
   waves:[
    {name:'百鬼夜行',msg:'👹 提灯の下を、鬼の行列がやってくる！',mood:Y9MD.a,clr:'🏃 行列は、ちりぢりになった！ 体力が少し回復',go(){s8Grp('y_oni',14,0,-60,100,30);s8Grp('y_clock',8,0,-110,80,20);s8Air('y_origami',10);}},
    {name:'女狩人と黒曜の僧',msg:'🏹 屋根の上から、竜狩りの女狩人がねらっている！',mood:Y9MD.a,go(){s8Grp('y_hunter',8,0,-90,110,40);s8Grp('y_monk',5,0,-140,80,20);s8Grp('y_oni',10,0,-70,100,30);s8Air('y_origami',8);}},
    {name:'火をふく大ガマ',msg:'🐸 地ひびきとともに、火をふく大ガマがあらわれた！',mood:Y9MD.a,go(){const b=s8Spawn('y_toad',0,-150,undefined,{boss:'🐸 火をふく大ガマ',sc:2.3});if(b){b.die='……ゲコォ……（火が消えた）';s8BossIn(b,'🐸','火をふく大ガマ');}s8Grp('y_oni',8,0,-100,90,30);s8Air('y_origami',6);}}]},
  {key:'y9castle',ch:'第2章',title:'からくり城',place:'からくりの城',
-  ter:{amp:0.3,ox:2600,oz:-1100,flats:[[0,-150,120,3,1],[0,120,50,3,1]],dirt:[[0,-150,110]],grass:0x4a5a3a,hill:0x52583e,trees:120,rocks:16,start:[0,120]},
+  ter:{amp:0.5,ox:2600,oz:-1100,flats:[[0,-150,120,3,1],[0,120,50,3,1]],dirt:[[0,-150,110]],grass:0x4a3438,hill:0x40303a,rock:0x4a3c44,sand:0x2a1a14,dirtC:0x2a1c18,water:0xff5a1a,lava:true,trees:90,rocks:24,start:[0,120]},
   story:['城の門をくぐると、歯車の音がした。石垣の上を、木のからくり人形が、かたかたと歩いている。','「総大将は、天守の上で月見の最中である」と、からくり人形は言った。言いおわると、刀をぬいた。','天守のかげで、巨大な何かが、ゆっくりと起き上がった。'],
   waves:[
-   {name:'からくりの兵',msg:'⚙️ からくり人形の兵が、歯車を鳴らして進んでくる！',mood:Y9MD.b,clr:'🏃 からくりは、止まった！ 体力が少し回復',go(){s8Grp('y_karakuri',6,0,-90,90,30);s8Grp('y_clock',10,0,-60,100,30);s8Grp('y_hunter',6,0,-130,90,20);s8Air('y_kite',4);}},
-   {name:'鎧ガニと大凧',msg:'🦀 堀から鎧のカニ妖怪がはい上がり、空には大凧！',mood:Y9MD.b,go(){s8Grp('y_crab',4,0,-100,100,40);s8Air('y_kite',6);s8Grp('y_oni',10,0,-70,100,30);s8Grp('y_monk',4,0,-140,80,20);}},
+   {name:'からくりの兵',msg:'⚙️ からくり人形の兵が、歯車を鳴らして進んでくる！',mood:Y9MD.b,clr:'🏃 からくりは、止まった！ 体力が少し回復',go(){s8Grp('y_karakuri',6,0,-90,90,30);s8Grp('y_clock',10,0,-60,100,30);s8Grp('y_hunter',6,0,-130,90,20);s8Air('y_kite',3);s8Air('y_heli',6);s8Air('y_warboat',3);}},
+   {name:'鎧ガニと大凧',msg:'🦀 堀から鎧のカニ妖怪がはい上がり、空には大凧！',mood:Y9MD.b,go(){s8Grp('y_crab',4,0,-100,100,40);s8Air('y_kite',4);s8Air('y_heli',5);s8Grp('y_oni',10,0,-70,100,30);s8Grp('y_monk',4,0,-140,80,20);y9Giants(2);}},
    {name:'侍の鎧の巨兵',msg:'🏯 天守のかげから、侍の鎧の巨兵が立ち上がった！',mood:Y9MD.b,go(){const b=s8Spawn('y_mech',0,-170,undefined,{boss:'🏯 侍の鎧の巨兵'});if(b){b.die='……ギ……ギ……（大きな歯車が、とまった）';s8BossIn(b,'🏯','侍の鎧の巨兵');}s8Grp('y_karakuri',4,0,-120,90,30);s8Air('y_kite',3);}}]},
  {key:'y9lord',ch:'最終章',title:'ぬらりひょん',place:'月見の天守',
-  ter:{amp:0.6,ox:2900,oz:-1400,flats:[[0,-160,120,3,1],[0,120,50,3,1]],dirt:[[0,-160,100]],grass:0x34402e,hill:0x3a4234,leaf:0x2a3a28,trunk:0x3a2a1a,trees:200,rocks:24,start:[0,120]},
+  ter:{amp:0.8,ox:2900,oz:-1400,flats:[[0,-160,120,3,1],[0,120,50,3,1]],dirt:[[0,-160,100]],grass:0x3a2a34,hill:0x34262e,rock:0x44363e,sand:0x2a1a14,dirtC:0x241818,water:0xff5a1a,lava:true,leaf:0x3a2440,trunk:0x2a2228,trees:120,rocks:30,start:[0,120]},
   story:['天守の上は、満月だった。蓮の台の上で、頭の長い老人が、のんびり茶をすすっている。','「よう来なすった、竜どの。わしの家で好き勝手とは、なかなかの客じゃ」','白い狐と麒麟が、総大将のまわりに集まった。夜は、まだ長い。'],
   waves:[
    {name:'白狐と麒麟',msg:'🦊 白い狐の群れと、空かける麒麟があらわれた！',mood:Y9MD.c,clr:'🏃 狐たちは、霧にきえた！ 体力が少し回復',go(){s8Grp('y_fox',6,0,-90,100,40);s8Air('y_kirin',4);s8Grp('y_fiery',2,0,-130,60,20);s8Grp('y_oni',10,0,-70,100,30);}},
-   {name:'火の竜',msg:'🐉 赤い火の竜が、月をよこぎった！',mood:Y9MD.c,go(){s8Air('y_fdragon',3);s8Grp('y_monk',6,0,-120,90,30);s8Grp('y_hunter',8,0,-90,100,40);s8Air('y_origami',8);}},
+   {name:'大妖怪の行進',msg:'👹 山のような大妖怪が、何体も城下へなだれこむ！',mood:Y9MD.c,go(){y9Giants(5);s8Grp('y_hunter',8,0,-90,100,40);s8Air('y_origami',8);s8Air('y_heli',4);}},
    {name:'ぬらりひょん',msg:'🍶 妖怪の総大将・ぬらりひょんが、ゆらりと立ち上がった！',mood:Y9MD.c,go(){const b=s8Spawn('y_nura',0,-180,P.pos.y+14,{boss:'🍶 ぬらりひょん'});if(b){b.die='……ほっほ。……今夜の月は、きれいじゃった……';s8BossIn(b,'🍶','ぬらりひょん');}s8Grp('y_fox',4,0,-130,80,30);s8Air('y_kirin',2);}}]});
 for(const k of ['y9town','y9castle','y9lord']){const S=ALLST.find(q=>q.key===k);S.waves.forEach(w=>{const g=w.go;w.go=function(){const n=EN.length;g.apply(this,arguments);for(let i=EN.length-1;i>=n;i--){const e=EN[i];if(e&&!e.s8&&!e.boss){scene.remove(e.mesh);EN.splice(i,1);}}};});}  // 妖怪の目じるしの無い余分な兵は出さない
 SCK[9]=['y9town','y9castle','y9lord'];SCNM[9]='ぬらりひょん編';
@@ -10168,7 +10168,7 @@ function y9World(key){
   if(key==='y9castle'){bldPut('y_tenshu',0,-200,48,62,48,2400,1200,'keep',0);[[-90,-150],[90,-150]].forEach(([x,z])=>bldPut('y_pagoda',x,z,14,40,14,600,300,'tower',0));}
   if(key==='y9lord'){bldPut('y_tenshu',0,-230,48,62,48,2400,1200,'keep',0);bldPut('y_lotus',0,-180,18,6,18,400,200,'stall',0);[[-30,-170],[30,-170]].forEach(([x,z])=>bldPut('y_bronzebell',x,z,5,7,5,120,60,'stall',0));}
   const M=MASS[key];if(M)bldMass(M[0],M[1],M[2],M[3],M[4],M[5]);}
-DECOR15.y9town=[['y_toro',16,4.5],['rocktorii',3,22]];DECOR15.y9castle=[['y_toro',12,4.5]];DECOR15.y9lord=[['y_toro',12,4.5],['rocktorii',2,22]];
+DECOR15.y9town=[['y_toro',16,4.5],['rocktorii',3,22],['lavaspire',8,18],['volcano',2,60,'far']];DECOR15.y9castle=(DECOR15.y9castle||[]).concat([['lavaspire',7,18],['volcano',2,60,'far']]);DECOR15.y9lord=(DECOR15.y9lord||[]).concat([['lavaspire',8,20],['volcano',2,70,'far']]);DECOR15.y9castle=[['y_toro',12,4.5]];DECOR15.y9lord=[['y_toro',12,4.5],['rocktorii',2,22]];
 {const ss9=setupStage;setupStage=function(i){ss9.apply(this,arguments);try{const S=STAGES[i];if(S)y9World(S.key);}catch(err){console.error('y9World',err);}};}
 // ---- 並行世界：装甲列車・UFO・変形ロボ・未来の戦車を、波に足す ----
 {const W=ALLST.find(q=>q.key==='p8war');if(W)W.waves.push({name:'装甲列車',msg:'🚂 汽笛とともに、装甲列車が戦線に突っこんでくる！',get mood(){return S8MD?S8MD.b:0;},go(){
@@ -10361,6 +10361,44 @@ function maouSkin(dm){if(!MODEL.anc_darkdemon||dm.mskin)return;dm.mesh.updateMat
   const b3=new THREE.Box3().setFromObject(m),c=b3.getCenter(new V3());m.position.x-=c.x;m.position.z-=c.z;m.position.y-=b3.min.y;
   m.traverse(o=>{if(o.isMesh&&o.material){const L=Array.isArray(o.material)?o.material:[o.material];o.material=L.map(mt=>{const q=mt.clone();if(q.color)q.color.multiplyScalar(0.22);if('emissive' in q){q.emissive=new THREE.Color(0x2a0838);q.emissiveIntensity=0.6;}return q;});if(o.material.length===1)o.material=o.material[0];}});
   dm.mesh.traverse(o=>{if(o.isMesh||o.isSkinnedMesh)o.visible=false;});const g=new THREE.Group();g.add(m);const s0=dm.mesh.scale.x||1;g.scale.setScalar(1/s0);g.position.y=(bb.min.y-dm.mesh.position.y)/s0;dm.mesh.add(g);dm.mskin=g;}
+// ---- 11/16 ふみさん「海王・ゴブリンキング（戦車）は体力半分で変形」「竜王は人の姿から、体力半分で巨大化」 ----
+function dkHuman(){const h=addEnemy('wizard',0,-170,undefined,{model:MODEL.blackknight?'blackknight':undefined});h.mesh.scale.multiplyScalar(2.2);h.r*=2.2;h.hc*=2.2;h.boss='👑 竜王（人の姿）';h.nm='竜王';h.hp=h.maxHp=EASY?900:1800;h.val=800;h.dkh=1;h.said=1;
+  try{h.mesh.traverse(o=>{if(o.isMesh&&o.material&&o.material.color){o.material=o.material.clone();o.material.color.lerp(new THREE.Color(0xc8a040),0.25);if('emissive' in o.material)o.material.emissive=new THREE.Color(0x3a1a00);}});}catch(_){}
+  try{bubble(h,'千年竜か。……竜の王の座は、一つしかない','boss',2.6);}catch(_){}try{bossZoom(h);}catch(_){}}
+function tfTick(){if(state!=='play')return;for(const e of EN){if(e.dead||e.tfd)continue;const half=e.hp<e.maxHp*0.5;if(!half)continue;
+  if(e.king&&!e.tk2&&ST.orctank){e.tfd=1;e.tk2=1;const q=e.mesh.position.clone(),t=addEnemy('orctank',q.x,q.z);t.said=1;tankRider(t.mesh,26,36,0);t.boss='👑 オークキング（デラックス戦車）';t.hp=t.maxHp=Math.round(e.maxHp*0.7);t.val=e.val;
+    killEnemy(e,true);glowFlash(q,0xffd060,40,0.6);smoke(q,14,10,3,0x8a7a58,6);shake(0.8);sfx('boom',q,1);try{say('オークキング','まだだ！ わしには、デラックス戦車がある！');}catch(_){}ono(q.clone().add(new V3(0,14,0)),'変形！ デラックス戦車！','#ffd060',56);try{bossZoom(t);}catch(_){}continue;}
+  if(e.s7==='king'&&e.ph===1){e.tfd=1;try{skStartTf(e);}catch(_){}continue;}
+  if(e.dkh){e.tfd=1;const q=e.mesh.position.clone();killEnemy(e,true);glowFlash(q,0xff6020,60,0.8);burst(q,80,FIRE,8,50,1.2);shake(1);sfx('roar',q,1);
+    const b=s5Spawn('king',q.x,q.z-30,P.pos.y+50);if(b){b.hp=Math.round(b.maxHp*0.6);ono(q.clone().add(new V3(0,20,0)),'竜王が、本当の姿をあらわした！','#ff9050',60);try{bossZoom(b);}catch(_){}}continue;}}}
+{const ut15=updTheme;updTheme=function(dt,t){ut15.apply(this,arguments);try{tfTick();}catch(err){console.warn('tf',err);}};}
+// ---- 11/16 ぬらりひょん編の直し ----
+Object.assign(S8K,{
+ y_heli:{base:'griffin',mid:'y_heli',fb:()=>makeProxy(5,3,5,0x8a6a3a),sc:1,hp:220,r:2.6,hc:0,val:110,dmg:10,ai:y9FlyGun},
+ y_warboat:{base:'griffin',mid:'y_warboat',fb:()=>makeProxy(4,4,9,0x8a5a3a),sc:1.4,hp:520,r:4,hc:0,val:220,dmg:12,ai:y9FlyGun},
+ y_giant:{base:'biggolem',mid:'y_fierywarrior',fb:()=>makeProxy(6.1,10.4,4.8,0xc04020),sc:1,hp:2400,r:12,hc:14,val:900,dmg:24}});
+function y9FlyGun(e,dt,p,dx,dz,hd){e.fg=(e.fg||rnd(1,3))-dt;if(e.fg<=0&&hd<160){e.fg=rnd(1.6,2.6);const f=cpos(e).clone();try{s8Shoot(f,110,'bul',5,0.4);}catch(_){}}}
+// 40m 級の大妖怪：鬼・火の武者・大ガマを大きくして何体も出す
+function y9Giants(n){const K=[['y_fiery',4.2],['y_oni',14],['y_toad',4.5],['y_samurai',1]];for(let i=0;i<s8N(n);i++){const [id,sc]=K[i%3];const [x,z]=ringPos(110,190);const e=s8Spawn(id,x,z,undefined,{sc:sc,hk:6,val:700,dmg:22});if(e){e.giant=1;e.nm='大妖怪';e.r=Math.max(e.r,10);}}}
+// 城を増やして、屋根に弓兵
+Object.assign(PK15,{y9town:[['y_tenshu',5,34,0.8],['y_pagoda',4,30,0.4],['y_machiya1',30,8,1.4],['y_machiya2',30,8,1.4]],y9castle:[['y_tenshu',8,40,0.8],['y_pagoda',4,30,0.4],['y_machiya1',20,8,1.4]],y9lord:[['y_tenshu',6,40,0.8],['y_pagoda',5,32,0.4],['y_machiya2',20,8,1.4]]});
+function y9Archers(){const L=BLD.filter(b=>!b.dead&&b.g&&b.g.userData&&(b.g.userData.mid==='y_tenshu'||b.g.userData.mid==='y_pagoda')).slice(0,8);for(const b of L){const c=b.box.getCenter(new V3());const e=s8Spawn('y_hunter',c.x,c.z,b.box.max.y-1);if(e){e.perch=true;e.spd=0.01;}}}
+{for(const k of ['y9town','y9castle','y9lord']){const S=ALLST.find(q=>q.key===k);if(!S)continue;S.waves.forEach(w=>{const g=w.go;w.go=function(){g.apply(this,arguments);try{y9Archers();}catch(err){console.warn('y9arch',err);}};});}}
+// ぬらりひょん：攻撃に反応して横へ消える（残像）・まわりを妖怪がぐるぐる回り、だんだん増える・一列に妖怪を呼ぶ
+function ghostAt(obj,col){try{const g=obj.clone(true);g.traverse(o=>{if(o.isMesh){o.material=new THREE.MeshBasicMaterial({color:col||0xb070ff,transparent:true,opacity:0.45,depthWrite:false});}});g.position.copy(obj.position);g.rotation.copy(obj.rotation);g.scale.copy(obj.scale);scene.add(g);let t=0;const f=()=>{t+=0.05;g.traverse(o=>{if(o.isMesh)o.material.opacity=Math.max(0,0.45-t*0.9);});if(t<0.5)setTimeout(f,50);else scene.remove(g);};f();}catch(_){}}
+function nuraTick(dt){for(const e of EN){if(e.dead||e.s8!=='y_nura')continue;const p=e.mesh.position;
+  // 自動回避
+  e.dodgeCd=(e.dodgeCd||0)-dt;if(e.dodgeCd<=0){for(const q of PROJ){if(q.from!=='p'||!q.m)continue;const d=q.m.position.distanceTo(cpos(e));if(d<e.r+16&&Math.random()<0.75){ghostAt(e.mesh,0xb070ff);const v=q.vel.clone().setY(0).normalize();const sd=new V3(-v.z,0,v.x).multiplyScalar(Math.random()<0.5?18:-18);p.add(sd);e.dodgeCd=0.9;ono(cpos(e).clone().add(new V3(0,6,0)),'すいっ','#d8b0ff',30);break;}}}
+  // まわりを回る妖怪（だんだん増える）
+  e.orb=e.orb||[];e.orbT=(e.orbT||1)-dt;if(e.orbT<=0&&e.orb.length<(e.hp<e.maxHp/2?18:12)){e.orbT=3.5;const m=s8Spawn(Math.random()<0.5?'y_origami':'y_fox',p.x,p.z,p.y+4);if(m){m.orbit=1;m.perch=true;e.orb.push(m);}}
+  e.orb=e.orb.filter(m=>!m.dead);e.orA=(e.orA||0)+dt*1.4;e.orb.forEach((m,i)=>{const a=e.orA+i*Math.PI*2/e.orb.length,R=16+(i%3)*5;m.mesh.position.set(p.x+Math.cos(a)*R,p.y+3+Math.sin(e.orA*2+i)*2,p.z+Math.sin(a)*R);m.mesh.rotation.y=a+Math.PI/2;});
+  // 一列に妖怪を呼んで突っこませる
+  e.lineT=(e.lineT||8)-dt;if(e.lineT<=0){e.lineT=e.hp<e.maxHp/2?7:10;const dx=P.pos.x-p.x,dz=P.pos.z-p.z,L=Math.hypot(dx,dz)||1,ux=dx/L,uz=dz/L,sx=-uz,sz=ux;for(let i=-4;i<=4;i++){const x=p.x+ux*12+sx*i*6,z=p.z+uz*12+sz*i*6;const m=s8Spawn('y_oni',x,z);if(m){m.rush=1;m.rx=ux;m.rz=uz;m.rt=4;}}
+    try{bubble(e,'百鬼、横一列に並べい！','boss',1.8);}catch(_){}sfx('roar',p,0.6);}}
+  for(const m of EN){if(m.dead||!m.rush)continue;m.rt-=dt;const p2=m.mesh.position;p2.x+=m.rx*28*dt;p2.z+=m.rz*28*dt;m.mesh.rotation.y=Math.atan2(m.rx,m.rz);if(m.rt<=0)m.rush=0;if(cpos(m).distanceTo(P.pos)<m.r+3&&!m.rh){m.rh=1;hurt(m.dmg||8);}}}
+// レッドキャップ（遊ぶ側）：敵の攻撃に反応して横へ跳ぶ（残像）
+function rcDodge(dt){if(state!=='play'||charKey!=='redcap'||!D)return;P.rcd=(P.rcd||0)-dt;if(P.rcd>0)return;for(const q of PROJ){if(q.from==='p'||!q.m)continue;const d=q.m.position.distanceTo(P.pos);if(d<9&&Math.random()<0.6){ghostAt(D.g,0xff6040);const v=q.vel.clone().setY(0).normalize();P.pos.add(new V3(-v.z,0,v.x).multiplyScalar(Math.random()<0.5?9:-9));P.inv=Math.max(P.inv,0.5);P.rcd=1.2;ono(P.pos.clone().add(new V3(0,4,0)),'ひらり','#ffb090',26);break;}}}
+{const ut16=updTheme;updTheme=function(dt,t){ut16.apply(this,arguments);try{nuraTick(dt);rcDodge(dt);}catch(err){console.warn('nura',err);}};}
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
 </body>
