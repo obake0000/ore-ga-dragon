@@ -1509,5 +1509,71 @@
   "h": 6,
   "ja": "オーク将軍の大オオカミ（骨入り Walk）",
   "rot": 0
+ },
+ "anc_dogu": {
+  "file": "anc_dogu.glb",
+  "h": 4,
+  "ja": "土偶の兵（遮光器土偶）",
+  "rot": 0
+ },
+ "anc_haniwa": {
+  "file": "anc_haniwa.glb",
+  "h": 4,
+  "ja": "埴輪の兵",
+  "rot": 0
+ },
+ "anc_dogutemple": {
+  "file": "anc_dogutemple.glb",
+  "h": 40,
+  "ja": "土偶の頭の浮かぶ神殿",
+  "rot": 0
+ },
+ "anc_dragonfly": {
+  "file": "anc_dragonfly.glb",
+  "h": 5,
+  "ja": "土器の大トンボ",
+  "rot": 0
+ },
+ "anc_bear": {
+  "file": "anc_bear.glb",
+  "h": 7,
+  "ja": "神獣のクマ",
+  "rot": 0
+ },
+ "anc_boar": {
+  "file": "anc_boar.glb",
+  "h": 4,
+  "ja": "大イノシシ",
+  "rot": 0
+ },
+ "anc_mammoth": {
+  "file": "anc_mammoth.glb",
+  "h": 14,
+  "ja": "マンモスのような獣",
+  "rot": 0
+ },
+ "anc_chief": {
+  "file": "anc_chief.glb",
+  "h": 3.4,
+  "ja": "古代の族長",
+  "rot": 0
+ },
+ "anc_sunking": {
+  "file": "anc_sunking.glb",
+  "h": 4,
+  "ja": "太陽の王",
+  "rot": 0
+ },
+ "anc_boatshrine": {
+  "file": "anc_boatshrine.glb",
+  "h": 18,
+  "ja": "石の舟の社",
+  "rot": 0
+ },
+ "anc_crow": {
+  "file": "anc_crow.glb",
+  "h": 3,
+  "ja": "聖なるカラス",
+  "rot": 0
  }
 }
