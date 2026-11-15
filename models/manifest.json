@@ -809,5 +809,137 @@
   "h": 19,
   "ja": "城門（石のアーチと木のとびら。兵長の魔物狩りの門を使い回し）",
   "rot": 0
+ },
+ "p8supertank": {
+  "file": "p8supertank.glb",
+  "h": 12,
+  "ja": "超重戦車「陸の戦艦」",
+  "rot": 0
+ },
+ "p8titan": {
+  "file": "p8titan.glb",
+  "h": 34,
+  "ja": "都市統括機（巨大な番人ロボ）",
+  "rot": 0
+ },
+ "p8rex": {
+  "file": "p8rex.glb",
+  "h": 14,
+  "ja": "暴君竜",
+  "rot": 0
+ },
+ "p8bomber": {
+  "file": "p8bomber.glb",
+  "h": 6,
+  "ja": "大型爆撃機",
+  "rot": 0
+ },
+ "p8rifle": {
+  "file": "p8rifle.glb",
+  "h": 1.8,
+  "ja": "小銃兵（架空の国）",
+  "rot": 0
+ },
+ "p8tank": {
+  "file": "p8tank.glb",
+  "h": 3,
+  "ja": "中戦車",
+  "rot": 0
+ },
+ "p8robot": {
+  "file": "p8robot.glb",
+  "h": 2,
+  "ja": "ロボット兵",
+  "rot": 0
+ },
+ "p8drone": {
+  "file": "p8drone.glb",
+  "h": 1.5,
+  "ja": "ドローン",
+  "rot": 0
+ },
+ "p8mech": {
+  "file": "p8mech.glb",
+  "h": 6,
+  "ja": "重装ロボ",
+  "rot": 0
+ },
+ "p8raptor": {
+  "file": "p8raptor.glb",
+  "h": 1.6,
+  "ja": "小型の肉食竜",
+  "rot": 0
+ },
+ "p8ptera": {
+  "file": "p8ptera.glb",
+  "h": 2,
+  "ja": "翼竜",
+  "rot": 0
+ },
+ "p8trike": {
+  "file": "p8trike.glb",
+  "h": 3.2,
+  "ja": "三本角の竜",
+  "rot": 0
+ },
+ "p8tower": {
+  "file": "p8tower.glb",
+  "h": 60,
+  "ja": "ネオンの高層ビル",
+  "rot": 0
+ },
+ "p8gianttree": {
+  "file": "p8gianttree.glb",
+  "h": 45,
+  "ja": "太古の巨木",
+  "rot": 0
+ },
+ "p8ruin": {
+  "file": "p8ruin.glb",
+  "h": 12,
+  "ja": "こわれた建物",
+  "rot": 0
+ },
+ "p8flak": {
+  "file": "p8flak.glb",
+  "h": 3,
+  "ja": "高射砲",
+  "rot": 0
+ },
+ "p8bones": {
+  "file": "p8bones.glb",
+  "h": 8,
+  "ja": "恐竜の骨",
+  "rot": 0
+ },
+ "castle_wall_burning": {
+  "file": "castle_wall_burning.glb",
+  "h": 17,
+  "ja": "燃える城壁の一区画",
+  "rot": 0
+ },
+ "siege_tower": {
+  "file": "siege_tower.glb",
+  "h": 18,
+  "ja": "攻城やぐら",
+  "rot": 0
+ },
+ "army_block": {
+  "file": "army_block.glb",
+  "h": 4,
+  "ja": "兵の隊列のかたまり",
+  "rot": 0
+ },
+ "war_banner": {
+  "file": "war_banner.glb",
+  "h": 12,
+  "ja": "軍旗",
+  "rot": 0
+ },
+ "p8fighter": {
+  "file": "p8fighter.glb",
+  "h": 3,
+  "ja": "戦闘機（架空の機体。印なし）",
+  "rot": 0
  }
 }
