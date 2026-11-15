@@ -1024,7 +1024,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abc';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcd';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -9983,6 +9983,7 @@ ALLST.push(
    {name:'ぬらりひょん',msg:'🍶 妖怪の総大将・ぬらりひょんが、ゆらりと立ち上がった！',mood:Y9MD.c,go(){const b=s8Spawn('y_nura',0,-180,P.pos.y+14,{boss:'🍶 ぬらりひょん'});if(b){b.die='……ほっほ。……今夜の月は、きれいじゃった……';s8BossIn(b,'🍶','ぬらりひょん');}s8Grp('y_fox',4,0,-130,80,30);s8Air('y_kirin',2);}}]});
 for(const k of ['y9town','y9castle','y9lord']){const S=ALLST.find(q=>q.key===k);S.waves.forEach(w=>{const g=w.go;w.go=function(){const n=EN.length;g.apply(this,arguments);for(let i=EN.length-1;i>=n;i--){const e=EN[i];if(e&&!e.s8&&!e.boss){scene.remove(e.mesh);EN.splice(i,1);}}};});}  // 妖怪の目じるしの無い余分な兵は出さない
 SCK[9]=['y9town','y9castle','y9lord'];SCNM[9]='ぬらりひょん編';
+if(typeof ENDIMG!=='undefined')ENDIMG[9]=['y9end_1','y9end_2','y9end_3'];ENDT[9]='妖怪の島の朝';
 ENDS[9]=['妖怪の総大将は、月を見ながら笑って消えた。城下町の提灯が、ひとつ、またひとつと消えていく。','鬼も、からくりも、狐も、もう竜の前に出てこない。出てくる勇気が、残っていない。','島国の空も、きみのものだ。','遠くの空で、女神が書類をめくった。「……次は、どこへ送ればいいんでしょう」'];
 // ---- 章の建物（壊せる）と飾り ----
 function bldPut(id,x,z,w,h,d,hp,val,type,rot){if(!MODEL[id])return null;if(H(x,z)<WATER+1)return null;const g=new THREE.Group();const b=box(w,h,d,mat(0x888888));b.position.y=h/2;g.add(b);return place(g,x,z,rot===undefined?rnd(0,6.283):rot,hp,val,type||'house',id);}
