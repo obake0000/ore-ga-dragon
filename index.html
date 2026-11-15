@@ -3293,7 +3293,7 @@ function skToGiant(e,G){const K=S7K.king,old=e.mesh;scene.remove(old);const m=S7
   return ke0.apply(this,arguments);};}
 // ---- 紙芝居の作り直し（kami_style）：絵の動き・墨の代わり絵・1文字ずつ・紙の引きぬき・拍子木 ----
 const KBD=[[0,0,1.04,0,-1.2,1.15],[-3,0,1.13,3,0,1.13],[3,.8,1.14,-3,-.8,1.14],[0,0,1.17,0,0,1.03],[0,2,1.13,0,-2,1.13],[2.4,-1,1.1,-2.4,1,1.16]];
-const KCROP=/^(pg_[1-7]|pro_3|end_g)$/,KSTRIP=/^(dungeon_[123]|maou_[123c])$/,KBAD={};let KFN=0;
+const KCROP=/^(pg_[1-7]|pro_3|end_g)$/,KSTRIP=/^(dungeon_[123]|maou_[123c])$/,KBAD={},KFOC={pg_2:'22% 50%',pg_4:'32% 50%',pg_7:'42% 50%'};let KFN=0;
 const KINK=[['#e9b980','#a85a3c','#2a1a18'],['#a9bccb','#51708a','#1a2a38'],['#dccf94','#8a8a55','#2e3a2c'],['#cfa9b5','#8a5d78','#2f2236']];
 function kclap(n){try{if(!AC||muted)return;const out=master||AC.destination,t0=AC.currentTime+0.01;
   for(let j=0;j<n;j++){const t=t0+j*0.17,len=Math.floor(AC.sampleRate*0.07),buf=AC.createBuffer(1,len,AC.sampleRate),d=buf.getChannelData(0);
@@ -3337,11 +3337,11 @@ function kamiShow(){const k=KAMI,sd=k.sl[k.i],n=k.sl.length,last=k.i>=n-1;
   if(live)kpull(ka,kz);else{void ka.offsetWidth;ka.classList.add('kfirst');}
   kclap(live?1:2);
   // 絵：向きを変えながらゆっくり寄る／流れる
-  const strip=KSTRIP.test(key),bd=KBD[idx%KBD.length],sw=idx%2?-1:1,v=strip?[16*sw,0,1,-16*sw,0,1]:bd;
+  const strip=KSTRIP.test(key),crop=KCROP.test(key),bd=KBD[idx%KBD.length],sw=idx%2?-1:1,v=strip?[16*sw,0,1,-16*sw,0,1]:crop?[0,0,1,0,-0.6,1.05]:bd;
   kz.style.animation='none';void kz.offsetWidth;
   ['x0','y0','s0','x1','y1','s1'].forEach((q,j)=>kz.style.setProperty('--'+q,v[j]+(j%3===2?'':'%')));
   kz.style.animation=strip?'kbz 16s ease-in-out both':'';
-  im.className=(KCROP.test(key)||strip)?'kcrop':'';ki.style.display='none';ki.innerHTML='';im.style.visibility='';
+  im.className=(crop||strip)?'kcrop':'';im.style.transformOrigin=KFOC[key]||'';ki.style.display='none';ki.innerHTML='';im.style.visibility='';
   if(KBAD[key]){kink(ki,key);im.style.visibility='hidden';}
   else{im.dataset.fb='';im.onload=null;
    im.onerror=()=>{if(KAMI!==k||k.i!==idx)return;if(!im.dataset.fb){im.dataset.fb='1';im.src=`story/${key}.jpg`;}else{KBAD[key]=1;kink(ki,key);im.style.visibility='hidden';}};
@@ -4261,7 +4261,13 @@ function cine(k,d,tg){if(state!=='play'||window.NOCINE)return;
   // 必殺技：キャラの大きさ（かこむ箱）を測って、どのキャラでも画面の上半分に大きく入る距離にする
   if(k===1){D.g.updateMatrixWorld(true);const bb=new THREE.Box3().setFromObject(D.g),s=bb.getSize(new V3()),c=bb.getCenter(new V3()),rw=Math.min(s.x,s.z)*0.5;
     CINE.tg={ox:c.x-P.pos.x,oy:c.y-P.pos.y,oz:c.z-P.pos.z,h:s.y,d:clamp(C.fly?Math.max(0.85*rw,0.9*s.y):Math.max(1.25*rw,1.9*s.y),5,30)};}}
-function cineEnd(){const k=CINE.k;CINE.k=0;if(k>1){if(cutT<=0)document.body.classList.remove('lbx');if(state==='play'){if(ultT<=0){TS=1;tsT=0;}if(LVQ&&!LVUP)showLv();}}}
+// 最初の場面（竜が正面・勇者3人）の後：カメラだけ竜のまわりをぐるっと回って、竜の後ろへ（切りかえで勇者と交差しない）
+const ORB={on:0,t:0,d:1.4,p0:new V3(),l0:new V3()};
+function orbCam(rdt,tg){ORB.t+=rdt;const q=Math.min(1,ORB.t/ORB.d),e=q*q*(3-2*q),c=P.pos;
+  const a0=Math.atan2(ORB.p0.x-c.x,ORB.p0.z-c.z),a1=Math.atan2(tg.x-c.x,tg.z-c.z);let da=a1-a0;while(da>Math.PI)da-=6.2832;while(da<-Math.PI)da+=6.2832;
+  const r0=Math.hypot(ORB.p0.x-c.x,ORB.p0.z-c.z),r1=Math.hypot(tg.x-c.x,tg.z-c.z),r=Math.max(r0+(r1-r0)*e,10+8*Math.sin(Math.PI*e)),a=a0+da*e,y=ORB.p0.y+(tg.y-ORB.p0.y)*e+3*Math.sin(Math.PI*e);
+  cam.position.set(c.x+Math.sin(a)*r,y,c.z+Math.cos(a)*r);camLook.lerpVectors(ORB.l0,camLook,e);if(q>=1)ORB.on=0;}
+function cineEnd(){const k=CINE.k;CINE.k=0;if(k===4&&CAVE.on&&state==='play'){ORB.t=0;ORB.p0.copy(cam.position);ORB.l0.copy(camLook);ORB.on=1;}if(k>1){if(cutT<=0)document.body.classList.remove('lbx');if(state==='play'){if(ultT<=0){TS=1;tsT=0;}if(LVQ&&!LVUP)showLv();}}}
 const ROYAL_ROT=0;
 /* ---- 必殺技の見せ場（赤い竜）：口を開けてほえるポーズのモデルに入れかえる ---- */
 const ROAR={g:null,mo:null,gl:null,gc:null,on:false,use:false,yaw:0,v:[0,1],t:0,em:0,H:11.5,mouth:new V3()};
@@ -7839,7 +7845,7 @@ function frame(now){
   else{if(cineOn)cam.position.copy(GCAM);const pc=C.fly?P.pitch*0.8:P.pitch*0.5;const cd=new V3(Math.sin(P.yaw)*Math.cos(pc),Math.sin(pc),Math.cos(P.yaw)*Math.cos(pc));
     let back=(C.camB||(charKey==='army'?34:C.fly?24:20))*(ccam()?0.58:1),up=(C.camU||(charKey==='army'?15:C.fly?7:8))*(ccam()?0.36:1);const cE=window.camE?camE():null;if(cE){back=cE.b;up=cE.u;}
     const tg=tmp.copy(P.pos).addScaledVector(cd,-back).add(tmp2.set(0,up,0));{const lt=cE?cE.lt:ccam();if(lt){tg.x-=Math.cos(P.yaw)*back*lt;tg.z+=Math.sin(P.yaw)*back*lt;if(DUN.on){tg.x=clamp(tg.x,DUN.x0+(cE?S1X:4),DUN.x1-(cE?S1X:4));tg.z=clamp(tg.z,DUN.z0+4,DUN.z1-4);}}}const cg=floorAt(tg.x,tg.z)+2;if(tg.y<cg)tg.y=cg;
-    cam.position.lerp(tg,1-Math.exp(-(P.dashT>0?4.5:9)*rdt));camLook.copy(P.pos).addScaledVector(aimDir(),cE?cE.L:ccam()?46:40).add(tmp2.set(0,4+(cE?cE.dy:0),0));cam.lookAt(camLook);
+    cam.position.lerp(tg,1-Math.exp(-(P.dashT>0?4.5:9)*rdt));camLook.copy(P.pos).addScaledVector(aimDir(),cE?cE.L:ccam()?46:40).add(tmp2.set(0,4+(cE?cE.dy:0),0));if(ORB.on)orbCam(rdt,tg);cam.lookAt(camLook);
     if(!C.fly&&!C.human&&P.onGround&&D.g.userData.flap){cam.position.y+=Math.abs(Math.sin(D.g.userData.flap.lp))*Math.min(1,vv/30)*0.45;}
     if(shakeT>0){shakeT-=rdt;const s=shakeT*1.6;cam.position.x+=rnd(-s,s);cam.position.y+=rnd(-s,s);}
     if(C.fly&&!C.human)cam.rotateZ(-P.roll*0.3);}
