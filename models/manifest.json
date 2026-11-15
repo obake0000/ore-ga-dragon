@@ -1653,5 +1653,197 @@
   "h": 8,
   "ja": "空飛ぶ小早（いくさ舟）",
   "rot": 0
+ },
+ "y_tengu": {
+  "file": "y_tengu.glb",
+  "h": 3.4,
+  "ja": "天狗の戦士",
+  "rot": 0
+ },
+ "y_karasu": {
+  "file": "y_karasu.glb",
+  "h": 3.2,
+  "ja": "烏天狗",
+  "rot": 0
+ },
+ "y_centipede": {
+  "file": "y_centipede.glb",
+  "h": 8,
+  "ja": "大ムカデ",
+  "rot": 0
+ },
+ "y_tsuchigumo": {
+  "file": "y_tsuchigumo.glb",
+  "h": 9,
+  "ja": "土蜘蛛",
+  "rot": 0
+ },
+ "y_onispider": {
+  "file": "y_onispider.glb",
+  "h": 5,
+  "ja": "鬼蜘蛛",
+  "rot": 0
+ },
+ "y_gasha": {
+  "file": "y_gasha.glb",
+  "h": 40,
+  "ja": "がしゃどくろ",
+  "rot": 0
+ },
+ "y_oboro": {
+  "file": "y_oboro.glb",
+  "h": 5,
+  "ja": "朧車",
+  "rot": 0
+ },
+ "y_kyubi": {
+  "file": "y_kyubi.glb",
+  "h": 12,
+  "ja": "九尾の狐",
+  "rot": 0
+ },
+ "y_foxsorc": {
+  "file": "y_foxsorc.glb",
+  "h": 3.2,
+  "ja": "狐の術師",
+  "rot": 0
+ },
+ "y_onmyoji": {
+  "file": "y_onmyoji.glb",
+  "h": 3.2,
+  "ja": "陰陽師",
+  "rot": 0
+ },
+ "y_onisamurai": {
+  "file": "y_onisamurai.glb",
+  "h": 4.2,
+  "ja": "鬼の侍",
+  "rot": 0
+ },
+ "y_ninjakite": {
+  "file": "y_ninjakite.glb",
+  "h": 4,
+  "ja": "凧に乗る忍者",
+  "rot": 0
+ },
+ "y_ninja": {
+  "file": "y_ninja.glb",
+  "h": 3,
+  "ja": "忍者",
+  "rot": 0
+ },
+ "y_mikoarcher": {
+  "file": "y_mikoarcher.glb",
+  "h": 3,
+  "ja": "弓の巫女",
+  "rot": 0
+ },
+ "y_toadlord": {
+  "file": "y_toadlord.glb",
+  "h": 10,
+  "ja": "大ガマの主",
+  "rot": 0
+ },
+ "y_warcart": {
+  "file": "y_warcart.glb",
+  "h": 5,
+  "ja": "妖怪のいくさ車",
+  "rot": 0
+ },
+ "y_demonstatue": {
+  "file": "y_demonstatue.glb",
+  "h": 30,
+  "ja": "大きな鬼の像",
+  "rot": 0
+ },
+ "anc_haniwabird": {
+  "file": "anc_haniwabird.glb",
+  "h": 3,
+  "ja": "埴輪の鳥",
+  "rot": 0
+ },
+ "anc_haniwaboat": {
+  "file": "anc_haniwaboat.glb",
+  "h": 10,
+  "ja": "埴輪の舟",
+  "rot": 0
+ },
+ "anc_shaman": {
+  "file": "anc_shaman.glb",
+  "h": 3.2,
+  "ja": "古代の巫女",
+  "rot": 0
+ },
+ "anc_villager": {
+  "file": "anc_villager.glb",
+  "h": 3,
+  "ja": "古代の村人",
+  "rot": 0
+ },
+ "anc_fort": {
+  "file": "anc_fort.glb",
+  "h": 20,
+  "ja": "環濠の砦",
+  "rot": 0
+ },
+ "anc_shrine": {
+  "file": "anc_shrine.glb",
+  "h": 16,
+  "ja": "古代の社",
+  "rot": 0
+ },
+ "anc_platform": {
+  "file": "anc_platform.glb",
+  "h": 6,
+  "ja": "石の祭壇",
+  "rot": 0
+ },
+ "anc_kiln": {
+  "file": "anc_kiln.glb",
+  "h": 8,
+  "ja": "土器の窯",
+  "rot": 0
+ },
+ "anc_stonetomb": {
+  "file": "anc_stonetomb.glb",
+  "h": 12,
+  "ja": "石室の墓",
+  "rot": 0
+ },
+ "anc_suntemple": {
+  "file": "anc_suntemple.glb",
+  "h": 30,
+  "ja": "太陽の神殿",
+  "rot": 0
+ },
+ "anc_goddess": {
+  "file": "anc_goddess.glb",
+  "h": 40,
+  "ja": "土の女神",
+  "rot": 0
+ },
+ "anc_palanquin": {
+  "file": "anc_palanquin.glb",
+  "h": 16,
+  "ja": "マンモスの御輿",
+  "rot": 0
+ },
+ "anc_spiritbear": {
+  "file": "anc_spiritbear.glb",
+  "h": 9,
+  "ja": "山の神のクマ",
+  "rot": 0
+ },
+ "anc_wolf": {
+  "file": "anc_wolf.glb",
+  "h": 4,
+  "ja": "白いオオカミ",
+  "rot": 0
+ },
+ "anc_sled": {
+  "file": "anc_sled.glb",
+  "h": 4,
+  "ja": "古代のそり",
+  "rot": 0
  }
 }

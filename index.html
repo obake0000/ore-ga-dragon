@@ -1098,7 +1098,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYM';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMK';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -10296,6 +10296,7 @@ function pteraAI(e,dt,p,dx,dz,hd,d3){if(PTG.f!==R.info.render.frame){PTG.f=R.inf
     if(!e.dhit&&d3<e.r+4){e.dhit=1;hurt(e.dmg*(e.bigp?1:0.5));ono(cpos(e),'ガッ！','#ffb070',30);}if(e.dive<=0){e.dhit=0;}}}
 // ---- 11/16 ふみさん「並行世界に、土偶などがたくさん出てくる古代世界」「土偶は 2m・6m・40m の差」 ----
 const PX=(w,h,d,c)=>()=>makeProxy(w,h,d,c);
+function HUMA(sk,ar,cl,o){return ()=>makeHuman(Object.assign({skin:sk,armor:ar,cloth:cl,s:1},o||{}));}
 function ancHop(e,dt,p,dx,dz,hd){const on=grav(e,dt),big=(e.sc||1)>3;if(on){e.hopT=(e.hopT||rnd(0,1))-dt;if(e.hopT<=0&&hd>8){e.hopT=big?rnd(2.2,3):rnd(0.9,1.4);e.vy=big?16:13;const v=Math.min(big?14:9,hd-6);e.hx=dx/hd*v;e.hz=dz/hd*v;if(big){shake(0.5);const g=new V3(p.x,floorAt(p.x,p.z),p.z);shock(g,0xc8a070,30);}}}else if(e.hx!==undefined){p.x+=e.hx*dt*1.4;p.z+=e.hz*dt*1.4;}
   e.mesh.rotation.y=Math.atan2(dx,dz);e.beam=(e.beam||rnd(2,5))-dt;if(e.beam<=0&&hd<(big?200:110)){e.beam=big?2.2:rnd(4,7);const f=cpos(e).clone();f.y+=1.5*(e.sc||1);try{s8Shoot(f,95,'las',big?12:6,0.3);}catch(_){}}}
 function ancTurret(e,dt,p,dx,dz,hd){grav(e,dt);e.spd=0.01;e.mesh.rotation.y=Math.atan2(dx,dz);e.tc=(e.tc||rnd(1,3))-dt;if(e.tc<=0&&hd<170){e.tc=rnd(1.8,2.6);const f=cpos(e).clone();f.y+=3;for(let k=0;k<2;k++){try{s8Shoot(f,105,'las',8,0.3);}catch(_){}}}}
@@ -10305,7 +10306,7 @@ Object.assign(S8K,{
  dogu:{base:'golem',mid:'anc_dogu',fb:PX(1.8,3.4,1.4,0xa06a40),hum:1,sc:0.6,hp:130,r:1.4,hc:1.2,val:35,dmg:9,spd:10,ai:ancHop},
  dogu6:{base:'golem',mid:'anc_dogu',fb:PX(1.8,3.4,1.4,0xa06a40),sc:1.6,hp:700,r:3.4,hc:3,val:200,dmg:16,spd:9,ai:ancHop},
  dogu40:{base:'golem',mid:'anc_dogu',fb:PX(1.8,3.4,1.4,0xa06a40),sc:10,hp:5200,r:18,hc:18,val:2400,dmg:28,spd:6,ai:ancHop},
- haniwa:{base:'soldier',mid:'anc_haniwa',fb:PX(1.4,3.2,1.2,0xd07a40),hum:1,sc:0.6,hp:110,r:1.3,hc:1,val:30,dmg:8,spd:12},
+ haniwa:{base:'soldier',mid:'anc_haniwa',fb:HUMA(0xd07a40,0xd07a40,0xb06a30,{weapon:'sword'}),sc:0.6,hp:110,r:1.3,hc:1,val:30,dmg:8,spd:12},
  dragonfly:{base:'griffin',mid:'anc_dragonfly',fb:PX(4,1,4,0xb06a3a),sc:1,hp:140,r:2.2,hc:0,val:120,dmg:10},
  crow:{base:'griffin',mid:'anc_crow',fb:PX(2,1,2,0x202020),sc:0.8,hp:90,r:1.6,hc:0,val:70,dmg:7},
  boar:{base:'golem',mid:'anc_boar',fb:PX(2.2,2.4,4,0x6a4a30),sc:1,hp:280,r:2.6,hc:1.2,val:90,dmg:14,spd:21,ai:s8Raptor},
@@ -10313,9 +10314,9 @@ Object.assign(S8K,{
  mammoth:{base:'golem',mid:'anc_mammoth',fb:PX(9,12,14,0x6a5040),sc:1,hp:3800,r:8,hc:6,val:1600,dmg:24,spd:7},
  dogut:{base:'golem',mid:'anc_dogustatue',fb:PX(3,6,3,0xa06a40),sc:1,hp:600,r:3,hc:2,val:160,dmg:14,ai:ancTurret},
  doguh:{base:'griffin',mid:'anc_doguhead',fb:PX(4,4,4,0xa06a40),sc:0.8,hp:260,r:2.6,hc:0,val:120,dmg:10},
- tribal:{base:'soldier',mid:'anc_tribal',fb:PX(1.4,3.2,1.2,0x7a4a30),hum:1,sc:1,hp:120,r:1.4,hc:1,val:35,dmg:9,spd:13},
- chief:{base:'wizard',mid:'anc_chief',fb:PX(1.6,3.4,1.4,0x8a5a3a),sc:1,hp:240,r:1.6,hc:1,val:90,dmg:9},
- sunking:{base:'wizard',mid:'anc_sunking',fb:PX(4,12,4,0xffd060),sc:3.6,hp:5600,r:9,hc:8,val:5000,dmg:26,ai:ancSun}});
+ tribal:{base:'soldier',mid:'anc_tribal',fb:HUMA(0xc89070,0x7a4a30,0x5a3a20,{weapon:'spear'}),sc:1,hp:120,r:1.4,hc:1,val:35,dmg:9,spd:13},
+ chief:{base:'wizard',mid:'anc_chief',fb:HUMA(0xc89070,0x8a5a3a,0x6a3a20,{weapon:'staff',robe:1}),sc:1,hp:240,r:1.6,hc:1,val:90,dmg:9},
+ sunking:{base:'wizard',mid:'anc_sunking',fb:HUMA(0xf0c8a0,0xffd060,0xffffff,{weapon:'staff',robe:1}),sc:3.6,hp:5600,r:9,hc:8,val:5000,dmg:26,ai:ancSun}});
 const ANCT={g:null};
 function s8WorldAnc(){try{if(MODEL.anc_dogutemple){const m=cloneModel('anc_dogutemple');if(m){m.updateMatrixWorld(true);const bb=new THREE.Box3().setFromObject(m),sz=bb.getSize(new V3()),k=150/Math.max(sz.x,sz.y,sz.z,1e-3);m.scale.multiplyScalar(k);const g=new THREE.Group();g.add(m);g.position.set(40,floorAt(0,-300)+120,-320);scene.add(g);TERRAIN.push(g);ANCT.g=g;}}
   for(let i=0;i<5;i++){if(!MODEL.anc_boatshrine)break;const m=cloneModel('anc_boatshrine');if(!m)break;m.updateMatrixWorld(true);const sz=new THREE.Box3().setFromObject(m).getSize(new V3());m.scale.multiplyScalar(22/Math.max(sz.x,sz.z,1e-3));const g=new THREE.Group();g.add(m);const a=rnd(0,6.28),r=rnd(160,260);g.position.set(Math.cos(a)*r,floorAt(Math.cos(a)*r,Math.sin(a)*r)+rnd(30,60),Math.sin(a)*r);scene.add(g);TERRAIN.push(g);}}catch(e){console.warn('anc',e);}}
@@ -10417,6 +10418,48 @@ function maouTick(){if(charKey!=='maou'||state!=='play'||!D)return;const r=P.hp/
 {const ut17=updTheme;updTheme=function(dt,t){ut17.apply(this,arguments);try{maouTick();}catch(_){}};}
 // 魔王の弾は、変身するほど強くなる
 {const sh0=shoot;shoot=function(pos,vel,o){if(charKey==='maou'&&o&&o.from==='p'&&P.maouK&&P.maouK!==1){o=Object.assign({},o);o.dmg=(o.dmg||0)*P.maouK;if(o.size)o.size*=Math.min(1.5,P.maouK);}return sh0.call(this,pos,vel,o);};}
+// ---- 11/16 Tripo の妖怪・古代の素材を、敵と建物として足す（yokai_more.py） ----
+Object.assign(S8K,{
+ y_tengu:{base:'soldier',mid:'y_tengu',fb:HUMA(0xc02020,0x3a3a3a,0x6a2a2a,{weapon:'sword'}),sc:1,hp:170,r:1.6,hc:1.1,val:45,dmg:10,spd:15},
+ y_karasu:{base:'griffin',mid:'y_karasu',fb:PX(3,1.6,3,0x202020),sc:1,hp:170,r:2,hc:0,val:90,dmg:9,ai:y9FlyGun},
+ y_centipede:{base:'golem',mid:'y_centipede',fb:PX(3,3,12,0x8a2a1a),sc:1.6,hp:1800,r:7,hc:3,val:700,dmg:22,spd:13,ai:s8Raptor},
+ y_tsuchigumo:{base:'golem',mid:'y_tsuchigumo',fb:PX(9,6,9,0x3a2a2a),sc:1.5,hp:2000,r:8,hc:4,val:800,dmg:22,spd:10},
+ y_onispider:{base:'golem',mid:'y_onispider',fb:PX(5,4,5,0x5a2a3a),sc:1,hp:600,r:3.6,hc:2,val:220,dmg:16,spd:14,ai:s8Raptor},
+ y_gasha:{base:'biggolem',mid:'y_gasha',fb:PX(10,40,8,0xe8e0c8),sc:1,hp:3600,r:14,hc:18,val:1500,dmg:26},
+ y_oboro:{base:'golem',mid:'y_oboro',fb:PX(3,5,3,0x5a3a2a),sc:1,hp:380,r:2.8,hc:2,val:140,dmg:16,spd:24,ai:s8Raptor},
+ y_kyubi:{base:'cerberus',mid:'y_kyubi',fb:()=>makeCerberus(),sc:1,hp:3200,r:7,hc:5,val:1400,dmg:22},
+ y_foxsorc:{base:'wizard',mid:'y_foxsorc',fb:HUMA(0xf0e0d0,0xf0f0f0,0xc04040,{weapon:'staff',robe:1}),sc:1,hp:200,r:1.5,hc:1,val:70,dmg:9},
+ y_onmyoji:{base:'wizard',mid:'y_onmyoji',fb:HUMA(0xf0c8a0,0xf8f8f0,0x2a2a4a,{weapon:'staff',robe:1}),sc:1,hp:200,r:1.5,hc:1,val:70,dmg:9},
+ y_onisamurai:{base:'soldier',mid:'y_onisamurai',fb:HUMA(0xc03030,0x3a2a2a,0x2a1a1a,{weapon:'sword'}),sc:1,hp:420,r:2,hc:1.4,val:120,dmg:14,spd:12},
+ y_ninjakite:{base:'griffin',mid:'y_ninjakite',fb:PX(4,1,4,0xc04040),sc:1,hp:150,r:2.2,hc:0,val:90,dmg:9,ai:y9FlyGun},
+ y_ninja:{base:'soldier',mid:'y_ninja',fb:HUMA(0xf0c8a0,0x202030,0x202030,{weapon:'sword'}),sc:1,hp:120,r:1.3,hc:1,val:40,dmg:9,spd:21},
+ y_mikoarcher:{base:'archer',mid:'y_mikoarcher',fb:HUMA(0xf0c8a0,0xf0f0f0,0xc02020,{weapon:'bow'}),sc:1,hp:110,r:1.3,hc:1,val:40,dmg:8},
+ y_toadlord:{base:'golem',mid:'y_toadlord',fb:PX(8,8,8,0x4a6a3a),sc:1,hp:2200,r:7,hc:4,val:800,dmg:22,spd:7},
+ y_warcart:{base:'golem',mid:'y_warcart',fb:PX(3,4,5,0x6a4a2a),sc:1,hp:420,r:3,hc:2,val:140,dmg:16,spd:20,ai:s8Raptor},
+ haniwab:{base:'griffin',mid:'anc_haniwabird',fb:PX(2.5,1.4,2.5,0xd07a40),sc:1,hp:120,r:1.8,hc:0,val:70,dmg:8},
+ shaman:{base:'wizard',mid:'anc_shaman',fb:HUMA(0xd8a880,0xe8e0d0,0x8a3a2a,{weapon:'staff',robe:1}),sc:1,hp:220,r:1.5,hc:1,val:80,dmg:9},
+ ancwolf:{base:'golem',mid:'anc_wolf',fb:PX(1.6,2.2,3.4,0xf0f0f0),sc:1,hp:260,r:2.2,hc:1,val:90,dmg:13,spd:23,ai:s8Raptor},
+ spiritbear:{base:'golem',mid:'anc_spiritbear',fb:PX(5,9,5,0x6a5a4a),sc:1,hp:1600,r:5,hc:4,val:600,dmg:22,spd:8},
+ palanquin:{base:'golem',mid:'anc_palanquin',fb:PX(9,16,14,0x7a5a3a),sc:1,hp:4200,r:9,hc:8,val:1800,dmg:24,spd:6}});
+// 波ごとに足す（もとの出し方はそのまま、あとから足す）
+const XW={
+ y9town:[()=>{s8Grp('y_tengu',8,0,-90,110,40);s8Grp('y_ninja',8,0,-80,110,40);s8Air('y_karasu',6);s8Grp('y_oboro',3,0,-130,100,40);},
+         ()=>{s8Grp('y_mikoarcher',8,0,-120,110,40);s8Grp('y_onmyoji',4,0,-140,90,30);s8Air('y_ninjakite',5);s8Grp('y_warcart',3,0,-110,100,40);},
+         ()=>{s8Grp('y_onispider',4,0,-120,100,40);s8Grp('y_tengu',6,0,-100,100,40);s8Air('y_karasu',5);}],
+ y9castle:[()=>{s8Grp('y_ninja',10,0,-90,110,40);s8Grp('y_onisamurai',4,0,-120,90,30);s8Air('y_ninjakite',5);},
+           ()=>{const c=s8Spawn('y_centipede',60,-150);if(c)c.nm='大ムカデ';s8Grp('y_mikoarcher',8,0,-120,110,40);s8Air('y_karasu',6);},
+           ()=>{s8Grp('y_onisamurai',6,0,-120,100,40);s8Grp('y_foxsorc',4,0,-140,90,30);s8Air('y_ninjakite',4);}],
+ y9lord:[()=>{const k=s8Spawn('y_kyubi',-60,-160);if(k)k.nm='九尾の狐';s8Grp('y_foxsorc',6,0,-120,100,40);s8Air('y_karasu',6);},
+         ()=>{const g=s8Spawn('y_gasha',70,-190);if(g){g.nm='がしゃどくろ';g.giant=1;}const t=s8Spawn('y_tsuchigumo',-70,-150);if(t)t.nm='土蜘蛛';const l=s8Spawn('y_toadlord',0,-200);if(l)l.nm='大ガマの主';s8Grp('y_tengu',8,0,-100,110,40);},
+         ()=>{s8Grp('y_onisamurai',6,0,-130,100,40);s8Grp('y_onmyoji',4,0,-140,90,30);s8Air('y_karasu',8);s8Air('y_ninjakite',4);}],
+ p8anc:[()=>{s8Grp('shaman',4,0,-140,100,40);s8Air('haniwab',6);s8Grp('ancwolf',6,0,-120,110,50);},
+        ()=>{const b=s8Spawn('palanquin',80,-190);if(b)b.nm='マンモスの御輿';const s=s8Spawn('spiritbear',-70,-150);if(s)s.nm='山の神のクマ';s8Grp('ancwolf',8,0,-120,110,50);s8Air('haniwab',5);},
+        ()=>{s8Grp('shaman',6,0,-150,100,40);s8Air('haniwab',8);}]};
+{for(const k in XW){const S=ALLST.find(q=>q.key===k);if(!S)continue;S.waves.forEach((w,i)=>{const f=XW[k][i];if(!f)return;const g=w.go;w.go=function(){g.apply(this,arguments);setTimeout(()=>{try{if(state==='play')f();}catch(err){console.warn('xw',k,i,err);}},1200);};});}}
+// 建物：古代の章に砦・社・窯・石室・太陽の神殿、ぬらりひょん編に鬼の像
+PK15.p8anc=(PK15.p8anc||[]).concat([['anc_fort',4,24,2],['anc_shrine',8,18,1.2],['anc_kiln',12,9,1],['anc_stonetomb',8,14,1.4],['anc_suntemple',3,34,1.2],['anc_platform',8,7,1.6]]);
+DECOR15.y9lord=(DECOR15.y9lord||[]).concat([['y_demonstatue',3,34]]);DECOR15.y9town=(DECOR15.y9town||[]).concat([['y_demonstatue',2,30]]);
+DECOR15.p8anc=(DECOR15.p8anc||[]).concat([['anc_haniwaboat',4,12],['anc_sled',6,4],['anc_goddess',1,60,'far']]);
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
 </body>
