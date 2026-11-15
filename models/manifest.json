@@ -970,5 +970,59 @@
   "h": 6,
   "ja": "宝箱（ふたが開いて金貨と宝石）",
   "rot": 0
+ },
+ "portcullis": {
+  "file": "portcullis.glb",
+  "h": 30,
+  "ja": "鉄ごうしの門",
+  "rot": 0
+ },
+ "sealstone": {
+  "file": "sealstone.glb",
+  "h": 10,
+  "ja": "赤い封印の石",
+  "rot": 0
+ },
+ "crystalc": {
+  "file": "crystalc.glb",
+  "h": 8,
+  "ja": "青い水晶のかたまり",
+  "rot": 0
+ },
+ "cstalac": {
+  "file": "cstalac.glb",
+  "h": 14,
+  "ja": "天井から下がるつらら岩",
+  "rot": 0
+ },
+ "cavestone": {
+  "file": "cavestone.glb",
+  "h": 3,
+  "ja": "洞窟の床の岩ころ",
+  "rot": 0
+ },
+ "deb_hull": {
+  "file": "deb_hull.glb",
+  "h": 1,
+  "ja": "かけら：船体の板と折れた帆柱",
+  "rot": 0
+ },
+ "deb_metal": {
+  "file": "deb_metal.glb",
+  "h": 1,
+  "ja": "かけら：鉄板とゆがんだ骨組み",
+  "rot": 0
+ },
+ "deb_gear": {
+  "file": "deb_gear.glb",
+  "h": 1,
+  "ja": "かけら：歯車・車輪・折れた鉄骨",
+  "rot": 0
+ },
+ "slime2": {
+  "file": "slime_new.glb",
+  "h": 3,
+  "ja": "スライム（目のある黄緑のゼリー。Tripo 版。使うのは s1_gfx2 の台本から）",
+  "rot": 0
  }
 }
