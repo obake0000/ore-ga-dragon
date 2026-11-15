@@ -726,7 +726,7 @@ const SRINGS=[[0.35,0.3,-0.88,110],[-0.62,0.22,-0.75,70],[0.8,0.42,0.4,50]].map(
 let glT=0;
 let lgT=3,hemiH=false;
 function updGlint(dt){const g=GLI,arr=g.a,day=MC.star<0.3&&!MC.storm,hell=TER.lava;glT+=dt;LAVU.value+=dt;
-  if(hell!==hemiH){hemiH=hell;hemi.groundColor.setHex(hell?0x8a2a10:0x5c6a52);for(const c of clouds)c.visible=!hell;}
+  if(hell!==hemiH){hemiH=hell;hemi.groundColor.setHex(hell?0x8a2a10:0x5c6a52);}
   {const u=sky.material.uniforms.uSw;u.value+=((MC.star>0.5?1:0)-u.value)*Math.min(1,dt*2);}
   if(hell&&state==='play'){lgT-=dt;if(lgT<=0){lgT=rnd(2.5,6);flashV=0.8;const a=rnd(0,6.3),r=rnd(250,420),x=P.pos.x+Math.cos(a)*r,z=P.pos.z+Math.sin(a)*r;bolt(new V3(x,260,z),new V3(x,H(x,z),z),0xd8a0ff);setTimeout(()=>sfx('thunder'),600);}}
   g.p.position.copy(cam.position);if(hell)g.p.material.color.setHex(0xff7a30);else g.p.material.color.copy(MC.sun).lerp(WHITE_,0.25);g.p.material.opacity=hell?0.9:day?0.36:0.3;g.p.material.size=hell?11:6;
@@ -1106,15 +1106,14 @@ function antiHaze(dt){HAZE.t-=dt;if(HAZE.t<=0){HAZE.t=1.5;HAZE.L.length=0;const 
   const cp=cam.position,w=new V3();for(const o of HAZE.L){if(!o.parent)continue;o.getWorldPosition(w);let s=o.scale.x*(o.parent.scale?o.parent.scale.x:1);if(o.isMesh){if(!o.geometry.boundingSphere)o.geometry.computeBoundingSphere();s=o.geometry.boundingSphere.radius*2*Math.max(o.scale.x,o.scale.y);}const d=w.distanceTo(cp),k=clamp((d-s*0.35)/(s*0.6),0,1);o.material.opacity=o.userData.hz0*k;}treeFade();}
 function updTheme(dt,t){antiHaze(dt);if(TER.grave)graveTick(dt,t);if(TER.forest&&THEME.flies)for(const sp of THEME.flies){const u=sp.userData;sp.position.set(u.x+Math.sin(t*0.5+u.ph)*3,u.y+Math.sin(t*0.9+u.ph*2)*1.4,u.z+Math.cos(t*0.4+u.ph)*3);sp.material.opacity=0.45+0.4*Math.sin(t*2.2+u.ph*3);}if(THEME.isles)for(const g of THEME.isles)g.position.y=g.userData.y+Math.sin(t*0.25+g.userData.ph)*2.2;
   {const cq=cam.position;for(const sp of THEME.puffs){sp.position.y=sp.userData.y+Math.sin(t*0.35+sp.userData.ph)*1.2;const d=sp.position.distanceTo(cq);sp.material.opacity=Math.min(0.9,Math.max(0,(d-45)/70)*0.9);}}
-  if(THEME.rays.length)THEME.rays[0].children[0].material.opacity=0.26+0.08*Math.sin(t*0.6);
-  const cp=cam.position;for(const g of THEME.near){const d=g.position.distanceTo(cp),o=CAVE.on||SCN===2?0:Math.min(0.9,Math.max(0,(d-60)/110)*0.9);if(g.userData.o!==o){g.userData.o=o;g.children.forEach(c=>{c.material.opacity=o;});g.visible=o>0.01;}}}
+  if(THEME.rays.length)THEME.rays[0].children[0].material.opacity=0.26+0.08*Math.sin(t*0.6);}
 
 /* ================= Tripo で作った3Dモデル（models\manifest.json があれば使う） ================= */
 const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEF';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFG';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -8233,7 +8232,7 @@ function frame(now){
   if(speechT>0){speechT-=rdt;if(speechT<=0)$('speech').style.opacity=0;}upd2d(rdt);
   if(hud){drawMap();drawInd();}
   drawSpeed(rdt,vv);
-  if(window.CAMOV){cam.position.copy(CAMOV.p);cam.lookAt(CAMOV.t);}R.render(scene,cam);
+  if(window.CAMOV){cam.position.copy(CAMOV.p);cam.lookAt(CAMOV.t);}fadeClouds();R.render(scene,cam);
 }
 TER=Object.assign(TER,STAGES[0].ter);setChar('dragon');setupStage(0);{const sc=loadGame();if(reached)setupStage(reached);if(sc||reached)setChar(sc||'dragon');}sizeAll();updMood(0,true);loadModels();setTimeout(loadDone,30000);
 requestAnimationFrame(frame);
@@ -9172,8 +9171,8 @@ function s8WorldPoly(){const t=TERRAIN[0];
     TS8.forEach((m,i)=>{s8TessUpd(m,t+i*3,m.userData.k*0.6);m.userData.mt.color.setHSL((t*0.05+i*0.2)%1,0.9,0.7);});});}
 function s8World(L){S8.key=L;S8.smT=0;
   if(L==='p8war')s8WorldWar();else if(L==='p8robo')s8WorldRobo();else if(L==='p8dino')s8WorldDino();else if(L==='p8anc')s8WorldAnc();else if(L==='p8poly')s8WorldPoly();}
-{const ss8=setupStage;setupStage=function(i){for(const e of EN)if(e.s8)s8Clean(e);ss8.apply(this,arguments);try{S8.anim.length=0;if(S8BM.g)scene.remove(S8BM.g);const S=STAGES[i],was=S8.nc;S8.nc=!!(S&&(S.key==='p8robo'||S.key==='p8poly'));if(was&&!S8.nc)for(const c of clouds){c.visible=true;c.userData.o=-1;}if(S&&S.p8)s8World(S.key);else S8.key='';}catch(err){console.error('s8World',err);}};}
-{const ut8=updTheme;updTheme=function(dt,t){ut8.apply(this,arguments);if(S8.nc)for(const c of clouds)c.visible=false;   // ネオンの都と4次元の世界は、雲を出さない
+{const ss8=setupStage;setupStage=function(i){for(const e of EN)if(e.s8)s8Clean(e);ss8.apply(this,arguments);try{S8.anim.length=0;if(S8BM.g)scene.remove(S8BM.g);const S=STAGES[i];S8.nc=!!(S&&(S.key==='p8robo'||S.key==='p8poly'));if(S&&S.p8)s8World(S.key);else S8.key='';}catch(err){console.error('s8World',err);}};}
+{const ut8=updTheme;updTheme=function(dt,t){ut8.apply(this,arguments);
   if(S8.anim.length){S8.uT.value=t;for(const f of S8.anim){try{f(dt,t);}catch(_){}}}};}
 
 /* ---------- 言葉：会話・紙芝居の絵・終わりの文・選択画面 ---------- */
@@ -11104,13 +11103,6 @@ function dkSalvoTick(dt){const d=D;if(!d||!d.dk)return;d.g.updateMatrixWorld(tru
     if(!q.arrow){const pr=PROJ[PROJ.length-1],sp=new THREE.Sprite(new THREE.SpriteMaterial({map:FLT,color:0xffa03a,transparent:true,depthWrite:false,opacity:0.7}));sp.scale.set(2.4,2.4,1);pr.m.add(sp);}
   }
 }
-// 近くの雲は既存の更新で非表示。遠い雲は薄く、別のシナリオでは元の濃さへ戻す。
-{const before=updTheme;updTheme=function(dt,t){before.apply(this,arguments);
-  for(const g of clouds){if(THEME.near.includes(g))continue;g.traverse(o=>{if(!o.isSprite)return;const m=o.material;
-    if(SCN===2){if(o.userData.dkCloudOpacity===undefined)o.userData.dkCloudOpacity=m.opacity;m.opacity=o.userData.dkCloudOpacity*0.2;}
-    else if(o.userData.dkCloudOpacity!==undefined){m.opacity=o.userData.dkCloudOpacity;delete o.userData.dkCloudOpacity;}
-  });}
-};}
 
 
 // court_bank_1116：静止状態の箱ではなく、骨で動いた頂点から足元を測る。
@@ -11340,6 +11332,32 @@ function prepPlaneProps(sc,id){
  });
  const kept=[];for(let f=0;f<src.index.count/3;f++)if(!removed.has(f))for(let j=0;j<3;j++)kept.push(src.index.getX(f*3+j));
  const body=new THREE.BufferGeometry();for(const key of Object.keys(src.attributes))body.setAttribute(key,src.attributes[key]);body.setIndex(kept);body.computeBoundingBox();body.computeBoundingSphere();mesh.geometry=body;
+}
+
+// 描画に使うカメラと雲一枚ごとの大きさで、手前を覆う雲を消す。
+function fadeClouds(){
+  const hidden=TER.lava||S8.nc,orc=SCN===3,kingdom=SCN===2;
+  for(const group of clouds){
+    const near=THEME.near.includes(group),hide=hidden||(near&&(CAVE.on||kingdom));
+    const density=kingdom?0.2:orc?(near?0.24:0.45):1;
+    let visible=false;
+    for(const sprite of group.children){
+      const data=sprite.userData,material=sprite.material;
+      if(data.cloudOpacity===undefined)data.cloudOpacity=material.opacity;
+      // この雲の群はシーン直下で、回転や拡大なし。子の座標は群の座標に足す。
+      const x=group.position.x+sprite.position.x-cam.position.x;
+      const y=group.position.y+sprite.position.y-cam.position.y;
+      const z=group.position.z+sprite.position.z-cam.position.z;
+      const width=Math.max(sprite.scale.x,sprite.scale.y);
+      const start=Math.max(near?60:45,width*(orc?0.85:0.6));
+      const end=Math.max(near?170:105,width*(orc?1.8:1.2));
+      const t=clamp((Math.hypot(x,y,z)-start)/(end-start),0,1);
+      const opacity=hide?0:data.cloudOpacity*density*t*t*(3-2*t);
+      material.opacity=opacity;
+      visible=visible||opacity>0;
+    }
+    group.visible=visible;
+  }
 }
 
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
