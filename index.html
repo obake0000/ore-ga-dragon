@@ -830,7 +830,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aad';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aaf';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -3401,7 +3401,7 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);
         if(!e.done&&d3<e.r+6){e.done=true;hurt(e.dmg);shake(0.6);}if(e.st<=0){e.state='chase';e.cd=half?1.4:2.4;}}
       else{faceP(e);if(e.st<=0){e.state='chase';e.cd=2;}}
       if(d3<e.r+5)hurt(e.dmg*0.3*dt,true);break;}
-    case 'walker':{grav(e,dt);if(!e.said){e.said=1;e.big=1;e.sc=2.8;e.r=50;e.hc=56;e.hp=e.maxHp=e.hp*1.5;if(e.intro===1)wkIntro(e);else{say('王','城よ、立て！ あの竜を踏みつぶせ！');sfx('roar',p);}}
+    case 'walker':{grav(e,dt);if(!e.said){e.said=1;e.big=1;e.sc=1.48;e.r=26.5;e.hc=29.6;e.hp=e.maxHp=e.hp*1.5;if(e.intro===1)wkIntro(e);else{say('王','城よ、立て！ あの竜を踏みつぶせ！');sfx('roar',p);}}
       if(e.intro===1&&wkIntroTick(e,dt))break;
       if(e.big){const fr=e.hp/e.maxHp,tg=fr<0.25?3:fr<0.5?2:fr<0.75?1:0;if(e.stgT>0)e.stgT-=dt;else if((e.stg|0)<tg){e.stg=(e.stg|0)+1;e.stgT=1.3;wkBreak(e,e.stg);if(e.stg===1)e.sub=Math.max(e.sub,1.8);if(e.stg===2){e.sub=Math.max(e.sub,2.5);e.met=Math.max(e.met,2.5);}}}
       const sg=e.big?(e.stg|0):0;walk(e,P.pos.x,P.pos.z,hd>(e.big?(sg===3?30:80):40)?(half?7:5)*(e.big?1.4*[1,1.3,0.75,1.9][sg]:1):0,dt);e.mesh.rotation.z=Math.sin(e.t*2.2)*(e.big?0.025:0.04)+(sg===2?0.1+Math.sin(e.t*1.3)*0.04:sg===3?0.05:0);
@@ -3585,10 +3585,10 @@ function balShot(e,m){const big=e.bal>1;e.cd=big?rnd(4,5.5):rnd(2.8,4.2);const n
 function bossIntro(e,pt,ic){if(state!=='play')return;bossZoom(e);if(!PTS.includes('orcking'))PTS.push('orcking');cutin(PTS.includes(pt)?pt:ic,e.nm,'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');}
 function ksay(e,t){talk([[e.nm,t]]);bubble(e,t.length>16?t.slice(0,15)+'…':t,'boss',3);}
 function addGeneral(x,z,raw,label){const e=addEnemy('ogre',x,z,undefined,{model:MODEL.orc?'orc':undefined});
-  e.gen=1;e.orc=0;e.boss='🪓 オーク将軍';e.nm='オーク将軍';s3Scale(e,MODEL.orc?0.6:0.85);e.r*=1.3;e.hp=e.maxHp=s3bhp(raw);e.val=Math.round(raw*0.7);e.dmg=20;e.sr=24;e.sw=EASY?1.5:1.2;e.sk=rnd(2,4);e.rk=99;e.cd=2.5;e.die='ぐ……王よ……すまぬ……';
+  e.gen=1;e.orc=0;e.boss='🪓 オーク将軍';e.nm='オーク将軍';s3Scale(e,(MODEL.orc?0.6:0.85)*0.92);e.mesh.scale.setScalar(e.sc);e.r*=1.3;e.hp=e.maxHp=s3bhp(raw);e.val=Math.round(raw*0.7);e.dmg=20;e.sr=24;e.sw=EASY?1.5:1.2;e.sk=rnd(2,4);e.rk=99;e.cd=2.5;e.die='ぐ……王よ……すまぬ……';
   s3Tint(e,0x8a3a22,MODEL.orc?0.28:0.35);bossIntro(e,'orcgen','🪓');return e;}
 function addKing(x,z){const e=addEnemy('ogre',x,z,undefined,{model:MODEL.orcking?'orcking':undefined});
-  e.king=1;e.boss='👑 オークキング';e.nm='オークキング';e.sc=1.0;e.r*=0.93;e.hc*=1.0;e.hp=e.maxHp=s3bhp(3800);e.val=3000;e.dmg=26;e.sr=24;e.sw=EASY?1.5:1.15;e.sk=rnd(2.5,4);e.rk=6;e.cd=3;e.die='ぐ……ぬう……。森が……泣くぞ……';
+  e.king=1;e.boss='👑 オークキング';e.nm='オークキング';{const q=0.7;e.sc=q;e.r*=0.93*q;e.hc*=q;e.mesh.scale.setScalar(q);}e.hp=e.maxHp=s3bhp(3800);e.val=3000;e.dmg=26;e.sr=24;e.sw=EASY?1.5:1.15;e.sk=rnd(2.5,4);e.rk=6;e.cd=3;e.die='ぐ……ぬう……。森が……泣くぞ……';
   if(!MODEL.orcking)s3Tint(e,0x7a3a22,0.35);bossIntro(e,'orcking','👑');return e;}
 // 取りまきを呼ぶ（将軍・王のまわりに出る）
 function orcCall(e,kind,n){const q=e.mesh.position;n=Math.max(1,Math.round(n*(EASY?0.6:1)));
@@ -3856,7 +3856,7 @@ const STAGES=[
     {name:'骸骨の魔導士団',msg:'🔮 骸骨の魔導士が、後ろから魔法を撃ってくる！',mood:3,go(){
       s4Add('skelmage',7,0,-175,75,25);s4Add('skel',16,0,-105,80,30,s4Sk);s4Add('devilsol',10,0,-120,70,30,s4Dev);s4Imps(8,0,-130,70,40);s4Add('ogre',3,0,-130,60,30);}},
     {name:'悪魔の将軍',msg:'👿 軍団の親玉、悪魔の将軍が立ちふさがる！',mood:3,go(){
-      const o=s4E(addEnemy('ogre',0,-150,undefined,{model:'devilsoldier'}));o.boss='👿 悪魔の将軍';o.hp=o.maxHp=o.maxHp*9;o.sc=1.5;o.r*=1.4;o.hc*=1.5;o.val=900;o.dmg*=1.3;o.die='……門が……もう、閉じない……';
+      const o=s4E(addEnemy('ogre',0,-150,undefined,{model:'devilsoldier'}));o.boss='👿 悪魔の将軍';o.hp=o.maxHp=o.maxHp*9;{const q=0.49;o.sc=q;o.r*=q;o.hc*=q;o.mesh.scale.setScalar(q);}o.val=900;o.dmg*=1.3;o.die='……門が……もう、閉じない……';
       cutin('👿','悪魔の将軍','があらわれた！');sfx('roar');
       s4Add('skel',12,0,-110,80,30,s4Sk);s4Add('skelmage',4,0,-185,50,15);s4Imps(6,0,-130,60,40);s4Add('devilsol',8,0,-120,60,25,s4Dev);s4Add('ogre',2,0,-100,60,30);}}]},
   {key:'bonefield',ch:'第2章',title:'骨が起きる',place:'骨の荒野',world:'peak',
@@ -4671,6 +4671,8 @@ function armyMore(){try{
   if(tot+add<ARMYK.min)add=ARMYK.min-tot;
   add=Math.min(add,ARMYK.cap-tot);
   for(let i=0;i<add;i++){const e=src[i%src.length],q=e.mesh.position,a=Math.random()*6.283,d=5+Math.random()*9,n=EN.length;
+    if(e.s6||e.s7){const x=q.x+Math.cos(a)*d,z=q.z+Math.sin(a)*d;let c=null;if(e.s6){if(EN.filter(o=>!o.dead&&o.s6&&!o.boss).length<44)c=s6Spawn(e.s6,x,z,undefined);}else c=s7Add(e.s7,x,z,H(x,z)<WATER+1?WATER+4:undefined);
+      if(c){c._cl=1;if(e.s7==='fish'||e.s7==='fishE')c.thrower=e.thrower;if(e.fu)fuJoin(c,e);}continue;}
     {const cx=q.x+Math.cos(a)*d,cz=q.z+Math.sin(a)*d,cy=e.fly?q.y+(Math.random()*6-3):undefined;if(e.s7&&typeof s7Add==='function')s7Add(e.s7,cx,cz,cy);else if(e.s6&&typeof s6Spawn==='function')s6Spawn(e.s6,cx,cz,cy,{});else addEnemy(e.type,cx,cz,cy,Object.assign({},e._o||{}));}
     const c=EN[EN.length-1];if(EN.length>n&&c){c._cl=1;c.sc=e.sc;c.r=e.r;c.hc=e.hc;c.hp=e.hp;c.maxHp=e.maxHp;c.dmg=e.dmg;c.val=e.val;if(e.fu)fuJoin(c,e);}}
 }catch(_){}}
@@ -5267,6 +5269,7 @@ const S7MK={fish:s7MkFish,fishE:s7MkFish,fishbow:s7MkBow,levi:s7MkLevi,shark:s7M
 const S7GOLD=new THREE.MeshBasicMaterial({color:0xffd050});
 // ---- 敵を出す ----
 function s7Alive(){let n=0;for(const q of EN)if(!q.dead&&q.s7&&q.s7[0]==='f')n++;return n;}   // 魚人（骨入りの人型）は、同時に38体まで
+const S7HK={fish:0.56,fishE:0.5,fishbow:0.56};
 function s7Add(kind,x,z,y){const K=S7K[kind];if((K.base==='soldier'||K.base==='archer')&&s7Alive()>=38)return null;
   const sv=ST.kraken.boss;if(K.boss)ST.kraken.boss=undefined;
   const e=addEnemy(K.base,x,z,y,{model:'s7none'});if(K.boss)ST.kraken.boss=sv;
@@ -5274,7 +5277,7 @@ function s7Add(kind,x,z,y){const K=S7K[kind];if((K.base==='soldier'||K.base==='a
   const m=S7MK[kind]();m.position.copy(np);scene.add(m);e.mesh=m;if(K.mdl)attachModel(m,K.mdl);
   const f=EASY?(K.boss?0.42:0.5):(K.boss?0.62:0.75);e.hp=e.maxHp=K.hp*f*(EASY?0.75:1);
   e.r=K.r;e.hc=K.hc;e.val=K.val;e.dmg=K.dmg;e.s7=kind;
-  if(K.sc){e.sc=K.sc;e.r*=K.sc;e.hc*=K.sc;}
+  if(K.sc){e.sc=K.sc;e.r*=K.sc;e.hc*=K.sc;}{const q=S7HK[kind];if(q){e.sc=(e.sc||1)*q;e.hc*=q;e.mesh.scale.setScalar(e.sc);}}
   if(K.boss){e.boss='🔱 海王';e.die='……海が……余の海が……。魚を焼いたのは、そなたのほうだったな……（海王は、あわになって、きえた）';}
   if(kind==='fish')e.thrower=Math.random()<0.5;if(kind==='fishE')e.thrower=true;
   return e;}
@@ -5663,9 +5666,11 @@ const S6DY={angel:0.3,lightangel:0.07,guardian:0.34};
 const S6BOSSK={angelgeneral:1.55,guardian:1.4};
 function s6Tint(m,col,emi){const c=new THREE.Color(col),em=new THREE.Color(emi);m.traverse(o=>{if(!o.isMesh||!o.visible)return;let a=o,ok=true;while(a&&a!==m){if(!a.visible)ok=false;a=a.parent;}if(!ok)return;
   const f=mt=>{const x=mt.clone();if(x.color)x.color.multiply(c);if(x.emissive)x.emissive.copy(em);return x;};o.material=Array.isArray(o.material)?o.material.map(f):f(o.material);});}
+// 人の大きさに合わせる倍率（ふつう S6HK／ボス S6HB）
+const S6HK={angel:0.77,angelsword:0.57,angelarcher:0.86,guardian:0.61,pegasus:0.57},S6HB={guardian:0.59,angelgeneral:0.43,pegasus:0.43};
 const s6sp0=s6Spawn;
 s6Spawn=function(kind,x,z,y,o){o=o||{};if(S6BOSSK[kind]&&o.sc&&o.boss)o=Object.assign({},o,{sc:S6BOSSK[kind]});
-  const e=s6sp0(kind,x,z,y,o),K=S6K[kind];
+  const e=s6sp0(kind,x,z,y,o),K=S6K[kind];{const q=(o.boss?S6HB:S6HK)[kind];if(q&&q!==1){e.sc*=q;e.r*=q;e.hc*=q;e.mesh.scale.setScalar(e.sc);}}
   if(MODEL[K.mid]){const m=e.mesh,h=m.children[m.children.length-1];if(h&&S6DY[kind])h.position.y+=S6DY[kind];
     if(kind==='lightangel'){s6Tint(m,0xfff4d0,0x2a2208);s6Halo(m,1.3,0.3);
       const orb=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xfff0a0,transparent:true,opacity:0.85,blending:THREE.AdditiveBlending,depthWrite:false}));orb.scale.set(1.5,1.5,1);orb.position.set(0.55,0.7,0.45);m.add(orb);}
@@ -6130,6 +6135,30 @@ function mslTick(dt){const S=MSL;if(!S.on)return;const e=S.e;if(!e||e.dead||!EN.
 // ⑥ 体力0の時の知らせ　と　結果の画面の見出し
 {const ke=killEnemy;killEnemy=function(e,quiet){const m=!quiet&&e&&!e.dead&&e.type==='demon'&&SCN===1&&state==='play'&&STAGES[stage]&&STAGES[stage].key==='maou';ke(e,quiet);if(m)banner('🔥 魔王の術を、すべて受けきった！',2.6);};
  const se=showEnd;showEnd=function(win){se(win);if(win&&SCN===1){$('ovT').textContent='つづく…';$('ovS').textContent=`${C.name}の手の中で、火の玉はまだ燃えている。魔王との決着は、次の物語で。`;}};}
+
+/* ---- size_fit.py：人と小物の大きさを、王国編のふつうの槍の兵（体 約1.6）のものさしにそろえる ---- */
+const SZB={soldier:1.65,captain:1.8,skelmage:1.6};
+const SZH={bat:1.3,imp:1.45,cannon:1.4},SZQ=[],SZDONE=new Set();
+{const am=attachModel;attachModel=function(g,id){const r=am.apply(this,arguments);if(r&&g){g.userData.mid=id;g.userData.mhold=g.children[g.children.length-1];}return r;};}
+// 今の倍率 e.sc での大きさ：人の形は体の身長、小物は全体の高さ
+function szSize(e,id){const m=e.mesh,hd=m.userData.mhold||m;if(!id)return 0;const s0=m.scale.x,s1=m.scale.y,s2=m.scale.z,sc=e.sc||1;m.scale.setScalar(sc);m.updateMatrixWorld(true);let h=0;
+  if(SZB[id]){let hb=null;hd.traverse(c=>{if(!hb&&c.isBone&&c.name==='mixamorigHead')hb=c;});
+    if(hb)h=m.worldToLocal(hb.getWorldPosition(new V3())).y*sc*1.16;else h=new THREE.Box3().setFromObject(hd).getSize(new V3()).y*0.9;}
+  else h=new THREE.Box3().setFromObject(hd).getSize(new V3()).y;
+  m.scale.set(s0,s1,s2);m.updateMatrixWorld(true);return h;}
+function szFit(e){try{if(!e||e.dead||e._sz||!e.mesh||!EN.includes(e))return;e._sz=1;const id=e.mesh.userData.mid||(e.type==='cannon'?'cannon':'');if(!id)return;   // 大砲はモデルが無い（形を組んだ物）ので、種類の名前で見る
+ 
+  if(e.s6||e.s7)return;if(e.boss&&e.type!=='hero')return;const hum=SZB[id],T=hum||SZH[id];if(!T)return;
+  const key=id+'|'+(e.sc||1).toFixed(4);if(SZDONE.has(key))return;
+  const h=szSize(e,id);if(!(h>0.2))return;const f=h/T,g=!hum?1:(f>1?1+Math.min(0.25,(f-1)*0.15):1-Math.min(0.1,(1-f)*0.3)),q=g/f;
+  if(hum&&f>0.88&&f<1.12){SZDONE.add(key);return;}
+  e.sc=(e.sc||1)*q;e.hc*=q;e.r*=q<1?Math.max(q,0.75):q;e.szq=q;e.mesh.scale.setScalar(e.sc);SZDONE.add(id+'|'+e.sc.toFixed(4));}catch(_){}}
+{const ae=addEnemy;addEnemy=function(){const e=ae.apply(this,arguments);if(e&&e.mesh){if(!SZQ.length)Promise.resolve().then(()=>{SZQ.splice(0).forEach(szFit);});SZQ.push(e);}return e;};}
+// 自分で使う「王国の兵隊」は、敵の兵と同じ作りなのに1.5倍だった → 兵を 0.72 倍・大砲の高さ 1.45 に。「勇者」は体 2.5 → 2.0 に
+{const mp=makePlayerHuman;makePlayerHuman=function(k){const d=mp.apply(this,arguments);try{d.g.updateMatrixWorld(true);const v=new V3(),w=new V3();
+  d.units.forEach(u=>{const m=u.m;if(k!=='hero'){m.scale.multiplyScalar(0.72);return;}let hb=null;m.traverse(c=>{if(!hb&&c.isBone&&c.name==='mixamorigHead')hb=c;});if(!hb)return;
+    const b=(hb.getWorldPosition(v).y-m.getWorldPosition(w).y)*1.16,T=2.0;if(b>0.2&&Math.abs(T/b-1)>0.04)m.scale.multiplyScalar(T/b);});
+  d.guns.forEach(gn=>{const h=new THREE.Box3().setFromObject(gn.userData.mhold||gn).getSize(v).y;if(h>1.6)gn.scale.multiplyScalar(1.45/h);});}catch(_){}return d;};}
 
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
