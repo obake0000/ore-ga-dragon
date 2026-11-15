@@ -1114,7 +1114,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXY';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0A';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -1922,16 +1922,19 @@ function updBld(dt,t){updCrumb(dt);for(const b of BLD){if(b.rock)continue;
   if(Math.random()<0.18){b.box.getCenter(tmp3);smoke(tmp3,1,5,2,0x7a7060,3);}
   if(b.t>2.6){b.gone=true;scene.remove(b.g);const sz=b.box.getSize(new V3());const r=mesh(new THREE.DodecahedronGeometry(1),mat(0x5a5248));r.scale.set(sz.x*0.5,Math.min(3,b.h*0.2),sz.z*0.5);r.position.set((b.box.min.x+b.box.max.x)/2,b.box.min.y,(b.box.min.z+b.box.max.z)/2);r.receiveShadow=true;scene.add(r);b.rub=r;}}}
 // 柱・アーチ・岩の柱に当たったら外へ押し出す。速くぶつかったらダメージ
-function collide(dt){brBump(dt);const wf=P.pos.y-C.gOff,wg=!C.fly&&!DUN.on&&!CAVE.on&&wf<H(P.pos.x,P.pos.z)+1;const pad=C.human?1.4:C.fly?2.6:2.2,bot=P.pos.y-C.gOff*0.7,top=P.pos.y+2;P.crashCd=(P.crashCd||0)-dt;
+function collide(dt){brBump(dt);const wf=P.pos.y-C.gOff,wg=!C.fly&&!DUN.on&&!CAVE.on&&wf<H(P.pos.x,P.pos.z)+1;const pad=C.human?1.4:C.fly?2.6:2.2,bot=P.pos.y-C.gOff*0.7,top=P.pos.y+2;
   for(const q of COLS){if(bot>q.y1||top<q.y0)continue;const dx=P.pos.x-q.x,dz=P.pos.z-q.z;let nx=0,nz=0,pen=0;const sol=wg&&q.wk&&(q.wk===1?q.y1-bot>0.2:!!q.wk.parent);
     if(q.t===0){const dd=Math.hypot(dx,dz),rr=q.r+pad;if(dd>=rr)continue;
-      if(bot>q.y1-3&&!sol){const tg=q.y1+C.gOff*0.7;P.pos.y+=Math.min(tg-P.pos.y,30*dt);if(P.vel.y<0)P.vel.y=0;if(P.vy<0){P.vy=0;P.onGround=true;}continue;} // 上に乗る
+      if(bot>q.y1-3&&!sol){flightImpact(-P.vel.y,0,0,dt);const tg=q.y1+C.gOff*0.7;P.pos.y+=Math.min(tg-P.pos.y,30*dt);if(P.vel.y<0)P.vel.y=0;if(P.vy<0){P.vy=0;P.onGround=true;}continue;} // 上に乗る
       nx=dx/(dd||1);nz=dz/(dd||1);pen=rr-dd;}
     else{const lx=dx*q.c-dz*q.s,lz=dx*q.s+dz*q.c,px=q.hw+pad-Math.abs(lx),pz=q.hd+pad-Math.abs(lz);if(px<=0||pz<=0)continue;
-      if(bot>q.y1-2.2&&!sol){P.pos.y+=Math.min(q.y1+C.gOff*0.7-P.pos.y,30*dt);if(P.vel.y<0)P.vel.y=0;if(P.vy<0){P.vy=0;P.onGround=true;}continue;}
+      if(bot>q.y1-2.2&&!sol){flightImpact(-P.vel.y,0,0,dt);P.pos.y+=Math.min(q.y1+C.gOff*0.7-P.pos.y,30*dt);if(P.vel.y<0)P.vel.y=0;if(P.vy<0){P.vy=0;P.onGround=true;}continue;}
       let ux=0,uz=0;if(px<pz){ux=Math.sign(lx)||1;pen=px;}else{uz=Math.sign(lz)||1;pen=pz;}nx=ux*q.c+uz*q.s;nz=-ux*q.s+uz*q.c;}
     if((q.b||q.ru)&&P.dashT>0&&!C.human)dashRock(q);P.pos.x+=nx*pen;P.pos.z+=nz*pen;const vn=P.vel.x*nx+P.vel.z*nz;
-    if(vn<0){const imp=-vn;if(imp>crT()&&!sol&&P.crashCd<=0&&state==='play'){P.crashCd=0.6;crash((imp-crT()*0.72)*0.6,q,nx,nz);P.vel.x-=nx*vn*1.4;P.vel.z-=nz*vn*1.4;}else{P.vel.x-=nx*vn;P.vel.z-=nz*vn;}}}}
+    if(vn<0){const imp=-vn;let bounce=false;
+      if(!sol&&dt>0){if(C.fly)bounce=flightImpact(imp,nx,nz,dt);
+        else if(imp>crT()&&P.crashCd<=0&&state==='play'){P.crashCd=0.6;crash((imp-crT()*0.72)*0.6,q,nx,nz);bounce=true;}}
+      const push=bounce?1.4:1;P.vel.x-=nx*vn*push;P.vel.z-=nz*vn*push;}}}
 // ぶつかってダメージが入り始める速さ：飛空艇は速さの6割、大型（竜・ワイバーン・アースドラゴン・ゴーレム）は9割、ほかは62（突進か急降下の時だけ）
 function crT(){const k=charKey;return k==='airship'?C.spd*0.6:(k==='dragon'||k==='wyvern'||k==='ground'||k==='golem')?Math.min(62,C.spd*0.9):62;}
 function crash(n,q,nx,nz){if(EASY)n*=0.4;n=Math.round(n);P.hp-=n;P.dashT=0;P.inv=0.3;dmgFlash();shake(0.8);sfx('crash',null,0.9);sfx('ouch',null,0.7);
@@ -2874,14 +2877,14 @@ function gmReinf(dt){const G=GATE;if(!G||G.kind!=='castle'||!G.g3||!gmOk()||stat
   G.tg=1;G.cl=3.5;const c=new V3(G.x,floorAt(G.x,G.z)+3,G.z+8);sfx('boom',c,0.6);sfx('crash',c,0.4);smoke(c,10,6,2.6,0x9a8a70,6);banner('🚪 城門が開いた！ 兵の隊が出てくる',2.2);}
 {const g0=gmStart;gmStart=function(i){if(GATE){GATE.rT=18;GATE.rN=0;}return g0.apply(this,arguments);};}
 // 建物は通りぬけられない：ぶつかったら外へ押し出す。横から行けば止まり、屋根より高ければ上を通る。
-function bldBlock(dt){
+function bldBlock(dt,flightY){
   const pad=C.human?1.3:C.fly?1.8:1.3,x0=P.bpx,z0=P.bpz,have=x0!==undefined&&Math.hypot(P.pos.x-x0,P.pos.z-z0)<14;
-  let hit=null,hvn=0;P.bCt=(P.bCt||0)-dt;P.bFx=(P.bFx||0)-dt;
+  let hit=null,hvn=0,wallSpeed=0,wallFace=-1,roofSpeed=0;P.bCt=(P.bCt||0)-dt;P.bFx=(P.bFx||0)-dt;
   for(let it=0;it<3;it++){let moved=false;
     for(const b of BLD){if(b.dead||b.rock||b.np)continue;const bx=b.box,x=P.pos.x,z=P.pos.z;
       if(!(x>bx.min.x-pad&&x<bx.max.x+pad&&z>bx.min.z-pad&&z<bx.max.z+pad))continue;
       const bt=P.pos.y-C.gOff;if(bt>=bx.max.y-1.2||P.pos.y+4<bx.min.y)continue;
-      if(bt>bx.max.y-3.4){const tg=bx.max.y+C.gOff;P.pos.y+=Math.min(tg-P.pos.y,40*Math.max(dt,0.016));if(P.vel.y<0)P.vel.y=0;if(!C.fly){P.vy=0;P.onGround=true;}moved=true;continue;}
+      if(bt>bx.max.y-3.4||flightY-C.gOff>=bx.max.y-1.2){roofSpeed=Math.max(roofSpeed,-P.vel.y);const tg=bx.max.y+C.gOff;P.pos.y=flightY-C.gOff>=bx.max.y-1.2?tg:P.pos.y+Math.min(tg-P.pos.y,40*Math.max(dt,0.016));if(P.vel.y<0)P.vel.y=0;if(!C.fly){P.vy=0;P.onGround=true;}moved=true;continue;}
       const d=[x-(bx.min.x-pad),bx.max.x+pad-x,z-(bx.min.z-pad),bx.max.z+pad-z];let ax=-1;
       if(have){const oX=x0<=bx.min.x-pad+0.01?0:x0>=bx.max.x+pad-0.01?1:-1,oZ=z0<=bx.min.z-pad+0.01?2:z0>=bx.max.z+pad-0.01?3:-1;
         if(oX>=0&&oZ>=0)ax=d[oX]<=d[oZ]?oX:oZ;else if(oX>=0)ax=oX;else if(oZ>=0)ax=oZ;}
@@ -2891,12 +2894,18 @@ function bldBlock(dt){
       else if(ax===1){P.pos.x=bx.max.x+pad;vn=P.vel.x<0?-P.vel.x:0;if(P.vel.x<0)P.vel.x=0;}
       else if(ax===2){P.pos.z=bx.min.z-pad;vn=P.vel.z>0?P.vel.z:0;if(P.vel.z>0)P.vel.z=0;}
       else{P.pos.z=bx.max.z+pad;vn=P.vel.z<0?-P.vel.z:0;if(P.vel.z<0)P.vel.z=0;}
+      if(vn>wallSpeed){wallSpeed=vn;wallFace=ax;}
       moved=true;if(it===0&&have&&(pen/Math.max(dt,0.004)>0.6||vn>0.8)&&vn>=hvn){hvn=vn;hit=b;}}
     if(!moved)break;}
   if(hit&&!C.human){P.bCt=0.15;const dash=P.dashT>0;
     if(dash&&hit.dashSeen!==P.dashHit){hit.dashSeen=P.dashHit;hitBld(hit,C.human?25:60);}
     hitBld(hit,(dash?(C.human?260:520):C.human?50:C.fly?90:110)*dt);
     if(P.bFx<=0){P.bFx=0.35;shake(dash?0.45:0.2);debris(P.pos,dash?5:2,[0x9a8a72,0xa03a2a,0x6a6a6a],1);sfx('crash',null,dash?0.6:0.35);}}
+  if(C.fly){
+    const wall=flightCrashDamage(wallSpeed,false),roof=flightCrashDamage(roofSpeed,true);
+    if(wall>=roof&&wall>0)flightImpact(wallSpeed,wallFace===0?-1:wallFace===1?1:0,wallFace===2?-1:wallFace===3?1:0,dt);
+    else if(roof>0)flightImpact(roofSpeed,0,0,dt);
+  }
   P.bpx=P.pos.x;P.bpz=P.pos.z;
 }
 // ---- 戦車の見せ方：とげの突撃（ためる→突っこむ→止まる）と、装甲かため（鉄板が閉じる）
@@ -2935,14 +2944,19 @@ function s7Col(id,x,z,o,g){const h=o.h||10,y=g.position.y,rot=o.rot||0,c=Math.co
   else if(id==='shipwreck'){bx(0,0,h*0.2,h*0.62,-3,h*0.42);cyl(0,0,h*0.07,h*0.3,h*0.9);}
   else if(id==='seapalace'){const W=h*1.25,D=h*1.12;bx(0,-0.05*D,0.4*W,0.3*D,-3,h*0.55);cyl(0,-0.08*D,0.21*W,h*0.5,h*0.78);cyl(0.03*W,-0.08*D,0.11*W,h*0.7,h*0.97);}}
 // ---- 橋に横から速くぶつかった時：はね返ってダメージ（板より上を飛んでいれば当たらない。渡り口からは普通に乗れる）
-function brBump(dt){const x=P.pos.x,z=P.pos.z,o=P.bq0;P.bq0={x,y:P.pos.y,z};if(!o||!BRIDGES.length||C.human||state!=='play'||(P.crashCd||0)>0||DUN.on)return;
-  const hv=Math.hypot(P.vel.x,P.vel.z);if(hv<=crT())return;
+function brBump(dt){const x=P.pos.x,z=P.pos.z,o=P.bq0;P.bq0={x,y:P.pos.y,z};if(!o||!BRIDGES.length||(!C.fly&&(C.human||(P.crashCd||0)>0))||state!=='play'||DUN.on||dt<=0||(D&&D.landing))return;
+  const hv=Math.hypot(P.vel.x,P.vel.z);if(hv<=(C.fly?flightCrashLimit(false):crT()))return;
   for(const b of BRIDGES){const dx=b.bx-b.ax,dz=b.bz-b.az,L2=dx*dx+dz*dz,L=Math.sqrt(L2)||1,t=((x-b.ax)*dx+(z-b.az)*dz)/L2;if(t<0.06||t>0.94)continue;
     const sd=((x-b.ax)*dz-(z-b.az)*dx)/L,so=((o.x-b.ax)*dz-(o.z-b.az)*dx)/L,hw=b.w/2+1.6;if(Math.abs(sd)>hw||Math.abs(so)<=hw)continue;
     const dk=b.ay+(b.by-b.ay)*t;if(o.y-C.gOff>dk+0.9)continue;
     const sg=Math.sign(so)||1,nx=sg*dz/L,nz=-sg*dx/L,vn=P.vel.x*nx+P.vel.z*nz;if(vn>=0)continue;
-    P.crashCd=0.6;P.pos.x=o.x;P.pos.z=o.z;P.pos.y=o.y;P.bq0={x:o.x,y:o.y,z:o.z};crash((hv-crT()*0.72)*0.6,null,nx,nz);P.vel.x-=nx*vn*1.4;P.vel.z-=nz*vn*1.4;
-    debris(new V3(x,dk+0.5,z),8,[0x8a5a32,0x5a3a20],1.1);return;}}
+    let bounce=true;
+    if(C.fly)bounce=flightImpact(-vn,nx,nz,dt);
+    else{P.crashCd=0.6;crash((hv-crT()*0.72)*0.6,null,nx,nz);}
+    const push=bounce?1.4:1;
+    P.pos.x=o.x;P.pos.z=o.z;P.pos.y=o.y;P.bq0={x:o.x,y:o.y,z:o.z};P.vel.x-=nx*vn*push;P.vel.z-=nz*vn*push;
+    if(bounce)debris(new V3(x,dk+0.5,z),8,[0x8a5a32,0x5a3a20],1.1);
+    return;}}
 // ---- 竜王編（シナリオ5）をやさしく：その波で出た敵の体力を下げる（1体につき1回だけ）
 function s5Easy(n0){if(SCN!==5)return;for(let i=Math.max(0,n0);i<EN.length;i++){const e=EN[i];if(!e||e.s5e)continue;e.s5e=1;e.hp=e.maxHp=Math.max(1,Math.round(e.maxHp*0.66));}}
 // ドラゴンの近づく攻撃：m は 0〜1（0.45秒）。つめ＝0〜0.3 振りかぶる→0.3〜0.5 振り抜く→もどる
@@ -8096,14 +8110,26 @@ function frame(now){
     const ad=aimDir(),slow=keys.ShiftLeft||keys.ShiftRight;
     if(P.dashT>0){P.dashT-=dt;if(!C.human&&Math.random()<0.5)burst(P.pos,1,SPARK,2,6,0.3);}
     P.dodgeCd=(P.dodgeCd||0)-dt;P.dashCd=(P.dashCd||0)-dt;P.guardCd=(P.guardCd||0)-dt;if(P.guardT>0)P.guardT-=dt;if(P.dodgeT>0){P.dodgeT-=dt;if(Math.random()<0.7)burst(P.pos,1,[0xffffff,0xd8f0ff],1.8,2,0.3);}
+    P.crashCd=Math.max(0,(P.crashCd||0)-dt);
     if(C.fly){
+      const ox=P.pos.x,oy=P.pos.y,oz=P.pos.z;
       const ff=feelFly(dt,ad,slow),spd=P.dashT>0?C.spd*(C.human?2.2:3):slow?14:C.spd*(ff?ff.m:1+Math.max(0,-ad.y)*0.7)*((P.ringT||0)>0?1.5:1);const mv=(P.dashT>0?ad:ad).clone().multiplyScalar(spd);
       if((charKey==='dragon'||charKey==='wyvern'||charKey==='archangel')&&P.onGround&&!(P.dashT>0)){const wk=charKey==='archangel'?0.24:charKey==='wyvern'?(D&&D.g.userData.flap&&D.g.userData.flap.wy3?WY3.walk:0.24):RIGCF.walk;mv.x*=wk;mv.z*=wk;}P.vel.lerp(mv,1-Math.exp(-(P.bankT>0?22:P.dashT>0?10:feelRate(mv.length(),slow))*dt));P.pos.addScaledVector(P.vel,dt);
       dunPush();const gh=dunBodyY()+C.gOff;if(P.onGround&&P.pitch<0.1&&!(P.dashT>0)&&P.pos.y<gh+3.5&&P.pos.y>gh&&(DUN.on||H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER)){P.pos.y=gh;if(P.vel.y>0)P.vel.y=0;}
-      if(P.pos.y<gh){P.pos.y=gh;if(P.vel.y<-crT()&&(P.crashCd||0)<=0&&!C.human&&H(P.pos.x,P.pos.z)>WATER){P.crashCd=0.8;crash((-P.vel.y-crT()*0.8)*0.5,null,0,0);P.vel.y=20;}else if(P.vel.y<0)P.vel.y=0;}
-      bldBlock(dt);const bt={hit:null};if(false){const need=bt.top+C.gOff-P.pos.y;P.pos.y+=Math.min(need,(need>5?24:50)*dt);if(P.vel.y<0)P.vel.y*=0.6;if(need>2.5&&!C.human){{const hv=Math.hypot(P.vel.x,P.vel.z);if(hv>crT()&&(P.crashCd||0)<=0){P.crashCd=0.8;crash((hv-crT()*0.72)*0.5,null,P.vel.x/hv,P.vel.z/hv);P.vel.x*=0.3;P.vel.z*=0.3;}}hitBld(bt.hit,90*dt);if(Math.random()<0.25){debris(P.pos,1,[0x9a8a72,0xa03a2a],0.8);shake(0.1);}}}
+      if(P.pos.y<gh){
+        const x=P.pos.x,z=P.pos.z,land=DUN.on||H(x,z)>WATER||bridgeY(x,z)>WATER;
+        let impact=-P.vel.y;
+        if(land&&!DUN.on&&dt>0){
+          const distance=Math.hypot(x-ox,z-oz),rise=gh-C.gOff-floorAt(ox,oz);
+          // 上り坂は斜面に向かう速さを使う。斜面に沿って飛ぶだけなら傷つかない。
+          if(distance>0&&rise>0)impact=(impact*distance+Math.hypot(P.vel.x,P.vel.z)*rise)/Math.hypot(distance,rise);
+        }
+        P.pos.y=gh;
+        if(land&&flightImpact(impact,0,0,dt))P.vel.y=20;else if(P.vel.y<0)P.vel.y=0;
+      }
+      bldBlock(dt,oy);
       P.onGround=P.pos.y<=gh+0.5&&(DUN.on||H(P.pos.x,P.pos.z)>WATER+0.3||bridgeY(P.pos.x,P.pos.z)>WATER);
-      if(charKey==='wyvern'){const hv=gh+5;if(P.pos.y<hv){P.pos.y+=(hv-P.pos.y)*Math.min(1,dt*7);if(P.vel.y<0)P.vel.y=0;}P.onGround=false;}  // ワイバーンは地上を歩かない：地面すれすれを飛びつづける（11/15 ふみさん）
+      if(charKey==='wyvern'){const hv=gh+5;if(P.pos.y<hv&&P.vel.y>=-flightCrashLimit(true)){P.pos.y+=(hv-P.pos.y)*Math.min(1,dt*7);if(P.vel.y<0)P.vel.y=0;}P.onGround=false;}  // ワイバーンは低速で地面すれすれを飛ぶ。急降下では高度補助を止める。
     }else{
       const fx=Math.sin(P.yaw),fz=Math.cos(P.yaw);const bt={hit:null};const smash=!C.human&&(P.bCt||0)>0;
       
@@ -11241,6 +11267,21 @@ function ringFormRoom(){return !!RFORMS[charKey]&&DUN.on;}
  for(let i=0;i<zs.length-1;i++){const lo=zs[i]+12,hi=zs[i+1]-12;if(hi<=lo)continue;spots.push({x:cx-7,z:lo+(hi-lo)*0.27},{x:cx+7,z:lo+(hi-lo)*0.73});}
  RINGS.L.forEach((q,i)=>{if(i>=spots.length){RINGS.g.remove(q.h);return;}const p=spots[i];q.x=p.x;q.z=p.z;q.R=9;q.y=DUN.y+dunSt(p.x,p.z)+q.R*0.86;q.nx=0;q.nz=1;q.pd=0;q.airR=9;q.h.position.set(q.x,q.y,q.z);q.h.rotation.set(0,0,0);});RINGS.L=RINGS.L.slice(0,spots.length);return r;};}
 {const before=updRings;updRings=function(){if((ringFormRoom()?DUN.g:null)!==RINGS.dunRef&&(ringFormRoom()||RINGS.dunRef))ringsBuild();return before.apply(this,arguments);};}
+
+// 飛行中の衝突。急な降下と壁に向かう速度を別々に測り、自動着地中は免除する。
+function flightCrashLimit(vertical){return Math.max(18,C.spd*(vertical?0.55:charKey==='airship'?0.6:0.78));}
+function flightCrashDamage(speed,vertical){
+  const limit=flightCrashLimit(vertical);
+  return speed>limit?(speed-limit*(vertical?0.8:0.72))*(vertical?0.5:0.6):0;
+}
+function flightImpact(speed,nx,nz,dt){
+  if(!C.fly||dt<=0||state!=='play'||P.crashCd>0||(D&&D.landing))return false;
+  const vertical=nx===0&&nz===0,damage=flightCrashDamage(speed,vertical);
+  if(!damage)return false;
+  P.crashCd=vertical?0.8:0.6;
+  crash(damage,null,nx,nz);
+  return true;
+}
 
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
