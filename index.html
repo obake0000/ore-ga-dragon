@@ -937,7 +937,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aay';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aaz';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 async function loadModels(){try{await loadModels0();}finally{loadDone();}}
@@ -2058,9 +2058,9 @@ function rcAI(e,dt,dx,dz,hd,d3){const p=e.mesh.position,u=e.mesh.userData,sp=e.s
   if(u.armR&&e.rm==='rush'&&d3<e.r+6)u.armR.rotation.x=-1.4+Math.sin(e.t*22)*0.8;}
 
 /* ================= クラーケン（プレイできる大ダコ：触手を伸ばして戦う） ================= */
-CH.kraken={name:'クラーケン',em:'🐙',tag:'海も陸も・触手',ds:'海の主の大ダコ。足は遅いが体力が多く、海では速く泳ぐ。触手をびゅっと伸ばして、遠くの敵も空の敵も打つ。近くはぐるっとなぎはらう。',hp:620,spd:9,turn:1.5,fly:false,range:85,
-  br:{mat:MAT.big,dmg:30,cd:0.55,spd:100,life:1,size:1,splash:0,col:[0xb23a74]},sp:'krvortex',spN:'大うず',sp2:'kr8hit',sp2N:'八本たたき',dash:'guard',dashN:'墨はき',
-  spD:'まわりの敵を引きよせて回し、最後にたたく',sp2D:'8本の触手を、前の広い範囲へ次々にたたきつける',dashD:'前へ墨をふきだす。敵は黒くそまって遅くなり、地面の墨が焼きつづける',
+CH.kraken={name:'クラーケン',em:'🐙',tag:'海も陸も・触手',ds:'海の主の大ダコ。足は遅いが体力が多く、海では速く泳ぐ。触手をびゅっと伸ばして、遠くの敵も空の敵も打つ。近くはぐるっとなぎはらう。スペースで触手を刺して、体を一気に引きよせる。',hp:620,spd:9,turn:1.5,fly:false,range:85,
+  br:{mat:MAT.big,dmg:30,cd:0.55,spd:100,life:1,size:1,splash:0,col:[0xb23a74]},sp:'krvortex',spN:'大うず',sp2:'kr8hit',sp2N:'八本たたき',dash:'krpull',dashN:'触手ひき',
+  spD:'まわりの敵を引きよせて回し、最後にたたく',sp2D:'8本の触手を、前の広い範囲へ次々にたたきつける',dashD:'前へ触手をのばして刺し、体を一気に引きよせる。通り道の敵にダメージ',
   mel:{r:17,dmg:55,cd:0.55,ono:'バシィッ！'},model:{id:'kraken',w:20,h:17,d:20,mouth:[0,4,7]},camB:40,camU:16,gOff:6,stat:[4,2,4]};
 VSET.kraken='d';
 // 画像が無い間のこわれ防止：顔絵は絵文字の仮の絵に、技の小さな絵は隠す（できたら置くだけで、本物を使う）
@@ -4375,10 +4375,146 @@ function rcShadow(){const K=SPM();P.dashT=Math.max(P.dashT,1.3);P.dashHit++;sfx(
 /* ---- クラーケンの必殺技：大うず（krvortex）・八本たたき（kr8hit）。弱め・強めの倍率は、ほかの技と同じ SPZ・SPM に乗せる ---- */
 ULTL.krvortex='渦に、のまれろ！';ULTL.kr8hit='八本まとめて、くらえ！';
 SKPOOL.kraken=['krvortex','kr8hit','quake','discharge','gbeam'];
+/* ---- kr2（11/15）クラーケン：大うずの見た目（水面のうずまき）／八本たたきの見た目（太い触手・落ちる場所の輪・しぶき・ひび）／スペース「触手ひき」 ---- */
+const KV={T:null,cur:null},KVC=[0xffffff,0xbfeaff,0x80d0ff],K8={ck:null};
+// うずまきの模様（最初の1回だけ作る）。a＝暗い水の皿／b＝白い泡のすじ（外・ゆっくり）／c＝泡のすじ（内・速い）／w＝ふちの波
+function kvTex(){if(KV.T)return KV.T;
+  const mk=(w,h,fn)=>{const c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');fn(g,w,h);const t=new THREE.CanvasTexture(c);t.center.set(0.5,0.5);return t;};
+  // 中心へ巻きこむ帯を1本（r0→r1＝半径の割合、tw＝巻く角度、wd＝太さ、ta〜tb＝帯のどこからどこまで）
+  const arm=(g,S,a0,tw,r0,r1,wd,al,ta,tb)=>{const c=S/2,M=36,L=[],Q=[];
+    for(let j=0;j<=M;j++){const u=j/M,t=ta+(tb-ta)*u,r=c*(r0+(r1-r0)*Math.pow(t,1.3)),a=a0-t*tw,w=wd*0.5*Math.pow(Math.sin(Math.PI*(0.03+u*0.94)),0.7),cx=Math.cos(a),sy=Math.sin(a);L.push([c+cx*(r+w),c+sy*(r+w)]);Q.push([c+cx*(r-w),c+sy*(r-w)]);}
+    g.globalAlpha=al;g.beginPath();g.moveTo(L[0][0],L[0][1]);for(let j=1;j<=M;j++)g.lineTo(L[j][0],L[j][1]);for(let j=M;j>=0;j--)g.lineTo(Q[j][0],Q[j][1]);g.closePath();g.fill();g.globalAlpha=1;};
+  const mask=(g,S,st)=>{const c=S/2,gr=g.createRadialGradient(c,c,0,c,c,c);st.forEach(q=>gr.addColorStop(q[0],'rgba(255,255,255,'+q[1]+')'));g.globalCompositeOperation='destination-in';g.fillStyle=gr;g.fillRect(0,0,S,S);g.globalCompositeOperation='source-over';};
+  const foam=(g,S,n,tw,r0,r1,wd,fine,seed)=>{let s=seed;const rn=()=>(s=s*16807%2147483647)/2147483647;g.fillStyle='#fff';g.shadowColor='rgba(255,255,255,0.85)';g.shadowBlur=S/80;
+    for(let i=0;i<n;i++)arm(g,S,i/n*6.2832+rn()*0.3,tw,r0,r1,wd*(0.75+rn()*0.5),0.95,0,1);
+    g.shadowBlur=S/200;
+    for(let i=0;i<fine;i++){const ta=rn()*0.75;arm(g,S,rn()*6.2832,tw,r0,r1,wd*(0.1+rn()*0.22),0.3+rn()*0.5,ta,Math.min(1,ta+0.12+rn()*0.3));}
+    g.shadowBlur=0;
+    for(let i=0;i<fine*3;i++){const t=rn(),r=S/2*(r0+(r1-r0)*t),a=rn()*6.2832;g.globalAlpha=0.35+rn()*0.5;g.beginPath();g.arc(S/2+Math.cos(a)*r,S/2+Math.sin(a)*r,0.6+rn()*S/260,0,7);g.fill();}g.globalAlpha=1;};
+  const a=mk(256,256,(g,S)=>{const c=S/2,gr=g.createRadialGradient(c,c,0,c,c,c);
+    [[0,'rgba(1,4,12,0.95)'],[0.15,'rgba(2,9,26,0.95)'],[0.33,'rgba(5,32,72,0.88)'],[0.6,'rgba(12,74,130,0.66)'],[0.85,'rgba(36,130,184,0.32)'],[1,'rgba(70,170,215,0)']].forEach(q=>gr.addColorStop(q[0],q[1]));g.fillStyle=gr;g.fillRect(0,0,S,S);
+    g.strokeStyle='rgba(150,228,255,0.55)';g.lineWidth=2.5;g.shadowColor='rgba(150,228,255,0.9)';g.shadowBlur=8;g.beginPath();g.arc(c,c,c*0.21,0,7);g.stroke();g.shadowBlur=0;
+    g.strokeStyle='rgba(0,0,0,0.4)';g.lineWidth=2;[0.09,0.14].forEach(r=>{g.beginPath();g.arc(c,c,c*r,0,7);g.stroke();});});
+  const b=mk(512,512,(g,S)=>{foam(g,S,6,4.4,0.24,0.99,22,46,11);mask(g,S,[[0,0],[0.2,0],[0.32,1],[0.72,0.92],[0.93,0.4],[1,0]]);});
+  const c=mk(512,512,(g,S)=>{foam(g,S,4,5.4,0.1,0.62,15,22,5);mask(g,S,[[0,0],[0.09,0],[0.19,1],[0.46,0.85],[0.63,0]]);});
+  const w=mk(512,64,(g,W,Hh)=>{for(let x=0;x<W;x++){const u=x/W*6.2832,h=Hh*(0.5+0.22*Math.sin(u*3)+0.16*Math.sin(u*7+1)+0.1*Math.sin(u*13+2.2)),gr=g.createLinearGradient(0,Hh,0,Hh-h);
+    gr.addColorStop(0,'rgba(255,255,255,0.95)');gr.addColorStop(0.55,'rgba(255,255,255,0.5)');gr.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=gr;g.fillRect(x,Hh-h,1,h);}});
+  w.center.set(0,0);w.wrapS=THREE.RepeatWrapping;w.repeat.set(4,1);
+  return KV.T={a,b,c,w};}
+// うずまきの板（半径1の丸いあみ目）と、ふちの波（半径1の帯）。高さは kvFit が地面に合わせる
+function kvDisc(){const RG=[0.13,0.27,0.42,0.57,0.72,0.86,1],SG=48,n=1+RG.length*SG,pos=new Float32Array(n*3),uv=new Float32Array(n*2),idx=[];uv[0]=uv[1]=0.5;
+  RG.forEach((r,i)=>{for(let j=0;j<SG;j++){const a=j/SG*6.2832,k=1+i*SG+j,x=Math.cos(a)*r,z=Math.sin(a)*r;pos[k*3]=x;pos[k*3+2]=z;uv[k*2]=0.5+x*0.5;uv[k*2+1]=0.5+z*0.5;}});
+  for(let j=0;j<SG;j++)idx.push(0,1+j,1+(j+1)%SG);
+  for(let i=0;i<RG.length-1;i++)for(let j=0;j<SG;j++){const a=1+i*SG+j,b=1+i*SG+(j+1)%SG,c=a+SG,d=b+SG;idx.push(a,c,b,b,c,d);}
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setAttribute('uv',new THREE.BufferAttribute(uv,2));g.setIndex(idx);return g;}
+function kvWall(){const SG=48,m=SG+1,pos=new Float32Array(m*6),uv=new Float32Array(m*4),idx=[];
+  for(let j=0;j<m;j++){const a=j/SG*6.2832,x=Math.cos(a),z=Math.sin(a);pos[j*3]=x;pos[j*3+2]=z;pos[(j+m)*3]=x*1.05;pos[(j+m)*3+2]=z*1.05;uv[j*2]=uv[(j+m)*2]=j/SG;uv[j*2+1]=0;uv[(j+m)*2+1]=1;}
+  for(let j=0;j<SG;j++)idx.push(j,j+m,j+1,j+1,j+m,j+m+1);
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setAttribute('uv',new THREE.BufferAttribute(uv,2));g.setIndex(idx);return g;}
+function kvFit(G,sc){const u=G.userData,px=G.position.x,pz=G.position.z,p=u.dg.attributes.position,n=p.count;
+  for(let i=0;i<n;i++)p.setY(i,dunFloorY(px+p.getX(i)*sc,pz+p.getZ(i)*sc)+0.7);p.needsUpdate=true;
+  const w=u.wg.attributes.position,m=w.count/2;for(let j=0;j<m;j++){const y=dunFloorY(px+w.getX(j)*sc,pz+w.getZ(j)*sc)+0.6;w.setY(j,y);w.setY(j+m,y+u.wh);}w.needsUpdate=true;}
+// 大うずの見た目：出ている間は体について動く。続けて出した時は、今ある物をのばす
+function krVortexFx(R){const old=KV.cur,of=old&&!old.userData.end?FXL.find(q=>q.m===old):null;if(of){of.t=0;old.userData.n++;old.userData.R=Math.max(old.userData.R,R);return old;}
+  const T=kvTex(),G=new THREE.Group(),dg=kvDisc(),wg=kvWall(),U=G.userData;
+  const mk=(geo,mt,y)=>{const m=new THREE.Mesh(geo,mt);m.frustumCulled=false;m.renderOrder=1;m.position.y=y;G.add(m);return m;};
+  const A=mk(dg,nMat(0xffffff,T.a,0),0),B=mk(dg,nMat(0xe6f5ff,T.b,0),0.12),Cc=mk(dg,addMat(0x7fd4ff,T.c,0),0.24),W=mk(wg,nMat(0xe6f8ff,T.w,0),0);
+  Object.assign(U,{t:0,ft:0,end:0,n:1,R,s:0,x:1e9,z:1e9,dg,wg,wh:6.5,sp:0,an:rnd(0,6)});KV.cur=G;
+  return fxAdd(G,3.4,(o,k,dt)=>{const u=o.userData;u.t+=dt;if(u.end)u.ft+=dt;
+    const gk=Math.min(1,u.t/0.4),sc=u.R*(0.25+0.75*(1-Math.pow(1-gk,3))),al=Math.min(1,u.t/0.25)*(u.end?Math.max(0,1-u.ft/0.45):1)*Math.min(1,(1-k)/0.08),px=P.pos.x,pz=P.pos.z;
+    if(sc!==u.s||Math.abs(px-u.x)+Math.abs(pz-u.z)>0.25){u.s=sc;u.x=px;u.z=pz;o.position.set(px,0,pz);o.scale.set(sc,1,sc);kvFit(o,sc);}
+    T.a.rotation+=dt*0.5;T.b.rotation+=dt*1.7;T.c.rotation+=dt*4.2;T.w.offset.x-=dt*0.55;
+    A.material.opacity=al;B.material.opacity=0.92*al;Cc.material.opacity=0.8*al;W.material.opacity=0.75*al;
+    u.sp-=dt;if(u.sp<=0&&al>0.6){u.sp=0.06;u.an+=0.55;for(let q=0;q<3;q++){const a=u.an+q*2.094,x=px+Math.cos(a)*sc*0.96,z=pz+Math.sin(a)*sc*0.96;burst(tmp.set(x,dunFloorY(x,z)+1,z),1,KVC,3,5,0.6,15);}}});}
+// 水柱：ねじれた水のすじが、下から一気に立ち上がって、しぼんで消える
+function kvSpout(f,r,h,life){const G=new THREE.Group(),tx=fxTex('swirl');G.position.copy(f);
+  for(let j=0;j<2;j++){const g=new THREE.CylinderGeometry(1.3-j*0.45,0.75-j*0.3,1,28,1,true);g.translate(0,0.5,0);const m=new THREE.Mesh(g,nMat(j?0xffffff:0x9fdcff,tx,0.9));m.userData.sp=j?-7:5;G.add(m);}
+  return fxAdd(G,life,(o,k,dt)=>{const u=k<0.18?k/0.18:1,e=1-(1-u)*(1-u),dn=k<0.45?1:1-(k-0.45)/0.55,w=r*(0.7+0.3*e)*(0.6+0.4*dn);o.scale.set(w,h*e*(0.35+0.65*dn),w);
+    o.children.forEach(c=>{c.rotation.y+=c.userData.sp*dt;c.material.opacity=0.9*Math.min(1,dn*1.6);});});}
+// 大うずの終わり：中心から水柱がドンと上がる
+function krVortexEnd(g,SPZ){const G=KV.cur;if(G&&--G.userData.n<=0)G.userData.end=1;const f=new V3(g.x,dunFloorY(g.x,g.z),g.z);
+  kvSpout(f,10*SPZ,58,1.1);pillar(f,0xffffff,3.5*SPZ,74,0.6);glowFlash(new V3(f.x,f.y+12,f.z),0xbfeaff,46*SPZ,0.5);
+  for(let i=0;i<8;i++){const a=i/8*6.2832;burst(tmp.set(f.x+Math.cos(a)*10*SPZ,f.y+3,f.z+Math.sin(a)*10*SPZ),3,KVC,5,12,1.0,38);}
+  smoke(f,10,10,1.8,0xe8f6ff,14*SPZ);shock(f,0xbfeaff,40*SPZ);}
+
+// 地面のかたむきに合わせて、板を寝かせる
+function kvLay(m,c,y){const e=3,nx=dunFloorY(c.x-e,c.z)-dunFloorY(c.x+e,c.z),nz=dunFloorY(c.x,c.z-e)-dunFloorY(c.x,c.z+e);m.position.set(c.x,c.y+y,c.z);m.lookAt(c.x+nx,c.y+y+2*e,c.z+nz);return m;}
+// 八本たたきの触手1本：太くて長い。高く振り上げ→しなって振り下ろす→地面に少し残る→ちぢんで戻る。tHit＝出してから当たるまでの秒
+// base＝根もとの位置を返す関数（骨が無い時）／L＝骨の足（ある時は、足の付け根から出し、本物の足は触手の中に重ねてかくす）
+function kr8Tent(base,c,tHit,L){const dl=tHit-0.52;if(dl>0.02){setTimeout(()=>{if(state==='play')kr8Tent(base,c,tHit-dl,L);},dl*1000);return null;}
+  const N=22,RS=8,nv=(N+1)*RS,pos=new Float32Array(nv*3),col=new Float32Array(nv*3),idx=[];
+  for(let i=0;i<N;i++)for(let j=0;j<RS;j++){const a=i*RS+j,b=i*RS+(j+1)%RS,cc=(i+1)*RS+j,d=(i+1)*RS+(j+1)%RS;idx.push(a,cc,b,b,cc,d);}
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setAttribute('color',new THREE.BufferAttribute(col,3));g.setIndex(idx);
+  const m=new THREE.Mesh(g,new THREE.MeshBasicMaterial({vertexColors:true,side:THREE.DoubleSide}));m.frustumCulled=false;
+  const r=L&&D&&D.krig,A=new V3(),B=new V3(c.x,c.y+0.9,c.z),h=new V3(),n=new V3(),S=new V3(),T=new V3(),U=new V3(),p=new V3(),Vc=new V3(),mid=B.clone(),
+    cb=new THREE.Color(0xa63c78),ct=new THREE.Color(0xd46ea6),cs=new THREE.Color(0xffd6e4),ci=new THREE.Color(0x8a2a5c),life=tHit+0.55,tW=Math.max(0.06,tHit-0.13),tU=Math.min(tW,0.24),ph=rnd(0,6),sw=(Math.random()<0.5?-1:1)*rnd(0.3,1);
+  if(r)try{krgAttack(r,L,{kind:'sweep',tipFn:()=>mid,dur:life,ts:0,arc:0,tube:false});}catch(e){}
+  return fxAdd(m,life,(ob,k)=>{const t=k*life;
+    if(r&&r.g.parent)A.copy(L.J[0]).applyMatrix4(r.root.matrixWorld);else if(base)A.copy(base());else A.copy(P.pos);
+    h.subVectors(B,A);const Len=Math.max(8,h.length());h.multiplyScalar(1/Len);
+    S.set(h.z,0,-h.x);if(S.lengthSq()<1e-6)S.set(1,0,0);S.normalize();n.crossVectors(S,h).normalize();if(n.y<0){n.negate();S.negate();}
+    const gr=Math.min(1,t/0.16),ge=1-(1-gr)*(1-gr);let th,lag,ret=1,lk=0.62;
+    if(t<tW){const u=Math.min(1,t/tU),e=1-(1-u)*(1-u);th=0.3+0.85*e;lag=1.4*e+0.15*Math.sin(t*9+ph);}
+    else if(t<tHit){const u=(t-tW)/(tHit-tW);th=1.15*(1-u*u);lag=1.4*(1-u)+0.9*Math.sin(Math.PI*u);lk=0.62+0.38*Math.pow(u,1.5);}
+    else{const u=t-tHit;th=0;lk=1;lag=-0.1*Math.exp(-u*14)*Math.cos(u*40);ret=u<0.2?1:Math.max(0.02,1-(u-0.2)/0.33);}
+    const up=Math.min(1,th/1.15),LL=Len*ge*ret*lk,seg=LL/N,rb=(1.5+Len*0.016)*SZM()*Math.min(1,ge*2)*(0.5+0.5*ret),mAt=r?L.tot*r.sc*0.9:1e9;let acc=0,mset=0;p.copy(A);Vc.subVectors(cam.position,A).normalize();
+    for(let i=0;i<=N;i++){const s=i/N,f=th+lag*Math.pow(s,2.2)+0.16*(1-up)*(1-2*s)+0.22*up*s*Math.sin(s*8-t*13+ph),cf=Math.cos(f),sf=Math.sin(f);
+      T.copy(h).multiplyScalar(cf).addScaledVector(n,sf);U.copy(n).multiplyScalar(cf).addScaledVector(h,-sf);
+      const sx=sw*Len*0.2*s*up,qx=p.x+S.x*sx,qy=p.y,qz=p.z+S.z*sx,rd=rb*(0.1+0.9*(1-Math.pow(s,1.35)))*(i===N?0.12:1);
+      for(let j=0;j<RS;j++){const an=j/RS*6.2832,ca=Math.cos(an),sa=Math.sin(an),q=(i*RS+j)*3,under=sa<-0.35,cc=under?(i>1&&i%2===0?cs:ci):cb,mx=under?0:s*0.8,nx=S.x*ca+U.x*sa,ny=S.y*ca+U.y*sa,nz=S.z*ca+U.z*sa,lam=Math.max(0,nx*Vc.x+ny*Vc.y+nz*Vc.z),sh=under?0.62+0.42*lam:(0.3+0.72*lam+0.1*ny)*(i%2?1:0.86)+0.22*lam*lam*lam*lam;
+        pos[q]=qx+(S.x*ca*1.12+U.x*sa*0.88)*rd;pos[q+1]=qy+(S.y*ca*1.12+U.y*sa*0.88)*rd;pos[q+2]=qz+(S.z*ca*1.12+U.z*sa*0.88)*rd;col[q]=(cc.r+(ct.r-cc.r)*mx)*sh;col[q+1]=(cc.g+(ct.g-cc.g)*mx)*sh;col[q+2]=(cc.b+(ct.b-cc.b)*mx)*sh;}
+      if(!mset&&acc>=mAt){mset=1;mid.set(qx,qy,qz);}
+      if(i<N){p.addScaledVector(T,seg);acc+=seg;}}
+    if(!mset)mid.copy(p);
+    g.attributes.position.needsUpdate=true;g.attributes.color.needsUpdate=true;});}
+// たたく前：落ちる場所に、影と、ちぢむ輪を一瞬出す
+function kr8Mark(c,R,tHit){const G=new THREE.Group(),sh=new THREE.Mesh(new THREE.PlaneGeometry(2,2),nMat(0x000000,fxTex('glow'),0)),rg=new THREE.Mesh(new THREE.RingGeometry(0.88,1,40),nMat(0xff9ec4,null,0));
+  rg.position.z=0.12;G.add(sh,rg);kvLay(G,c,0.5);const life=tHit+0.04,t0=Math.max(0,tHit-0.36);
+  return fxAdd(G,life,(o,k)=>{const u=Math.max(0,Math.min(1,(k*life-t0)/Math.max(0.05,tHit-t0)));sh.scale.setScalar(R*(0.5+0.6*u));sh.material.opacity=0.62*u;rg.scale.setScalar(R*(1.55-0.6*u));rg.material.opacity=0.9*u;});}
+// ひびの輪の模様（最初の1回だけ作る）
+function kr8CrackTex(){if(K8.ck)return K8.ck;const S=256,c=document.createElement('canvas');c.width=c.height=S;const g=c.getContext('2d');let s=7;const rn=()=>(s=s*16807%2147483647)/2147483647,H2=S/2;
+  {const gr=g.createRadialGradient(H2,H2,0,H2,H2,H2*0.5);gr.addColorStop(0,'rgba(0,0,0,0.5)');gr.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=gr;g.fillRect(0,0,S,S);}
+  g.lineCap='round';g.lineJoin='round';const lines=[],path=(pts,w,cl)=>{g.strokeStyle=cl;g.lineWidth=w;g.beginPath();pts.forEach((q,i)=>i?g.lineTo(q[0],q[1]):g.moveTo(q[0],q[1]));g.stroke();};
+  for(let i=0;i<10;i++){let a=i/10*6.2832+rn()*0.4,r=5+rn()*8;const R1=H2*(0.6+rn()*0.36),pts=[];while(r<R1){pts.push([H2+Math.cos(a)*r,H2+Math.sin(a)*r]);r+=10+rn()*12;a+=(rn()-0.5)*0.36;}
+    lines.push({pts,w:3+rn()*2.6});
+    if(pts.length>3&&rn()<0.75){const k=2+(rn()*(pts.length-3)|0),b=[pts[k]];let a2=a+(rn()<0.5?0.8:-0.8),x=pts[k][0],y=pts[k][1];for(let q=0;q<3;q++){x+=Math.cos(a2)*(9+rn()*9);y+=Math.sin(a2)*(9+rn()*9);a2+=(rn()-0.5)*0.5;b.push([x,y]);}lines.push({pts:b,w:1.5+rn()});}}
+  for(const rr of [0.33,0.62]){let pts=[];for(let i=0;i<=40;i++){const a=i/40*6.2832,r=H2*rr*(1+(rn()-0.5)*0.14);if(rn()<0.14&&pts.length>1){lines.push({pts,w:1.7+rn()*1.3});pts=[];}else pts.push([H2+Math.cos(a)*r,H2+Math.sin(a)*r]);}if(pts.length>1)lines.push({pts,w:1.7+rn()*1.3});}
+  g.save();g.translate(1.6,1.6);lines.forEach(l=>path(l.pts,l.w,'rgba(255,240,215,0.4)'));g.restore();lines.forEach(l=>path(l.pts,l.w,'rgba(18,10,6,0.94)'));
+  {const gr=g.createRadialGradient(H2,H2,0,H2,H2,H2);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(0.72,'rgba(255,255,255,1)');gr.addColorStop(1,'rgba(255,255,255,0)');g.globalCompositeOperation='destination-in';g.fillStyle=gr;g.fillRect(0,0,S,S);g.globalCompositeOperation='source-over';}
+  return K8.ck=new THREE.CanvasTexture(c);}
+// 当たった所：水の上は水柱としぶきと白い輪／陸は土けむり・石・ひびの輪
+function kr8Fx(c,R){const wet=!DUN.on&&H(c.x,c.z)<WATER+0.3&&bridgeY(c.x,c.z)<WATER;
+  if(wet){kvSpout(c,R*0.32,15,0.65);burst(tmp.set(c.x,c.y+1,c.z),16,KVC,4.2,13,0.85,30);smoke(c,5,7,1.3,0xeaf7ff,R*0.5);shock(c,0xffffff,R);setTimeout(()=>{if(state==='play')shock(c,0xbfeaff,R*0.6);},110);return;}
+  smoke(c,7,7,1.5,0xa8987a,R*0.5);debris(c,6,[0x8a7a5a,0x6a5a3a],1.3);burst(tmp.set(c.x,c.y+1,c.z),10,[0xe0d0a8,0xffffff,0xffb0cc],3.4,18,0.5,10);shock(c,0xf0dcb8,R);
+  const m=kvLay(new THREE.Mesh(new THREE.PlaneGeometry(2,2),nMat(0xffffff,kr8CrackTex(),0.95)),c,0.35);m.rotateZ(rnd(0,6.28));
+  fxAdd(m,1.9,(o,k)=>{o.scale.setScalar(R*(k<0.06?0.55+0.45*k/0.06:1));o.material.opacity=k<0.55?0.95:0.95*(1-k)/0.45;});}
+
+// スペース：触手ひき。体の向きへ触手を1本のばして刺し、体をそこまで一気に引きよせる。その間は無敵で、通り道の敵にダメージ
+function krPull(){if(state!=='play'||P.en<20||P.dashT>0||(P.dashCd||0)>0||LVUP||PAUSED||P.krp)return;
+  const ad=aimDir(),hl=Math.hypot(ad.x,ad.z)||1,fx=ad.x/hl,fz=ad.z/hl;let Ld=60,wall=false;
+  for(let q=9;q<=60;q+=3){if(bldAt(P.pos.x+fx*q,P.pos.z+fz*q,1).hit){Ld=q;wall=true;break;}}
+  let ax=P.pos.x+fx*Ld,az=P.pos.z+fz*Ld;if(DUN.on){ax=clamp(ax,DUN.x0+(DUN.xm||0),DUN.x1-(DUN.xm||0));az=clamp(az,DUN.zmin===undefined?-1e9:DUN.zmin,DUN.z1-8);}
+  const A=new V3(ax,dunFloorY(ax,az)+(wall?5:0.8),az),d0=Math.hypot(ax-P.pos.x,az-P.pos.z),T0=0.15;
+  P.en-=20;P.dashCd=1.4;P.dashHit=(P.dashHit||0)+1;P.dashT=T0+0.7;P.krp={t:0,T:T0,a:A,stop:wall?13:3,v:Math.max(70,d0/0.34),hit:0,tr:0};
+  const r=D&&D.krig;let bs=krBase(0);
+  if(r){const tb=KRG.TUBE;KRG.TUBE=false;let at=null;try{at=krgReach(r,()=>A,0.85,'reach');}catch(e){}KRG.TUBE=tb;if(at&&at.L){const Lg=at.L;bs=()=>krgTipW(r,Lg,kgW);}}
+  krTent(bs,()=>A,0.8,{col:r?0x9b4f86:0xb23a74,arc:6,r:1.4,ext:k=>k<0.19?k/0.19:k<0.82?1:(1-k)/0.18});
+  sfx('whoosh',null,0.9);ono(P.pos.clone().add(new V3(0,9,0)),'シュルルッ！','#ffb0cc',36);}
+function krPullUpd(dt){const q=P.krp;if(!q)return;if(state!=='play'||charKey!=='kraken'||!(P.dashT>0)){P.krp=null;return;}q.t+=dt;if(q.t<q.T)return;
+  const wet=H(P.pos.x,P.pos.z)<WATER+0.3&&bridgeY(P.pos.x,P.pos.z)<WATER&&!DUN.on;
+  if(!q.hit){q.hit=1;shock(new V3(q.a.x,q.a.y,q.a.z),0xffb0cc,9);burst(q.a,12,[0xffb0cc,0xffffff],3,16,0.4);sfx('slash',q.a,0.7);shake(0.15);}
+  const dx=q.a.x-P.pos.x,dz=q.a.z-P.pos.z,d=Math.hypot(dx,dz)||1e-3,left=d-q.stop,v=q.v*Math.min(1,0.3+(q.t-q.T)/0.1),st=Math.max(0,Math.min(left,v*dt));
+  P.pos.x+=dx/d*st;P.pos.z+=dz/d*st;P.vel.x=P.vel.z=0;{const gy=dunFloorY(P.pos.x,P.pos.z)+C.gOff;if(P.pos.y<gy)P.pos.y=gy;}
+  for(const e of EN){if(e.dead||e.rise||e.dashSeen===P.dashHit)continue;const c=cpos(e);if(Math.hypot(c.x-P.pos.x,c.z-P.pos.z)<e.r+11&&Math.abs(c.y-P.pos.y)<e.r+13){e.dashSeen=P.dashHit;hitEnemy(e,70);ono(c,'ガッ！','#fff',38);burst(c,12,SPARK,3,20,0.4);shake(0.2);sfx('hit',e.mesh.position);}}
+  q.tr-=dt;if(q.tr<=0){q.tr=0.03;const f=tmp.set(P.pos.x,P.pos.y-C.gOff+0.6,P.pos.z);if(wet)burst(f,3,KVC,3.2,9,0.5,14);else smoke(f,1,5,0.9,0xa8987a,4);}
+  if(left<=0.6||q.t>q.T+0.6){P.krp=null;P.dashT=Math.min(P.dashT,0.1);P.vel.x=dx/d*14;P.vel.z=dz/d*14;const f=new V3(P.pos.x,P.pos.y-C.gOff,P.pos.z);
+    shock(f,wet?0xffffff:0xe8d8b0,16);if(wet){burst(tmp.set(f.x,f.y+1,f.z),18,KVC,4,14,0.7,22);smoke(f,4,7,1.2,0xeaf7ff,6);}else smoke(f,8,7,1.3,0xa8987a,7);
+    shake(0.3);sfx('small',null,0.7);ono(P.pos.clone().add(new V3(0,9,0)),'ズザァッ！','#ffd0e0',40);}}
+{const c0=collide;collide=function(dt){try{krPullUpd(dt);}catch(e){P.krp=null;}c0(dt);};}
 function krVortex(){const SPZ=(1+0.15*(UP.sp||0))*(EASY?1:0.8),K=SPM(),R=75*SPZ,f=gpos(P.pos);
-  tornado(f,0x3a9ad8,R*0.3,42,2.4);tornado(f,0x9fe0ff,R*0.17,32,2.4);magicCircle(f.clone(),0x4fc0ff,R*0.95,2.4);dome(P.pos.clone(),0x4aa8d8,R*0.5,1.2);shock(f,0x4fc0ff,R);sfx('boom',null,0.6);shake(0.5);
+  krVortexFx(R);shock(f,0x4fc0ff,R);sfx('boom',null,0.6);shake(0.5);
   let n=0;(function tick(){if(state!=='play')return;n++;
-    if(n>44){const g=P.pos.clone();shock(gpos(g),0xffffff,24*SPZ);burst(g,30,[0x9fe0ff,0xffffff],5,26,0.7);shake(0.5);sfx('crash',null,0.6);
+    if(n>44){const g=P.pos.clone();krVortexEnd(g,SPZ);shock(gpos(g),0xffffff,24*SPZ);burst(g,30,[0x9fe0ff,0xffffff],5,26,0.7);shake(0.5);sfx('crash',null,0.6);
       for(const e of EN){if(e.dead)continue;const c=cpos(e);if(Math.hypot(c.x-g.x,c.z-g.z)<24*SPZ+e.r&&Math.abs(c.y-g.y)<20+e.r)hitEnemy(e,95*K);}return;}
     for(const e of EN){if(e.dead)continue;const q=e.mesh.position,dx=q.x-P.pos.x,dz=q.z-P.pos.z,d=Math.hypot(dx,dz);if(d>R+e.r||d<0.1)continue;
       if(!(e.boss||e.r>8||e.perch||e.type==='cannon')){const a=Math.atan2(dz,dx)+0.16,nd=Math.max(9,d*0.94-0.5);q.x=P.pos.x+Math.cos(a)*nd;q.z=P.pos.z+Math.sin(a)*nd;}
@@ -4387,8 +4523,8 @@ function krVortex(){const SPZ=(1+0.15*(UP.sp||0))*(EASY?1:0.8),K=SPM(),R=75*SPZ,
   ono(P.pos.clone().add(new V3(0,9,0)),'ゴボゴボゴボ…！','#9fe0ff',48);}
 function kr8hit(){const SPZ=(1+0.15*(UP.sp||0))*(EASY?1:0.8),K=SPM(),N=8+(UP.sp||0),fw=new V3(Math.sin(P.yaw),0,Math.cos(P.yaw)),sd=new V3(fw.z,0,-fw.x);
   for(let i=0;i<N;i++)setTimeout(()=>{if(state!=='play')return;const d=rnd(18,64)*(0.8+0.2*SPZ),w=rnd(-1,1)*d*0.7,x=P.pos.x+fw.x*d+sd.x*w,z=P.pos.z+fw.z*d+sd.z*w,c=gpos(new V3(x,0,z));
-    krTent(krBase(i),()=>new V3(c.x,c.y+1.5,c.z),0.6,{arc:30,r:2.0,ext:k=>k<0.35?k/0.35:k<0.6?1:1-(k-0.6)/0.4});
-    setTimeout(()=>{if(state!=='play')return;const R=14*SPZ;shock(c,0xffb0cc,R);burst(c,18,[0xffb0cc,0xffffff,0x8a3a60],4,22,0.6);debris(c,5,[0x8a7a5a,0x6a5a3a],1.2);shake(0.35);sfx('crash',c,0.5);
+    kr8Tent(krBase(i),c,0.21,null);kr8Mark(c,14*SPZ,0.21);
+    setTimeout(()=>{if(state!=='play')return;const R=14*SPZ;kr8Fx(c,R);shake(0.35);sfx('crash',c,0.5);
       for(const e of EN){if(e.dead)continue;const q=cpos(e);if(Math.hypot(q.x-c.x,q.z-c.z)<R+e.r&&Math.abs(q.y-c.y)<22+e.r)hitEnemy(e,110*K);}
       for(const b of BLD){if(!b.dead&&b.box.distanceToPoint(c)<R*0.8)hitBld(b,150*K);}},210);},i*110);
   sfx('whoosh');ono(P.pos.clone().add(new V3(0,9,0)),'ドガガガガッ！','#ffb0cc',50);}
@@ -4513,8 +4649,8 @@ krVortex=function(){krVortex0();const r=D&&D.krig;if(r){r.vort=2.6;r.vt=0;}};
 kr8hit=function(){const r=D&&D.krig;if(!r)return kr8hit0();
   const SPZ=(1+0.15*(UP.sp||0))*(EASY?1:0.8),K=SPM(),N=8+(UP.sp||0),fw=new V3(Math.sin(P.yaw),0,Math.cos(P.yaw)),sd=new V3(fw.z,0,-fw.x),WU=220;
   for(let i=0;i<N;i++){const d=rnd(18,64)*(0.8+0.2*SPZ),w=rnd(-1,1)*d*0.7,x=P.pos.x+fw.x*d+sd.x*w,z=P.pos.z+fw.z*d+sd.z*w,c=gpos(new V3(x,0,z)),ct=new V3(c.x,c.y+1.5,c.z);
-    krgReach(r,()=>ct,(WU+i*110+140+400)/1000,'slam',{leg:r.legs[i%r.legs.length],ts:(WU+i*110)/1000,tr:0.8});
-    setTimeout(()=>{if(state!=='play')return;const R=14*SPZ;shock(c,0xffb0cc,R);burst(c,18,[0xffb0cc,0xffffff,0x8a3a60],4,22,0.6);debris(c,5,[0x8a7a5a,0x6a5a3a],1.2);shake(0.35);sfx('crash',c,0.5);
+    kr8Tent(null,c,(WU+i*110+140)/1000,r.legs[i%r.legs.length]);kr8Mark(c,14*SPZ,(WU+i*110+140)/1000);
+    setTimeout(()=>{if(state!=='play')return;const R=14*SPZ;kr8Fx(c,R);shake(0.35);sfx('crash',c,0.5);
       for(const e of EN){if(e.dead)continue;const q=cpos(e);if(Math.hypot(q.x-c.x,q.z-c.z)<R+e.r&&Math.abs(q.y-c.y)<22+e.r)hitEnemy(e,110*K);}
       for(const b of BLD){if(!b.dead&&b.box.distanceToPoint(c)<R*0.8)hitBld(b,150*K);}},WU+i*110+140);}
   sfx('whoosh');ono(P.pos.clone().add(new V3(0,9,0)),'ドガガガガッ！','#ffb0cc',50);};
@@ -4532,7 +4668,7 @@ function dash(){if(state!=='play'||LVUP||PAUSED||(P.dodgeCd||0)>0||P.en<12)retur
   const rx=-Math.cos(P.yaw),rz=Math.sin(P.yaw),pw=C.fly?78:C.human?48:58;P.vel.x+=rx*sd*pw;P.vel.z+=rz*sd*pw;if(C.fly)P.vel.y+=6;else if(P.onGround){P.vy=10;P.onGround=false;}
   sfx('whoosh',null,0.9);burst(P.pos,14,[0xffffff,0xcfeaff],2.2,16,0.35);ono(P.pos.clone().add(new V3(0,5,0)),'ヒュッ','#e8f6ff',26);}
 // スペースキーの動き。キャラの重さで変える：突進（前へ体当たり）／横回避／防御
-function act(){if((charKey==='hero'||charKey==='redcap')&&state==='play'&&!LVUP&&!PAUSED&&P.onGround){P.vy=charKey==='redcap'?22:26;P.onGround=false;sfx('whoosh',null,0.6);smoke(tmp.set(P.pos.x,P.pos.y-C.gOff,P.pos.z),3,3,0.8,0x9a8a68,2);return;}const k=C.dash||'dodge';if(k==='charge')dashOld();else if(k==='guard')guard();else if(k==='climb')climbAir();else dash();}
+function act(){if((charKey==='hero'||charKey==='redcap')&&state==='play'&&!LVUP&&!PAUSED&&P.onGround){P.vy=charKey==='redcap'?22:26;P.onGround=false;sfx('whoosh',null,0.6);smoke(tmp.set(P.pos.x,P.pos.y-C.gOff,P.pos.z),3,3,0.8,0x9a8a68,2);return;}const k=C.dash||'dodge';if(k==='charge')dashOld();else if(k==='guard')guard();else if(k==='climb')climbAir();else if(k==='krpull')krPull();else dash();}
 // 防御（重いキャラ用）：1.3秒、受けるダメージを8割へらす。その間は足がおそくなる。次に使えるまで2秒
 const GSH=new THREE.Mesh(new THREE.SphereGeometry(1,22,14),new THREE.MeshBasicMaterial({color:0x7fc8ff,transparent:true,opacity:0.25,depthWrite:false,side:THREE.DoubleSide,fog:false}));GSH.visible=false;scene.add(GSH);
 function guard(){if(state!=='play'||LVUP||PAUSED||(P.guardCd||0)>0||P.en<12)return;P.en-=12;P.guardT=1.3;P.guardCd=2;sfx('clang',null,0.8);
@@ -6070,7 +6206,7 @@ function updHud2(){const f=$('pface');if(!f)return;if(f.dataset.k!==charKey){f.d
   Z.classList.toggle('off',(P.dodgeCd||0)>0||(P.dashCd||0)>0||(P.guardCd||0)>0||P.en<12);
   const pc=Math.round(Math.min(1,P.en/SPC())*25)*4;if(A.dataset.p!==''+pc){A.dataset.p=''+pc;A.style.setProperty('--p',pc);B.style.setProperty('--p',pc);}}
 // 技のボタンのアイコン：スペースの技の名前 → アイコンの名前。アイコンが読めた時だけ入れかえる（読めない時は今までの写真のまま）
-const SKDASH={'突進':'dash_charge','緊急回避':'dash_dodge','ジャンプ・斬りこみ':'dash_jumpslash','防御':'dash_guard','ジャンプ・前転':'dash_roll','墨はき':'dash_ink'};
+const SKDASH={'突進':'dash_charge','緊急回避':'dash_dodge','ジャンプ・斬りこみ':'dash_jumpslash','防御':'dash_guard','ジャンプ・前転':'dash_roll','墨はき':'dash_ink','触手ひき':'dash_ink'};
 function skIc(b,nm,fb){const u='chara/ic/'+nm+'.webp';b.dataset.ic=nm;b.style.backgroundImage=fb?'url('+fb+')':'';const im=new Image();im.onload=()=>{if(b.dataset.ic===nm)b.style.backgroundImage='url('+u+')';};im.src=u;}
 {const K=['スペース','左クリック','右クリック'];['sk0','sk1','sk2'].forEach((id,i)=>{const b=$(id);if(!b)return;b.dataset.key=K[i];if(i){const r=document.createElement('i');r.className='rg';b.appendChild(r);}});}
 ['sk0','sk1','sk2'].forEach((id,i)=>{const b=$(id);if(!b)return;b.addEventListener('pointerdown',e=>{e.stopPropagation();e.preventDefault();[dash,special,special2][i]();});

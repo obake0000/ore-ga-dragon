@@ -1,945 +1,968 @@
 {
- "house": {
-  "file": "house.glb",
-  "h": 7,
-  "ja": "民家（わら屋根）"
- },
- "hero": {
-  "file": "hero.glb",
-  "h": 2.4,
-  "ja": "人間の勇者",
-  "rot": 0
- },
- "soldier": {
-  "file": "soldier.glb",
-  "h": 2.1,
-  "ja": "兵士（槍）",
-  "rot": 0
- },
- "house2": {
-  "file": "house2.glb",
-  "h": 10,
-  "ja": "2階建ての家"
- },
- "church": {
-  "file": "church.glb",
-  "h": 22,
-  "ja": "教会"
- },
- "castle_keep": {
-  "file": "castle_keep.glb",
-  "h": 46,
-  "ja": "天守（城の本丸）"
- },
- "archer": {
-  "file": "archer.glb",
-  "h": 2.1,
-  "ja": "弓兵",
-  "rot": 0
- },
- "demon": {
-  "file": "demon.glb",
-  "h": 9,
-  "ja": "悪魔（ボス）",
-  "rot": 0
- },
- "airship": {
-  "file": "airship.glb",
-  "h": 14,
-  "ja": "飛空艇",
-  "rot": 90
- },
- "walker": {
-  "file": "walker.glb",
-  "h": 40,
-  "ja": "動く城",
-  "rot": 0
- },
- "castle_tower": {
-  "file": "castle_tower.glb",
-  "h": 32,
-  "ja": "城の塔"
- },
- "tree_pine": {
-  "file": "tree_pine.glb",
-  "h": 9,
-  "ja": "針葉樹"
- },
- "castle_wall": {
-  "file": "castle_wall.glb",
-  "h": 16,
-  "ja": "城壁（一区画）"
- },
- "tree_oak": {
-  "file": "tree_oak.glb",
-  "h": 9,
-  "ja": "広葉樹"
- },
- "elder": {
-  "file": "elder.glb",
-  "h": 30,
-  "ja": "古の巨大竜",
-  "rot": 0
- },
- "golem": {
-  "file": "golem.glb",
-  "h": 7,
-  "ja": "ゴーレム",
-  "rot": 0
- },
- "bigcannon": {
-  "file": "bigcannon.glb",
-  "h": 7,
-  "ja": "巨大な大砲",
-  "rot": 0
- },
- "wooddragon": {
-  "file": "wooddragon.glb",
-  "h": 11,
-  "ja": "木の巨大竜",
-  "rot": 0
- },
- "wizard": {
-  "file": "wizard.glb",
-  "h": 2.6,
-  "ja": "空飛ぶ魔術師",
-  "rot": 0
- },
- "bigairship": {
-  "file": "bigairship.glb",
-  "h": 18,
-  "ja": "巨大な飛空艇",
-  "rot": 0
- },
- "ship": {
-  "file": "ship.glb",
-  "h": 12,
-  "ja": "帆船",
-  "rot": 0
- },
- "battleship": {
-  "file": "battleship.glb",
-  "h": 16,
-  "ja": "巨大戦艦",
-  "rot": 0
- },
- "kraken": {
-  "file": "kraken.glb",
-  "h": 20,
-  "ja": "クラーケン",
-  "rot": 0
- },
- "seaserpent": {
-  "file": "seaserpent.glb",
-  "h": 20,
-  "ja": "海蛇",
-  "rot": 0
- },
- "wyvern": {
-  "file": "wyvern.glb",
-  "h": 7,
-  "ja": "ワイバーン（青）",
-  "rot": 90
- },
- "ground": {
-  "file": "ground.glb",
-  "h": 6,
-  "ja": "アースドラゴン（茶）",
-  "rot": -90
- },
- "dragon": {
-  "file": "dragon.glb",
-  "h": 9,
-  "ja": "主人公のドラゴン（赤・骨入り）",
-  "rot": 90
- },
- "ogre": {
-  "file": "ogre.glb",
-  "h": 7.2,
-  "ja": "オーガ",
-  "rot": 0
- },
- "meteor": {
-  "file": "meteor.glb",
-  "h": 3,
-  "ja": "溶岩の隕石（岩投げ）",
-  "rot": 0
- },
- "griffin": {
-  "file": "griffin.glb",
-  "h": 6,
-  "ja": "グリフォン",
-  "rot": 0
- },
- "dknight": {
-  "file": "dknight.glb",
-  "h": 8,
-  "ja": "竜騎士（飛竜に乗った騎士）",
-  "rot": 0
- },
- "captain": {
-  "file": "captain.glb",
-  "h": 2.3,
-  "ja": "騎士（勇者の一行）",
-  "rot": 0
- },
- "merchant": {
-  "file": "merchant.glb",
-  "h": 2.0,
-  "ja": "魔法使い（勇者の一行・荷物持ち）",
-  "rot": 0
- },
- "wyvern2": {
-  "file": "wyvern2.glb",
-  "h": 7,
-  "ja": "ワイバーン（緑・自分のキャラ用）",
-  "rot": 0
- },
- "catapult": {
-  "file": "catapult.glb",
-  "h": 9,
-  "ja": "投石機",
-  "rot": 0
- },
- "bgolem": {
-  "file": "bgolem.glb",
-  "h": 32,
-  "ja": "四角い岩のゴーレム（胸が青く光る）",
-  "rot": 0
- },
- "goblin": {
-  "file": "goblin.glb",
-  "h": 1.5,
-  "ja": "小鬼",
-  "rot": 0
- },
- "skel": {
-  "file": "skel.glb",
-  "h": 2.2,
-  "ja": "骸骨の番兵",
-  "rot": 0
- },
- "drak": {
-  "file": "drak.glb",
-  "h": 3.2,
-  "ja": "よろいの竜人",
-  "rot": 0
- },
- "orc": {
-  "file": "orc.glb",
-  "h": 2.6,
-  "ja": "オーク兵",
-  "rot": 0
- },
- "orcking": {
-  "file": "orcking.glb",
-  "h": 6,
-  "ja": "オークキング",
-  "rot": 0
- },
- "skeleton": {
-  "file": "skeleton.glb",
-  "h": 2.1,
-  "ja": "がいこつ兵",
-  "rot": 0
- },
- "skelmage": {
-  "file": "skelmage.glb",
-  "h": 2.2,
-  "ja": "骸骨の魔導士",
-  "rot": 0
- },
- "bigskeleton": {
-  "file": "bigskeleton.glb",
-  "h": 12,
-  "ja": "巨大な骸骨",
-  "rot": 0
- },
- "devilsoldier": {
-  "file": "devilsoldier.glb",
-  "h": 2.2,
-  "ja": "悪魔の兵",
-  "rot": 0
- },
- "blackknight": {
-  "file": "blackknight.glb",
-  "h": 3.2,
-  "ja": "黒い騎士",
-  "rot": 0
- },
- "cerberus": {
-  "file": "cerberus.glb",
-  "h": 7,
-  "ja": "ケルベロス",
-  "rot": 0
- },
- "dragonking": {
-  "file": "dragonking.glb",
-  "h": 30,
-  "ja": "竜王（黒い体・金の角と腹・赤い羽）",
-  "rot": 0
- },
- "dogrider": {
-  "file": "dogrider.glb",
-  "h": 2.6,
-  "ja": "犬に乗ったゴブリン",
-  "rot": 90
- },
- "hawkrider": {
-  "file": "hawkrider.glb",
-  "h": 3.2,
-  "ja": "鷹に乗ったゴブリン",
-  "rot": 0
- },
- "ballista": {
-  "file": "ballista.glb",
-  "h": 3.5,
-  "ja": "バリスタ",
-  "rot": 0
- },
- "orcfort": {
-  "file": "orcfort.glb",
-  "h": 40,
-  "ja": "木の巨大な砦",
-  "rot": 0
- },
- "gdoor": {
-  "file": "gdoor.glb",
-  "h": 56,
-  "ja": "封印の扉（石のアーチと鉄の扉）",
-  "rot": 0
- },
- "orctank": {
-  "file": "orctank.glb",
-  "h": 16,
-  "ja": "木製の巨大戦車",
-  "rot": 90
- },
- "mill": {
-  "file": "mill.glb",
-  "h": 16,
-  "ja": "風車"
- },
- "inn": {
-  "file": "inn.glb",
-  "h": 11,
-  "ja": "宿屋"
- },
- "smithy": {
-  "file": "smithy.glb",
-  "h": 8,
-  "ja": "鍛冶屋"
- },
- "watchtower": {
-  "file": "watchtower.glb",
-  "h": 15,
-  "ja": "見張り塔"
- },
- "warehouse": {
-  "file": "warehouse.glb",
-  "h": 7,
-  "ja": "倉庫"
- },
- "well": {
-  "file": "well.glb",
-  "h": 4,
-  "ja": "井戸"
- },
- "stall": {
-  "file": "stall.glb",
-  "h": 4,
-  "ja": "市場の屋台"
- },
- "obelisk": {
-  "file": "obelisk.glb",
-  "h": 24,
-  "ja": "魔界の門の柱"
- },
- "ruin": {
-  "file": "ruin.glb",
-  "h": 12,
-  "ja": "山頂の遺跡の柱"
- },
- "lighthouse": {
-  "file": "lighthouse.glb",
-  "h": 30,
-  "ja": "灯台"
- },
- "skytemple": {
-  "file": "skytemple.glb",
-  "h": 30,
-  "ja": "天空の神殿",
-  "rot": 0
- },
- "troll": {
-  "file": "troll.glb",
-  "h": 5,
-  "ja": "トロール",
-  "rot": 0
- },
- "angel": {
-  "file": "angel.glb",
-  "h": 2.4,
-  "ja": "天使の兵",
-  "rot": 0
- },
- "archangel": {
-  "file": "archangel.glb",
-  "h": 7,
-  "ja": "大天使",
-  "rot": 0
- },
- "angelgeneral": {
-  "file": "angelgeneral.glb",
-  "h": 4,
-  "ja": "天使将軍",
-  "rot": 0
- },
- "angelarcher": {
-  "file": "angelarcher.glb",
-  "h": 2.4,
-  "ja": "天使の弓兵",
-  "rot": 0
- },
- "angelsword": {
-  "file": "angelsword.glb",
-  "h": 2.4,
-  "ja": "天使の剣士",
-  "rot": 0
- },
- "fishman": {
-  "file": "fishman.glb",
-  "h": 2.3,
-  "ja": "魚人の兵",
-  "rot": 0
- },
- "fishbow": {
-  "file": "fishbow.glb",
-  "h": 2.3,
-  "ja": "魚人の弓兵",
-  "rot": 0
- },
- "redcap": {
-  "file": "redcap.glb",
-  "h": 1.5,
-  "ja": "レッドキャップゴブリン",
-  "rot": 0
- },
- "orcknight": {
-  "file": "orcknight.glb",
-  "h": 3.6,
-  "ja": "狼に乗ったオーク",
-  "rot": -90
- },
- "skyfort": {
-  "file": "skyfort.glb",
-  "h": 44,
-  "ja": "空中砦",
-  "rot": 0
- },
- "pegasus": {
-  "file": "pegasus.glb",
-  "h": 3.6,
-  "ja": "天馬の騎士",
-  "rot": 0
- },
- "seaking": {
-  "file": "seaking.glb",
-  "h": 30,
-  "ja": "海王",
-  "rot": 0
- },
- "shark": {
-  "file": "shark.glb",
-  "h": 6,
-  "ja": "巨大なサメ",
-  "rot": 90
- },
- "crab": {
-  "file": "crab.glb",
-  "h": 6,
-  "ja": "巨大なカニ",
-  "rot": 0
- },
- "leviathan": {
-  "file": "leviathan.glb",
-  "h": 34,
-  "ja": "リヴァイアサン",
-  "rot": -90
- },
- "orccart": {
-  "file": "orccart.glb",
-  "h": 8.5,
-  "ja": "オークの小戦車（最初に作った木の戦車）",
-  "rot": 0
- },
- "dgate": {
-  "file": "dgate.glb",
-  "h": 46,
-  "ja": "魔界の門",
-  "rot": 0
- },
- "dcastle": {
-  "file": "dcastle.glb",
-  "h": 60,
-  "ja": "魔王の城",
-  "rot": 0
- },
- "dthrone": {
-  "file": "dthrone.glb",
-  "h": 14,
-  "ja": "魔王の玉座",
-  "rot": 0
- },
- "bonearch": {
-  "file": "bonearch.glb",
-  "h": 16,
-  "ja": "巨大な骨",
-  "rot": 0
- },
- "dtower": {
-  "file": "dtower.glb",
-  "h": 30,
-  "ja": "黒い塔",
-  "rot": 0
- },
- "cloudgate": {
-  "file": "cloudgate.glb",
-  "h": 40,
-  "ja": "雲の門",
-  "rot": 0
- },
- "colonnade": {
-  "file": "colonnade.glb",
-  "h": 16,
-  "ja": "白い柱廊",
-  "rot": 0
- },
- "angelstatue": {
-  "file": "angelstatue.glb",
-  "h": 14,
-  "ja": "天使の像",
-  "rot": 0
- },
- "skytower": {
-  "file": "skytower.glb",
-  "h": 30,
-  "ja": "白い見張り塔",
-  "rot": 0
- },
- "kingtank": {
-  "file": "kingtank.glb",
-  "h": 22,
-  "ja": "オークキングの戦車（どくろの戦車・ふみさんが選んだ版）",
-  "rot": 0
- },
- "seapalace": {
-  "file": "seapalace.glb",
-  "h": 50,
-  "ja": "海王の宮殿",
-  "rot": 0
- },
- "shellthrone": {
-  "file": "shellthrone.glb",
-  "h": 16,
-  "ja": "貝の玉座",
-  "rot": 0
- },
- "coralreef": {
-  "file": "coralreef.glb",
-  "h": 10,
-  "ja": "さんごの岩礁",
-  "rot": 0
- },
- "shipwreck": {
-  "file": "shipwreck.glb",
-  "h": 16,
-  "ja": "しずんだ船",
-  "rot": 0
- },
- "fishhut": {
-  "file": "fishhut.glb",
-  "h": 9,
-  "ja": "魚人の家",
-  "rot": 0
- },
- "searuin": {
-  "file": "searuin.glb",
-  "h": 18,
-  "ja": "海の神殿のあと",
-  "rot": 0
- },
- "seaarch": {
-  "file": "seaarch.glb",
-  "h": 26,
-  "ja": "海の岩のアーチ",
-  "rot": 0
- },
- "clam": {
-  "file": "clam.glb",
-  "h": 6,
-  "ja": "巨大な貝と真珠",
-  "rot": 0
- },
- "shelltower": {
-  "file": "shelltower.glb",
-  "h": 28,
-  "ja": "巻き貝の見張り塔",
-  "rot": 0
- },
- "kraken2": {
-  "file": "kraken2.glb",
-  "h": 20,
-  "ja": "クラーケン（骨入り・自分用）",
-  "rot": 0
- },
- "gianttank": {
-  "file": "gianttank.glb",
-  "h": 44,
-  "ja": "木の巨大戦車（木の移動要塞・新しい見た目）",
-  "rot": 0
- },
- "shieldman": {
-  "file": "shieldman.glb",
-  "h": 2.2,
-  "ja": "盾兵（大盾と剣。兵団の前列）",
-  "rot": 0
- },
- "deb_stone": {
-  "file": "deb_stone.glb",
-  "h": 1,
-  "ja": "こわれた石かべのかけら",
-  "rot": 0
- },
- "deb_wood": {
-  "file": "deb_wood.glb",
-  "h": 1,
-  "ja": "こわれた木材のかけら",
-  "rot": 0
- },
- "deb_roof": {
-  "file": "deb_roof.glb",
-  "h": 1,
-  "ja": "こわれた屋根と白かべのかけら",
-  "rot": 0
- },
- "gwizard": {
-  "file": "gwizard.glb",
-  "h": 6,
-  "ja": "巨大魔術師（変身後。筋肉の老魔術師・大きな木の杖）",
-  "rot": 0
- },
- "aqueduct": {
-  "file": "aqueduct.glb",
-  "h": 24,
-  "ja": "アーチの遺跡（水道橋のあと）",
-  "rot": 1.5708
- },
- "dunarch": {
-  "file": "dunarch.glb",
-  "h": 30,
-  "ja": "広間のかべのアーチ柱",
-  "rot": 0
- },
- "hpillar": {
-  "file": "hpillar.glb",
-  "h": 36,
-  "ja": "広間の石の柱",
-  "rot": 0
- },
- "htorch": {
-  "file": "htorch.glb",
-  "h": 4,
-  "ja": "壁のたいまつ",
-  "rot": 0
- },
- "hbanner": {
-  "file": "hbanner.glb",
-  "h": 18,
-  "ja": "赤いたれ幕",
-  "rot": 0
- },
- "hwindow": {
-  "file": "hwindow.glb",
-  "h": 17,
-  "ja": "ステンドグラスの窓",
-  "rot": 0
- },
- "hstairs": {
-  "file": "hstairs.glb",
-  "h": 10,
-  "ja": "階段つきの石の台",
-  "rot": 0
- },
- "hbrazier": {
-  "file": "hbrazier.glb",
-  "h": 8,
-  "ja": "立てるかがり火",
-  "rot": 0
- },
- "hstatue": {
-  "file": "hstatue.glb",
-  "h": 8,
-  "ja": "石像（ガーゴイル）",
-  "rot": 0
- },
- "hprops": {
-  "file": "hprops.glb",
-  "h": 4,
-  "ja": "たる・木箱・宝箱のかたまり",
-  "rot": 0
- },
- "hrubble": {
-  "file": "hrubble.glb",
-  "h": 4,
-  "ja": "がれきと骸骨の山",
-  "rot": 0
- },
- "cstalag": {
-  "file": "cstalag.glb",
-  "h": 10,
-  "ja": "洞窟の岩の柱（石筍）",
-  "rot": 0
- },
- "cbones": {
-  "file": "cbones.glb",
-  "h": 8,
-  "ja": "巨大な獣の骨",
-  "rot": 0
- },
- "choard": {
-  "file": "choard.glb",
-  "h": 6,
-  "ja": "金貨と宝の山",
-  "rot": 0
- },
- "roardragon": {
-  "file": "roardragon.glb",
-  "h": 12,
-  "ja": "ほえる赤い竜（必殺技の見せ場だけ使うポーズ）",
-  "rot": 0
- },
- "royalcastle": {
-  "file": "royalcastle.glb",
-  "h": 150,
-  "ja": "岩山の上の白い王城（遠くの景色）"
- },
- "bat": {
-  "file": "bat.glb",
-  "h": 1.2,
-  "ja": "こうもり",
-  "rot": 0
- },
- "imp": {
-  "file": "imp.glb",
-  "h": 1.6,
-  "ja": "小悪魔",
-  "rot": 0
- },
- "seakingman": {
-  "file": "seakingman.glb",
-  "h": 6,
-  "ja": "海王（人の姿・骨入り）",
-  "rot": 0
- },
- "bgolem2": {
-  "file": "bgolem2.glb",
-  "h": 32,
-  "ja": "石ブロックの巨人ゴーレム（表紙の姿。胸と目が青く光る。動き idle・walk・box_01・fall）",
-  "rot": 0
- },
- "cliff_waterfall": {
-  "file": "cliff_waterfall.glb",
-  "h": 90,
-  "ja": "滝つきの断崖（苔と草）",
-  "rot": 0
- },
- "rock_big": {
-  "file": "rock_big.glb",
-  "h": 6,
-  "ja": "苔むした大岩のかたまり",
-  "rot": 0
- },
- "crag_peak": {
-  "file": "crag_peak.glb",
-  "h": 250,
-  "ja": "尖った岩山（ふもとに森・頂に雪）",
-  "rot": 0
- },
- "col_broken": {
-  "file": "col_broken.glb",
-  "h": 4,
-  "ja": "折れた石の柱（横たわる・苔）",
-  "rot": 0
- },
- "rocktorii": {
-  "file": "rocktorii.glb",
-  "h": 22,
-  "ja": "岩の鳥居（苔・しめ縄）"
- },
- "dragonskel": {
-  "file": "dragonskel.glb",
-  "h": 18,
-  "ja": "竜の骨格（とぐろを巻いた全身の骨）"
- },
- "dragonskull": {
-  "file": "dragonskull.glb",
-  "h": 16,
-  "ja": "竜のどくろ（角つき・口が開く）"
- },
- "skyisle": {
-  "file": "skyisle.glb",
-  "h": 30,
-  "ja": "浮島（草・白い柱・滝・下は岩のつらら）"
- },
- "ground2": {
-  "file": "ground2.glb",
-  "h": 6,
-  "ja": "アースドラゴン（新・岩のよろいと琥珀のとげ・骨入り・歩く動き）",
-  "rot": 90
- },
- "wyvern3": {
-  "file": "wyvern3.glb",
-  "h": 7,
-  "ja": "ワイバーン（緑・骨入り・歩く動きつき。自分のキャラ用）",
-  "rot": 0
- },
- "castle_gate": {
-  "file": "castle_gate.glb",
-  "h": 19,
-  "ja": "城門（石のアーチと木のとびら。兵長の魔物狩りの門を使い回し）",
-  "rot": 0
- },
- "p8supertank": {
-  "file": "p8supertank.glb",
-  "h": 12,
-  "ja": "超重戦車「陸の戦艦」",
-  "rot": 0
- },
- "p8titan": {
-  "file": "p8titan.glb",
-  "h": 34,
-  "ja": "都市統括機（巨大な番人ロボ）",
-  "rot": 0
- },
- "p8rex": {
-  "file": "p8rex.glb",
-  "h": 14,
-  "ja": "暴君竜",
-  "rot": 0
- },
- "p8bomber": {
-  "file": "p8bomber.glb",
-  "h": 6,
-  "ja": "大型爆撃機",
-  "rot": 0
- },
- "p8rifle": {
-  "file": "p8rifle.glb",
-  "h": 1.8,
-  "ja": "小銃兵（架空の国）",
-  "rot": 0
- },
- "p8tank": {
-  "file": "p8tank.glb",
-  "h": 3,
-  "ja": "中戦車",
-  "rot": 0
- },
- "p8robot": {
-  "file": "p8robot.glb",
-  "h": 2,
-  "ja": "ロボット兵",
-  "rot": 0
- },
- "p8drone": {
-  "file": "p8drone.glb",
-  "h": 1.5,
-  "ja": "ドローン",
-  "rot": 0
- },
- "p8mech": {
-  "file": "p8mech.glb",
-  "h": 6,
-  "ja": "重装ロボ",
-  "rot": 0
- },
- "p8raptor": {
-  "file": "p8raptor.glb",
-  "h": 1.6,
-  "ja": "小型の肉食竜",
-  "rot": 0
- },
- "p8ptera": {
-  "file": "p8ptera.glb",
-  "h": 2,
-  "ja": "翼竜",
-  "rot": 0
- },
- "p8trike": {
-  "file": "p8trike.glb",
-  "h": 3.2,
-  "ja": "三本角の竜",
-  "rot": 0
- },
- "p8tower": {
-  "file": "p8tower.glb",
-  "h": 60,
-  "ja": "ネオンの高層ビル",
-  "rot": 0
- },
- "p8gianttree": {
-  "file": "p8gianttree.glb",
-  "h": 45,
-  "ja": "太古の巨木",
-  "rot": 0
- },
- "p8ruin": {
-  "file": "p8ruin.glb",
-  "h": 12,
-  "ja": "こわれた建物",
-  "rot": 0
- },
- "p8flak": {
-  "file": "p8flak.glb",
-  "h": 3,
-  "ja": "高射砲",
-  "rot": 0
- },
- "p8bones": {
-  "file": "p8bones.glb",
-  "h": 8,
-  "ja": "恐竜の骨",
-  "rot": 0
- },
- "castle_wall_burning": {
-  "file": "castle_wall_burning.glb",
-  "h": 17,
-  "ja": "燃える城壁の一区画",
-  "rot": 0
- },
- "siege_tower": {
-  "file": "siege_tower.glb",
-  "h": 18,
-  "ja": "攻城やぐら",
-  "rot": 0
- },
- "army_block": {
-  "file": "army_block.glb",
-  "h": 4,
-  "ja": "兵の隊列のかたまり",
-  "rot": 0
- },
- "war_banner": {
-  "file": "war_banner.glb",
-  "h": 12,
-  "ja": "軍旗",
-  "rot": 0
- },
- "p8fighter": {
-  "file": "p8fighter.glb",
-  "h": 3,
-  "ja": "戦闘機（架空の機体。印なし）",
-  "rot": 0
- }
+  "house": {
+    "file": "house.glb",
+    "h": 7,
+    "ja": "民家（わら屋根）"
+  },
+  "hero": {
+    "file": "hero.glb",
+    "h": 2.4,
+    "ja": "人間の勇者",
+    "rot": 0
+  },
+  "soldier": {
+    "file": "soldier.glb",
+    "h": 2.1,
+    "ja": "兵士（槍）",
+    "rot": 0
+  },
+  "house2": {
+    "file": "house2.glb",
+    "h": 10,
+    "ja": "2階建ての家"
+  },
+  "church": {
+    "file": "church.glb",
+    "h": 22,
+    "ja": "教会"
+  },
+  "castle_keep": {
+    "file": "castle_keep.glb",
+    "h": 46,
+    "ja": "天守（城の本丸）"
+  },
+  "archer": {
+    "file": "archer.glb",
+    "h": 2.1,
+    "ja": "弓兵",
+    "rot": 0
+  },
+  "demon": {
+    "file": "demon.glb",
+    "h": 9,
+    "ja": "悪魔（ボス）",
+    "rot": 0
+  },
+  "airship": {
+    "file": "airship.glb",
+    "h": 14,
+    "ja": "飛空艇",
+    "rot": 90
+  },
+  "walker": {
+    "file": "walker.glb",
+    "h": 40,
+    "ja": "動く城",
+    "rot": 0
+  },
+  "castle_tower": {
+    "file": "castle_tower.glb",
+    "h": 32,
+    "ja": "城の塔"
+  },
+  "tree_pine": {
+    "file": "tree_pine.glb",
+    "h": 9,
+    "ja": "針葉樹"
+  },
+  "castle_wall": {
+    "file": "castle_wall.glb",
+    "h": 16,
+    "ja": "城壁（一区画）"
+  },
+  "tree_oak": {
+    "file": "tree_oak.glb",
+    "h": 9,
+    "ja": "広葉樹"
+  },
+  "elder": {
+    "file": "elder.glb",
+    "h": 30,
+    "ja": "古の巨大竜",
+    "rot": 0
+  },
+  "golem": {
+    "file": "golem.glb",
+    "h": 7,
+    "ja": "ゴーレム",
+    "rot": 0
+  },
+  "bigcannon": {
+    "file": "bigcannon.glb",
+    "h": 7,
+    "ja": "巨大な大砲",
+    "rot": 0
+  },
+  "wooddragon": {
+    "file": "wooddragon.glb",
+    "h": 11,
+    "ja": "木の巨大竜",
+    "rot": 0
+  },
+  "wizard": {
+    "file": "wizard.glb",
+    "h": 2.6,
+    "ja": "空飛ぶ魔術師",
+    "rot": 0
+  },
+  "bigairship": {
+    "file": "bigairship.glb",
+    "h": 18,
+    "ja": "巨大な飛空艇",
+    "rot": 0
+  },
+  "ship": {
+    "file": "ship.glb",
+    "h": 12,
+    "ja": "帆船",
+    "rot": 0
+  },
+  "battleship": {
+    "file": "battleship.glb",
+    "h": 16,
+    "ja": "巨大戦艦",
+    "rot": 0
+  },
+  "kraken": {
+    "file": "kraken.glb",
+    "h": 20,
+    "ja": "クラーケン",
+    "rot": 0
+  },
+  "seaserpent": {
+    "file": "seaserpent.glb",
+    "h": 20,
+    "ja": "海蛇",
+    "rot": 0
+  },
+  "wyvern": {
+    "file": "wyvern.glb",
+    "h": 7,
+    "ja": "ワイバーン（青）",
+    "rot": 90
+  },
+  "ground": {
+    "file": "ground.glb",
+    "h": 6,
+    "ja": "アースドラゴン（茶）",
+    "rot": -90
+  },
+  "dragon": {
+    "file": "dragon.glb",
+    "h": 9,
+    "ja": "主人公のドラゴン（赤・骨入り）",
+    "rot": 90
+  },
+  "ogre": {
+    "file": "ogre.glb",
+    "h": 7.2,
+    "ja": "オーガ",
+    "rot": 0
+  },
+  "meteor": {
+    "file": "meteor.glb",
+    "h": 3,
+    "ja": "溶岩の隕石（岩投げ）",
+    "rot": 0
+  },
+  "griffin": {
+    "file": "griffin.glb",
+    "h": 6,
+    "ja": "グリフォン",
+    "rot": 0
+  },
+  "dknight": {
+    "file": "dknight.glb",
+    "h": 8,
+    "ja": "竜騎士（飛竜に乗った騎士）",
+    "rot": 0
+  },
+  "captain": {
+    "file": "captain.glb",
+    "h": 2.3,
+    "ja": "騎士（勇者の一行）",
+    "rot": 0
+  },
+  "merchant": {
+    "file": "merchant.glb",
+    "h": 2.0,
+    "ja": "魔法使い（勇者の一行・荷物持ち）",
+    "rot": 0
+  },
+  "wyvern2": {
+    "file": "wyvern2.glb",
+    "h": 7,
+    "ja": "ワイバーン（緑・自分のキャラ用）",
+    "rot": 0
+  },
+  "catapult": {
+    "file": "catapult.glb",
+    "h": 9,
+    "ja": "投石機",
+    "rot": 0
+  },
+  "bgolem": {
+    "file": "bgolem.glb",
+    "h": 32,
+    "ja": "四角い岩のゴーレム（胸が青く光る）",
+    "rot": 0
+  },
+  "goblin": {
+    "file": "goblin.glb",
+    "h": 1.5,
+    "ja": "小鬼",
+    "rot": 0
+  },
+  "skel": {
+    "file": "skel.glb",
+    "h": 2.2,
+    "ja": "骸骨の番兵",
+    "rot": 0
+  },
+  "drak": {
+    "file": "drak.glb",
+    "h": 3.2,
+    "ja": "よろいの竜人",
+    "rot": 0
+  },
+  "orc": {
+    "file": "orc.glb",
+    "h": 2.6,
+    "ja": "オーク兵",
+    "rot": 0
+  },
+  "orcking": {
+    "file": "orcking.glb",
+    "h": 6,
+    "ja": "オークキング",
+    "rot": 0
+  },
+  "skeleton": {
+    "file": "skeleton.glb",
+    "h": 2.1,
+    "ja": "がいこつ兵",
+    "rot": 0
+  },
+  "skelmage": {
+    "file": "skelmage.glb",
+    "h": 2.2,
+    "ja": "骸骨の魔導士",
+    "rot": 0
+  },
+  "bigskeleton": {
+    "file": "bigskeleton.glb",
+    "h": 12,
+    "ja": "巨大な骸骨",
+    "rot": 0
+  },
+  "devilsoldier": {
+    "file": "devilsoldier.glb",
+    "h": 2.2,
+    "ja": "悪魔の兵",
+    "rot": 0
+  },
+  "blackknight": {
+    "file": "blackknight.glb",
+    "h": 3.2,
+    "ja": "黒い騎士",
+    "rot": 0
+  },
+  "cerberus": {
+    "file": "cerberus.glb",
+    "h": 7,
+    "ja": "ケルベロス",
+    "rot": 0
+  },
+  "dragonking": {
+    "file": "dragonking.glb",
+    "h": 30,
+    "ja": "竜王（黒い体・金の角と腹・赤い羽）",
+    "rot": 0
+  },
+  "dogrider": {
+    "file": "dogrider.glb",
+    "h": 2.6,
+    "ja": "犬に乗ったゴブリン",
+    "rot": 90
+  },
+  "hawkrider": {
+    "file": "hawkrider.glb",
+    "h": 3.2,
+    "ja": "鷹に乗ったゴブリン",
+    "rot": 0
+  },
+  "ballista": {
+    "file": "ballista.glb",
+    "h": 3.5,
+    "ja": "バリスタ",
+    "rot": 0
+  },
+  "orcfort": {
+    "file": "orcfort.glb",
+    "h": 40,
+    "ja": "木の巨大な砦",
+    "rot": 0
+  },
+  "gdoor": {
+    "file": "gdoor.glb",
+    "h": 56,
+    "ja": "封印の扉（石のアーチと鉄の扉）",
+    "rot": 0
+  },
+  "orctank": {
+    "file": "orctank.glb",
+    "h": 16,
+    "ja": "木製の巨大戦車",
+    "rot": 90
+  },
+  "mill": {
+    "file": "mill.glb",
+    "h": 16,
+    "ja": "風車"
+  },
+  "inn": {
+    "file": "inn.glb",
+    "h": 11,
+    "ja": "宿屋"
+  },
+  "smithy": {
+    "file": "smithy.glb",
+    "h": 8,
+    "ja": "鍛冶屋"
+  },
+  "watchtower": {
+    "file": "watchtower.glb",
+    "h": 15,
+    "ja": "見張り塔"
+  },
+  "warehouse": {
+    "file": "warehouse.glb",
+    "h": 7,
+    "ja": "倉庫"
+  },
+  "well": {
+    "file": "well.glb",
+    "h": 4,
+    "ja": "井戸"
+  },
+  "stall": {
+    "file": "stall.glb",
+    "h": 4,
+    "ja": "市場の屋台"
+  },
+  "obelisk": {
+    "file": "obelisk.glb",
+    "h": 24,
+    "ja": "魔界の門の柱"
+  },
+  "ruin": {
+    "file": "ruin.glb",
+    "h": 12,
+    "ja": "山頂の遺跡の柱"
+  },
+  "lighthouse": {
+    "file": "lighthouse.glb",
+    "h": 30,
+    "ja": "灯台"
+  },
+  "skytemple": {
+    "file": "skytemple.glb",
+    "h": 30,
+    "ja": "天空の神殿",
+    "rot": 0
+  },
+  "troll": {
+    "file": "troll.glb",
+    "h": 5,
+    "ja": "トロール",
+    "rot": 0
+  },
+  "angel": {
+    "file": "angel.glb",
+    "h": 2.4,
+    "ja": "天使の兵",
+    "rot": 0
+  },
+  "archangel": {
+    "file": "archangel.glb",
+    "h": 7,
+    "ja": "大天使",
+    "rot": 0
+  },
+  "angelgeneral": {
+    "file": "angelgeneral.glb",
+    "h": 4,
+    "ja": "天使将軍",
+    "rot": 0
+  },
+  "angelarcher": {
+    "file": "angelarcher.glb",
+    "h": 2.4,
+    "ja": "天使の弓兵",
+    "rot": 0
+  },
+  "angelsword": {
+    "file": "angelsword.glb",
+    "h": 2.4,
+    "ja": "天使の剣士",
+    "rot": 0
+  },
+  "fishman": {
+    "file": "fishman.glb",
+    "h": 2.3,
+    "ja": "魚人の兵",
+    "rot": 0
+  },
+  "fishbow": {
+    "file": "fishbow.glb",
+    "h": 2.3,
+    "ja": "魚人の弓兵",
+    "rot": 0
+  },
+  "redcap": {
+    "file": "redcap.glb",
+    "h": 1.5,
+    "ja": "レッドキャップゴブリン",
+    "rot": 0
+  },
+  "orcknight": {
+    "file": "orcknight.glb",
+    "h": 3.6,
+    "ja": "狼に乗ったオーク",
+    "rot": -90
+  },
+  "skyfort": {
+    "file": "skyfort.glb",
+    "h": 44,
+    "ja": "空中砦",
+    "rot": 0
+  },
+  "pegasus": {
+    "file": "pegasus.glb",
+    "h": 3.6,
+    "ja": "天馬の騎士",
+    "rot": 0
+  },
+  "seaking": {
+    "file": "seaking.glb",
+    "h": 30,
+    "ja": "海王",
+    "rot": 0
+  },
+  "shark": {
+    "file": "shark.glb",
+    "h": 6,
+    "ja": "巨大なサメ",
+    "rot": 90
+  },
+  "crab": {
+    "file": "crab.glb",
+    "h": 6,
+    "ja": "巨大なカニ",
+    "rot": 0
+  },
+  "leviathan": {
+    "file": "leviathan.glb",
+    "h": 34,
+    "ja": "リヴァイアサン",
+    "rot": -90
+  },
+  "orccart": {
+    "file": "orccart.glb",
+    "h": 8.5,
+    "ja": "オークの小戦車（最初に作った木の戦車）",
+    "rot": 0
+  },
+  "dgate": {
+    "file": "dgate.glb",
+    "h": 46,
+    "ja": "魔界の門",
+    "rot": 0
+  },
+  "dcastle": {
+    "file": "dcastle.glb",
+    "h": 60,
+    "ja": "魔王の城",
+    "rot": 0
+  },
+  "dthrone": {
+    "file": "dthrone.glb",
+    "h": 14,
+    "ja": "魔王の玉座",
+    "rot": 0
+  },
+  "bonearch": {
+    "file": "bonearch.glb",
+    "h": 16,
+    "ja": "巨大な骨",
+    "rot": 0
+  },
+  "dtower": {
+    "file": "dtower.glb",
+    "h": 30,
+    "ja": "黒い塔",
+    "rot": 0
+  },
+  "cloudgate": {
+    "file": "cloudgate.glb",
+    "h": 40,
+    "ja": "雲の門",
+    "rot": 0
+  },
+  "colonnade": {
+    "file": "colonnade.glb",
+    "h": 16,
+    "ja": "白い柱廊",
+    "rot": 0
+  },
+  "angelstatue": {
+    "file": "angelstatue.glb",
+    "h": 14,
+    "ja": "天使の像",
+    "rot": 0
+  },
+  "skytower": {
+    "file": "skytower.glb",
+    "h": 30,
+    "ja": "白い見張り塔",
+    "rot": 0
+  },
+  "kingtank": {
+    "file": "kingtank.glb",
+    "h": 22,
+    "ja": "オークキングの戦車（どくろの戦車・ふみさんが選んだ版）",
+    "rot": 0
+  },
+  "seapalace": {
+    "file": "seapalace.glb",
+    "h": 50,
+    "ja": "海王の宮殿",
+    "rot": 0
+  },
+  "shellthrone": {
+    "file": "shellthrone.glb",
+    "h": 16,
+    "ja": "貝の玉座",
+    "rot": 0
+  },
+  "coralreef": {
+    "file": "coralreef.glb",
+    "h": 10,
+    "ja": "さんごの岩礁",
+    "rot": 0
+  },
+  "shipwreck": {
+    "file": "shipwreck.glb",
+    "h": 16,
+    "ja": "しずんだ船",
+    "rot": 0
+  },
+  "fishhut": {
+    "file": "fishhut.glb",
+    "h": 9,
+    "ja": "魚人の家",
+    "rot": 0
+  },
+  "searuin": {
+    "file": "searuin.glb",
+    "h": 18,
+    "ja": "海の神殿のあと",
+    "rot": 0
+  },
+  "seaarch": {
+    "file": "seaarch.glb",
+    "h": 26,
+    "ja": "海の岩のアーチ",
+    "rot": 0
+  },
+  "clam": {
+    "file": "clam.glb",
+    "h": 6,
+    "ja": "巨大な貝と真珠",
+    "rot": 0
+  },
+  "shelltower": {
+    "file": "shelltower.glb",
+    "h": 28,
+    "ja": "巻き貝の見張り塔",
+    "rot": 0
+  },
+  "kraken2": {
+    "file": "kraken2.glb",
+    "h": 20,
+    "ja": "クラーケン（骨入り・自分用）",
+    "rot": 0
+  },
+  "gianttank": {
+    "file": "gianttank.glb",
+    "h": 44,
+    "ja": "木の巨大戦車（木の移動要塞・新しい見た目）",
+    "rot": 0
+  },
+  "shieldman": {
+    "file": "shieldman.glb",
+    "h": 2.2,
+    "ja": "盾兵（大盾と剣。兵団の前列）",
+    "rot": 0
+  },
+  "deb_stone": {
+    "file": "deb_stone.glb",
+    "h": 1,
+    "ja": "こわれた石かべのかけら",
+    "rot": 0
+  },
+  "deb_wood": {
+    "file": "deb_wood.glb",
+    "h": 1,
+    "ja": "こわれた木材のかけら",
+    "rot": 0
+  },
+  "deb_roof": {
+    "file": "deb_roof.glb",
+    "h": 1,
+    "ja": "こわれた屋根と白かべのかけら",
+    "rot": 0
+  },
+  "gwizard": {
+    "file": "gwizard.glb",
+    "h": 6,
+    "ja": "巨大魔術師（変身後。筋肉の老魔術師・大きな木の杖）",
+    "rot": 0
+  },
+  "aqueduct": {
+    "file": "aqueduct.glb",
+    "h": 24,
+    "ja": "アーチの遺跡（水道橋のあと）",
+    "rot": 1.5708
+  },
+  "dunarch": {
+    "file": "dunarch.glb",
+    "h": 30,
+    "ja": "広間のかべのアーチ柱",
+    "rot": 0
+  },
+  "hpillar": {
+    "file": "hpillar.glb",
+    "h": 36,
+    "ja": "広間の石の柱",
+    "rot": 0
+  },
+  "htorch": {
+    "file": "htorch.glb",
+    "h": 4,
+    "ja": "壁のたいまつ",
+    "rot": 0
+  },
+  "hbanner": {
+    "file": "hbanner.glb",
+    "h": 18,
+    "ja": "赤いたれ幕",
+    "rot": 0
+  },
+  "hwindow": {
+    "file": "hwindow.glb",
+    "h": 17,
+    "ja": "ステンドグラスの窓",
+    "rot": 0
+  },
+  "hstairs": {
+    "file": "hstairs.glb",
+    "h": 10,
+    "ja": "階段つきの石の台",
+    "rot": 0
+  },
+  "hbrazier": {
+    "file": "hbrazier.glb",
+    "h": 8,
+    "ja": "立てるかがり火",
+    "rot": 0
+  },
+  "hstatue": {
+    "file": "hstatue.glb",
+    "h": 8,
+    "ja": "石像（ガーゴイル）",
+    "rot": 0
+  },
+  "hprops": {
+    "file": "hprops.glb",
+    "h": 4,
+    "ja": "たる・木箱・宝箱のかたまり",
+    "rot": 0
+  },
+  "hrubble": {
+    "file": "hrubble.glb",
+    "h": 4,
+    "ja": "がれきと骸骨の山",
+    "rot": 0
+  },
+  "cstalag": {
+    "file": "cstalag.glb",
+    "h": 10,
+    "ja": "洞窟の岩の柱（石筍）",
+    "rot": 0
+  },
+  "cbones": {
+    "file": "cbones.glb",
+    "h": 8,
+    "ja": "巨大な獣の骨",
+    "rot": 0
+  },
+  "choard": {
+    "file": "choard.glb",
+    "h": 6,
+    "ja": "金貨と宝の山",
+    "rot": 0
+  },
+  "roardragon": {
+    "file": "roardragon.glb",
+    "h": 12,
+    "ja": "ほえる赤い竜（必殺技の見せ場だけ使うポーズ）",
+    "rot": 0
+  },
+  "royalcastle": {
+    "file": "royalcastle.glb",
+    "h": 150,
+    "ja": "岩山の上の白い王城（遠くの景色）"
+  },
+  "bat": {
+    "file": "bat.glb",
+    "h": 1.2,
+    "ja": "こうもり",
+    "rot": 0
+  },
+  "imp": {
+    "file": "imp.glb",
+    "h": 1.6,
+    "ja": "小悪魔",
+    "rot": 0
+  },
+  "seakingman": {
+    "file": "seakingman.glb",
+    "h": 6,
+    "ja": "海王（人の姿・骨入り）",
+    "rot": 0
+  },
+  "bgolem2": {
+    "file": "bgolem2.glb",
+    "h": 32,
+    "ja": "石ブロックの巨人ゴーレム（表紙の姿。胸と目が青く光る。動き idle・walk・box_01・fall）",
+    "rot": 0
+  },
+  "cliff_waterfall": {
+    "file": "cliff_waterfall.glb",
+    "h": 90,
+    "ja": "滝つきの断崖（苔と草）",
+    "rot": 0
+  },
+  "rock_big": {
+    "file": "rock_big.glb",
+    "h": 6,
+    "ja": "苔むした大岩のかたまり",
+    "rot": 0
+  },
+  "crag_peak": {
+    "file": "crag_peak.glb",
+    "h": 250,
+    "ja": "尖った岩山（ふもとに森・頂に雪）",
+    "rot": 0
+  },
+  "col_broken": {
+    "file": "col_broken.glb",
+    "h": 4,
+    "ja": "折れた石の柱（横たわる・苔）",
+    "rot": 0
+  },
+  "rocktorii": {
+    "file": "rocktorii.glb",
+    "h": 22,
+    "ja": "岩の鳥居（苔・しめ縄）"
+  },
+  "dragonskel": {
+    "file": "dragonskel.glb",
+    "h": 18,
+    "ja": "竜の骨格（とぐろを巻いた全身の骨）"
+  },
+  "dragonskull": {
+    "file": "dragonskull.glb",
+    "h": 16,
+    "ja": "竜のどくろ（角つき・口が開く）"
+  },
+  "skyisle": {
+    "file": "skyisle.glb",
+    "h": 30,
+    "ja": "浮島（草・白い柱・滝・下は岩のつらら）"
+  },
+  "ground2": {
+    "file": "ground2.glb",
+    "h": 6,
+    "ja": "アースドラゴン（新・岩のよろいと琥珀のとげ・骨入り・歩く動き）",
+    "rot": 90
+  },
+  "wyvern3": {
+    "file": "wyvern3.glb",
+    "h": 7,
+    "ja": "ワイバーン（緑・骨入り・歩く動きつき。自分のキャラ用）",
+    "rot": 0
+  },
+  "castle_gate": {
+    "file": "castle_gate.glb",
+    "h": 19,
+    "ja": "城門（石のアーチと木のとびら。兵長の魔物狩りの門を使い回し）",
+    "rot": 0
+  },
+  "p8supertank": {
+    "file": "p8supertank.glb",
+    "h": 12,
+    "ja": "超重戦車「陸の戦艦」",
+    "rot": 0
+  },
+  "p8titan": {
+    "file": "p8titan.glb",
+    "h": 34,
+    "ja": "都市統括機（巨大な番人ロボ）",
+    "rot": 0
+  },
+  "p8rex": {
+    "file": "p8rex.glb",
+    "h": 14,
+    "ja": "暴君竜",
+    "rot": 0
+  },
+  "p8bomber": {
+    "file": "p8bomber.glb",
+    "h": 6,
+    "ja": "大型爆撃機",
+    "rot": 0
+  },
+  "p8rifle": {
+    "file": "p8rifle.glb",
+    "h": 1.8,
+    "ja": "小銃兵（架空の国）",
+    "rot": 0
+  },
+  "p8tank": {
+    "file": "p8tank.glb",
+    "h": 3,
+    "ja": "中戦車",
+    "rot": 0
+  },
+  "p8robot": {
+    "file": "p8robot.glb",
+    "h": 2,
+    "ja": "ロボット兵",
+    "rot": 0
+  },
+  "p8drone": {
+    "file": "p8drone.glb",
+    "h": 1.5,
+    "ja": "ドローン",
+    "rot": 0
+  },
+  "p8mech": {
+    "file": "p8mech.glb",
+    "h": 6,
+    "ja": "重装ロボ",
+    "rot": 0
+  },
+  "p8raptor": {
+    "file": "p8raptor.glb",
+    "h": 1.6,
+    "ja": "小型の肉食竜",
+    "rot": 0
+  },
+  "p8ptera": {
+    "file": "p8ptera.glb",
+    "h": 2,
+    "ja": "翼竜",
+    "rot": 0
+  },
+  "p8trike": {
+    "file": "p8trike.glb",
+    "h": 3.2,
+    "ja": "三本角の竜",
+    "rot": 0
+  },
+  "p8tower": {
+    "file": "p8tower.glb",
+    "h": 60,
+    "ja": "ネオンの高層ビル",
+    "rot": 0
+  },
+  "p8gianttree": {
+    "file": "p8gianttree.glb",
+    "h": 45,
+    "ja": "太古の巨木",
+    "rot": 0
+  },
+  "p8ruin": {
+    "file": "p8ruin.glb",
+    "h": 12,
+    "ja": "こわれた建物",
+    "rot": 0
+  },
+  "p8flak": {
+    "file": "p8flak.glb",
+    "h": 3,
+    "ja": "高射砲",
+    "rot": 0
+  },
+  "p8bones": {
+    "file": "p8bones.glb",
+    "h": 8,
+    "ja": "恐竜の骨",
+    "rot": 0
+  },
+  "castle_wall_burning": {
+    "file": "castle_wall_burning.glb",
+    "h": 17,
+    "ja": "燃える城壁の一区画",
+    "rot": 0
+  },
+  "siege_tower": {
+    "file": "siege_tower.glb",
+    "h": 18,
+    "ja": "攻城やぐら",
+    "rot": 0
+  },
+  "army_block": {
+    "file": "army_block.glb",
+    "h": 4,
+    "ja": "兵の隊列のかたまり",
+    "rot": 0
+  },
+  "war_banner": {
+    "file": "war_banner.glb",
+    "h": 12,
+    "ja": "軍旗",
+    "rot": 0
+  },
+  "p8fighter": {
+    "file": "p8fighter.glb",
+    "h": 3,
+    "ja": "戦闘機（架空の機体。印なし）",
+    "rot": 0
+  },
+  "royalcastle2": {
+    "file": "royalcastle2.glb",
+    "h": 150,
+    "ja": "岩山の上の王城（とがった塔のならぶ灰色の石の城。表紙の城）"
+  },
+  "dstairs": {
+    "file": "dstairs.glb",
+    "h": 14,
+    "ja": "迷宮の大きな石の階段（手すりつき）",
+    "rot": 0
+  },
+  "sealdoor": {
+    "file": "sealdoor.glb",
+    "h": 56,
+    "ja": "鎖の封印の扉（石のアーチ・竜の彫り・赤い印）",
+    "rot": 0
+  },
+  "dwall": {
+    "file": "dwall.glb",
+    "h": 30,
+    "ja": "迷宮の壁の一区画（アーチのくぼみと柱）",
+    "rot": 0
+  }
 }
