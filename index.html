@@ -6694,7 +6694,7 @@ function dunTex(k){if(DUN.tex[k])return DUN.tex[k];const c=document.createElemen
   else if(k==='lava'){x.fillStyle='#120a0c';x.fillRect(0,0,256,256);for(let r=0;r<4;r++)for(let i=0;i<4;i++){const v=(44+Math.random()*26)|0;x.fillStyle=`rgb(${v+10},${v},${v+4})`;x.fillRect(i*64+3,r*64+3,58,58);}x.strokeStyle='#e8601a';x.shadowColor='#ff4a10';x.shadowBlur=8;x.lineWidth=2;for(let j=0;j<3;j++){x.beginPath();let px=Math.random()*256,py=Math.random()*256;x.moveTo(px,py);for(let q=0;q<5;q++){px+=(Math.random()-0.5)*90;py+=(Math.random()-0.5)*90;x.lineTo(px,py);}x.stroke();}x.shadowBlur=0;}
   else{x.translate(128,128);x.rotate(Math.PI/4);x.fillStyle='rgba(255,60,50,0.35)';x.fillRect(-72,-72,144,144);x.strokeStyle='#ff6a58';x.lineWidth=14;x.strokeRect(-72,-72,144,144);x.setTransform(1,0,0,1,0,0);x.fillStyle='#ffe0d0';x.beginPath();x.arc(128,110,20,0,6.3);x.fill();x.fillRect(118,116,20,48);}
   const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;return DUN.tex[k]=t;}
-function dunClear(){DUN.door?.exit?.materials.forEach(m=>m.dispose());if(DUN.g){scene.remove(DUN.g);DUN.g.traverse(o=>{if(o.geometry)o.geometry.dispose();});DUN.g=null;}DUN.on=false;DUN.tor=[];DUN.ch=[];DUN.door=null;DUN.gates=[];}
+function dunClear(){if(DUN.g){scene.remove(DUN.g);DUN.g.traverse(o=>{if(o.geometry)o.geometry.dispose();});DUN.g=null;}DUN.on=false;DUN.tor=[];DUN.ch=[];DUN.door=null;DUN.gates=[];}
 function dunHm(){if(DUN.hm&&DUN.hm.g===DUN.g)return DUN.hm;const cx=(DUN.x0+DUN.x1)/2,w=DUN.x1-DUN.x0,hw=Math.max(46,w*0.4)/2+3,za=DUN.z0+6,zb=DUN.z0+60,st=1.5,nx=Math.ceil(2*hw/st)+1,nz=Math.ceil((zb-za)/st)+1,a=new Float32Array(nx*nz),H={g:DUN.g,at:(x,z)=>{const i=Math.round((x-(cx-hw))/st),j=Math.round((Math.max(z,za)-za)/st);return i<0||i>=nx||j<0||j>=nz?0:a[j*nx+i];}};
   try{const rc=new THREE.Raycaster(),M=[],bb=new THREE.Box3(),box=new THREE.Box3(new V3(cx-hw,DUN.y-1,za),new V3(cx+hw,DUN.y+13,zb));DUN.g.updateMatrixWorld(true);
     DUN.g.traverse(q=>{if(q.isMesh&&q.visible&&q.material&&!q.material.transparent&&bb.setFromObject(q).intersectsBox(box))M.push(q);});
@@ -6723,116 +6723,10 @@ function dunDoor(g,x,y,z,seal){const D=new THREE.Group();D.position.set(x,y,z);g
   [[L,1],[R,-1]].forEach(([G,sg])=>{const pn=new THREE.Mesh(new THREE.BoxGeometry(14,44,1.6),iron);pn.position.set(sg*7,22,0);G.add(pn);[8,22,36].forEach(yy=>{const b=new THREE.Mesh(new THREE.BoxGeometry(13,1.4,2),brass);b.position.set(sg*7,yy,0.2);G.add(b);});});
   const o={g:D,L,R,seal:null,gl:null,xc:[],open:0,md:null,fz:0};
   if(MODEL.gdoor){const md=cloneModel('gdoor');md.rotation.y=MODEL.gdoor.rot;md.updateMatrixWorld(true);const b0=new THREE.Box3().setFromObject(md),k=56/(b0.max.y-b0.min.y);md.scale.multiplyScalar(k);md.updateMatrixWorld(true);
-    const b2=new THREE.Box3().setFromObject(md);md.position.x-=(b2.min.x+b2.max.x)/2;md.position.y-=b2.min.y;md.position.z-=b2.min.z;D.children.forEach(c=>{c.visible=false;});{const hole=new THREE.Mesh(new THREE.PlaneGeometry(30,46),new THREE.MeshBasicMaterial({color:0x050308}));hole.position.set(0,23,0.5);D.add(hole);o.backing=hole;}D.add(md);o.md=md;o.my=md.position.y;o.fz=b2.max.z-b2.min.z;}
+    const b2=new THREE.Box3().setFromObject(md);md.position.x-=(b2.min.x+b2.max.x)/2;md.position.y-=b2.min.y;md.position.z-=b2.min.z;D.children.forEach(c=>{c.visible=false;});{const hole=new THREE.Mesh(new THREE.PlaneGeometry(30,46),new THREE.MeshBasicMaterial({color:0x050308}));hole.position.set(0,23,0.5);D.add(hole);}D.add(md);o.md=md;o.my=md.position.y;o.fz=b2.max.z-b2.min.z;}
   if(seal){const em=new THREE.Mesh(new THREE.PlaneGeometry(20,20),new THREE.MeshBasicMaterial({map:dunTex('seal'),transparent:true,depthWrite:false}));em.position.set(0,o.md?27:23,o.fz*0.82+3);if(o.md)em.scale.setScalar(1.25);D.add(em);
     const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff3020,transparent:true,opacity:0.7,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(70,70,1);gl.position.set(0,o.md?27:23,o.fz*0.82+5);D.add(gl);o.seal=em;o.gl=gl;o.xc=[1,-1].map(sg=>{const c=new THREE.Mesh(new THREE.CylinderGeometry(0.7,0.7,62,6),new THREE.MeshBasicMaterial({color:0xff4a38,transparent:true,opacity:0.95}));c.position.set(0,o.md?27:23,o.fz*0.82+2.6);c.rotation.z=sg*0.72;if(o.md)c.scale.y=1.15;D.add(c);return c;});}
   return o;}
-// 竜人の出口は金の錠が付いた一枚戸。gdoorの鉄板と石枠の頂点は奥行きで分かれている。
-function dunExitPart(src,faces){
-  const ids=new Map(),points=[],indices=[];
-  for(const i of faces){
-    if(!ids.has(i)){ids.set(i,points.length);points.push(i);}
-    indices.push(ids.get(i));
-  }
-  const geometry=new THREE.BufferGeometry();
-  for(const name of ['position','normal','uv']){
-    const a=src.attributes[name];if(!a)continue;
-    const values=new Float32Array(points.length*a.itemSize);
-    points.forEach((i,j)=>{
-      const k=j*a.itemSize;
-      values[k]=a.getX(i);values[k+1]=a.getY(i);if(a.itemSize>2)values[k+2]=a.getZ(i);
-    });
-    geometry.setAttribute(name,new THREE.BufferAttribute(values,a.itemSize));
-  }
-  geometry.setIndex(indices);geometry.computeBoundingBox();
-  return geometry;
-}
-function dunExitSplit(md){
-  let mesh=null;md.traverse(o=>{if(o.isMesh&&!mesh)mesh=o;});
-  const geo=mesh?.geometry,i=geo?.index,p=geo?.attributes.position;
-  if(!i||p.count!==9411||i.count!==20997)return null;
-  const leaf=[],frame=[];
-  const iron=v=>{const x=p.getX(v),y=p.getY(v),z=p.getZ(v);
-    return Math.abs(x)<28&&Math.abs(z)<6.1&&y<88-0.013*x*x;};
-  for(let k=0;k<i.count;k+=3){
-    const a=i.getX(k),b=i.getX(k+1),c=i.getX(k+2);
-    const count=Number(iron(a))+Number(iron(b))+Number(iron(c));
-    (count>=2?leaf:frame).push(a,b,c);
-  }
-  if(Math.min(leaf.length,frame.length)<300)return null;
-  return {mesh,panel:dunExitPart(geo,leaf),frame:dunExitPart(geo,frame)};
-}
-function dunExitBuild(door,wall,h,w){
-  const g=DUN.g,cx=door.g.position.x,z0=DUN.z0,floor=door.g.position.y-0.03;
-  const exit={materials:[],floor,frontZ:z0+20,endZ:z0-26,innerHalf:10.2,passAt:0.83,frame:null,hinge:null,panel:null};
-  door.exit=exit;
-  if(door.md){
-    const parts=dunExitSplit(door.md);
-    if(door.backing){door.g.remove(door.backing);door.backing.geometry.dispose();door.backing.material.dispose();}
-    if(parts){
-      door.g.updateMatrixWorld(true);
-      const transform=new THREE.Matrix4().copy(door.g.matrixWorld).invert().multiply(parts.mesh.matrixWorld);
-      const b=parts.panel.boundingBox;
-      const pivot=new V3(b.min.x+0.9,0,(b.min.z+b.max.z)*0.5).applyMatrix4(transform);
-      const frame=new THREE.Mesh(parts.frame,parts.mesh.material),hinge=new THREE.Group(),panel=new THREE.Mesh(parts.panel,parts.mesh.material);
-      frame.name='dungeonExitFrame';hinge.name='dungeonExitHinge';panel.name='dungeonExitPanel';
-      frame.matrixAutoUpdate=panel.matrixAutoUpdate=false;
-      frame.matrix.copy(transform);hinge.position.copy(pivot);
-      panel.matrix.makeTranslation(-pivot.x,-pivot.y,-pivot.z).multiply(transform);
-      hinge.add(panel);door.g.add(frame,hinge);
-      Object.assign(exit,{frame,hinge,panel});
-    }else{
-      // 読み込まれた模型が変わった場合も、開く枠と扉を表示できる。
-      for(const c of door.g.children)if(c!==door.md)c.visible=true;
-    }
-    door.g.remove(door.md);door.md=null;
-  }
-  const half=14.8,sill=floor-DUN.y,material=wall.material;
-  g.remove(wall);wall.geometry.dispose();
-  // 奥壁に通路を空ける。分割した左右でも元の石積みのUVをそろえる。
-  function wallPart(x0,x1,y0,y1){
-    const geo=new THREE.PlaneGeometry(x1-x0,y1-y0),uv=geo.attributes.uv;
-    for(let j=0;j<uv.count;j++)uv.setXY(j,(x0+(x1-x0)*uv.getX(j))/w+0.5,(y0+(y1-y0)*uv.getY(j))/h);
-    const m=new THREE.Mesh(geo,material);m.position.set(cx+(x0+x1)*0.5,DUN.y+(y0+y1)*0.5,z0);g.add(m);
-  }
-  wallPart(-w/2,-half,0,h);wallPart(half,w/2,0,h);wallPart(-half,half,0,sill);
-  const passage=new THREE.MeshLambertMaterial({map:dunTex('wall'),color:0x32303a,emissive:0x08070d});
-  const pathFloor=new THREE.MeshLambertMaterial({map:dunTex('floor'),color:0x494650,emissive:0x0d0b13});
-  exit.materials.push(passage,pathFloor);
-  const length=36,bridge=14,cy=(floor+DUN.y+h)*0.5;
-  function plane(a,b,m,x,y,z,rx=0,ry=0){
-    const mesh=new THREE.Mesh(new THREE.PlaneGeometry(a,b),m);mesh.position.set(x,y,z);mesh.rotation.set(rx,ry,0);g.add(mesh);
-  }
-  plane(2*half,length+bridge,pathFloor,cx,floor-0.04,z0+(bridge-length)*0.5,-Math.PI/2);
-  plane(2*half,length,passage,cx,DUN.y+h,z0-length*0.5,Math.PI/2);
-  const innerHeight=DUN.y+h-floor;
-  plane(length,innerHeight,passage,cx-half,cy,z0-length*0.5,0,Math.PI/2);
-  plane(length,innerHeight,passage,cx+half,cy,z0-length*0.5,0,-Math.PI/2);
-  plane(2*half,innerHeight,passage,cx,cy,z0-length);
-}
-function dunExitTick(door,dt){
-  if(dt<=0||PAUSED||LVUP)return;
-  if(!door.open){
-    if(wave<0||wave!==curWaves().length-1||EN.length)return;
-    sfx('clang',null,0.62);shake(0.16);
-  }
-  if(door.open>=1)return;
-  door.open=Math.min(1,door.open+dt/1.72);
-  const t=door.open,angle=1.61*t*t*(3-2*t);
-  if(door.exit.hinge)door.exit.hinge.rotation.y=angle;
-  else{door.L.rotation.y=angle;door.R.rotation.y=-angle;}
-}
-function dunExitLimit(previousZ){
-  const d=DUN.door,exit=d?.exit;
-  if(!exit||d.open<exit.passAt)return DUN.zmin;
-  const x=d.g.position.x,hw=exit.innerHalf;
-  if(P.pos.z<exit.frontZ){
-    if(previousZ>=exit.frontZ&&Math.abs(P.pos.x-x)>hw)return exit.frontZ;
-    P.pos.x=clamp(P.pos.x,x-hw,x+hw);
-    P.pos.y=Math.max(P.pos.y,exit.floor+C.gOff);
-  }
-  return exit.endZ;
-}
 // 広間のかざり用：Tripoのモデルを置く（形と材質は共有）。o.h=高さ o.w=横はば(任意) o.d=奥行き(任意) o.ry=向き o.t=色の明るさ o.lod=この遠さより先は軽い形に(任意) o.far=その軽い形
 function dunPut(g,id,x,y,z,o){const M=MODEL[id];if(!M)return null;const hb=DUN.hb||(DUN.hb={}),bb=hb[id]||(hb[id]=new THREE.Box3().setFromObject(M.scene)),sz=bb.getSize(new V3()),c=bb.getCenter(new V3());
   const ky=o.h/sz.y,kx=o.w?o.w/sz.x:ky,kz=o.d?o.d/sz.z:(o.w?kx:ky),m=cloneModel(id);if(!m)return null;
@@ -6860,7 +6754,7 @@ function dunBuild(o){dunClear();const g=new THREE.Group(),cx=o.cx,cz=o.cz,w=o.w,
   // 床・かべ4枚・天井（内がわだけ見える）
   m=add(new THREE.Mesh(new THREE.PlaneGeometry(w,d),MA?new THREE.MeshBasicMaterial({map:T('lava',w/44,d/44)}):new THREE.MeshPhongMaterial({map:T('floor',w/20,d/20),color:0xa8a8c4,emissive:0x0e0e18,specular:0x9aa0c8,shininess:70})),cx,gy+0.5,cz);m.rotation.x=-Math.PI/2;if(!MA)dunFloorTex(m,w,d);
   const wm=len=>LM('wall',len/22,h/22,MA?0xe2a8a8:0xd4d4e6,MA?0x220a0c:0x15151f);
-  const endWall=add(new THREE.Mesh(new THREE.PlaneGeometry(w,h),wm(w)),cx,gy+h/2,z0);
+  add(new THREE.Mesh(new THREE.PlaneGeometry(w,h),wm(w)),cx,gy+h/2,z0);
   m=add(new THREE.Mesh(new THREE.PlaneGeometry(w,h),wm(w)),cx,gy+h/2,z1);m.rotation.y=Math.PI;
   m=add(new THREE.Mesh(new THREE.PlaneGeometry(d,h),wm(d)),x0,gy+h/2,cz);m.rotation.y=Math.PI/2;
   m=add(new THREE.Mesh(new THREE.PlaneGeometry(d,h),wm(d)),x1,gy+h/2,cz);m.rotation.y=-Math.PI/2;
@@ -6880,17 +6774,13 @@ function dunBuild(o){dunClear();const g=new THREE.Group(),cx=o.cx,cz=o.cz,w=o.w,
       q.rotation.y=(alongX?-sx*Math.PI/2:(sx<0?0:Math.PI));c.traverse(o=>{if(o.isMesh){o.material=o.material.clone();if(MA)o.material.color.setRGB(1.5,1.0,0.95);else o.material.color.setRGB(1.45,1.45,1.6);}});
       add(q,cx+sx*(w/2-deep*Math.min(k,5/deep)/2-0.4),gy+0.5,z0+20+(i+0.5)*stp);}}
   // 奥のかべ：青く光る窓3つ、階段と見はり台、扉
-  for(const k of o.door===1?[-1,1]:[-1,0,1]){{const wh=Math.max(16,h*0.28);if(!dunPut(g,'hwindow',cx+k*w*0.3,gy+h*0.76-wh/2,z0+1.4,{h:wh,t:1.25}))add(new THREE.Mesh(new THREE.PlaneGeometry(9,17),new THREE.MeshBasicMaterial({color:0xa8d4ff})),cx+k*w*0.3,gy+h*0.76,z0+0.6);}
+  for(const k of [-1,0,1]){{const wh=Math.max(16,h*0.28);if(!dunPut(g,'hwindow',cx+k*w*0.3,gy+h*0.76-wh/2,z0+1.4,{h:wh,t:1.25}))add(new THREE.Mesh(new THREE.PlaneGeometry(9,17),new THREE.MeshBasicMaterial({color:0xa8d4ff})),cx+k*w*0.3,gy+h*0.76,z0+0.6);}
     const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0x7ab0ff,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(46,46,1);gl.position.set(cx+k*w*0.3,gy+h*0.74,z0+4);g.add(gl);}
   const sm=LM('wall',w*0.5/22,0.4,0xc4c4d8,0x14141e);
   if(!dunPut(g,'hstairs',cx,gy+0.3,z0+29,{w:Math.max(46,w*0.4),h:11,d:56,t:1.1})){add(new THREE.Mesh(new THREE.BoxGeometry(w*0.5,8,28),sm),cx,gy+4,z0+14);
   for(let k=0;k<6;k++){const hh=8-k*1.3;add(new THREE.Mesh(new THREE.BoxGeometry(w*0.3,hh,5),sm),cx,gy+hh/2,z0+30.5+k*5);}
   for(const sx of [-1,1])for(let k=0;k<5;k++)add(new THREE.Mesh(new THREE.BoxGeometry(1.6,4.5,1.6),pm),cx+sx*(w*0.25-2-k*0),gy+10,z0+3+k*6);}
-  if(o.door){
-    const y=gy+(MODEL.hstairs?(o.door===1?7.52:10.3):8);
-    DUN.door=dunDoor(g,cx,y,z0+2,o.door===2);
-    if(o.door===1)dunExitBuild(DUN.door,endWall,h,w);
-  }
+  if(o.door)DUN.door=dunDoor(g,cx,gy+(MODEL.hstairs?10.3:8),z0+2,o.door===2);
   {const fg=(x,z,sx,sz,col,op)=>{const q=new THREE.Mesh(new THREE.PlaneGeometry(sx,sz),new THREE.MeshBasicMaterial({map:GT,color:col,transparent:true,opacity:op,blending:THREE.AdditiveBlending,depthWrite:false}));q.rotation.x=-Math.PI/2;q.position.set(x,gy+0.8,z);g.add(q);return q;};
     for(const k of [-1,0,1])fg(cx+k*w*0.3,z0+84,22,110,0x7ab0ff,0.16);
     if(o.door===2)DUN.fgr=fg(cx,z0+78,60,120,0xff3020,0.42);
@@ -6924,7 +6814,6 @@ function updDun(dt,rdt){if(!DUN.on)return;DUN.t+=rdt;
   DUN.gates.forEach((q,i)=>{if(!q.open&&(wave>i||(wave===i&&EN.length===0))){q.open=0.01;sfx('clang',null,0.8);shake(0.3);if(wave===i)banner('⛓️ 鉄ごうしが上がった。奥へ進め！',2.2);}
     if(q.open>0&&q.open<1){q.open=Math.min(1,q.open+rdt*0.8);q.g.position.y=DUN.y+q.open*DUN.h*0.72;}});
   const D=DUN.door;if(!D)return;
-  if(D.exit){dunExitTick(D,dt);return;}
   if(D.seal&&!D.open){const k=D.arm?DUN.ch.length/4:1;D.seal.material.opacity=0.2+0.8*k;D.gl.material.opacity=(0.2+0.5*k)*(0.85+0.15*Math.sin(DUN.t*4));D.xc.forEach(c=>c.material.opacity=0.6+0.35*Math.sin(DUN.t*5));
     if(D.arm&&!DUN.ch.length&&EN.length===0){D.open=0.01;D.seal.visible=false;D.gl.visible=false;D.xc.forEach(c=>c.visible=false);if(DUN.fgr)DUN.fgr.visible=false;burst(new V3((DUN.x0+DUN.x1)/2,DUN.y+31,DUN.z0+8),50,[0xff5040,0xffb0a0,0xffffff],6,40,1);flashV=Math.max(flashV,0.7);shake(0.6);sfx('boom',null,0.8);}}
   else if(!D.open&&wave>=0&&wave===curWaves().length-1&&EN.length===0){D.open=0.01;sfx('boom',null,0.5);shake(0.3);}
@@ -8360,7 +8249,6 @@ function frame(now){
   if(!PAUSED)updUlt(rdt);
   const dt=(LVUP||PAUSED)?0:rdt*TS,t=now/1000;
   if(state==='play'&&!PAUSED){
-    const previousExitZ=P.pos.z;
     let sx=MS.x||0,sy=MS.y||0;
     if(TJ.id!==null){sx=TJ.dx/60;sy=TJ.dy/60;}
     const kx=(keys.ArrowRight||keys.KeyD?1:0)-(keys.ArrowLeft||keys.KeyA?1:0),ky=(keys.ArrowDown||keys.KeyS?1:0)-(keys.ArrowUp||keys.KeyW?1:0);
@@ -8432,7 +8320,7 @@ function frame(now){
     }
     collide(dt);
     if(banking&&P.bankT===0)endBank();
-    if(P.pos.y>240)P.pos.y=240;const pr=Math.hypot(P.pos.x,P.pos.z);if(pr>470){P.pos.x*=470/pr;P.pos.z*=470/pr;}if(DUN.on){P.pos.x=clamp(P.pos.x,DUN.x0+DUN.xm,DUN.x1-DUN.xm);let zl=dunExitLimit(previousExitZ);for(const q of DUN.gates)if(q.open<1&&P.pos.z>q.z)zl=Math.max(zl,q.z+7);P.pos.z=clamp(P.pos.z,zl,DUN.z1-8);{const tp=DUN.y+Math.max(12,Math.min((DUN.h||24)*0.5,26)),lo=Math.min(tp-0.5,DUN.y+(charKey==='wyvern'?12.5:C.model?12:9));if(P.pos.y>tp)P.pos.y=tp;if(false&&C.fly&&P.pos.y<lo){P.pos.y+=Math.max((lo-P.pos.y)*0.35,Math.min(lo-P.pos.y,0.9));if(P.vel.y<0)P.vel.y=0;P.onGround=false;}}}if(CAVE.on){const dx=P.pos.x-CAVE.x,dz=P.pos.z-CAVE.z,d=Math.hypot(dx,dz),m=CAVE.R-14;if(d>m){P.pos.x=CAVE.x+dx*m/d;P.pos.z=CAVE.z+dz*m/d;}const top=Math.min(caveTop(Math.min(d,m))-5,CAVE.y+15);if(P.pos.y>top)P.pos.y=top;}if(TER.sky&&P.pos.y<WATER+5)P.pos.y=WATER+5;
+    if(P.pos.y>240)P.pos.y=240;const pr=Math.hypot(P.pos.x,P.pos.z);if(pr>470){P.pos.x*=470/pr;P.pos.z*=470/pr;}if(DUN.on){P.pos.x=clamp(P.pos.x,DUN.x0+DUN.xm,DUN.x1-DUN.xm);let zl=DUN.zmin;for(const q of DUN.gates)if(q.open<1&&P.pos.z>q.z)zl=Math.max(zl,q.z+7);P.pos.z=clamp(P.pos.z,zl,DUN.z1-8);{const tp=DUN.y+Math.max(12,Math.min((DUN.h||24)*0.5,26)),lo=Math.min(tp-0.5,DUN.y+(charKey==='wyvern'?12.5:C.model?12:9));if(P.pos.y>tp)P.pos.y=tp;if(false&&C.fly&&P.pos.y<lo){P.pos.y+=Math.max((lo-P.pos.y)*0.35,Math.min(lo-P.pos.y,0.9));if(P.vel.y<0)P.vel.y=0;P.onGround=false;}}}if(CAVE.on){const dx=P.pos.x-CAVE.x,dz=P.pos.z-CAVE.z,d=Math.hypot(dx,dz),m=CAVE.R-14;if(d>m){P.pos.x=CAVE.x+dx*m/d;P.pos.z=CAVE.z+dz*m/d;}const top=Math.min(caveTop(Math.min(d,m))-5,CAVE.y+15);if(P.pos.y>top)P.pos.y=top;}if(TER.sky&&P.pos.y<WATER+5)P.pos.y=WATER+5;
     P.fireCd-=dt;P.inv-=dt;
     if(TER.lava&&(P.onGround||P.pos.y<=floorAt(P.pos.x,P.pos.z)+C.gOff+0.5)&&H(P.pos.x,P.pos.z)<WATER){hurt(30*dt,true);if(Math.random()<0.3)burst(P.pos,2,FIRE,3,8,0.4);}
     P.melCd-=dt;if(P.melT>0)P.melT-=dt;
@@ -8445,7 +8333,7 @@ function frame(now){
     updEnemies(dt);updProj(dt);treeTick(dt);updPill(dt);updPets(dt,t);
     if(EN.length===0&&!orcWolfBusy()&&wave>=0){const W=curWaves();
       if(waveWait<=0){const mjT=WV.majT||(WV.maj?WV.maj+'を倒した！':''),mj=mjT||W[wave].clr;waveWait=mj?(EASY?6.0:7.0):(EASY?3.0:3.4);wvClear(W);if(mj)glory(mjT||W[wave].clr.replace(/^\S+\s+/,'').split('！')[0]+'！',mjT?(W[wave].clr||''):(W[wave].clr.split('！').slice(1).join('！')||''));WV.maj=WV.majT=null;if(wave<W.length-1){if(W[wave].clr&&!mj)banner(W[wave].clr,2.4);P.hp=Math.min(P.maxHp,P.hp+P.maxHp*0.35);}else{if(!mj)banner(`🏆 ${STAGES[stage].ch}「${STAGES[stage].title}」クリア！`,3);waveWait=mj?6.0:3.2;}}
-      else{waveWait-=dt;if(waveWait<1.25&&waveWait>0&&wave<W.length-1)wvWarn(W);if(waveWait<=0){if(wave<W.length-1)startWave(wave+1);else if(DUN.door?.exit&&DUN.door.open<1){waveWait=0.1;}else if(stage<STAGES.length-1){reached=stage+1;P.hp=Math.min(P.maxHp,P.hp+P.maxHp*0.5);clearGap(()=>{setupStage(stage+1);showStory(stage,false,true);});}else{clearGap(()=>{wave=-1;showStory(stage,true,true);});}}}
+      else{waveWait-=dt;if(waveWait<1.25&&waveWait>0&&wave<W.length-1)wvWarn(W);if(waveWait<=0){if(wave<W.length-1)startWave(wave+1);else if(stage<STAGES.length-1){reached=stage+1;P.hp=Math.min(P.maxHp,P.hp+P.maxHp*0.5);clearGap(()=>{setupStage(stage+1);showStory(stage,false,true);});}else{clearGap(()=>{wave=-1;showStory(stage,true,true);});}}}
     }
   }else if(state==='dead'){deadT-=rdt;D.g.position.y=Math.max(floorAt(P.pos.x,P.pos.z)+1,D.g.position.y-rdt*20);D.g.rotation.z+=rdt*2;if(deadT<=0){D.g.visible=false;showEnd(false);}}
   // 竜の見た目
