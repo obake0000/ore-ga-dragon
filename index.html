@@ -1128,7 +1128,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVDRKF';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVDRKFUIFR';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -2132,10 +2132,10 @@ function cragHit(p){const pp=p.m.position,g=floorAt(pp.x,pp.z),z=p.m.scale.x,nea
   else for(let i=0;i<5;i++)cragPuff(c.x+rnd(-1,1),c.y+rnd(-1,1),c.z+rnd(-1,1),z*1.8,0.8,rnd(-4,4),rnd(-1,3),rnd(-4,4));}
 function lob(from,to,speed,grav){const dx=to.x-from.x,dz=to.z-from.z,hd=Math.hypot(dx,dz);const T=Math.max(0.6,hd/speed);return new V3(dx/T,((to.y-from.y)+0.5*grav*T*T)/T,dz/T);}
 function updProj(dt){
-  for(let i=PROJ.length-1;i>=0;i--){const p=PROJ[i],pp=p.m.position;p.life-=dt;p.vel.y-=p.grav*dt;
+  for(let i=PROJ.length-1;i>=0;i--){const p=PROJ[i];if(p.ufoBolt){if(ufoBoltStep(p,dt)){scene.remove(p.m);PROJ.splice(i,1);}continue;}const pp=p.m.position;p.life-=dt;p.vel.y-=p.grav*dt;
     if(p.homing){tmp.subVectors(P.pos,pp).normalize().multiplyScalar(p.vel.length());p.vel.lerp(tmp,Math.min(1,dt*1.3));}
     const treeOrigin=p.from==='p'?pp.clone():null;const origin=p.orcRound?pp.clone():null;pp.addScaledVector(p.vel,dt);
-    if(p.geo==='arrow'||p.geo==='beam'||p.geo==='rideBlade'||p.geo==='bolt'||p.geo==='bomberBullet'||p.geo==='orcShell'||p.geo==='modernBomb'||p.geo==='ufoLaser'||p.geo==='ufoMissile')p.m.lookAt(tmp.copy(pp).add(p.vel));else if(p.crag)cragFly(p,dt);else if(p.geo==='rock')p.m.rotation.x+=dt*6;
+    if(p.geo==='arrow'||p.geo==='beam'||p.geo==='rideBlade'||p.geo==='bolt'||p.geo==='bomberBullet'||p.geo==='orcShell'||p.geo==='modernBomb'||p.geo==='ufoLaser')p.m.lookAt(tmp.copy(pp).add(p.vel));else if(p.crag)cragFly(p,dt);else if(p.geo==='rock')p.m.rotation.x+=dt*6;
     if(p.geo==='bolt'){if(Math.random()<0.5)p.m.geometry=ZGEO[(Math.random()*ZGEO.length)|0];p.glow.material.opacity=0.5+Math.random()*0.5;if(Math.random()<0.35)burst(pp,1,ZAP,p.size*1.6,10,0.18);}
     else if(p.glow){const f=0.85+Math.random()*0.35;p.glow.scale.set(3.4*f,3.4*f,1);p.glow.material.rotation+=dt*5;}
     if(p.glow&&p.geo!=='bolt'){if(Math.random()<0.55)flame(pp,1,p.size*2.3,0.42,tmp2.copy(p.vel).multiplyScalar(-0.06),p.mat===MAT.dfire?1:p.mat===MAT.bfire?2:0);}
@@ -4601,7 +4601,7 @@ function breathe(tg){if(D&&D.dk){dkBreathe(tg);return;}if(charKey==='golem'&&tg.
     for(let i=0;i<nS;i++){const a=yaw0+(i-(nS-1)/2)*0.13;const t2=new V3(m.x+Math.sin(a)*hz,base.y,m.z+Math.cos(a)*hz);shoot1(m,t2,b,sz,sp,dm);}sfx(charKey==='wyvern'?'zapb':'fire',null,0.8);return;}
   shoot1(m,tg,b,sz,sp,dm,true);}
 function shoot1(m,tg,b,sz,sp,dm,snd){
-  if(b.geo==='ufoLaser'||b.geo==='ufoMissile'){ufoShot(m,tg,b,sz,sp,dm,snd);return;}
+  if(b.geo==='ufoLaser'||b.geo==='ufoMechBolt'){ufoShot(m,tg,b,sz,sp,dm,snd);return;}
   if(b.geo==='bomberBullet'){bomberShot(m,tg,b,sz,dm,snd);return;}
   if(charKey==='archangel'&&b===C.br){shoot(m,tg.clone().sub(m).normalize().multiplyScalar(b.spd),{from:'p',mat:b.mat,geo:'arrow',holyArrow:true,size:sz,r:1.8,splash:sp,dmg:dm,life:b.life,trail:b.trail,col:b.col});glowFlash(m.clone(),b.flash,6,0.12);if(snd)sfx('zapb',null,0.35);return;}
   if(b.geo==='arrow'){const v=lob(m,tg.clone().add(new V3(rnd(-1.5,1.5),rnd(-1,1),rnd(-1.5,1.5))),b.spd*0.75,28);shoot(m,v,{from:'p',mat:b.mat,geo:'arrow',size:sz,r:1.8*sz/b.size,splash:sp,dmg:dm,life:b.life*1.8,grav:28,col:b.col,trail:b.trail});if(b.flash){glowFlash(m.clone(),b.flash,8,0.16);burst(m,4,b.col,2.6,14,0.22);}if(snd)sfx('fire',null,0.25);return;}
@@ -8280,16 +8280,16 @@ Object.assign(CH,{maou:{name:'魔王',em:'😈',tag:'リングで二段階変身
   sp:'thunder',spN:'天罰の雷',spD:'敵の頭の上に、紫の雷を落とす',sp2:'gbeam',sp2N:'闇の光線',sp2D:'前へ太い光線を放つ',dash:'guard',dashN:'闇の守り',dashD:'その場で守りをかため、受けるダメージをへらす',mel:{r:12,dmg:90,cd:0.6,ono:'ドゴッ！'},
   model:{id:'blackknight',w:3,h:6,d:2.4,mouth:[0,1.5,1.6]},camB:24,camU:9,gOff:3,stat:[4,3,4]}});
 const MAOUF=[{id:'blackknight',w:3,h:6,d:2.4,nm:'人の姿',spd:17,dmg:1},{id:'demon',w:6,h:10,d:5,nm:'牛の魔物',spd:15,dmg:1.35},{id:'anc_darkdemon',w:9,h:15,d:7,nm:'黒い煙の魔人',spd:19,dmg:1.8,black:1}];
-// UFOは空中で光線、着地すると大型ロボになってミサイルを撃つ。
-Object.assign(CH,{ufo:{name:'UFO',em:'🛸',tag:'空と地上・大型ロボに変形',ds:'必殺技は細いレーザーの乱れ撃ちと、周りを切り刻む回転掃射。金のリングで着陸すると30秒だけ大型ロボに変形。遠くへミサイルを飛ばし、近くの敵はレーザーブレードで斬る。時間切れで円盤に戻って離陸する。',hp:370,spd:43,turn:2.1,fly:true,range:220,
+// UFOは陸に降りると大型ロボになり、離陸するまで地上で戦う。
+Object.assign(CH,{ufo:{name:'UFO',em:'🛸',tag:'空と地上・大型ロボに変形',ds:'地面まで降りるか、屋外の金のリングをくぐって着陸すると大型ロボに変形。地上では細いレーザー弾で一斉射撃し、近くの敵はレーザーブレードで斬る。空中のスペース／操作ボタンはバリア。地上では同じボタンで離陸して円盤に戻る。',hp:370,spd:43,turn:2.1,fly:true,range:220,
   br:{mat:new THREE.MeshBasicMaterial({color:0x70f6ff}),geo:'ufoLaser',dmg:34,cd:0.34,spd:220,life:1.35,size:1,splash:3,col:[0x70f6ff,0xb0ffff,0xffffff]},
-  sp:'ufolaser',spN:'レーザー乱れ撃ち',spD:'前方の敵をねらい、左右から細いレーザーを続けて撃つ',sp2:'ufosweep',sp2N:'回転レーザー掃射',sp2D:'反対向きの2本のレーザーで一周し、まわりの敵を切り刻む',dash:'bank',dashN:BANK_NAME,dashD:BANK_DESC,
+  sp:'ufolaser',spN:'レーザー乱れ撃ち',spD:'前方の敵をねらい、左右から短いレーザー弾を撃つ',sp2:'ufosweep',sp2N:'回転レーザー掃射',sp2D:'反対向きの2本のレーザーで一周し、まわりの敵を切り刻む',dash:'bank',dashN:BANK_NAME,dashD:BANK_DESC,
   mel:{r:12,dmg:70,cd:0.7,ono:'ガシャン！'},model:{id:'p8ufo',w:12,h:4,d:12,mouth:[0,-0.3,5]},camB:32,camU:12,gOff:2,stat:[4,4,4]}});
 // 巨大化する魔法使い：体力半分で禁じられた巨大化の術を使う。
 Object.assign(CH,{gwizard:{name:'巨大化する魔法使い',em:'🧙',tag:'地上・リングで30秒巨大化',ds:'魔法の弾と雷、光線で戦う魔法使い。金のリングをくぐると30秒間、巨大な魔術師に変身し、杖と魔法の弾が強くなる。時間切れで元の姿へ戻る。変身中のリングで残り30秒に戻せる。',hp:360,spd:23,turn:2.2,fly:false,range:220,
   br:{mat:new THREE.MeshBasicMaterial({color:0xb070ff}),geo:'bolt',dmg:40,cd:0.55,spd:175,life:1.8,size:1.1,splash:5,col:[0xb070ff,0x7040d0,0xffffff],trail:[0xb070ff,0x7040d0],flash:0xb070ff},
   sp:'thunder',spN:'天罰の雷',spD:'近くの敵へ雷を落とす',sp2:'gbeam',sp2N:'魔力の光線',sp2D:'前へ太い光線を放ち、敵をつらぬく',dash:'guard',dashN:'魔法の守り',dashD:'魔法の守りで受けるダメージをへらす',mel:{r:9,dmg:55,cd:0.65,ono:'バシッ！'},
-  model:{id:'wizard',w:3.6,h:4.8,d:3.6,mouth:[0.8,1.1,2]},camB:23,camU:9,gOff:2.4,stat:[4,3,4]}});
+  model:{id:'wizard',w:1.8,h:2.4,d:1.8,mouth:[0.4,0.55,1]},camB:23,camU:9,gOff:2.4,stat:[4,3,4]}});
 // 合体キューブ：72個の小さな立方体が、体力に応じて人型・竜型へ合体する。
 Object.assign(CH,{cube:{name:'合体キューブ',em:'🧊',tag:'地上・リングで二段階合体',ds:'小さな立方体の群れで戦う。金のリングで人型に60秒合体。合体中にもう1個くぐると竜型に30秒合体する。時間切れで立方体の群れに戻る。',hp:480,spd:24,turn:2.1,fly:false,range:180,
   br:{mat:new THREE.MeshBasicMaterial({color:0x80dfff}),geo:'bolt',dmg:36,cd:0.5,spd:180,life:1.7,size:1,splash:4,col:[0x9ff0ff,0x2a5cff,0x8a3cff],trail:[0x9ff0ff,0x2a5cff],flash:0x9ff0ff},
@@ -8412,6 +8412,7 @@ function frame(now){
       const speedMul=feelFly(dt,ad,slow,banking);
       const spd=slow?14:P.dashT>0?C.spd*(C.human?2.2:3):C.spd*speedMul*((P.ringT||0)>0?1.5:1);
       const mv=ad.clone().multiplyScalar(spd);
+      if(charKey==='ufo'&&D.ufoLift>0){D.ufoLift=Math.max(0,D.ufoLift-dt);mv.y=Math.max(mv.y,24);P.pitch=Math.max(P.pitch,0.28);}
       if((charKey==='dragon'||charKey==='wyvern'||charKey==='archangel')&&P.onGround&&!(P.dashT>0)){const wk=charKey==='archangel'?0.24:charKey==='wyvern'?(D&&D.g.userData.flap&&D.g.userData.flap.wy3?WY3.walk:0.24):RIGCF.walk;mv.x*=wk;mv.z*=wk;}
       if(banking&&P.bankSide){
         const sideSpeed=(slow?14:clamp(C.spd*1.1,50,64))*Math.min(1,P.bankT/0.1)*P.bankSide;
@@ -8450,6 +8451,7 @@ function frame(now){
     collide(dt);
     if(banking&&P.bankT===0)endBank();
     if(P.pos.y>240)P.pos.y=240;const pr=Math.hypot(P.pos.x,P.pos.z);if(pr>470){P.pos.x*=470/pr;P.pos.z*=470/pr;}if(DUN.on){P.pos.x=clamp(P.pos.x,DUN.x0+DUN.xm,DUN.x1-DUN.xm);let zl=dunExitLimit(previousExitZ);for(const q of DUN.gates)if(q.open<1&&P.pos.z>q.z)zl=Math.max(zl,q.z+7);P.pos.z=clamp(P.pos.z,zl,DUN.z1-8);{const tp=DUN.y+Math.max(12,Math.min((DUN.h||24)*0.5,26)),lo=Math.min(tp-0.5,DUN.y+(charKey==='wyvern'?12.5:C.model?12:9));if(P.pos.y>tp)P.pos.y=tp;if(false&&C.fly&&P.pos.y<lo){P.pos.y+=Math.max((lo-P.pos.y)*0.35,Math.min(lo-P.pos.y,0.9));if(P.vel.y<0)P.vel.y=0;P.onGround=false;}}}if(CAVE.on){const dx=P.pos.x-CAVE.x,dz=P.pos.z-CAVE.z,d=Math.hypot(dx,dz),m=CAVE.R-14;if(d>m){P.pos.x=CAVE.x+dx*m/d;P.pos.z=CAVE.z+dz*m/d;}const top=Math.min(caveTop(Math.min(d,m))-5,CAVE.y+15);if(P.pos.y>top)P.pos.y=top;}if(TER.sky&&P.pos.y<WATER+5)P.pos.y=WATER+5;
+    ufoTouchGround(dt);
     P.fireCd-=dt;P.inv-=dt;
     if(TER.lava&&(P.onGround||P.pos.y<=floorAt(P.pos.x,P.pos.z)+C.gOff+0.5)&&H(P.pos.x,P.pos.z)<WATER){hurt(30*dt,true);if(Math.random()<0.3)burst(P.pos,2,FIRE,3,8,0.4);}
     P.melCd-=dt;if(P.melT>0)P.melT-=dt;
@@ -8475,7 +8477,7 @@ function frame(now){
     if(state==='play'){const fw=tmp2.set(Math.sin(P.yaw),0,Math.cos(P.yaw));
       if(P.atkM>0){P.atkM-=dt;const o=Math.sin((1-Math.max(0,P.atkM)/0.22)*Math.PI);D.g.position.addScaledVector(fw,o*(charKey==='archangel'?0.18:C.human?0.5:1.4));if(charKey!=='archangel'&&!D.human&&!(D.model&&!C.fly))D.g.rotation.x+=o*(C.fly?0.15:0.09);}
       if(P.hitM>0){P.hitM-=dt;const k=Math.max(0,P.hitM)/0.38,o=Math.sin(k*Math.PI);D.g.rotation.x-=o*0.4;D.g.rotation.z+=Math.sin(P.hitM*55)*0.13*k;D.g.position.addScaledVector(fw,-o*2);}
-      if(charKey==='orctank'&&orcTank())tkProps(dt);GSH.visible=P.guardT>0&&!(charKey==='orctank'&&orcTank())&&charKey!=='army';if(GSH.visible){GSH.position.copy(P.pos);GSH.scale.setScalar((charKey==='army'?15:charKey==='kraken'?14:charKey==='orctank'?15:9)*(1+Math.sin(t*22)*0.03));GSH.material.opacity=0.12+0.16*Math.min(1,P.guardT/0.3);}}
+      if(charKey==='orctank'&&orcTank())tkProps(dt);GSH.visible=P.guardT>0&&!(charKey==='orctank'&&orcTank())&&charKey!=='army';if(GSH.visible){GSH.position.copy(P.pos);GSH.scale.setScalar((charKey==='army'?15:charKey==='kraken'?14:charKey==='orctank'?15:9)*(1+Math.sin(t*22)*0.03));if(charKey==='ufo'){GSH.scale.set(7,3.2,7);GSH.material.color.setHex(0x65dfff);}GSH.material.opacity=0.12+0.16*Math.min(1,P.guardT/0.3);}}
     else GSH.visible=false;
     if(state==='play'&&P.dodgeT>0){const k=1-P.dodgeT/0.4,e=k<0.5?2*k*k:1-Math.pow(-2*k+2,2)/2;D.g.rotation.z+=(C.fly&&!C.model?-P.dodgeS*Math.PI*2*e:-P.dodgeS*Math.sin(k*Math.PI)*0.5);}
     // 前へ進む時は体を前に倒して飛ぶ姿に、とどまる時は起こして上下にゆれる
@@ -8490,6 +8492,7 @@ function frame(now){
   const vv=state==='play'?P.vel.length():0;updFeel(rdt,vv,t);
   clouds.forEach((c,i)=>{c.position.x+=dt*(2+i%3);if(c.position.x>1050)c.position.x=-1050;});updTheme(dt,t);
   // カメラ
+  formIntroTick(rdt);
   if(state==='story'){const f=TER.flats[0]||[0,-100],a=t*0.1,fy=floorAt(f[0],f[1]);cam.position.set(f[0]+Math.sin(a)*190,fy+75,f[1]+Math.cos(a)*190);camLook.set(f[0],fy+8,f[1]);cam.lookAt(camLook);}
   else if(state==='select'){{const k=charKey==='redcap'?0.5:charKey==='hero'?0.72:charKey==='army'?1.8:charKey==='dragonknight'?2.5:C.model?1.7:1;cam.position.set(P.pos.x+16*k,P.pos.y+4*k,P.pos.z-18*k);}camLook.copy(P.pos);camLook.y+=1;camLook.x+=4;cam.lookAt(camLook);}
   else{if(cineOn)cam.position.copy(GCAM);const pc=C.fly?P.pitch*0.8:P.pitch*0.5;const cd=new V3(Math.sin(P.yaw)*Math.cos(pc),Math.sin(pc),Math.cos(P.yaw)*Math.cos(pc));
@@ -11376,12 +11379,9 @@ const UFOF=[
   {id:'p8ufo',w:12,h:4,d:12,spd:43,back:32,up:12,mouth:[0,-0.3,5]},
   {id:'p8mech',w:9,h:12,d:8,spd:23,back:34,up:13,mouth:[2.2,2.2,3.8]}
 ];
-const UFOBR=[CH.ufo.br,{mat:new THREE.MeshLambertMaterial({color:0xc6d0dc}),geo:'ufoMissile',dmg:65,cd:0.85,spd:120,life:2.2,size:1.2,splash:9,col:[0xffa040,0xffe0a0,0xffffff]}];
+const UFOBR=[CH.ufo.br,{mat:null,geo:'ufoMechBolt',dmg:65,cd:0.67,spd:172,life:1.42,size:1,splash:0,col:[0x77f5ff,0xb0ffff,0xffffff]}];
 GEO.ufoLaser=new THREE.CylinderGeometry(0.2,0.2,7,8);GEO.ufoLaser.rotateX(Math.PI/2);
-GEO.ufoMissile=new THREE.CylinderGeometry(0.3,0.3,2.8,8);GEO.ufoMissile.rotateX(Math.PI/2);
-const UFONO=new THREE.ConeGeometry(0.31,0.85,8);UFONO.rotateX(Math.PI/2);
-const UFONM=new THREE.MeshBasicMaterial({color:0xff7840});
-function ufoStats(i){const c=CH.ufo,f=UFOF[i];c.fly=i===0;c.dash=i?'dodge':'bank';c.dashN=i?'横回避':BANK_NAME;c.dashD=i?'左右に素早く避ける':BANK_DESC;c.gOff=f.h/2;c.spd=f.spd;c.camB=f.back;c.camU=f.up;c.br=UFOBR[i];c.mel.r=12;c.mel.dmg=i?95:70;}
+function ufoStats(i){const c=CH.ufo,f=UFOF[i];c.fly=i===0;c.dash=i?'takeoff':'guard';c.dashN=i?'離陸':'バリア';c.dashD=i?'円盤に戻って空へ飛び上がる':'2秒間、敵から受けるダメージを80％減らす';c.gOff=f.h/2;c.spd=f.spd;c.camB=f.back;c.camU=f.up;c.br=UFOBR[i];c.mel.r=12;c.mel.dmg=i?95:70;}
 {const prev=makePlayerModel;makePlayerModel=function(k){if(k!=='ufo')return prev.apply(this,arguments);
   ufoStats(0);const g=new THREE.Group(),inner=new THREE.Group(),mouth=new THREE.Object3D();
   const forms=UFOF.map((f,i)=>{const b=makeProxy(f.w,f.h,f.d,0x8ca8bc,false);attachModel(b,f.id);b.visible=i===0;inner.add(b);const mx=b.userData.mix;if(mx){mx.pl=i===1;if(!i&&mx.idle)mx.loco=mx.idle;}return b;});
@@ -11389,22 +11389,27 @@ function ufoStats(i){const c=CH.ufo,f=UFOF[i];c.fly=i===0;c.dash=i?'dodge':'bank
   return {g,inner,mouth,body:forms[0],forms,uf:0,units:[{m:forms[0],x:0,z:0,front:1}],guns:[],model:k};};}
 function ufoForm(i,show){if(charKey!=='ufo'||!D||!D.forms||D.uf===i)return;
   if(P.bankT>0)endBank();
-  ufoLaserClear();const oldOff=C.gOff;D.uf=i;ufoStats(i);D.forms.forEach((b,j)=>{b.visible=j===i;b.position.y=0;});D.body=D.forms[i];D.units[0].m=D.body;
+  ufoLaserClear();P.guardT=0;GSH.visible=false;const oldOff=C.gOff;D.uf=i;ufoStats(i);D.forms.forEach((b,j)=>{b.visible=j===i;b.position.y=0;});D.body=D.forms[i];D.units[0].m=D.body;
   D.inner.position.y=-C.gOff;D.mouth.position.fromArray(UFOF[i].mouth);P.pos.y+=C.gOff-oldOff;D.g.position.copy(P.pos);P.fireCd=Math.min(P.fireCd,C.br.cd);
-  if(i){P.vy=Math.min(0,P.vel.y);P.onGround=true;}else{P.vy=0;P.onGround=false;}
+  if(i){P.vel.set(0,0,0);P.vy=0;P.pitch=P.roll=0;P.dvE=P.dvS=0;P.onGround=true;}else{P.vy=0;P.onGround=false;}
   if(show){const col=i?0xffb050:0x70f6ff;glowFlash(P.pos.clone(),col,26,0.55);burst(P.pos,32,[col,0xffffff],4,25,0.6);shock(gpos(P.pos.clone()),col,15);sfx('clang',null,0.85);sfx('whoosh',null,0.7);shake(0.3);ono(P.pos.clone().add(new V3(0,8,0)),i?'大型ロボに変形！':'UFOに変形！',i?'#ffd080':'#a0faff',28);}}
-function ufoTakeoff(show){ufoForm(0,show);P.pos.y=Math.max(P.pos.y,dunBodyY()+C.gOff+7);P.vel.y=34;P.pitch=Math.max(P.pitch,0.35);D.g.position.copy(P.pos);}
-// 通常攻撃は共通の強化倍率と命中判定を使う。ミサイルには機首と排気を足す。
-function ufoShot(m,tg,b,sz,sp,dm,snd){const v=tg.clone().sub(m).normalize().multiplyScalar(b.spd).add(P.vel),missile=b.geo==='ufoMissile';
-  shoot(m,v,{from:'p',mat:b.mat,geo:b.geo,size:sz,r:1.7*sz/b.size,splash:sp,dmg:dm,life:b.life,col:b.col,trail:missile?b.col:null,smk:missile});
-  const q=PROJ[PROJ.length-1];q.m.lookAt(m.clone().add(v));if(missile){const tip=new THREE.Mesh(UFONO,UFONM);tip.position.z=1.8;q.m.add(tip);}
-  glowFlash(m.clone(),missile?0xffb050:0x70f6ff,5,0.12);if(snd)sfx(missile?'fire':'zapb',null,0.35);
+function ufoTakeoff(show){ufoForm(0,show);P.pos.y=Math.max(P.pos.y,dunBodyY()+C.gOff+7);P.vel.y=34;P.pitch=0.42;D.ufoLift=0.72;D.g.position.copy(P.pos);}
+// 円盤の自動攻撃はそのまま。ロボは弾の移動区間に命中判定を置く。
+function ufoShot(m,tg,b,sz,sp,dm,snd){
+  const dir=tg.clone().sub(m).normalize();
+  if(b.geo==='ufoMechBolt')ufoBoltFire(m,dir,b.spd,b.life,dm,'normal');
+  else{
+   const v=dir.multiplyScalar(b.spd).add(P.vel);
+   shoot(m,v,{from:'p',mat:b.mat,geo:b.geo,size:sz,r:1.7*sz/b.size,splash:sp,dmg:dm,life:b.life,col:b.col});
+   PROJ[PROJ.length-1].m.lookAt(m.clone().add(v));
+  }
+  glowFlash(m.clone(),0x70f6ff,b.geo==='ufoMechBolt'?2.8:5,0.12);if(snd)sfx('zapb',null,0.35);
 }
 Object.assign(PETM,{ufo:[['p8ufo',1]]});Object.assign(PETJA,{p8ufo:'小型UFO'});
 SKPOOL.ufo=['ufolaser','ufosweep'];
 // 模型は親へ足す前に取りつける。二つの姿を保持し、足もとの位置をそろえる。
 const GWIZARDF=[
-  {id:'wizard',w:3.6,h:4.8,d:3.6,back:23,up:9,spd:23,reach:9,hit:55,shot:40,size:1.1,splash:5,mouth:[0.8,1.1,2]},
+  {id:'wizard',w:1.8,h:2.4,d:1.8,back:17,up:6.5,spd:23,reach:9,hit:55,shot:40,size:1.1,splash:5,mouth:[0.4,0.55,1]},
   {id:'gwizard',w:14,h:20,d:12,back:51,up:22,spd:20,reach:22,hit:115,shot:68,size:2,splash:9,mouth:[3,4,7]}
 ];
 function gwizardStats(i){const f=GWIZARDF[i],c=CH.gwizard;c.gOff=f.h/2;c.camB=f.back;c.camU=f.up;c.spd=f.spd;c.mel.r=f.reach;c.mel.dmg=f.hit;c.br.dmg=f.shot;c.br.size=f.size;c.br.splash=f.splash;}
@@ -12243,12 +12248,13 @@ function ringFormSet(level,notify=true){const key=charKey,cf=RFORMS[key];if(!cf)
   if(C.fly&&level){P.pos.y=Math.max(P.pos.y,floorAt(at.x,at.z)+C.gOff+7);P.onGround=false;}else{P.vy=Math.min(0,P.vy||0);P.vel.y=Math.min(0,P.vel.y);}
  }
  D.g.position.copy(P.pos);D.g.rotation.y=yaw;
- RFORM.key=key;RFORM.level=level;RFORM.total=level?(cf.names.length===3&&level===1?60:30):0;RFORM.left=RFORM.total;if(key==='orctank')orcEquip(level);
+ RFORM.key=key;RFORM.level=level;RFORM.total=level&&key!=='ufo'?(cf.names.length===3&&level===1?60:30):0;RFORM.left=RFORM.total;if(key==='orctank')orcEquip(level);
  if(!level){P.dashT=0;P.atkM=0;P.melT=0;P.inv=Math.max(P.inv,0.5);}
- ringFormLayout();$('tdash').textContent=C.dashN;skUI();if(notify){sfx(level?'heal':'whoosh',null,0.5);if(level){P.inv=Math.max(P.inv,1);burst(P.pos,12,[0xffd77a,0xfff2bf],1.5,12,0.4);banner(cf.names[level]+(RIDES[key]?'！ ':'に変身！ ')+RFORM.total+'秒',2);}else if(oldLevel)banner(RIDES[key]?'着地した · リングでまた乗れる':'変身終了 · リングでまた変身',2);}
+ ringFormLayout();$('tdash').textContent=C.dashN;skUI();if(notify){sfx(level?'heal':'whoosh',null,0.5);if(level){P.inv=Math.max(P.inv,1);burst(P.pos,12,[0xffd77a,0xfff2bf],1.5,12,0.4);banner(cf.names[level]+(RIDES[key]?'！ ':'に変身！ ')+(key==='ufo'?'· 離陸で円盤に戻る':RFORM.total+'秒'),2);}else if(oldLevel&&key!=='ufo')banner(RIDES[key]?'着地した · リングでまた乗れる':'変身終了 · リングでまた変身',2);}
  ringFormHud();
 }
 function ringFormCollect(){const cf=RFORMS[charKey];if(!cf||state!=='play'||PAUSED||LVUP||P.hp<=0||D.landing)return;
+ if(charKey==='ufo'&&(ufoMech()||D.ufoLift>0))return;
  const cur=RFORM.key===charKey?RFORM.level:0,next=Math.min(cf.names.length-1,cur+1);
  if(next===cur){RFORM.left=RFORM.total=30;banner('残り時間が30秒に戻った！',1.6);ringFormHud();return;}
  if(cf.outdoor&&(DUN.on||CAVE.on)){banner('屋外のリングで'+(RIDES[charKey]?'騎乗':'変形'),1.8);return;}
@@ -12256,7 +12262,7 @@ function ringFormCollect(){const cf=RFORMS[charKey];if(!cf||state!=='play'||PAUS
  ringFormSet(next,true);
 }
 function ringFormTick(dt){
- if(RFORM.level&&RFORM.key===charKey&&state==='play'&&!PAUSED&&!LVUP&&P.hp>0&&!D.landing){
+ if(charKey!=='ufo'&&RFORM.level&&RFORM.key===charKey&&state==='play'&&!PAUSED&&!LVUP&&P.hp>0&&!D.landing){
   const prev=RFORM.left;RFORM.left=Math.max(0,prev-dt);
   if(RFORM.left===0){
    if(!D.riding)ringFormSet(0,true);
@@ -12275,8 +12281,13 @@ function ringFormTick(dt){
 const rfHud=document.createElement('div');rfHud.id='ringform';rfHud.setAttribute('aria-live','off');rfHud.innerHTML='<span></span><i><b></b></i>';document.body.appendChild(rfHud);
 const rfStyle=document.createElement('style');rfStyle.textContent='#ringform{position:fixed;left:16px;top:156px;z-index:12;width:224px;max-width:calc(100vw - 155px);padding:6px 8px;background:#15101dcc;border:1px solid #e6c26b;border-radius:7px;color:#fff1c0;font:700 12px "M PLUS Rounded 1c",sans-serif;pointer-events:none;display:none}#ringform>i{display:block;height:3px;background:#ffffff25;margin-top:5px;border-radius:2px}#ringform>i>b{display:block;height:100%;background:#ffd66c;border-radius:2px}#ringform.rfSoon{border-color:#ff917b;color:#ffd0be}@media(max-height:500px){#ringform{top:149px;padding:4px 7px;font-size:11px;width:200px}}';document.head.appendChild(rfStyle);
 function ringFormHud(){const cf=RFORMS[charKey],on=state==='play'&&!!cf;rfHud.style.display=on?'block':'none';if(!on)return;
- const level=RFORM.key===charKey?RFORM.level:0;rfHud.querySelector('span').textContent=D.landing?'着地中…':level?(D.riding&&RFORM.left===0?'陸の近くで自動着地':cf.names[level]+' · 残り'+Math.ceil(RFORM.left)+'秒'):cf.outdoor&&(DUN.on||CAVE.on)?'屋外のリングで'+(RIDES[charKey]?'騎乗':'変形'):'金のリングで'+(RIDES[charKey]?'30秒騎乗':cf.names.length===3?'60秒変身':'30秒変身');rfHud.querySelector('i').style.display=level?'block':'none';rfHud.querySelector('b').style.width=(level?100*RFORM.left/RFORM.total:0)+'%';rfHud.classList.toggle('rfSoon',!!level&&RFORM.left<=5);}
-{const before=skExtra;skExtra=function(){const text=before.apply(this,arguments),cf=RFORMS[charKey];if(!cf)return text;if(RIDES[charKey])return text+'<div class="skx"><b>◎ リング騎乗</b> 屋外のリングで'+RIDES[charKey].nm+'に30秒騎乗。騎乗中のリングで残り30秒に戻る。時間切れで自動着地。</div>';if(charKey==='ufo')return text+'<div class="skx"><b>◎ リング変形</b> 屋外のリングで着陸し、大型ロボに30秒変形。地上のリングで残り30秒に戻る。時間切れで自動離陸。</div>';return text+'<div class="skx"><b>◎ リング変身</b> '+(cf.names.length===3?'1個目で'+cf.names[1]+'（60秒）、変身中の次の1個で'+cf.names[2]+'（30秒）。':'リングをくぐると'+cf.names[1]+'に30秒変身。')+'時間切れで元の姿へ。'+(cf.names.length===3?'最終形態で':'変身中に')+'リングを取ると残り30秒に戻る。</div>';};}
+ const level=RFORM.key===charKey?RFORM.level:0;
+ if(charKey==='ufo'){
+  rfHud.querySelector('span').textContent=D.landing?'着陸中…':ufoMech()?('大型ロボ · '+(MOBK.on?'離陸ボタン':'スペース')+'で離陸'):'地面まで降りると大型ロボに変形';
+  rfHud.querySelector('i').style.display='none';rfHud.classList.remove('rfSoon');return;
+ }
+ rfHud.querySelector('span').textContent=D.landing?'着地中…':level?(D.riding&&RFORM.left===0?'陸の近くで自動着地':cf.names[level]+' · 残り'+Math.ceil(RFORM.left)+'秒'):cf.outdoor&&(DUN.on||CAVE.on)?'屋外のリングで'+(RIDES[charKey]?'騎乗':'変形'):'金のリングで'+(RIDES[charKey]?'30秒騎乗':cf.names.length===3?'60秒変身':'30秒変身');rfHud.querySelector('i').style.display=level?'block':'none';rfHud.querySelector('b').style.width=(level?100*RFORM.left/RFORM.total:0)+'%';rfHud.classList.toggle('rfSoon',!!level&&RFORM.left<=5);}
+{const before=skExtra;skExtra=function(){const text=before.apply(this,arguments),cf=RFORMS[charKey];if(!cf)return text;if(RIDES[charKey])return text+'<div class="skx"><b>◎ リング騎乗</b> 屋外のリングで'+RIDES[charKey].nm+'に30秒騎乗。騎乗中のリングで残り30秒に戻る。時間切れで自動着地。</div>';if(charKey==='ufo')return text+'<div class="skx"><b>着陸・離陸</b> 下へ操縦して地面に降りると大型ロボに変形。屋外の金のリングでも着陸できる。空中のスペース／操作ボタンはバリア、地上では離陸。</div>';return text+'<div class="skx"><b>◎ リング変身</b> '+(cf.names.length===3?'1個目で'+cf.names[1]+'（60秒）、変身中の次の1個で'+cf.names[2]+'（30秒）。':'リングをくぐると'+cf.names[1]+'に30秒変身。')+'時間切れで元の姿へ。'+(cf.names.length===3?'最終形態で':'変身中に')+'リングを取ると残り30秒に戻る。</div>';};}
 
 
 // 城内の通路にも変身用リング。門で区切られた各区画に2個ずつ置く。
@@ -12566,6 +12577,7 @@ function ufoLaserLoad(ck){
 function ufoLaserClear(){
  for(const f of UFO_LASER.fx)ufoLaserDispose(f);
  UFO_LASER.fx.length=0;UFO_LASER.attacks.length=0;UFO_LASER.blade=null;
+ for(let i=PROJ.length-1;i>=0;i--)if(PROJ[i].ufoBolt){scene.remove(PROJ[i].m);PROJ.splice(i,1);}
 }
 function ufoLaserDir(yaw,rise=0){return new V3(Math.sin(yaw),rise,Math.cos(yaw)).normalize();}
 function ufoLaserFx(start,end,width,color,life,kind,blade=false){
@@ -12637,8 +12649,7 @@ function ufoSalvo(a){
   const target=targets.length?targets[(a.step*3+j)%targets.length]:null;
   const spread=(j-1)*0.21+Math.sin(a.step*1.9)*0.13;
   const dir=target?target.q.clone().add(center).sub(start).normalize():ufoLaserDir(yaw+spread,Math.sin(P.pitch)-0.12-(j%2)*0.14);
-  const end=ufoLaserRay(start,dir,175,0.17,a.dmg,null);
-  ufoLaserFx(start,end,0.17,UFO_LASER_COL[j%2],0.11,'salvo');
+  ufoBoltFire(start,dir,185,175/185,a.dmg,'salvo',j%2!==0);
  }
  if(a.step%2===0)sfx('zapb',center,0.37);
 }
@@ -12741,7 +12752,7 @@ function ufoLaserTick(dt){
 }
 {const before=setChar;setChar=function(k){if(charKey==='ufo'){ufoLaserClear();if(D)rideRelease(D.g);}return before.apply(this,arguments);};}
 {const before=startGame;startGame=function(){if(charKey==='ufo'){ufoLaserClear();P.skLast=-1e9;}return before.apply(this,arguments);};}
-{const before=setupStage;setupStage=function(){if(charKey==='ufo')ufoLaserClear();return before.apply(this,arguments);};}
+{const before=setupStage;setupStage=function(){if(charKey==='ufo'){ufoLaserClear();if(D){D.ufoLift=0;D.landing=null;}}return before.apply(this,arguments);};}
 
 // 木は描画をまとめたまま、近くの格子だけ調べて攻撃を当てる。
 
@@ -13150,6 +13161,142 @@ function placeBomberEscort(p,dt,reset=false){
   if(charKey==='bomber'){P.roll=0;for(const p of PETS)if(p.escortSlot!==undefined)placeBomberEscort(p,0,true);}
   return r;
 };}
+
+const UFO_BOLT_BODY=new THREE.MeshBasicMaterial({color:0x58f1ff});
+const UFO_BOLT_ALT=new THREE.MeshBasicMaterial({color:0x8b9aff});
+const UFO_BOLT_CORE=new THREE.MeshBasicMaterial({color:0xe9fcff});
+GEO.ufoMechBolt=new THREE.CylinderGeometry(0.19,0.19,5.8,8);
+GEO.ufoMechBolt.rotateX(Math.PI/2);
+SKDASH['離陸']='dash_dodge';
+
+function ufoGroundClear(x,z,y){
+ if(TER.sky&&y+C.gOff<WATER+5)return false;
+ if(!DUN.on&&floorAt(x,z)<=WATER+0.3)return false;
+ const pad=3.5,top=y+UFOF[1].h;
+ if(BLD.some(b=>!b.dead&&b.box.max.y>y+0.25&&b.box.min.y<top&&
+   x>b.box.min.x-pad&&x<b.box.max.x+pad&&z>b.box.min.z-pad&&z<b.box.max.z+pad))return false;
+ return !COLS.some(q=>{
+  if(q.y1<=y+0.25||q.y0>=top)return false;
+  const dx=x-q.x,dz=z-q.z;
+  return q.t===0?Math.hypot(dx,dz)<q.r+pad:
+   Math.abs(dx*q.c-dz*q.s)<q.hw+pad&&Math.abs(dx*q.s+dz*q.c)<q.hd+pad;
+ });
+}
+function ufoTouchGround(dt){
+ if(charKey!=='ufo'||!D||D.uf!==0||D.landing||D.ufoLift>0||P.bankT>0||
+    state!=='play'||PAUSED||LVUP||P.hp<=0||dt<=0||P.vel.y>0.25)return;
+ const y=dunBodyY(),x=P.pos.x,z=P.pos.z;
+ if(Math.abs(P.pos.y-y-C.gOff)>0.15||!ufoGroundClear(x,z,y))return;
+ ringFormSet(1,true);
+}
+{const before=act;act=function(){
+ if(!ufoMech())return before.apply(this,arguments);
+ if(state==='play'&&!PAUSED&&!LVUP&&P.hp>0&&!D.landing)ringFormSet(0,true);
+};}
+function ufoBoltFire(start,dir,speed,life,dmg,kind,alt=false,hits=null){
+ const vel=dir.clone().multiplyScalar(speed),mat=alt?UFO_BOLT_ALT:UFO_BOLT_BODY;
+ shoot(start,vel,{from:'p',geo:'ufoMechBolt',mat,life,dmg,r:0.38,
+  ufoBolt:true,ufoKind:kind,ufoHits:hits,col:UFO_LASER_COL});
+ const bolt=PROJ[PROJ.length-1],core=new THREE.Mesh(GEO.ufoMechBolt,UFO_BOLT_CORE);
+ core.scale.set(0.42,0.42,1.02);bolt.m.add(core);
+ bolt.m.lookAt(start.clone().add(vel));
+}
+function ufoBoltStep(p,dt){
+ if(dt<=0)return false;
+ const from=p.m.position,end=from.clone().addScaledVector(p.vel,Math.min(dt,p.life));
+ const delta=end.clone().sub(from),len=delta.length(),ray=new THREE.Ray(from,delta.clone().normalize());
+ const q=new V3(),sphere=new THREE.Sphere();let distance=len+1e-5,struck=null;
+ const ground=treeGroundImpact(from,end,1,len);
+ if(ground!==null)distance=ground*len;
+ for(const o of BLD){
+  if(o.dead||o.box.distanceToPoint(from)>distance+p.r)continue;
+  const t=treeSegment(from,end,o.box,p.r);
+  if(t!==null&&t*len<distance){distance=t*len;struck=o;}
+ }
+ const mid=from.clone().lerp(end,0.5);
+ for(const o of treeCandidates(mid.x,mid.z,len*0.5+p.r)){
+  const t=treeSegment(from,end,o.box,p.r);
+  if(t!==null&&t*len<distance){distance=t*len;struck=o;}
+ }
+ for(const e of EN){
+  if(e.dead||e.rise)continue;
+  sphere.center.copy(cpos(e));sphere.radius=e.r+p.r;
+  const t=sphere.containsPoint(from)?0:ray.intersectSphere(sphere,q)?q.distanceTo(from):Infinity;
+  if(t<distance){distance=t;struck=e;}
+ }
+ p.life-=dt;
+ if(distance>len){p.m.position.copy(end);return p.life<=0;}
+ ray.at(distance,q);
+ if(struck&&(!p.ufoHits||!p.ufoHits.has(struck))){
+  if(struck.mesh)hitEnemy(struck,p.dmg);
+  else if(BLD.includes(struck))hitBld(struck,p.dmg*0.8);
+  else treeDamage(struck,p.dmg*0.8);
+  if(p.ufoHits)p.ufoHits.add(struck);
+ }
+ burst(q,3,p.col,0.48,8,0.16);
+ return true;
+}
+
+// 円盤は反転せず、薄い防御膜で敵の攻撃を受け止める。
+SKDASH['バリア']='dash_guard';
+Object.assign(CH.ufo,{dash:'guard',dashN:'バリア',dashD:'2秒間、敵から受けるダメージを80％減らす'});
+function ufoBarrier(){
+ if(state!=='play'||PAUSED||LVUP||D.landing||P.hp<=0||P.en<12||(P.guardCd||0)>0)return;
+ P.en-=12;P.guardT=2;P.guardCd=4;sfx('clang',null,0.55);
+ ono(P.pos.clone().add(new V3(0,5,0)),'バリア！','#9ceeff',25);
+}
+{const before=act;act=function(){if(charKey==='ufo'&&D.uf===0){ufoBarrier();return;}return before.apply(this,arguments);};}
+// 各出撃の各形態で一度だけ。通常の形態切替や時間切れの復帰は短く保つ。
+const FORM_INTRO={seen:new Set(),active:null,count:0};
+const FORM_LINES={ufo:'地上戦モード、展開！',gwizard:'封じた魔力よ、この身に宿れ！',maou:'これが、魔王の真の力だ！',cube:'合体！ 新たな姿へ！',dragonking:'竜の王の力、解き放つ！',orctank:'がはは！ 戦車の出番だ！',seaking:'大海の力よ、目覚めよ！',hero:'天馬よ、ともに空へ！',redcap:'鷹よ、空から攻めるぞ！'};
+function formIntroClear(){
+ const a=FORM_INTRO.active;if(!a)return;
+ a.inner.scale.copy(a.scale);a.inner.rotation.y=a.yaw;
+ scene.remove(a.fx);a.fx.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material)o.material.dispose();});
+ if(CINE.k===8)cineEnd();FORM_INTRO.active=null;
+}
+function formIntroBegin(key,level){
+ const id=key+':'+level;if(FORM_INTRO.seen.has(id)||state!=='play')return;
+ FORM_INTRO.seen.add(id);formIntroClear();FORM_INTRO.count++;
+ const inner=D.inner||D.g,body=D.body||inner,box=posedModelBounds(body),size=box.getSize(new V3());
+ const h=Math.max(2,Math.min(34,size.y)),r=Math.max(2.2,Math.min(16,Math.max(size.x,size.z)*0.56));
+ const fx=new THREE.Group();
+ for(let i=0;i<2;i++){const m=new THREE.Mesh(new THREE.TorusGeometry(r,0.055,6,48),new THREE.MeshBasicMaterial({color:key==='ufo'?0x78eeff:0xe6b8ff,transparent:true,opacity:0.65,depthWrite:false}));m.rotation.x=Math.PI/2;fx.add(m);}
+ scene.add(fx);
+ const a={key,level,t:0,d:1.55,inner,scale:inner.scale.clone(),yaw:inner.rotation.y,fx,h,r,root:D.g};FORM_INTRO.active=a;
+ const name=RFORMS[key].names[level],line=FORM_LINES[key]||'新たな力を、解き放つ！';
+ banner(name+'\n「'+line+'」',2);ono(P.pos.clone().add(new V3(0,h*0.45,0)),name,key==='ufo'?'#9ceeff':'#e9c6ff',30);
+ sfx('charge',null,0.5);P.inv=Math.max(P.inv,1.8);if(key==='gwizard')mixOnce(D.body.userData.mix,1.1);cine(8,a.d,{formIntro:true});
+ formIntroTick(0);
+}
+function formIntroTick(dt){
+ const a=FORM_INTRO.active;if(!a)return;
+ if(state!=='play'||a.root!==D.g||charKey!==a.key){formIntroClear();return;}
+ if(PAUSED||LVUP)return;
+ a.t+=dt;if(a.t>=a.d){formIntroClear();return;}
+ const k=clamp(a.t/a.d,0,1),grow=1-Math.pow(1-Math.min(1,k*2.2),3);
+ a.inner.scale.copy(a.scale).multiplyScalar(0.55+0.45*grow);
+ a.inner.rotation.y=a.yaw+Math.sin(k*Math.PI)*0.16;
+ a.fx.position.copy(P.pos);a.fx.position.y-=C.gOff;
+ a.fx.children.forEach((m,i)=>{m.position.y=a.h*((k+i*0.5)%1);m.material.opacity=0.65*Math.sin(Math.PI*k);m.rotation.z=k*(i?1:-1)*2;});
+}
+{const before=cinePose;cinePose=function(){if(CINE.k!==8||!FORM_INTRO.active)return before.apply(this,arguments);
+ const a=FORM_INTRO.active,k=clamp(a.t/a.d,0,1),angle=P.yaw+0.8-k*0.65;
+ const distance=Math.max(12,a.h*2.1,a.r*3)*(cam.aspect<1?1.45:1);
+ CINE.l.copy(P.pos);CINE.l.y+=a.h*0.24-C.gOff*0.35;
+ CINE.p.copy(CINE.l).add(new V3(Math.sin(angle)*distance,a.h*0.15+2,Math.cos(angle)*distance));
+ CINE.p.y=Math.max(CINE.p.y,floorAt(CINE.p.x,CINE.p.z)+2);CINE.fov=54;
+};}
+{const before=ringFormSet;ringFormSet=function(level,notify=true){const key=charKey,old=RFORM.key===key?RFORM.level:0;
+ if(FORM_INTRO.active)formIntroClear();
+ const repeat=level>0&&FORM_INTRO.seen.has(key+':'+level);
+ const result=before.call(this,level,notify&&!repeat);
+ if(notify&&level>0&&old!==level&&RFORM.key===key&&RFORM.level===level)formIntroBegin(key,level);
+ return result;
+};}
+{const before=startGame;startGame=function(){formIntroClear();FORM_INTRO.seen.clear();return before.apply(this,arguments);};}
+{const before=setChar;setChar=function(k){formIntroClear();if(charKey==='ufo'&&k!=='ufo'){P.guardT=0;GSH.visible=false;}return before.apply(this,arguments);};}
+{const before=setupStage;setupStage=function(){formIntroClear();return before.apply(this,arguments);};}
 
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
