@@ -1115,7 +1115,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADG';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGP';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -4437,7 +4437,7 @@ function addXp(n){if(state!=='play')return;XP+=EASY?n*0.22:n*0.17;while(XP>=xpNe
 function upDs(u){const n=UP[u.k]||0,cd=C.br.cd;
   switch(u.k){case 'multi':return `1度に ${1+n}発 → <b>${2+n}発</b>`;case 'rate':return `1秒に ${(RATE()/cd).toFixed(1)}発 → <b>${(RATE()*1.07/cd).toFixed(1)}発</b>`;
     case 'size':return `大きさ ${Math.round(SZM()*100)}% → <b>${Math.round(SZM()*110)}%</b>`;case 'pow':return `いたさ ${Math.round(POW()*100)}% → <b>${Math.round(POW()*115)}%</b>`;case 'sp':return `必殺技 ${Math.round(Math.pow(1.3,n)*100)}% → <b>${Math.round(Math.pow(1.3,n)*130)}%</b><br>ゲージ ${SPC()} → <b>${SPC()-5}</b>`;
-    case 'pet':if(charKey==='airship')return `船団 ${PETS.length} → <b>${PETS.length+1}</b><br>1船団5隻・最大3船団`;if(squadKind(charKey))return `援軍 ${PETS.length}部隊 → <b>${PETS.length+1}部隊</b><br>1部隊5${charKey==='dragonknight'?'騎':'人'}・最大3部隊`;return `子分 ${PETS.length}匹 → <b>${PETS.length+1}匹</b>（やられることもある）`;case 'hp':return `体力の上限 ${Math.round(P.maxHp)} → <b>${Math.round(P.maxHp*1.15)}</b>`;}return u.ds;}
+    case 'pet':if(charKey==='ufo')return `小型UFO ${PETS.length}機 → <b>${PETS.length+1}機</b>`;if(charKey==='airship')return `船団 ${PETS.length} → <b>${PETS.length+1}</b><br>1船団5隻・最大3船団`;if(squadKind(charKey))return `援軍 ${PETS.length}部隊 → <b>${PETS.length+1}部隊</b><br>1部隊5${charKey==='dragonknight'?'騎':'人'}・最大3部隊`;return `子分 ${PETS.length}匹 → <b>${PETS.length+1}匹</b>（やられることもある）`;case 'hp':return `体力の上限 ${Math.round(P.maxHp)} → <b>${Math.round(P.maxHp*1.15)}</b>`;}return u.ds;}
 /* ---- 上級技：同じ必殺技を2段まで強くできる。段が上がると名前が変わり、続けて2回・3回出る ---- */
 const ADVN={bigfire:['業火球','滅びの業火'],flamering:['炎の大渦','紅蓮の嵐'],thunder:['大落雷','神鳴り'],discharge:['大放電','雷帝の怒り'],quake:['大地響き','天地崩し'],boulder:['巨岩投げ','隕石落とし'],pillars:['聖なる光柱','天の裁き'],spin:['旋風斬り','竜巻斬り'],
   barrage:['全軍砲撃','王国の総力'],arrowrain:['矢の嵐','万の矢'],fissure:['大地割り','奈落割り'],gbeam:['超破壊光線','滅びの光'],bombs:['爆弾の嵐','じゅうたん爆撃'],broadside:['乱れ撃ち','空の要塞'],tkcannon:['大砲6連発','大砲9連発'],tkflame:['大火炎放射','地獄の火炎放射'],tkrush:['とげの大突撃','地ならしの突撃']};
@@ -4477,7 +4477,7 @@ function lvChoices(){
 function showLv(){LVOPT=lvChoices();if(!LVOPT.length){LVQ=0;LVUP=false;P.hp=P.maxHp;$('lvup').style.display='none';return;}
   LVUP=true;sfx('lvup',null,0.8);burst(P.pos,40,[0xffe060,0xffffff,0x80e0ff],3,30,0.9);
   $('lvn').textContent='Lv '+Math.max(1,LV-LVQ)+' → Lv '+(LV-LVQ+1);$('lvc').innerHTML='';LVOPT.forEach((u,i)=>{const d=document.createElement('button');d.className='lvc';const dl=0.25+i*0.14,n=UP[u.k]||0;d.style.animationDelay=dl+'s';
-    d.innerHTML=u.adv?advHtml(u,i,dl):u.swap?swapHtml(u,i,dl):`<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="chara/ic_${u.k}.webp" alt=""></div><div class="nm">${u.nm}</div><div class="ds" style="animation-delay:${dl+0.45}s">${u.ds}</div><div class="num" style="animation-delay:${dl+0.7}s">${upDs(u)}</div><div class="mx">${Array.from({length:u.mx},(_,k)=>`<i class="${k<n?'on':k===n?'nx':''}"></i>`).join('')}</div></div>`;
+    d.innerHTML=u.adv?advHtml(u,i,dl):u.swap?swapHtml(u,i,dl):`<div class="in"><span class="key">${i+1}</span><div class="ic">${u.k==='pet'&&charKey==='ufo'?u.ic:`<img src="chara/ic_${u.k}.webp" alt="">`}</div><div class="nm">${u.nm}</div><div class="ds" style="animation-delay:${dl+0.45}s">${u.ds}</div><div class="num" style="animation-delay:${dl+0.7}s">${upDs(u)}</div><div class="mx">${Array.from({length:u.mx},(_,k)=>`<i class="${k<n?'on':k===n?'nx':''}"></i>`).join('')}</div></div>`;
     d.addEventListener('click',e=>{e.stopPropagation();pickLv(i);});$('lvc').appendChild(d);});$('lvup').style.display='flex';}
 function pickLv(i){if(!LVUP||!LVOPT[i])return;const u=LVOPT[i];if(u.k==='pet'&&((UP.pet||0)>=u.mx||PETS.length>=u.mx)){showLv();return;}if(u.adv){const q=u.slot==='sp'?'t1':'t2';P[q]=(P[q]||1)+1;skUI();}else if(u.swap){P[u.slot]=u.to;P[u.slot==='sp'?'t1':'t2']=1;skUI();}else UP[u.k]=(UP[u.k]||0)+1;
   if(u.k==='hp'){P.maxHp=Math.round(P.maxHp*1.15);P.hp=P.maxHp;}if(u.k==='pet')addPet();if(u.k==='sp')$('enl').textContent=`⚡ 必殺ゲージ（${SPC()}で必殺技）`;
@@ -4487,12 +4487,13 @@ const PETM={dragon:[['dragon',1]],wyvern:[['wyvern2',1]],ground:[['ground',0]],h
 const PETH={orcgeneral:4.6,airship:3.2,imp:2.6,devilsoldier:3.4,wizard:3.4,priest:3.4,archer:3.2,captain:3.4,soldier:3.2,bgolem:5,goblin:2.6,orc:3.6,hawkrider:4,griffin:4.4,p8drone:3,shark:4,fishman:3.2,ground:4};
 function addPet(){if(squadKind(charKey))return addSquad(charKey);const L=PETM[charKey]||PETM.dragon,pk=L[PETS.length%L.length],mid=pk[0],fly=!!pk[1];let g;
   if(fly&&(mid==='dragon'||mid==='wyvern2')){const c=CH[mid==='wyvern2'?'wyvern':'dragon'];const d=makeDragon(c.col[0],c.col[1],c.s*0.38,c.o);(attachModel(d.g,mid)||attachModel(d.g,'dragon'));g=d.g;}
+  else if(mid==='p8ufo'){g=makeProxy(5.4,1.8,5.4,0x8ca8bc,true);if(!attachModel(g,mid)){g=new THREE.Group();s8Cy(g,2.15,2.7,0.55,0x8ca8bc,0,0,0,null,24);s8Sp(g,1,0x64dcee,0,0.45,0,1.15,0.5,1.15);}}
   else{const h=PETH[mid]||3.4;g=mid==='p8fighter'?makeProxy(11,h,10,0x888888,true):makeProxy(h*0.5,h,h*0.45,0x888888);if(!attachModel(g,mid)){const c=CH.dragon,d=makeDragon(c.col[0],c.col[1],c.s*0.38,c.o);attachModel(d.g,'dragon');g=d.g;}}
   g.position.copy(P.pos);scene.add(g);PETS.push({g,id:charKey,mid,fly,cd:rnd(0,0.5),ph:PETS.length,hp:70,max:70,hitT:0});}
 function updPets(dt,t){const n=PETS.length;PETS.forEach((p,i)=>{if(p.squad){squadTick(p,dt,t);return;}const a=t*1.3+i*Math.PI*2/n;tmp3.set(P.pos.x+Math.cos(a)*9,P.pos.y+4+Math.sin(t*2.2+i)*1.2,P.pos.z+Math.sin(a)*9);
   if(!p.fly)tmp3.y=floorAt(tmp3.x,tmp3.z)+0.3;else if(!C.fly)tmp3.y=Math.max(tmp3.y,floorAt(tmp3.x,tmp3.z)+5);p.g.position.lerp(tmp3,1-Math.exp(-6*dt));p.g.rotation.y=P.tgt?Math.atan2(P.tgt.x-p.g.position.x,P.tgt.z-p.g.position.z):P.yaw;
-  p.cd-=dt;if(P.tgt&&p.cd<=0){p.cd=1.7;const b=CH[p.id].br,v=P.tgt.clone().sub(p.g.position).normalize().multiplyScalar(b.spd);
-    shoot(p.g.position.clone(),v,{from:'p',mat:b.mat,geo:b.geo==='bomberBullet'?'bomberBullet':b.geo==='bolt'?'bolt':undefined,size:b.size*0.6,r:1.2,splash:b.splash*0.5,dmg:b.dmg*0.85*POW(),life:b.life*0.8,trail:b.col,col:b.col});}
+  p.cd-=dt;if(P.tgt&&p.cd<=0){p.cd=1.7;const saucer=p.mid==='p8ufo',b=saucer?UFOBR[0]:CH[p.id].br,m=p.g.position.clone(),v=P.tgt.clone().sub(m).normalize().multiplyScalar(b.spd);
+    shoot(m,v,{from:'p',mat:b.mat,geo:saucer?'ufoLaser':b.geo==='bomberBullet'?'bomberBullet':b.geo==='bolt'?'bolt':undefined,size:b.size*0.6,r:1.2,splash:b.splash*0.5,dmg:b.dmg*0.85*POW(),life:b.life*0.8,trail:saucer?null:b.col,col:b.col});if(saucer)PROJ[PROJ.length-1].m.lookAt(m.clone().add(v));}
   // 近くの敵にかじられる
   for(const e of EN){if(e.dead||!e.dmg)continue;if(cpos(e).distanceTo(p.g.position)<e.r+3)petHurt(p,e.dmg*dt*0.7,true);}
   if(p.hitT>0){p.hitT-=dt;p.g.scale.setScalar(1+Math.sin(p.hitT*40)*0.12);}else p.g.scale.setScalar(1);});
@@ -10906,7 +10907,7 @@ function ufoShot(m,tg,b,sz,sp,dm,snd){const v=tg.clone().sub(m).normalize().mult
   const q=PROJ[PROJ.length-1];q.m.lookAt(m.clone().add(v));if(missile){const tip=new THREE.Mesh(UFONO,UFONM);tip.position.z=1.8;q.m.add(tip);}
   glowFlash(m.clone(),missile?0xffb050:0x70f6ff,5,0.12);if(snd)sfx(missile?'fire':'zapb',null,0.35);
 }
-Object.assign(PETM,{ufo:[['p8drone',1]]});
+Object.assign(PETM,{ufo:[['p8ufo',1]]});Object.assign(PETJA,{p8ufo:'小型UFO'});
 SKPOOL.ufo=['ufolaser','ufosweep'];
 // 模型は親へ足す前に取りつける。二つの姿を保持し、足もとの位置をそろえる。
 const GWIZARDF=[
@@ -11721,7 +11722,7 @@ function squadTick(p,dt,t){if(dt<=0||PAUSED||LVUP||state!=='play')return;p.time=
  }
 }
 const SQUADPETBASE=Object.assign({},UPS.find(u=>u.k==='pet'));
-function squadCard(){const u=UPS.find(u=>u.k==='pet');Object.assign(u,SQUADPETBASE);if(charKey==='airship'){u.ic='🚩';u.nm='5隻の飛空艇船団';u.ds='飛空艇5隻が別のV字船団で加わり、小砲弾で援護する（最大3船団）';}
+function squadCard(){const u=UPS.find(u=>u.k==='pet');Object.assign(u,SQUADPETBASE);if(charKey==='ufo'){u.ic='🛸';u.nm='小型UFOが加わる';u.ds='まわりを飛び、細いレーザーで援護する（最大3機）';}else if(charKey==='airship'){u.ic='🚩';u.nm='5隻の飛空艇船団';u.ds='飛空艇5隻が別のV字船団で加わり、小砲弾で援護する（最大3船団）';}
  else if(squadKind(charKey)){u.ic='🚩';u.nm='5'+(charKey==='dragonknight'?'騎':'人')+'の援軍';u.ds=charKey==='dragonknight'?'5騎の竜騎士が別のV字編隊で加わり、小火炎と矢で援護する':'隊長1人・槍兵2人・弓兵2人が別部隊で加わり、いっしょに戦う';}}
 {const before=setChar;setChar=function(){const r=before.apply(this,arguments);squadCard();return r;};}
 {const before=resetLv;resetLv=function(){for(const p of PETS)if(p.squad)rideRelease(p.g);return before.apply(this,arguments);};}
