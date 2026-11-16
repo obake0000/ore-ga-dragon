@@ -1977,5 +1977,101 @@
   "h": 1,
   "rot": 0,
   "ja": "コロセイムの月桂門"
+ },
+ "military_freight_1117": {
+  "file": "military_freight_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "軍用木箱・帆布の荷・油樽"
+ },
+ "park_generator_1117": {
+  "file": "park_generator_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "廃遊園地の発電機"
+ },
+ "park_rustlamp_1117": {
+  "file": "park_rustlamp_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "錆びた遊園地の街灯"
+ },
+ "park_ironfence_1117": {
+  "file": "park_ironfence_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "廃遊園地の鉄柵"
+ },
+ "colosseum_seats_1117": {
+  "file": "colosseum_seats_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "コロセイムの石の観客席"
+ },
+ "parachute_ramair_1117": {
+  "file": "parachute_ramair_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "布の膨らむ軍用パラシュート"
+ },
+ "park_marionette_1117": {
+  "file": "park_marionette_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "忘れられたマリオネット"
+ },
+ "park_android_1117": {
+  "file": "park_android_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "旧式の案内アンドロイド"
+ },
+ "park_clown_1117": {
+  "file": "park_clown_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "ゼンマイのピエロ"
+ },
+ "park_mascot_1117": {
+  "file": "park_mascot_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "壊れた着ぐるみ"
+ },
+ "park_toysoldier_1117": {
+  "file": "park_toysoldier_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "ブリキの機械兵"
+ },
+ "poly_cube_district_1117": {
+  "file": "poly_cube_district_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "管理者の立方街区"
+ },
+ "volcanic_basalt_1117": {
+  "file": "volcanic_basalt_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "火山の柱状玄武岩"
+ },
+ "anc_villager_crowd_lod_1117": {
+  "file": "anc_villager_crowd_lod_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "既存古代村人の観客用軽量版"
+ },
+ "cyber_factory_1117": {
+  "file": "cyber_factory_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "機械都市の整備工廠"
+ },
+ "archangel_sacred_1117": {
+  "file": "archangel_sacred_1117.glb",
+  "h": 1,
+  "ja": "四翼の大天使（聖装）",
+  "rot": 0
  }
 }
