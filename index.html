@@ -1191,7 +1191,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVDRKFUIFRDKFGWFI';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVFDRKUIFRDKFGLWFIf';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -6459,7 +6459,7 @@ const FAIRY_STAGES=[
   ter:{amp:0.48,ox:1710,oz:920,dry:true,flats:[[0,-38,162,4,1],[0,118,52,4,1]],
     dirt:[[0,-50,43]],grass:0x528a50,hill:0x456b50,rock:0x625d70,dirtC:0x736b6b,
     leaf:0x36664f,trunk:0x534537,trees:130,rocks:12,start:[0,110]},
-  simg:['valley_1','orcwood_1','orcwood_2'],
+  simg:['fairywood_1','fairywood_2','fairywood_3'],
   story:['森の花は夜道を照らすはずなのに、一輪残らず閉じていた。向こうの湖へ渡る道も見えない。',
     '木陰の妖精がささやいた。「花に近づいて。灯りが戻れば、番人を覆う根の鎧もほどけるよ」',
     '三つの花灯りが消えた広場で、森の番人が地面をかいた。土の下で根が走る音がした。'],
@@ -6470,7 +6470,7 @@ const FAIRY_STAGES=[
   ter:{amp:0.6,ox:2310,oz:1410,flats:[[-75,-20,93,-14,1],[75,-20,93,-14,1],[0,-90,47,3,1],[0,-37,40,3,1],[0,12,42,3,1],[0,63,43,3,1],[0,110,65,4,1]],
     dirt:[[0,32,27]],grass:0x518a6b,hill:0x527970,sand:0x8daca0,dirtC:0x7f9284,
     water:0x326f97,leaf:0x457260,trunk:0x545260,trees:50,rocks:9,start:[0,112]},
-  simg:['coralsea_1','valley_3','skytemple_1'],
+  simg:['fairylake_1','fairylake_2','fairylake_3'],
   story:['水の下にも空があった。湖面を渡る浅瀬は、向こう岸まで細く続いている。',
     '湖の精霊が水を裂いた。刃が通り過ぎても安心はできない。しばらく遅れて、対岸の映り込みも動く。',
     '道の左右に眠る二つの花が見える。灯りを戻して、精霊の水の盾を消そう。'],
@@ -6481,7 +6481,7 @@ const FAIRY_STAGES=[
   ter:{amp:0.44,ox:3180,oz:-1640,dry:true,flats:[[0,-50,174,7,1],[0,107,64,7,1]],
     dirt:[[0,-67,81]],grass:0x687b6a,hill:0x566a69,rock:0x676579,dirtC:0x9b8b9c,
     leaf:0x546f5a,trunk:0x60515e,trees:64,rocks:12,start:[0,110]},
-  simg:['skytemple_1','skytemple_2','skytemple_3'],
+  simg:['fairypalace_1','fairypalace_2','fairypalace_3'],
   story:['宮殿への階段を上ると、花冠をかぶった女王が空を見ていた。城の灯りだけが消えている。',
     '「灯りを守りたくて、すべての花を閉じたのです。もう誰にも、触れさせません」',
     '女王の左右に、眠ったままの大きな花がある。もう一度あの花を咲かせて、話を聞いてもらおう。'],
@@ -13802,7 +13802,7 @@ ENDT[10]='灯りが帰る夜';
 ENDS[10]=['最後の花が開くと、女王は花冠を外した。「守るつもりで、みんなの道まで閉ざしていたのですね」',
  '森の番人が根をほどき、湖の精霊が水を静める。花明かりに沿って、小妖精たちが家に帰っていく。',
  '宮殿を振り返ると、女王が窓辺に立っていた。窓の下の花は、もう消えなかった。'];
-ENDIMG[10]=['skytemple_3','valley_3','skytemple_c'];
+ENDIMG[10]=['fairyend_1','fairyend_2','fairyend_3'];
 
 Object.assign(SBI,{"超重戦車「陸の戦艦」": "chara/en/p8supertank.png", "都市統括機": "chara/en/p8titan.png", "暴君竜": "chara/en/p8rex.png", "太陽の王": "chara/en/anc_sunking.png", "管理者": "chara/en/p8admin.png"});
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
