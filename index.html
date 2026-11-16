@@ -1128,7 +1128,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVDRKFUIFRDKFG';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVDRKFUIFRDKFGW';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -4553,9 +4553,11 @@ function addPet(){if(squadKind(charKey))return addSquad(charKey);const [mid,isFl
   if(fly&&(mid==='dragon'||mid==='wyvern2')){const c=CH[mid==='wyvern2'?'wyvern':'dragon'];const d=makeDragon(c.col[0],c.col[1],c.s*0.38,c.o);(attachModel(d.g,mid)||attachModel(d.g,'dragon'));g=d.g;}
   else if(mid==='p8ufo'){g=makeProxy(5.4,1.8,5.4,0x8ca8bc,true);if(!attachModel(g,mid)){g=new THREE.Group();s8Cy(g,2.15,2.7,0.55,0x8ca8bc,0,0,0,null,24);s8Sp(g,1,0x64dcee,0,0.45,0,1.15,0.5,1.15);}}
   else if(mid==='p8fighter'){g=makeProxy(11,PETH[mid],10,0x888888,true);if(!attachModel(g,mid))g=s8FbFighter();}
+  else if(charKey==='gwizard'&&!fly)g=gwizardPetModel(mid);
   else{const h=PETH[mid]||3.4;g=makeProxy(h*0.5,h,h*0.45,0x888888);if(!attachModel(g,mid)){const c=CH.dragon,d=makeDragon(c.col[0],c.col[1],c.s*0.38,c.o);attachModel(d.g,'dragon');g=d.g;}}
   const p={g,id:charKey,mid,fly,cd:rnd(0,0.5),ph:PETS.length,hp:70,max:70,hitT:0};
   g.position.copy(P.pos);
+  if(p.id==='gwizard'&&!fly)g.position.y=floorAt(g.position.x,g.position.z)+0.04;
   if(mid==='p8fighter'){
     p.escortSlot=[0,1,2].find(slot=>!PETS.some(q=>q.escortSlot===slot));
     if(p.escortSlot===undefined)return;
@@ -4563,7 +4565,9 @@ function addPet(){if(squadKind(charKey))return addSquad(charKey);const [mid,isFl
   }
   scene.add(g);PETS.push(p);}
 function updPets(dt,t){const n=PETS.length;PETS.forEach((p,i)=>{if(p.squad){squadTick(p,dt,t);return;}if(p.escortSlot!==undefined&&charKey==='bomber')placeBomberEscort(p,dt);else{const a=t*1.3+i*Math.PI*2/n;tmp3.set(P.pos.x+Math.cos(a)*9,P.pos.y+4+Math.sin(t*2.2+i)*1.2,P.pos.z+Math.sin(a)*9);
-  if(!p.fly)tmp3.y=floorAt(tmp3.x,tmp3.z)+0.3;else if(!C.fly)tmp3.y=Math.max(tmp3.y,floorAt(tmp3.x,tmp3.z)+5);p.g.position.lerp(tmp3,1-Math.exp(-6*dt));p.g.rotation.y=P.tgt?Math.atan2(P.tgt.x-p.g.position.x,P.tgt.z-p.g.position.z):P.yaw;}
+  if(!p.fly)tmp3.y=floorAt(tmp3.x,tmp3.z)+0.3;else if(!C.fly)tmp3.y=Math.max(tmp3.y,floorAt(tmp3.x,tmp3.z)+5);p.g.position.lerp(tmp3,1-Math.exp(-6*dt));
+  if(p.id==='gwizard'&&!p.fly)p.g.position.y=floorAt(p.g.position.x,p.g.position.z)+0.04;
+  p.g.rotation.y=P.tgt?Math.atan2(P.tgt.x-p.g.position.x,P.tgt.z-p.g.position.z):P.yaw;}
   p.cd-=dt;if(P.tgt&&p.cd<=0){p.cd=1.7;const saucer=p.mid==='p8ufo',b=saucer?UFOBR[0]:CH[p.id].br,m=p.g.position.clone(),v=P.tgt.clone().sub(m).normalize().multiplyScalar(b.spd);
     shoot(m,v,{from:'p',mat:b.mat,geo:saucer?'ufoLaser':b.geo==='bomberBullet'?'bomberBullet':b.geo==='bolt'?'bolt':undefined,size:b.size*0.6,r:1.2,splash:b.splash*0.5,dmg:b.dmg*0.85*POW(),life:b.life*0.8,trail:saucer?null:b.col,col:b.col});if(saucer)PROJ[PROJ.length-1].m.lookAt(m.clone().add(v));}
   // 近くの敵にかじられる
@@ -11428,6 +11432,30 @@ function gwizardTick(){} // プレイヤーの変身はリングで行う。
 {const prev=startGame;startGame=function(){if(charKey==='gwizard')gwizardForm(0,false);return prev.apply(this,arguments);};}
 Object.assign(PETM,{gwizard:[['hero',0],['soldier',0],['priest',0]]});
 Object.assign(PETH,{hero:3.4});
+// 味方の模型だけ実際の姿を測り、勇者と同じ人間の高さにそろえる。
+function gwizardPetModel(mid){
+  const g=makeProxy(1.7,2.4,1.7,0x888888);
+  if(!attachModel(g,mid)){
+    g.remove(g.children[0]);
+    const priest=mid==='priest';
+    g.add(makeHuman({skin:0xebc4a6,armor:priest?0xf0e8db:0x878995,cloth:priest?0xece4d4:0x3a4f78,
+      weapon:priest?'staff':'sword',robe:priest,helmet:mid==='soldier',hair:0x523d29}));
+  }
+  const mix=g.userData.mix;
+  if(mix){
+    const idle=mix.idle&&mix.acts[mix.idle.name];
+    if(idle&&mix.cur!==idle){mix.cur.stop();mix.cur=idle.reset().play();}
+    mix.mx.update(0);
+  }
+  const bounds=posedModelBounds(g),height=bounds.max.y-bounds.min.y;
+  if(height>0.001){
+    // 被弾で親の倍率が変わっても、子模型に設定した寸法は保つ。
+    const body=g.children[g.children.length-1],scale=2.072/height;
+    body.scale.multiplyScalar(scale);
+    body.position.y=body.position.y*scale-bounds.min.y*scale;
+  }
+  return g;
+}
 Object.assign(PETJA,{hero:'勇者'});
 SKPOOL.gwizard=['thunder','gbeam','pillars','discharge'];
 // 新しい模型を作らず、敵のcbFbとcbShapeを使う。敵のAIは呼ばない。
