@@ -1860,7 +1860,7 @@
  },
  "hero_pegasus_game_1116": {
   "file": "hero_pegasus_game_1116.glb",
-  "h": 6.2,
+  "h": 3.55,
   "ja": "プレイ画面の勇者と天馬（Hunyuan・UniRig）",
   "rot": 0
  },
@@ -1875,5 +1875,11 @@
   "h": 9,
   "ja": "恐竜の森の樹冠（遠近共用軽量版）",
   "rot": 0
+ },
+ "redcap_hawk_game_1116": {
+  "file": "redcap_hawk_game_1116.glb",
+  "h": 2.2,
+  "ja": "赤い帽子のレッドキャップと鷹（Hunyuan・UniRig）",
+  "rot": 0.0
  }
 }
