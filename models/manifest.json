@@ -1851,5 +1851,29 @@
   "h": 3.2,
   "ja": "現代型航空爆弾（Hunyuan3D 2.1）",
   "rot": 0
+ },
+ "dogu_city_tower_1116": {
+  "file": "dogu_city_tower_1116.glb",
+  "h": 1,
+  "ja": "土偶の超文明都市の陶磁器塔（Hunyuan3D 2.1）",
+  "rot": 0
+ },
+ "hero_pegasus_game_1116": {
+  "file": "hero_pegasus_game_1116.glb",
+  "h": 6.2,
+  "ja": "プレイ画面の勇者と天馬（Hunyuan・UniRig）",
+  "rot": 0
+ },
+ "dino_canopy_1116": {
+  "file": "dino_canopy_1116.glb",
+  "h": 45,
+  "ja": "恐竜の森の層状樹冠の巨木",
+  "rot": 0
+ },
+ "dino_canopy_small_1116": {
+  "file": "dino_canopy_small_1116.glb",
+  "h": 9,
+  "ja": "恐竜の森の樹冠（遠近共用軽量版）",
+  "rot": 0
  }
 }

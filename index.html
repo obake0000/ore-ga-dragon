@@ -1113,7 +1113,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKL';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOU';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -1122,7 +1122,7 @@ async function loadModels(){try{await loadModels0();}finally{loadDone();}}
 async function loadModels0(){
   if(!THREE.GLTFLoader||location.protocol==='file:')return;
   try{const r=await fetch('models/manifest.json',{cache:'no-store'});if(!r.ok)return;const mf=await r.json();LOADN=Object.keys(mf).length;const ld=new THREE.GLTFLoader();
-    const PRI=['nurarihyon','y_origami','y_oni','y_whitefox','y_karasu','skelmage','skel','skeleton','slime2','imp','dragon','wyvern2','wyvern','ground','hero','army','golem','orctank','airship','redcap','kraken','kraken2','archangel','angelstatue','p8bomber','bomber_modern_bomb','p8fighter'];const ENT=Object.entries(mf).sort((a,b)=>{const ia=PRI.indexOf(a[0]),ib=PRI.indexOf(b[0]);return (ia<0?99:ia)-(ib<0?99:ib);});
+    const PRI=['nurarihyon','y_origami','y_oni','y_whitefox','y_karasu','skelmage','skel','skeleton','slime2','imp','dragon','wyvern2','wyvern','ground','hero','army','golem','orctank','airship','redcap','kraken','kraken2','archangel','angelstatue','p8bomber','bomber_modern_bomb','p8fighter','dogu_city_tower_1116'];const ENT=Object.entries(mf).sort((a,b)=>{const ia=PRI.indexOf(a[0]),ib=PRI.indexOf(b[0]);return (ia<0?99:ia)-(ib<0?99:ib);});
     let qi=0,priLeft=ENT.filter(e=>PRI.includes(e[0])).length;const one=([id,v])=>new Promise(res=>(function lo(n){ld.load('models/'+v.file+'?v='+ASSET_V+(n?'&r='+n:''),g=>{
       g.scene.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;(Array.isArray(o.material)?o.material:[o.material]).forEach(mt=>{if(!mt)return;if(mt.map){mt.map.encoding=THREE.LinearEncoding;mt.map.needsUpdate=true;}if(mt.emissiveMap)mt.emissiveMap.encoding=THREE.LinearEncoding;if('metalness' in mt){mt.metalness=0;mt.metalnessMap=null;mt.roughness=0.85;mt.roughnessMap=null;}mt.needsUpdate=true;});}});
       let sk=false;g.scene.traverse(o=>{if(o.isSkinnedMesh)sk=true;});if(id==='wyvern')fixWyvernLeg(g.scene);if(id==='dragon')addJaw(g.scene);if(id==='p8rex')rexJaw(g.scene);MODEL[id]={scene:g.scene,skin:sk,anims:g.animations||[],rot:(v.rot!==undefined?v.rot:-90)*Math.PI/180};layModel(id);if(id==='airship')prepAirProp(g.scene);else if(PLANE_PROPS[id])prepPlaneProps(g.scene,id);loadStep();modelArrived(id);res();},undefined,()=>{if(n<2){setTimeout(()=>lo(n+1),600);return;}loadStep();res();});})(0));
@@ -1220,6 +1220,32 @@ const HITW={shoot:[0.6,2.2,1.6],slash:[1.7,2.5,1.5],box_01:[0.12,1.2,1.5],pitch_
 function mixOnce(o,sp=1.6){if(!o||!o.hit||o.once)return;const a=o.acts[o.hit.name],w=HITW[o.hit.name]||[0,o.hit.duration,1.6],k=w[2]*sp/1.6;
   a.reset();a.setLoop(THREE.LoopOnce,1);a.clampWhenFinished=true;a.timeScale=k;a.time=w[0];a.play();o.cur.crossFadeTo(a,0.07,false);o.once=a;
   const back=o.cur;setTimeout(()=>{if(o.once===a)o.once=null;back.reset().play();a.crossFadeTo(back,0.18,false);o.cur=back;},Math.max(220,(w[1]-w[0])/k*1000-110));}
+const DINO_FOOT_VERTEX_CACHE=new WeakMap(),DINO_FOOT_V=new V3(),DINO_FOOT_INV=new THREE.Matrix4();
+function dinoAttr(a,i,k){return k===0?a.getX(i):k===1?a.getY(i):k===2?a.getZ(i):a.getW(i);}
+function dinoFootVertices(g,bones){let ids=DINO_FOOT_VERTEX_CACHE.get(g);if(ids)return ids;
+ const lower=[];bones.forEach((b,i)=>{if(/toe|foot|calf|knee/i.test(b.name||''))lower.push(i);});
+ ids=[];const ix=g.attributes.skinIndex,wt=g.attributes.skinWeight;
+ if(ix&&wt)for(let i=0;i<ix.count;i++){let ok=false;for(let k=0;k<4;k++){const bi=dinoAttr(ix,i,k);if(lower.includes(bi)&&dinoAttr(wt,i,k)>0.08){ok=true;break;}}if(ok)ids.push(i);}
+ DINO_FOOT_VERTEX_CACHE.set(g,ids);return ids;
+}
+function dinoFootSamples(root){const a=[];root.traverseVisible(o=>{if(o.isSkinnedMesh&&o.geometry&&o.skeleton){const ids=dinoFootVertices(o.geometry,o.skeleton.bones);if(ids.length)a.push({o,ids});}});return a;}
+function dinoFootMin(root,samples){root.updateWorldMatrix(true,true);let need=0;
+ for(const q of samples){const o=q.o,g=o.geometry,p=g.attributes.position;o.skeleton.update();
+  for(const i of q.ids){DINO_FOOT_V.fromBufferAttribute(p,i);o.boneTransform(i,DINO_FOOT_V);DINO_FOOT_V.applyMatrix4(o.matrixWorld);need=Math.max(need,floorAt(DINO_FOOT_V.x,DINO_FOOT_V.z)-DINO_FOOT_V.y);}}
+ return need;
+}
+function dinoFeetOnFloor(){
+ if(!STAGES[stage]||STAGES[stage].key!=='p8dino')return;
+ for(const e of EN){if(e.dead||e.s8!=='raptor'||!e.mesh||!e.mesh.userData.mix)continue;
+  const holder=e.mesh.children[e.mesh.children.length-1];if(!holder||!holder.isGroup)continue;
+  if(!e.dinoFootBase||e.dinoFootBase.holder!==holder)e.dinoFootBase={holder,y:holder.position.y,samples:dinoFootSamples(e.mesh)};
+  const d=e.dinoFootBase,base=d.y;holder.position.y=base;
+  const need=dinoFootMin(e.mesh,d.samples),up=Math.max(0.3,e.mesh.matrixWorld.elements[5]);
+  holder.position.y=base+Math.max(0,(need+0.045)/up);
+ }
+}
+const updMixBase=updMix;
+updMix=function(dt){updMixBase(dt);dinoFeetOnFloor();};
 function updMix(dt){for(let i=MIX.length-1;i>=0;i--){const o=MIX[i];if(!o.g.parent){MIX.splice(i,1);continue;}
   if(o.court){courtMix(o,dt);continue;}
   if(o.arch){archangelMix(o,dt);continue;}if(o.wy3){updWy3(o,dt);continue;}if(o.rig){updRig(o,dt);continue;}
@@ -2061,7 +2087,8 @@ function eShotOk(pos){const n=performance.now();for(let i=ESHOT.length-1;i>=0;i-
 function shoot(pos,vel,o){if(o&&o.from!=='p'&&o.geo!=='arrow'&&state==='play'&&!eShotOk(pos))return;const m=o.geo==='modernBomb'?modernBombMesh():new THREE.Mesh(GEO[o.geo||'fire'],o.mat);m.position.copy(pos);m.scale.setScalar((o.size||1)*(o.ball?0.4:1)*(o.from!=='p'&&o.geo!=='arrow'?0.72:1));if(o.fat){m.scale.x*=o.fat;m.scale.y*=o.fat;}scene.add(m);
   if(FXT.ok&&(!o.geo||o.geo==='fire')&&!o.ball&&!(o.from==='p'&&o.mat===MAT.fire)){const fs=new THREE.Sprite(new THREE.SpriteMaterial({map:fxT(0,4),color:(o.col&&o.col[0])||0xffa030,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false}));fs.scale.set(4.4,4.4,1);fs.material.rotation=rnd(0,6.3);m.add(fs);m.userData.fs=fs;}
   let glow=null;
-  if(o.geo==='arrow'){m.add(new THREE.Mesh(GEO.ahead,AMAT.head));m.add(new THREE.Mesh(GEO.afeath,o.holyArrow?o.mat:o.from==='p'?AMAT.feath:AMAT.feathR));if(o.holyArrow){m.children[0].material=o.mat;glow=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xffed90,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,opacity:0.6}));glow.scale.set(2.5,2.5,1);m.add(glow);}else o.trail=null;}
+  if(o.geo==='rideBlade'){const core=new THREE.Mesh(RIDE_BLADE_INSET,RIDE_BLADE_CORE);core.position.y=0.23;m.add(core);}
+  else if(o.geo==='arrow'){m.add(new THREE.Mesh(GEO.ahead,AMAT.head));m.add(new THREE.Mesh(GEO.afeath,o.holyArrow?o.mat:o.from==='p'?AMAT.feath:AMAT.feathR));if(o.holyArrow){m.children[0].material=o.mat;glow=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xffed90,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,opacity:0.6}));glow.scale.set(2.5,2.5,1);m.add(glow);}else o.trail=null;}
   else if(o.geo==='bolt'){m.geometry=ZGEO[(Math.random()*ZGEO.length)|0];m.material=ZMAT;glow=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0x7fc8ff,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,opacity:0.8}));if(o.from==='p'){glow.scale.set(3.4,3.4,1);m.scale.multiplyScalar(1.3);m.scale.x*=1.7;m.scale.y*=1.7;const st=new THREE.Mesh(ZST,ZSTM);st.position.z=-8;m.add(st);}else glow.scale.set(5,5,1);m.add(glow);}
   else if(FIREMATS.has(o.mat)&&!o.ball){glow=new THREE.Sprite(new THREE.SpriteMaterial({map:FLT,color:o.mat.color.clone().lerp(new THREE.Color(0xff3000),0.35),blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,opacity:0.6}));glow.scale.set(3,3,1);m.add(glow);}
   PROJ.push(Object.assign({m,glow,vel:vel.clone(),life:3,grav:0,r:1,splash:0,dmg:5,from:'e',col:FIRE},o));{const q=PROJ[PROJ.length-1];if(q.from!=='p'&&q.geo!=='arrow')q.r*=0.85;if(q.crag)cragInit(q);}}
@@ -2091,16 +2118,17 @@ function lob(from,to,speed,grav){const dx=to.x-from.x,dz=to.z-from.z,hd=Math.hyp
 function updProj(dt){
   for(let i=PROJ.length-1;i>=0;i--){const p=PROJ[i],pp=p.m.position;p.life-=dt;p.vel.y-=p.grav*dt;
     if(p.homing){tmp.subVectors(P.pos,pp).normalize().multiplyScalar(p.vel.length());p.vel.lerp(tmp,Math.min(1,dt*1.3));}
-    pp.addScaledVector(p.vel,dt);if(RANKS.n&&p.from==='p')ranksHit(pp,(p.splash||0)*0.45+p.r+1.6);
-    if(p.geo==='arrow'||p.geo==='beam'||p.geo==='bolt'||p.geo==='bomberBullet'||p.geo==='modernBomb'||p.geo==='ufoLaser'||p.geo==='ufoMissile')p.m.lookAt(tmp.copy(pp).add(p.vel));else if(p.crag)cragFly(p,dt);else if(p.geo==='rock')p.m.rotation.x+=dt*6;
+    const origin=p.orcRound?pp.clone():null;pp.addScaledVector(p.vel,dt);if(RANKS.n&&p.from==='p')ranksHit(pp,(p.splash||0)*0.45+p.r+1.6);
+    if(p.geo==='arrow'||p.geo==='beam'||p.geo==='rideBlade'||p.geo==='bolt'||p.geo==='bomberBullet'||p.geo==='orcShell'||p.geo==='modernBomb'||p.geo==='ufoLaser'||p.geo==='ufoMissile')p.m.lookAt(tmp.copy(pp).add(p.vel));else if(p.crag)cragFly(p,dt);else if(p.geo==='rock')p.m.rotation.x+=dt*6;
     if(p.geo==='bolt'){if(Math.random()<0.5)p.m.geometry=ZGEO[(Math.random()*ZGEO.length)|0];p.glow.material.opacity=0.5+Math.random()*0.5;if(Math.random()<0.35)burst(pp,1,ZAP,p.size*1.6,10,0.18);}
     else if(p.glow){const f=0.85+Math.random()*0.35;p.glow.scale.set(3.4*f,3.4*f,1);p.glow.material.rotation+=dt*5;}
     if(p.glow&&p.geo!=='bolt'){if(Math.random()<0.55)flame(pp,1,p.size*2.3,0.42,tmp2.copy(p.vel).multiplyScalar(-0.06),p.mat===MAT.dfire?1:p.mat===MAT.bfire?2:0);}
+    else if(p.geo==='rideBlade'){if(Math.random()<0.8)burst(pp,2,RIDE_BLADE_COL,0.75,6,0.16);}
     else if(p.trail&&Math.random()<0.6){burst(pp,1,p.trail,p.size*2.2,3,0.35);if(FXT.ok&&Math.random()<0.6)flame(pp,1,(p.size||1)*2,0.3,null,p.trail===PURP?1:p.trail===BLUE?2:0,2);}if(p.m.userData.fs)p.m.userData.fs.material.rotation+=dt*9;
     if(p.smk&&Math.random()<0.7)smoke(pp,1,1.6,0.9,0x6a6a6a,0.3);if(p.from==='p'&&(p.fxk||(!p.geo&&(p.mat===MAT.fire||p.mat===MAT.big))))fxProj(p,dt);
     let hit=pp.y<floorAt(pp.x,pp.z)-0.5;
     if(!hit){
-      if(p.from==='p'){for(const e of EN){if(e.dead)continue;if(cpos(e).distanceTo(pp)<e.r+p.r){hit=true;p.hE=e;break;}}
+      if(p.from==='p'){if(origin){const f=orcShellHit(p,origin,pp);if(f!==null){pp.lerp(origin,1-f);hit=true;}}else for(const e of EN){if(e.dead)continue;if(cpos(e).distanceTo(pp)<e.r+p.r){hit=true;p.hE=e;break;}}
         if(!hit)for(const b of BLD){if(!b.dead&&inBox(b.box,pp,p.r)){hit=true;break;}}if(!hit&&!C.human&&ruinNear(pp,p.r))hit=true;}
       else if(pp.distanceTo(P.pos)<p.r+3.8){hit=true;hurt(p.dmg);p.didHit=true;}
       else if(PETS.length&&petHit(pp,p.r,p.dmg)){hit=true;p.didHit=true;}
@@ -2123,8 +2151,7 @@ function explode(p){const pp=p.m.position;const big=p.splash>10&&!p.tk;if(p.dkSm
 
 /* ================= 竜（えらべる3体） ================= */
 // 息（自動で出る弾）の cd は「次の弾までの秒」。11/14 に全キャラ約2倍にのばした（連射が激しすぎたため）。短くしすぎない
-const BANK_TIME=0.42,BANK_NAME='回避・急旋回',BANK_DESC='左右に入力しながら押すと、向きと高さを保って横回避。入力なしなら反転する';
-const UFO_BANK_NAME='離陸・回避・急旋回';
+const BANK_TIME=0.42,BANK_NAME='回避・急旋回',BANK_DESC='高さを保って横によけながら後ろを向く。左右の入力でよける方向を選べる';
 const CH={
   dragon:{name:'レッドドラゴン',em:'🐉',tag:'空を飛ぶ',ds:'空も飛べる、バランス型。炎の息と大火球で、まとめて焼きはらう。',hp:260,spd:50,turn:1.8,fly:true,range:210,
     br:{mat:MAT.fire,dmg:38,cd:0.5,spd:170,life:2.2,size:1.1,splash:5,col:FIRE},sp:'bigfire',spN:'大火球',sp2:'flamering',sp2N:'炎の渦',dash:'charge',dashN:'突進',mel:{r:10,dmg:40,cd:0.6,ono:'バシィッ！'},col:[0xc0281c,0xf0b040],s:1.38,o:{},gOff:3.7,stat:[3,3,3]},
@@ -2139,10 +2166,10 @@ const CH={
   golem:{name:'ゴーレム',em:'🗿',tag:'地上・岩の巨人',ds:'岩でできた巨人。足は遅いが、とても硬い。近くの敵をなぐりとばすのが得意。遠くへは岩を投げる。必殺技は地割れと破壊光線。',hp:520,spd:15,turn:1.9,fly:false,range:115,
     br:{mat:mat(0x8a7a5a),geo:'rock',dmg:85,cd:1.8,spd:115,life:1.5,size:2.3,splash:11,col:[0x8a7a5a,0x6a5a3a,0xc0b090]},sp:'fissure',spN:'地割れ',sp2:'gbeam',sp2N:'破壊光線',dash:'guard',dashN:'防御',mel:{r:17,dmg:115,cd:0.55,ono:'ドゴッ！'},
     model:{id:'golem',w:4.9,h:7.2,d:3.8,mouth:[0,-0.75,1.5]},camB:23,camU:9.5,gOff:3.6,stat:[5,1,5]},
-  orctank:{name:'オークキング',em:'👑',tag:'地上・リングで戦車に30秒変身',ds:'最初はオークキングが大斧で戦う。金のリングをくぐると、とげだらけのデラックス戦車に30秒乗りこむ。弩の矢を撃ち続け、近くの敵は体当たりでひきつぶす。必殺技は大砲3連発と、とげの突撃。スペースで装甲をかため、重い体で攻撃を受けとめる。',hp:460,spd:34,turn:3.0,fly:false,range:170,
-    br:{mat:new THREE.MeshBasicMaterial({color:0xffe08a}),geo:'arrow',dmg:36,cd:0.45,spd:190,life:1.5,size:1.8,splash:2,col:[0xffd060,0xff9a30,0xffffff],trail:[0xffd060,0xff8a20],flash:0xffc040},sp:'tkflame',spN:'火炎放射',spD:'前の近い敵を、太い炎で焼きはらう',sp2:'tkrush',sp2N:'とげの突撃',sp2D:'まっすぐ突っこみ、ふれた敵をひきつぶす。その間は無敵',dash:'guard',dashN:'装甲かため',dashD:'その場でかたまり、受けるダメージを8割へらす',mel:{r:15,dmg:95,cd:0.6,ono:'ドガッ！'},
+  orctank:{name:'オークキング',em:'👑',tag:'地上・リングで戦車に30秒変身',ds:'人型は近くの敵を大槌で打つ。必殺技は周りを払う横なぎと、前方へのたたき割り。金のリングをくぐると30秒だけ戦車に乗り、小砲弾を撃つ。戦車の必殺技は大砲3連発と、とげの突撃。',hp:460,spd:34,turn:3.0,fly:false,range:170,
+    br:{mat:new THREE.MeshBasicMaterial({color:0xffe08a}),geo:'arrow',dmg:36,cd:0.45,spd:190,life:1.5,size:1.8,splash:2,col:[0xffd060,0xff9a30,0xffffff],trail:[0xffd060,0xff8a20],flash:0xffc040},sp:'orcsweep',spN:'大槌の横なぎ',spD:'大槌を一周振り、周りの敵を打ち払う',sp2:'orcsplit',sp2N:'大槌のたたき割り',sp2D:'大槌を地面にたたきつけ、前の敵を直線で巻きこむ',dash:'guard',dashN:'身を守る',dashD:'その場でかたまり、受けるダメージを8割へらす',mel:{r:15,dmg:95,cd:0.6,ono:'ドガッ！'},
     model:{id:'kingtank',w:20,h:22,d:30,mouth:[0,5,15]},camB:40,camU:16,gOff:6.05,stat:[4,3,4]},
-  airship:{name:'飛空艇',em:'🎈',tag:'空を飛ぶ・大砲',ds:'王国の飛空艇に乗って戦う。大砲を前の敵へ撃ち続ける。必殺技は真下への爆弾の雨と、全砲門の一斉射撃。スペースで回避。左右入力中は敵を向いたまま横へよけ、入力なしなら急反転する。',hp:300,spd:42,turn:1.5,fly:true,range:230,
+  airship:{name:'飛空艇',em:'🎈',tag:'空を飛ぶ・大砲',ds:'王国の飛空艇に乗って戦う。大砲を前の敵へ撃ち続ける。必殺技は真下への爆弾の雨と、全砲門の一斉射撃。スペースで横によけながら後ろを向く。',hp:300,spd:42,turn:1.5,fly:true,range:230,
     br:{mat:MAT.ball,dmg:48,cd:0.6,spd:160,life:2,size:1.2,splash:6,col:[0xff9a30,0xffe080,0x888888]},sp:'bombs',spN:'爆弾の雨',sp2:'broadside',sp2N:'全砲門斉射',dash:'bank',dashN:BANK_NAME,dashD:BANK_DESC,mel:{r:12,dmg:36,cd:0.6,ono:'ドンッ！'},
     model:{id:'airship',w:14,h:19,d:27,center:1,mouth:[0,-5,13]},camB:46,camU:15,gOff:10.8,stat:[3,2,4]}};
 
@@ -2209,7 +2236,7 @@ VSET.redcap='h';
 // 選択画面のカード（ほかのキャラのカードを作り終えたあとに、1枚足す）
 function rcCards(){const box_=$('cards');if(!box_||box_.querySelector('.card[data-k="redcap"]'))return;const k='redcap',c=CH[k],d=document.createElement('div');d.className='card';d.dataset.k=k;
   const bar=(l,v)=>`<div class="st"><span>${l}</span><div class="bar"><i style="width:${v*20}%"></i></div></div>`;
-  d.innerHTML=`<img class="pti" src="chara/${k}.webp" alt=""><div class="nm">${c.name}<span class="tag">${c.tag}</span></div><div class="ds">${c.ds}</div>${bar('体力',c.stat[0])}${bar('速さ',c.stat[1])}${bar('攻撃',c.stat[2])}`;
+  d.innerHTML=`<img class="pti" src="chara/${k}.webp?v=${ASSET_V}" alt=""><div class="nm">${c.name}<span class="tag">${c.tag}</span></div><div class="ds">${c.ds}</div>${bar('体力',c.stat[0])}${bar('速さ',c.stat[1])}${bar('攻撃',c.stat[2])}`;
   d.addEventListener('click',()=>{initAudio();setChar(k);sfx('roar',null,0.3);});box_.appendChild(d);}
 // 勇者・兵隊の体の作り・動き・攻撃に、レッドキャップを足す（元の関数を呼んだあとに足す形。ほかのキャラの動きは変えない）
 {const mph=makePlayerHuman;makePlayerHuman=function(k){return k==='redcap'?makeRedcapPlayer():mph(k);};
@@ -2251,7 +2278,7 @@ function updArmy(dt){if(!D||D.human!=='army'){ARMY.g=0;return;}ARMY.g=clamp(ARMY
     if(B.Spine)swgRoll(B.Spine,A.up,A.tw*w);if(A.aw<=0)continue;
     aimBone(B.LeftArm,B.LeftForeArm,A.d.copy(f).addScaledVector(A.up,A.a1).addScaledVector(l,A.s1).normalize(),A.aw*w);
     aimBone(B.LeftForeArm,B.LeftHand,A.d.copy(f).multiplyScalar(A.f2).addScaledVector(A.up,A.a2).addScaledVector(l,A.s2).normalize(),A.aw*w);}}catch(x){if(!window.__arE){window.__arE=1;console.warn('army',x);}}}
-{const ml3=melee;melee=function(){ml3();if(D&&D.human==='army')for(const u of D.units)if(u.role==='spear'&&u.m.visible!==false)mixOnce(u.m.userData.mix,2.1);};}
+// 槍兵は斬るクリップを使わず、updArmyThrustで腕と槍を正面へ向ける。
 
 /* ---- オーク将軍：オノを右肩の上に立てて構える。斬る動き（slash）の間は、動きにまかせる ---- */
 // ua＝上うで、fa＝前うで、hd＝オノの先（刃）の向き。どれも [前, 上, 外（右手がわ）] の割合
@@ -2308,7 +2335,7 @@ VSET.kraken='d';
 // 選択画面のカード（ほかのキャラのカードを作り終えたあとに、1枚足す）
 function krCards(){const box_=$('cards');if(!box_||box_.querySelector('.card[data-k="kraken"]'))return;const k='kraken',c=CH[k],d=document.createElement('div');d.className='card';d.dataset.k=k;
   const bar=(l,v)=>`<div class="st"><span>${l}</span><div class="bar"><i style="width:${v*20}%"></i></div></div>`;
-  d.innerHTML=`<img class="pti" src="chara/${k}.webp" alt=""><div class="nm">${c.name}<span class="tag">${c.tag}</span></div><div class="ds">${c.ds}</div>${bar('体力',c.stat[0])}${bar('速さ',c.stat[1])}${bar('攻撃',c.stat[2])}`;
+  d.innerHTML=`<img class="pti" src="chara/${k}.webp?v=${ASSET_V}" alt=""><div class="nm">${c.name}<span class="tag">${c.tag}</span></div><div class="ds">${c.ds}</div>${bar('体力',c.stat[0])}${bar('速さ',c.stat[1])}${bar('攻撃',c.stat[2])}`;
   d.addEventListener('click',()=>{initAudio();setChar(k);sfx('roar',null,0.3);});box_.appendChild(d);}
 // 触手：体から敵へ向かう、曲がった筒。先が細く、吸盤の色の帯がある。のびる→とどまる→もどる（fxAdd の仕組みで、終わると自分で消える）
 // base＝根もとの位置（関数でも点でも）／tipFn(k)＝その時刻の先の位置（k＝0〜1）／o.arc＝まん中の持ち上げ／o.r＝根もとの太さ／o.ext(k)＝のびの度合い
@@ -2359,7 +2386,7 @@ Object.assign(CH.dragon,{spD:'大きな火の玉。当たると広く爆発',sp2
 Object.assign(CH.wyvern,{spD:'前の敵6体に雷を落とす',sp2D:'自分のまわりの敵に電撃',dashD:'横へすばやくよける'});
 Object.assign(CH.ground,{spD:'地面をたたく。まわりの敵を吹きとばす',sp2D:'岩を3つ投げる。1つは特大',dashD:'前へ体当たり。ふれた敵にダメージ'});
 Object.assign(CH.hero,{spD:'敵の頭上に光の柱。最大6体',sp2D:'ぐるっと回って、まわりを斬る',dashD:'前へ斬りこみ、ふれた敵を斬る'});
-Object.assign(CH.army,{spD:'大砲と矢で、敵をいっせいに撃つ',sp2D:'ねらった場所へ矢をふらせる',dashD:'しばらく、受けるダメージを8割へらす'});
+Object.assign(CH.army,{spD:'大砲と矢で、敵をいっせいに撃つ',sp2D:'ねらった場所へ矢をふらせる',dashD:'盾兵・槍兵・弓兵が密集陣形を組み、受けるダメージを8割へらす'});
 Object.assign(CH.golem,{spD:'前へ岩のトゲがつぎつぎ生える',sp2D:'長い光線で、直線の敵をつらぬく',dashD:'しばらく、受けるダメージを8割へらす'});
 Object.assign(CH.airship,{spD:'下と前へ爆弾をつぎつぎ落とす',sp2D:'左右の大砲で、敵をいっせいに撃つ',dashD:'高さをすばやくかえて、弾をかわす'});
 // 必殺技の表：技の名前 → 表示名・ひとこと・小さな絵。入れかえた技もこの表で出す
@@ -2390,10 +2417,12 @@ const SKB={flamering:1,discharge:1,boulder:1,spin:1,arrowrain:1,gbeam:1,broadsid
 // 「地響き」は地面を踏む技なので、飛ぶキャラでは出さない
 // 入れかえで出る必殺技は、キャラに合う物だけ（竜は炎・雷・光線／地上の竜は大地と炎／人は剣と魔法／兵と船は砲・弓・爆弾／岩の巨人は大地と光線）
 const SKPOOL={dragon:['bigfire','flamering','thunder','discharge','gbeam'],wyvern:['thunder','discharge','bigfire','flamering','gbeam'],ground:['quake','boulder','fissure','bigfire','flamering'],hero:['pillars','spin','gbeam'],army:['barrage','arrowrain','bombs','broadside'],golem:['fissure','gbeam','quake','boulder'],airship:['bombs','broadside','barrage','arrowrain'],orctank:['tkflame','tkcannon','tkrush','barrage','broadside']};
-function skOk(k){return !!SKINFO[k]&&!(k==='quake'&&C.fly)&&(!SKPOOL[charKey]||SKPOOL[charKey].includes(k));}
+function skOk(k){if(charKey==='orctank')return !!SKINFO[k]&&ORCSETS[orcTank()?1:0].includes(k);if(ORCONLY.has(k))return false;return !!SKINFO[k]&&!(k==='quake'&&C.fly)&&(!SKPOOL[charKey]||SKPOOL[charKey].includes(k));}
 function skUI(){const a=SKINFO[P.sp],b=SKINFO[P.sp2];
   $('hint').innerHTML=`<b>🖱️ マウス</b> 行きたい方を指す<br><b>🔥 息</b> 前の敵へ自動<br><b>左クリック</b> ${a.n}　<b>右クリック</b> ${b.n}<br><b>スペース</b> ${C.dashN}　<b>Esc</b> 一時停止`;
-  $('tsp').textContent=a.n;$('tsp2').textContent=b.n;}
+  $('tsp').textContent=a.n;$('tsp2').textContent=b.n;if(charKey==='orctank'){const tank=orcTank(),guard=tank?'装甲かため':C.dashN;
+    $('hint').innerHTML=`<b>🖱️ マウス</b> 行きたい方を指す<br><b>通常攻撃</b> ${tank?'前の敵へ小砲弾':'近くの敵へ大槌'}<br><b>左クリック</b> ${skName(P.sp)}　<b>右クリック</b> ${skName(P.sp2)}<br><b>スペース</b> ${guard}　<b>Esc</b> 一時停止`;
+    $('tsp').textContent=skName(P.sp);$('tsp2').textContent=skName(P.sp2);$('tdash').textContent=guard;}}
 // ゴーレム・飛空艇の体（3Dモデルをそのまま1体。竜と同じ使い方ができる入れ物にする）
 function makePlayerModel(k){if(k==='dragonknight')return makeDragonknight();const c=CH[k],M=c.model,g=new THREE.Group(),inner=new THREE.Group();inner.position.y=M.center?0:-c.gOff;g.add(inner);
   const body=makeProxy(M.w,M.h,M.d,0x8a7a6a,!!M.center);if(k==='nurarihyon'){attachModel(body,M.id);inner.add(body);}else if(k==='archangel'||k==='bomber'||k==='slime'||k==='necromancer'){attachModel(body,M.id);inner.add(body);const mx=body.userData.mix;if(mx&&mx.idle)mx.loco=mx.idle;}else{inner.add(body);attachModel(body,M.id);}
@@ -2408,16 +2437,16 @@ function makePlayerHuman(k){const g=new THREE.Group(),inner=new THREE.Group();in
     [-14,-5,5,14].forEach(x0=>{const cn=makeCannon();cn.scale.setScalar(1.3);cn.position.set(x0,0,-7.5-Math.abs(x0)*0.12);inner.add(cn);attachModel(cn,'cannon');guns.push(cn);});}
   return {g,inner,mouth,units,guns,human:k};}
 function animHuman(d,t,run){const n=d.human==='army'?Math.ceil(15*Math.max(0,P.hp)/P.maxHp):1;
-  d.units.forEach((u,i)=>{const m=u.m,ud=m.userData;m.visible=i<n||state==='select';if(d.human==='army'){unitAvoid(d,u);m.position.x=u.x+u.ax;if(!u.front)m.position.z=u.z+u.az;}const a=Math.sin(t*(run?10:3)+(u.ph||0))*(run?0.7:0.15);
+  d.units.forEach((u,i)=>{const m=u.m,ud=m.userData;m.visible=i<n||state==='select';if(d.human==='army'){const k=ARMY.g,c=i%5,r=Math.floor(i/5),x=u.x+(c*1.9-3.8-u.x)*k,z=u.z+([3.6,1.5,-0.8][r]-u.z)*k;unitAvoid(d,u,x,z);m.position.x=x+u.ax;m.position.z=z+u.az;}const a=Math.sin(t*(run?10:3)+(u.ph||0))*(run?0.7:0.15);
     if(ud.legL){ud.legL.rotation.x=a;ud.legR.rotation.x=-a;}m.position.y=Math.abs(a)*0.25;if(d.human==='army')m.position.y+=gndOff(d,m.position.x,m.position.z);
     const sw=P.melT>0?Math.sin((1-P.melT/0.3)*Math.PI):0;
     if(d.human==='hero'){m.rotation.y=P.spinT>0?(1-P.spinT/0.45)*6.283:(P.melT>0&&!ud.mix)?(1-P.melT/0.3)*2.6-1.3:0;if(ud.armR)ud.armR.rotation.x=P.melT>0?-2.6+sw*2.4:-0.3;m.position.z=sw*1.5;}
-    else if(u.front){const gk=ARMY.g,sh=u.role!=='spear';m.position.z=u.z+(u.az||0)+sw*(sh?0.5:3.4)+(u.role==='shield'?gk*3.2:sh?gk*1.1:-gk*1.6);if(sh){m.position.x*=1-(u.role==='shield'?0.32:0.22)*gk;m.rotation.x=0.16*gk;if(u.role==='shield')m.scale.setScalar((ud.bs||(ud.bs=m.scale.x))*(1+0.18*gk));}if(ud.armR)ud.armR.rotation.x=-sw*1.6;}});
-  d.guns.forEach(gn=>{gn.visible=P.hp>P.maxHp*0.2||state==='select';gn.position.y=gndOff(d,gn.position.x,gn.position.z);});}
+    else if(u.front){m.position.z+=sw*(u.role==='spear'?1.5:0.15);m.rotation.x=u.role==='shield'?0.12*ARMY.g:0;if(ud.armR)ud.armR.rotation.x=-sw*1.6;}if(d.human==='army')m.position.y=Math.abs(a)*0.25+gndOff(d,m.position.x,m.position.z);});
+  d.guns.forEach(gn=>{gn.visible=P.hp>P.maxHp*0.2||state==='select';if(d.human==='army'){const o=gn.userData.guardHome||(gn.userData.guardHome=gn.position.clone());gn.position.x=o.x*(1-0.38*ARMY.g);gn.position.z=o.z+(-5.3-o.z)*ARMY.g;}gn.position.y=gndOff(d,gn.position.x,gn.position.z);});}
 // 隊の中の1人（体の中の x,z）が立つ地面と、隊の真ん中の足もととの高さの差
 // 兵隊の1人ずつ：岩・柱の中に立たないよう、外へ少しずれる（ずれはなめらかに）
-function unitAvoid(d,u){if(state==='select'){u.ax=u.az=0;return;}const g=d.g,yw=g.rotation.y,c=Math.cos(yw),sn=Math.sin(yw);
-  const wx=g.position.x+u.x*c+u.z*sn,wz=g.position.z-u.x*sn+u.z*c,fy=floorAt(wx,wz);let px=0,pz=0;
+function unitAvoid(d,u,ux=u.x,uz=u.z){if(state==='select'){u.ax=u.az=0;return;}const g=d.g,yw=g.rotation.y,c=Math.cos(yw),sn=Math.sin(yw);
+  const wx=g.position.x+ux*c+uz*sn,wz=g.position.z-ux*sn+uz*c,fy=floorAt(wx,wz);let px=0,pz=0;
   for(const q of COLS){if(q.y0>fy+3||q.y1<fy+0.4)continue;const dx=wx-q.x,dz=wz-q.z,rr=(q.t===0?q.r:Math.max(q.hw,q.hd))+1,dd=Math.hypot(dx,dz);if(dd<rr){const k=(rr-dd)/(dd||1);px+=(dd?dx:1)*k;pz+=dz*k;}}
   const tx=px*c-pz*sn,tz=px*sn+pz*c;u.ax=(u.ax||0)+(tx-(u.ax||0))*0.25;u.az=(u.az||0)+(tz-(u.az||0))*0.25;}
 function gndOff(d,lx,lz){if(state==='select')return 0;const g=d.g,yw=g.rotation.y,c=Math.cos(yw),sn=Math.sin(yw);
@@ -2435,14 +2464,20 @@ function ringsBuild(){ringsClear();RINGS.ck=charKey;const g=new THREE.Group(),ge
   const gpl=new THREE.PlaneGeometry(RNG_R*2.9,RNG_R*2.9),gpm=new THREE.MeshBasicMaterial({map:RINGS.gt,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide,fog:false});
   for(let i=0;i<N;i++){const a=a0+i/N*6.283,R=150+40*Math.sin(i*2.4+stage);let x=Math.cos(a)*R,z=Math.sin(a)*R;
     for(let k=0;k<4;k++){if(!COLS.some(q=>Math.hypot(q.x-x,q.z-z)<(q.t===0?q.r:Math.max(q.hw,q.hd))+RNG_R+5))break;x*=1.1;z*=1.1;}
-    const y=Math.max(floorAt(x,z),WATER)+30+12*Math.sin(i*1.7+stage*2),h=new THREE.Group();h.position.set(x,y,z);h.rotation.y=-a;
+    let y=Math.max(floorAt(x,z),WATER)+30+12*Math.sin(i*1.7+stage*2);
+    if(C.fly&&['p8robo','p8anc'].includes((STAGES[stage]||{}).key)){
+      const radius=charKey==='dragonknight'?11:RNG_R;
+      const near=BLD.filter(b=>!b.dead&&b.box.distanceToPoint(new V3(x,y,z))<radius+3);
+      for(const b of near)y=Math.max(y,b.box.max.y+radius+4);
+    }
+    const h=new THREE.Group();h.position.set(x,y,z);h.rotation.y=-a;
     const m2=new THREE.MeshBasicMaterial({color:0xffc060,transparent:true,opacity:0.3,blending:THREE.AdditiveBlending,depthWrite:false});h.add(new THREE.Mesh(geo,m1));h.add(new THREE.Mesh(geo2,m2));h.add(new THREE.Mesh(gpl,gpm));g.add(h);
     RINGS.L.push({h,m2,x,y,z,rid:i,airR:charKey==='dragonknight'?11:RNG_R,nx:-Math.sin(a),nz:Math.cos(a),pd:0,cd:0,ph:i});}
   scene.add(g);RINGS.g=g;if(!C.fly)ringsToGround();}
 function ringPass(r){P.ringT=1.6;{const w=new THREE.Mesh(new THREE.TorusGeometry(r.R||r.airR||RNG_R,0.28,6,40),new THREE.MeshBasicMaterial({color:0xfff0c0,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));w.position.set(r.x,r.y,r.z);w.quaternion.copy(r.h.quaternion);fxAdd(w,0.55,(o,k)=>{o.scale.setScalar(1+k*1.6);o.material.opacity=1-k;});}
   r.cd=16;r.h.visible=false;RINGS.ch++;RINGS.cht=r.R?12:7;const n=RINGS.ch,c=new V3(r.x,r.y,r.z);P.en=Math.min(100,P.en+14);P.hp=Math.min(P.maxHp,P.hp+P.maxHp*0.03);score+=40*n;
   burst(c,26,GOLD,3,26,0.7);glowFlash(c,0xffd860,22,0.4);sfx('heal',null,0.5);ono(c,n>1?`${n}連続！ ＋ゲージ`:'リング！ ＋ゲージ','#ffd84a',36);
-  if(!RINGS.tip){RINGS.tip=true;say('💡 ヒント',RFORMS[charKey]?(RFORMS[charKey].names.length===3?'金のリングで60秒変身！ 変身中にもう1個取ると、最終形態に30秒変身する。':'金のリングで30秒変身！ 変身中にもう1個取ると、残り30秒に戻る。'):'金の輪をくぐると、必殺ゲージと体力が少したまる。続けてくぐると点が上がる');}}
+  if(!RINGS.tip){RINGS.tip=true;say('💡 ヒント',RFORMS[charKey]?(RIDES[charKey]?'屋外の金のリングで'+RIDES[charKey].nm+'に30秒騎乗！ 時間切れで自動着地。':RFORMS[charKey].names.length===3?'金のリングで60秒変身！ 変身中にもう1個取ると、最終形態に30秒変身する。':'金のリングで30秒変身！ 変身中にもう1個取ると、残り30秒に戻る。'):'金の輪をくぐると、必殺ゲージと体力が少したまる。続けてくぐると点が上がる');}}
 /* ---- 地上のキャラ用の輪（rock_ring.py）：飛べないキャラの時は、空の輪を地面に立て直す。下の端が地面すれすれで、走ってくぐれる ---- */
 // 輪の半径：体の大きさに合わせる（人は小さく、戦車・クラーケンは大きく）
 function ringGR(){return ({hero:5,redcap:5,army:7,golem:8,ground:9,orctank:10,kraken:13})[charKey]||(C.human?5:9);}
@@ -2755,7 +2790,7 @@ function inkTick(dt){for(let i=INKP.length-1;i>=0;i--){const q=INKP[i];q.t-=dt;q
    ue_(dt);for(let i=0;i<Lq.length;i+=3){const e=Lq[i];if(e.dead)continue;const q=e.mesh.position;q.x=Lq[i+1]+(q.x-Lq[i+1])*0.4;q.z=Lq[i+2]+(q.z-Lq[i+2])*0.4;if(Math.random()<dt*6)burst(cpos(e),2,INKC,3,6,0.5);}};
  // 防御の動き：戦車は「装甲かため」（鉄の色・1.6秒・待ち時間3秒）、クラーケンは墨をふきだす
  const gd2=guard;guard=function(){const ok=state==='play'&&!LVUP&&!PAUSED&&(P.guardCd||0)<=0&&P.en>=12;gd2();if(!ok)return;
-   if(charKey==='orctank'){P.guardT=1.6;P.guardCd=3;GSH.material.color.setHex(0xffb860);burst(P.pos,28,[0xffe0a0,0xffffff,0xffb040],3,32,0.5);sfx('clang',null,1);shake(0.15);ono(P.pos.clone().add(new V3(0,16,0)),'ガキィン！ 装甲かため','#ffd890',36);}
+   if(charKey==='orctank'&&orcTank()){P.guardT=1.6;P.guardCd=3;GSH.material.color.setHex(0xffb860);burst(P.pos,28,[0xffe0a0,0xffffff,0xffb040],3,32,0.5);sfx('clang',null,1);shake(0.15);ono(P.pos.clone().add(new V3(0,16,0)),'ガキィン！ 装甲かため','#ffd890',36);}
    else if(charKey==='kraken'){P.guardCd=3.5;inkSpray();}};}
 // 王の陣形。U={k:王,yaw:向き}、兵は e.kf=U・e.fo=[横,前後]（前＝プレイヤーの方）
 function kfBuild(K){const L=EN.filter(e=>!e.dead&&e.orc&&e.type==='goblin'&&!e.dog&&!e.fu&&!e.kf);L.sort((a,b)=>(b.sc||1)-(a.sc||1));
@@ -2903,13 +2938,13 @@ function bldBlock(dt,flightY){
 }
 // ---- 戦車の見せ方：とげの突撃（ためる→突っこむ→止まる）と、装甲かため（鉄板が閉じる）
 const TKF={pl:null,gk:0,sm:0,rg:0,was:0,path:null};
-function tkGo(){P.rushD=P.rwD||170*SPM();P.dashHit=(P.dashHit||0)+1;P.dashT=1.15;sfx('whoosh');sfx('roar',null,0.5);shake(0.4);ono(P.pos.clone().add(new V3(0,8,0)),'突撃ーっ！','#ffd23a',52);setTimeout(()=>{P.rushD=0;},1400);}
+function tkGo(){P.rushD=P.rwD||170*SPM();P.dashHit=(P.dashHit||0)+1;P.dashT=1.15;sfx('whoosh');sfx('roar',null,0.5);shake(0.4);ono(P.pos.clone().add(new V3(0,8,0)),'突撃ーっ！','#ffd23a',52);}
 function tkPlates(){const g=new THREE.Group(),mt=new THREE.MeshLambertMaterial({color:0x5e666f,emissive:0x1c1a16,transparent:true,opacity:0.95}),ed=new THREE.MeshBasicMaterial({color:0xffb040});
   for(const [x,y,z,w,h,d] of [[0,-1,17,20,13,1.4],[0,-1,-17,20,13,1.4],[-12.5,-1,8,1.4,13,14],[12.5,-1,8,1.4,13,14],[-12.5,-1,-8,1.4,13,14],[12.5,-1,-8,1.4,13,14],[0,9,0,18,1.4,26]]){
     const q=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mt);q.userData.o=new V3(x,y,z);q.position.set(x,y,z);
     const r1=new THREE.Mesh(new THREE.BoxGeometry(w+0.3,0.5,d+0.3),ed);r1.position.y=h/2;q.add(r1);const r2=r1.clone();r2.position.y=-h/2;q.add(r2);const bar=new THREE.Mesh(new THREE.BoxGeometry(w+0.5,Math.min(1.6,h*0.9),d+0.5),new THREE.MeshLambertMaterial({color:0x3a4048}));q.add(bar);g.add(q);}
   return g;}
-function tankFx(dt){if(typeof D==='undefined'||!D||D.model!=='orctank'||!D.body||state!=='play'){if(TKF.pl)TKF.pl.visible=false;if(TKF.path)TKF.path.visible=false;return;}
+function tankFx(dt){if(typeof D==='undefined'||!D||D.model!=='orctank'||D.ok||!D.body||state!=='play'){if(TKF.pl)TKF.pl.visible=false;if(TKF.path)TKF.path.visible=false;return;}
   const b=D.body,u=b.userData,fx=Math.sin(P.yaw),fz=Math.cos(P.yaw),gy=floorAt(P.pos.x,P.pos.z),at=(k,sd,h)=>new V3(P.pos.x+fx*k-fz*sd,gy+h,P.pos.z+fz*k+fx*sd);
   if(!u.bs){u.bs=b.scale.clone();u.bz=b.position.z;u.brx=b.rotation.x;}let rx=0,pz=0;
   if(P.rw>0){P.rw-=dt;const k=1-Math.max(0,P.rw)/0.5;rx=-0.14*k;pz=-4*k;TKF.sm-=dt;if(TKF.sm<=0){TKF.sm=0.06;smoke(at(-15,rnd(-7,7),2),1,3.5,0.8,0x2e2e2e,2);glowFlash(at(16,0,5),0xff4a20,7+k*6,0.12);}
@@ -3497,6 +3532,7 @@ function kink(ki,key){let h=0;for(const c of String(key))h=(h*31+c.charCodeAt(0)
 function kpull(ka,kz){try{if(ka.style.display==='none')return;const o=document.createElement('div');o.className='kpaper';
   const c=kz.cloneNode(true);c.removeAttribute('id');const ci=c.querySelector('img');if(ci)ci.removeAttribute('id');const ck=c.querySelector('.kink');if(ck)ck.removeAttribute('id');
   c.style.animation='none';c.style.transform=getComputedStyle(kz).transform;o.appendChild(c);ka.appendChild(o);void o.offsetWidth;o.classList.add('go');setTimeout(()=>o.remove(),900);}catch(e){}}
+function storyImageV2(key){return 'story/v2/'+key+'.jpg'+(key.startsWith('p8_anc_')?'?v='+ASSET_V:'');}
 function kamiShow(){const k=KAMI,sd=k.sl[k.i],n=k.sl.length,last=k.i>=n-1;
   const ka=$('kami'),kz=$('kz'),ki=$('kink'),im=$('stPic'),key=sd.img,idx=k.i;
   const live=$('story').style.display==='flex'&&ka.style.display!=='none'&&!!im.getAttribute('src');
@@ -3516,7 +3552,7 @@ function kamiShow(){const k=KAMI,sd=k.sl[k.i],n=k.sl.length,last=k.i>=n-1;
   if(KBAD[key]){kink(ki,key);im.style.visibility='hidden';}
   else{im.dataset.fb='';im.onload=null;
    im.onerror=()=>{if(KAMI!==k||k.i!==idx)return;if(!im.dataset.fb){im.dataset.fb='1';im.src=`story/${key}.jpg`;}else{KBAD[key]=1;kink(ki,key);im.style.visibility='hidden';}};
-   im.src=`story/v2/${key}.jpg`;}
+   im.src=storyImageV2(key);}
   $('stN').innerHTML=`<span class="kvh">${k.i+1} / ${n}</span>`+Array.from({length:n},(_,j)=>`<i class="${j<k.i?'d':j===k.i?'c':''}"></i>`).join('');
   {const me=sd.who==='ME',pt=sd.who?(me?charKey:(TPT[sd.who]||'')):'';
    $('stL').innerHTML=sd.who?`<div class="kd${me?' me':''}${/[！!]/.test(sd.l)?' ex':''}">${pt?`<img src="chara/${pt}.webp" alt="" onerror="this.style.display='none'">`:''}<div><b>${me?C.name:sd.who}</b><p class="kt">${kchars(sd.l)}</p></div></div>`:`<p class="kt">${kchars(sd.l)}</p>`;}
@@ -4320,11 +4356,11 @@ function wvFx(cls,big,small){try{let d=$('wvfx');if(!d){const par=$('banner').pa
 function wvClear(W){const last=wave>=W.length-1;WV.warn=0;wvFx('clr',last?'🏆 章クリア！':'撃破！',last?'':'第'+(wave+1)+'波 クリア　❤ 体力が少し回復');
   if(!cineOn){TS=0.3;tsT=0.45;}flashV=Math.max(flashV,0.3);sfx('lvup',null,0.7);shake(0.3);}
 function wvWarn(W){const nx=W[wave+1];if(!nx||WV.warn)return;WV.warn=1;wvFx('warn','⚠ 次が来る！','第'+(wave+2)+'波'+(nx.name?'　'+nx.name:''));sfx('charge',null,0.7);sfx('roar',null,0.3);}
-function melee(){if(D&&D.dk){P.melCd=C.mel.cd;return;}if(charKey==='archangel'){archangelMelee();return;}if(charKey==='dragon'&&D&&D.g.userData.flap&&D.g.userData.flap.rig){P.dmN=((P.dmN||0)+1)%3;P.dmK=P.dmN===0?1:0;P.dmFx=0;}else P.dmK=-1;P.melT=0.3;P.melA=0.45;P.melS=-(P.melS||1);P.melCd=C.mel.cd;if(D&&D.human==='hero')mixOnce(D.units[0].m.userData.mix,2);if(D&&D.model)mixOnce(D.body.userData.mix,1.8);const ad=aimDir();ad.y=0;ad.normalize();let n=0;
+function melee(){if(charKey==='orctank'){orcMelee();return;}if(D&&D.dk){P.melCd=C.mel.cd;return;}if(charKey==='archangel'){archangelMelee();return;}if(charKey==='dragon'&&D&&D.g.userData.flap&&D.g.userData.flap.rig){P.dmN=((P.dmN||0)+1)%3;P.dmK=P.dmN===0?1:0;P.dmFx=0;}else P.dmK=-1;P.melT=0.3;P.melA=0.45;P.melS=-(P.melS||1);P.melCd=C.mel.cd;if(D&&D.human==='hero')mixOnce(D.units[0].m.userData.mix,2);if(D&&D.model)mixOnce(D.body.userData.mix,1.8);const ad=aimDir();ad.y=0;ad.normalize();let n=0;
   for(const e of EN){if(e.dead)continue;const c=cpos(e),v=tmp.subVectors(c,P.pos);if(Math.abs(v.y)>12+e.r)continue;v.y=0;const d=v.length();if(d>C.mel.r+e.r)continue;if(d>3&&v.normalize().dot(ad)<-0.2)continue;
     hitEnemy(e,C.mel.dmg);n++;burst(c,6,SPARK,3,14,0.3);}
   const bt=bldAt(P.pos.x+ad.x*4,P.pos.z+ad.z*4,C.mel.r*0.6);if(bt.hit&&!C.human&&P.pos.y-C.gOff<bt.top)hitBld(bt.hit,C.mel.dmg*0.6);if(!C.human)meleeRock(ad);
-  if(charKey==='golem')robotPunch(ad,n);else if(charKey==='orctank')tankBash(ad,n);else if(!C.human&&!C.model){clawFx(ad,n,charKey==='wyvern'?0x9fe6ff:charKey==='ground'?0xffc070:0xff7a30);sfx('slash',null,0.8);}else{slashFx(charKey==='wyvern'?0xc8f0ff:charKey==='hero'?0xfff2a0:0xffffff);sfx('slash',null,0.7);}
+  if(charKey==='army'){armyThrustFx(ad);sfx('whoosh',null,0.5);}else if(charKey==='golem')robotPunch(ad,n);else if(!C.human&&!C.model){clawFx(ad,n,charKey==='wyvern'?0x9fe6ff:charKey==='ground'?0xffc070:0xff7a30);sfx('slash',null,0.8);}else{slashFx(charKey==='wyvern'?0xc8f0ff:charKey==='hero'?0xfff2a0:0xffffff);sfx('slash',null,0.7);}
   if(n){ono(tmp2.copy(P.pos).addScaledVector(ad,6).setY(P.pos.y+3),C.mel.ono,'#fff',40);shake(0.12);}}
 let charKey='dragon',C=CH.dragon,D=null;
 let EASY=false;try{EASY=localStorage.getItem('dragon_easy')==='1';}catch(e){}
@@ -4378,7 +4414,7 @@ function updFeel(dt,v,t){updHitFx(dt);updAir(dt,v);
 function aimPoint(){const cc=ccam(),o=cc?P.pos:cineOn?GCAM:cam.position,dir=cc?tmp3.copy(aimDir()):tmp3.subVectors(camLook,o).normalize();
   for(let s=10;s<340;s+=6){tmp.copy(o).addScaledVector(dir,s);if(tmp.y<floorAt(tmp.x,tmp.z))return tmp.clone();}
   return o.clone().addScaledVector(dir,340);}
-function autoTarget(){const ad=aimDir();let best=null,bs=1e9;
+function autoTarget(){if(charKey==='orctank'&&!orcTank())return null;const ad=aimDir();let best=null,bs=1e9;
   for(const e of EN){if(e.dead||e.rise)continue;const c=cpos(e),v=tmp.subVectors(c,P.pos),dist=v.length();if(dist>C.range)continue;const hz=Math.hypot(v.x,v.z),ah=Math.abs(Math.atan2(Math.sin(Math.atan2(v.x,v.z)-P.yaw),Math.cos(Math.atan2(v.x,v.z)-P.yaw))),ev=Math.atan2(v.y,Math.max(hz,0.1))-P.pitch;if(ah>0.55&&!(hz<12&&ev>0.3))continue;if(ev<-0.6||ev>1.35)continue;const s=dist*(1+ah*2+Math.abs(ev)*0.4);if(s<bs){bs=s;best=c.clone();}}
   if(best||C.human)return best;
   for(const b of BLD){if(b.dead||b.rock)continue;b.box.getCenter(tmp2);const v=tmp.subVectors(tmp2,P.pos),dist=v.length();if(dist>Math.min(C.range,120))continue;if(v.angleTo(ad)>0.4)continue;if(dist<bs){bs=dist;best=tmp2.clone();}}
@@ -4410,12 +4446,34 @@ function swapOpt(){const sl=Math.random()<0.5?'sp':'sp2',cand=Object.keys(SKINFO
   return {swap:1,slot:sl,to:cand[(Math.random()*cand.length)|0],k:'swap',ic:'🔄',nm:'必殺技の入れかえ'};}
 function swapHtml(u,i,dl){const cur=SKINFO[P[u.slot]],nw=SKINFO[u.to],sl=u.slot==='sp'?'左クリック':'右クリック';
   return `<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="chara/ic/sk_${u.to}.webp" alt="" onerror="this.onerror=null;this.src='${nw.img}'"></div><div class="nm">必殺技の入れかえ</div><div class="ds" style="animation-delay:${dl+0.45}s">${sl}の技<br><b>『${cur.n}』</b> → <b>『${nw.n}』</b><br>${nw.d}</div><div class="num" style="animation-delay:${dl+0.7}s">今の必殺技の強さのまま使える</div></div>`;}
-function showLv(){const pool=UPS.filter(u=>(UP[u.k]||0)<u.mx&&((u.k!=='pet'&&u.k!=='multi')||Math.random()<PETRARE)),sw=(LV-LVQ+1)%3===0?(advOpt()||((LV-LVQ+1)%9===0?swapOpt():null)):null;if(!pool.length&&!sw){LVQ=0;P.hp=P.maxHp;return;}
-  LVOPT=pool.sort(()=>Math.random()-0.5).slice(0,sw?2:3);if(sw)LVOPT.push(sw);LVUP=true;sfx('lvup',null,0.8);burst(P.pos,40,[0xffe060,0xffffff,0x80e0ff],3,30,0.9);
+function lvChoices(){
+ const pool=UPS.filter(u=>{
+  if((UP[u.k]||0)>=u.mx||(u.k==='pet'&&PETS.length>=u.mx))return false;
+  if(u.k==='pet')return Math.random()<(EASY?EASY_PETRARE:PETRARE);
+  if(u.k==='multi')return Math.random()<(EASY?EASY_MULTIRARE:PETRARE);
+  return true;
+ });
+ const level=LV-LVQ+1,sw=level%3===0?(advOpt()||(level%9===0?swapOpt():null)):null,count=sw?2:3;
+ if(!EASY){
+  const choices=pool.sort(()=>Math.random()-0.5).slice(0,count);
+  if(sw)choices.push(sw);
+  return choices;
+ }
+ const petIndex=pool.findIndex(u=>u.k==='pet'),choices=petIndex<0?[]:pool.splice(petIndex,1);
+ while(choices.length<count&&pool.length)choices.push(...pool.splice(Math.floor(Math.random()*pool.length),1));
+ if(choices[0]?.k==='pet'){
+  const slot=Math.floor(Math.random()*choices.length);
+  [choices[0],choices[slot]]=[choices[slot],choices[0]];
+ }
+ if(sw)choices.push(sw);
+ return choices;
+}
+function showLv(){LVOPT=lvChoices();if(!LVOPT.length){LVQ=0;LVUP=false;P.hp=P.maxHp;$('lvup').style.display='none';return;}
+  LVUP=true;sfx('lvup',null,0.8);burst(P.pos,40,[0xffe060,0xffffff,0x80e0ff],3,30,0.9);
   $('lvn').textContent='Lv '+Math.max(1,LV-LVQ)+' → Lv '+(LV-LVQ+1);$('lvc').innerHTML='';LVOPT.forEach((u,i)=>{const d=document.createElement('button');d.className='lvc';const dl=0.25+i*0.14,n=UP[u.k]||0;d.style.animationDelay=dl+'s';
     d.innerHTML=u.adv?advHtml(u,i,dl):u.swap?swapHtml(u,i,dl):`<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="chara/ic_${u.k}.webp" alt=""></div><div class="nm">${u.nm}</div><div class="ds" style="animation-delay:${dl+0.45}s">${u.ds}</div><div class="num" style="animation-delay:${dl+0.7}s">${upDs(u)}</div><div class="mx">${Array.from({length:u.mx},(_,k)=>`<i class="${k<n?'on':k===n?'nx':''}"></i>`).join('')}</div></div>`;
     d.addEventListener('click',e=>{e.stopPropagation();pickLv(i);});$('lvc').appendChild(d);});$('lvup').style.display='flex';}
-function pickLv(i){if(!LVUP||!LVOPT[i])return;const u=LVOPT[i];if(u.adv){const q=u.slot==='sp'?'t1':'t2';P[q]=(P[q]||1)+1;skUI();}else if(u.swap){P[u.slot]=u.to;P[u.slot==='sp'?'t1':'t2']=1;skUI();}else UP[u.k]=(UP[u.k]||0)+1;
+function pickLv(i){if(!LVUP||!LVOPT[i])return;const u=LVOPT[i];if(u.k==='pet'&&((UP.pet||0)>=u.mx||PETS.length>=u.mx)){showLv();return;}if(u.adv){const q=u.slot==='sp'?'t1':'t2';P[q]=(P[q]||1)+1;skUI();}else if(u.swap){P[u.slot]=u.to;P[u.slot==='sp'?'t1':'t2']=1;skUI();}else UP[u.k]=(UP[u.k]||0)+1;
   if(u.k==='hp'){P.maxHp=Math.round(P.maxHp*1.15);P.hp=P.maxHp;}if(u.k==='pet')addPet();if(u.k==='sp')$('enl').textContent=`⚡ 必殺ゲージ（${SPC()}で必殺技）`;
   LVUP=false;LVQ--;$('lvup').style.display='none';updLvHud();banner(u.ic+' '+u.nm+'！',1.6);sfx('heal',null,0.6);if(LVQ>0)setTimeout(()=>{if(state==='play'&&!LVUP)showLv();},350);}
 // 11/16 ふみさん「仲間はドラゴン固定じゃなく、キャラによって分ける。最大3体」
@@ -4435,7 +4493,7 @@ function updPets(dt,t){const n=PETS.length;PETS.forEach((p,i)=>{if(p.squad){squa
   for(let i=PETS.length-1;i>=0;i--)if(PETS[i].hp<=0){const q=PETS[i];if(!q.fleet){burst(q.g.position,24,FIRE,2.5,22,0.6);smoke(q.g.position,4,3,1.2,0x5a5a5a,2);}sfx('small',q.g.position,0.6);
     ono(q.g.position.clone().add(new V3(0,3,0)),q.fleet?'船団が全滅した…':q.squad?'援軍が全滅した…':'子分がやられた…','#ffb0a0',24);if(q.squad)rideRelease(q.g);scene.remove(q.g);PETS.splice(i,1);UP.pet=Math.max(0,(UP.pet||0)-1);updLvHud();}}
 /* ---- 子分：レアカード＋シナリオ1ではワイバーンに勝つと自然に付く（pet_wyv.py） ---- */
-const PETRARE=0.25;let PETG=0;
+const PETRARE=0.25,EASY_PETRARE=0.45,EASY_MULTIRARE=0.5;let PETG=0;
 {const st=document.createElement('style');st.textContent='.lvc.rare{padding:5px;background:linear-gradient(135deg,#fffbe0,#ffd23a 25%,#c98a00 50%,#fff0a0 75%,#ffc400);box-shadow:0 10px 26px #000a,0 0 0 1px #000,0 0 22px #ffd23acc;animation:lvcard .55s cubic-bezier(.2,1.3,.4,1) forwards,petrare 1.6s ease-in-out .6s infinite}'
   +'.lvc.rare .rtag{position:absolute;right:-8px;top:-11px;z-index:3;padding:2px 11px;border-radius:12px;background:linear-gradient(180deg,#fff2a0,#ffb000);color:#4a2400;font-weight:900;font-size:14px;letter-spacing:.08em;box-shadow:0 2px 8px #000a,0 0 10px #ffe060;border:1px solid #7a4a00}'
   +'@keyframes petrare{0%,100%{filter:brightness(1)}50%{filter:brightness(1.22) drop-shadow(0 0 8px #ffd23a)}}';document.head.appendChild(st);}
@@ -4457,8 +4515,9 @@ function tkShell(tg){const m=mouthPos();shoot(m,lob(m,tg,150,16),{from:'p',geo:'
   glowFlash(m.clone(),0xffb040,16,0.3);burst(m,14,FIRE,4.5,22,0.4);smoke(m,5,4.5,1.4,0x777777,2);sfx('cannon',m);shake(0.3);ono(m.clone().add(new V3(0,5,0)),'ドン！','#ffd23a',40);P.atkM=0.3;}
 function skyRock(tg){const m=mouthPos(),d=tg.clone().sub(m).normalize();shoot(m,d.multiplyScalar(210),{from:'p',geo:'rock',mat:C.br.mat,size:1.9,r:2.6,splash:9,dmg:70*POW(),life:1.6,trail:[0x9fdcff,0xffffff],col:C.br.col});
   glowFlash(m.clone(),0x9fdcff,9,0.25);sfx('whoosh',null,0.7);P.atkM=0.3;if(D&&D.body&&D.body.userData.mix)mixOnce(D.body.userData.mix,2.2);if(!P.skyTip){P.skyTip=1;ono(m.clone().add(new V3(0,5,0)),'対空！','#9fdcff',40);}}
-function breathe(tg){if(D&&D.dk){dkBreathe(tg);return;}if(charKey==='golem'&&tg.y>P.pos.y+8){skyRock(tg);P.fireCd=Math.min(P.fireCd,0.7);return;}if(charKey==='orctank'&&(P.tkN=(P.tkN||0)+1)%4===0){tkShell(tg);return;}P.atkM=charKey==='bomber'?0:0.22;if(D.human==='hero')mixOnce(D.units[0].m.userData.mix,2.2);else if(D.human==='army'){}else if(D.model&&!C.fly)mixOnce(D.body.userData.mix,2.4);
+function breathe(tg){if(D&&D.dk){dkBreathe(tg);return;}if(charKey==='golem'&&tg.y>P.pos.y+8){skyRock(tg);P.fireCd=Math.min(P.fireCd,0.7);return;}if(charKey==='orctank'){if(orcTank())orcNormalShell(tg);return;}P.atkM=charKey==='bomber'?0:0.22;if(D.human==='hero')mixOnce(D.units[0].m.userData.mix,2.2);else if(D.human==='army'){}else if(D.model&&!C.fly)mixOnce(D.body.userData.mix,2.4);
   const m=mouthPos(),b=C.br;const nS=1+(UP.multi||0),sz=b.size*SZM(),sp=b.splash*SZM(),dm=b.dmg*POW();
+  if(D.riding==='hero')rideBladeMuzzle(m);
   if(nS>1){const base=tg.clone(),dir=base.clone().sub(m),yaw0=Math.atan2(dir.x,dir.z),hz=Math.hypot(dir.x,dir.z);
     for(let i=0;i<nS;i++){const a=yaw0+(i-(nS-1)/2)*0.13;const t2=new V3(m.x+Math.sin(a)*hz,base.y,m.z+Math.cos(a)*hz);shoot1(m,t2,b,sz,sp,dm);}sfx(charKey==='wyvern'?'zapb':'fire',null,0.8);return;}
   shoot1(m,tg,b,sz,sp,dm,true);}
@@ -4468,7 +4527,8 @@ function shoot1(m,tg,b,sz,sp,dm,snd){
   if(charKey==='archangel'&&b===C.br){shoot(m,tg.clone().sub(m).normalize().multiplyScalar(b.spd),{from:'p',mat:b.mat,geo:'arrow',holyArrow:true,size:sz,r:1.8,splash:sp,dmg:dm,life:b.life,trail:b.trail,col:b.col});glowFlash(m.clone(),b.flash,6,0.12);if(snd)sfx('zapb',null,0.35);return;}
   if(b.geo==='arrow'){const v=lob(m,tg.clone().add(new V3(rnd(-1.5,1.5),rnd(-1,1),rnd(-1.5,1.5))),b.spd*0.75,28);shoot(m,v,{from:'p',mat:b.mat,geo:'arrow',size:sz,r:1.8*sz/b.size,splash:sp,dmg:dm,life:b.life*1.8,grav:28,col:b.col,trail:b.trail});if(b.flash){glowFlash(m.clone(),b.flash,8,0.16);burst(m,4,b.col,2.6,14,0.22);}if(snd)sfx('fire',null,0.25);return;}
   const d=tg.clone().sub(m).normalize();d.x+=rnd(-0.02,0.02);d.y+=rnd(-0.02,0.02);d.z+=rnd(-0.02,0.02);
-  shoot(m,d.multiplyScalar(b.spd).add(P.vel),{from:'p',mat:b.mat,geo:b.geo,size:sz,r:1.6*sz/b.size,splash:sp,dmg:dm,life:b.life,trail:b.col,col:b.col});burst(m,2,b.col,2.5,8,0.25);if(b.geo==='bolt')zapMuzzle(m,d,tg);
+  const blade=D.riding==='hero'&&b===C.br,col=blade?RIDE_BLADE_COL:b.col;
+  shoot(m,d.multiplyScalar(b.spd).add(P.vel),{from:'p',mat:blade?RIDE_BLADE_EDGE:b.mat,geo:blade?'rideBlade':b.geo,size:sz,r:1.6*sz/b.size,splash:sp,dmg:dm,life:b.life,trail:blade?null:b.col,col});burst(m,2,col,2.5,8,0.25);if(b.geo==='bolt')zapMuzzle(m,d,tg);
   if(snd)sfx(charKey==='wyvern'?'zapb':'fire',null,0.8);}
 /* ---- 必殺技の演出：カットイン・魔法陣・光の柱・竜巻・ドーム・岩のトゲ ---- */
 const ULTL={tkflame:'焼きはらえーっ！',tkcannon:'撃てーっ！ 三連発だ！',tkrush:'ひきつぶせーっ！',bigfire:'判決。丸焼き！',thunder:'天罰だ。女神のツケでな！',quake:'大地よ、はか穴をほれ！',pillars:'天の光よ、悪を討て！',barrage:'全砲門、撃てーっ！',
@@ -4612,7 +4672,7 @@ function updFall(rdt){if(PAUSED||LVUP)return;updDie(rdt);tankFx(rdt);for(let i=F
     if(o.t>=o.nx){o.nx=o.t+0.12;const c=new V3(o.x+rnd(-0.7,0.7)*e.r,o.y+e.hc+rnd(-0.5,0.8)*e.r*0.6,o.z+rnd(-0.7,0.7)*e.r);burst(c,6,FIRE,e.r*0.2,20,0.5);if(rk)debris(c,3,[0x7a7468,0x6a4a2a,0x9a8a72],e.r*0.13);smoke(c,2,e.r*0.45,1.5,0x5a5248,2);}
     if(state==='play'&&D.human!=='army'&&Math.hypot(o.x-P.pos.x,o.z-P.pos.z)<130){const a=mouthPos(),b=tmp2.set(o.x,o.y+e.hc,o.z);for(let j=0;j<5;j++){const q=(o.t*2.4+j/5)%1;tmp3.lerpVectors(a,b,q);flame(tmp3,1,1.5+q*e.r*0.26,0.3,null,0,3);}}
     if(k>=1){scene.remove(m);FALL.splice(i,1);const c=new V3(o.x,o.y+e.hc,o.z);burst(c,60,FIRE,e.r*0.6,46,1.2);if(rk)debris(c,14,[0x7a7468,0x6a4a2a,0x9a8a72],e.r*0.2);smoke(c,8,e.r*0.7,3,0x5a5248,e.r*0.5);if(state==='play'){sfx('boom',c,0.8);shake(0.7);flashV=Math.max(flashV,0.5);}}}}
-function ult(nm,line,fire){const u=$('ult');u.style.display='none';void u.offsetWidth;u.querySelector('img').src=`chara/${charKey}.webp`;
+function ult(nm,line,fire){const u=$('ult');u.style.display='none';void u.offsetWidth;u.querySelector('img').src=`chara/${charKey}.webp?v=${ASSET_V}`;
   u.querySelector('.nm').textContent=nm;u.querySelector('.tg').textContent=nm;u.classList.remove('fired');u.querySelector('.sb').textContent=`${C.name}「${line||''}」`;u.classList.toggle('two',nm===skName(P.sp2));u.style.display='block';
   clearTimeout(ultTm);ultTm=setTimeout(()=>{u.style.display='none';},2200);
   if(ultFn){const f=ultFn;ultFn=null;f();}
@@ -4692,6 +4752,7 @@ function skillA(SK){const SPZ=(1+0.15*(UP.sp||0))*(EASY?1:0.8);{
   else if(SK==='hyakki'){nuraParade();}
   else if(SK==='deadarmy'){necroArmy();}
   else if(SK==='pillars'){const ad=aimDir();
+    if(D.riding==='hero'){const m=P.pos.clone().add(new V3(0,2.8,0));magicCircle(m,0x9be5ff,6,0.55);glowFlash(m,0xffe8a0,11,0.24);}
     const list=EN.filter(e=>!e.dead).map(e=>{const v=tmp.subVectors(cpos(e),P.pos);return {e,d:v.length(),s:v.length()*(1+v.angleTo(ad)*0.6)};}).filter(o=>o.d<240).sort((a,b)=>a.s-b.s).slice(0,6+2*(UP.sp||0));
     flashV=0.6;sfx('zap');
     list.forEach((o,i)=>{const c=cpos(o.e).clone();setTimeout(()=>{if(state!=='play')return;const hm=C.human,pr=hm?Math.min(7,Math.max(1.7,(o.e.r||2)*0.7)):7;bolt(new V3(c.x,c.y+(hm?32:140),c.z),c,0xfff2a0);burst(c,hm?8:20,GOLD,hm?2:5,22,0.7);shock(new V3(c.x,floorAt(c.x,c.z),c.z),0xfff2a0,pr*2);pillar(gpos(c),0xffd040,pr,hm?Math.max(34,pr*9):170,1.8);magicCircle(gpos(c),0xfff2a0,pr*2.3,2.0);glowFlash(c,0xfff2a0,hm?Math.max(8,pr*3.5):30,0.6);hitEnemy(o.e,115*SPM());},i*90);});
@@ -4732,8 +4793,8 @@ function skillB(SK){const SPZ=(1+0.15*(UP.sp||0))*(EASY?1:0.8),K=SPM();{
     while(ts.length<3)ts.push(aimPoint().clone().add(new V3(rnd(-12,12),0,rnd(-12,12))));
     magicCircle(m.clone(),0xffa040,11,1.1,aimDir().clone());ts.forEach((tg,i)=>{const big=i===0;shoot(m.clone(),lob(m,tg,big?90:100,30),{from:'p',geo:'fire',mat:mat(0x8a7a5a),size:big?4.2:2.6,r:big?4.6:3,splash:(big?26:16)*SPZ,dmg:(big?170:90)*K,grav:30,life:6,smk:true,ball:true,col:[0xff7a20,0xffc060,0x6a5a3a]});meteorize(PROJ[PROJ.length-1]);magicCircle(gpos(tg),0xff8a30,(big?26:16)*SPZ,1.6);});
     debris(P.pos,8,[0x8a7a5a,0x6a5a3a],1.2);shake(0.4);sfx('crash',null,0.6);ono(P.pos.clone().add(new V3(0,8,0)),'ドゴォッ！','#e8c890',50);}
-  else if(SK==='spin'){const g=P.pos.clone(),R=(C.human?13:26)*SPZ;tornado(gpos(g),0xfff0a0,R*0.45,C.human?8:16,0.9);magicCircle(gpos(g),0xfff2a0,R,1.1);slashAt(P.pos.clone(),P.yaw,0xfff0a0,R*0.5);try{if(charKey==='hero'){P.swK=1;P.spinT=0.45;}mixOnce(D.units[0].m.userData.mix,2.2);}catch(_){}
-    for(let i=0;i<24;i++){const a=i/24*6.283;burst(new V3(g.x+Math.cos(a)*R*0.6,g.y,g.z+Math.sin(a)*R*0.6),3,GOLD,3,12,0.4);}shock(new V3(g.x,floorAt(g.x,g.z),g.z),0xfff2a0,R);
+  else if(SK==='spin'){const g=P.pos.clone(),R=(C.human?13:26)*SPZ,base=D.riding==='hero'?g.clone().add(new V3(0,-3,0)):gpos(g);tornado(base,0xfff0a0,R*0.45,C.human?8:16,0.9);magicCircle(base,0xfff2a0,R,1.1);slashAt(P.pos.clone(),P.yaw,0xfff0a0,R*0.5);try{if(charKey==='hero'){P.swK=1;P.spinT=0.45;}mixOnce(D.units[0].m.userData.mix,2.2);}catch(_){}
+    for(let i=0;i<24;i++){const a=i/24*6.283;burst(new V3(g.x+Math.cos(a)*R*0.6,g.y,g.z+Math.sin(a)*R*0.6),3,GOLD,3,12,0.4);}shock(D.riding==='hero'?base:new V3(g.x,floorAt(g.x,g.z),g.z),0xfff2a0,R);
     ring(g,R,150*K,12);sfx('slash');sfx('slash',null,0.7);ono(g.clone().add(new V3(0,6,0)),'回転斬り！','#fff2a0',44);}
   else if(SK==='arrowrain'){const c0=(autoTarget()||aimPoint()).clone(),N=36+8*(UP.sp||0),R=24*SPZ,U=(D&&D.units&&D.units.length>1)?D.units:null;shock(gpos(c0),0xfff0c0,R);P.atkM=Math.max(P.atkM||0,1.1);ono(P.pos.clone().add(new V3(0,7,0)),'放てーっ！','#ffe8b0',40);
     for(let k=0;k<N;k++)setTimeout(()=>{if(state!=='play')return;const a=rnd(0,6.283),r=Math.sqrt(Math.random())*R;const tg=new V3(c0.x+Math.cos(a)*r,c0.y,c0.z+Math.sin(a)*r),f=U?U[k%U.length].m.getWorldPosition(new V3()).add(new V3(0,3,0)):mouthPos().clone(),T=Math.max(1.3,Math.hypot(tg.x-f.x,tg.z-f.z)/55);
@@ -5052,7 +5113,7 @@ kr8hit=function(){const r=D&&D.krig;if(!r)return kr8hit0();
       for(const b of BLD){if(!b.dead&&b.box.distanceToPoint(c)<R*0.8)hitBld(b,150*K);}},WU+i*110+140);}
   sfx('whoosh');ono(P.pos.clone().add(new V3(0,9,0)),'ドガガガガッ！','#ffb0cc',50);};
 // 今つけている技（P.sp＝左クリック・P.sp2＝右クリック）を出す。どの枠にどの技が入っていても同じ
-function useSkill(k){if(state!=='play'||P.en<SPC()||LVUP||PAUSED||!SKINFO[k])return;
+function useSkill(k){if(charKey==='orctank'){orcUseSkill(k);return;}if(ORCONLY.has(k))return;if(state!=='play'||P.en<SPC()||LVUP||PAUSED||!SKINFO[k])return;
   if(k==='quake'&&!P.onGround)return;
   const nw0=performance.now(),gp0=nw0-(P.skLast||-1e9);if(ultT>0||gp0<SKGAP)return;const quick=gp0<SKQUICK;P.skLast=nw0;
   P.en-=SPC();CINE.skip=(k==='bombs');const tr=skTier(k),run=()=>{SKTM=tr===1?1:tr===2?0.75:0.7;try{if(TKSK[k])TKSK[k]();else if(SKB[k])skillB(k);else skillA(k);}finally{SKTM=1;}};
@@ -5764,11 +5825,8 @@ const SOLDIERS=(cx,cz,rows,cols,face)=>{const ang=face!==undefined?face:Math.ata
 /* ---- オークの戦車：使えるキャラの必殺技（TKSK）と、ボスの動き（tankAI） ---- */
 const TKSK={
   tkflame(){P.flT=2.6;P.flTk=0;sfx('roar',null,0.6);shake(0.2);ono(P.pos.clone().add(new V3(0,14,0)),'ゴオォォッ！','#ff7a30',40);},
-  tkcannon(){const K=SPM(),ts=EN.filter(e=>!e.dead).map(e=>({e,d:cpos(e).distanceTo(P.pos)})).filter(o=>o.d<230).sort((a,b)=>a.d-b.d).slice(0,3);
-    for(let i=0;i<3;i++)setTimeout(()=>{if(state!=='play')return;const m=mouthPos(),t=ts.length?ts[i%ts.length]:null,tg=t&&!t.e.dead?cpos(t.e).clone():m.clone().add(aimDir().multiplyScalar(90));
-      glowFlash(m.clone(),0xffb040,24,0.35);shoot(m,lob(m,tg,150,18),{from:'p',geo:'fire',mat:MAT.ball,size:2.0,r:3.4,trail:FIRE,splash:24,tk:1,dmg:120*K,grav:18,life:5,smk:true,ball:true,col:[0xff9a30,0xffe080,0x888888]});
-      burst(m,16,FIRE,4,20,0.4);smoke(m,6,4,1.6,0x777777,1.5);sfx('cannon',m);shake(0.5);ono(m.clone().add(new V3(0,5,0)),'ドォン！','#ffd23a',44);},i*260);},
-  tkrush(){P.rwD=170*SPM();if(charKey!=='orctank'){tkGo();return;}P.rw=0.5;sfx('roar',null,0.7);shake(0.2);ono(P.pos.clone().add(new V3(0,14,0)),'ブオォォン…！','#ff8a40',40);}};
+  tkcannon(){orcCannon(3,120*SPM());},
+  tkrush(){orcRush(170*SPM());}};
 // 乗り手：前からあるオークキングのモデルを、戦車の上の玉座に乗せる（デザインを変えない）
 function tankRider(g,H,Dp,base){if(!MODEL.orcking||g.userData.rider)return;const k=H/26*1.2,r=makeProxy(4.4*k,7.2*k,3.6*k,0x4a7a2a);attachModel(r,'orcking');r.position.set(0,base+H*0.8,-Dp*0.04);g.add(r);g.userData.rider=r;}
 const TKSEAT=[0.62,-0.12];
@@ -6044,21 +6102,21 @@ const STAGES=[
     {name:'小型竜の群れ',msg:'🦖 茂みから、小型の肉食竜の群れが飛び出した！',get mood(){return S8MD?S8MD.e:0;},clr:'🏃 群れは、ちりぢりに逃げた！ 体力が少し回復',go(){
       s8Rng('raptor',34,70,170);pteraFlock(14,1);}},
     {name:'三本角の突進',msg:'🦏 三本角の竜が、木をなぎたおして突っこんでくる！',get mood(){return S8MD?S8MD.e:0;},clr:'🏃 三本角の群れは、森へ帰った！ 体力が少し回復',go(){
-      s8Grp('trike',4,0,-130,70,50);const b=s8Spawn('trike',0,-170,undefined,{boss:'🦏 三本角の長',sc:1.7,hk:3.6,val:1400,dmg:22});b.die='ブオォォ……（地ひびきを立てて、横だおしになった）';s8BossIn(b,'🦏','三本角の長');
+      const herd=s8Grp('trike',8,0,-130,52,38);herd.forEach(e=>{e.dmg=7;e.cd=rnd(6,9);});const b=s8Spawn('trike',0,-170,undefined,{boss:'🦏 三本角の長',sc:1.7,hk:3.6,val:1400,dmg:22});b.die='ブオォォ……（地ひびきを立てて、横だおしになった）';s8BossIn(b,'🦏','三本角の長');
       s8Rng('raptor',16,70,160);pteraFlock(18,1);}},
     {name:'暴君竜',msg:'🦖 森がしずまり返る。……密林の王、暴君竜だ！',get mood(){return S8MD?S8MD.f:0;},go(){
       const b=s8Spawn('rex',0,-175,undefined,{boss:'🦖 暴君竜'});b.die='グ……オォ……（森の王は、ゆっくりと、ひざを折った）';s8BossIn(b,'🦖','暴君竜');
       s8Rng('raptor',12,70,160);pteraFlock(12,0);}}]},
-  {key:'p8anc',p8:1,ch:'第4章',title:'土の神々の国',place:'まほろばの野',
-   ter:{amp:0.8,ox:1300,oz:-700,flats:[[0,120,50,3,1],[0,-140,110,3,1],[-150,-40,40,3,1],[150,-60,40,3,1]],dirt:[[0,-140,80]],grass:0x8a9a4a,hill:0x7a6a40,rock:0x8a7a5a,dirtC:0xb08a5a,sand:0xd8c08a,water:0x3a7a8a,trees:140,rocks:40,trunk:0x5a3a24,leaf:0x4a7a2a,ruins:-1,start:[0,120]},
-   story:['四つ目の世界は、土のにおいがした。空には太陽が二つ。丘の上に、土で作った人形が、ずらりと並んでいる。','人形の目は、大きなゴーグルのよう。こちらを見ると、ぼうっと光った。空には、土器でできたトンボ。遠くの空に、人形の頭の形をした神殿が浮かんでいる。','土の人形が、歩きだした。……焼き物なら、焼けばもっと固くなるのでは。いや、考えるのは後だ。'],
+  {key:'p8anc',p8:1,ch:'第4章',title:'土偶の超文明',place:'まほろばの空都',
+   ter:{amp:0,ox:0,oz:0,flats:[[0,0,490,3,1]],dirt:[],grass:0xb1a58b,hill:0x938977,rock:0x665d56,sand:0xc2b69f,water:0x283e45,trees:0,rocks:0,ruins:-1,stacks:0,spires:0,start:[0,120]},
+   story:['四つ目の世界には、太陽が二つあった。白い焼き物の塔が、道に流れる青緑の光を受けて輝いている。','大通りを進む土偶の目に、光がともった。空を行く土器のトンボの向こうでは、巨大な神殿が浮かんでいる。','土偶がそろってこちらを向いた。この都を動かす光は、土偶の目にも、塔の中にも流れているらしい。'],
    waves:[
-    {name:'土偶の行進',msg:'🏺 土偶と埴輪の兵が、丘をこえて行進してくる！',get mood(){return S8MD?S8MD.e:0;},clr:'🏺 人形たちは、土にもどった！ 体力が少し回復',go(){
+    {name:'土偶の行進',msg:'🏺 土偶と埴輪の兵が、大通りを埋めて行進してくる！',get mood(){return S8MD?S8MD.anc:0;},clr:'🏺 人形たちは、土にもどった！ 体力が少し回復',go(){
       s8Grp('dogu',24,0,-110,120,60);s8Grp('dogu6',4,0,-150,100,40);s8Grp('haniwa',14,0,-90,110,50);s8Grp('tribal',8,0,-100,110,50);s8Grp('dogut',4,0,-160,120,40);s8Air('dragonfly',5);s8Air('doguh',4);s8Air('crow',5);}},
-    {name:'獣の群れとマンモス',msg:'🦣 地ひびき！ 大イノシシとクマの群れ、そして山のようなマンモス！',get mood(){return S8MD?S8MD.e:0;},clr:'🏃 獣たちは、森へ帰った！ 体力が少し回復',go(){
+    {name:'獣の群れとマンモス',msg:'🦣 地ひびき！ 大イノシシとクマの群れ、そして山のようなマンモス！',get mood(){return S8MD?S8MD.anc:0;},clr:'🏃 獣の群れは、街の外へ退いた！ 体力が少し回復',go(){
       const b=s8Spawn('mammoth',0,-170,undefined,{boss:'🦣 大マンモス',sc:1.6,hk:3,val:1600,dmg:24});if(b){b.die='パオォォ……（ゆっくりと、ひざをついた）';s8BossIn(b,'🦣','大マンモス');}
       s8Grp('boar',12,0,-120,120,60);s8Grp('bear',4,0,-150,90,40);s8Grp('dogu6',3,0,-130,100,40);s8Air('dragonfly',6);}},
-    {name:'大土偶と太陽の王',msg:'☀️ 山のような大土偶が立ち上がり、光の冠の「太陽の王」があらわれた！',get mood(){return S8MD?S8MD.f:0;},go(){
+    {name:'大土偶と太陽の王',msg:'☀️ 山のような大土偶が立ち上がり、光の冠の「太陽の王」があらわれた！',get mood(){return S8MD?S8MD.ancBoss:0;},go(){
       setTimeout(()=>{if(state!=='play')return;const g=s8Spawn('dogu40',-70,-200,undefined,{});if(g){g.nm='大土偶';ono(cpos(g).clone().add(new V3(0,30,0)),'大土偶が、立ち上がった！','#ffd08a',50);shake(0.8);}},1500);
       const b=s8Spawn('sunking',0,-180,undefined,{boss:'☀️ 太陽の王'});if(b){b.die='……日が、しずむ……（王は、光の粒になって、空へのぼった）';s8BossIn(b,'☀️','太陽の王');}
       s8Grp('chief',6,0,-140,90,40);s8Grp('dogu',14,0,-110,110,50);s8Grp('dogu6',3,0,-140,100,40);s8Grp('haniwa',10,0,-100,110,50);}}]},
@@ -6695,17 +6753,18 @@ function doorSeals(){const zf=DUN.z0,gy=DUN.y,from=new V3((DUN.x0+DUN.x1)/2,gy+3
 // 扉のむこうへ：広間を「魔王の間」に建てかえる（白く光ってから切りかわる）
 function maouRoom(){flashV=1.2;shake(0.8);sfx('boom',null,1);dunBuild({cx:0,cz:50,w:240,d:180,h:80,kind:'maou'});P.pos.set(0,DUN.y+(C.fly?12:C.gOff),118);P.yaw=P.lastYaw=Math.PI;P.vel.set(0,0,0);moodT=MOODS[8];updMood(0,true);}
 /* ---- 画面の並び（見本に合わせる）：左上の顔、右下の技の丸いボタン3つ（左＝スペースの動き／まん中＝必殺技1／右＝必殺技2） ---- */
-function updHud2(){const f=$('pface');if(!f)return;if(f.dataset.k!==charKey){f.dataset.k=charKey;f.src='chara/'+charKey+'.webp';}
+function updHud2(){const f=$('pface');if(!f)return;if(f.dataset.k!==charKey){f.dataset.k=charKey;f.src='chara/'+charKey+'.webp?v='+ASSET_V;}
   const A=$('sk1'),B=$('sk2'),Z=$('sk0'),ia=SKINFO[P.sp],ib=SKINFO[P.sp2];
   if(A.dataset.k!==P.sp){A.dataset.k=P.sp;skIc(A,'sk_'+P.sp,ia&&ia.img);A.title=ia?ia.n:'';A.dataset.nm=ia?ia.n:'';}
   if(B.dataset.k!==P.sp2){B.dataset.k=P.sp2;skIc(B,'sk_'+P.sp2,ib&&ib.img);B.title=ib?ib.n:'';B.dataset.nm=ib?ib.n:'';}
   const ok=P.en>=SPC(),gp=performance.now()-(P.skLast||-1e9)<SKGAP;A.classList.toggle('off',!ok);A.classList.toggle('rdy',ok&&!gp);B.classList.toggle('off',!ok);A.classList.toggle('gap',gp);B.classList.toggle('gap',gp);
   const n=Math.min(3,Math.floor(P.en/33.4)),pp=$('skpip').children;for(let i=0;i<3;i++)pp[i].classList.toggle('on',i<n);
-  const t=C.dashN||'突進';if(Z.dataset.nm!==t){Z.dataset.nm=t;Z.title=t;skIc(Z,'sk_'+(SKDASH[t]||'dash_charge'),'');}
+  if(charKey==='orctank'){A.dataset.nm=A.title=skName(P.sp);B.dataset.nm=B.title=skName(P.sp2);}
+  const t=charKey==='orctank'&&orcTank()?'装甲かため':(C.dashN||'突進');if(Z.dataset.nm!==t){Z.dataset.nm=t;Z.title=t;skIc(Z,'sk_'+(SKDASH[t]||'dash_charge'),'');}
   Z.classList.toggle('off',(P.dodgeCd||0)>0||(P.dashCd||0)>0||(P.guardCd||0)>0||P.en<12);
   const pc=Math.round(Math.min(1,P.en/SPC())*25)*4;if(A.dataset.p!==''+pc){A.dataset.p=''+pc;A.style.setProperty('--p',pc);B.style.setProperty('--p',pc);}}
 // 技のボタンのアイコン：スペースの技の名前 → アイコンの名前。アイコンが読めた時だけ入れかえる（読めない時は今までの写真のまま）
-const SKDASH={'突進':'dash_charge','緊急回避':'dash_dodge','ジャンプ・斬りこみ':'dash_jumpslash','防御':'dash_guard','ジャンプ・前転':'dash_roll','墨はき':'dash_ink','触手ひき':'dash_ink'};
+const SKDASH={'身を守る':'dash_guard','装甲かため':'dash_guard','突進':'dash_charge','緊急回避':'dash_dodge','ジャンプ・斬りこみ':'dash_jumpslash','防御':'dash_guard','ジャンプ・前転':'dash_roll','墨はき':'dash_ink','触手ひき':'dash_ink'};
 function skIc(b,nm,fb){const u='chara/ic/'+nm+'.webp';b.dataset.ic=nm;b.style.backgroundImage=fb?'url('+fb+')':'';const im=new Image();im.onload=()=>{if(b.dataset.ic===nm)b.style.backgroundImage='url('+u+')';};im.src=u;}
 {const K=['スペース','左クリック','右クリック'];['sk0','sk1','sk2'].forEach((id,i)=>{const b=$(id);if(!b)return;b.dataset.key=K[i];if(i){const r=document.createElement('i');r.className='rg';b.appendChild(r);}});}
 ['sk0','sk1','sk2'].forEach((id,i)=>{const b=$(id);if(!b)return;b.addEventListener('pointerdown',e=>{e.stopPropagation();e.preventDefault();[dash,special,special2][i]();});
@@ -6854,11 +6913,11 @@ function showStory(i,ending,fromClear){state='story';TK.q.length=0;TK.cur=null;c
   KAMI={sl,i:0,end:!!ending};kamiShow();
   $('storyGo').dataset.end=ending?'1':'';
   $('story').style.display='flex';$('select').style.display='none';$('over').style.display='none';
-  sl.forEach(o=>{const im=new Image();im.src=`story/v2/${o.img}.jpg`;});}
+  sl.forEach(o=>{const im=new Image();im.src=storyImageV2(o.img);});}
 function storyEnd(){initAudio();voStop();$('story').style.display='none';
   if($('storyGo').dataset.end){showEnd(true);return;}
   state='play';hintFd(1);waveWait=0;P.hp=Math.max(P.hp,P.maxHp*0.6);P.en=100;
-  CKPT={stage,LV,XP,UP:Object.assign({},UP),score,kills,bldKills,ch:charKey,sp:P.sp,sp2:P.sp2,pg:PETG};reached=stage;saveGame();
+  CKPT={stage,LV,XP,UP:Object.assign({},UP),score,kills,bldKills,ch:charKey,sp:P.sp,sp2:P.sp2,pg:PETG};if(charKey==='orctank'){orcKeep(orcTank()?1:0);CKPT.orc=ORCATT.slots.map(o=>({...o}));}reached=stage;saveGame();
   startWave(0);sfx('roar',null,0.5);}
 $('storyGo').addEventListener('click',()=>{if(KAMI.i<KAMI.sl.length-1){KAMI.i++;kamiShow();return;}storyEnd();});
 $('storySkip').addEventListener('click',()=>{sfx('small',null,0.3);storyEnd();});
@@ -6881,12 +6940,13 @@ function clearGap(fn){if(PAC.bc)return;PAC.bc=1;waveWait=1e3;const k=pacK();
 function showWaza(v){const w=$('waza');if(!v){w.style.display='none';return;}const touch=matchMedia('(pointer:coarse)').matches,K=touch?['右下の丸ボタン①','右下の丸ボタン②','右下の丸ボタン③']:['左クリック','右クリック','スペース'];
   $('wazaSub').textContent=touch?'画面の右下の丸いボタンで出す。炎や弾は、前の敵へ自動で出る。絵を押すと、動画で見られる。':'炎や弾は、前の敵へ自動で出る。必殺技はゲージが40たまると出せる。絵を押すと、動画で見られる。';
   $('wazaG').innerHTML=['dragon','wyvern','ground','hero','army','golem','orctank','airship'].concat(['redcap','kraken']).map(k=>{const c=CH[k],R=[['sp',c.spN,c.spD],['sp2',c.sp2N,c.sp2D],['sp3',c.dashN,c.dashD]];
-    return `<div class="wc${k===charKey?' on':''}"><div class="wn"><img src="chara/${k}.webp" alt=""><div><b>${c.name}</b><span>${c.tag}</span></div></div>`+R.map((r,i)=>`<div class="wr skv" data-skv="${k}|${r[0]}" role="button" tabindex="0"><span class="vth"><img loading="lazy" src="chara/sk/${k}_${r[0]}.webp" alt="" onerror="this.style.visibility='hidden'"><i class="pl"></i></span><div><span class="k">${K[i]}</span><b>${r[1]||''}</b><p>${r[2]||''}</p></div></div>`).join('')+`</div>`;}).join('');
+    return `<div class="wc${k===charKey?' on':''}"><div class="wn"><img src="chara/${k}.webp?v=${ASSET_V}" alt=""><div><b>${c.name}</b><span>${c.tag}</span></div></div>`+R.map((r,i)=>`<div class="wr skv" data-skv="${k}|${r[0]}" role="button" tabindex="0"><span class="vth"><img loading="lazy" src="chara/sk/${k}_${r[0]}.webp" alt="" onerror="this.style.visibility='hidden'"><i class="pl"></i></span><div><span class="k">${K[i]}</span><b>${r[1]||''}</b><p>${r[2]||''}</p></div></div>`).join('')+`</div>`;}).join('');
   w.style.display='flex';w.scrollTop=0;}
 $('wazaBtn').addEventListener('click',()=>showWaza(true));$('wazaBtn2').addEventListener('click',()=>showWaza(true));$('wazaX').addEventListener('click',()=>showWaza(false));
 // 技の絵を押すと、動画の窓（sk_video.py）。窓の中身は最初に押した時に作る
 const SKV={el:null,open:false,from:null};
-function skvInfo(k,s){const c=CH[k];if(!c)return null;const t=matchMedia('(pointer:coarse)').matches,KL=t?{sp:'右下の丸ボタン①',sp2:'右下の丸ボタン②',sp3:'右下の丸ボタン③'}:{sp:'左クリック',sp2:'右クリック',sp3:'スペース'};
+function skvInfo(k,s){const c=CH[k==='orctank_tank'?'orctank':k];if(!c)return null;const t=matchMedia('(pointer:coarse)').matches,KL=t?{sp:'右下の丸ボタン①',sp2:'右下の丸ボタン②',sp3:'右下の丸ボタン③'}:{sp:'左クリック',sp2:'右クリック',sp3:'スペース'};
+  if(k==='orctank_tank'){const a=SKINFO[s==='sp2'?'tkrush':'tkcannon'];return {who:c.name+'（戦車）',key:KL[s],n:a.n,d:a.d};}
   return {who:c.name,key:KL[s],n:s==='sp'?c.spN:s==='sp2'?c.sp2N:c.dashN,d:s==='sp'?c.spD:s==='sp2'?c.sp2D:c.dashD};}
 function skvOpen(k,s,from){const I=skvInfo(k,s);if(!I)return;
   if(!SKV.el){const d=document.createElement('div');d.id='skv';d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-label','技の動画');
@@ -8018,9 +8078,9 @@ Object.assign(CH,{maou:{name:'魔王',em:'😈',tag:'リングで二段階変身
   model:{id:'blackknight',w:3,h:6,d:2.4,mouth:[0,1.5,1.6]},camB:24,camU:9,gOff:3,stat:[4,3,4]}});
 const MAOUF=[{id:'blackknight',w:3,h:6,d:2.4,nm:'人の姿',spd:17,dmg:1},{id:'demon',w:6,h:10,d:5,nm:'牛の魔物',spd:15,dmg:1.35},{id:'anc_darkdemon',w:9,h:15,d:7,nm:'黒い煙の魔人',spd:19,dmg:1.8,black:1}];
 // UFOは空中で光線、着地すると大型ロボになってミサイルを撃つ。
-Object.assign(CH,{ufo:{name:'UFO',em:'🛸',tag:'空と地上・大型ロボに変形',ds:'空では円盤から光線を撃つ。地面の近くで大型ロボに自動変形し、歩きながらミサイルを撃つ。上を向くかスペースで離陸してUFOに戻る。変形すると光と音が広がる。',hp:370,spd:43,turn:2.1,fly:true,range:220,
+Object.assign(CH,{ufo:{name:'UFO',em:'🛸',tag:'空と地上・大型ロボに変形',ds:'空では円盤から光線を撃つ。金のリングをくぐると着陸し、30秒だけ大型ロボでミサイルを撃てる。時間切れで円盤に戻って離陸する。',hp:370,spd:43,turn:2.1,fly:true,range:220,
   br:{mat:new THREE.MeshBasicMaterial({color:0x70f6ff}),geo:'ufoLaser',dmg:34,cd:0.34,spd:220,life:1.35,size:1,splash:3,col:[0x70f6ff,0xb0ffff,0xffffff]},
-  sp:'gbeam',spN:'破壊光線',spD:'前へ太い光線を放ち、敵をつらぬく',sp2:'broadside',sp2N:'全砲門斉射',sp2D:'まわりの敵へ一斉に砲弾を放つ',dash:'bank',dashN:UFO_BANK_NAME,dashD:'ロボなら離陸。飛行中は'+BANK_DESC,
+  sp:'gbeam',spN:'破壊光線',spD:'前へ太い光線を放ち、敵をつらぬく',sp2:'broadside',sp2N:'全砲門斉射',sp2D:'まわりの敵へ一斉に砲弾を放つ',dash:'bank',dashN:BANK_NAME,dashD:BANK_DESC,
   mel:{r:12,dmg:70,cd:0.7,ono:'ガシャン！'},model:{id:'p8ufo',w:12,h:4,d:12,mouth:[0,-0.3,5]},camB:32,camU:12,gOff:2,stat:[4,4,4]}});
 // 巨大化する魔法使い：体力半分で禁じられた巨大化の術を使う。
 Object.assign(CH,{gwizard:{name:'巨大化する魔法使い',em:'🧙',tag:'地上・リングで30秒巨大化',ds:'魔法の弾と雷、光線で戦う魔法使い。金のリングをくぐると30秒間、巨大な魔術師に変身し、杖と魔法の弾が強くなる。仲間は勇者・戦士・僧侶。時間切れで元の姿へ戻る。変身中のリングで残り30秒に戻せる。',hp:360,spd:23,turn:2.2,fly:false,range:220,
@@ -8054,7 +8114,7 @@ Object.assign(CH,{nurarihyon:{name:'ぬらりひょん',em:'👺',tag:'地上・
   model:{id:'nurarihyon',w:3.6,h:5.4,d:3.2,mouth:[0,1,1.8]},camB:26,camU:11,gOff:2.7,stat:[3,3,5]}});
 {const box_=$('cards');for(const k of ['dragon','wyvern','ground','hero','army','golem','orctank','airship','maou','archangel','dragonknight','seaking','bomber','ufo','gwizard','cube','slime','dragonking','necromancer','nurarihyon']){const c=CH[k];const d=document.createElement('div');d.className='card';d.dataset.k=k;
   const bar=(l,v)=>`<div class="st"><span>${l}</span><div class="bar"><i style="width:${v*20}%"></i></div></div>`;
-  d.innerHTML=`<img class="pti" src="chara/${k}.webp" alt=""><div class="nm">${c.name}<span class="tag">${c.tag}</span></div><div class="ds">${c.ds}</div>${bar('体力',c.stat[0])}${bar('速さ',c.stat[1])}${bar('攻撃',c.stat[2])}`;
+  d.innerHTML=`<img class="pti" src="chara/${k}.webp?v=${ASSET_V}" alt=""><div class="nm">${c.name}<span class="tag">${c.tag}</span></div><div class="ds">${c.ds}</div>${bar('体力',c.stat[0])}${bar('速さ',c.stat[1])}${bar('攻撃',c.stat[2])}`;
   d.addEventListener('click',()=>{initAudio();setChar(k);sfx('roar',null,0.3);});box_.appendChild(d);}}
 rcCards();krCards();
 // 指で触る画面かどうかを body に印（キャラ選びの並べ方を変える）。操作の説明もスマホ用に
@@ -8071,7 +8131,7 @@ function showCombo(){const el=$('combo');if(combo<3)return;el.innerHTML='<b>'+co
 function startGame(from){initAudio();
   Object.assign(P,{hp:C.hp,maxHp:C.hp,en:100,fireCd:0,dashT:0,dashCd:0,guardT:0,guardCd:0,atkM:0,hitM:0,inv:0,roll:0,vy:0,pitch:-0.05,tgt:null});D.g.visible=true;
   score=0;kills=0;bldKills=0;waveWait=0;TS=1;P.sp=C.sp;P.sp2=C.sp2;resetLv();startTime=performance.now();const st=from!==undefined?from:reached;setupStage(st);combo=0;comboT=0;maxCombo=0;$('combo').style.opacity=0;
-  if(CKPT&&CKPT.stage===st&&st>0){LV=CKPT.LV;XP=CKPT.XP;UP=Object.assign({},CKPT.UP);score=CKPT.score||0;kills=CKPT.kills||0;bldKills=CKPT.bldKills||0;P.maxHp=Math.round(C.hp*Math.pow(1.15,UP.hp||0));P.hp=P.maxHp;for(let i=0;i<(UP.pet||0);i++)addPet();if(CKPT.ch===charKey&&skOk(CKPT.sp)&&skOk(CKPT.sp2)&&CKPT.sp!==CKPT.sp2){P.sp=CKPT.sp;P.sp2=CKPT.sp2;}}
+  if(CKPT&&CKPT.stage===st&&st>0){LV=CKPT.LV;XP=CKPT.XP;UP=Object.assign({},CKPT.UP);score=CKPT.score||0;kills=CKPT.kills||0;bldKills=CKPT.bldKills||0;P.maxHp=Math.round(C.hp*Math.pow(1.15,UP.hp||0));P.hp=P.maxHp;for(let i=0;i<(UP.pet||0);i++)addPet();if(CKPT.ch===charKey){if(charKey==='orctank')orcLoad(CKPT);else if(skOk(CKPT.sp)&&skOk(CKPT.sp2)&&CKPT.sp!==CKPT.sp2){P.sp=CKPT.sp;P.sp2=CKPT.sp2;}}}
   skUI();$('enl').textContent=`⚡ 必殺ゲージ（${SPC()}で必殺技）`;updLvHud();showStory(st);}
 function updSeld(){const b=$('seld'),c=document.querySelector('#cards .card.on')||document.querySelector('#cards .card[data-k="'+charKey+'"]');if(!b||!c)return;const x=c.cloneNode(true);const st=[...x.querySelectorAll('.st')];const w=document.createElement('div');w.className='sts';st.forEach(e=>w.appendChild(e));x.appendChild(w);b.innerHTML=x.innerHTML;}
 function updGo(){setTimeout(updSeld,0);$('go').textContent=reached?`${C.name}で${STAGES[reached].ch}から`:`${C.name}で出撃`;$('first').style.display=reached?'inline-block':'none';renderSk();}
@@ -8086,7 +8146,7 @@ function renderSk(){const b=$('skp');if(!b||!C)return;const esc=t=>String(t==nul
   const L=[['sp','左クリック',C.spN,C.spD],['sp2','右クリック',C.sp2N,C.sp2D],['sp3','スペース',C.dashN,C.dashD]];
   b.innerHTML=`<div class="skh">${esc(C.name)}<small class="pc">${esc(C.ds)}</small><small class="tc">右下の丸ボタンで出す</small></div>`+L.map(o=>`<div class="sk skv" data-skv="${charKey}|${o[0]}" role="button" tabindex="0"><div class="si"><img decoding="async" fetchpriority="high" src="chara/sk/${charKey}_${o[0]}.webp?v=${ASSET_V}" alt="${esc(o[2])}のようす" onerror="this.style.visibility='hidden'"><i class="pl"></i></div><div class="sx"><b class="kk">${o[1]}</b><span class="sn">${esc(o[2])}</span><span class="sd">${esc(o[3])}</span></div></div>`).join('')+skExtra();}
 $('go').addEventListener('click',()=>startGame());
-function updEasy(){$('easy').textContent=EASY?'🔰 初心者モード：オン（短く終わる）':'🔰 初心者モード：オフ';$('easy').classList.toggle('on',EASY);}
+function updEasy(){$('easy').textContent=EASY?'🔰 初心者モード：オン（短め・レア札が出やすい）':'🔰 初心者モード：オフ';$('easy').classList.toggle('on',EASY);}
 $('easy').addEventListener('click',()=>{EASY=!EASY;try{localStorage.setItem('dragon_easy',EASY?'1':'0');}catch(e){}updEasy();});updEasy();
 $('first').addEventListener('click',()=>{reached=0;CKPT=null;saveGame();startGame(0);});
 $('again').addEventListener('click',()=>{$('over').style.display='none';setupStage(reached);state='select';$('select').style.display='flex';setChar(charKey);updGo();});
@@ -8181,7 +8241,8 @@ function frame(now){
     P.fireCd-=dt;P.inv-=dt;
     if(TER.lava&&(P.onGround||P.pos.y<=floorAt(P.pos.x,P.pos.z)+C.gOff+0.5)&&H(P.pos.x,P.pos.z)<WATER){hurt(30*dt,true);if(Math.random()<0.3)burst(P.pos,2,FIRE,3,8,0.4);}
     P.melCd-=dt;if(P.melT>0)P.melT-=dt;
-    if(P.melCd<=0&&!(CINE.k===4&&cvOn())&&EN.some(e=>{if(e.dead)return false;const c=cpos(e);return Math.hypot(c.x-P.pos.x,c.z-P.pos.z)<C.mel.r+e.r&&Math.abs(c.y-P.pos.y)<12+e.r;}))melee();
+    if(charKey==='orctank')orcAttackTick(dt);
+    if(P.melCd<=0&&!(CINE.k===4&&cvOn())&&(charKey==='orctank'?(!orcTank()&&!ORCATT.queue.length&&EN.some(e=>orcInReach(e,P.pos,orcDir(),8,0.10,5))):EN.some(e=>{if(e.dead)return false;const c=cpos(e);return Math.hypot(c.x-P.pos.x,c.z-P.pos.z)<C.mel.r+e.r&&Math.abs(c.y-P.pos.y)<12+e.r;})))melee();
     let tg=autoTarget();if(tg&&CINE.k===4&&cvOn())tg=null;P.tgt=tg?tg.clone():null;P.firing=!!tg;
     if(tg){let k=0;while(P.fireCd<=0&&k<4){P.fireCd+=C.br.cd/RATE();breathe(tg.clone());k++;}}else P.fireCd=Math.max(P.fireCd,0);P.fireCd=Math.max(P.fireCd,charKey==='golem'?0:-C.br.cd);
     P.en=Math.min(100,P.en+(EASY?17:6.5)*dt);
@@ -8197,12 +8258,12 @@ function frame(now){
     const wf=D.g.userData.flap,wk0=(wf&&wf.nw)?wf.wk:0;const yr=(P.yaw-P.lastYaw)/Math.max(dt,1e-4);P.lastYaw=P.yaw;P.roll+=(clamp(-yr*0.3,-0.7,0.7)*(C.fly?1-wk0*0.8:0.15)-P.roll)*Math.min(1,dt*5);
     D.g.position.copy(P.pos);
     const tilt=C.fly?(-P.pitch*0.55-clamp(P.vel.y/60,-0.4,0.4)*0.4)*(1-wk0):-P.pitch*0.15;
-    D.g.rotation.set(tilt,P.yaw,P.roll,'YXZ');if(P.bankT>0)D.g.rotation.z+=(P.bankSide?P.bankSide*0.5:Math.sign(P.bankAngle)*0.75)*Math.sin((1-P.bankT/BANK_TIME)*Math.PI);slopeTilt(dt);
+    D.g.rotation.set(tilt,P.yaw,P.roll,'YXZ');if(P.bankT>0)D.g.rotation.z+=P.bankSide*0.5*Math.sin((1-P.bankT/BANK_TIME)*Math.PI);slopeTilt(dt);
     // 攻撃の動き：弾を出すたびに、体を前へ突き出して頭を下げる。ダメージの動き：のけぞって、うしろへはじかれ、ふるえる
     if(state==='play'){const fw=tmp2.set(Math.sin(P.yaw),0,Math.cos(P.yaw));
       if(P.atkM>0){P.atkM-=dt;const o=Math.sin((1-Math.max(0,P.atkM)/0.22)*Math.PI);D.g.position.addScaledVector(fw,o*(C.human?0.5:1.4));if(!D.human&&!(D.model&&!C.fly))D.g.rotation.x+=o*(C.fly?0.15:0.09);}
       if(P.hitM>0){P.hitM-=dt;const k=Math.max(0,P.hitM)/0.38,o=Math.sin(k*Math.PI);D.g.rotation.x-=o*0.4;D.g.rotation.z+=Math.sin(P.hitM*55)*0.13*k;D.g.position.addScaledVector(fw,-o*2);}
-      if(charKey==='orctank')tkProps(dt);GSH.visible=P.guardT>0&&charKey!=='orctank'&&charKey!=='army';if(GSH.visible){GSH.position.copy(P.pos);GSH.scale.setScalar((charKey==='army'?15:charKey==='kraken'?14:charKey==='orctank'?15:9)*(1+Math.sin(t*22)*0.03));GSH.material.opacity=0.12+0.16*Math.min(1,P.guardT/0.3);}}
+      if(charKey==='orctank'&&orcTank())tkProps(dt);GSH.visible=P.guardT>0&&!(charKey==='orctank'&&orcTank())&&charKey!=='army';if(GSH.visible){GSH.position.copy(P.pos);GSH.scale.setScalar((charKey==='army'?15:charKey==='kraken'?14:charKey==='orctank'?15:9)*(1+Math.sin(t*22)*0.03));GSH.material.opacity=0.12+0.16*Math.min(1,P.guardT/0.3);}}
     else GSH.visible=false;
     if(state==='play'&&P.dodgeT>0){const k=1-P.dodgeT/0.4,e=k<0.5?2*k*k:1-Math.pow(-2*k+2,2)/2;D.g.rotation.z+=(C.fly&&!C.model?-P.dodgeS*Math.PI*2*e:-P.dodgeS*Math.sin(k*Math.PI)*0.5);}
     // 前へ進む時は体を前に倒して飛ぶ姿に、とどまる時は起こして上下にゆれる
@@ -8213,7 +8274,7 @@ function frame(now){
     if(D.human)animHuman(D,t,state==='play');else if(D.model){if(charKey==='archangel'&&state==='play'&&P.onGround){D.body.position.y=0;D.g.rotation.x=0;D.g.rotation.z=0;}else if(C.fly)D.body.position.y=Math.sin(t*1.3)*0.5;}else{animDragon(D,t,P.dashT>0?16:P.firing?7:5.5,C.fly?0:(state==='play'?(P.dashT>0?16:9):3));if(D.g.userData.flap&&D.g.userData.flap.rig){if(P.melA>0&&state==='play'){const s=rigMel(),dk=ATK.dk;if(dk===0){D.g.rotation.y+=ATK.sd*dmS(ATK.m)*0.45;D.g.rotation.z+=ATK.sd*dmL(ATK.m)*0.12;}D.g.rotation.x+=s*(dk===1?0.3:0.2);D.g.translateZ(s*(dk===1?4.5:1.8));}}else if(P.melA>0&&state==='play'){P.melA-=dt;const s=rigMel();D.g.rotation.x+=s*(C.fly?0.3:0.16);D.g.translateZ(s*(C.fly?2.4:1.8));if(!C.fly)D.g.position.y+=Math.abs(s)*0.5;}}
     updSlash(rdt);
   }
-  updParts(dt);updAirProp(dt);updEmit(dt);updDeb(dt);updMix(dt);updPose();updBow(dt);updSwing(dt);updArmy(dt);updOrcAx(dt);updBolts(dt);updShock(dt);updFX(dt);updBld(dt,t);updFall(rdt);updRanks(rdt);updRings(rdt,t);robotStep(dt,t);updCave(dt,rdt);updDun(dt,rdt);updSw(dt,t);
+  updParts(dt);updAirProp(dt);updEmit(dt);updDeb(dt);updMix(dt);updPose();updBow(dt);updSwing(dt);updArmy(dt);updArmyThrust(dt);updOrcAx(dt);updBolts(dt);updShock(dt);updFX(dt);updBld(dt,t);updFall(rdt);updRanks(rdt);updRings(rdt,t);robotStep(dt,t);updCave(dt,rdt);updDun(dt,rdt);updSw(dt,t);
   const vv=state==='play'?P.vel.length():0;updFeel(rdt,vv,t);
   clouds.forEach((c,i)=>{c.position.x+=dt*(2+i%3);if(c.position.x>1050)c.position.x=-1050;});updTheme(dt,t);
   // カメラ
@@ -8267,7 +8328,7 @@ const EMI={"🛡":0,"⚔":1,"🐉":2,"💀":3,"👑":4,"😇":5,"🔥":6,"🐲":
 /* ---- story_mogi.py：シナリオ1の物語（模擬戦のワイバーン・封印ごしの魔王）。文はこのゲームの言葉 ---- */
 // 戦いの途中にはさむ紙芝居。終わると cb を呼んで戦いにもどる（スキップでも同じ）
 function midKami(sl,cb){state='story';TK.q.length=0;TK.cur=null;KAMI={sl,i:0,end:false,mid:cb||(()=>{})};kamiShow();
-  $('storyGo').dataset.end='';$('story').style.display='flex';sl.forEach(o=>{const im=new Image();im.src=`story/v2/${o.img}.jpg`;});}
+  $('storyGo').dataset.end='';$('story').style.display='flex';sl.forEach(o=>{const im=new Image();im.src=storyImageV2(o.img);});}
 {const se=storyEnd;storyEnd=function(){if(KAMI&&KAMI.mid){const cb=KAMI.mid;KAMI.mid=null;initAudio();voStop();$('story').style.display='none';state='play';cb();return;}se();};}
 const wyvNm=()=>charKey==='wyvern'?'青のワイバーン':'緑のワイバーン';
 TPT['緑のワイバーン']='wyvern';TPT['青のワイバーン']='wyvern';TBOSS['緑のワイバーン']='rival';TBOSS['青のワイバーン']='rival';
@@ -8780,6 +8841,8 @@ S8MD.e=MOODS.length;MOODS.push(mood(0x2c80d4,0xd4ecb4,0xfff0b4,1.12,0.9,0,[0.5,0
 S8MD.f=MOODS.length;MOODS.push(mood(0x5c3444,0xf08c4c,0xffa458,1.0,0.72,0,[0.85,0.22,0.3]));           // f 火山の夕ばえ（暴君竜）
 S8MD.g=MOODS.length;MOODS.push(mood(0x02020c,0x12123c,0xa8c4ff,0.7,0.85,0,[0.3,0.9,0.3]));             // g 4次元
 S8MD.h=MOODS.length;MOODS.push(mood(0x0a0012,0x340a44,0xff70d8,0.74,0.85,0,[0.3,0.9,0.3]));            // h 4次元（管理者）
+S8MD.anc=MOODS.length;MOODS.push(mood(0x315a71,0xc9c5ab,0xffe6b7,0.97,0.92,0,[0.55,0.76,0.34]));
+S8MD.ancBoss=MOODS.length;MOODS.push(mood(0x544b63,0xd3a878,0xffbc76,0.98,0.83,0,[0.7,0.68,0.25]));
 const S8={cap:40,anim:[],uT:{value:0},hint:{},key:''};
 const S8C={poly:[0x40e8ff,0xff40d0,0xffffff],las:[0xff3050,0xffa0b0],cy:[0x40e8ff,0xc0f8ff],bul:[0xffe9a0,0xffffff],dust:[0x8a7a58,0xb8a880]};
 const S8M={bul:new THREE.MeshBasicMaterial({color:0xffe9a0}),las:new THREE.MeshBasicMaterial({color:0xff3050}),cy:new THREE.MeshBasicMaterial({color:0x40e8ff}),mg:new THREE.MeshBasicMaterial({color:0xff40d0}),wh:new THREE.MeshBasicMaterial({color:0xffffff}),ye:new THREE.MeshBasicMaterial({color:0xffe060}),red:new THREE.MeshBasicMaterial({color:0xff2a2a}),
@@ -9128,14 +9191,25 @@ function s8RoadTex(){if(S8.rt)return S8.rt;const c=document.createElement('canva
   S8.rt=new THREE.CanvasTexture(c);S8.rt.wrapS=S8.rt.wrapT=THREE.RepeatWrapping;S8.rt.repeat.set(22,22);S8.rt.anisotropy=4;return S8.rt;}
 function s8Tower(w,h,d){const g=new THREE.Group(),m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshBasicMaterial({map:s8WinTex()}));m.position.y=h/2;g.add(m);
   const cap=new THREE.Mesh(new THREE.BoxGeometry(w+0.6,0.6,d+0.6),Math.random()<0.5?S8M.cy:S8M.mg);cap.position.y=h+0.3;g.add(cap);return g;}
+function s8Skyline(geo,mat,buildings,colors){
+ const im=s8Inst(geo,mat,buildings,colors);
+ geo.computeBoundingBox();
+ const size=geo.boundingBox.getSize(new V3()),center=geo.boundingBox.getCenter(new V3());
+ for(const [x,y,z,w,h,d,,yaw=0] of buildings){
+  if(Math.hypot(x,z)>500)continue;
+  const c=Math.cos(yaw),s=Math.sin(yaw),cx=center.x*w,cz=center.z*d;
+  COLS.push({t:1,x:x+cx*c+cz*s,z:z-cx*s+cz*c,c,s,hw:size.x*w/2,hd:size.z*d/2,y0:y+geo.boundingBox.min.y*h,y1:y+geo.boundingBox.max.y*h});
+ }
+ return im;
+}
 function s8WorldRobo(){const t=TERRAIN[0];if(t)t.material=new THREE.MeshLambertMaterial({color:0x10131c});
   const rd=new THREE.Mesh(new THREE.PlaneGeometry(700,700),new THREE.MeshBasicMaterial({map:s8RoadTex()}));rd.rotation.x=-Math.PI/2;rd.position.y=3.06;s8Add(rd);
   const far=[],mfar=[],mg=MODEL.p8tower?modelGeo('p8tower',1):null;
   for(let i=0;i<78;i++){const a=i/78*6.283+rnd(-0.05,0.05),r=rnd(mg?270:215,440),x=Math.cos(a)*r,z=-50+Math.sin(a)*r,w=rnd(14,30),h=rnd(40,150)*(r>300?1.25:1);far.push([x,H(x,z)+h/2-1,z,w,h,rnd(14,30),0,0,0]);}
-  s8Inst(new THREE.BoxGeometry(1,1,1),new THREE.MeshBasicMaterial({map:s8WinTex()}),far,[0xffffff,0xc8d8ff,0xffd0f0,0xa0b8e0]);
-  if(mg){for(let i=0;i<22;i++){const a=i/22*6.283+rnd(-0.08,0.08),r=rnd(205,265),x=Math.cos(a)*r,z=-50+Math.sin(a)*r,h=rnd(55,110);mfar.push([x,H(x,z)-1,z,h,h,h,0,rnd(0,6.3),0]);}s8Inst(mg.g,mg.m,mfar);}
+  s8Skyline(new THREE.BoxGeometry(1,1,1),new THREE.MeshBasicMaterial({map:s8WinTex()}),far,[0xffffff,0xc8d8ff,0xffd0f0,0xa0b8e0]);
+  if(mg){for(let i=0;i<22;i++){const a=i/22*6.283+rnd(-0.08,0.08),r=rnd(205,265),x=Math.cos(a)*r,z=-50+Math.sin(a)*r,h=rnd(55,110);mfar.push([x,H(x,z)-1,z,h,h,h,0,rnd(0,6.3),0]);}s8Skyline(mg.g,mg.m,mfar);}
   // こわせるビル（広場のまわり）
-  for(let i=0;i<12;i++){const a=i/12*6.283+0.26,r=rnd(88,150),x=Math.cos(a)*r,z=-80+Math.sin(a)*r;if(Math.hypot(x,z-120)<45)continue;const g=s8Tower(rnd(9,13),rnd(16,32),rnd(9,13));place(g,x,z,rnd(0,6.3),300,140,'tower',MODEL.p8tower?'p8tower':undefined);}
+  for(let i=0;i<12;i++){const a=i/12*6.283+0.26,r=rnd(88,150),x=Math.cos(a)*r,z=-80+Math.sin(a)*r;if(Math.hypot(x,z-120)<45)continue;const g=s8Tower(rnd(9,13),rnd(16,32),rnd(9,13));place(g,x,z,rnd(0,6.3),300,140,'tower');}
   const py=[];for(let i=0;i<40;i++){const a=rnd(0,6.283),r=rnd(25,165),x=Math.cos(a)*r,z=-80+Math.sin(a)*r;py.push([x,3+7,z,0.5,14,0.5,0,0,0]);}
   s8Inst(new THREE.BoxGeometry(1,1,1),new THREE.MeshBasicMaterial({color:0xffffff}),py,[0x40e8ff,0xff40d0,0x8a9cff]);
   const rg=[];[[0,120,-150,46,0x40e8ff],[-170,150,-60,34,0xff40d0],[180,170,-120,40,0xffe060]].forEach(([x,y,z,r,c])=>{const m=new THREE.Mesh(new THREE.TorusGeometry(r,0.9,6,48),new THREE.MeshBasicMaterial({color:c,fog:false}));m.position.set(x,y,z);m.rotation.x=1.2;s8Add(m);rg.push(m);});
@@ -9180,7 +9254,7 @@ function s8WorldPoly(){const t=TERRAIN[0];
     TS8.forEach((m,i)=>{s8TessUpd(m,t+i*3,m.userData.k*0.6);m.userData.mt.color.setHSL((t*0.05+i*0.2)%1,0.9,0.7);});});}
 function s8World(L){S8.key=L;S8.smT=0;
   if(L==='p8war')s8WorldWar();else if(L==='p8robo')s8WorldRobo();else if(L==='p8dino')s8WorldDino();else if(L==='p8anc')s8WorldAnc();else if(L==='p8poly')s8WorldPoly();}
-{const ss8=setupStage;setupStage=function(i){for(const e of EN)if(e.s8)s8Clean(e);ss8.apply(this,arguments);try{S8.anim.length=0;if(S8BM.g)scene.remove(S8BM.g);const S=STAGES[i];S8.nc=!!(S&&(S.key==='p8robo'||S.key==='p8poly'));if(S&&S.p8)s8World(S.key);else S8.key='';}catch(err){console.error('s8World',err);}};}
+{const ss8=setupStage;setupStage=function(i){for(const e of EN)if(e.s8)s8Clean(e);ss8.apply(this,arguments);try{S8.anim.length=0;if(S8BM.g)scene.remove(S8BM.g);const S=STAGES[i];S8.nc=!!(S&&(S.key==='p8robo'||S.key==='p8poly'));if(S&&S.p8){s8World(S.key);if(S.key==='p8anc')ringsBuild();}else S8.key='';}catch(err){console.error('s8World',err);}};}
 {const ut8=updTheme;updTheme=function(dt,t){ut8.apply(this,arguments);
   if(S8.anim.length){S8.uT.value=t;for(const f of S8.anim){try{f(dt,t);}catch(_){}}}};}
 
@@ -9198,7 +9272,7 @@ Object.assign(TALKS,{
             [['ME','角が三本のやつが、突っこんでくる。草を食うくせに、気が短い'],['ME','空には、皮の翼のやつ。……この森は、全員が腹ぺこか、全員がきげんが悪いかの、どちらかだ']],
             [['暴君竜','グオオオオオオッ！！'],['ME','でかいな。あごだけで、おれの頭より大きい。……この森の王か'],['ME','王どうし、あいさつは一つだ。どちらが食う側か、決めよう']]],
          clear:[['ME','強かった。牙と爪だけで、あそこまでやるとは。……同じ戦う者として、少し、ほこらしい'],['ME','焼き加減は、聞かないでくれ。……また、空がさけた。今度は、やけに、角ばったさけ目だ']]},
- p8anc:{w:[[['ME','土の人形が、行進している。……だれかが作って、だれかが動かしている'],['土偶','（目が、ぼうっと光った）'],['ME','返事の代わりに光るのか。……まぶしいだけだ']],
+ p8anc:{w:[[['ME','塔も、道も、土偶の目も、同じ色に光っている。この都そのものが動いているみたいだ'],['土偶','（目が、ぼうっと光った）'],['ME','返事の代わりに光るのか。……まぶしいだけだ']],
             [['ME','地ひびき。……山が歩いてくる。いや、毛の生えた山だ'],['ME','この世界の獣は、全員、体が大きい。食べる物が、多いのだろう']],
             [['太陽の王','空に太陽は、二つもいらぬ。……三つ目の火よ、おまえは、どこから来た'],['ME','落ちてきた客は、空からやってきた。女神のせいだ'],['太陽の王','ならば、わたしの光で、もといた空へ帰してやろう'],['ME','帰り道は、自分で焼いて作る']]],
          clear:[['ME','土の国の王は、光になって空へのぼった。……太陽が、一つにもどった'],['ME','空が、またさけた。今度のさけ目は、まっすぐな線だけでできている']]},
@@ -9217,11 +9291,11 @@ const P8IMG={p8war:{s:['p8_war_1','p8_war_2','p8_war_3'],w:'p8_war_4',c:'p8_war_
 function s8Img(n){return P8OK[n]?n:P8FB[n];}
 function s8ImgApply(){for(const k in P8IMG){const S=ALLST.find(q=>q.key===k),I=P8IMG[k],T=TALKS[k];if(!S||!T)continue;S.simg=I.s.map(s8Img);KIMG[k]={w:T.w[0].map(()=>s8Img(I.w)),c:T.clear.map(()=>s8Img(I.c))};}ENDIMG[8]=P8END.map(s8Img);}
 s8ImgApply();
-if(location.protocol!=='file:')Object.keys(P8FB).forEach(n=>{const im=new Image();im.onload=()=>{P8OK[n]=1;s8ImgApply();};im.onerror=()=>{};im.src='story/v2/'+n+'.jpg';});
+if(location.protocol!=='file:')Object.keys(P8FB).forEach(n=>{const im=new Image();im.onload=()=>{P8OK[n]=1;s8ImgApply();};im.onerror=()=>{};im.src=storyImageV2(n);});
 // 選択画面のシナリオの概要
-if(typeof SCI!=='undefined')SCI[8]={d:'女神に「管轄の外」へ飛ばされた主人公が、次元のさけ目を落ちて、4つの世界をわたる。鉄と煙の戦場、ネオンの機械の都、恐竜の密林、そして面と線だけの4次元の世界。最後に待つのは、すべての世界の「管理者」。',b:[['超重戦車「陸の戦艦」'],['都市統括機'],['暴君竜'],['管理者']]};
+if(typeof SCI!=='undefined')SCI[8]={d:'女神に「管轄の外」へ飛ばされた主人公が、次元のさけ目を落ちて、5つの世界をわたる。鉄と煙の戦場、ネオンの機械の都、恐竜の密林、土偶の超文明都市、そして面と線だけの4次元の世界。最後に待つのは、すべての世界の「管理者」。',b:[['超重戦車「陸の戦艦」'],['都市統括機'],['暴君竜'],['太陽の王'],['管理者']]};
 // 結果の画面の文（シナリオ8）
-{const se8=showEnd;showEnd=function(win){se8.apply(this,arguments);try{if(win&&SCN===8)$('ovS').textContent=`${C.name}は、鉄の軍も、機械の都も、太古の森も、世界の管理者もこえて、帰ってきた。空はきみのものだ。となりの世界の空も、少しだけ。`;}catch(_){}};}
+{const se8=showEnd;showEnd=function(win){se8.apply(this,arguments);try{if(win&&SCN===8)$('ovS').textContent=`${C.name}は、鉄の軍も、機械の都も、太古の森も、土偶の超文明都市も、世界の管理者もこえて、帰ってきた。空はきみのものだ。となりの世界の空も、少しだけ。`;}catch(_){}};}
 // 起動のいちばん初めにシナリオ8の章を作った時は、まだここまで来ていなかったので、景色をもう一度作る
 try{if(SCN===8&&(state==='select'||state==='story')){setupStage(stage);setChar(charKey);}}catch(_){}
 
@@ -10177,9 +10251,8 @@ const PK15={
  skytemple:[['colonnade',16,8,1.6],['skytower',16,12,0.5],['angelstatue',20,8,0.5],['house',24,5,1.2],['angelfountain',10,5,1],['skypillar',12,10,0.35],['holycrystal',12,6,0.5]],
  archangel:[['colonnade',16,8,1.6],['skytower',16,12,0.5],['angelstatue',20,8,0.5],['house',24,5,1.2],['angelfountain',10,5,1],['skypillar',12,10,0.35],['holycrystal',12,6,0.5]],
  p8war:[['p8ruin',24,6,1.5],['sandbags',30,2.5,2],['hedgehog',20,3,1.2],['container',20,3.4,2.2],['tankwreck',10,4,2],['p8tower',10,12,0.5]],
- p8robo:[['container',26,3.4,2.2],['neonlamp',24,9,0.25],['p8tower',16,14,0.5],['p8ruin',20,6,1.5],['deb_metal',20,3,1.6]],
+ p8robo:[['container',26,3.4,2.2],['neonlamp',24,9,0.25],['deb_metal',20,3,1.6]],
  p8dino:[['p8gianttree',14,14,0.6],['fern',30,4,1.2],['p8bones',24,5,1.8],['p8ruin',20,6,1.5],['rock_big',20,5,1.2]],
- p8anc:[['anc_hut',50,13,1.4],['anc_hall',14,26,1.6],['anc_kofun',8,26,2.2],['anc_stone',20,16,0.4],['anc_dotaku',14,10,0.6],['rocktorii',10,16,1]],
  p8poly:[['p8tower',26,40,0.4],['p8neonbldg',22,36,0.45],['p8apart',18,30,0.55],['container',30,6,2.2],['p8ruin',30,12,1.4],['neonlamp',16,10,0.25],['col_broken',24,12,0.5]]};
 function bldPack15(key){const L=PK15[key];if(!L)return 0;const st=TER.start||[0,120],dun=DUN.on;let tot=0;
   for(const [id,n,h,asp] of L){let put=0;
@@ -10397,14 +10470,14 @@ function warLines(){const mP=new THREE.MeshLambertMaterial({color:0x5a4a34}),mW=
         prev=[px,y,pz];}}
     scene.add(g);TERRAIN.push(g);put++;}}
 // ---- 11/16 ふみさん「未来都市、もっと建物多く・でかく・都市っぽく」：碁盤の目の通りにそって高いビルを並べる（こわせる） ----
-function cityGrid(){const st=TER.start||[0,120],ids=['p8neonbldg','p8apart','p8tower','p8neonbldg','p8apart','p8factory','p8shop'].filter(i=>MODEL[i]);if(!ids.length)return;let put=0;
+function cityGrid(){const st=TER.start||[0,120];let put=0;
   for(let gx=-240;gx<=240;gx+=40)for(let gz=-240;gz<=240;gz+=40){const x=gx+rnd(-4,4),z=gz+rnd(-4,4);
     if(Math.hypot(x-st[0],z-st[1])<55||Math.hypot(x,z+120)<75)continue;if(H(x,z)<WATER+1.6)continue;
     if(BLD.some(b=>b.box&&x>b.box.min.x-8&&x<b.box.max.x+8&&z>b.box.min.z-8&&z<b.box.max.z+8))continue;
-    const id=ids[(Math.random()*ids.length)|0],small=id==='p8shop'||id==='p8factory',h=small?rnd(10,16):rnd(28,62),w=small?h*1.2:Math.min(22,h*0.42);
-    const g=s4Prox(w,h,w),b=place(g,x,z,[0,Math.PI/2,Math.PI,Math.PI*1.5][(Math.random()*4)|0],Math.round(60+h*10),Math.round(15+h*3),'tower',id);s4NoShadow(g);put++;}
+    const small=Math.random()<0.25,h=small?rnd(10,16):rnd(28,62),w=small?h*1.2:Math.min(22,h*0.42),d=w*rnd(0.72,1.12);
+    const g=s8Tower(w,h,d);place(g,x,z,Math.random()<0.5?0:Math.PI/2,Math.round(60+h*10),Math.round(15+h*3),'tower');put++;}
   return put;}
-{const su2=setupStage;setupStage=function(i){TRN.on=0;TRN.rail=null;const r=su2.apply(this,arguments);try{const k=STAGES[i]&&STAGES[i].key;if(k==='p8war')warLines();if(k==='p8robo')cityGrid();}catch(e){console.warn('p8deco',e);}return r;};}
+{const su2=setupStage;setupStage=function(i){TRN.on=0;TRN.rail=null;const r=su2.apply(this,arguments);try{const k=STAGES[i]&&STAGES[i].key;if(k==='p8war')warLines();if(k==='p8robo'){cityGrid();ringsBuild();}}catch(e){console.warn('p8deco',e);}return r;};}
 {const ut11=updTheme;updTheme=function(dt,t){ut11.apply(this,arguments);try{trainTick(dt);}catch(_){}};}
 // ---- 11/16 ふみさん「立方体がつながって、人の形になったりドラゴンになったりして襲ってくるボス」 ----
 const CBN=72;
@@ -10470,10 +10543,86 @@ Object.assign(S8K,{
  tribal:{base:'soldier',mid:'anc_tribal',fb:HUMA(0xc89070,0x7a4a30,0x5a3a20,{weapon:'spear'}),sc:1,hp:120,r:1.4,hc:1,val:35,dmg:9,spd:13},
  chief:{base:'wizard',mid:'anc_chief',fb:HUMA(0xc89070,0x8a5a3a,0x6a3a20,{weapon:'staff',robe:1}),sc:1,hp:240,r:1.6,hc:1,val:90,dmg:9},
  sunking:{base:'wizard',mid:'anc_sunking',fb:HUMA(0xf0c8a0,0xffd060,0xffffff,{weapon:'staff',robe:1}),sc:3.6,hp:5600,r:9,hc:8,val:5000,dmg:26,ai:ancSun}});
-const ANCT={g:null};
-function s8WorldAnc(){try{if(MODEL.anc_dogutemple){const m=cloneModel('anc_dogutemple');if(m){m.updateMatrixWorld(true);const bb=new THREE.Box3().setFromObject(m),sz=bb.getSize(new V3()),k=150/Math.max(sz.x,sz.y,sz.z,1e-3);m.scale.multiplyScalar(k);const g=new THREE.Group();g.add(m);g.position.set(40,floorAt(0,-300)+120,-320);scene.add(g);TERRAIN.push(g);ANCT.g=g;}}
-  for(let i=0;i<5;i++){if(!MODEL.anc_boatshrine)break;const m=cloneModel('anc_boatshrine');if(!m)break;m.updateMatrixWorld(true);const sz=new THREE.Box3().setFromObject(m).getSize(new V3());m.scale.multiplyScalar(22/Math.max(sz.x,sz.z,1e-3));const g=new THREE.Group();g.add(m);const a=rnd(0,6.28),r=rnd(160,260);g.position.set(Math.cos(a)*r,floorAt(Math.cos(a)*r,Math.sin(a)*r)+rnd(30,60),Math.sin(a)*r);scene.add(g);TERRAIN.push(g);}}catch(e){console.warn('anc',e);}}
-{const ut14=updTheme;updTheme=function(dt,t){ut14.apply(this,arguments);try{if(ANCT.g&&ANCT.g.parent){ANCT.g.rotation.y+=dt*0.05;}}catch(_){}};}
+const ANCT={temple:null,road:null,model:'dogu_city_tower_1116'};
+const ANCM={
+ stone:mat(0xe0d9c1),bronze:mat(0x716449),cyan:new THREE.MeshBasicMaterial({color:0x62cfc4}),
+ distant:new THREE.MeshLambertMaterial({color:0xffffff}),box:new THREE.BoxGeometry(1,1,1)
+};
+function ancRoadTexture(){
+ if(ANCT.road)return ANCT.road;
+ const c=document.createElement('canvas');c.width=c.height=256;
+ const x=c.getContext('2d');
+ x.fillStyle='#b1ac97';x.fillRect(0,0,256,256);
+ x.fillStyle='#c8c0a9';x.fillRect(62,62,132,132);
+ x.strokeStyle='#888676';x.lineWidth=2;
+ for(let i=0;i<=256;i+=32){
+  x.beginPath();x.moveTo(i,0);x.lineTo(i,256);x.moveTo(0,i);x.lineTo(256,i);x.stroke();
+ }
+ x.strokeStyle='#5a6255';x.lineWidth=7;
+ x.strokeRect(53,53,150,150);
+ x.strokeStyle='#58bdb0';x.lineWidth=2;
+ x.strokeRect(45,45,166,166);
+ x.fillStyle='#83e1d2';
+ for(const u of [45,211])for(const v of [45,211])x.fillRect(u-4,v-4,8,8);
+ ANCT.road=new THREE.CanvasTexture(c);
+ ANCT.road.wrapS=ANCT.road.wrapT=THREE.RepeatWrapping;ANCT.road.repeat.set(22,22);ANCT.road.anisotropy=4;
+ return ANCT.road;
+}
+function ancBuilding(w,h,d){
+ const g=new THREE.Group(),m=cloneModel(ANCT.model);
+ if(m){
+  m.rotation.y=MODEL[ANCT.model].rot;
+  m.updateMatrixWorld(true);
+  const box=new THREE.Box3().setFromObject(m),size=box.getSize(new V3()),center=box.getCenter(new V3());
+  const scale=Math.min(w/size.x,d/size.z),height=Math.min(h/size.y,scale*2.15);
+  m.scale.multiply(new V3(scale,height,scale));
+  m.position.add(new V3(-center.x*scale,-box.min.y*height,-center.z*scale));g.add(m);
+  g.userData.mid=ANCT.model;
+  return g;
+ }
+ s8P(g,w,h*0.16,d,ANCM.bronze,0,h*0.08,0);
+ s8P(g,w*0.86,h*0.59,d*0.84,ANCM.stone,0,h*0.455,0);
+ s8P(g,w*0.74,h*0.04,d*0.76,ANCM.cyan,0,h*0.77,0);
+ s8P(g,w*0.7,h*0.21,d*0.68,ANCM.bronze,0,h*0.895,0);
+ s8P(g,w*0.64,h*0.36,d*0.035,ANCM.cyan,0,h*0.46,d*0.42);
+ return g;
+}
+function ancCity(){
+ const road=new THREE.Mesh(new THREE.PlaneGeometry(924,924),new THREE.MeshBasicMaterial({map:ancRoadTexture()}));
+ road.rotation.x=-Math.PI/2;road.position.set(0,3.05,0);s8Add(road);
+ const towers=[],lights=[];
+ for(let i=0;i<56;i++){
+  const a=i/56*6.283+rnd(-0.022,0.022),r=rnd(305,412),x=Math.cos(a)*r,z=Math.sin(a)*r,w=rnd(12,25),h=rnd(35,105),d=rnd(12,25),y=H(x,z);
+  towers.push([x,y+h/2,z,w,h,d]);
+  lights.push([x,y+h*0.79,z,w+0.25,0.45,d+0.25]);
+ }
+ s8Skyline(ANCM.box,ANCM.distant,towers,[0xd4c6ac,0xb9a78a,0xaaa99b,0x898473]);
+ s8Inst(ANCM.box,ANCM.cyan,lights);
+ for(let gx=-210;gx<=210;gx+=42)for(let gz=-252;gz<=210;gz+=42){
+  if(!gx||Math.hypot(gx,gz-120)<54||Math.hypot(gx,gz+150)<76)continue;
+  const small=Math.random()<0.32,h=small?rnd(16,28):rnd(32,64),w=small?rnd(18,25):rnd(16,24),d=w*rnd(0.9,1.08);
+  const g=ancBuilding(w,h,d);
+  place(g,gx,gz,Math.random()<0.5?0:Math.PI,Math.round(130+h*8),Math.round(30+h*2.7),'tower');
+  s4NoShadow(g);
+ }
+}
+function s8WorldAnc(){
+ ANCT.temple=null;
+ ancCity();
+ const m=cloneModel('anc_dogutemple');
+ if(!m)return;
+ m.updateMatrixWorld(true);
+ const initial=new THREE.Box3().setFromObject(m),size=initial.getSize(new V3()),center=initial.getCenter(new V3());
+ const scale=150/Math.max(size.x,size.y,size.z);
+ m.scale.multiplyScalar(scale);m.position.add(new V3(-center.x,-initial.min.y,-center.z).multiplyScalar(scale));
+ const g=new THREE.Group();g.add(m);g.position.set(24,floorAt(0,-300)+95,-324);s8Add(g);
+ const col={t:1,x:g.position.x,z:g.position.z,c:1,s:0,hw:size.x*scale/2,hd:size.z*scale/2,y0:g.position.y,y1:g.position.y+size.y*scale};
+ COLS.push(col);ANCT.temple={g,col};
+}
+{const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);
+ const temple=ANCT.temple;
+ if(temple&&temple.g.parent){const yaw=temple.g.rotation.y+=dt*0.05;temple.col.c=Math.cos(yaw);temple.col.s=Math.sin(yaw);}
+};}
 Object.assign(ST,{p8cubebeast:{hp:6500,r:12,hc:12,val:3200,dmg:24,ic:'🟦'}});
 Object.assign(S8K,{cubebeast:{base:'golem',type:'p8cubebeast',fb:cbFb,hp:6500,r:12,hc:12,val:3200,dmg:24,ai:cbAI}});
 // ---- 11/16 ふみさん「REX の足が無い・あごに骨を入れて」：Tripo の歩きは人の歩き方で足がたたまれていた → 止めて、ももとすねの骨を自分で振る。頭の骨に下あごの骨を足す ----
@@ -10610,9 +10759,7 @@ const XW={
         ()=>{s8Grp('shaman',6,0,-150,100,40);s8Air('haniwab',8);}]};
 {for(const k in XW){const S=ALLST.find(q=>q.key===k);if(!S)continue;S.waves.forEach((w,i)=>{const f=XW[k][i];if(!f)return;const g=w.go;w.go=function(){g.apply(this,arguments);setTimeout(()=>{try{if(state==='play')f();}catch(err){console.warn('xw',k,i,err);}},1200);};});}}
 // 建物：古代の章に砦・社・窯・石室・太陽の神殿、ぬらりひょん編に鬼の像
-PK15.p8anc=(PK15.p8anc||[]).concat([['anc_fort',4,24,2],['anc_shrine',8,18,1.2],['anc_kiln',12,9,1],['anc_stonetomb',8,14,1.4],['anc_suntemple',3,34,1.2],['anc_platform',8,7,1.6]]);
 DECOR15.y9lord=(DECOR15.y9lord||[]).concat([['y_demonstatue',3,34]]);DECOR15.y9town=(DECOR15.y9town||[]).concat([['y_demonstatue',2,30]]);
-DECOR15.p8anc=(DECOR15.p8anc||[]).concat([['anc_haniwaboat',4,12],['anc_sled',6,4],['anc_goddess',1,60,'far']]);
 // 光の巨人は最大4体の味方。各6秒で消え、章移動・キャラ変更時は全体を片づける。
 Object.assign(PETM,{archangel:[['angelarcher',1],['angelsword',1],['angel',1]]});
 Object.assign(PETH,{angelarcher:3.2,angelsword:3.4,angel:3.4});
@@ -10623,7 +10770,7 @@ const ARCHGIANTS=[];
 {const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);archangelTick(dt);};}
 {const prev=clearWorld;clearWorld=function(){archangelClear();return prev.apply(this,arguments);};}
 {const prev=setChar;setChar=function(){archangelClear();return prev.apply(this,arguments);};}
-// ---- 遊ぶオークキング：最初は歩きのオークキング、体力半分で戦車へ ----
+// ---- 遊ぶオークキング：最初は歩きのオークキング、金のリングで戦車へ ----
 const ORK0={};let OKT=0;
 function okKing(){if(!D||!D.g)return;const c=CH.orctank;for(const k of ['gOff','camB','camU','spd'])if(ORK0[k]===undefined)ORK0[k]=c[k];
   D.g.scale.setScalar(1);D.g.traverse(o=>{if(o.isMesh||o.isSkinnedMesh)o.visible=false;});
@@ -10736,28 +10883,19 @@ GEO.ufoLaser=new THREE.CylinderGeometry(0.2,0.2,7,8);GEO.ufoLaser.rotateX(Math.P
 GEO.ufoMissile=new THREE.CylinderGeometry(0.3,0.3,2.8,8);GEO.ufoMissile.rotateX(Math.PI/2);
 const UFONO=new THREE.ConeGeometry(0.31,0.85,8);UFONO.rotateX(Math.PI/2);
 const UFONM=new THREE.MeshBasicMaterial({color:0xff7840});
-function ufoStats(i){const c=CH.ufo,f=UFOF[i];c.fly=i===0;c.gOff=f.h/2;c.spd=f.spd;c.camB=f.back;c.camU=f.up;c.br=UFOBR[i];c.mel.r=i?14:12;c.mel.dmg=i?95:70;}
+function ufoStats(i){const c=CH.ufo,f=UFOF[i];c.fly=i===0;c.dash=i?'dodge':'bank';c.dashN=i?'横回避':BANK_NAME;c.dashD=i?'左右に素早く避ける':BANK_DESC;c.gOff=f.h/2;c.spd=f.spd;c.camB=f.back;c.camU=f.up;c.br=UFOBR[i];c.mel.r=i?14:12;c.mel.dmg=i?95:70;}
 {const prev=makePlayerModel;makePlayerModel=function(k){if(k!=='ufo')return prev.apply(this,arguments);
   ufoStats(0);const g=new THREE.Group(),inner=new THREE.Group(),mouth=new THREE.Object3D();
   const forms=UFOF.map((f,i)=>{const b=makeProxy(f.w,f.h,f.d,0x8ca8bc,false);attachModel(b,f.id);b.visible=i===0;inner.add(b);const mx=b.userData.mix;if(mx){mx.pl=i===1;if(!i&&mx.idle)mx.loco=mx.idle;}return b;});
   inner.position.y=-CH.ufo.gOff;g.add(inner);mouth.position.fromArray(UFOF[0].mouth);g.add(mouth);
-  return {g,inner,mouth,body:forms[0],forms,uf:0,ufLock:0,units:[{m:forms[0],x:0,z:0,front:1}],guns:[],model:k};};}
+  return {g,inner,mouth,body:forms[0],forms,uf:0,units:[{m:forms[0],x:0,z:0,front:1}],guns:[],model:k};};}
 function ufoForm(i,show){if(charKey!=='ufo'||!D||!D.forms||D.uf===i)return;
   if(P.bankT>0)endBank();
   const oldOff=C.gOff;D.uf=i;ufoStats(i);D.forms.forEach((b,j)=>{b.visible=j===i;b.position.y=0;});D.body=D.forms[i];D.units[0].m=D.body;
-  D.inner.position.y=-C.gOff;D.mouth.position.fromArray(UFOF[i].mouth);P.pos.y+=C.gOff-oldOff;D.g.position.copy(P.pos);P.fireCd=Math.min(P.fireCd,C.br.cd);D.ufLock=0.8;
+  D.inner.position.y=-C.gOff;D.mouth.position.fromArray(UFOF[i].mouth);P.pos.y+=C.gOff-oldOff;D.g.position.copy(P.pos);P.fireCd=Math.min(P.fireCd,C.br.cd);
   if(i){P.vy=Math.min(0,P.vel.y);P.onGround=true;}else{P.vy=0;P.onGround=false;}
   if(show){const col=i?0xffb050:0x70f6ff;glowFlash(P.pos.clone(),col,26,0.55);burst(P.pos,32,[col,0xffffff],4,25,0.6);shock(gpos(P.pos.clone()),col,15);sfx('clang',null,0.85);sfx('whoosh',null,0.7);shake(0.3);ono(P.pos.clone().add(new V3(0,8,0)),i?'大型ロボに変形！':'UFOに変形！',i?'#ffd080':'#a0faff',28);}}
-function ufoTakeoff(){if(charKey!=='ufo'||!D||D.uf!==1)return;ufoForm(0,true);P.pos.y=Math.max(P.pos.y,dunBodyY()+C.gOff+7);P.vel.y=34;P.pitch=Math.max(P.pitch,0.35);D.g.position.copy(P.pos);}
-function ufoTick(dt){if(charKey!=='ufo'||!D||!D.forms||state!=='play'||PAUSED||LVUP||P.hp<=0)return;
-  D.ufLock=Math.max(0,D.ufLock-dt);if(D.ufLock>0)return;
-  const alt=P.pos.y-C.gOff-dunBodyY();
-  if(D.uf===0&&alt<=1.1&&P.vel.y<=2){ufoForm(1,true);}
-  else if(D.uf===1){const up=P.pitch>0.24||(MOBK.on&&TJ.id!==null&&TJ.dy<-24);if(up){ufoTakeoff();}else if(alt>5){ufoForm(0,true);}}
-}
-{const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);ufoTick(dt);};}
-{const prev=act;act=function(){if(charKey==='ufo'&&D&&D.uf===1){if(state==='play'&&!PAUSED&&!LVUP)ufoTakeoff();return;}return prev.apply(this,arguments);};}
-{const prev=startGame;startGame=function(){if(charKey==='ufo')ufoForm(0,false);return prev.apply(this,arguments);};}
+function ufoTakeoff(show){ufoForm(0,show);P.pos.y=Math.max(P.pos.y,dunBodyY()+C.gOff+7);P.vel.y=34;P.pitch=Math.max(P.pitch,0.35);D.g.position.copy(P.pos);}
 // 通常攻撃は共通の強化倍率と命中判定を使う。ミサイルには機首と排気を足す。
 function ufoShot(m,tg,b,sz,sp,dm,snd){const v=tg.clone().sub(m).normalize().multiplyScalar(b.spd).add(P.vel),missile=b.geo==='ufoMissile';
   shoot(m,v,{from:'p',mat:b.mat,geo:b.geo,size:sz,r:1.7*sz/b.size,splash:sp,dmg:dm,life:b.life,col:b.col,trail:missile?b.col:null,smk:missile});
@@ -11134,10 +11272,10 @@ function bankAir(){
  const key=(keys.ArrowRight||keys.KeyD?1:0)-(keys.ArrowLeft||keys.KeyA?1:0);
  const side=key||(TJ.id!==null?TJ.dx/60:MS.x||0);
  P.en-=12;P.dodgeCd=1.1;P.bankT=BANK_TIME;P.bankFrom=P.yaw;
- P.bankSide=Math.abs(side)>0.15?Math.sign(side):0;
- P.bankAngle=P.bankSide?0:Math.PI;
+ P.bankSide=Math.abs(side)>0.15?Math.sign(side):1;
+ P.bankAngle=-P.bankSide*Math.PI;
  P.pitch=0;P.vel.y=0;P.inv=Math.max(P.inv,0.3);
- sfx('whoosh',null,0.55);ono(P.pos.clone().add(new V3(0,6,0)),P.bankSide?'横回避！':'急旋回！','#e8f6ff',24);
+ sfx('whoosh',null,0.55);ono(P.pos.clone().add(new V3(0,6,0)),'回避・急旋回！','#e8f6ff',24);
 }
 function endBank(){
  if(P.bankSide){
@@ -11146,16 +11284,16 @@ function endBank(){
  }
  P.bankT=P.bankSide=0;
 }
-SKDASH[BANK_NAME]=SKDASH[UFO_BANK_NAME]='dash_dodge';
+SKDASH[BANK_NAME]=SKDASH['横回避']='dash_dodge';
 {const before=setupStage;setupStage=function(){P.bankT=P.bankSide=0;return before.apply(this,arguments);};}
 
 
-// ride_1116：勇者は天馬、レッドキャップは鷹。R／乗るボタンで乗り降り。
+// リングで勇者は天馬、レッドキャップは鷹に乗る。
 const RIDES={hero:{id:'pegasus',nm:'天馬',w:10,h:6.2,d:9,spd:39},redcap:{id:'hawkrider',nm:'鷹',w:10,h:4.8,d:7,spd:44}};
 const RIDEBASE={};
 for(const key of Object.keys(RIDES)){
  const c=CH[key];RIDEBASE[key]={};for(const k of ['fly','model','gOff','camB','camU','spd','turn','dash','dashN','dashD'])RIDEBASE[key][k]=c[k];
- c.ds+=' Rキーか「'+RIDES[key].nm+'に乗る」で飛行。騎乗中は左右入力＋スペースで横回避、入力なしで急反転。もう一度乗り降りボタンを押すと着地する。';
+ c.ds+=' 屋外の金のリングで'+RIDES[key].nm+'に30秒乗る。騎乗中はスペースで横によけながら後ろを向く。';
 }
 function rideRelease(root){if(!root)return;const own=g=>{while(g){if(g===root)return true;g=g.parent;}return false;};
  for(let i=MIX.length-1;i>=0;i--)if(own(MIX[i].g)){MIX[i].mx.stopAllAction();MIX.splice(i,1);}
@@ -11167,40 +11305,90 @@ function rideBuild(key){const f=RIDES[key],g=new THREE.Group(),inner=new THREE.G
  if(!attachModel(body,f.id))return null;inner.position.y=-f.h/2;inner.add(body);g.add(inner);mouth.position.set(0,f.h*0.2,f.d*0.5);g.add(mouth);
  return {g,inner,body,mouth,model:f.id,riding:key,units:[{m:body,x:0,z:0,front:1}],guns:[]};
 }
-function rideSpot(){const pos=P.pos,valid=(x,z)=>{const y=floorAt(x,z);if(H(x,z)<WATER+1.5||Math.hypot(x,z)>430)return null;
-   if(BLD.some(b=>!b.dead&&b.box.distanceToPoint(new V3(x,Math.max(b.box.min.y,Math.min(b.box.max.y,y+2)),z))<5))return null;
-   if(COLS.some(c=>c.y1>y+0.8&&c.y0<y+6&&Math.hypot(x-c.x,z-c.z)<(c.t===0?c.r:Math.hypot(c.hw,c.hd))+4))return null;
-   return new V3(x,y+C.gOff,z);
+function landingRouteClear(from,to){
+ const length=from.distanceTo(to);
+ if(length<0.01)return true;
+ const dir=to.clone().sub(from).divideScalar(length),point=new V3(),box=new THREE.Box3(),ray=new THREE.Ray(from,dir);
+ const blocks=(ray,box)=>!box.containsPoint(ray.origin)&&ray.intersectBox(box,point)!==null&&point.distanceToSquared(ray.origin)<length*length;
+ for(const b of BLD){
+  if(b.dead||b.rock||b.np)continue;
+  box.copy(b.box);box.min.x-=2;box.max.x+=2;box.min.z-=2;box.max.z+=2;box.min.y-=2;box.max.y+=C.gOff;
+  if(blocks(ray,box))return false;
+ }
+ const local=new THREE.Ray(new V3(),new V3());
+ for(const q of COLS){
+  const x=from.x-q.x,z=from.z-q.z,c=q.t===0?1:q.c,s=q.t===0?0:q.s;
+  const w=(q.t===0?q.r:q.hw)+2,d=(q.t===0?q.r:q.hd)+2;
+  local.origin.set(x*c-z*s,from.y,x*s+z*c);
+  local.direction.set(dir.x*c-dir.z*s,dir.y,dir.x*s+dir.z*c);
+  box.min.set(-w,q.y0-2,-d);box.max.set(w,q.y1+C.gOff,d);
+  if(blocks(local,box))return false;
+ }
+ const steps=Math.ceil(Math.hypot(dir.x,dir.z)*length/4);
+ for(let i=1;i<steps;i++){
+  point.copy(from).lerp(to,i/steps);
+  if(point.y-C.gOff<floorAt(point.x,point.z)-0.2)return false;
+ }
+ return true;
+}
+const RIDE_BLADE_COL=[0xffe596,0x83e6ff,0xffffff];
+const RIDE_BLADE_CORE=new THREE.MeshBasicMaterial({color:0xffecab,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});
+const RIDE_BLADE_EDGE=new THREE.MeshBasicMaterial({color:0x76dbff,side:THREE.DoubleSide});
+function rideBladeShape(width,height){
+ const path=new THREE.Shape();
+ path.moveTo(-width,0);
+ path.quadraticCurveTo(0,height*2,width,0);
+ path.quadraticCurveTo(0,height*0.85,-width,0);
+ return new THREE.ShapeGeometry(path,12);
+}
+GEO.rideBlade=rideBladeShape(2.75,1.25);
+const RIDE_BLADE_INSET=rideBladeShape(2.34,0.98);
+function rideBladeMuzzle(m){
+ slashAt(P.pos.clone().add(new V3(0,C.gOff*0.7,0)),P.yaw,0xffe29c,6);
+ glowFlash(m.clone(),0x87dcff,6,0.16);
+}
+function rideSpot(clearance){const pos=P.pos,valid=(x,z)=>{const y=floorAt(x,z);if(H(x,z)<WATER+1.5||Math.hypot(x,z)>430)return null;
+   if(BLD.some(b=>!b.dead&&b.box.max.y>y&&b.box.min.y<pos.y+clearance&&x>b.box.min.x-clearance&&x<b.box.max.x+clearance&&z>b.box.min.z-clearance&&z<b.box.max.z+clearance))return null;
+   if(COLS.some(c=>c.y1>y+0.8&&c.y0<pos.y+clearance&&Math.hypot(x-c.x,z-c.z)<(c.t===0?c.r:Math.hypot(c.hw,c.hd))+clearance))return null;
+   const to=new V3(x,y+C.gOff,z);return landingRouteClear(pos,to)?to:null;
  };
  for(let r=0;r<=180;r+=12)for(let i=0;i<(r?24:1);i++){const a=i/24*Math.PI*2,q=valid(pos.x+Math.sin(a)*r,pos.z+Math.cos(a)*r);if(q)return q;}return null;
 }
 function rideOff(pos){const key=D.riding;if(!key)return;const sp=P.sp,sp2=P.sp2,yaw=P.yaw,at=pos||P.pos.clone();
  rideRestore(key);setChar(key);P.sp=sp;P.sp2=sp2;P.pos.set(at.x,floorAt(at.x,at.z)+C.gOff,at.z);P.yaw=P.lastYaw=yaw;P.pitch=0;P.vel.set(0,0,0);P.vy=0;P.onGround=true;P.bankT=P.bankSide=0;D.g.position.copy(P.pos);skUI();$('tdash').textContent=C.dashN;
- ringsBuild();sfx('whoosh',null,0.35);
+ sfx('whoosh',null,0.35);
 }
-function rideToggle(){if(state!=='play'||PAUSED||LVUP||!RIDES[charKey]||D.landing)return;
- if(D.riding){const spot=rideSpot();if(!spot){ono(P.pos.clone(),'近くの陸へ移動しよう','#ffe0a0',24);return;}P.dvE=P.dvS=0;D.landing={from:P.pos.clone(),to:spot,t:0};endBank();return;}
- if(DUN.on||CAVE.on){ono(P.pos.clone(),'外に出てから乗ろう','#ffe0a0',24);return;}
- const f=RIDES[charKey],next=rideBuild(charKey);if(!next){ono(P.pos.clone(),'乗り物を読み込み中…','#ffe0a0',24);return;}
+function rideOn(){
+ const f=RIDES[charKey],next=rideBuild(charKey);if(!next){ono(P.pos.clone(),'乗り物を読み込み中…','#ffe0a0',24);return false;}
  rideRelease(D.g);scene.remove(D.g);D=next;scene.add(D.g);C.fly=true;C.model={id:f.id};C.gOff=f.h/2;C.camB=29;C.camU=11;C.spd=f.spd;C.turn=2.2;C.dash='bank';C.dashN=BANK_NAME;C.dashD=BANK_DESC;
  P.pos.y=Math.max(P.pos.y,floorAt(P.pos.x,P.pos.z)+C.gOff+10);P.vel.set(0,0,0);P.vy=0;P.pitch=0.05;P.onGround=false;P.inv=Math.max(P.inv,0.6);D.g.position.copy(P.pos);D.g.rotation.y=P.yaw;
- ringsBuild();skUI();$('tdash').textContent=C.dashN;sfx('whoosh',null,0.5);
+ return true;
 }
 {const before=setChar;setChar=function(k){if(D&&D.riding){rideRelease(D.g);rideRestore(D.riding);}rideRestore(k);P.bankT=P.bankSide=0;return before.apply(this,arguments);};}
-{const before=startGame;startGame=function(){if(D&&D.riding){const k=D.riding;rideRestore(k);setChar(k);}P.bankT=P.bankSide=0;return before.apply(this,arguments);};}
-{const before=act;act=function(){if(D&&D.riding){if(!D.landing)bankAir();return;}return before.apply(this,arguments);};}
-{const before=setupStage;setupStage=function(){if(D&&D.landing)D.landing=null;const r=before.apply(this,arguments);if(D&&D.riding&&(DUN.on||CAVE.on))rideOff(P.pos.clone());return r;};}
-// 攻撃は元のキャラの2つの技を保つ。影走りは乗っている間も前方への突進として働く。
-const rideButton=document.createElement('button');rideButton.id='ridebtn';rideButton.type='button';rideButton.setAttribute('aria-keyshortcuts','R');document.body.appendChild(rideButton);
-const rideStyle=document.createElement('style');rideStyle.textContent='#ridebtn{position:fixed;right:18px;bottom:162px;z-index:14;min-height:44px;padding:8px 15px;border:2px solid #f2c264;border-radius:10px;background:#251b10;color:#fff4d5;font:800 14px "M PLUS Rounded 1c",sans-serif;cursor:pointer;display:none;touch-action:manipulation}#ridebtn:focus-visible{outline:3px solid white;outline-offset:3px}#ridebtn:disabled{opacity:.6}@media(max-width:600px){#ridebtn{bottom:170px;right:14px}}@media(max-height:500px){#ridebtn{right:auto;left:50%;bottom:12px;transform:translateX(-50%);font-size:12px;min-height:40px}}';document.head.appendChild(rideStyle);
-rideButton.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();rideToggle();});rideButton.addEventListener('click',e=>{e.stopPropagation();if(e.detail===0)rideToggle();});
-addEventListener('keydown',e=>{if(e.code==='KeyR'&&!e.repeat&&state==='play'&&!/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)){e.preventDefault();rideToggle();}});
-function rideTick(dt){const f=RIDES[charKey],show=state==='play'&&!!f;rideButton.style.display=show?'block':'none';if(!show)return;
- const riding=D&&D.riding,landing=D&&D.landing;rideButton.textContent=landing?'着地中…':riding?'着地して降りる'+(MOBK.on?'':' [R]'):f.nm+'に乗る'+(MOBK.on?'':' [R]');rideButton.disabled=!!landing||PAUSED||LVUP||(!riding&&(DUN.on||CAVE.on||!MODEL[f.id]));
- if(landing&&dt>0&&!PAUSED&&!LVUP){landing.t+=dt;const t=Math.min(1,landing.t/1.2),k=t*t*(3-2*t);P.pos.copy(landing.from).lerp(landing.to,k);P.vel.set(0,0,0);P.vy=0;P.fireCd=Math.max(P.fireCd,0.1);D.g.position.copy(P.pos);if(t>=1)rideOff(landing.to);}
-}
-{const before=updTheme;updTheme=function(dt,t){before.apply(this,arguments);rideTick(dt);};}
+{const before=act;act=function(){if(D&&D.landing)return;if(D&&D.riding){bankAir();return;}return before.apply(this,arguments);};}
+{const before=setupStage;setupStage=function(){if(D&&D.landing)D.landing=null;const r=before.apply(this,arguments);if(D&&D.riding&&(DUN.on||CAVE.on))ringFormSet(0,false);return r;};}
 
+function ringLandingStart(kind){
+ const spot=rideSpot(kind==='ufo'?UFOF[1].w/2+2:5);
+ if(!spot)return false;
+ P.dvE=P.dvS=0;
+ endBank();
+ D.landing={kind,from:P.pos.clone(),to:spot,t:0};
+ return true;
+}
+function ringLandingTick(dt){
+ const landing=D&&D.landing;
+ if(!landing||dt<=0||state!=='play'||PAUSED||LVUP||P.hp<=0)return;
+ landing.t+=dt;
+ const t=Math.min(1,landing.t/1.2),k=t*t*(3-2*t);
+ P.pos.copy(landing.from).lerp(landing.to,k);
+ P.vel.set(0,0,0);P.vy=0;P.pitch=0;
+ P.fireCd=Math.max(P.fireCd,0.1);D.g.position.copy(P.pos);
+ if(t<1)return;
+ D.landing=null;
+ ringFormSet(landing.kind==='ufo'?1:0,true);
+}
+{const before=updTheme;updTheme=function(dt,t){before.apply(this,arguments);ringLandingTick(dt);};}
 
 // ally_squads_1116：仲間1枠＝独立した5人／5騎の援軍。隊員ごとに攻撃・被弾する。
 function squadKind(key){return key==='army'||key==='dragonknight'||key==='airship';}
@@ -11277,15 +11465,19 @@ CH.army.ds+=' 仲間のレア札1枚で5人の別部隊が加わる（最大3部
 
 
 // ring_forms_1116：体力ではなく金のリングで一時変身。第2形態60秒→第3形態30秒。
-const RFORMS={orctank:{names:['オークキング','戦車']},seaking:{names:['海王','超大型の海王']},gwizard:{names:['魔法使い','巨大魔術師']},dragonking:{names:['人の姿','巨大な竜']},maou:{names:['人の姿','牛の魔物','黒い煙の魔人']},cube:{names:['立方体の群れ','人型','竜型']}};
-const RFORM={key:null,level:0,left:0,total:0,queued:false,busy:false};
+const RFORMS={hero:{names:['勇者','天馬騎乗'],outdoor:true},redcap:{names:['レッドキャップ','鷹騎乗'],outdoor:true},ufo:{names:['円盤','大型ロボ'],outdoor:true},orctank:{names:['オークキング','戦車']},seaking:{names:['海王','超大型の海王']},gwizard:{names:['魔法使い','巨大魔術師']},dragonking:{names:['人の姿','巨大な竜']},maou:{names:['人の姿','牛の魔物','黒い煙の魔人']},cube:{names:['立方体の群れ','人型','竜型']}};
+const RFORM={key:null,level:0,left:0,total:0,queued:false,busy:false,landingRetry:0};
 function ringFormClear(){RFORM.key=null;RFORM.level=0;RFORM.left=RFORM.total=0;RFORM.queued=false;}
 function ringFormLayout(){const cds=new Map(RINGS.L.map(r=>[r.rid,r.cd])),chain=RINGS.ch,ct=RINGS.cht;ringsBuild();RINGS.ch=chain;RINGS.cht=ct;
  for(const r of RINGS.L){r.cd=cds.get(r.rid)||0;r.h.visible=r.cd<=0;r.pd=0;}}
 function ringFormSet(level,notify=true){const key=charKey,cf=RFORMS[key];if(!cf)return;
  const oldLevel=RFORM.key===key?RFORM.level:0,at=P.pos.clone(),feet=at.y-C.gOff,yaw=P.yaw,sp=P.sp,sp2=P.sp2,hp=P.hp,en=P.en,vy=P.vy,vel=P.vel.clone();RFORM.busy=true;
  try{
-  if(key==='orctank'){rideRelease(D.g);OKT=level?1:0;okRestore();setChar(key);OKT=0;}
+  if(RIDES[key]){
+   if(level){if(!rideOn())return;}else if(D.riding){rideOff(at);}
+  }
+  else if(key==='ufo'){if(level){ufoForm(1,notify);P.onGround=true;}else ufoTakeoff(notify);}
+  else if(key==='orctank'){orcKeep(oldLevel);orcClear();rideRelease(D.g);OKT=level?1:0;okRestore();setChar(key);OKT=0;}
   else if(key==='maou'){rideRelease(D.body);maouForm(level,false);}
   else if(key==='seaking'){rideRelease(D.body);seakingForm(level,false);}
   else if(key==='gwizard'){gwizardForm(level,false);
@@ -11293,30 +11485,50 @@ function ringFormSet(level,notify=true){const key=charKey,cf=RFORMS[key];if(!cf)
   else if(key==='cube'){cubeForm(level,false);if(level&&notify)D.body.userData.cb.t=0;}
   else if(key==='dragonking'){rideRelease(D.body);dragonkingForm(level,false);}
  }finally{RFORM.busy=false;OKT=0;}
- P.pos.set(at.x,feet+C.gOff,at.z);P.yaw=P.lastYaw=yaw;P.sp=sp;P.sp2=sp2;P.hp=hp;P.en=en;P.vel.copy(vel);P.vy=vy;P.bankT=P.bankSide=0;D.g.position.copy(P.pos);D.g.rotation.y=yaw;
- if(C.fly&&level){P.pos.y=Math.max(P.pos.y,floorAt(at.x,at.z)+C.gOff+7);P.onGround=false;D.g.position.copy(P.pos);}else{P.vy=Math.min(0,P.vy||0);P.vel.y=Math.min(0,P.vel.y);}
- RFORM.key=key;RFORM.level=level;RFORM.total=level?(cf.names.length===3&&level===1?60:30):0;RFORM.left=RFORM.total;
+ P.yaw=P.lastYaw=yaw;P.sp=sp;P.sp2=sp2;P.hp=hp;P.en=en;P.bankT=P.bankSide=0;
+ if(!RIDES[key]&&key!=='ufo'){
+  P.pos.set(at.x,feet+C.gOff,at.z);P.vel.copy(vel);P.vy=vy;
+  if(C.fly&&level){P.pos.y=Math.max(P.pos.y,floorAt(at.x,at.z)+C.gOff+7);P.onGround=false;}else{P.vy=Math.min(0,P.vy||0);P.vel.y=Math.min(0,P.vel.y);}
+ }
+ D.g.position.copy(P.pos);D.g.rotation.y=yaw;
+ RFORM.key=key;RFORM.level=level;RFORM.total=level?(cf.names.length===3&&level===1?60:30):0;RFORM.left=RFORM.total;if(key==='orctank')orcEquip(level);
  if(!level){P.dashT=0;P.atkM=0;P.melT=0;P.inv=Math.max(P.inv,0.5);}
- ringFormLayout();skUI();if(notify){sfx(level?'heal':'whoosh',null,0.5);if(level){P.inv=Math.max(P.inv,1);burst(P.pos,12,[0xffd77a,0xfff2bf],1.5,12,0.4);banner(cf.names[level]+'に変身！ '+RFORM.total+'秒',2);}else if(oldLevel)banner('変身終了 · リングでまた変身',2);}
+ ringFormLayout();$('tdash').textContent=C.dashN;skUI();if(notify){sfx(level?'heal':'whoosh',null,0.5);if(level){P.inv=Math.max(P.inv,1);burst(P.pos,12,[0xffd77a,0xfff2bf],1.5,12,0.4);banner(cf.names[level]+(RIDES[key]?'！ ':'に変身！ ')+RFORM.total+'秒',2);}else if(oldLevel)banner(RIDES[key]?'着地した · リングでまた乗れる':'変身終了 · リングでまた変身',2);}
  ringFormHud();
 }
-function ringFormCollect(){const cf=RFORMS[charKey];if(!cf||state!=='play'||PAUSED||LVUP||P.hp<=0)return;const cur=RFORM.key===charKey?RFORM.level:0,next=Math.min(cf.names.length-1,cur+1);
- if(next===cur){RFORM.left=RFORM.total=30;banner('変身時間が30秒に戻った！',1.6);ringFormHud();return;}ringFormSet(next,true);
+function ringFormCollect(){const cf=RFORMS[charKey];if(!cf||state!=='play'||PAUSED||LVUP||P.hp<=0||D.landing)return;
+ const cur=RFORM.key===charKey?RFORM.level:0,next=Math.min(cf.names.length-1,cur+1);
+ if(next===cur){RFORM.left=RFORM.total=30;banner('残り時間が30秒に戻った！',1.6);ringFormHud();return;}
+ if(cf.outdoor&&(DUN.on||CAVE.on)){banner('屋外のリングで'+(RIDES[charKey]?'騎乗':'変形'),1.8);return;}
+ if(charKey==='ufo'){if(!ringLandingStart('ufo'))banner('着陸できる陸の近くでリングをくぐろう',2);return;}
+ ringFormSet(next,true);
 }
-function ringFormTick(dt){if(RFORM.level&&RFORM.key===charKey&&state==='play'&&!PAUSED&&!LVUP&&P.hp>0){RFORM.left=Math.max(0,RFORM.left-dt);if(RFORM.left<=0)ringFormSet(0,true);}ringFormHud();}
-{const before=ringPass;ringPass=function(r){if(RFORMS[charKey]&&(state!=='play'||PAUSED||LVUP||P.hp<=0||r.cd>0))return;before.apply(this,arguments);if(RFORMS[charKey])RFORM.queued=true;};}
+function ringFormTick(dt){
+ if(RFORM.level&&RFORM.key===charKey&&state==='play'&&!PAUSED&&!LVUP&&P.hp>0&&!D.landing){
+  const prev=RFORM.left;RFORM.left=Math.max(0,prev-dt);
+  if(RFORM.left===0){
+   if(!D.riding)ringFormSet(0,true);
+   else if(prev>0||RFORM.landingRetry<=0){
+    if(!ringLandingStart('ride')&&prev>0)banner('陸の近くで自動着地',2);
+    RFORM.landingRetry=0.35;
+   }else RFORM.landingRetry-=dt;
+  }
+ }
+ ringFormHud();
+}
+{const before=ringPass;ringPass=function(r){if(RFORMS[charKey]&&(state!=='play'||PAUSED||LVUP||P.hp<=0||r.cd>0||D.landing))return;before.apply(this,arguments);if(RFORMS[charKey])RFORM.queued=true;};}
 {const before=updRings;updRings=function(dt,t){ringFormTick(dt);before.apply(this,arguments);if(RFORM.queued){RFORM.queued=false;ringFormCollect();}};}
 {const before=setChar;setChar=function(k){if(!RFORM.busy)ringFormClear();return before.apply(this,arguments);};}
-{const before=startGame;startGame=function(){if(RFORM.level&&RFORM.key===charKey)ringFormSet(0,false);ringFormClear();return before.apply(this,arguments);};}
+{const before=startGame;startGame=function(){if(D&&D.landing)D.landing=null;if(RFORM.level&&RFORM.key===charKey)ringFormSet(0,false);ringFormClear();return before.apply(this,arguments);};}
 const rfHud=document.createElement('div');rfHud.id='ringform';rfHud.setAttribute('aria-live','off');rfHud.innerHTML='<span></span><i><b></b></i>';document.body.appendChild(rfHud);
 const rfStyle=document.createElement('style');rfStyle.textContent='#ringform{position:fixed;left:16px;top:156px;z-index:12;width:224px;max-width:calc(100vw - 155px);padding:6px 8px;background:#15101dcc;border:1px solid #e6c26b;border-radius:7px;color:#fff1c0;font:700 12px "M PLUS Rounded 1c",sans-serif;pointer-events:none;display:none}#ringform>i{display:block;height:3px;background:#ffffff25;margin-top:5px;border-radius:2px}#ringform>i>b{display:block;height:100%;background:#ffd66c;border-radius:2px}#ringform.rfSoon{border-color:#ff917b;color:#ffd0be}@media(max-height:500px){#ringform{top:149px;padding:4px 7px;font-size:11px;width:200px}}';document.head.appendChild(rfStyle);
 function ringFormHud(){const cf=RFORMS[charKey],on=state==='play'&&!!cf;rfHud.style.display=on?'block':'none';if(!on)return;
- const level=RFORM.key===charKey?RFORM.level:0;rfHud.querySelector('span').textContent=level?cf.names[level]+' · 残り'+Math.ceil(RFORM.left)+'秒':'金のリングで'+(cf.names.length===3?'60秒変身':'30秒変身');rfHud.querySelector('i').style.display=level?'block':'none';rfHud.querySelector('b').style.width=(level?100*RFORM.left/RFORM.total:0)+'%';rfHud.classList.toggle('rfSoon',!!level&&RFORM.left<=5);}
-{const before=skExtra;skExtra=function(){const text=before.apply(this,arguments),cf=RFORMS[charKey];if(!cf)return text;return text+'<div class="skx"><b>◎ リング変身</b> '+(cf.names.length===3?'1個目で'+cf.names[1]+'（60秒）、変身中の次の1個で'+cf.names[2]+'（30秒）。':'リングをくぐると'+cf.names[1]+'に30秒変身。')+'時間切れで元の姿へ。'+(cf.names.length===3?'最終形態で':'変身中に')+'リングを取ると残り30秒に戻る。</div>';};}
+ const level=RFORM.key===charKey?RFORM.level:0;rfHud.querySelector('span').textContent=D.landing?'着地中…':level?(D.riding&&RFORM.left===0?'陸の近くで自動着地':cf.names[level]+' · 残り'+Math.ceil(RFORM.left)+'秒'):cf.outdoor&&(DUN.on||CAVE.on)?'屋外のリングで'+(RIDES[charKey]?'騎乗':'変形'):'金のリングで'+(RIDES[charKey]?'30秒騎乗':cf.names.length===3?'60秒変身':'30秒変身');rfHud.querySelector('i').style.display=level?'block':'none';rfHud.querySelector('b').style.width=(level?100*RFORM.left/RFORM.total:0)+'%';rfHud.classList.toggle('rfSoon',!!level&&RFORM.left<=5);}
+{const before=skExtra;skExtra=function(){const text=before.apply(this,arguments),cf=RFORMS[charKey];if(!cf)return text;if(RIDES[charKey])return text+'<div class="skx"><b>◎ リング騎乗</b> 屋外のリングで'+RIDES[charKey].nm+'に30秒騎乗。騎乗中のリングで残り30秒に戻る。時間切れで自動着地。</div>';if(charKey==='ufo')return text+'<div class="skx"><b>◎ リング変形</b> 屋外のリングで着陸し、大型ロボに30秒変形。地上のリングで残り30秒に戻る。時間切れで自動離陸。</div>';return text+'<div class="skx"><b>◎ リング変身</b> '+(cf.names.length===3?'1個目で'+cf.names[1]+'（60秒）、変身中の次の1個で'+cf.names[2]+'（30秒）。':'リングをくぐると'+cf.names[1]+'に30秒変身。')+'時間切れで元の姿へ。'+(cf.names.length===3?'最終形態で':'変身中に')+'リングを取ると残り30秒に戻る。</div>';};}
 
 
 // 城内の通路にも変身用リング。門で区切られた各区画に2個ずつ置く。
-function ringFormRoom(){return !!RFORMS[charKey]&&DUN.on;}
+function ringFormRoom(){return !!RFORMS[charKey]&&!RFORMS[charKey].outdoor&&DUN.on;}
 {const before=ringsToGround;ringsToGround=function(){if(ringFormRoom())return;return before.apply(this,arguments);};}
 {const before=ringsBuild;ringsBuild=function(){const r=before.apply(this,arguments);RINGS.dunRef=ringFormRoom()?DUN.g:null;if(!RINGS.dunRef)return r;
  const zs=[DUN.zmin,...DUN.gates.map(g=>g.z).filter(z=>z>DUN.zmin+14&&z<DUN.z1-26),DUN.z1-12].sort((a,b)=>a-b),spots=[],cx=(DUN.x0+DUN.x1)/2;
@@ -11372,10 +11584,10 @@ function prepPlaneProps(sc,id){
 
 // 描画に使うカメラと雲一枚ごとの大きさで、手前を覆う雲を消す。
 function fadeClouds(){
-  const hidden=TER.lava||S8.nc,orc=SCN===3,kingdom=SCN===2;
+  const hidden=TER.lava||S8.nc,orc=SCN===3,kingdom=SCN===2,anc=S8.key==='p8anc';
   for(const group of clouds){
     const near=THEME.near.includes(group),hide=hidden||(near&&(CAVE.on||kingdom));
-    const density=kingdom?0.2:orc?(near?0.24:0.45):1;
+    const density=kingdom?0.2:orc?(near?0.24:0.45):anc?(near?0.14:0.27):1;
     let visible=false;
     for(const sprite of group.children){
       const data=sprite.userData,material=sprite.material;
@@ -11395,6 +11607,179 @@ function fadeClouds(){
     group.visible=visible;
   }
 }
+
+
+// 密集陣形と槍の突き。通常攻撃の範囲・威力・防御時間は変えない。
+let ARMY_SPEAR_AXIS;
+function armySpearAxis(){
+ if(ARMY_SPEAR_AXIS!==undefined)return ARMY_SPEAR_AXIS;
+ ARMY_SPEAR_AXIS=null;
+ const model=MODEL.soldier;if(!model)return null;
+ model.scene.traverse(o=>{
+  if(ARMY_SPEAR_AXIS||!o.isSkinnedMesh)return;
+  const sk=o.skeleton,hi=sk.bones.findIndex(b=>/RightHand$/.test(b.name));if(hi<0)return;
+  const a=o.geometry.attributes,p=a.position,si=a.skinIndex,sw=a.skinWeight;
+  const get=(v,i,k)=>k===0?v.getX(i):k===1?v.getY(i):k===2?v.getZ(i):v.getW(i);
+  const hp=new V3().setFromMatrixPosition(new THREE.Matrix4().copy(sk.boneInverses[hi]).invert()),v=new V3(),best=new V3();let far=0;
+  for(let i=0;i<p.count;i++){let w=0,b=-1;for(let j=0;j<4;j++)if(get(sw,i,j)>w){w=get(sw,i,j);b=get(si,i,j);}if(b!==hi)continue;
+   v.fromBufferAttribute(p,i).applyMatrix4(o.bindMatrix);const d=v.distanceToSquared(hp);if(d>far){far=d;best.copy(v);}}
+  if(far>0.001)ARMY_SPEAR_AXIS=best.sub(hp).transformDirection(sk.boneInverses[hi]);
+ });return ARMY_SPEAR_AXIS;
+}
+function armyHandAim(hand,axis,dir,w){
+ if(!hand||!axis)return;
+ const q=hand.getWorldQuaternion(new THREE.Quaternion()),v=axis.clone().applyQuaternion(q);
+ const turn=new THREE.Quaternion().setFromUnitVectors(v,dir),parent=hand.parent.getWorldQuaternion(new THREE.Quaternion()).invert();
+ hand.quaternion.slerp(parent.multiply(turn.multiply(q)),w);hand.updateMatrixWorld(true);
+}
+function armyPoseSpear(u,f,power){
+ if(power<=0.001||u.m.visible===false)return;
+ if(u.spearBones===undefined)u.spearBones=bowBones(u.m)||0;
+ const b=u.spearBones;if(!b)return;
+ const side=new V3(f.z,0,-f.x),dir=f.clone().addScaledVector(side,0.2);dir.y=-0.18;dir.normalize();
+ aimBone(b.RightArm,b.RightForeArm,dir,power);
+ aimBone(b.RightForeArm,b.RightHand,f.clone().setY(0.03).normalize(),power);
+ armyHandAim(b.RightHand,armySpearAxis(),f,power);
+}
+function updArmyThrust(dt){
+ if(dt<=0||!D||D.human!=='army')return;
+ const thrust=P.melT>0?Math.sin(clamp(1-P.melT/0.3,0,1)*Math.PI):0;
+ const power=Math.max(ARMY.g*0.86,thrust);
+ const f=new V3(Math.sin(P.yaw),0,Math.cos(P.yaw));
+ for(const u of D.units)if(u.role==='spear')armyPoseSpear(u,f,power);
+}
+function spearTipFx(at,dir){
+ const m=new THREE.Mesh(new THREE.ConeGeometry(0.12,3.4,5),new THREE.MeshBasicMaterial({color:0xe8f7ff,transparent:true,opacity:0.8,depthWrite:false}));
+ m.position.copy(at).addScaledVector(dir,1.2);m.quaternion.setFromUnitVectors(new V3(0,1,0),dir);m.userData.spearThrust=true;scene.add(m);
+ LGFX.push({m,t:0,f:(o,dt)=>{m.position.addScaledVector(dir,9*dt);m.material.opacity=0.8*Math.max(0,1-o.t/0.18);return o.t>=0.18;}});
+}
+function armyThrustFx(ad){
+ if(!D||!D.units)return;D.g.updateMatrixWorld(true);
+ for(const u of D.units)if(u.role==='spear'&&u.m.visible!==false){const at=u.m.getWorldPosition(new V3());at.y+=1.6;spearTipFx(at.addScaledVector(ad,2),ad);}
+}
+
+
+// 人型と戦車で別々の技を控え、戦車で拾った入れ替えは次の戦車に持ち越す。
+const ORCSETS=[['orcsweep','orcsplit','orcstomp'],['tkcannon','tkrush','tksalvo']];
+const ORCONLY=new Set(ORCSETS.flat().concat('tkflame'));
+const orcDefault=i=>({sp:ORCSETS[i][0],sp2:ORCSETS[i][1],t1:1,t2:1});
+const ORCATT={slots:[orcDefault(0),orcDefault(1)],queue:[],epoch:0,cine:false};
+const ORCSHELL=new THREE.MeshLambertMaterial({color:0xa49171,emissive:0x6e451b});
+function orcShellHit(p,origin,end){const dx=end.x-origin.x,dy=end.y-origin.y,dz=end.z-origin.z,n=dx*dx+dy*dy+dz*dz,hit={t:Infinity,e:null};
+ for(const e of EN){if(e.dead||e.rise)continue;const q=cpos(e),x=q.x-origin.x,y=q.y-origin.y,z=q.z-origin.z;
+  const t=n?clamp((x*dx+y*dy+z*dz)/n,0,1):0,d2=(x-dx*t)**2+(y-dy*t)**2+(z-dz*t)**2;if(t<hit.t&&d2<(e.r+p.r)**2){hit.t=t;hit.e=e;}}
+ if(hit.e){p.hE=hit.e;return hit.t;}return null;}
+GEO.orcShell=new THREE.SphereGeometry(0.55,8,6);
+GEO.orcShell.scale(1,1,1.85);
+SKINFO.tkcannon={n:'大砲3連発',d:'小型砲より重い砲弾を、近い敵へ3発続けて撃つ',img:'chara/sk/orctank_tank_sp.webp'};
+SKINFO.tkrush={n:'とげの突撃',d:'身をかためて突進し、ふれた敵をひきつぶす',img:'chara/sk/orctank_tank_sp2.webp'};
+SKINFO.orcstomp={n:'大槌の地ならし',d:'足もとを強く打って、すぐ近くにいる敵をまとめて倒す',img:'chara/sk/orctank_sp2.webp'};
+SKINFO.tksalvo={n:'小砲弾の連射',d:'6発の小砲弾を短い間に撃ちこむ',img:'chara/sk/orctank_tank_sp.webp'};
+ADVN.orcsweep=['大槌の連続横なぎ','大槌の三連横なぎ'];ADVN.orcsplit=['大槌の連続たたき割り','大槌の三連たたき割り'];
+ADVN.orcstomp=['大槌の連続地ならし','大槌の三連地ならし'];ADVN.tksalvo=['小砲弾の12連射','小砲弾の18連射'];
+ULTL.orcsweep='そこをどけい！';ULTL.orcsplit='大槌でたたき割る！';ULTL.orcstomp='足もとに気をつけろ！';ULTL.tksalvo='小砲、ぶっ放せ！';
+CH.orctank.br.geo='orcShell';CH.orctank.br.mat=ORCSHELL;CH.orctank.br.size=0.65;CH.orctank.br.splash=0;
+CH.orctank.mel={r:8,dmg:80,cd:0.62,ono:'ゴン！'};
+{const st=document.createElement('style');st.textContent='#skp .orctank-samples{display:flex;gap:8px;margin-top:5px}#skp .orctank-samples button{display:flex;align-items:center;gap:5px;flex:1;min-width:0;border:1px solid #ffc06766;border-radius:5px;padding:3px;background:#291919;color:#ffe4b5;font:inherit;text-align:left;cursor:pointer}#skp .orctank-samples img{width:min(7vw,48px);aspect-ratio:16/9;object-fit:cover;border-radius:3px}';document.head.appendChild(st);}
+function orcTank(){return charKey==='orctank'&&D&&!D.ok;}
+function orcDir(){return new V3(Math.sin(P.yaw),0,Math.cos(P.yaw));}
+function orcCleanSlot(i,src){const pool=ORCSETS[i],def=orcDefault(i);if(!src)return def;
+ const a=pool.includes(src.sp)?src.sp:def.sp,b=pool.includes(src.sp2)&&src.sp2!==a?src.sp2:(a===def.sp2?def.sp:def.sp2);
+ return {sp:a,sp2:b,t1:a===src.sp?clamp(src.t1|0,1,3):1,t2:b===src.sp2?clamp(src.t2|0,1,3):1};
+}
+function orcKeep(i){ORCATT.slots[i]=orcCleanSlot(i,P);}
+function orcEquip(i){Object.assign(P,ORCATT.slots[i]);}
+function orcLoad(ck){if(Array.isArray(ck.orc))ORCATT.slots=[0,1].map(i=>orcCleanSlot(i,ck.orc[i]));
+ else{const old={tkcannon:'tkcannon',tkrush:'tkrush',barrage:'tksalvo',broadside:'tksalvo'};
+  ORCATT.slots[1]=orcCleanSlot(1,{sp:old[ck.sp],sp2:old[ck.sp2]});}
+ orcEquip(0);
+}
+function orcClear(){ORCATT.queue.length=0;ORCATT.epoch++;
+ if(ORCATT.cine){ORCATT.cine=false;ultFn=null;ultT=0;TS=1;tsT=0;}
+ if(P.rushD||P.rw)P.dashT=0;
+ P.rw=P.rwD=P.rushD=P.flT=P.melT=P.melCd=P.atkM=P.fireCd=0;
+ TKF.was=TKF.gk=0;if(TKF.path)TKF.path.visible=false;if(TKF.pl)TKF.pl.visible=false;
+}
+function orcLater(delay,fn){ORCATT.queue.push({delay,fn});}
+function orcAttackTick(dt){if(dt<=0||state!=='play'||PAUSED||LVUP)return;
+ if(P.rushD&&P.dashT<=0)P.rushD=0;
+ const q=ORCATT.queue;for(const e of q)e.delay-=dt;for(let i=0;i<q.length;){if(q[i].delay>0){i++;continue;}const e=q.splice(i,1)[0];e.fn();if(PAUSED||LVUP)break;}
+}
+function orcInReach(e,at,dir,r,dot,height){if(e.dead||e.rise)return false;
+ const q=cpos(e),x=q.x-at.x,z=q.z-at.z,d=Math.hypot(x,z);
+ return Math.abs(q.y-at.y)<height+e.r&&d<r+e.r&&(d<2||(x*dir.x+z*dir.z)/d>=dot);
+}
+function orcMelee(){P.melCd=C.mel.cd;if(orcTank())return;
+ const dir=orcDir(),yaw=P.yaw;mixOnce(D.okb.userData.mix,2.4);P.melT=0.28;
+ orcLater(0.14,()=>{const at=P.pos.clone(),tip=at.clone().addScaledVector(dir,6);let n=0;
+  for(const e of EN)if(orcInReach(e,at,dir,C.mel.r,0.1,5)){hitEnemy(e,C.mel.dmg*POW());burst(cpos(e),5,SPARK,1.2,14,0.24);n++;}
+  const bt=bldAt(tip.x,tip.z,3.5);if(bt.hit&&at.y-C.gOff<bt.top)hitBld(bt.hit,C.mel.dmg*POW()*0.6);
+  meleeRock(dir);slashAt(at,yaw,0xffd790,7.4);sfx(n?'hit':'whoosh',at,0.6);
+  if(n){ono(tip.clone().add(new V3(0,3,0)),C.mel.ono,'#ffe6a5',31);shake(0.12);}
+ });
+}
+function orcHammer(k,dmg){if(orcTank())return;
+ const yaw=P.yaw,dir=orcDir(),at0=P.pos.clone();P.melCd=Math.max(P.melCd,0.6);P.melT=0.4;
+ mixOnce(D.okb.userData.mix,1.7);sfx('whoosh',at0,0.65);
+ orcLater(0.18,()=>{const at=P.pos.clone(),ground=at.clone().setY(at.y-C.gOff+0.7),split=k==='orcsplit',stomp=k==='orcstomp';
+  if(split){
+   for(const d of [6,13,20]){const q=ground.clone().addScaledVector(dir,d);q.y=Math.max(ground.y-1,floorAt(q.x,q.z)+0.5);
+    shock(q,0xffbf73,4.6);debris(q,4,[0x9e7956,0x625047],0.65);smoke(q,2,2,0.55,0xc19b6c,1.7);}
+  }else if(stomp){shock(ground,0xe1b583,11);debris(ground,8,[0xa28566,0x625047],0.7);smoke(ground,5,2.5,0.7,0xbb9574,3.4);}
+  else{for(const a of [-Math.PI/2,Math.PI/2])slashAt(at,yaw+a,0xffd078,14);shock(ground,0xffd999,11);}
+  for(const e of EN){if(e.dead||e.rise)continue;const q=cpos(e),x=q.x-at.x,z=q.z-at.z;
+   if(Math.abs(q.y-at.y)>8+e.r)continue;
+   const f=x*dir.x+z*dir.z,rd=Math.abs(x*dir.z-z*dir.x);
+   if(split?(f>=-1&&f<23+e.r&&rd<4.2+e.r):Math.hypot(x,z)<(stomp?10:15)+e.r){hitEnemy(e,dmg);burst(q,7,SPARK,1.8,14,0.28);}
+  }
+  for(const b of BLD){if(b.dead)continue;const q=b.box.clampPoint(at,new V3()),x=q.x-at.x,z=q.z-at.z,f=x*dir.x+z*dir.z;
+   if(Math.abs(q.y-at.y)<9&&(split?(f>=-1&&f<23&&Math.abs(x*dir.z-z*dir.x)<4.2):Math.hypot(x,z)<(stomp?9:13)))hitBld(b,dmg*0.8);
+  }
+  if(split)for(const d of [5,12,19])ranksHit(ground.clone().addScaledVector(dir,d),5);
+  else ranksHit(ground,stomp?10:14);
+  sfx(split?'crash':stomp?'boom':'hit',ground,0.75);shake(0.26);
+  ono(ground.clone().add(new V3(0,9,0)),split?'ズガン！':stomp?'ドン！':'ブォン！','#ffe2ac',39);
+ });
+}
+function orcRound(tg,heavy,dmg,offset=0){
+ const dir=orcDir(),m=mouthPos(),b=C.br,speed=heavy?163:b.spd;m.addScaledVector(new V3(dir.z,0,-dir.x),offset);
+ const v=tg.clone().sub(m);if(!heavy&&v.dot(dir)<0){m.copy(P.pos).add(new V3(0,1,0));v.subVectors(tg,m);}if(v.lengthSq()<1)v.copy(dir);
+ shoot(m,v.normalize().multiplyScalar(speed),{from:'p',geo:'orcShell',mat:ORCSHELL,size:(heavy?1.35:b.size)*SZM(),
+  r:heavy?1.9:0.95,splash:heavy?6:0,dmg,life:heavy?1.65:1.35,col:[0xffd580,0xde9160,0xffe8b9],orcRound:heavy?'cannon':'small'});
+ burst(m,heavy?8:3,SPARK,heavy?1.1:0.65,heavy?13:8,0.19);
+ glowFlash(m,0xffd48b,heavy?4.8:2.2,heavy?0.13:0.07);
+ if(heavy){smoke(m,2,1.4,0.5,0x807469,1.2);shake(0.24);}
+ sfx('cannon',m,heavy?0.8:0.26);P.atkM=heavy?0.22:0.12;
+}
+function orcNormalShell(tg){const n=1+(UP.multi||0);for(let i=0;i<n;i++)orcRound(tg,false,C.br.dmg*POW(),(i-(n-1)/2)*1.1);}
+function orcCannon(n,dmg,heavy=true){
+ if(!orcTank())return;
+ const targets=EN.filter(e=>!e.dead&&!e.rise).map(e=>({e,d:cpos(e).distanceToSquared(P.pos)})).filter(o=>o.d<220**2).sort((a,b)=>a.d-b.d).slice(0,3);
+ for(let i=0;i<n;i++)orcLater(i*(heavy?0.23:0.086),()=>{
+  const at=mouthPos(),target=targets.length?targets[i%targets.length].e:null,tg=target&&!target.dead?cpos(target).clone():at.clone().addScaledVector(aimDir(),90);
+  orcRound(tg,heavy,dmg,heavy?0:(i%2?2.1:-2.1));
+ });
+}
+function orcRush(dmg){if(!orcTank())return;P.rwD=dmg;P.rw=0.5;
+ sfx('roar',null,0.7);shake(0.2);ono(P.pos.clone().add(new V3(0,14,0)),'ブオォォン…！','#ff8a40',40);}
+function orcUseSkill(k){if(state!=='play'||P.en<SPC()||PAUSED||LVUP||!skOk(k)||(k!==P.sp&&k!==P.sp2))return;
+ const nw=performance.now(),gap=nw-(P.skLast||-1e9);if(ultT>0||gap<SKGAP)return;
+ const quick=gap<SKQUICK,epoch=ORCATT.epoch,tier=skTier(k),power=SPM()*(tier===1?1:tier===2?0.75:0.7);
+ P.skLast=nw;P.en-=SPC();CINE.skip=false;
+ const fire=()=>{if(epoch!==ORCATT.epoch||charKey!=='orctank')return;ORCATT.cine=false;
+  if(k==='tkrush'){orcRush(170*power*(1+(tier-1)*0.43));return;}
+  if(k==='tkcannon'||k==='tksalvo'){orcCannon((k==='tkcannon'?3:6)*tier,(k==='tkcannon'?120:52)*power,k==='tkcannon');return;}
+  orcHammer(k,(k==='orcsplit'?235:k==='orcsweep'?192:215)*power);
+  for(let i=1;i<tier;i++)orcLater(i*0.52,()=>orcHammer(k,(k==='orcsplit'?235:k==='orcsweep'?192:215)*power));
+ };
+ if(quick){fire();skQuick(k);return;}ORCATT.cine=true;ult(skName(k),ULTL[k],fire);
+}
+{const before=setChar;setChar=function(k){if(!RFORM.busy&&(k==='orctank'||charKey==='orctank')){orcClear();if(charKey==='orctank'&&D)rideRelease(D.g);}
+ const r=before.apply(this,arguments);if(k==='orctank'&&!RFORM.busy){ORCATT.slots=[orcDefault(0),orcDefault(1)];orcEquip(0);skUI();}return r;};}
+{const before=startGame;startGame=function(){if(charKey==='orctank'){orcClear();P.skLast=-1e9;ORCATT.slots=[orcDefault(0),orcDefault(1)];}return before.apply(this,arguments);};}
+{const before=setupStage;setupStage=function(){if(charKey==='orctank')orcClear();return before.apply(this,arguments);};}
+{const before=skExtra;skExtra=function(){const html=before.apply(this,arguments);if(charKey!=='orctank')return html;
+ return html+'<div class="skx"><b>⚔ 人型</b> 近づいた敵へ大槌　<b>🛞 戦車</b> 小砲弾で自動攻撃。技の入れかえは形態ごとに保存。<div class="orctank-samples" aria-label="戦車の必殺技の見本">'+[['sp','tkcannon'],['sp2','tkrush']].map(([slot,k])=>`<button type="button" data-skv="orctank_tank|${slot}"><img loading="lazy" src="${SKINFO[k].img}?v=${ASSET_V}" alt=""><span>${SKINFO[k].n} ▷</span></button>`).join('')+'</div></div>';};}
 
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
