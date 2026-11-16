@@ -1128,7 +1128,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVDRKFUIFRDKF';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVDRKFUIFRDKFG';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -5686,7 +5686,7 @@ function s3Scale(e,sc){e.sc=sc;e.r*=sc;e.hc*=sc;}
 function addOrc(x,z,o={}){
   const e=addEnemy(o.arch?'archer':'goblin',x,z,o.y,{model:orcMdl(),perch:o.perch,bld:o.bld});
   s3Scale(e,o.sc||(o.elite?1.75:1.55));e.orc=1;const raw=o.hp||(o.elite?150:105);
-  e.hp=e.maxHp=s3hp(raw);e.val=Math.round(raw*0.4);e.dmg=o.dmg||(o.elite?14:11);e.spd=o.elite?12:11;e.shout=S3SH;
+  e.hp=e.maxHp=s3hp(raw);e.val=o.val??Math.round(raw*0.4);e.dmg=o.dmg||(o.elite?14:11);e.spd=o.elite?12:11;e.shout=S3SH;
   if(!o.arch)e.thrower=!!o.thrower;
   if(o.elite)s3Tint(e,0x8a2a22,MODEL.orc?0.3:0.45);else if(!MODEL.orc)s3Tint(e,0x3a4a22,0.3);
   return e;}
@@ -5891,10 +5891,10 @@ const S3W={
     if(g&&!g.dead&&!(GATE&&GATE.kind==='fort')){g.dead=true;g.gone=true;scene.remove(g.g);const c=g.box.getCenter(new V3());burst(c,50,FIRE,6,35,1);debris(c,14,[0x6b4a2a,0x4e3420],2.4);smoke(c,10,8,3,0x5a5248,5);shake(1);sfx('crash',c);ono(c,'ドガァァン！','#ff7a2a',64);}
     addTank(F.cx,F.cz+50);addGeneral(F.cx,F.cz+20,1600);trollPut(F.cx,F.cz+35);
     orcForm(F.cx,F.cz+70,2,3,{elite:1,hp:140});F.towers.forEach((b,i)=>{if(i>=4)s3Bal(b,0);else s3Arch(b,0);});s3Hawks(5);s3Dogs(5);},
-  king1(){orcForm(0,-150,2,5,{elite:1,hp:150});for(let i=0;i<4;i++)dogPut(rnd(-60,60),-190,{knight:1});trollPut(-40,-170);trollPut(40,-170);[-55,55].forEach(x=>{if(!s3skip())addBallista(x,-140,{big:1});});
+  king1(){orcForm(0,-150,2,5,{elite:1,hp:400,val:60});orcWolfGuardWave();trollPut(-40,-170);trollPut(40,-170);[-55,55].forEach(x=>{if(!s3skip())addBallista(x,-140,{big:1});});
     for(let i=0;i<8;i++)orcPut(rnd(-50,50),-215,{arch:1,hp:45,sc:1.4});s3Hawks(6);s3Dogs(5);s3Ranks([[-70,-235,3,8],[70,-235,3,8]]);},
   king2(){addGeneral(-40,-170,1400,'親衛隊長');addGeneral(40,-170,1400,'親衛隊長');orcForm(0,-150,2,6);s3Hawks(6);s3Dogs(6);},
-  king3(){addKing(0,-175);orcForm(0,-130,2,4,{elite:1,hp:150});}
+  king3(){addKing(0,-175);orcForm(0,-130,2,4,{elite:1,hp:400,val:60});}
 };
 
 /* ================= 波（ステージ） ================= */
@@ -6131,7 +6131,7 @@ const STAGES=[
    ter:{amp:0.9,ox:-2300,oz:900,flats:[[0,-170,105,3,1]],dirt:[[0,-170,96]],forest:1,leaf:0x2a5a2c,trunk:0x5a3e24,trees:360,rocks:24,start:[0,140]},
    story:['砦が炎に包まれても、奥の広間では、太鼓が鳴りやまなかった。','玉座にすわるのは、鉄のきばをつけた巨大なオーク、オークキング。親衛隊が、王の前にならぶ。','会わずに焼くのは、失礼だ。名刺がわりに、火を一発。'],
    waves:[
-    {name:'王の親衛隊',msg:'🛡️ 王の前に、親衛隊が壁をつくる！',mood:5,clr:'🏃 親衛隊は、くずれた！ 体力が少し回復',go(){S3W.king1();}},
+    {name:'王の親衛隊',msg:'🛡️ 王の親衛隊！ 狼騎乗の将軍が3騎！',mood:5,clr:'🏃 親衛隊は、くずれた！ 体力が少し回復',go(){S3W.king1();}},
     {name:'二人の親衛隊長',msg:'🪓 王の左右から、親衛隊長が二人、斧をふりかざす！',mood:5,go(){S3W.king2();}},
     {name:'オークキング',msg:'👑 玉座が、ゆっくりと立ち上がった…！',mood:8,go(){S3W.king3();sfx('roar');}}]},
   {key:'dragongrave',ch:'第2章',title:'竜の墓場',place:'ねむる竜の谷',
@@ -12943,6 +12943,14 @@ function orcWolfDeath(e){
   if(!pack||e.wolfResolved)return false;
   e.wolfResolved=true;
   orcWolfStop(e);
+  if(pack.guard){
+    if(pack.units.every(unit=>unit===e||unit.dead)){
+      WV.maj='狼騎の親衛将軍';
+      banner('狼騎の親衛将軍を倒した！',2.4);
+      shake(0.45);
+    }
+    return false;
+  }
   const last=pack.units.every(unit=>unit===e||unit.dead);
   if(last&&e===pack.leader){e.boss="🪓 オーク将軍と狼の部隊";return false;}
   if(e===pack.leader)e.boss=undefined;
@@ -13058,20 +13066,88 @@ function orcWolfObstacles(x,z){
   }
   return score;
 }
+// 牙の王座の第一波では、親衛将軍3騎がはじめから乗っている。
+function orcWolfGuardWave(){
+  const pack={guard:true,at:new V3(0,0,-165),wait:0,units:[],mode:'approach',t:0,dust:0};
+  ORC_WOLF_PACKS.push(pack);
+  orcWolfSpawn(pack);
+}
+function orcWolfGuardLane(pack,x,z,yaw){
+  const slots=orcWolfSlots(pack,x,z,yaw);
+  if(!orcWolfLand(slots))return false;
+  return slots.every(([sx,sz],i)=>{
+    if(pack.units[i]?.dead)return true;
+    if(treeCandidates(sx,sz,5).some(t=>Math.hypot(sx-t.x,sz-t.z)<t.r+1.2))return false;
+    return !BLD.some(b=>!b.dead&&sx>b.box.min.x-2.2&&sx<b.box.max.x+2.2&&
+      sz>b.box.min.z-2.2&&sz<b.box.max.z+2.2);
+  });
+}
+function orcWolfGuardLine(pack,x,z,yaw,limit){
+  const dx=Math.sin(yaw),dz=Math.cos(yaw);
+  let distance=0;
+  for(let ahead=0;ahead<=limit;ahead+=2){
+    if(!orcWolfGuardLane(pack,x+dx*ahead,z+dz*ahead,yaw))break;
+    distance=ahead;
+  }
+  return distance;
+}
+function orcWolfGuardEntrance(pack,away){
+  // 三騎で通る道を出現時に選ぶ。森の端では幅を狭め、間隔は前後に保つ。
+  for(const slots of [[[0,0],[-20,9],[20,9]],[[0,0],[-12,18],[12,18]],[[0,0],[-5,22],[5,43]]]){
+    pack.slots=slots;
+    let best=-Infinity;
+    for(const range of [63,52,74,43,86,99,114,131]){
+      for(let i=0;i<=28;i++){
+        const swing=Math.ceil(i/2)*0.21*(i%2?1:-1),angle=away+swing;
+        const x=P.pos.x+Math.sin(angle)*range,z=P.pos.z+Math.cos(angle)*range;
+        for(const lean of [0,0.28,-0.28]){
+          const yaw=angle+Math.PI+lean;
+          const run=orcWolfGuardLine(pack,x,z,yaw,Math.min(range,52));
+          if(run<28)continue;
+          const score=run*0.34-Math.abs(swing)*9-Math.abs(lean)*12-Math.abs(range-63)*0.5;
+          if(score<=best)continue;
+          best=score;
+          Object.assign(pack,{x,z,yaw,entryRun:Math.min(17,run-22)});
+        }
+      }
+    }
+    if(Number.isFinite(best))return true;
+  }
+  pack.slots=[[0,0],[-20,9],[20,9]];
+  return false;
+}
+function orcWolfGuardHeading(pack,target){
+  let best=-Infinity,heading=null;
+  for(const turn of [0,0.23,-0.23,0.46,-0.46,0.72,-0.72,1.0,-1.0,1.28,-1.28]){
+    const yaw=target+turn;
+    const distance=orcWolfGuardLine(pack,pack.x,pack.z,yaw,48);
+    const score=distance-Math.abs(turn)*13;
+    if(distance>=14&&score>best){best=score;heading=yaw;}
+  }
+  return heading;
+}
 function orcWolfSpawn(pack){
   let dx=pack.at.x-P.pos.x,dz=pack.at.z-P.pos.z;
   if(Math.hypot(dx,dz)<8){dx=-Math.sin(P.yaw);dz=-Math.cos(P.yaw);}
   const away=Math.atan2(dx,dz);
-  pack.slots=[[0,0],[-12,11],[12,11],[-23,23],[23,23]];
-  let best=-Infinity;
-  for(const range of [77,59,97,42,119]){
+  pack.slots=pack.guard?[[0,0],[-20,9],[20,9]]:[[0,0],[-12,11],[12,11],[-23,23],[23,23]];
+  const entry=pack.guard&&orcWolfGuardEntrance(pack,away);
+  let best=entry?0:-Infinity;
+  const ranges=entry?[]:pack.guard?[77,59,97,119,46,138]:[77,59,97,42,119];
+  for(const range of ranges){
     for(const swing of [0,0.35,-0.35,0.75,-0.75,1.2,-1.2,1.75,-1.75,2.4,-2.4,Math.PI]){
       const a=away+swing,x=P.pos.x+Math.sin(a)*range,z=P.pos.z+Math.cos(a)*range,yaw=a+Math.PI;
       const slots=orcWolfSlots(pack,x,z,yaw);
       if(!orcWolfLand(slots))continue;
       const overlap=ORC_WOLF_PACKS.some(other=>other!==pack&&other.units.some(e=>!e.dead)&&Math.hypot(other.x-x,other.z-z)<49);
       const clutter=slots.reduce((sum,[sx,sz])=>sum+orcWolfObstacles(sx,sz),0);
-      const score=(overlap?-80:0)-Math.abs(swing)*12-Math.abs(range-77)*0.4-Math.abs(floorAt(x,z)-floorAt(P.pos.x,P.pos.z))*0.3-clutter;
+      let score=(overlap?-80:0)-Math.abs(swing)*12-Math.abs(range-77)*0.4-Math.abs(floorAt(x,z)-floorAt(P.pos.x,P.pos.z))*0.3-clutter;
+      if(pack.guard){
+        if(!orcWolfGuardLane(pack,x,z,yaw))score-=200;
+        for(let ahead=4;ahead<=Math.min(range-12,52);ahead+=4){
+          if(!orcWolfGuardLane(pack,x+Math.sin(yaw)*ahead,z+Math.cos(yaw)*ahead,yaw))score-=25;
+        }
+      }
       if(score<=best)continue;
       best=score;
       Object.assign(pack,{x,z,yaw});
@@ -13079,20 +13155,22 @@ function orcWolfSpawn(pack){
   }
   if(!Number.isFinite(best))Object.assign(pack,{x:pack.at.x,z:pack.at.z,yaw:away+Math.PI});
   for(const [i,[x,z]] of orcWolfSlots(pack,pack.x,pack.z,pack.yaw).entries()){
-    const leader=i===0,id=leader?(MODEL.orcgeneral?'orcgeneral':'orc'):'orc';
+    const leader=i===0,general=leader||pack.guard,id=general?(MODEL.orcgeneral?'orcgeneral':'orc'):'orc';
     const e=addEnemy('ogre',x,z,floorAt(x,z),{model:MODEL[id]?id:undefined});
     e.mesh.position.y=floorAt(x,z);
     e.wolfPack=pack;
-    e.nm=leader?'オーク将軍':'狼騎兵';
-    e.sc=leader?(pack.foot.sc||0.92):0.67;
+    e.nm=pack.guard?'親衛将軍（狼騎乗）':leader?'オーク将軍':'狼騎兵';
+    e.sc=pack.guard?0.92:leader?(pack.foot.sc||0.92):0.67;
     e.mesh.scale.setScalar(e.sc);
     e.mesh.rotation.y=pack.yaw;
-    e.hp=e.maxHp=leader?Math.round(pack.foot.maxHp*0.65):s3hp(165);
-    e.val=leader?pack.foot.val:65;
-    e.dmg=leader?24:13;
+    e.hp=e.maxHp=pack.guard?s3bhp(1800):leader?Math.round(pack.foot.maxHp*0.65):s3hp(165);
+    e.val=pack.guard?260:leader?pack.foot.val:65;
+    e.dmg=pack.guard?19:leader?24:13;
     e.said=1;
-    if(leader){e.boss='🪓 オーク将軍（狼騎乗）';e.die='狼の部隊まで……見事だ……';pack.leader=e;}
-    orcWolfMount(e,leader);
+    if(leader)pack.leader=e;
+    if(pack.guard)e._sz=1;
+    else if(leader){e.boss='🪓 オーク将軍（狼騎乗）';e.die='狼の部隊まで……見事だ……';}
+    orcWolfMount(e,general);
     pack.units.push(e);
     const p=e.mesh.position;
     smoke(p,2,3,1.1,0xa99574,2);
@@ -13102,6 +13180,7 @@ function orcWolfSpawn(pack){
   pack.at=null;
   const e=pack.leader;
   sfx('roar',e.mesh.position,0.55);
+  if(pack.guard)return;
   ksay(e,'狼の部隊、隊列を組め！ 一気に駆け抜けるぞ！');
   banner('🐺 オーク将軍と狼の部隊が来た！',1.9);
 }
@@ -13119,14 +13198,21 @@ function orcWolfTick(dt){
     pack.t-=dt;
     if(pack.mode==='approach'){
       speed=20;
-      if(d<49){pack.mode='ready';pack.t=0.65;speed=0;
+      if(pack.entryRun>0){turn=0;want=pack.yaw;}
+      else if(pack.entryRun===0||d<(pack.guard?57:49)){
+        const heading=pack.entryRun===0?pack.yaw:pack.guard?orcWolfGuardHeading(pack,target):target;
+        pack.entryRun=null;
+        if(heading===null){pack.mode='circle';pack.t=1.1;continue;}
+        pack.chargeYaw=heading;want=heading;
+        pack.mode='ready';pack.t=0.65;speed=0;
         const e=pack.units.find(unit=>!unit.dead);
         sfx('roar',e.mesh.position,0.35);
         bubble(e,'突撃！','boss',0.9);
       }
     }else if(pack.mode==='ready'){
+      if(pack.guard)want=pack.chargeYaw;
       if(pack.t<=0){
-        pack.mode='charge';pack.t=1.7;pack.yaw=target;
+        pack.mode='charge';pack.t=1.7;pack.yaw=pack.guard?pack.chargeYaw:target;
         for(const e of pack.units)if(!e.dead){e.wolfHit=false;orcWolfSlash(e);}
       }
     }else if(pack.mode==='charge'){
@@ -13138,14 +13224,18 @@ function orcWolfTick(dt){
     }
     const delta=Math.atan2(Math.sin(want-pack.yaw),Math.cos(want-pack.yaw));
     let yaw=pack.yaw+clamp(delta,-turn*dt,turn*dt),moved=0;
-    const offset=pack.mode==='charge'?0:0.72;
-    for(const a of [0,offset,-offset,offset*2,-offset*2]){
+    const straight=pack.mode==='charge'||pack.entryRun>0;
+    const offsets=straight?[0]:pack.guard?[0,0.23,-0.23,0.46,-0.46,0.72,-0.72,1.08,-1.08,1.44,-1.44]:[0,0.72,-0.72,1.44,-1.44];
+    for(const a of offsets){
       const heading=yaw+a,x=pack.x+Math.sin(heading)*speed*dt,z=pack.z+Math.cos(heading)*speed*dt;
-      if(!orcWolfLand(orcWolfSlots(pack,x,z,heading)))continue;
+      if(pack.guard){
+        if(!orcWolfGuardLane(pack,x,z,heading))continue;
+      }else if(!orcWolfLand(orcWolfSlots(pack,x,z,heading)))continue;
       Object.assign(pack,{x,z,yaw:heading});
       moved=speed;
       break;
     }
+    if(pack.entryRun>0)pack.entryRun=moved?Math.max(0,pack.entryRun-moved*dt):null;
     if(!moved&&speed>0){
       // 狭い岸で行き止まったら隊列を崩さず向きを選びなおす。
       if(pack.mode==='charge')pack.t=0;
