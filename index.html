@@ -52,7 +52,7 @@ canvas{display:block}
 .lvc .num{margin-top:9px;font-size:13px;color:#ffe9a8;background:#ffffff12;border-radius:8px;padding:5px 6px}.lvc .num b{color:#fff;font-size:15px}
 .lvc .mx{display:flex;gap:4px;justify-content:center;margin-top:8px}.lvc .mx i{width:9px;height:9px;border-radius:50%;background:#ffffff26}.lvc .mx i.on{background:#ffcf4a;box-shadow:0 0 6px #ffcf4a}.lvc .mx i.nx{background:#fff;animation:lvblink .8s ease-in-out infinite alternate}
 @keyframes lvtext{to{opacity:1;transform:none;filter:none}}@keyframes lvblink{from{opacity:.35}to{opacity:1}}
-@media (max-width:560px){#lvup{gap:12px}.lvc .in{display:grid;grid-template-columns:52px 1fr;column-gap:10px;text-align:left;padding:10px 12px}.lvc .ic{width:48px;height:48px;font-size:26px;margin:0;grid-row:span 4;align-self:center}.lvc .key{left:auto;right:8px;top:8px}.lvc .nm{font-size:16px;margin:0 0 4px;padding-right:30px}.lvc .mx{justify-content:flex-start}}
+@media (max-width:560px){#lvup{gap:12px}.lvc{width:min(350px,calc(100vw - 40px))}.lvc .in{display:grid;grid-template-columns:52px 1fr;column-gap:10px;text-align:left;padding:10px 12px}.lvc .ic{width:48px;height:48px;font-size:26px;margin:0;grid-row:span 4;align-self:center}.lvc .key{left:auto;right:8px;top:8px}.lvc .nm{font-size:16px;margin:0 0 4px;padding-right:30px}.lvc .mx{justify-content:flex-start}}
 #wave{position:absolute;left:16px;top:14px;font-size:18px;font-weight:800}
 #score{position:absolute;left:16px;top:42px;font-size:15px;font-weight:700;opacity:.9}
 #remain{position:absolute;left:16px;top:66px;font-size:15px;font-weight:700;opacity:.95}
@@ -104,6 +104,17 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 .card .pti{display:block;width:100%;height:120px;object-fit:cover;object-position:50% 30%;border-radius:9px;margin:0 0 8px;border:1px solid #ffffff30}
 @media (max-width:560px){.card .pti{height:84px}}
 .lvc .ic img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.lvc .pet-art{position:relative;background:#271d3b;filter:none}
+.lvc .pet-art::before{content:"🤝";position:absolute;color:#ffdf8a;font-size:.65em}
+.lvc .pet-art img{position:absolute;inset:0;border:1px solid #f5d289;box-sizing:border-box}
+.lvc .pet-art.pet-group{width:84px;background:none}
+.lvc .pet-group img{width:54%;height:auto;aspect-ratio:1;inset:auto;top:0;left:0}
+.lvc .pet-group img:nth-child(2){left:auto;right:0}
+.lvc .pet-group img:nth-child(3){width:65%;top:16px;left:17.5%}
+.lvc .pet-number{position:absolute;right:0;bottom:0;padding:2px 5px;border:1px solid #f4d48b;border-radius:5px;background:#2b1923;color:#fff0bb;font-size:12px;font-weight:900;line-height:1.2}
+.lvc .pet-unit{white-space:nowrap}
+@media (max-width:560px){.lvc .pet-art.pet-group{width:52px}.lvc .pet-group img:nth-child(3){top:13px}.lvc .pet-number{font-size:10px}}
+@media (prefers-reduced-motion:reduce){.lvc.pet-choice,.lvc.pet-choice .ds,.lvc.pet-choice .num{animation:none;transform:none;opacity:1;filter:none}.lvc.pet-choice .in::before,.lvc.pet-choice .mx i{animation:none}}
 #speech{position:absolute;left:50%;top:70px;transform:translateX(-50%);max-width:min(620px,90vw);font-size:18px;font-weight:700;background:#000a;padding:8px 16px;border-radius:12px;opacity:0;transition:opacity .3s;text-align:center}
 #speech b{color:#ffd27a}
 #cross{position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border:2px solid #fff9;border-radius:50%}
@@ -123,6 +134,8 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 #bars .bar{height:15px;border:2px solid #f2d27a;border-radius:3px;transform:skewX(-18deg);margin:0 0 6px;background:#1a0a0acc;box-shadow:0 2px 6px #000a}
 #bars .bar.en{width:86%;height:11px}#bars .bar.en i{background:linear-gradient(90deg,#2ad0ff,#8af0ff)!important}
 #bars .bar.xp{width:58%;height:5px;border-width:1px}
+#allyhud{display:table;white-space:nowrap;border:1px solid #f2d27a88;border-radius:5px;background:#1a0a0aee;color:#fff0bb;padding:2px 6px;font-size:11px;font-weight:800;line-height:1.3}
+#allyhud[hidden]{display:none}
 #pface{position:absolute;left:14px;top:10px;width:68px;height:68px;border-radius:50%;border:3px solid #f2d27a;box-shadow:0 0 0 2px #5a3a10,0 3px 10px #000c;object-fit:cover;background:#2a0a0a}
 #wave{left:16px!important;top:92px!important;font-size:14px!important;opacity:.85}#score{top:112px!important;font-size:13px!important}#remain{top:130px!important;font-size:13px!important}
 #hint{display:none!important}
@@ -617,7 +630,7 @@ body.mob #select .gos #wazaBtn{order:6}
   <div id="bars">
     <div class="lbl">🐉 体力</div><div class="bar"><i id="hpb"></i></div>
     <div class="lbl" id="enl">⚡ 必殺ゲージ</div><div class="bar en"><i id="enb"></i></div>
-    <div class="lbl" id="lvl">⭐ Lv 1</div><div class="bar xp"><i id="xpb"></i></div>
+    <div class="lbl" id="lvl">⭐ Lv 1</div><div class="bar xp"><i id="xpb"></i></div><div id="allyhud" hidden></div>
   </div>
   <div id="hint"></div>
 </div>
@@ -1115,7 +1128,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGP';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPAC';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -4428,16 +4441,22 @@ function autoTarget(){if(charKey==='orctank'&&!orcTank())return null;const ad=ai
 // レベルと強化（弾の数・連射・大きさ・威力・子分・体力）
 const UPS=[{k:'multi',ic:'🔥',nm:'弾の数 +1',ds:'弾が扇のように広がって、いっしょに飛ぶ',mx:2},{k:'rate',ic:'⚡',nm:'連射が少し速くなる',ds:'弾を出す間かくが少し短くなる（1.07倍）',mx:4},
   {k:'size',ic:'💥',nm:'弾が少し大きくなる',ds:'弾と爆発の広さが1.1倍',mx:4},{k:'pow',ic:'🗡️',nm:'威力アップ',ds:'弾も体当たりも1.15倍いたい',mx:5},{k:'sp',ic:'🌟',nm:'必殺技が強くなる',ds:'必殺技が1.3倍いたく・広くなり、使うゲージが5へる',mx:4},
-  {k:'pet',ic:'🐲',nm:'子分がふえる',ds:'小さな竜がまわりを飛んで、いっしょに撃つ',mx:3},{k:'hp',ic:'❤️',nm:'体力アップ',ds:'体力の上限が15%ふえて、全部回復',mx:9}];
+  {k:'pet',ic:'🤝',mx:3},{k:'hp',ic:'❤️',nm:'体力アップ',ds:'体力の上限が15%ふえて、全部回復',mx:9}];
 let LV=1,XP=0,UP={},LVUP=false,LVQ=0,LVOPT=[],PAUSED=false;const PETS=[];
 const xpNeed=()=>90+LV*60+LV*LV*10,RATE=()=>Math.pow(1.07,UP.rate||0),SZM=()=>Math.pow(1.1,UP.size||0),POW=()=>Math.pow(1.15,UP.pow||0),SPM=()=>Math.pow(1.3,UP.sp||0)*(EASY?1:0.7)*SKTM,SPC=()=>40-5*(UP.sp||0);
 function resetLv(){LV=1;XP=0;UP={};P.t1=P.t2=1;LVUP=false;LVQ=0;$('lvup').style.display='none';PETS.forEach(p=>scene.remove(p.g));PETS.length=0;updLvHud();}
-function updLvHud(){$('xpb').style.width=Math.min(100,XP/xpNeed()*100)+'%';$('lvl').textContent='⭐ Lv '+LV+'　'+UPS.filter(u=>UP[u.k]).map(u=>u.ic+UP[u.k]).join(' ');}
+function updLvHud(){
+  $('xpb').style.width=Math.min(100,XP/xpNeed()*100)+'%';
+  $('lvl').textContent='⭐ Lv '+LV+'　'+UPS.filter(u=>u.k!=='pet'&&UP[u.k]).map(u=>u.ic+UP[u.k]).join(' ');
+  const hud=$('allyhud'),count=PETS.length,kind=PET_GROUPS[charKey]?.kind||'仲間';
+  hud.hidden=!count;
+  hud.textContent=count?kind+' '+count+'/'+UPS.find(u=>u.k==='pet').mx:'';
+}
 function addXp(n){if(state!=='play')return;XP+=EASY?n*0.22:n*0.17;while(XP>=xpNeed()){XP-=xpNeed();LV++;LVQ++;}updLvHud();if(LVQ&&!LVUP&&CINE.k<2)showLv();}
 function upDs(u){const n=UP[u.k]||0,cd=C.br.cd;
   switch(u.k){case 'multi':return `1度に ${1+n}発 → <b>${2+n}発</b>`;case 'rate':return `1秒に ${(RATE()/cd).toFixed(1)}発 → <b>${(RATE()*1.07/cd).toFixed(1)}発</b>`;
     case 'size':return `大きさ ${Math.round(SZM()*100)}% → <b>${Math.round(SZM()*110)}%</b>`;case 'pow':return `いたさ ${Math.round(POW()*100)}% → <b>${Math.round(POW()*115)}%</b>`;case 'sp':return `必殺技 ${Math.round(Math.pow(1.3,n)*100)}% → <b>${Math.round(Math.pow(1.3,n)*130)}%</b><br>ゲージ ${SPC()} → <b>${SPC()-5}</b>`;
-    case 'pet':if(charKey==='ufo')return `小型UFO ${PETS.length}機 → <b>${PETS.length+1}機</b>`;if(charKey==='airship')return `船団 ${PETS.length} → <b>${PETS.length+1}</b><br>1船団5隻・最大3船団`;if(squadKind(charKey))return `援軍 ${PETS.length}部隊 → <b>${PETS.length+1}部隊</b><br>1部隊5${charKey==='dragonknight'?'騎':'人'}・最大3部隊`;return `子分 ${PETS.length}匹 → <b>${PETS.length+1}匹</b>（やられることもある）`;case 'hp':return `体力の上限 ${Math.round(P.maxHp)} → <b>${Math.round(P.maxHp*1.15)}</b>`;}return u.ds;}
+    case 'pet':return petProgress(petOffer(),u.mx);case 'hp':return `体力の上限 ${Math.round(P.maxHp)} → <b>${Math.round(P.maxHp*1.15)}</b>`;}return u.ds;}
 /* ---- 上級技：同じ必殺技を2段まで強くできる。段が上がると名前が変わり、続けて2回・3回出る ---- */
 const ADVN={bigfire:['業火球','滅びの業火'],flamering:['炎の大渦','紅蓮の嵐'],thunder:['大落雷','神鳴り'],discharge:['大放電','雷帝の怒り'],quake:['大地響き','天地崩し'],boulder:['巨岩投げ','隕石落とし'],pillars:['聖なる光柱','天の裁き'],spin:['旋風斬り','竜巻斬り'],
   barrage:['全軍砲撃','王国の総力'],arrowrain:['矢の嵐','万の矢'],fissure:['大地割り','奈落割り'],gbeam:['超破壊光線','滅びの光'],bombs:['爆弾の嵐','じゅうたん爆撃'],broadside:['乱れ撃ち','空の要塞'],tkcannon:['大砲6連発','大砲9連発'],tkflame:['大火炎放射','地獄の火炎放射'],tkrush:['とげの大突撃','地ならしの突撃']};
@@ -4477,15 +4496,56 @@ function lvChoices(){
 function showLv(){LVOPT=lvChoices();if(!LVOPT.length){LVQ=0;LVUP=false;P.hp=P.maxHp;$('lvup').style.display='none';return;}
   LVUP=true;sfx('lvup',null,0.8);burst(P.pos,40,[0xffe060,0xffffff,0x80e0ff],3,30,0.9);
   $('lvn').textContent='Lv '+Math.max(1,LV-LVQ)+' → Lv '+(LV-LVQ+1);$('lvc').innerHTML='';LVOPT.forEach((u,i)=>{const d=document.createElement('button');d.className='lvc';const dl=0.25+i*0.14,n=UP[u.k]||0;d.style.animationDelay=dl+'s';
-    d.innerHTML=u.adv?advHtml(u,i,dl):u.swap?swapHtml(u,i,dl):`<div class="in"><span class="key">${i+1}</span><div class="ic">${u.k==='pet'&&charKey==='ufo'?u.ic:`<img src="chara/ic_${u.k}.webp" alt="">`}</div><div class="nm">${u.nm}</div><div class="ds" style="animation-delay:${dl+0.45}s">${u.ds}</div><div class="num" style="animation-delay:${dl+0.7}s">${upDs(u)}</div><div class="mx">${Array.from({length:u.mx},(_,k)=>`<i class="${k<n?'on':k===n?'nx':''}"></i>`).join('')}</div></div>`;
+    if(u.k==='pet')d.classList.add('pet-choice');
+    d.innerHTML=u.adv?advHtml(u,i,dl):u.swap?swapHtml(u,i,dl):u.k==='pet'?petCard(u,i,dl):`<div class="in"><span class="key">${i+1}</span><div class="ic"><img src="chara/ic_${u.k}.webp" alt=""></div><div class="nm">${u.nm}</div><div class="ds" style="animation-delay:${dl+0.45}s">${u.ds}</div><div class="num" style="animation-delay:${dl+0.7}s">${upDs(u)}</div><div class="mx">${Array.from({length:u.mx},(_,k)=>`<i class="${k<n?'on':k===n?'nx':''}"></i>`).join('')}</div></div>`;
     d.addEventListener('click',e=>{e.stopPropagation();pickLv(i);});$('lvc').appendChild(d);});$('lvup').style.display='flex';}
 function pickLv(i){if(!LVUP||!LVOPT[i])return;const u=LVOPT[i];if(u.k==='pet'&&((UP.pet||0)>=u.mx||PETS.length>=u.mx)){showLv();return;}if(u.adv){const q=u.slot==='sp'?'t1':'t2';P[q]=(P[q]||1)+1;skUI();}else if(u.swap){P[u.slot]=u.to;P[u.slot==='sp'?'t1':'t2']=1;skUI();}else UP[u.k]=(UP[u.k]||0)+1;
-  if(u.k==='hp'){P.maxHp=Math.round(P.maxHp*1.15);P.hp=P.maxHp;}if(u.k==='pet')addPet();if(u.k==='sp')$('enl').textContent=`⚡ 必殺ゲージ（${SPC()}で必殺技）`;
-  LVUP=false;LVQ--;$('lvup').style.display='none';updLvHud();banner(u.ic+' '+u.nm+'！',1.6);sfx('heal',null,0.6);if(LVQ>0)setTimeout(()=>{if(state==='play'&&!LVUP)showLv();},350);}
+  if(u.k==='hp'){P.maxHp=Math.round(P.maxHp*1.15);P.hp=P.maxHp;}
+  const ally=u.k==='pet'?petOffer():null;
+  if(ally)addPet();
+  if(u.k==='sp')$('enl').textContent=`⚡ 必殺ゲージ（${SPC()}で必殺技）`;
+  LVUP=false;LVQ--;$('lvup').style.display='none';updLvHud();if(ally)petToast(petNotice(ally),2100);else banner(u.ic+' '+u.nm+'！',1.6);sfx('heal',null,0.6);if(LVQ>0)setTimeout(()=>{if(state==='play'&&!LVUP)showLv();},350);}
 // 11/16 ふみさん「仲間はドラゴン固定じゃなく、キャラによって分ける。最大3体」
 const PETM={dragon:[['dragon',1]],wyvern:[['wyvern2',1]],ground:[['ground',0]],hero:[['wizard',0],['priest',0],['archer',0]],army:[['archer',0],['captain',0],['soldier',0]],golem:[['bgolem',0]],orctank:[['orcgeneral',0],['orcgeneral',0],['orcgeneral',0]],airship:[['airship',1],['airship',1],['airship',1]],maou:[['imp',1],['devilsoldier',0],['imp',1]],redcap:[['goblin',0],['hawkrider',1],['goblin',0]],kraken:[['fishman',0],['fishman',0],['fishman',0]]};
 const PETH={orcgeneral:4.6,airship:3.2,imp:2.6,devilsoldier:3.4,wizard:3.4,priest:3.4,archer:3.2,captain:3.4,soldier:3.2,bgolem:5,goblin:2.6,orc:3.6,hawkrider:4,griffin:4.4,p8drone:3,shark:4,fishman:3.2,ground:4};
-function addPet(){if(squadKind(charKey))return addSquad(charKey);const L=PETM[charKey]||PETM.dragon,pk=L[PETS.length%L.length],mid=pk[0],fly=!!pk[1];let g;
+const PETJA={orcgeneral:'オーク将軍',airship:'小さな飛空艇',imp:'小悪魔',devilsoldier:'悪魔の兵',dragon:'小さな赤い竜',wyvern2:'小さなワイバーン',ground:'小さな地竜',wizard:'魔法使い',priest:'僧侶',archer:'弓兵',captain:'隊長',soldier:'兵士',bgolem:'小さな岩人形',goblin:'ゴブリン',hawkrider:'鷹乗り',orc:'オーク',griffin:'グリフォン',p8drone:'ドローン',shark:'サメ',fishman:'魚人'};
+const PET_GROUPS={
+  army:{kind:'部隊',name:'5人の援軍',amount:'5人',description:'隊長1人・槍兵2人・弓兵2人が別部隊で戦う。',roster:'隊長1人・槍兵2人・弓兵2人',portraits:['soldier','archer','captain']},
+  dragonknight:{kind:'編隊',name:'5騎の竜騎士',amount:'5騎',description:'別のV字編隊で飛び、小火炎と矢で援護する。',roster:'竜騎士5騎のV字編隊',portraits:['ally_dragonknight','ally_dragonknight','ally_dragonknight']},
+  airship:{kind:'船団',name:'5隻の飛空艇',amount:'5隻',description:'別のV字船団で飛び、小砲弾で援護する。',roster:'飛空艇5隻のV字船団',portraits:['airship','airship','airship']},
+};
+const PET_COUNTER={dragon:'匹',wyvern2:'匹',ground:'匹',imp:'匹',shark:'匹',griffin:'匹',hawkrider:'騎',
+  p8fighter:'機',p8drone:'機',p8ufo:'機',bgolem:'体',skel:'体',skeleton:'体',goblin:'体',y_karasu:'体',airship:'隻'};
+const PET_SEPARATE={slime:'被弾で増えるスライムの手下',necromancer:'倒した敵から起き上がる骸骨兵',nurarihyon:'時間で増える妖怪の手下'};
+function petEntry(key,count){
+  const roster=PETM[key]||PETM.dragon;
+  return roster[count%roster.length];
+}
+function petName(key,mid){return key==='gwizard'&&mid==='soldier'?'戦士':PETJA[mid]||'仲間';}
+function petOffer(key=charKey,count=PETS.length){
+  const group=PET_GROUPS[key];if(group)return group;
+  const [mid,fly]=petEntry(key,count),name=petName(key,mid),amount='1'+(PET_COUNTER[mid]||'人');
+  if(mid==='p8ufo')return {name,amount,counter:'機',description:`${amount}加わり、まわりを飛んで細いレーザーで援護する。`,portraits:[mid]};
+  return {name,amount,description:`${amount}加わり、${fly?'空から':'地上から'}射撃で援護する。`,portraits:[mid]};
+}
+function petNotice(offer){return offer.name+'が仲間に加わった！';}
+function petProgress(offer,max){
+  const count=PETS.length,kind=offer.kind||(offer.counter?offer.name:'仲間');
+  return `${kind} ${count} → <b>${count+1}</b> <span class="pet-unit">/ 最大${max}${offer.kind||offer.counter||'枠'}</span>`;
+}
+function petPortrait(id){if(id==='p8ufo')return 'chara/ufo.webp?v='+ASSET_V;
+  return 'chara/'+(id==='orcgeneral'?'':'en/')+id+'.webp?v='+ASSET_V;
+}
+function petCard(u,i,dl){
+  const offer=petOffer(),count=PETS.length,title=offer.name+(offer.kind?'が加わる':'が仲間に');
+  const photos=offer.portraits.map(id=>`<img src="${petPortrait(id)}" alt="" onerror="this.remove()">`).join('');
+  const badge=offer.kind?`<span class="pet-number">${offer.amount}</span>`:'';
+  const pips=Array.from({length:u.mx},(_,k)=>`<i class="${k<count?'on':k===count?'nx':''}"></i>`).join('');
+  return `<div class="in"><span class="key">${i+1}</span><div class="ic pet-art${offer.kind?' pet-group':''}" aria-hidden="true">${photos}${badge}</div>
+    <div class="nm">${title}</div><div class="ds" style="animation-delay:${dl+0.45}s">${offer.description}</div>
+    <div class="num" style="animation-delay:${dl+0.7}s">${petProgress(offer,u.mx)}</div><div class="mx" aria-hidden="true">${pips}</div></div>`;
+}
+function addPet(){if(squadKind(charKey))return addSquad(charKey);const [mid,isFlying]=petEntry(charKey,PETS.length),fly=!!isFlying;let g;
   if(fly&&(mid==='dragon'||mid==='wyvern2')){const c=CH[mid==='wyvern2'?'wyvern':'dragon'];const d=makeDragon(c.col[0],c.col[1],c.s*0.38,c.o);(attachModel(d.g,mid)||attachModel(d.g,'dragon'));g=d.g;}
   else if(mid==='p8ufo'){g=makeProxy(5.4,1.8,5.4,0x8ca8bc,true);if(!attachModel(g,mid)){g=new THREE.Group();s8Cy(g,2.15,2.7,0.55,0x8ca8bc,0,0,0,null,24);s8Sp(g,1,0x64dcee,0,0.45,0,1.15,0.5,1.15);}}
   else{const h=PETH[mid]||3.4;g=mid==='p8fighter'?makeProxy(11,h,10,0x888888,true):makeProxy(h*0.5,h,h*0.45,0x888888);if(!attachModel(g,mid)){const c=CH.dragon,d=makeDragon(c.col[0],c.col[1],c.s*0.38,c.o);attachModel(d.g,'dragon');g=d.g;}}
@@ -4498,7 +4558,7 @@ function updPets(dt,t){const n=PETS.length;PETS.forEach((p,i)=>{if(p.squad){squa
   for(const e of EN){if(e.dead||!e.dmg)continue;if(cpos(e).distanceTo(p.g.position)<e.r+3)petHurt(p,e.dmg*dt*0.7,true);}
   if(p.hitT>0){p.hitT-=dt;p.g.scale.setScalar(1+Math.sin(p.hitT*40)*0.12);}else p.g.scale.setScalar(1);});
   for(let i=PETS.length-1;i>=0;i--)if(PETS[i].hp<=0){const q=PETS[i];if(!q.fleet){burst(q.g.position,24,FIRE,2.5,22,0.6);smoke(q.g.position,4,3,1.2,0x5a5a5a,2);}sfx('small',q.g.position,0.6);
-    ono(q.g.position.clone().add(new V3(0,3,0)),q.fleet?'船団が全滅した…':q.squad?'援軍が全滅した…':'子分がやられた…','#ffb0a0',24);if(q.squad)rideRelease(q.g);scene.remove(q.g);PETS.splice(i,1);UP.pet=Math.max(0,(UP.pet||0)-1);updLvHud();}}
+    ono(q.g.position.clone().add(new V3(0,3,0)),q.fleet?'船団が全滅した…':q.squad?'援軍が全滅した…':petName(q.id,q.mid)+'がやられた…','#ffb0a0',24);if(q.squad)rideRelease(q.g);scene.remove(q.g);PETS.splice(i,1);UP.pet=Math.max(0,(UP.pet||0)-1);updLvHud();}}
 /* ---- 子分：レアカード＋シナリオ1ではワイバーンに勝つと自然に付く（pet_wyv.py） ---- */
 const PETRARE=0.25,EASY_PETRARE=0.45,EASY_MULTIRARE=0.5;let PETG=0;
 {const st=document.createElement('style');st.textContent='.lvc.rare{padding:5px;background:linear-gradient(135deg,#fffbe0,#ffd23a 25%,#c98a00 50%,#fff0a0 75%,#ffc400);box-shadow:0 10px 26px #000a,0 0 0 1px #000,0 0 22px #ffd23acc;animation:lvcard .55s cubic-bezier(.2,1.3,.4,1) forwards,petrare 1.6s ease-in-out .6s infinite}'
@@ -4506,10 +4566,10 @@ const PETRARE=0.25,EASY_PETRARE=0.45,EASY_MULTIRARE=0.5;let PETG=0;
   +'@keyframes petrare{0%,100%{filter:brightness(1)}50%{filter:brightness(1.22) drop-shadow(0 0 8px #ffd23a)}}';document.head.appendChild(st);}
 {const sl0=showLv;showLv=function(){sl0.apply(this,arguments);try{Array.from($('lvc').children).forEach((d,i)=>{if(LVOPT[i]&&(LVOPT[i].k==='pet'||LVOPT[i].k==='multi'||LVOPT[i].k==='adv')&&!d.querySelector('.rtag')){d.classList.add('rare');const t=document.createElement('span');t.className='rtag';t.textContent='✨ レア';d.appendChild(t);}});}catch(e){}};}
 // ワイバーンとの一騎打ちに勝ったら、緑のワイバーンが子分になる（シナリオ1だけ）
-function petGift(e){PETG=1;if((UP.pet||0)>=3)return;UP.pet=(UP.pet||0)+1;addPet();const q=PETS[PETS.length-1];if(q&&e&&e.mesh)q.g.position.copy(cpos(e));
-  if(q)burst(q.g.position,26,[0x9cff8a,0xffffff,0xffe060],3,26,0.8);sfx('lvup',null,0.6);const msg=q&&q.fleet?'🚩 5隻の飛空艇船団が仲間に加わった！':'🐉 緑のワイバーンが子分になった！';banner(msg,3.2);petToast(msg);updLvHud();}
-function petToast(t){let d=$('petmsg');if(!d){d=document.createElement('div');d.id='petmsg';d.style.cssText='position:absolute;left:0;right:0;top:36%;z-index:30;text-align:center;font-size:clamp(20px,3.6vw,38px);font-weight:900;letter-spacing:.05em;color:#c8ff9a;text-shadow:0 0 12px #2a8a20,0 3px 0 #0a3a08,0 0 3px #000;pointer-events:none;transition:opacity .5s;opacity:0;padding:0 16px';($('banner').parentNode||document.body).appendChild(d);}
-  d.textContent=t;d.style.opacity=1;clearTimeout(d.__t);d.__t=setTimeout(()=>{d.style.opacity=0;},4200);}
+function petGift(e){PETG=1;if((UP.pet||0)>=3)return;UP.pet=(UP.pet||0)+1;const ally=petOffer();addPet();const q=PETS[PETS.length-1];if(q&&e&&e.mesh)q.g.position.copy(cpos(e));
+  if(q)burst(q.g.position,26,[0x9cff8a,0xffffff,0xffe060],3,26,0.8);sfx('lvup',null,0.6);const msg=petNotice(ally);banner(msg,3.2);petToast(msg);updLvHud();}
+function petToast(t,ms=4200){let d=$('petmsg');if(!d){d=document.createElement('div');d.id='petmsg';d.style.cssText='position:absolute;left:0;right:0;top:36%;z-index:30;text-align:center;font-size:clamp(20px,3.6vw,38px);font-weight:900;letter-spacing:.05em;color:#c8ff9a;text-shadow:0 0 12px #2a8a20,0 3px 0 #0a3a08,0 0 3px #000;pointer-events:none;transition:opacity .5s;opacity:0;padding:0 16px';($('banner').parentNode||document.body).appendChild(d);}
+  d.textContent=t;d.style.opacity=1;clearTimeout(d.__t);d.__t=setTimeout(()=>{d.style.opacity=0;},ms);}
 {const k0=killEnemy;killEnemy=function(e,quiet){const was=e&&!e.dead,r=k0.apply(this,arguments);
   try{if(was&&e.dead&&!quiet&&e.wyv&&e.boss&&SCN===1&&state==='play'&&!PETG)petGift(e);}catch(x){}return r;};}
 // 保存・章のはじめ：もらった印（pg）を持ち越す。第2章以降から続ける時、印が無ければ1匹付ける
@@ -8090,7 +8150,7 @@ Object.assign(CH,{ufo:{name:'UFO',em:'🛸',tag:'空と地上・大型ロボに�
   sp:'ufolaser',spN:'レーザー乱れ撃ち',spD:'前方の敵をねらい、左右から細いレーザーを続けて撃つ',sp2:'ufosweep',sp2N:'回転レーザー掃射',sp2D:'反対向きの2本のレーザーで一周し、まわりの敵を切り刻む',dash:'bank',dashN:BANK_NAME,dashD:BANK_DESC,
   mel:{r:12,dmg:70,cd:0.7,ono:'ガシャン！'},model:{id:'p8ufo',w:12,h:4,d:12,mouth:[0,-0.3,5]},camB:32,camU:12,gOff:2,stat:[4,4,4]}});
 // 巨大化する魔法使い：体力半分で禁じられた巨大化の術を使う。
-Object.assign(CH,{gwizard:{name:'巨大化する魔法使い',em:'🧙',tag:'地上・リングで30秒巨大化',ds:'魔法の弾と雷、光線で戦う魔法使い。金のリングをくぐると30秒間、巨大な魔術師に変身し、杖と魔法の弾が強くなる。仲間は勇者・戦士・僧侶。時間切れで元の姿へ戻る。変身中のリングで残り30秒に戻せる。',hp:360,spd:23,turn:2.2,fly:false,range:220,
+Object.assign(CH,{gwizard:{name:'巨大化する魔法使い',em:'🧙',tag:'地上・リングで30秒巨大化',ds:'魔法の弾と雷、光線で戦う魔法使い。金のリングをくぐると30秒間、巨大な魔術師に変身し、杖と魔法の弾が強くなる。時間切れで元の姿へ戻る。変身中のリングで残り30秒に戻せる。',hp:360,spd:23,turn:2.2,fly:false,range:220,
   br:{mat:new THREE.MeshBasicMaterial({color:0xb070ff}),geo:'bolt',dmg:40,cd:0.55,spd:175,life:1.8,size:1.1,splash:5,col:[0xb070ff,0x7040d0,0xffffff],trail:[0xb070ff,0x7040d0],flash:0xb070ff},
   sp:'thunder',spN:'天罰の雷',spD:'近くの敵へ雷を落とす',sp2:'gbeam',sp2N:'魔力の光線',sp2D:'前へ太い光線を放ち、敵をつらぬく',dash:'guard',dashN:'魔法の守り',dashD:'魔法の守りで受けるダメージをへらす',mel:{r:9,dmg:55,cd:0.65,ono:'バシッ！'},
   model:{id:'wizard',w:3.6,h:4.8,d:3.6,mouth:[0.8,1.1,2]},camB:23,camU:9,gOff:2.4,stat:[4,3,4]}});
@@ -8100,7 +8160,7 @@ Object.assign(CH,{cube:{name:'合体キューブ',em:'🧊',tag:'地上・リン
   sp:'fissure',spN:'地割れ',spD:'前へ岩のトゲを走らせ、敵を打ち上げる',sp2:'gbeam',sp2N:'破壊光線',sp2D:'合体した力で太い光線を放つ',dash:'guard',dashN:'防御',dashD:'立方体の守りで受けるダメージをへらす',mel:{r:10,dmg:60,cd:0.6,ono:'ガシャン！'},
   model:{w:10,h:6,d:10,mouth:[0,0.5,4]},camB:29,camU:12,gOff:3,stat:[5,3,4]}});
 // 巨大スライム：酸の弾と体当たり。被弾で生まれる手下とレア札の仲間は別枠。
-Object.assign(CH,{slime:{name:'巨大スライム',em:'🟢',tag:'地上・被弾で手下がふえる',ds:'酸の弾と体当たりで戦う。攻撃を受けるたびに小さなスライムが1匹ふえ、近くの敵に突撃してはじける。手下は最大10匹。レア札の仲間は別枠の小悪魔。',hp:500,spd:23,turn:2.2,fly:false,range:150,
+Object.assign(CH,{slime:{name:'巨大スライム',em:'🟢',tag:'地上・被弾で手下がふえる',ds:'酸の弾と体当たりで戦う。攻撃を受けるたびに小さなスライムが1匹ふえ、近くの敵に突撃してはじける。手下は最大10匹。',hp:500,spd:23,turn:2.2,fly:false,range:150,
   br:{mat:new THREE.MeshBasicMaterial({color:0xa6f238}),dmg:42,cd:0.65,spd:145,life:1.5,size:1.35,splash:6,col:[0xa6f238,0x54b82e,0xe9ff9c]},
   sp:'quake',spN:'のしかかり地響き',spD:'大きな体を地面にたたきつけ、近くの敵を吹きとばす',sp2:'fissure',sp2N:'地割れ体当たり',sp2D:'地面を割る衝撃を前へ走らせる',dash:'charge',dashN:'ぷるぷる突進',dashD:'前へ体当たりして、ふれた敵を吹きとばす',mel:{r:11,dmg:85,cd:0.65,ono:'ぷよん！'},
   model:{id:'slime2',w:11,h:7,d:10,mouth:[0,0.4,5]},camB:29,camU:12,gOff:3.5,stat:[5,3,4]}});
@@ -8115,7 +8175,7 @@ Object.assign(CH,{necromancer:{name:'ネクロマンサー',em:'💀',tag:'地�
   sp:'deadarmy',spN:'死者の軍勢',spD:'骸骨兵を8体、一度に呼び出す。古い兵から入れかわる',sp2:'pillars',sp2N:'光の柱',sp2D:'近くの敵へ、空から魔法の光の柱を落とす',dash:'guard',dashN:'闇の守り',dashD:'闇をまとい、受けるダメージをへらす',mel:{r:8,dmg:45,cd:0.7,ono:'バシュッ！'},
   model:{id:'skelmage',w:3.8,h:5.8,d:3.2,mouth:[0,1,2]},camB:23,camU:9,gOff:2.9,stat:[3,3,5]}});
 // ぬらりひょん：本人の攻撃は控えめ。妖怪は最大8体、突撃して消え、時間で補充される。
-Object.assign(CH,{nurarihyon:{name:'ぬらりひょん',em:'👺',tag:'地上・妖怪の総大将',ds:'まわりを回る妖怪が近くの敵へ突撃し、当たると消える。手下は時間とともに1体ずつふえ、最大8体。敵の弾は残像を残して横へよける。百鬼夜行で鬼を横一列に呼び、突撃させる。レア札の仲間は別枠の烏天狗。',hp:290,spd:21,turn:2.5,fly:false,range:150,
+Object.assign(CH,{nurarihyon:{name:'ぬらりひょん',em:'👺',tag:'地上・妖怪の総大将',ds:'まわりを回る妖怪が近くの敵へ突撃し、当たると消える。手下は時間とともに1体ずつふえ、最大8体。敵の弾は残像を残して横へよける。百鬼夜行で鬼を横一列に呼び、突撃させる。',hp:290,spd:21,turn:2.5,fly:false,range:150,
   br:{mat:new THREE.MeshBasicMaterial({color:0xc08aff}),geo:'bolt',dmg:16,cd:0.95,spd:135,life:1.5,size:0.8,splash:2,col:[0xc08aff,0x7040b0,0xffffff],trail:[0xc08aff,0x7040b0],flash:0xc08aff},
   sp:'hyakki',spN:'百鬼夜行',spD:'手下を8体の鬼に入れかえ、横一列で前へ突撃させる',sp2:'thunder',sp2N:'落雷',sp2D:'近くの敵に妖術の雷を落とす',dash:'guard',dashN:'妖怪の守り',dashD:'身をかため、受けるダメージをへらす',mel:{r:6,dmg:20,cd:0.8,ono:'ぺしっ！'},
   model:{id:'nurarihyon',w:3.6,h:5.4,d:3.2,mouth:[0,1,1.8]},camB:26,camU:11,gOff:2.7,stat:[3,3,5]}});
@@ -8143,11 +8203,14 @@ function startGame(from){initAudio();
 function updSeld(){const b=$('seld'),c=document.querySelector('#cards .card.on')||document.querySelector('#cards .card[data-k="'+charKey+'"]');if(!b||!c)return;const x=c.cloneNode(true);const st=[...x.querySelectorAll('.st')];const w=document.createElement('div');w.className='sts';st.forEach(e=>w.appendChild(e));x.appendChild(w);b.innerHTML=x.innerHTML;}
 function updGo(){setTimeout(updSeld,0);$('go').textContent=reached?`${C.name}で${STAGES[reached].ch}から`:`${C.name}で出撃`;$('first').style.display=reached?'inline-block':'none';renderSk();}
 // 選んでいるキャラの技3つ（小さな絵・操作・名前・ひとこと）。絵が読めなくても文字だけで分かる
-const PETJA={orcgeneral:'オーク将軍',airship:'小さな飛空艇',imp:'小悪魔',devilsoldier:'悪魔の兵',dragon:'小さな赤い竜',wyvern2:'小さなワイバーン',ground:'小さな地竜',wizard:'魔法使い',priest:'僧侶',archer:'弓兵',captain:'隊長',soldier:'兵士',bgolem:'小さな岩人形',goblin:'ゴブリン',hawkrider:'鷹乗り',orc:'オーク',griffin:'グリフォン',p8drone:'ドローン',shark:'サメ',fishman:'魚人'};
 // 11/16 ふみさん「キャラ選択画面で、変身（上級技）や仲間も表示」
-function skExtra(){try{const L=(typeof PETM!=='undefined'&&(PETM[charKey]||PETM.dragon))||[],pets=charKey==='airship'?'5隻ずつの飛空艇船団':squadKind(charKey)?(charKey==='dragonknight'?'5騎ずつの竜騎士編隊':'隊長1人・槍兵2人・弓兵2人の5人部隊'):[...new Set(L.map(p=>PETJA[p[0]]||p[0]))].join('・');
+function skExtra(){try{
+  const max=UPS.find(u=>u.k==='pet').mx,group=PET_GROUPS[charKey],own=PET_SEPARATE[charKey];
+  const names=Array.from({length:max},(_,i)=>petOffer(charKey,i).name);
+  const roster=group?group.roster:names.every(name=>name===names[0])?names[0]:names.join(' → ');
+  const refill=group?`全滅した${group.kind}はレア札で補充できる。`:'倒された仲間はレア札で補充できる。';
   const adv=[C.sp,C.sp2].filter(k=>k&&ADVN[k]&&SKINFO[k]).map(k=>`<span class="adv">${SKINFO[k].n} → ${ADVN[k].join(' → ')}</span>`).join('');
-  return `<div class="skx"><div><b>🤝 仲間</b>（レベルアップのレア札で、最大3${charKey==='airship'?'船団':squadKind(charKey)?'部隊':'体'}）${pets}</div>${adv?`<div><b>⏫ 技の変身</b>（レベルアップの上級技）${adv}</div>`:''}</div>`;}catch(e){return '';}}
+  return `<div class="skx"><div><b>🤝 仲間</b>レベルアップのレア札（最大${max}${group?.kind||'枠'}）<br>${roster}<br>${refill}${own?`<br>${own}は別枠。`:''}</div>${adv?`<div><b>⏫ 技の変身</b>（レベルアップの上級技）${adv}</div>`:''}</div>`;}catch(e){return '';}}
 {const st=document.createElement('style');st.textContent='#skp .skx{grid-column:1/-1;width:100%;font-size:12.5px;line-height:1.55;background:#000a;border:1px solid #ffb03055;border-radius:8px;padding:5px 9px;text-align:left}#skp .skx b{color:#ffd27a;margin-right:6px}#skp .skx .adv{display:inline-block;margin-right:10px;color:#ffe9c0}body.mob #skp .skx{font-size:11px;padding:4px 7px}';document.head.appendChild(st);}
 function renderSk(){const b=$('skp');if(!b||!C)return;const esc=t=>String(t==null?'':t).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
   const L=[['sp','左クリック',C.spN,C.spD],['sp2','右クリック',C.sp2N,C.sp2D],['sp3','スペース',C.dashN,C.dashD]];
@@ -9969,10 +10032,10 @@ const S1M={t0:-1e9,g:0,c:0,until:0,p:0};
   return r;};
  const b0=banner;banner=function(t,d){const el=performance.now()-S1M.t0;
   if(el<7000&&typeof t==='string'){
-   if(t.indexOf('子分になった')>=0&&!S1M.g){S1M.g=1;b0('🏆 模擬戦、一本！ 勝負あり！',2.4);setTimeout(()=>{if(state==='play'){b0(t,d);try{sfx('lvup',null,0.6);}catch(_){}}},2600);return;}
+   if(t.endsWith('が仲間に加わった！')&&!S1M.g){S1M.g=1;b0('🏆 模擬戦、一本！ 勝負あり！',2.4);setTimeout(()=>{if(state==='play'){b0(t,d);try{sfx('lvup',null,0.6);}catch(_){}}},2600);return;}
    if(t.indexOf('クリア！')>=0&&!S1M.c){S1M.c=1;setTimeout(()=>{if(state==='play')b0(t,d);},Math.max(0,6200-el));return;}}
   return b0.apply(this,arguments);};
- const pt0=petToast;petToast=function(t){const el=performance.now()-S1M.t0;if(el<2500){setTimeout(()=>pt0(t),2600-el);return;}return pt0.apply(this,arguments);};
+ const pt0=petToast;petToast=function(t,ms){const el=performance.now()-S1M.t0;if(el<2500){setTimeout(()=>pt0(t,ms),2600-el);return;}return pt0.apply(this,arguments);};
  const cg0=clearGap;clearGap=function(fn){const w=S1M.until-performance.now();if(S1M.p)return;
   if(w>0&&SCN===1){S1M.p=1;waveWait=1e3;setTimeout(()=>{S1M.p=0;S1M.until=0;if(state==='play')cg0(fn);},w);return;}return cg0.apply(this,arguments);};}
 // C 章の終わりの紙芝居と、次の章の始まりの紙芝居の間に、章の題の1枚をはさむ
@@ -10930,8 +10993,6 @@ function gwizardTick(){} // プレイヤーの変身はリングで行う。
 Object.assign(PETM,{gwizard:[['hero',0],['soldier',0],['priest',0]]});
 Object.assign(PETH,{hero:3.4});
 Object.assign(PETJA,{hero:'勇者'});
-// 既存の兵士の呼び名は保ち、このキャラの仲間欄だけ「戦士」と表示する。
-{const prev=skExtra;skExtra=function(){const text=prev.apply(this,arguments);return charKey==='gwizard'?text.replace('勇者・兵士・僧侶','勇者・戦士・僧侶'):text;};}
 SKPOOL.gwizard=['thunder','gbeam','pillars','discharge'];
 // 新しい模型を作らず、敵のcbFbとcbShapeを使う。敵のAIは呼ばない。
 const CUBEF=[
@@ -11721,13 +11782,8 @@ function squadTick(p,dt,t){if(dt<=0||PAUSED||LVUP||state!=='play')return;p.time=
   for(const e of EN){if(!e.dead&&e.dmg&&cpos(e).distanceTo(at)<(e.r||1)+(p.fleet?4.4:1.6))squadHurt(p,u,e.dmg*dt*0.7,true);}
  }
 }
-const SQUADPETBASE=Object.assign({},UPS.find(u=>u.k==='pet'));
-function squadCard(){const u=UPS.find(u=>u.k==='pet');Object.assign(u,SQUADPETBASE);if(charKey==='ufo'){u.ic='🛸';u.nm='小型UFOが加わる';u.ds='まわりを飛び、細いレーザーで援護する（最大3機）';}else if(charKey==='airship'){u.ic='🚩';u.nm='5隻の飛空艇船団';u.ds='飛空艇5隻が別のV字船団で加わり、小砲弾で援護する（最大3船団）';}
- else if(squadKind(charKey)){u.ic='🚩';u.nm='5'+(charKey==='dragonknight'?'騎':'人')+'の援軍';u.ds=charKey==='dragonknight'?'5騎の竜騎士が別のV字編隊で加わり、小火炎と矢で援護する':'隊長1人・槍兵2人・弓兵2人が別部隊で加わり、いっしょに戦う';}}
-{const before=setChar;setChar=function(){const r=before.apply(this,arguments);squadCard();return r;};}
 {const before=resetLv;resetLv=function(){for(const p of PETS)if(p.squad)rideRelease(p.g);return before.apply(this,arguments);};}
 {const before=setupStage;setupStage=function(){const r=before.apply(this,arguments);for(const p of PETS)if(p.squad){p.target=null;p.scan=0;p.g.position.copy(squadHome(p));if(!p.fly)p.g.position.y=DUN.on?DUN.y:floorAt(p.g.position.x,p.g.position.z);p.g.rotation.y=P.yaw;squadPlace(p,0);}return r;};}
-CH.army.ds+=' 仲間のレア札1枚で5人の別部隊が加わる（最大3部隊）。';CH.dragonknight.ds+=' 仲間のレア札1枚で5騎の別編隊が加わる（最大3部隊）。';CH.airship.ds+=' 仲間のレア札1枚で5隻の船団が加わる（最大3船団）。';squadCard();
 
 
 // ring_forms_1116：体力ではなく金のリングで一時変身。第2形態60秒→第3形態30秒。
