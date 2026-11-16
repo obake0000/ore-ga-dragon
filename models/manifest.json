@@ -1899,5 +1899,41 @@
   "h": 6.7,
   "ja": "プレイヤー用海王（通常／超大型）",
   "rot": 0
+ },
+ "dino_fern_1116": {
+  "file": "dino_fern_1116.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "恐竜の森の低いシダ"
+ },
+ "field_cannon_1116": {
+  "file": "field_cannon_1116.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "木製車輪の野戦砲"
+ },
+ "jungle_rockspire_1116": {
+  "file": "jungle_rockspire_1116.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "苔むした自然岩柱"
+ },
+ "fairy_blossom_1116": {
+  "file": "fairy_blossom_1116.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "妖精の花灯り"
+ },
+ "yokai_lantern_1116": {
+  "file": "yokai_lantern_1116.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "赤い一つ目提灯"
+ },
+ "necrobonehound_1116": {
+  "file": "necrobonehound_1116.glb",
+  "h": 2.6,
+  "rot": 0,
+  "ja": "骨犬（走り・噛みつき）"
  }
 }
