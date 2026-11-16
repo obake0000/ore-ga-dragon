@@ -1115,7 +1115,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAF';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFT';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
