@@ -1115,7 +1115,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTAD';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADG';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -1124,7 +1124,7 @@ async function loadModels(){try{await loadModels0();}finally{loadDone();}}
 async function loadModels0(){
   if(!THREE.GLTFLoader||location.protocol==='file:')return;
   try{const r=await fetch('models/manifest.json',{cache:'no-store'});if(!r.ok)return;const mf=await r.json();LOADN=Object.keys(mf).length;const ld=new THREE.GLTFLoader();
-    const PRI=['nurarihyon','y_origami','y_oni','y_whitefox','y_karasu','skelmage','skel','skeleton','slime2','imp','dragon','wyvern2','wyvern','ground','hero','army','golem','orctank','airship','redcap','kraken','kraken2','archangel','angelstatue','p8bomber','bomber_modern_bomb','p8fighter','dogu_city_tower_1116','hero_pegasus_game_1116','dino_canopy_1116','dino_canopy_small_1116'];const ENT=Object.entries(mf).sort((a,b)=>{const ia=PRI.indexOf(a[0]),ib=PRI.indexOf(b[0]);return (ia<0?99:ia)-(ib<0?99:ib);});
+    const PRI=['nurarihyon','y_origami','y_oni','y_whitefox','y_karasu','skelmage','skel','skeleton','slime2','imp','dragon','wyvern2','wyvern','ground','hero','army','golem','orctank','airship','redcap','kraken','kraken2','archangel','angelstatue','p8bomber','bomber_modern_bomb','p8fighter','dogu_city_tower_1116','hero_pegasus_game_1116','dino_canopy_1116','dino_canopy_small_1116','orcgeneral','orc','bigwolf'];const ENT=Object.entries(mf).sort((a,b)=>{const ia=PRI.indexOf(a[0]),ib=PRI.indexOf(b[0]);return (ia<0?99:ia)-(ib<0?99:ib);});
     let qi=0,priLeft=ENT.filter(e=>PRI.includes(e[0])).length;const one=([id,v])=>new Promise(res=>(function lo(n){ld.load('models/'+v.file+'?v='+ASSET_V+(n?'&r='+n:''),g=>{
       g.scene.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;(Array.isArray(o.material)?o.material:[o.material]).forEach(mt=>{if(!mt)return;if(mt.map){mt.map.encoding=THREE.LinearEncoding;mt.map.needsUpdate=true;}if(mt.emissiveMap)mt.emissiveMap.encoding=THREE.LinearEncoding;if('metalness' in mt){mt.metalness=0;mt.metalnessMap=null;mt.roughness=0.85;mt.roughnessMap=null;}mt.needsUpdate=true;});}});
       let sk=false;g.scene.traverse(o=>{if(o.isSkinnedMesh)sk=true;});if(id==='wyvern')fixWyvernLeg(g.scene);if(id==='dragon')addJaw(g.scene);if(id==='p8rex')rexJaw(g.scene);MODEL[id]={scene:g.scene,skin:sk,anims:g.animations||[],rot:(v.rot!==undefined?v.rot:-90)*Math.PI/180};layModel(id);if(id==='airship')prepAirProp(g.scene);else if(PLANE_PROPS[id])prepPlaneProps(g.scene,id);loadStep();modelArrived(id);res();},undefined,()=>{if(n<2){setTimeout(()=>lo(n+1),600);return;}loadStep();res();});})(0));
@@ -1250,6 +1250,7 @@ const updMixBase=updMix;
 updMix=function(dt){updMixBase(dt);dinoFeetOnFloor();};
 function updMix(dt){for(let i=MIX.length-1;i>=0;i--){const o=MIX[i];if(!o.g.parent){MIX.splice(i,1);continue;}
   if(o.court){courtMix(o,dt);continue;}
+  if(o.wolfSeat){orcWolfRiderMix(o,dt);continue;}
   if(o.arch){archangelMix(o,dt);continue;}if(o.wy3){updWy3(o,dt);continue;}if(o.rig){updRig(o,dt);continue;}
   if(o.g2){updG2(o,dt);continue;}
   // 歩く速さに合わせて足の動きを速く・遅くする（止まっている時はゆっくり）
@@ -4341,8 +4342,8 @@ const WV={warn:0};
 // ボスや大事な場面を片付けた時：ゆっくり（スロー）→ 竜がほえる → 金の大きな文字 → 少し間をおいてから次の波
 // 11/15 ふみさん「ボスのあと雑魚が残ると切れが悪い。間をとって雑魚が消えるのがいい」
 // ボスを倒したら1.4秒待って、ほかのボスがいなければ、残った雑魚を煙とともに消す（逃げ散る）
-function bossSweep(){clearTimeout(bossSweep.t);bossSweep.t=setTimeout(()=>{try{if(state!=='play')return;if(EN.some(x=>!x.dead&&x.boss&&!x.fall))return;
-  const L=EN.filter(x=>!x.dead&&!x.boss&&!x.fall);L.forEach((x,i)=>setTimeout(()=>{if(x.dead||state!=='play')return;const c=cpos(x);smoke(c,4,3+(x.r||2),1.2,0xd8d0c0,3);killEnemy(x,true);},i*25));
+function bossSweep(){clearTimeout(bossSweep.t);bossSweep.t=setTimeout(()=>{try{if(state!=='play')return;if(orcWolfBusy()||EN.some(x=>!x.dead&&x.boss&&!x.fall))return;
+  const L=EN.filter(x=>!x.dead&&!x.boss&&!x.fall&&!x.wolfPack);L.forEach((x,i)=>setTimeout(()=>{if(x.dead||state!=='play'||!EN.includes(x)||orcWolfBusy())return;const c=cpos(x);smoke(c,4,3+(x.r||2),1.2,0xd8d0c0,3);killEnemy(x,true);},i*25));
   if(L.length>2){const q=P.pos.clone().add(new V3(0,8,0));ono(q,'雑魚は逃げ出した！','#ffe9b0',34);}}catch(e){}},1400);}
 function glory(big,small){try{let d=$('glory');if(!d){d=document.createElement('div');d.id='glory';d.innerHTML='<div class="gr"></div><div class="gb"></div><div class="gs"></div>';$('banner').parentNode.appendChild(d);
    const st=document.createElement('style');st.textContent='#glory{position:fixed;inset:0;pointer-events:none;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0}'
@@ -5158,7 +5159,7 @@ const ST={
   skel:{hp:80,r:1.9,hc:1.8,val:20,dmg:8,ic:'💀'},devilsol:{hp:120,r:2.1,hc:2,val:30,dmg:10,ic:'👿'},skelmage:{hp:180,r:2,hc:2,val:110,dmg:0,ic:'🔮'},
   bigskel:{hp:1500,r:15,hc:15,val:500,dmg:24,ic:'💀'},cerberus:{hp:3800,r:10,hc:6,val:1800,dmg:22,boss:'🐕 地獄の番犬ケルベロス',ic:'🐕'},
   bknight:{hp:3200,r:4,hc:4,val:2200,dmg:30,boss:'⚔️ 黒い騎士',ic:'⚔️'}};
-const EN=[];
+const EN=[],ORC_WOLF_PACKS=[];
 function cpos(e){const p=e.mesh.position;return e.cp.set(p.x,p.y+e.hc,p.z);}
 function addEnemy(type,x,z,y,o={}){
   const s=ST[type];let m,dr=null;
@@ -5206,7 +5207,7 @@ function hitEnemy(e,n){if(e.dead)return;
   if(e.hp<=0)killEnemy(e);}
 const drkLift=0.173;{const _ae=addEnemy;addEnemy=function(type){const e=_ae.apply(this,arguments);try{if(type==='drak'&&e&&e.mesh&&!e.dl){e.dl=1;const h=e.mesh.children[e.mesh.children.length-1];if(h&&h.isGroup)h.position.y+=drkLift;}}catch(_){}return e;};}
 const DIE={orctank:'わ、わしの……デラックス戦車が……！',ogre:'グ……オオ……',drak:'……見事だ。同じ、竜の血か……',biggolem:'……ゴ、ゴゴ……',wizard:'そんな…わしの魔力が…',hero:'すまない…みんな…',demon:'この私が…トカゲごときに…',rival:'…強くなったな。',wooddragon:'……ギギ……ギ……',walker:'城が……ローンが、まだ……',elder:'見事だ、若き竜よ。空はお前のものだ。',battleship:'総員、退艦…！ 泳げる者から…！',bigairship:'空の…王の船が…！',kraken:'ゴボ…ゴボボ……'};
-function killEnemy(e,quiet){if(e.dead)return;if(e.boss&&state==='play'&&!quiet)bossSweep();if(e.boss&&state==='play'&&!quiet&&!WV.majT)WV.maj=String(e.boss).replace(/^\S+\s+/,'').replace(/（.*?）/g,'');if(e.s6x&&!quiet&&state==='play'){s6xCrumble(e);quiet=true;}e.dead=true;if(false&&e.king&&!e.tk2&&state==='play'&&!quiet&&ST.orctank){e.tk2=1;const q=e.mesh.position,t=addEnemy('orctank',q.x,q.z);t.said=1;tankRider(t.mesh,26,36,0);say('オークキング','まだだ！ わしには、デラックス戦車がある！');shake(0.6);}if((e.boss||e.type==='biggolem'||e.type==='bigskel')&&state==='play'&&!quiet)bossFall(e);else if(state==='play'&&!quiet&&dieOk(e))dieFall(e);else scene.remove(e.mesh);if(e.type==='bigslime'&&state==='play'&&!quiet)slimeSplit(e);score+=e.val;kills++;addXp(e.val);
+function killEnemy(e,quiet){if(e.dead)return;if(!quiet&&state==='play'&&orcWolfDeath(e))return;if(e.boss&&state==='play'&&!quiet)bossSweep();if(e.boss&&state==='play'&&!quiet&&!WV.majT)WV.maj=String(e.boss).replace(/^\S+\s+/,'').replace(/（.*?）/g,'');if(e.s6x&&!quiet&&state==='play'){s6xCrumble(e);quiet=true;}e.dead=true;if(false&&e.king&&!e.tk2&&state==='play'&&!quiet&&ST.orctank){e.tk2=1;const q=e.mesh.position,t=addEnemy('orctank',q.x,q.z);t.said=1;tankRider(t.mesh,26,36,0);say('オークキング','まだだ！ わしには、デラックス戦車がある！');shake(0.6);}if((e.boss||e.type==='biggolem'||e.type==='bigskel')&&state==='play'&&!quiet)bossFall(e);else if(state==='play'&&!quiet&&dieOk(e))dieFall(e);else scene.remove(e.mesh);if(e.type==='bigslime'&&state==='play'&&!quiet)slimeSplit(e);score+=e.val;kills++;addXp(e.val);
   if(state==='play'){combo++;comboT=3.5;if(combo>maxCombo)maxCombo=combo;score+=Math.round(e.val*Math.min(combo,40)*0.05);showCombo();}
   const c=cpos(e);burst(c,e.fall?16:e.boss?70:14,e.type==='rival'?(e.wyv?WGRN:BLUE):e.type==='demon'||e.type==='imp'?PURP:e.type==='slime'?GOO:FIRE,e.fall?4:e.boss?9:3,e.boss?50:16,e.boss?1.4:0.7);
   if(!quiet)sfx(e.boss?'boom':'small',c,e.boss?1:0.5);if(e.boss)ono(c,'ズドーン!!','#ff5a1a',72);else if(e.r>=4)ono(c,'ドカッ！','#ffd23a',40);
@@ -5313,12 +5314,12 @@ function bsTick(e,dt,p,half){const kd=bsKind(e);if(!kd)return;let b=e.bs;if(!b)b
       if(P.pos.distanceTo(T)<b.Rh)hurt(e.dmg*1.2+6);}}
   else{const k=Math.min(1,b.t/BSB),q=(1-k)*(1-k);off=q;tilt=TM*q;if(k>=1){b.ph=0;b.cd=(half?rnd(4.5,6.5):rnd(6.5,9))*(EASY?1.4:1);e._rx=b.rx0;m.rotation.x=b.rx0;return;}}
   b.ox=b.dir.x*b.L*off;b.oy=b.dir.y*b.L*off;b.oz=b.dir.z*b.L*off;p.x+=b.ox;p.y+=b.oy;p.z+=b.oz;b.ry=yaw;m.rotation.y+=yaw;e._rx=b.rx0+tilt;m.rotation.x=e._rx;}
-function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);
+function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);if(dt>0&&!BTK.on)orcWolfTick(dt);
   for(let i=EN.length-1;i>=0;i--){const e=EN[i];if(e.dead){EN.splice(i,1);continue;}
     if(BTK.on){e.cd+=dt;continue;}e.t+=dt;if(e.bs)bsPre(e);{const mx=e.mesh.userData.mix,atk=e.cd>(e._pc===undefined?e.cd:e._pc)+0.3;if(mx&&mx.hit){if(atk||(e.mv!==e._pm&&e.mv&&!/run|dodge|power|choose|windup|guard/.test(e.mv)))mixOnce(mx,1.9);e._pm=e.mv;}else if(atk)e.atkT=0.35;}e.cd-=dt;e._pc=e.cd;const p=e.mesh.position,dx=P.pos.x-p.x,dz=P.pos.z-p.z,hd=Math.hypot(dx,dz)||1;
     const d3=cpos(e).distanceTo(P.pos);const half=e.hp<e.maxHp/2;
     if((e.rise||e.type==='cerberus'||e.type==='bigskel')&&s4Hook(e,dt,p,dx,dz,hd,half))continue;
-    switch(e.s7==='king'?'s7king':(e.s7&&e.s7[0]==='f')?'s7fish':e.type){
+    switch(e.wolfPack?'wolfpack':e.s7==='king'?'s7king':(e.s7&&e.s7[0]==='f')?'s7fish':e.type){
     case 's7king':{s7King(e,dt,p,dx,dz,hd,d3,half);break;}
     case 's7fish':{s7FishAI(e,dt,p,dx,dz,hd,d3);break;}
     case 'slime':{const on=grav(e,dt);
@@ -5573,7 +5574,7 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);
       break;}
     }
     {const SL=e.shout||SHOUT[e.type];if(SL&&!e.giant&&hd<110&&Math.random()<dt*0.05){bubble(e,SL[(Math.random()*SL.length)|0],e.type==='soldier'||e.type==='archer'||e.shout?'shout':'',1.5);}}
-    if(!e.fly){const pr=Math.hypot(p.x,p.z);if(pr>340){p.x*=340/pr;p.z*=340/pr;}}
+    if(!e.fly&&!e.wolfPack){const pr=Math.hypot(p.x,p.z);if(pr>340){p.x*=340/pr;p.z*=340/pr;}}
     if(P.dashT>0&&e.dashSeen!==P.dashHit&&d3<e.r+(C.human?3.5:7)){e.dashSeen=P.dashHit;hitEnemy(e,P.rushD||70);ono(cpos(e),'ガッ！','#fff',38);burst(cpos(e),12,SPARK,3,20,0.4);shake(0.2);sfx('hit',p);}
     mobAtk(e,dt,d3);
     bsTick(e,dt,p,half);
@@ -5585,7 +5586,7 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);
   }
   for(let a=0;a<EN.length;a++){const A=EN[a];if(A.fly||A.dead||A.perch)continue;for(let b=a+1;b<EN.length;b++){const B=EN[b];if(B.fly||B.dead||B.perch)continue;
     const pa=A.mesh.position,pb=B.mesh.position,dx=pb.x-pa.x,dz=pb.z-pa.z,d=Math.hypot(dx,dz),m=(A.r+B.r)*0.8;
-    if(d<m&&d>0.001){const k=(m-d)/d*0.5;pa.x-=dx*k;pa.z-=dz*k;pb.x+=dx*k;pb.z+=dz*k;}}}
+    if(d<m&&d>0.001){const k=(m-d)/d;if(!A.wolfPack){const f=B.wolfPack?k:k*0.5;pa.x-=dx*f;pa.z-=dz*f;}if(!B.wolfPack){const f=A.wolfPack?k:k*0.5;pb.x+=dx*f;pb.z+=dz*f;}}}}
 }
 
 /* ================= シナリオ3：オークキング編（scn3_orc.py） ================= */
@@ -5666,7 +5667,7 @@ function balShot(e,m){const big=e.bal>1;e.cd=big?rnd(4,5.5):rnd(2.8,4.2);const n
 function bossIntro(e,pt,ic){if(state!=='play')return;bossZoom(e);if(!PTS.includes('orcking'))PTS.push('orcking');cutin(PTS.includes(pt)?pt:ic,e.nm,'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');}
 function ksay(e,t){talk([[e.nm,t]]);bubble(e,t.length>16?t.slice(0,15)+'…':t,'boss',3);}
 function addGeneral(x,z,raw,label){const GM=MODEL.orcgeneral?'orcgeneral':(MODEL.orc?'orc':undefined);const e=addEnemy('ogre',x,z,undefined,{model:GM});
-  e.gen=1;e.orc=0;e.boss='🪓 オーク将軍';e.nm='オーク将軍';s3Scale(e,(GM==='orcgeneral'?1.0:MODEL.orc?0.6:0.85)*0.92);e.mesh.scale.setScalar(e.sc);e.r*=1.3;e.hp=e.maxHp=s3bhp(raw);e.val=Math.round(raw*0.7);e.dmg=20;e.sr=24;e.sw=EASY?1.5:1.2;e.sk=rnd(2,4);e.rk=99;e.cd=2.5;e.die='ぐ……王よ……すまぬ……';
+  e.gen=1;e.orc=0;e.nm=label||'オーク将軍';e.boss='🪓 '+e.nm;e.wolfReturn=!label;s3Scale(e,(GM==='orcgeneral'?1.0:MODEL.orc?0.6:0.85)*0.92);e.mesh.scale.setScalar(e.sc);e.r*=1.3;e.hp=e.maxHp=s3bhp(raw);e.val=Math.round(raw*0.7);e.dmg=20;e.sr=24;e.sw=EASY?1.5:1.2;e.sk=rnd(2,4);e.rk=99;e.cd=2.5;e.die='ぐ……王よ……すまぬ……';
   if(GM!=='orcgeneral')s3Tint(e,0x8a3a22,MODEL.orc?0.28:0.35);bossIntro(e,'orcgen','🪓');return e;}
 function addKing(x,z){const e=addEnemy('ogre',x,z,undefined,{model:MODEL.orcking?'orcking':undefined});
   e.king=1;e.boss='👑 オークキング';e.nm='オークキング';{const q=0.7;e.sc=q;e.r*=0.93*q;e.hc*=q;e.mesh.scale.setScalar(q);}e.hp=e.maxHp=s3bhp(3800);e.val=3000;e.dmg=26;e.sr=24;e.sw=EASY?1.5:1.15;e.sk=rnd(2.5,4);e.rk=6;e.cd=3;e.die='ぐ……ぬう……。森が……泣くぞ……';
@@ -5819,7 +5820,7 @@ const S3W={
     orcForm(F.cx,F.cz+70,2,3,{elite:1,hp:140});F.towers.forEach((b,i)=>{if(i>=4)s3Bal(b,0);else s3Arch(b,0);});s3Hawks(5);s3Dogs(5);},
   king1(){orcForm(0,-150,2,5,{elite:1,hp:150});for(let i=0;i<4;i++)dogPut(rnd(-60,60),-190,{knight:1});trollPut(-40,-170);trollPut(40,-170);[-55,55].forEach(x=>{if(!s3skip())addBallista(x,-140,{big:1});});
     for(let i=0;i<8;i++)orcPut(rnd(-50,50),-215,{arch:1,hp:45,sc:1.4});s3Hawks(6);s3Dogs(5);s3Ranks([[-70,-235,3,8],[70,-235,3,8]]);},
-  king2(){addGeneral(-40,-170,1400);addGeneral(40,-170,1400);orcForm(0,-150,2,6);s3Hawks(6);s3Dogs(6);},
+  king2(){addGeneral(-40,-170,1400,'親衛隊長');addGeneral(40,-170,1400,'親衛隊長');orcForm(0,-150,2,6);s3Hawks(6);s3Dogs(6);},
   king3(){addKing(0,-175);orcForm(0,-130,2,4,{elite:1,hp:150});}
 };
 
@@ -6864,7 +6865,7 @@ function armyMore(){try{
     {const cx=q.x+Math.cos(a)*d,cz=q.z+Math.sin(a)*d,cy=e.fly?q.y+(Math.random()*6-3):undefined;if(e.s7&&typeof s7Add==='function')s7Add(e.s7,cx,cz,cy);else if(e.s6&&typeof s6Spawn==='function')s6Spawn(e.s6,cx,cz,cy,{});else addEnemy(e.type,cx,cz,cy,Object.assign({},e._o||{}));}
     const c=EN[EN.length-1];if(EN.length>n&&c){c._cl=1;c.sc=e.sc;c.r=e.r;c.hc=e.hc;c.hp=e.hp;c.maxHp=e.maxHp;c.dmg=e.dmg;c.val=e.val;if(e.fu)fuJoin(c,e);}}
 }catch(_){}}
-function thinWave(){let k=0;for(let i=EN.length-1;i>=0;i--){const e=EN[i];if(e.dinoHerd||e.boss||e.dead||e.type==='biggolem'||e.type==='bigskel'||e.type==='bigslime'||e.type==='seal'||ARMYT.includes(e.type))continue;k+=EASY?0.4:0.25;if(k>=1){k-=1;scene.remove(e.mesh);EN.splice(i,1);}}}
+function thinWave(){let k=0;for(let i=EN.length-1;i>=0;i--){const e=EN[i];if(e.dinoHerd||e.wolfPack||e.boss||e.dead||e.type==='biggolem'||e.type==='bigskel'||e.type==='bigslime'||e.type==='seal'||ARMYT.includes(e.type))continue;k+=EASY?0.4:0.25;if(k>=1){k-=1;scene.remove(e.mesh);EN.splice(i,1);}}}
 // 章の地形・建物を作る
 function addFlags(){if(orcLand())return;const F=[];for(const f of TER.flats){if(f[4])continue;const n=Math.max(4,Math.min(12,Math.round(f[2]/7)));for(let i=0;i<n;i++){const a=i/n*6.283+f[0]*0.01,rr=f[2]*0.85,x=f[0]+Math.cos(a)*rr,z=f[1]+Math.sin(a)*rr,y=H(x,z);if(y<WATER+0.8)continue;F.push([x,y,z]);}}
   if(!F.length)return;
@@ -8125,7 +8126,7 @@ rcCards();krCards();
 // 指で触る画面かどうかを body に印（キャラ選びの並べ方を変える）。操作の説明もスマホ用に
 if(matchMedia('(pointer:coarse)').matches){document.body.classList.add('mob');const h=document.querySelector('#select .how');if(h)h.textContent='👆 画面をなぞって移動　🔥 炎は前の敵へ自動　⭕ 右下の丸ボタンで技　画面の端の矢印＝敵のいる方向';
   {const l=document.createElement('link');l.rel='preload';l.as='image';l.href='ui/icons.webp?v='+ASSET_V;document.head.appendChild(l);}}
-function clearWorld(){treeReset();swClear();ringsClear();dunClear();ranksClear();caveClear();FALL.forEach(o=>scene.remove(o.e.mesh));FALL.length=0;EN.forEach(e=>scene.remove(e.mesh));EN.length=0;PROJ.forEach(p=>scene.remove(p.m));PROJ.length=0;PILL.forEach(q=>{scene.remove(q.rm);if(q.cm)scene.remove(q.cm);});PILL.length=0;
+function clearWorld(){orcWolfClear();treeReset();swClear();ringsClear();dunClear();ranksClear();caveClear();FALL.forEach(o=>scene.remove(o.e.mesh));FALL.length=0;EN.forEach(e=>scene.remove(e.mesh));EN.length=0;PROJ.forEach(p=>scene.remove(p.m));PROJ.length=0;PILL.forEach(q=>{scene.remove(q.rm);if(q.cm)scene.remove(q.cm);});PILL.length=0;
   EMIT.length=0;DEB.forEach(d=>scene.remove(d.m));DEBN=0;DEB.length=0;BLD.forEach(b=>{scene.remove(b.g);if(b.rub)scene.remove(b.rub);});BLD.length=0;S3.q.length=0;S3.fort=null;wave=-1;}
 // 章のはじめの強さ（レベルと強化）を覚えておく。やられても、ページを開き直しても、その章のはじめの強さで続けられる
 let CKPT=null,combo=0,comboT=0,maxCombo=0,best=0;try{best=+localStorage.getItem('dragon_best')||0;}catch(e){}
@@ -8253,7 +8254,7 @@ function frame(now){
     P.en=Math.min(100,P.en+(EASY?17:6.5)*dt);
     if(comboT>0){comboT-=dt;if(comboT<=0){combo=0;$('combo').style.opacity=0;}}
     updEnemies(dt);updProj(dt);treeTick(dt);updPill(dt);updPets(dt,t);
-    if(EN.length===0&&wave>=0){const W=curWaves();
+    if(EN.length===0&&!orcWolfBusy()&&wave>=0){const W=curWaves();
       if(waveWait<=0){const mjT=WV.majT||(WV.maj?WV.maj+'を倒した！':''),mj=mjT||W[wave].clr;waveWait=mj?(EASY?6.0:7.0):(EASY?3.0:3.4);wvClear(W);if(mj)glory(mjT||W[wave].clr.replace(/^\S+\s+/,'').split('！')[0]+'！',mjT?(W[wave].clr||''):(W[wave].clr.split('！').slice(1).join('！')||''));WV.maj=WV.majT=null;if(wave<W.length-1){if(W[wave].clr&&!mj)banner(W[wave].clr,2.4);P.hp=Math.min(P.maxHp,P.hp+P.maxHp*0.35);}else{if(!mj)banner(`🏆 ${STAGES[stage].ch}「${STAGES[stage].title}」クリア！`,3);waveWait=mj?6.0:3.2;}}
       else{waveWait-=dt;if(waveWait<1.25&&waveWait>0&&wave<W.length-1)wvWarn(W);if(waveWait<=0){if(wave<W.length-1)startWave(wave+1);else if(stage<STAGES.length-1){reached=stage+1;P.hp=Math.min(P.maxHp,P.hp+P.maxHp*0.5);clearGap(()=>{setupStage(stage+1);showStory(stage,false,true);});}else{clearGap(()=>{wave=-1;showStory(stage,true,true);});}}}
     }
@@ -10417,17 +10418,12 @@ DECOR15.y9town=[['y_toro',16,4.5],['rocktorii',3,22],['lavaspire',8,18],['volcan
    R.waves.push({name:'巨大UFO',msg:'🛸 夜空がまぶしく光った……巨大UFOが、都の真上に！',get mood(){return S8MD?S8MD.b:0;},go(){const b=s8Spawn('mothership',0,-170,P.pos.y+48,{boss:'🛸 巨大UFO'});if(b){b.die='……ピ……ピ……（光が消え、ゆっくり落ちていった）';s8BossIn(b,'🛸','巨大UFO');}s8Air('ufo',8);s8Grp('futank',2,0,-120,80,30);}});}
  const D=ALLST.find(q=>q.key==='p8dino');if(D&&D.waves[0]){const g=D.waves[0].go;D.waves[0].go=function(){g.apply(this,arguments);s8Air('ufo',3);};}}
 // ---- オーク将軍は、大きなオオカミに乗る ----
-const WOLFMX=[];
-function wolfMount(e){if(!MODEL.bigwolf||e.wolf)return;const m=cloneModel('bigwolf');if(!m)return;m.updateMatrixWorld(true);const b=new THREE.Box3().setFromObject(m),sz=b.getSize(new V3()),ws=e.mesh.scale.x||1,want=10.5,k=want/Math.max(sz.y,1e-3)/ws;m.scale.multiplyScalar(k);
-  const h=new THREE.Group();h.add(m);h.updateMatrixWorld(true);const b2=new THREE.Box3().setFromObject(h),c=b2.getCenter(new V3());m.position.x-=c.x;m.position.z-=c.z;m.position.y-=b2.min.y;e.mesh.add(h);e.wolf=h;
-  const rid=e.mesh.children.find(ch=>ch!==h&&ch.type==='Group'&&ch.children.length);if(rid)rid.position.y+=want*0.62/ws;const A=MODEL.bigwolf.anims;if(A&&A.length&&THREE.AnimationMixer){const mx=new THREE.AnimationMixer(m);mx.clipAction(A[0]).play();WOLFMX.push({mx,e});}e.r*=1.4;}
-{const ag=addGeneral;addGeneral=function(){const e=ag.apply(this,arguments);try{wolfMount(e);}catch(err){console.error('wolf',err);}return e;};}
 // ---- 天使編：神のバリスタと、空かける戦闘馬車 ----
 {for(const k of ['skygate','skytemple','archangel']){const S=ALLST.find(q=>q.key===k);if(!S)continue;S.waves.forEach((w,i)=>{const g=w.go;w.go=function(){g.apply(this,arguments);try{
    if(MODEL.godballista)for(let j=0;j<2;j++){const [x,z]=ringPos(70,130);addEnemy('cannon',x,z,undefined,{model:'godballista'});}
    if(MODEL.skychariot)for(let j=0;j<(i+1);j++){const [x,z]=ringPos(90,160);addEnemy('dknight',x,z,P.pos.y+rnd(16,28),{model:'skychariot'});}}catch(err){console.error('angelwpn',err);}};});}}
-// ---- 毎コマ：変形・オオカミの足 ----
-{const ut9=updTheme;updTheme=function(dt,t){ut9.apply(this,arguments);try{carbotTick(dt);for(let i=WOLFMX.length-1;i>=0;i--){const o=WOLFMX[i];if(o.e.dead||!o.e.mesh.parent){WOLFMX.splice(i,1);continue;}const sp=o.e.vel?Math.hypot(o.e.vel.x,o.e.vel.z):1;o.mx.update(dt*(0.4+Math.min(1.6,sp/8)));}}catch(_){}};}
+// ---- 毎コマ：ロボの変形 ----
+{const ut9=updTheme;updTheme=function(dt,t){ut9.apply(this,arguments);carbotTick(dt);};}
 // ---- 11/15 ふみさん「天界編が単調。特大のバリスタをたくさん積んだ光の神殿」「巨兵は第2章と最終章だけ。最終章は大天使が次々と巨兵を呼ぶ」 ----
 const LT={g:null,balls:[],down:0,t:0,y0:0};
 function lightTemple(){try{ltClear();const cx=0,cz=-235,gy=floorAt(cx,cz),Y=gy+40;const g=new THREE.Group();g.position.set(cx,Y,cz);
@@ -12382,6 +12378,275 @@ function treeFallRemove(q){scene.remove(q.g);for(const m of q.owned)m.dispose();
 function treeReset(){for(const q of TREE.falling)treeFallRemove(q);TREE.falling.length=0;TREE.rows.length=0;TREE.grid.clear();TREE.kills=0;}
 {const before=autoTarget;autoTarget=function(){return before.apply(this,arguments)||treeAutoTarget();};}
 
+// オーク将軍は徒歩で倒れたあと、狼の部隊を率いて戻ってくる。
+function orcWolfBusy(){
+  return ORC_WOLF_PACKS.some(pack=>pack.wait>0||pack.units.some(e=>!e.dead));
+}
+function orcWolfClear(){
+  for(const pack of ORC_WOLF_PACKS)for(const e of pack.units){
+    orcWolfStop(e);
+  }
+  ORC_WOLF_PACKS.length=0;
+  for(let i=DIEL.length-1;i>=0;i--)if(DIEL[i].m.userData.orcGeneralRetreat){
+    scene.remove(DIEL[i].m);
+    DIEL.splice(i,1);
+  }
+}
+function orcWolfStop(e){
+  if(!e.wolfMix)return;
+  e.wolfMix.stopAllAction();
+  e.wolfMix.uncacheRoot(e.wolfMix.getRoot());
+  e.wolfMix=null;
+}
+function orcWolfDeath(e){
+  if(e.wolfReturn){
+    e.wolfReturn=false;
+    e.dead=true;
+    teleOff(e);
+    ORC_WOLF_PACKS.push({foot:e,at:e.mesh.position.clone(),wait:1.8,units:[],mode:'approach',t:0,dust:0});
+    e.mesh.userData.orcGeneralRetreat=true;
+    if(dieOk(e))dieFall(e);else scene.remove(e.mesh);
+    burst(cpos(e),12,[0xc5b08c,0x92816c],3,14,0.55);
+    sfx('hit',e.mesh.position,0.75);
+    ksay(e,'いったん引くぞ！ 狼を連れてこい！');
+    return true;
+  }
+  const pack=e.wolfPack;
+  if(!pack||e.wolfResolved)return false;
+  e.wolfResolved=true;
+  orcWolfStop(e);
+  const last=pack.units.every(unit=>unit===e||unit.dead);
+  if(last&&e===pack.leader){e.boss="🪓 オーク将軍と狼の部隊";return false;}
+  if(e===pack.leader)e.boss=undefined;
+  killEnemy(e);
+  if(last){
+    WV.maj='オーク将軍と狼の部隊';
+    banner('オーク将軍と狼の部隊をたおした！',2.4);
+    sfx('boom',e.mesh.position,0.75);
+    shake(0.6);
+    bossSweep();
+  }
+  return true;
+}
+function orcWolfSlash(e){
+  const o=e.mesh.userData.mix;
+  if(!o||!o.wolfSeat||!o.hit)return;
+  const a=o.acts[o.hit.name],time=HITW[o.hit.name]||[0,o.hit.duration,1.6];
+  a.reset().setLoop(THREE.LoopOnce,1);
+  a.clampWhenFinished=true;
+  a.time=time[0];
+  a.timeScale=time[2];
+  a.play().crossFadeFrom(o.cur,0.08,false);
+  o.chargeSlash={action:a,left:(time[1]-time[0])/time[2]};
+}
+function orcWolfRiderMix(o,dt){
+  o.mx.update(dt);
+  if(o.chargeSlash){
+    const slash=o.chargeSlash;
+    slash.left-=dt;
+    if(slash.left<=0){
+      o.cur.reset().play().crossFadeFrom(slash.action,0.16,false);
+      o.chargeSlash=null;
+    }
+  }
+  const local=o.g.getWorldQuaternion(new THREE.Quaternion());
+  for(const {bone,child,aim} of o.wolfSeat){
+    // 腰と腕の動きを残し、膝が狼の左右へ出るように脚だけ曲げる。
+    const parent=bone.parent.getWorldQuaternion(new THREE.Quaternion()).invert();
+    const dir=aim.clone().applyQuaternion(local).applyQuaternion(parent);
+    const now=child.position.clone().normalize().applyQuaternion(bone.quaternion);
+    bone.quaternion.premultiply(new THREE.Quaternion().setFromUnitVectors(now,dir));
+    bone.updateMatrixWorld(true);
+  }
+}
+function orcWolfMount(e,leader){
+  const mount=cloneModel('bigwolf');
+  if(!mount){
+    // モデル読込に失敗した端末でも、二戦目の進行を続ける。
+    return;
+  }
+  const h=new THREE.Group(),rider=e.mesh.children.find(ch=>ch.isGroup&&ch.children.length);
+  const head=mount.getObjectByName('tripoHead_0'),tail=mount.getObjectByName('tripoTail_0');
+  if(head&&tail){
+    const front=head.getWorldPosition(new V3()).sub(tail.getWorldPosition(new V3()));
+    mount.rotation.y-=Math.atan2(front.x,front.z);
+  }
+  h.add(mount);
+  const size=new THREE.Box3().setFromObject(h).getSize(new V3());
+  const scale=e.mesh.scale.x,want=leader?10:7.2;
+  mount.scale.multiplyScalar(want/Math.max(size.y,1e-3)/scale);
+  const bounds=new THREE.Box3().setFromObject(h),center=bounds.getCenter(new V3());
+  mount.position.set(-center.x,-bounds.min.y,-center.z);
+  e.mesh.add(h);
+  e.wolf=h;
+  const mix=e.mesh.userData.mix;
+  if(rider&&mix){
+    const hip=rider.getObjectByName('mixamorigHips')||rider.getObjectByName('mixamorig:Hips');
+    if(hip){
+      const hips=e.mesh.worldToLocal(hip.getWorldPosition(new V3()));
+      rider.position.y+=want*0.79/scale-hips.y;
+      rider.position.z+=want*0.07/scale-hips.z;
+      e.wolfRider=rider;
+      e.wolfSeatY=rider.position.y;
+      mix.wolfSeat=[];
+      for(const side of ['Left','Right']){
+        const bone=name=>rider.getObjectByName('mixamorig'+side+name)||rider.getObjectByName('mixamorig:'+side+name);
+        const thigh=bone('UpLeg'),knee=bone('Leg'),foot=bone('Foot');
+        if(!thigh||!knee||!foot)continue;
+        const sign=side==='Left'?1:-1;
+        mix.wolfSeat.push({bone:thigh,child:knee,aim:new V3(sign*0.58,-0.22,0.78).normalize()});
+        mix.wolfSeat.push({bone:knee,child:foot,aim:new V3(sign*0.19,-0.94,-0.29).normalize()});
+      }
+      if(mix.idle&&mix.cur!==mix.acts[mix.idle.name]){
+        mix.cur.stop();
+        mix.cur=mix.acts[mix.idle.name].reset().play();
+      }
+    }
+  }
+  const walkClip=MODEL.bigwolf.anims.find(clip=>/walk/i.test(clip.name));
+  if(walkClip){
+    e.wolfMix=new THREE.AnimationMixer(mount);
+    e.wolfMix.clipAction(walkClip).play();
+  }
+  e.r=leader?9.4:6.5;
+  e.hc=want*0.91;
+}
+function orcWolfSlots(pack,x,z,yaw){
+  const s=Math.sin(yaw),c=Math.cos(yaw);
+  return pack.slots.map(([side,back])=>[x+c*side-s*back,z-s*side-c*back]);
+}
+function orcWolfLand(slots){
+  return slots.every(([x,z])=>Math.hypot(x,z)<452&&floorAt(x,z)>WATER+0.45);
+}
+function orcWolfObstacles(x,z){
+  let score=0;
+  for(const t of treeCandidates(x,z,7)){
+    score+=Math.max(0,t.r+6-Math.hypot(x-t.x,z-t.z))*1.25;
+  }
+  for(const b of BLD){
+    if(b.dead)continue;
+    const dx=Math.max(b.box.min.x-x,x-b.box.max.x,0),dz=Math.max(b.box.min.z-z,z-b.box.max.z,0);
+    score+=Math.max(0,5-Math.hypot(dx,dz))*2.5;
+  }
+  return score;
+}
+function orcWolfSpawn(pack){
+  let dx=pack.at.x-P.pos.x,dz=pack.at.z-P.pos.z;
+  if(Math.hypot(dx,dz)<8){dx=-Math.sin(P.yaw);dz=-Math.cos(P.yaw);}
+  const away=Math.atan2(dx,dz);
+  pack.slots=[[0,0],[-12,11],[12,11],[-23,23],[23,23]];
+  let best=-Infinity;
+  for(const range of [77,59,97,42,119]){
+    for(const swing of [0,0.35,-0.35,0.75,-0.75,1.2,-1.2,1.75,-1.75,2.4,-2.4,Math.PI]){
+      const a=away+swing,x=P.pos.x+Math.sin(a)*range,z=P.pos.z+Math.cos(a)*range,yaw=a+Math.PI;
+      const slots=orcWolfSlots(pack,x,z,yaw);
+      if(!orcWolfLand(slots))continue;
+      const overlap=ORC_WOLF_PACKS.some(other=>other!==pack&&other.units.some(e=>!e.dead)&&Math.hypot(other.x-x,other.z-z)<49);
+      const clutter=slots.reduce((sum,[sx,sz])=>sum+orcWolfObstacles(sx,sz),0);
+      const score=(overlap?-80:0)-Math.abs(swing)*12-Math.abs(range-77)*0.4-Math.abs(floorAt(x,z)-floorAt(P.pos.x,P.pos.z))*0.3-clutter;
+      if(score<=best)continue;
+      best=score;
+      Object.assign(pack,{x,z,yaw});
+    }
+  }
+  if(!Number.isFinite(best))Object.assign(pack,{x:pack.at.x,z:pack.at.z,yaw:away+Math.PI});
+  for(const [i,[x,z]] of orcWolfSlots(pack,pack.x,pack.z,pack.yaw).entries()){
+    const leader=i===0,id=leader?(MODEL.orcgeneral?'orcgeneral':'orc'):'orc';
+    const e=addEnemy('ogre',x,z,floorAt(x,z),{model:MODEL[id]?id:undefined});
+    e.mesh.position.y=floorAt(x,z);
+    e.wolfPack=pack;
+    e.nm=leader?'オーク将軍':'狼騎兵';
+    e.sc=leader?(pack.foot.sc||0.92):0.67;
+    e.mesh.scale.setScalar(e.sc);
+    e.mesh.rotation.y=pack.yaw;
+    e.hp=e.maxHp=leader?Math.round(pack.foot.maxHp*0.65):s3hp(165);
+    e.val=leader?pack.foot.val:65;
+    e.dmg=leader?24:13;
+    e.said=1;
+    if(leader){e.boss='🪓 オーク将軍（狼騎乗）';e.die='狼の部隊まで……見事だ……';pack.leader=e;}
+    orcWolfMount(e,leader);
+    pack.units.push(e);
+    const p=e.mesh.position;
+    smoke(p,2,3,1.1,0xa99574,2);
+  }
+  pack.wait=0;
+  pack.foot=null;
+  pack.at=null;
+  const e=pack.leader;
+  sfx('roar',e.mesh.position,0.55);
+  ksay(e,'狼の部隊、隊列を組め！ 一気に駆け抜けるぞ！');
+  banner('🐺 オーク将軍と狼の部隊が来た！',1.9);
+}
+function orcWolfTick(dt){
+  for(let index=ORC_WOLF_PACKS.length-1;index>=0;index--){
+    const pack=ORC_WOLF_PACKS[index];
+    if(pack.wait>0){
+      pack.wait-=dt;
+      if(pack.wait<=0)orcWolfSpawn(pack);
+      continue;
+    }
+    if(pack.units.every(e=>e.dead)){ORC_WOLF_PACKS.splice(index,1);continue;}
+    const dx=P.pos.x-pack.x,dz=P.pos.z-pack.z,d=Math.hypot(dx,dz),target=Math.atan2(dx,dz);
+    let speed=0,turn=2.0,want=target;
+    pack.t-=dt;
+    if(pack.mode==='approach'){
+      speed=20;
+      if(d<49){pack.mode='ready';pack.t=0.65;speed=0;
+        const e=pack.units.find(unit=>!unit.dead);
+        sfx('roar',e.mesh.position,0.35);
+        bubble(e,'突撃！','boss',0.9);
+      }
+    }else if(pack.mode==='ready'){
+      if(pack.t<=0){
+        pack.mode='charge';pack.t=1.7;pack.yaw=target;
+        for(const e of pack.units)if(!e.dead){e.wolfHit=false;orcWolfSlash(e);}
+      }
+    }else if(pack.mode==='charge'){
+      speed=EASY?35:43;turn=0;
+      if(pack.t<=0){pack.mode='circle';pack.t=1.3;}
+    }else{
+      want=target+Math.PI*0.55;speed=14;
+      if(pack.t<=0)pack.mode='approach';
+    }
+    const delta=Math.atan2(Math.sin(want-pack.yaw),Math.cos(want-pack.yaw));
+    let yaw=pack.yaw+clamp(delta,-turn*dt,turn*dt),moved=0;
+    const offset=pack.mode==='charge'?0:0.72;
+    for(const a of [0,offset,-offset,offset*2,-offset*2]){
+      const heading=yaw+a,x=pack.x+Math.sin(heading)*speed*dt,z=pack.z+Math.cos(heading)*speed*dt;
+      if(!orcWolfLand(orcWolfSlots(pack,x,z,heading)))continue;
+      Object.assign(pack,{x,z,yaw:heading});
+      moved=speed;
+      break;
+    }
+    if(!moved&&speed>0){
+      // 狭い岸で行き止まったら隊列を崩さず向きを選びなおす。
+      if(pack.mode==='charge')pack.t=0;
+      else if(pack.mode==='approach'){
+        pack.mode='circle';pack.t=1.1;
+      }
+    }
+    pack.dust-=dt;
+    const dust=moved>=20&&pack.dust<=0;
+    if(dust)pack.dust=0.16;
+    for(const [i,[x,z]] of orcWolfSlots(pack,pack.x,pack.z,pack.yaw).entries()){
+      const e=pack.units[i];
+      if(e.dead)continue;
+      const p=e.mesh.position;
+      p.set(x,floorAt(x,z),z);
+      e.mesh.rotation.set(0,pack.yaw,0);
+      if(e.wolfMix)e.wolfMix.update(dt*(moved>0?moved/12:0));
+      if(e.wolfRider)e.wolfRider.position.y=e.wolfSeatY+(moved>0?Math.sin(e.t*(moved>25?15:10))*0.17/e.sc:0);
+      if(dust)smoke(p,1,2.4,0.65,0x9e8767,1.2);
+      if(pack.mode==='charge'&&!e.wolfHit&&cpos(e).distanceTo(P.pos)<e.r+5){
+        e.wolfHit=true;
+        hurt(e.dmg);
+        sfx('hit',p,0.55);
+        shake(0.3);
+        ono(cpos(e),'ドガッ！','#ffe060',34);
+      }
+    }
+  }
+}
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 </script>
 </body>
