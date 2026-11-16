@@ -1881,5 +1881,23 @@
   "h": 2.2,
   "ja": "赤い帽子のレッドキャップと鷹（Hunyuan・UniRig）",
   "rot": 0.0
+ },
+ "maou_castle_1116": {
+  "file": "maou_castle_1116.glb",
+  "h": 64,
+  "ja": "ComfyUI生成の魔王城",
+  "rot": 0
+ },
+ "dragonking_winged_1116": {
+  "file": "dragonking_winged_1116.glb",
+  "h": 6,
+  "ja": "翼を持つ人型の竜王",
+  "rot": 0
+ },
+ "seaking_royal_1116": {
+  "file": "seaking_royal_1116.glb",
+  "h": 6.7,
+  "ja": "プレイヤー用海王（通常／超大型）",
+  "rot": 0
  }
 }
