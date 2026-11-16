@@ -1385,15 +1385,15 @@
   "rot": 0
  },
  "p8train": {
-  "file": "p8train.glb",
-  "h": 10,
-  "ja": "装甲列車の機関車（架空）",
+  "file": "p8train_1117.glb",
+  "h": 1,
+  "ja": "装甲蒸気機関車",
   "rot": 0
  },
  "p8traincar": {
-  "file": "p8traincar.glb",
-  "h": 8,
-  "ja": "装甲列車の砲車（架空）",
+  "file": "p8traincar_1117.glb",
+  "h": 1,
+  "ja": "装甲列車の砲車",
   "rot": 0
  },
  "p8apart": {
@@ -1935,5 +1935,47 @@
   "h": 2.6,
   "rot": 0,
   "ja": "骨犬（走り・噛みつき）"
+ },
+ "fairy_treehouse_1117": {
+  "file": "fairy_treehouse_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "妖精の樹木の家"
+ },
+ "fairy_treetower_1117": {
+  "file": "fairy_treetower_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "妖精の花冠の樹塔"
+ },
+ "fairy_giantflower_1117": {
+  "file": "fairy_giantflower_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "妖精の巨大花"
+ },
+ "park_ferris_wheel_1117": {
+  "file": "park_ferris_wheel_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "廃墟の観覧車"
+ },
+ "park_carousel_1117": {
+  "file": "park_carousel_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "廃墟のメリーゴーラウンド"
+ },
+ "park_ticketbooth_1117": {
+  "file": "park_ticketbooth_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "廃遊園地の切符売り場"
+ },
+ "colosseum_arch_1117": {
+  "file": "colosseum_arch_1117.glb",
+  "h": 1,
+  "rot": 0,
+  "ja": "コロセイムの月桂門"
  }
 }
