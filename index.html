@@ -1115,7 +1115,7 @@ const MODEL={},MIX=[];
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFT';let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTAD';let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -2428,7 +2428,10 @@ function skUI(){const a=SKINFO[P.sp],b=SKINFO[P.sp2];
 // ゴーレム・飛空艇の体（3Dモデルをそのまま1体。竜と同じ使い方ができる入れ物にする）
 function makePlayerModel(k){if(k==='dragonknight')return makeDragonknight();const c=CH[k],M=c.model,g=new THREE.Group(),inner=new THREE.Group();inner.position.y=M.center?0:-c.gOff;g.add(inner);
   const body=makeProxy(M.w,M.h,M.d,0x8a7a6a,!!M.center);if(k==='nurarihyon'){attachModel(body,M.id);inner.add(body);}else if(k==='archangel'||k==='bomber'||k==='slime'||k==='necromancer'){attachModel(body,M.id);inner.add(body);const mx=body.userData.mix;if(mx&&mx.idle)mx.loco=mx.idle;}else{inner.add(body);attachModel(body,M.id);}
-  if(k==='archangel')archangelRig(body,true);
+  if(k==='archangel'){
+    const rig=archangelRig(body,true);
+    if(rig?.arch.flight)rig.arch.flight.aura=archangelAura(g,rig.arch.flight);
+  }
   const mouth=new THREE.Object3D();mouth.position.set(M.mouth[0],M.mouth[1],M.mouth[2]);g.add(mouth);return {g,inner,mouth,units:[{m:body,x:0,z:0,front:1}],guns:[],model:k,body};}
 // 勇者・兵隊の隊の体（竜と同じ使い方ができる入れ物にする）
 function makePlayerHuman(k){const g=new THREE.Group(),inner=new THREE.Group();inner.position.y=-CH[k].gOff;g.add(inner);
@@ -4545,7 +4548,7 @@ function cine(k,d,tg){if(state!=='play'||window.NOCINE)return;
   if(k===1&&CINE.skip)return;if(k===1){const n=performance.now(),ok=n-cineUltAt>=(window.CINE_CD===undefined?8000:CINE_CD);cineUltAt=n;if(CINE.k||!ok)return;}
   CINE.k=k;CINE.t=0;CINE.d=d;CINE.tg=tg||null;roarPick(k);if(k>1)document.body.classList.add('lbx');
   // 必殺技：キャラの大きさ（かこむ箱）を測って、どのキャラでも画面の上半分に大きく入る距離にする
-  if(k===1){D.g.updateMatrixWorld(true);const bb=new THREE.Box3().setFromObject(D.g),s=bb.getSize(new V3()),c=bb.getCenter(new V3()),rw=Math.min(s.x,s.z)*0.5;
+  if(k===1){D.g.updateMatrixWorld(true);const bb=new THREE.Box3().setFromObject(charKey==='archangel'?D.inner:D.g),s=bb.getSize(new V3()),c=bb.getCenter(new V3()),rw=Math.min(s.x,s.z)*0.5;
     CINE.tg={ox:c.x-P.pos.x,oy:c.y-P.pos.y,oz:c.z-P.pos.z,h:s.y,d:clamp(C.fly?Math.max(0.85*rw,0.9*s.y):Math.max(1.25*rw,1.9*s.y),5,30)};}}
 // 最初の場面（竜が正面・勇者3人）の後：カメラだけ竜のまわりをぐるっと回って、竜の後ろへ（切りかえで勇者と交差しない）
 const MOBK={on:typeof matchMedia==='function'&&matchMedia('(pointer:coarse)').matches};const GZK={w:0};const ORB={on:0,t:0,d:1.4,p0:new V3(),l0:new V3()};
@@ -10773,7 +10776,7 @@ SKPOOL.archangel=['lightgiant','pillars'];
 ULTL.lightgiant='光の巨人よ、我とともに戦え！';
 const ARCHGIANTS=[];
 {const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);archangelTick(dt);};}
-{const prev=clearWorld;clearWorld=function(){archangelClear();return prev.apply(this,arguments);};}
+{const prev=clearWorld;clearWorld=function(){archangelAuraReset(D?.body?.userData.mix?.arch?.flight?.aura);archangelClear();return prev.apply(this,arguments);};}
 {const prev=setChar;setChar=function(){archangelFlightRelease(D);archangelClear();return prev.apply(this,arguments);};}
 // ---- 遊ぶオークキング：最初は歩きのオークキング、金のリングで戦車へ ----
 const ORK0={};let OKT=0;
@@ -11198,10 +11201,136 @@ function archangelAddWings(mesh,spine){
   mesh.skeleton=new THREE.Skeleton(skeleton.bones.concat(wings.map(w=>w.bone)),inverses);
   return wings;
 }
+// 神聖な光。光輪・光条・羽先の粒はプレイヤーの見た目だけに付ける。
+const ARCHANGEL_SPARK_COUNT=18;
+function archangelAuraMaterial(material){
+  const clone=material.clone();
+  clone.onBeforeCompile=shader=>{
+    shader.vertexShader='varying float vArchangelWing;\n'+shader.vertexShader.replace('#include <skinbase_vertex>',
+      '#include <skinbase_vertex>\nvArchangelWing = skinWeight.x * step(21.5, skinIndex.x);');
+    shader.fragmentShader='varying float vArchangelWing;\n'+shader.fragmentShader.replace('#include <emissivemap_fragment>',
+      '#include <emissivemap_fragment>\ntotalEmissiveRadiance += diffuseColor.rgb * vec3(1.0, 0.86, 0.66) * (0.045 + 0.30 * vArchangelWing);');
+  };
+  clone.customProgramCacheKey=()=> 'archangel-aura-1116';
+  return clone;
+}
+function archangelAuraRays(){
+  const vertices=[],colors=[];
+  const add=(x,y,color)=>{vertices.push(x,y,0);colors.push(color,0.69*color,0.32*color);};
+  const rays=[[8,1.58,0.62],[29,1.56,0.85],[49,1.63,0.70],[70,1.58,0.93],[110,1.58,0.93],[131,1.63,0.70],[151,1.56,0.85],[172,1.58,0.62]];
+  for(const [degrees,start,length] of rays){
+    const angle=degrees*Math.PI/180,x=Math.cos(angle),y=Math.sin(angle),mid=start+0.24*length,w=0.070,end=start+length;
+    for(const k of [1,-1]){
+      add(x*start,y*start,0.18);add(x*mid-y*w*k,y*mid+x*w*k,1);add(x*end,y*end,0.13);
+    }
+  }
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));
+  geo.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));
+  return new THREE.Mesh(geo,new THREE.MeshBasicMaterial({vertexColors:true,transparent:true,opacity:0.76,
+    side:THREE.DoubleSide,blending:THREE.AdditiveBlending,depthWrite:false}));
+}
+// 元の造形に含まれる光輪56面だけをプレイヤー用のインデックスから外す。
+function archangelAuraReplaceHalo(geometry){
+  const index=geometry.index;
+  if(!index||index.count!==20997||geometry.attributes.position.count!==6263)return;
+  const keep=index.array.filter((_,i)=>{
+    const face=Math.floor(i/3);
+    return (face<3397||face>3431)&&(face<4418||face>4437)&&face!==4656;
+  });
+  geometry.setIndex(new THREE.BufferAttribute(keep,1));
+}
+function archangelAura(root,motion){
+  const {mesh,head}=motion;
+  if(!mesh||!head||!motion.wings.length)return null;
+  const materials=(Array.isArray(mesh.material)?mesh.material:[mesh.material]).map(archangelAuraMaterial);
+  mesh.material=Array.isArray(mesh.material)?materials:materials[0];
+  const group=new THREE.Group();group.name='archangelAura';root.add(group);
+  archangelAuraReplaceHalo(mesh.geometry);
+  const headBind=mesh.skeleton.boneInverses[mesh.skeleton.bones.indexOf(head)];
+  const haloCenter=new V3(0.0045,0.8384,0.0037).applyMatrix4(headBind);
+  const halo=new THREE.Group();halo.name='archangelHalo';group.add(halo);
+  const core=new THREE.Mesh(new THREE.TorusGeometry(0.67,0.025,7,48),new THREE.MeshBasicMaterial({color:0xffedb0}));
+  const glow=new THREE.Mesh(new THREE.TorusGeometry(0.67,0.080,8,48),
+    new THREE.MeshBasicMaterial({color:0xffc660,transparent:true,opacity:0.18,
+      blending:THREE.AdditiveBlending,depthWrite:false}));
+  halo.add(core,glow);
+  const rays=archangelAuraRays();rays.name='archangelRays';group.add(rays);
+  const canvas=document.createElement('canvas');canvas.width=canvas.height=32;
+  const ctx=canvas.getContext('2d'),gradient=ctx.createRadialGradient(16,16,0,16,16,16);
+  gradient.addColorStop(0,'rgba(255,255,255,1)');gradient.addColorStop(0.30,'rgba(255,255,255,0.8)');
+  gradient.addColorStop(0.66,'rgba(255,255,255,0.26)');gradient.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=gradient;ctx.fillRect(0,0,32,32);
+  const map=new THREE.CanvasTexture(canvas),geo=new THREE.BufferGeometry();
+  for(const key of ['position','color'])geo.setAttribute(key,new THREE.BufferAttribute(new Float32Array(ARCHANGEL_SPARK_COUNT*3),3).setUsage(THREE.DynamicDrawUsage));
+  geo.setDrawRange(0,0);
+  const particles=new THREE.Points(geo,new THREE.PointsMaterial({map,vertexColors:true,size:0.24,
+    transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));
+  particles.name='archangelWingSparks';particles.frustumCulled=false;group.add(particles);
+  const slots=Array.from({length:ARCHANGEL_SPARK_COUNT},()=>({p:new V3(),vel:new V3(),life:0,total:0}));
+  const aura={root,group,halo,core,glow,haloCenter,rays,particles,materials,slots,point:new V3(),acc:0,cursor:0};
+  archangelAuraAnchor(aura,motion);
+  return aura;
+}
+function archangelAuraAnchor(aura,motion){
+  const {root,halo,haloCenter,rays,point}=aura;
+  motion.head.localToWorld(point.copy(haloCenter));
+  halo.position.copy(root.worldToLocal(point));
+  halo.position.y+=0.17;
+  halo.rotation.x=-1.30-motion.pitch*motion.weight;
+  rays.position.copy(halo.position);
+  rays.position.y-=1.12;
+  rays.position.z-=1.18;
+}
+function archangelAuraReset(aura){
+  if(!aura)return;
+  aura.acc=0;
+  for(const slot of aura.slots)slot.life=0;
+  aura.particles.geometry.setDrawRange(0,0);
+}
+function archangelAuraRelease(aura){
+  if(!aura)return;
+  aura.root.remove(aura.group);
+  for(const obj of [aura.core,aura.glow,aura.rays,aura.particles]){obj.geometry.dispose();obj.material.dispose();}
+  aura.particles.material.map.dispose();
+  for(const mat of aura.materials)mat.dispose();
+}
+function archangelAuraTick(motion,dt){
+  const aura=motion.aura;
+  archangelAuraAnchor(aura,motion);
+  if(dt<=0)return;
+  const {root,particles,slots,point}=aura;
+  if(state!=='play'){archangelAuraReset(aura);return;}
+  if(motion.weight>0.55){
+    aura.acc+=dt;
+    if(aura.acc>=0.13){
+      aura.acc-=0.13;
+      const wing=motion.wings[aura.cursor++%motion.wings.length],slot=slots.find(s=>s.life<=0);
+      if(slot){
+        point.set(wing.side*rnd(0.26,0.36),wing.upper?rnd(0.13,0.23):rnd(-0.18,-0.09),rnd(-0.11,-0.06));
+        wing.bone.localToWorld(point);root.worldToLocal(point);
+        slot.p.copy(point);slot.vel.set(wing.side*rnd(0.14,0.47),rnd(-0.72,-0.20),rnd(-3.3,-1.9));
+        slot.total=slot.life=rnd(0.55,0.94);
+      }
+    }
+  }else aura.acc=0;
+  const g=particles.geometry,{position,color}=g.attributes;
+  let count=0;
+  for(const slot of slots){
+    if(slot.life<=0)continue;
+    slot.life-=dt;if(slot.life<=0)continue;
+    slot.p.addScaledVector(slot.vel,dt);
+    const k=slot.life/slot.total,light=Math.min((1-k)*8,1)*k*0.92;
+    position.setXYZ(count,slot.p.x,slot.p.y,slot.p.z);color.setXYZ(count,light,light*0.83,light*0.54);count++;
+  }
+  g.setDrawRange(0,count);
+  if(count){position.needsUpdate=true;color.needsUpdate=true;}
+}
 function archangelFlightRelease(d){
   const mix=d?.body?.userData.mix,mesh=mix?.arch?.flight?.mesh;
   if(!mesh)return;
   rideRelease(d.g);
+  archangelAuraRelease(mix.arch.flight.aura);
   const skeleton=mesh.skeleton;if(skeleton.boneTexture)skeleton.boneTexture.dispose();
 }
 // 人の骨を使って脚を後ろへ流し、翼の一周期に胴体の小さな上下動を合わせる。
@@ -11302,6 +11431,7 @@ function archangelMix(o,dt){const q=o.arch;if(q.player){
   archangelFlightRestore(q.flight);
   o.mx.update(dt);
   archangelFlightPose(q.flight);
+  if(q.flight?.aura)archangelAuraTick(q.flight,dt);
   const sw=q.swing;if(!sw)return;
   if(!sw.done&&sw.a.time>=2.4){sw.done=true;sw.impact();}
   if(sw.a.time>=2.9){q.swing=null;o.once=null;archangelAction(o,q.mode);}
