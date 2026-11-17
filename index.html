@@ -1219,7 +1219,7 @@ const MODEL=new Proxy({}, {get(target,id){mobileModelGet(id);return Reflect.get(
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVFDRKUIFRDKFGLWFIfPRSFmNCDHYRsFKLUNSWCBRWSAFBMOMGGXVUJFhpyvcLGMTCFsgrbkSjHumHHrSunAwGpuFairynNFjMTEBYSCPGWSchVTNhSPaQICON1117LPIAAR2SeaFMOBILE1117ART2LUNA4GRAPHICS1117_KINGDOM_BARRACKS_1117MUSIC5'/* ARCHANGEL_ICON_CACHE_1117 *//* ICON_ART_CACHE_1117 */;let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVFDRKUIFRDKFGLWFIfPRSFmNCDHYRsFKLUNSWCBRWSAFBMOMGGXVUJFhpyvcLGMTCFsgrbkSjHumHHrSunAwGpuFairynNFjMTEBYSCPGWSchVTNhSPaQICON1117LPIAAR2SeaFMOBILE1117ART2LUNA4GRAPHICS1117_KINGDOM_BARRACKS_1117MUSIC5COLCAM1118'/* ARCHANGEL_ICON_CACHE_1117 *//* ICON_ART_CACHE_1117 */;let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -9446,11 +9446,11 @@ function frame(now){
     if(charKey==='nurarihyon')back=Math.max(33,back);
     if(trailView){const tight=DUN.on||CAVE.on,portrait=MOBK.on&&cam.aspect<1;
       back+=trailView*(tight?5:portrait?26:18);up+=trailView*(tight?2:portrait?13:10);}
-    const tg=tmp.copy(P.pos).addScaledVector(cd,-back).add(tmp2.set(0,up,0));{const lt=cE?cE.lt:ccam();if(lt){tg.x-=Math.cos(P.yaw)*back*lt;tg.z+=Math.sin(P.yaw)*back*lt;if(DUN.on){tg.x=clamp(tg.x,DUN.x0+(cE?S1X:4),DUN.x1-(cE?S1X:4));tg.z=clamp(tg.z,DUN.z0+4,DUN.z1-4);}}}const cg=floorAt(tg.x,tg.z)+2;if(tg.y<cg)tg.y=cg;
-    cam.position.lerp(tg,1-Math.exp(-(P.dashT>0?4.5:9)*rdt));const lookAhead=cE?cE.L:ccam()?46:40;camLook.copy(P.pos).addScaledVector(aimDir(),lookAhead*(1-trailView*0.86)).add(tmp2.set(0,4+(cE?cE.dy:0)-trailView*4,0));if(ORB.on)orbCam(rdt,tg);cam.lookAt(camLook);
+    ({back,up}=colCameraFrame(back,up,rdt));const tg=tmp.copy(P.pos).addScaledVector(cd,-back).add(tmp2.set(0,up,0));{const lt=cE?cE.lt:ccam();if(lt){tg.x-=Math.cos(P.yaw)*back*lt;tg.z+=Math.sin(P.yaw)*back*lt;if(DUN.on){tg.x=clamp(tg.x,DUN.x0+(cE?S1X:4),DUN.x1-(cE?S1X:4));tg.z=clamp(tg.z,DUN.z0+4,DUN.z1-4);}}}const cg=floorAt(tg.x,tg.z)+2;if(tg.y<cg)tg.y=cg;
+    cam.position.lerp(tg,1-Math.exp(-(colCameraEnabled()?12:P.dashT>0?4.5:9)*rdt));const lookAhead=cE?cE.L:ccam()?46:40;camLook.copy(P.pos).addScaledVector(aimDir(),lookAhead*(1-trailView*0.86)).add(tmp2.set(0,4+(cE?cE.dy:0)-trailView*4,0));colCameraAim(camLook);if(ORB.on)orbCam(rdt,tg);cam.lookAt(camLook);
     if(!C.fly&&!C.human&&P.onGround&&D.g.userData.flap){cam.position.y+=Math.abs(Math.sin(D.g.userData.flap.lp))*Math.min(1,vv/30)*0.45;}
     if(shakeT>0){shakeT-=rdt;const s=shakeT*1.6;cam.position.x+=rnd(-s,s);cam.position.y+=rnd(-s,s);}
-    if(C.fly&&!C.human)cam.rotateZ(-P.roll*0.3);}
+    if(C.fly&&!C.human&&!colCameraEnabled())cam.rotateZ(-P.roll*0.3);}
   cineCam(rdt);const fovT=cineOn&&CINE.fov?CINE.fov:state!=='play'?65:C.human?(P.dashT>0?78:65):62+(typeof CAME!=='undefined'?CAME.fv:0)+Math.min(16,vv*0.14)+(P.dashT>0?8:0)+((P.ringT||0)>0?8:0);if(Math.abs(cam.fov-fovT)>0.1){cam.fov+=(fovT-cam.fov)*Math.min(1,rdt*(cineOn?16:6));cam.updateProjectionMatrix();}
   const bombView=bomberBombCameraBeforeRender(dt);
   sun.position.copy(P.pos).addScaledVector(MC.dir,200);sun.target.position.copy(P.pos);
@@ -9467,7 +9467,7 @@ function frame(now){
   if(speechT>0){speechT-=rdt;if(speechT<=0)$('speech').style.opacity=0;}upd2d(rdt);
   if(hud){drawMap();drawInd();}
   drawSpeed(rdt,vv);
-  if(window.CAMOV){cam.position.copy(CAMOV.p);cam.lookAt(CAMOV.t);}fadeClouds();R.render(scene,cam);bomberBombCameraAfterRender(bombView);
+  if(window.CAMOV){cam.position.copy(CAMOV.p);cam.lookAt(CAMOV.t);}fadeClouds();colSightUpdate(rdt);R.render(scene,cam);bomberBombCameraAfterRender(bombView);
 }
 TER=Object.assign(TER,STAGES[0].ter);setChar('dragon');setupStage(0);{const sc=loadGame();if(reached)setupStage(reached);if(sc||reached)setChar(sc||'dragon');}sizeAll();updMood(0,true);loadModels();
 requestAnimationFrame(frame);
@@ -22739,6 +22739,87 @@ SCI[12]={d:'二つの門を勝ち抜き、赤・青・金の旗を押さえ、�
 ENDT[12]='円形劇場の勝者';
 ENDS[12]=['三度目の試合が終わり、王者が剣を下ろした。','鉄門がすべて開き、客席から歓声が上がる。','勝者は、赤、青、金の旗の下を歩いていった。'];
 ENDIMG[12]=['col_final_1','col_final_2','col_final_3'];
+
+/* COL_CAMERA_1118: arena framing and local screen-door wall fading. */
+const COL_SIGHT={root:null,materials:new Map(),scan:0,speed:0,prepared:0,
+ uniforms:{colEye:{value:new V3()},colPlayer:{value:new V3()},colFocus:{value:new V3()},colWidth:{value:8},colEnabled:{value:0}}};
+function colCameraEnabled(){return colActive()&&state==='play'&&!cineOn&&!CINE.k&&!FORM_INTRO.active&&!ORB.on&&!window.CAMOV;}
+function colCameraFrame(back,up,dt){
+ if(!colCameraEnabled())return {back,up};
+ const speed=Math.min(1,Math.hypot(P.vel.x,P.vel.z)/110),s=COL_SIGHT;
+ s.speed+=(speed-s.speed)*(1-Math.exp(-Math.min(dt,.1)*5));
+ const portrait=cam.aspect<1,small=C.human||charKey==='redcap';
+ return {back:Math.max(back,small?(portrait?32:24):(portrait?48:32))+s.speed*(small?9:14),up:Math.max(up,small?(portrait?22:17):(portrait?30:22))+s.speed*(small?6:9)};
+}
+function colCameraAim(target){
+ if(!colCameraEnabled())return;
+ const ahead=aimDir();ahead.y*=.25;
+ target.copy(P.pos).addScaledVector(ahead,16+COL_SIGHT.speed*7);
+ const lead=new V3(P.vel.x,0,P.vel.z).multiplyScalar(.12);if(lead.length()>12)lead.setLength(12);
+ target.add(lead);target.y+=3;
+ const radius=COL_ARENA.radius-10,r=Math.hypot(target.x,target.z);
+ if(r>radius){target.x*=radius/r;target.z*=radius/r;}
+ for(const gate of COL_ARENA.gates){
+  if(gate.open>=.79&&Math.abs(target.x)<10.2)continue;
+  const side=P.pos.z>=gate.z?1:-1;
+  if((target.z-gate.z)*side<7)target.z=gate.z+side*7;
+ }
+ const edge=Math.sqrt(Math.max(0,radius*radius-target.z*target.z));target.x=clamp(target.x,-edge,edge);
+}
+function colSightPrepare(){
+ const s=COL_SIGHT,root=COL_ARENA.root;
+ if(s.root!==root){s.root=root;s.materials.clear();s.scan=0;s.speed=0;s.prepared=0;}
+ if(!root)return;
+ root.traverse(mesh=>{
+  if(!mesh.isMesh)return;
+  const convert=original=>{
+   if(!original||original.userData.colSight1118||original.opacity<.85)return original;
+   if(s.materials.has(original))return s.materials.get(original);
+   const m=original.clone(),before=original.onBeforeCompile,key=original.customProgramCacheKey();
+   m.userData={...m.userData,colSight1118:true};
+   m.onBeforeCompile=function(shader,renderer){
+    before.call(this,shader,renderer);Object.assign(shader.uniforms,s.uniforms);
+    shader.vertexShader='varying vec3 vColWorld;\n'+shader.vertexShader;
+    shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>',`#include <project_vertex>
+     vec4 colVertex=vec4(transformed,1.0);
+     #ifdef USE_INSTANCING
+      colVertex=instanceMatrix*colVertex;
+     #endif
+     vColWorld=(modelMatrix*colVertex).xyz;`);
+    shader.fragmentShader=`varying vec3 vColWorld;
+     uniform vec3 colEye,colPlayer,colFocus;
+     uniform float colWidth,colEnabled;
+     float colMask(vec3 target){
+      vec3 line=target-colEye;float t=dot(vColWorld-colEye,line)/max(dot(line,line),.01);
+      float distanceToLine=length(vColWorld-(colEye+line*clamp(t,0.,1.)));
+      return (1.-smoothstep(colWidth*.6,colWidth,distanceToLine))*step(.015,t)*(1.-step(.995,t));
+     }
+     float colBayer2(vec2 p){return 2.*p.x+3.*p.y-4.*p.x*p.y;}
+     `+shader.fragmentShader;
+    shader.fragmentShader=shader.fragmentShader.replace('#include <clipping_planes_fragment>',`#include <clipping_planes_fragment>
+     if(colEnabled>.5){
+      float fade=max(colMask(colPlayer),colMask(colFocus));
+      vec2 pixel=mod(floor(gl_FragCoord.xy),4.);
+      float threshold=(4.*colBayer2(mod(pixel,2.))+colBayer2(floor(pixel/2.))+.5)/16.;
+      if(threshold>1.-fade)discard;
+     }`);
+   };
+   m.customProgramCacheKey=()=>key+'|colSight1118';
+   colOwn(m);s.materials.set(original,m);s.prepared++;return m;
+  };
+  mesh.material=Array.isArray(mesh.material)?mesh.material.map(convert):convert(mesh.material);
+ });
+}
+function colSightUpdate(dt){
+ const s=COL_SIGHT;
+ if(s.root!==COL_ARENA.root||s.scan<=0){colSightPrepare();s.scan=.5;}else s.scan-=Math.max(0,dt);
+ const active=!!s.root&&colCameraEnabled();s.uniforms.colEnabled.value=active?1:0;
+ if(!active)return;
+ s.uniforms.colEye.value.copy(cam.position);
+ s.uniforms.colPlayer.value.copy(P.pos).add(new V3(0,3,0));
+ s.uniforms.colFocus.value.copy(camLook);
+ s.uniforms.colWidth.value=clamp((C.camB||24)*.24,7,17);
+}
 
 function colActive(){return SCN===12&&COL_KEYS.includes(STAGES[stage]?.key);}
 function colNote(text){colHud.textContent=text;colHud.hidden=!text||state!=='play';}
