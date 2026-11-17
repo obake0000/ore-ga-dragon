@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-17 10:55:08 +0900",
+  "updated": "2026-11-17 11:10:23 +09:00",
   "shared_gpu_queue": "C:/lo/dx/hunyuan3d-lab/gpu-queue/runner.py",
   "items": [
     {
@@ -7,7 +7,7 @@
       "name": "四面体装甲核",
       "concept": "generated",
       "shape": "complete",
-      "texture_2k_rgb": "queued",
+      "texture_2k_rgb": "failed_no_visible_faces",
       "final_glb": "not_started",
       "rig": "not_required",
       "integration": "parent_owned",
@@ -16,10 +16,11 @@
       "files": {
         "reference": "C:/lo/ドラゴンゲーム/tripo/hunyuan/tetra_core_1117/reference.png",
         "conditioning": "shape-reference.png",
-        "paint_reference": "paint-reference.png"
+        "paint_reference": "paint-reference.png",
+        "reference_v2": "C:/lo/ドラゴンゲーム/tripo/hunyuan/tetra_core_1117/reference-v2.png"
       },
       "shape_job": 59,
-      "texture_job": 68,
+      "texture_job": 77,
       "shape_log": "C:\\lo\\dx\\hunyuan3d-lab\\gpu-queue\\00059-luna-tetra_core_1117.log",
       "raw_glb": "C:\\lo\\ドラゴンゲーム\\tripo\\hunyuan\\tetra_core_1117\\raw.glb",
       "prepared_mesh": "complete"
