@@ -1,0 +1,82 @@
+{
+  "updated": "2026-11-17 10:55:08 +0900",
+  "shared_gpu_queue": "C:/lo/dx/hunyuan3d-lab/gpu-queue/runner.py",
+  "items": [
+    {
+      "id": "tetra_core_1117",
+      "name": "四面体装甲核",
+      "concept": "generated",
+      "shape": "complete",
+      "texture_2k_rgb": "queued",
+      "final_glb": "not_started",
+      "rig": "not_required",
+      "integration": "parent_owned",
+      "verification": "not_started",
+      "publication": "parent_owned",
+      "files": {
+        "reference": "C:/lo/ドラゴンゲーム/tripo/hunyuan/tetra_core_1117/reference.png",
+        "conditioning": "shape-reference.png",
+        "paint_reference": "paint-reference.png"
+      },
+      "shape_job": 59,
+      "texture_job": 68,
+      "shape_log": "C:\\lo\\dx\\hunyuan3d-lab\\gpu-queue\\00059-luna-tetra_core_1117.log",
+      "raw_glb": "C:\\lo\\ドラゴンゲーム\\tripo\\hunyuan\\tetra_core_1117\\raw.glb",
+      "prepared_mesh": "complete"
+    },
+    {
+      "id": "octa_core_1117",
+      "name": "八面体幾何装甲",
+      "concept": "generated",
+      "shape": "complete",
+      "texture_2k_rgb": "not_started",
+      "final_glb": "not_started",
+      "rig": "not_required",
+      "integration": "parent_owned",
+      "verification": "not_started",
+      "publication": "parent_owned",
+      "files": {
+        "reference": "C:/lo/ドラゴンゲーム/tripo/hunyuan/octa_core_1117/reference.png",
+        "conditioning": "shape-reference.png",
+        "paint_reference": "paint-reference.png"
+      },
+      "shape_job": 61
+    },
+    {
+      "id": "admin_avatar_1117",
+      "name": "管理者本体（四形態共通）",
+      "concept": "generated",
+      "shape": "complete",
+      "texture_2k_rgb": "not_started",
+      "final_glb": "not_started",
+      "rig": "UniRig_required",
+      "integration": "parent_owned",
+      "verification": "not_started",
+      "publication": "parent_owned",
+      "files": {
+        "reference": "C:/lo/ドラゴンゲーム/tripo/hunyuan/admin_avatar_1117/reference.png",
+        "conditioning": "shape-reference.png",
+        "paint_reference": "paint-reference.png"
+      },
+      "shape_job": 62
+    },
+    {
+      "id": "sea_slime_1117",
+      "name": "海スライム",
+      "concept": "generated",
+      "shape": "complete",
+      "texture_2k_rgb": "not_started",
+      "final_glb": "not_started",
+      "rig": "not_required_float_and_squash",
+      "integration": "parent_owned",
+      "verification": "not_started",
+      "publication": "parent_owned",
+      "files": {
+        "reference": "C:/lo/ドラゴンゲーム/tripo/hunyuan/sea_slime_1117/reference.png",
+        "conditioning": "shape-reference.png",
+        "paint_reference": "paint-reference.png"
+      },
+      "shape_job": 63
+    }
+  ]
+}

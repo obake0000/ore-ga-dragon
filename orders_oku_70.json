@@ -1,0 +1,1969 @@
+{
+  "batch": "dragon_210_1117",
+  "owner": "oku",
+  "count": 70,
+  "gpu_queue": "machine-local ROL/dragon shared FIFO; independent GPU machines may run concurrently",
+  "user_request": "5とかじゃなくって各70ぐらいいらいしたら",
+  "orders": [
+    {
+      "order": 1,
+      "id": "ice_dragon_1117",
+      "name": "氷の竜",
+      "world": "竜",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 2,
+      "id": "thunder_dragon_1117",
+      "name": "雷の竜",
+      "world": "竜",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 3,
+      "id": "bone_dragon_1117",
+      "name": "骨の竜",
+      "world": "竜",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 4,
+      "id": "black_dragon_variant_1117",
+      "name": "黒曜石装甲の黒竜",
+      "world": "竜",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 5,
+      "id": "storm_wyvern_variant_1117",
+      "name": "嵐の翼膜を持つ飛竜",
+      "world": "竜",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 6,
+      "id": "rock_wyrm_variant_1117",
+      "name": "岩盤装甲の地竜",
+      "world": "竜",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 7,
+      "id": "moss_drake_variant_1117",
+      "name": "巨木の枝角を持つ森竜",
+      "world": "竜",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 8,
+      "id": "ember_whelp_variant_1117",
+      "name": "熾火の小竜",
+      "world": "竜",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 9,
+      "id": "crystal_drake_variant_1117",
+      "name": "水晶冠の竜",
+      "world": "竜",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 10,
+      "id": "water_drake_variant_1117",
+      "name": "珊瑚角の水竜",
+      "world": "竜",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 11,
+      "id": "kingdom_spear_veteran_1117",
+      "name": "王国の老練槍兵",
+      "world": "王国",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 12,
+      "id": "kingdom_bow_scout_1117",
+      "name": "革装備の斥候弓兵",
+      "world": "王国",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 13,
+      "id": "kingdom_shield_guard_1117",
+      "name": "大盾の城門衛兵",
+      "world": "王国",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 14,
+      "id": "kingdom_crossbow_guard_1117",
+      "name": "重装弩兵",
+      "world": "王国",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 15,
+      "id": "kingdom_banner_captain_1117",
+      "name": "軍旗を背負う隊長",
+      "world": "王国",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 16,
+      "id": "kingdom_mounted_lancer_1117",
+      "name": "槍を構える騎馬兵",
+      "world": "王国",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 17,
+      "id": "kingdom_drake_rider_1117",
+      "name": "小飛竜に乗る騎士",
+      "world": "王国",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 18,
+      "id": "kingdom_battle_priest_1117",
+      "name": "戦場の従軍僧侶",
+      "world": "王国",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 19,
+      "id": "kingdom_court_mage_1117",
+      "name": "杖と本を持つ宮廷術師",
+      "world": "王国",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 20,
+      "id": "kingdom_siege_engineer_1117",
+      "name": "攻城工具を持つ工兵",
+      "world": "王国",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 21,
+      "id": "orc_hammer_guard_1117",
+      "name": "大槌のオーク親衛兵",
+      "world": "オーク",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 22,
+      "id": "orc_spear_hunter_1117",
+      "name": "槍のオーク狩人",
+      "world": "オーク",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 23,
+      "id": "orc_crossbow_raider_1117",
+      "name": "弩のオーク略奪兵",
+      "world": "オーク",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 24,
+      "id": "orc_shield_brute_1117",
+      "name": "鉄盾の大型オーク",
+      "world": "オーク",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 25,
+      "id": "orc_wolf_rider_1117",
+      "name": "牙狼に乗るオーク",
+      "world": "オーク",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 26,
+      "id": "orc_drum_shaman_1117",
+      "name": "太鼓を持つオーク術師",
+      "world": "オーク",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 27,
+      "id": "orc_armored_warrior_1117",
+      "name": "鉄片鎧のオーク戦士",
+      "world": "オーク",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 28,
+      "id": "orc_siege_chief_1117",
+      "name": "攻城指揮のオーク隊長",
+      "world": "オーク",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 29,
+      "id": "sea_trident_guard_1117",
+      "name": "三叉槍の魚人近衛兵",
+      "world": "海",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 30,
+      "id": "sea_shell_shield_1117",
+      "name": "大貝盾の魚人兵",
+      "world": "海",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 31,
+      "id": "sea_coral_archer_1117",
+      "name": "珊瑚弓の魚人弓兵",
+      "world": "海",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 32,
+      "id": "sea_deep_mage_1117",
+      "name": "深海の魚人術師",
+      "world": "海",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 33,
+      "id": "sea_hammerhead_ally_1117",
+      "name": "飛びかかるシュモクザメ",
+      "world": "海",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 34,
+      "id": "sea_ray_ally_1117",
+      "name": "翼を広げる大エイ",
+      "world": "海",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 35,
+      "id": "sea_reef_crab_1117",
+      "name": "珊瑚甲羅の大ガニ",
+      "world": "海",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 36,
+      "id": "sea_armored_serpent_1117",
+      "name": "甲殻を持つ海蛇",
+      "world": "海",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 37,
+      "id": "heaven_lance_guard_1117",
+      "name": "羽根兜の天槍兵",
+      "world": "天界",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 38,
+      "id": "heaven_bow_guard_1117",
+      "name": "金弓の天弓兵",
+      "world": "天界",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 39,
+      "id": "heaven_shield_angel_1117",
+      "name": "大盾と翼の守護天使",
+      "world": "天界",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 40,
+      "id": "heaven_choir_mage_1117",
+      "name": "聖典を持つ詠唱天使",
+      "world": "天界",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 41,
+      "id": "heaven_sun_knight_1117",
+      "name": "太陽紋の天騎士",
+      "world": "天界",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 42,
+      "id": "heaven_light_giant_1117",
+      "name": "白金の光の巨兵",
+      "world": "天界",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 43,
+      "id": "war_rifle_officer_1117",
+      "name": "長外套の歩兵将校",
+      "world": "戦争",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 44,
+      "id": "war_machinegun_crew_1117",
+      "name": "機関銃を構える兵士",
+      "world": "戦争",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 45,
+      "id": "war_air_defence_crew_1117",
+      "name": "高射砲の操作兵",
+      "world": "戦争",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 46,
+      "id": "war_medic_1117",
+      "name": "衛生装備の救護兵",
+      "world": "戦争",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 47,
+      "id": "war_recon_plane_1117",
+      "name": "小型偵察プロペラ機",
+      "world": "戦争",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 48,
+      "id": "war_escort_fighter_1117",
+      "name": "長い翼の護衛戦闘機",
+      "world": "戦争",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 49,
+      "id": "war_armored_scout_1117",
+      "name": "小型装甲偵察車",
+      "world": "戦争",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 50,
+      "id": "cyber_patrol_android_1117",
+      "name": "細身の巡回アンドロイド",
+      "world": "機械都市",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 51,
+      "id": "cyber_shield_android_1117",
+      "name": "展開盾の警備アンドロイド",
+      "world": "機械都市",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 52,
+      "id": "cyber_repair_robot_1117",
+      "name": "多腕の修理ロボット",
+      "world": "機械都市",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 53,
+      "id": "cyber_sentry_drone_1117",
+      "name": "環状の監視ドローン",
+      "world": "機械都市",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 54,
+      "id": "cyber_laser_walker_1117",
+      "name": "四脚の光線歩行機",
+      "world": "機械都市",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 55,
+      "id": "cyber_missile_mech_1117",
+      "name": "肩部発射器の重機兵",
+      "world": "機械都市",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 56,
+      "id": "cyber_transform_scout_1117",
+      "name": "地上脚を展開した偵察UFO",
+      "world": "機械都市",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 57,
+      "id": "cyber_dogu_guardian_1117",
+      "name": "機械装甲の土偶衛兵",
+      "world": "機械都市",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 58,
+      "id": "dino_trike_matriarch_1117",
+      "name": "角飾りの大きな群れ長トリケラ",
+      "world": "恐竜",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 59,
+      "id": "dino_trike_juvenile_1117",
+      "name": "小さな群れの幼トリケラ",
+      "world": "恐竜",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 60,
+      "id": "dino_feather_raptor_1117",
+      "name": "羽毛を持つ小型ラプトル",
+      "world": "恐竜",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 61,
+      "id": "dino_crested_ptera_1117",
+      "name": "大きな鶏冠の翼竜",
+      "world": "恐竜",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 62,
+      "id": "dino_rockback_rex_1117",
+      "name": "岩肌の背を持つ暴君竜",
+      "world": "恐竜",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 63,
+      "id": "yokai_paper_guard_1117",
+      "name": "折り紙装甲の式兵",
+      "world": "妖怪",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 64,
+      "id": "yokai_gear_samurai_1117",
+      "name": "歯車鎧のからくり武者",
+      "world": "妖怪",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 65,
+      "id": "yokai_lantern_sentinel_1117",
+      "name": "長柄を持つ提灯衛兵",
+      "world": "妖怪",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 66,
+      "id": "yokai_bronze_colossus_1117",
+      "name": "銅鐸装甲の合体巨兵",
+      "world": "妖怪",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 67,
+      "id": "yokai_tengu_scout_1117",
+      "name": "短い翼の烏天狗斥候",
+      "world": "妖怪",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 68,
+      "id": "park_clockwork_jester_1117",
+      "name": "時計歯車の機械ピエロ",
+      "world": "廃園",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 69,
+      "id": "park_worn_mascot_1117",
+      "name": "継ぎ接ぎの古い鳥の着ぐるみ",
+      "world": "廃園",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 70,
+      "id": "park_porcelain_doll_1117",
+      "name": "欠けた磁器の舞踏人形",
+      "world": "廃園",
+      "owner": "oku",
+      "executor": "external_oku",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 6000
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    }
+  ]
+}

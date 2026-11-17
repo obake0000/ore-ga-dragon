@@ -1,0 +1,1829 @@
+{
+  "batch": "dragon_210_1117",
+  "owner": "pro",
+  "count": 70,
+  "gpu_queue": "machine-local ROL/dragon shared FIFO; independent GPU machines may run concurrently",
+  "user_request": "5とかじゃなくって各70ぐらいいらいしたら",
+  "orders": [
+    {
+      "order": 1,
+      "id": "seal_pillar_1117",
+      "name": "魔王城の封印石柱",
+      "world": "魔王城",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 2,
+      "id": "throne_dais_1117",
+      "name": "魔王城の玉座壇",
+      "world": "魔王城",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 3,
+      "id": "arena_arch_1117",
+      "name": "闘技場の反復アーチ外壁",
+      "world": "コロセイム",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 4,
+      "id": "arena_banner_1117",
+      "name": "占領旗の旗布と旗竿",
+      "world": "コロセイム",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 5,
+      "id": "rail_ballast_1117",
+      "name": "枕木と砂利の線路区画",
+      "world": "戦争",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 6,
+      "id": "kingdom_gatehouse_1117",
+      "name": "盾章を刻んだ城門楼",
+      "world": "王国",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 7,
+      "id": "kingdom_watchtower_1117",
+      "name": "石造りの弓兵監視塔",
+      "world": "王国",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 8,
+      "id": "kingdom_barracks_1117",
+      "name": "槍と盾の兵舎",
+      "world": "王国",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 9,
+      "id": "kingdom_archery_range_1117",
+      "name": "屋根付き弓兵訓練場",
+      "world": "王国",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 10,
+      "id": "kingdom_stable_1117",
+      "name": "飛竜騎士の飼育厩舎",
+      "world": "王国",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 11,
+      "id": "kingdom_siege_workshop_1117",
+      "name": "攻城兵器の工房",
+      "world": "王国",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 12,
+      "id": "kingdom_market_1117",
+      "name": "石畳に沿う市場長屋",
+      "world": "王国",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 13,
+      "id": "kingdom_chapel_1117",
+      "name": "鐘楼付き小礼拝堂",
+      "world": "王国",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 14,
+      "id": "kingdom_bridge_1117",
+      "name": "欄干に獅子像のある橋",
+      "world": "王国",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 15,
+      "id": "kingdom_supply_wagon_1117",
+      "name": "槍盾と干草の補給馬車",
+      "world": "王国",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 16,
+      "id": "orc_forge_1117",
+      "name": "巨大炉と金床の鍛冶場",
+      "world": "オーク",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 17,
+      "id": "orc_war_hut_1117",
+      "name": "牙を飾った戦士の大屋",
+      "world": "オーク",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 18,
+      "id": "orc_trophy_gate_1117",
+      "name": "獣骨と丸太の凱旋門",
+      "world": "オーク",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 19,
+      "id": "orc_beast_pen_1117",
+      "name": "大型獣の木柵飼育檻",
+      "world": "オーク",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 20,
+      "id": "orc_siege_ramp_1117",
+      "name": "車輪付き攻城斜路",
+      "world": "オーク",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 21,
+      "id": "orc_drum_tower_1117",
+      "name": "大太鼓を吊るした塔",
+      "world": "オーク",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 22,
+      "id": "orc_fuel_depot_1117",
+      "name": "樽と炉の燃料庫",
+      "world": "オーク",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 23,
+      "id": "orc_palisade_corner_1117",
+      "name": "装甲付き丸太防壁の角",
+      "world": "オーク",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 24,
+      "id": "sea_coral_gate_1117",
+      "name": "珊瑚と貝の海底城門",
+      "world": "海",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 25,
+      "id": "sea_shell_palace_1117",
+      "name": "巨大巻貝の宮殿棟",
+      "world": "海",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 26,
+      "id": "sea_trident_tower_1117",
+      "name": "三叉槍を模す見張り塔",
+      "world": "海",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 27,
+      "id": "sea_ruined_ship_1117",
+      "name": "珊瑚に覆われた沈没船",
+      "world": "海",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 28,
+      "id": "sea_pearl_altar_1117",
+      "name": "真珠を抱く貝の祭壇",
+      "world": "海",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 29,
+      "id": "sea_kelp_arch_1117",
+      "name": "巨海藻と珊瑚のアーチ",
+      "world": "海",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 30,
+      "id": "sea_anchor_fort_1117",
+      "name": "巨大錨の防衛設備",
+      "world": "海",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 31,
+      "id": "sea_dock_ruin_1117",
+      "name": "沈んだ石造りの桟橋",
+      "world": "海",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 32,
+      "id": "heaven_sun_gate_1117",
+      "name": "日輪の白金城門",
+      "world": "天界",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 33,
+      "id": "heaven_cloud_palace_1117",
+      "name": "翼装飾の空中宮殿棟",
+      "world": "天界",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 34,
+      "id": "heaven_harp_tower_1117",
+      "name": "竪琴を模す祈りの塔",
+      "world": "天界",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 35,
+      "id": "heaven_star_observatory_1117",
+      "name": "天球儀を戴く観測堂",
+      "world": "天界",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 36,
+      "id": "heaven_wing_bridge_1117",
+      "name": "翼の欄干の白石橋",
+      "world": "天界",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 37,
+      "id": "heaven_light_crystal_1117",
+      "name": "光が宿る柱状水晶",
+      "world": "天界",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 38,
+      "id": "heaven_sanctuary_1117",
+      "name": "羽根彫刻の聖域祭壇",
+      "world": "天界",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 39,
+      "id": "war_station_hall_1117",
+      "name": "軍用鉄道駅の大ホール",
+      "world": "戦争",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 40,
+      "id": "war_signal_tower_1117",
+      "name": "鉄道の信号所",
+      "world": "戦争",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 41,
+      "id": "war_munitions_1117",
+      "name": "弾薬木箱の補給所",
+      "world": "戦争",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 42,
+      "id": "war_fuel_tanker_1117",
+      "name": "錆びた燃料タンク車",
+      "world": "戦争",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 43,
+      "id": "war_aa_platform_1117",
+      "name": "対空砲のコンクリート台座",
+      "world": "戦争",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 44,
+      "id": "war_bunker_1117",
+      "name": "破損した鉄筋トーチカ",
+      "world": "戦争",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 45,
+      "id": "war_hangar_1117",
+      "name": "爆撃機用の開放格納庫",
+      "world": "戦争",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 46,
+      "id": "war_crane_1117",
+      "name": "駅荷役の大型クレーン",
+      "world": "戦争",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 47,
+      "id": "cyber_transit_station_1117",
+      "name": "高架の未来交通駅",
+      "world": "機械都市",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 48,
+      "id": "cyber_server_spire_1117",
+      "name": "冷却管を持つサーバー尖塔",
+      "world": "機械都市",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 49,
+      "id": "cyber_power_core_1117",
+      "name": "装甲付き都市動力炉",
+      "world": "機械都市",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 50,
+      "id": "cyber_skybridge_1117",
+      "name": "透明屋根の連絡高架橋",
+      "world": "機械都市",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 51,
+      "id": "cyber_repair_dock_1117",
+      "name": "多腕整備機の修理ドック",
+      "world": "機械都市",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 52,
+      "id": "cyber_drone_port_1117",
+      "name": "積層したドローン発着場",
+      "world": "機械都市",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 53,
+      "id": "cyber_housing_block_1117",
+      "name": "段差のある未来住居棟",
+      "world": "機械都市",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 54,
+      "id": "cyber_dogu_shrine_1117",
+      "name": "超文明土偶の機械神殿",
+      "world": "機械都市",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 55,
+      "id": "dino_cycad_1117",
+      "name": "幹が太い巨大ソテツ",
+      "world": "恐竜",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 56,
+      "id": "dino_horsetail_1117",
+      "name": "密生する古代巨大トクサ",
+      "world": "恐竜",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 57,
+      "id": "dino_fallen_trunk_1117",
+      "name": "根を残す倒れた巨木",
+      "world": "恐竜",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 58,
+      "id": "dino_nest_1117",
+      "name": "割れ卵を含む恐竜の巣",
+      "world": "恐竜",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 59,
+      "id": "dino_fossil_arch_1117",
+      "name": "化石が露出する岩アーチ",
+      "world": "恐竜",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 60,
+      "id": "dino_lava_vent_1117",
+      "name": "溶岩の流れる火口裂け目",
+      "world": "恐竜",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 61,
+      "id": "yokai_gear_gate_1117",
+      "name": "歯車が見えるからくり城門",
+      "world": "妖怪",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 62,
+      "id": "yokai_cannon_turret_1117",
+      "name": "屋根付きからくり砲台",
+      "world": "妖怪",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 63,
+      "id": "yokai_walking_tower_1117",
+      "name": "脚を格納した歩行櫓",
+      "world": "妖怪",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 64,
+      "id": "yokai_bell_workshop_1117",
+      "name": "大銅鐸の鋳造工房",
+      "world": "妖怪",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 65,
+      "id": "yokai_clock_keep_1117",
+      "name": "時計と歯車の天守棟",
+      "world": "妖怪",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 66,
+      "id": "arena_champion_gate_1117",
+      "name": "王者専用の装飾入場門",
+      "world": "コロセイム",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 67,
+      "id": "arena_trophy_podium_1117",
+      "name": "武具と月桂冠の表彰壇",
+      "world": "コロセイム",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 68,
+      "id": "arena_weapon_rack_1117",
+      "name": "槍盾弓の大型武器棚",
+      "world": "コロセイム",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 69,
+      "id": "arena_statue_pair_1117",
+      "name": "闘士と獅子の石像部材",
+      "world": "コロセイム",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 70,
+      "id": "arena_brazier_1117",
+      "name": "大きな青銅の聖火台",
+      "world": "コロセイム",
+      "owner": "pro",
+      "executor": "external_pro",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    }
+  ]
+}

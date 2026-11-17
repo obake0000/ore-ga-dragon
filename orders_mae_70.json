@@ -1,0 +1,1843 @@
+{
+  "batch": "dragon_210_1117",
+  "owner": "mae",
+  "count": 70,
+  "gpu_queue": "machine-local ROL/dragon shared FIFO; independent GPU machines may run concurrently",
+  "user_request": "5とかじゃなくって各70ぐらいいらいしたら",
+  "orders": [
+    {
+      "order": 1,
+      "id": "park_clockcastle_1117",
+      "name": "巨大時計塔の城門",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 2,
+      "id": "park_ruined_facade_1117",
+      "name": "古欧州の廃墟街並み",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 3,
+      "id": "park_coaster_station_1117",
+      "name": "高架コースター駅舎",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 4,
+      "id": "park_carnival_theatre_1117",
+      "name": "古いカーニバル劇場",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 5,
+      "id": "park_coaster_track_1117",
+      "name": "高架レールの接続部材",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 6,
+      "id": "park_coaster_support_1117",
+      "name": "高架の鉄骨支柱",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 7,
+      "id": "fairy_scout_1117",
+      "name": "妖精の斥候",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "local_sol",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 8,
+      "id": "fairy_guard_1117",
+      "name": "妖精の近衛兵",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "local_sol",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 9,
+      "id": "fairy_wisp_1117",
+      "name": "水の小妖精",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "local_sol",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 10,
+      "id": "fairy_keeper_1117",
+      "name": "森の番人",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "local_sol",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 11,
+      "id": "fairy_mirror_1117",
+      "name": "鏡湖の精霊",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "local_sol",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 12,
+      "id": "fairy_queen_1117",
+      "name": "妖精の女王",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "local_sol",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 13,
+      "id": "tetra_core_1117",
+      "name": "四面体の装甲核",
+      "world": "並行世界",
+      "owner": "mae",
+      "executor": "local_luna",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 14,
+      "id": "octa_core_1117",
+      "name": "八面体の装甲核",
+      "world": "並行世界",
+      "owner": "mae",
+      "executor": "local_luna",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 15,
+      "id": "admin_avatar_1117",
+      "name": "管理者の幾何装甲本体",
+      "world": "並行世界",
+      "owner": "mae",
+      "executor": "local_luna",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture",
+        "Tripo UniRig weights",
+        "idle / move / attack animations"
+      ],
+      "rig_required": true,
+      "geometry_budget": {
+        "source_faces": 20000,
+        "runtime_faces": 18000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 16,
+      "id": "sea_slime_1117",
+      "name": "海スライム",
+      "world": "海",
+      "owner": "mae",
+      "executor": "local_luna",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 17,
+      "id": "cube_module_1117",
+      "name": "合体キューブ共通装飾部品",
+      "world": "並行世界",
+      "owner": "mae",
+      "executor": "local_parent",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 18,
+      "id": "fairy_root_1117",
+      "name": "森の番人の根の噴出",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "local_parent",
+      "scope": "current_missing_or_park_priority",
+      "status": "assigned_existing_work",
+      "priority": "P0",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 19,
+      "id": "park_broken_gondola_1117",
+      "name": "外れかけた観覧車ゴンドラ",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 20,
+      "id": "park_wheel_foundation_1117",
+      "name": "観覧車の破損した支持台",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 21,
+      "id": "park_carousel_roof_1117",
+      "name": "金装飾の回転木馬屋根",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 22,
+      "id": "park_carousel_horse_1117",
+      "name": "ひび割れた回転木馬",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 23,
+      "id": "park_coaster_car_1117",
+      "name": "錆びたコースター車両",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 24,
+      "id": "park_drop_tower_1117",
+      "name": "傾いた昇降遊具の塔",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 25,
+      "id": "park_pirate_ride_1117",
+      "name": "朽ちた海賊船遊具",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 26,
+      "id": "park_swing_ride_1117",
+      "name": "鎖ブランコ遊具",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 27,
+      "id": "park_teacup_ride_1117",
+      "name": "欠けた巨大ティーカップ",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 28,
+      "id": "park_bumper_car_1117",
+      "name": "古いバンパーカー",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 29,
+      "id": "park_bumper_pavilion_1117",
+      "name": "バンパーカーの屋根付き広場",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 30,
+      "id": "park_haunted_mansion_1117",
+      "name": "朽ちた幽霊屋敷",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 31,
+      "id": "park_mirror_house_1117",
+      "name": "割れ鏡の迷路館",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 32,
+      "id": "park_arcade_hall_1117",
+      "name": "閉鎖された遊技場",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 33,
+      "id": "park_doll_shop_1117",
+      "name": "人形のショーウインドウ",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 34,
+      "id": "park_mask_stall_1117",
+      "name": "古びた仮面売り場",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 35,
+      "id": "park_popcorn_cart_1117",
+      "name": "錆びた菓子売りワゴン",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 36,
+      "id": "park_music_organ_1117",
+      "name": "自動演奏の蒸気オルガン",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 37,
+      "id": "park_parade_float_1117",
+      "name": "止まった王冠の山車",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 38,
+      "id": "park_dry_fountain_1117",
+      "name": "水のない仮面噴水",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 39,
+      "id": "park_jester_statue_1117",
+      "name": "壊れた道化の石像",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 40,
+      "id": "park_street_clock_1117",
+      "name": "歯車の街角時計",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 41,
+      "id": "park_iron_bridge_1117",
+      "name": "装飾鉄骨の歩道橋",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 42,
+      "id": "park_broken_stair_1117",
+      "name": "崩れた劇場階段",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 43,
+      "id": "park_stone_bench_1117",
+      "name": "蔦に覆われた石ベンチ",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 44,
+      "id": "park_direction_sign_1117",
+      "name": "傾いた多方向案内板",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 45,
+      "id": "park_fence_corner_1117",
+      "name": "尖塔付き鉄柵の角部材",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 46,
+      "id": "park_service_shed_1117",
+      "name": "遊具整備の古い小屋",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 47,
+      "id": "park_substation_1117",
+      "name": "歯車と碍子の変電設備",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 48,
+      "id": "park_cable_reel_1117",
+      "name": "太い電線の巻取り機",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 49,
+      "id": "park_ivy_arch_1117",
+      "name": "蔦に覆われた装飾アーチ",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 50,
+      "id": "park_ruin_rubble_1117",
+      "name": "石壁と歯車の瓦礫",
+      "world": "廃園",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P1",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 51,
+      "id": "fairy_root_bridge_1117",
+      "name": "太い根が絡む橋",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 52,
+      "id": "fairy_flower_bridge_1117",
+      "name": "巨大な花弁の橋",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 53,
+      "id": "fairy_mushroom_house_1117",
+      "name": "傘の広いキノコ住居",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 54,
+      "id": "fairy_lily_platform_1117",
+      "name": "建物を載せる巨大蓮",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 55,
+      "id": "fairy_leaf_canopy_1117",
+      "name": "巨葉の市場屋根",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 56,
+      "id": "fairy_tree_stair_1117",
+      "name": "幹に巻き付く階段",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 57,
+      "id": "fairy_hollow_gate_1117",
+      "name": "巨木の洞の城門",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 58,
+      "id": "fairy_giant_orchid_1117",
+      "name": "建物ほどの巨大蘭",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 59,
+      "id": "fairy_flytrap_1117",
+      "name": "巨大な食虫植物",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 60,
+      "id": "fairy_tree_arch_1117",
+      "name": "二本の生木が作るアーチ",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 61,
+      "id": "fairy_altar_1117",
+      "name": "花冠と根の祭壇",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 62,
+      "id": "fairy_pollen_lantern_1117",
+      "name": "花粉が光る実の灯り",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 63,
+      "id": "fairy_hanging_nest_1117",
+      "name": "枝から吊るした巣の住居",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 64,
+      "id": "fairy_root_market_1117",
+      "name": "根の間に開いた市場",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 65,
+      "id": "fairy_watermill_1117",
+      "name": "巨葉で回る水車",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 66,
+      "id": "fairy_crystal_shore_1117",
+      "name": "水晶の湖岸岩",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 67,
+      "id": "fairy_thorn_barricade_1117",
+      "name": "薔薇の茨の防壁",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 68,
+      "id": "fairy_dragonfly_dock_1117",
+      "name": "トンボが停まる樹上桟橋",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 69,
+      "id": "fairy_seedpod_hut_1117",
+      "name": "種子のさやの小屋",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    },
+    {
+      "order": 70,
+      "id": "fairy_moss_stone_1117",
+      "name": "小花の咲く苔巨石",
+      "world": "妖精",
+      "owner": "mae",
+      "executor": "external_mae",
+      "scope": "additional_dedicated_art_variant",
+      "status": "queued_not_generated",
+      "priority": "P2",
+      "deliverable": "single_distinct_graphic_asset",
+      "pipeline": [
+        "GPT image",
+        "Hunyuan3D 2.x shape",
+        "GPU 2K RGB texture"
+      ],
+      "rig_required": false,
+      "geometry_budget": {
+        "source_faces": 14000,
+        "runtime_faces": 8000,
+        "repeated_lod_faces": 1500
+      },
+      "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
+      "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
+      "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。"
+    }
+  ]
+}
