@@ -32,6 +32,22 @@ MIGRATION = '''function migrateHonpenSave(){
 }
 '''
 
+FIRST_BATTLE_DEPS = "/* HONPEN_FIRST_BATTLE_1118 */\nconst HONPEN_VALLEY_WAVES=[\n ['hero','captain','merchant','cstalag','chest','choard','cbones','dunarch','hbrazier','crystalc','roardragon'],\n ['wyvern2']\n];\n// Generic enemy construction probes these templates even for the three cave actors.\nconst HONPEN_VALLEY_UNUSED_PROBES=new Set(['bgolem','golem','bgolem2','bigcannon','orctank','slime2','kingtank','ogre','bat','slime']);\n"
+
+FIRST_BATTLE_END = "{\n const previous=storyEnd;\n let pending=null;\n storyEnd=function(){\n  if(state!=='story'||SCN!==1||stage!==0||wave>=0||KAMI.mid||KAMI.end||\n     location.protocol==='file:'||!THREE.GLTFLoader)return previous.apply(this,arguments);\n  const book=KAMI;if(pending===book)return;\n  const needed=[...new Set([...mobileStageIds(0),...mobileCharIds('dragon'),...mobileWaveIds(0,0),\n     ...(mobileArt.groups.get('stage')?.ids||[])])];\n  const valid=()=>state==='story'&&KAMI===book&&stage===0&&wave<0;\n  const begin=()=>{\n   if(!valid())return;\n   mobileRefreshStage(0,mobileArt.stageSerial);\n   if(MODEL.dragon&&!D.g.userData.mix)mobileUseChar('dragon',false);\n   return previous.apply(this,arguments);\n  };\n  if(mobileArt.manifest&&needed.every(id=>!mobileKnown(id)||mobileArt.ready.has(id)))return begin();\n  pending=book;\n  mobileQueue(needed,70);\n  mobilePrepareGate(needed,valid,true,'物語に戻る').then(ok=>{\n   pending=null;if(ok)begin();\n  });\n };\n}\n"
+
+FIRST_BATTLE_EDITS = {
+    "function mobileWaveIds(i,n){const key=STAGES[i]?.key;return key==='valley'&&n>=2?[]:MOBILE_DEPS.waves?.[key]?.[n]||[];}": "function mobileWaveIds(i,n){const key=STAGES[i]?.key;return key==='valley'?HONPEN_VALLEY_WAVES[n]||[]:MOBILE_DEPS.waves?.[key]?.[n]||[];}",
+    "if(!mobileSaveData())mobileGroup('wave',mobileWaveIds(i,0),32);": "if(!mobileSaveData())mobileGroup('wave',mobileWaveIds(i,0),i===0?54:32);",
+    ' if(mobileArt.manifest&&mobileReadiness([...mobileStageIds(i),...mobileCharIds(key),...mobileWaveIds(i,0)])){commit();return;}': ' if(i===0||(mobileArt.manifest&&mobileReadiness([...mobileStageIds(i),...mobileCharIds(key),...mobileWaveIds(i,0)]))){commit();return;}',
+    'function mobilePrepareGate(ids,valid,canCancel=false){': 'function mobilePrepareGate(ids,valid,canCancel=false,cancelLabel){',
+    " cancel.hidden=!canCancel;box.addEventListener('pointerdown'": " cancel.hidden=!canCancel;if(cancelLabel)cancel.textContent=cancelLabel;box.addEventListener('pointerdown'",
+    '  const visible=[...ids,...out.ids];': "  const visible=[...ids,...[...out.ids].filter(id=>key!=='valley'||!HONPEN_VALLEY_UNUSED_PROBES.has(id))];",
+    "  mobileGroup('laterWave',mobileSaveData()?[]:mobileWaveIds(at,i+1),28);": "  if(key==='valley'&&i===0){\n   const stageToken=mobileArt.stageSerial;\n   if(!mobileSaveData())setTimeout(()=>{if(state==='play'&&stage===at&&wave===0&&mobileArt.stageSerial===stageToken)mobileGroup('laterWave',mobileWaveIds(at,1),28);},4000);\n  }else mobileGroup('laterWave',mobileSaveData()?[]:mobileWaveIds(at,i+1),28);",
+    " if(state!=='play'||!ids.length||!THREE.GLTFLoader||location.protocol==='file:'||": " if(key==='valley'&&i===1&&state==='play'&&location.protocol!=='file:'&&THREE.GLTFLoader&&!ids.every(id=>mobileArt.ready.has(id))){\n  const token={i,key,scn,at},wasPaused=PAUSED;mobileArt.wave=token;PAUSED=true;\n  const valid=()=>mobileArt.wave===token&&state==='play'&&stage===at&&SCN===scn;\n  mobileGroup('wave',ids,75);\n  mobilePrepareGate(ids,valid).then(ok=>{if(mobileArt.wave!==token)return;mobileArt.wave=null;PAUSED=wasPaused;if(ok&&state==='play'&&stage===at&&SCN===scn)actual();});\n  return;\n }\n if(state!=='play'||!ids.length||!THREE.GLTFLoader||location.protocol==='file:'||",
+    '<img id="stPic" alt="">': '<img id="stPic" alt="" fetchpriority="high">',
+}
+
 def unique(source, old, new):
     if source.count(old) != 1:
         raise ValueError(f'Invalid or repeated full-game anchor: {old[:120]}')
@@ -110,6 +126,10 @@ def patch_game(data):
         if not s.count(old):
             raise ValueError(f'Expected storage key {old}')
         s = s.replace(old, f"'dragon_honpen_{key}'")
+    for old, new in FIRST_BATTLE_EDITS.items():
+        s = unique(s, old, new)
+    s = unique(s, 'function mobileWaveIds(i,n){', FIRST_BATTLE_DEPS+'\nfunction mobileWaveIds(i,n){')
+    s = unique(s, '</script>\n</body>\n</html>', FIRST_BATTLE_END+'\n</script>\n</body>\n</html>')
     return unique(s, 'function loadGame(){try{', MIGRATION+'function loadGame(){try{migrateHonpenSave();')
 
 def authored_dependencies(s):
