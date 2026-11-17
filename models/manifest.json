@@ -5133,5 +5133,59 @@
     "ja": "王国の見張り塔",
     "h": 18.1,
     "rot": 0
+  },
+  "fairy_root_bridge_1117": {
+    "file": "fairy_root_bridge_1117.glb",
+    "ja": "太い根が絡む橋",
+    "version": "364255626062afe3",
+    "bytes": 445880,
+    "mobileFile": "mobile/fairy_root_bridge_1117.glb",
+    "mobileVersion": "00b13fdf421fbd03",
+    "mobileBytes": 174736,
+    "mobileCompression": "meshopt-lossless",
+    "mobileCodec": "meshopt"
+  },
+  "fairy_flower_bridge_1117": {
+    "file": "fairy_flower_bridge_1117.glb",
+    "ja": "巨大な花弁の橋",
+    "version": "3b423ed3f3642156",
+    "bytes": 459608,
+    "mobileFile": "mobile/fairy_flower_bridge_1117.glb",
+    "mobileVersion": "bf1d04c24d81420d",
+    "mobileBytes": 157748,
+    "mobileCompression": "meshopt-lossless",
+    "mobileCodec": "meshopt"
+  },
+  "fairy_tree_stair_1117": {
+    "file": "fairy_tree_stair_1117.glb",
+    "ja": "幹に巻き付く階段",
+    "version": "01d31004cf2af92a",
+    "bytes": 546016,
+    "mobileFile": "mobile/fairy_tree_stair_1117.glb",
+    "mobileVersion": "b9db84c3396dd10d",
+    "mobileBytes": 186068,
+    "mobileCompression": "meshopt-lossless",
+    "mobileCodec": "meshopt"
+  },
+  "fairy_hollow_gate_1117": {
+    "file": "fairy_hollow_gate_1117.glb",
+    "ja": "巨木の洞の城門",
+    "version": "e38e513bbce6cab9",
+    "bytes": 475724,
+    "mobileFile": "mobile/fairy_hollow_gate_1117.glb",
+    "mobileVersion": "46d31dbef85954d4",
+    "mobileBytes": 159628,
+    "mobileCompression": "meshopt-lossless",
+    "mobileCodec": "meshopt"
+  },
+  "kingdom_barracks_1117": {
+    "file": "kingdom_barracks_1117.glb",
+    "mobileFile": "mobile/kingdom_barracks_1117.glb",
+    "version": "de69988570bff73c",
+    "mobileVersion": "2c4d137bf9ef484d",
+    "bytes": 1337204,
+    "mobileBytes": 148744,
+    "mobileCompression": "meshopt-lossless",
+    "mobileCodec": "meshopt"
   }
 }
