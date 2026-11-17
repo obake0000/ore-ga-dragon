@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>ドラゴンゲーム 現状報告と分担計画</title>
+<style>
+:root{--ink:#182b38;--muted:#415569;--line:#c8d3dc;--accent:#155a79;--soft:#edf3f6}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#fff;color:var(--ink);font:16px/1.85 system-ui,"Yu Gothic",sans-serif}main{max-width:1060px;padding:36px 28px 70px;margin:auto}header{padding-bottom:24px;border-bottom:2px solid var(--ink)}h1{font-size:clamp(26px,4vw,40px);line-height:1.4;margin:8px 0 18px}h2{font-size:25px;margin:40px 0 14px;line-height:1.5}h3{font-size:19px;margin:22px 0 10px}p{max-width:76ch;margin:12px 0}a{color:var(--accent);text-underline-offset:3px;overflow-wrap:anywhere}.meta,figcaption{color:var(--muted);font-size:14px}.lead{font-size:19px;font-weight:650}.note{padding:16px 20px;background:var(--soft);margin:20px 0}.links{display:flex;gap:10px 22px;flex-wrap:wrap}nav{padding:18px 0;border-bottom:1px solid var(--line)}nav ol{columns:2;margin:6px 0;padding-left:25px}nav li{break-inside:avoid}table{border-collapse:collapse;width:100%;font-size:15px;margin:14px 0 22px;table-layout:fixed}th,td{padding:12px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line);overflow-wrap:anywhere}th{background:var(--soft)}td:first-child{font-weight:650}th:first-child{width:22%}th:nth-child(2){width:22%}.wide th:nth-child(2){width:38%}.done{font-weight:700;color:#125138}.pending{font-weight:700;color:#754411}details{border-top:1px solid var(--line);padding:14px 0}summary{cursor:pointer;font-weight:700}summary:focus-visible,a:focus-visible{outline:3px solid #d06a24;outline-offset:3px}li{margin:7px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--soft);padding:18px;font-size:13px;line-height:1.7}figure{margin:20px 0}figure img{width:100%;max-width:740px;height:auto;display:block}.flow{padding:18px;background:var(--soft);font-weight:650}footer{border-top:2px solid var(--ink);padding-top:20px;margin-top:40px}@media(max-width:600px){main{padding:22px 16px 50px}nav ol{columns:1}table{font-size:14px}th,td{padding:10px 6px}th:first-child{width:24%}th:nth-child(2){width:24%}h2{font-size:22px}.lead{font-size:17px}.wide th:nth-child(2){width:35%}}@media print{main{max-width:none;padding:0}nav{display:none}a{color:inherit}h2{break-after:avoid}tr{break-inside:avoid}}
+</style></head><body><main>
+<header><p class="meta">ふみさん向け｜2026年11月17日 14:10 JST時点の確認記録</p><h1>ドラゴンゲーム<br>現状報告と効率的な分担計画</h1>
+<p class="lead">親が統合と公開を一元化し、Solは実装、Lunaは図鑑との照合と独立検証、別PCは素材制作や分離できる試験へ。次は完成品をゲームに組み込み、公開まで進める流れを整えます。</p>
+<p>12シナリオ・39章の公開版があり、海流砲・キューブ・スライムの修正とスマホ向け読み込み改善まで公開済みです。追加素材210点は3台へ各70点を割り当て済みですが、210点完成ではありません。</p>
+<p class="links"><a href="https://obake0000.github.io/ore-ga-dragon/?v=MOBILE1117">公開ゲーム</a><a href="https://dragon-oubo3-fumi.surge.sh/zukan.html">詳細図鑑</a><a href="https://obake0000.github.io/ore-ga-dragon/progress.html">提案対応表</a><a href="https://obake0000.github.io/ore-ga-dragon/graphics-inventory.html?view=orders">素材の発注一覧</a></p>
+<p class="meta">今回行ったのは記録照合と計画作成です。他PCへの新規ジョブ投入やゲーム本体の変更は行っていません。報告は時点固定で、自動更新ではありません。</p></header>
+<nav aria-label="目次"><strong>目次</strong><ol><li><a href="#done">現在できていること</a></li><li><a href="#remaining">未完了と未確認</a></li><li><a href="#causes">時間がかかる原因</a></li><li><a href="#roles">SolとLunaの分担</a></li><li><a href="#pcs">別PCを使う戦略</a></li><li><a href="#pipeline">受け渡しと公開手順</a></li><li><a href="#next">次の順番と評価指標</a></li><li><a href="#evidence">根拠と確認範囲</a></li></ol></nav>
+<section id="done"><h2>現在できていること</h2>
+<p>確認時点の公開ゲームは <a href="https://github.com/obake0000/ore-ga-dragon/commit/0096bc001a800a8fe5a692a312a9e55fdb722848">0096bc0</a>。その直前の <a href="https://github.com/obake0000/ore-ga-dragon/commit/da8ff8c1b17b3129cf0fe7576d7ec3f7cd786768">da8ff8c</a> の技修正も含みます。</p>
+<table><thead><tr><th>対象</th><th>状態</th><th>できたこと・確認範囲</th></tr></thead><tbody>
+<tr><td>ゲーム全体</td><td class="done">公開済み</td><td>22キャラ、12シナリオ・39章。妖精の国、廃墟の遊園地、コロセイムも実装。キャラ・章・波の自動検査記録あり。全章を自然に遊び切る試験とは区別。</td></tr>
+<tr><td>海王</td><td class="done">公開済み</td><td>海流砲の射線から水が走り、左右へ海が広がる。砲・水面・実水域・地形停止を一致。専用22項目を確認。</td></tr>
+<tr><td>合体キューブ</td><td class="done">公開済み</td><td>散開回避1.8秒、人型・竜型は分解突進。大剣26、大弓180、ブレス190、テイル半径42の一周攻撃。距離はゲーム内単位。壁・命中・タッチを確認。</td></tr>
+<tr><td>スライム</td><td class="done">公開済み</td><td>ボスも最大3.2秒捕食し、倒せなければ残HPを保って吐く。特殊進行中は対象外。着地は緑の範囲攻撃。専用20項目を確認。全ボス全形態の網羅ではない。</td></tr>
+<tr><td>スマホ向け</td><td class="done">公開済み</td><td>350モデル一括取得から章・キャラ・波ごとの取得へ。軽量350点、進捗表示、再試行、キャッシュ回収、描画復旧。公開2ホスト728ファイルを照合。</td></tr>
+<tr><td>図鑑・画像</td><td class="done">公開済み</td><td>敵130種＋同系統38種、全身写真168、技99枠の画像、章写真と動画。直近3キャラはHTML説明・写真・動画9本を更新。169ページの敵図鑑PDFは前版で、最新の技・スマホ修正まで更新したPDFではない。</td></tr>
+</tbody></table>
+<div class="note"><strong>軽量化は進んだが、初回待ち時間は課題です。</strong><p>軽量350素材の合計は161.05MB→113.04MB、約29.8%減。全素材の合計であり、初回転送量ではありません。PCで通信1.6Mbps・遅延150ms・CPU速度4倍低下を再現した試験では、最初の章36点完了87.13秒、実出撃92.98秒・累積転送16.42MB。低性能スマホ実機の値ではありません。</p></div>
+<details><summary>直近の変更を実ゲーム画像で見る</summary><figure><img src="https://dragon-oubo3-fumi.surge.sh/assets/seabeam-forward-1117/sea_forward.jpg" alt="海流砲の射線から前方へ海が広がる実ゲーム画面" loading="lazy"><figcaption>海流砲。撮影用に位置とカメラを調整した実ゲーム画像。</figcaption></figure>
+<figure><img src="https://dragon-oubo3-fumi.surge.sh/assets/cube-slime-1117/cube_dragon_1117_sp2.webp" alt="連続したキューブで周囲を攻撃する竜型テイル" loading="lazy"><figcaption>キューブ竜型のテイル。射程と実命中は別途ブラウザ試験で確認。</figcaption></figure></details></section>
+<section id="remaining"><h2>未完了と未確認</h2>
+<p>引用して保存した図鑑提案は128項目で、台帳上は<strong>公開済み127、一部実装1</strong>。原資料の全項目を特定・再検証した割合ではなく、別枠の素材210点や実機検証の完了率でもありません。</p>
+<table><thead><tr><th>残る項目</th><th>現在地</th><th>完了条件</th></tr></thead><tbody>
+<tr><td>生成素材の総点検<br>G1117-01</td><td class="pending">一部実装</td><td>Tripo系25件の制作由来が確証不足。制作ログ・原画・生成物を照合。不明を「未制作」と断定しない。</td></tr>
+<tr><td>追加素材210点</td><td class="pending">発注・制作・個別検証が混在</td><td>mae/pro/oku各70点。通常版・軽量版・必要な骨と動き・ゲーム接続・公開を素材IDごとに完了させる。</td></tr>
+<tr><td>新素材の統合候補</td><td class="pending">個別検証済みを含む／未公開</td><td>妖精6種、ポリゴン等4種、廃園、王国模型に個別試験記録。0096bc0基点の統合候補で4競合を解消。全体の最終試験と公開が残る。</td></tr>
+<tr><td>低性能端末</td><td class="pending">PC上の再現まで</td><td>実スマホと内蔵GPU機で初回・再訪・密集戦・15分継続を測る。FPS、停止、メモリ、発熱による低下を記録。</td></tr>
+<tr><td>自然な遊びやすさ</td><td class="pending">未確認範囲あり</td><td>状態注入なしの章移動、操作感、全体難度。全ボス全形態と捕食例外も追跡。</td></tr>
+<tr><td>記録の食い違い</td><td class="pending">原因を特定</td><td>AGENTS44節の「共有へ未統合」は共有本体について古い。現物SHAはスマホ＋技の再統合記録と一致。旧候補と最新候補を分離する。</td></tr>
+</tbody></table>
+<details><summary>制作途中の数値の読み方</summary><p>maeの14:07記録では、ローカル担当58点の通常版39点・軽量版32点が制作済み。残り12点は同じ70点枠の別担当です。これは公開済み数ではありません。別担当の数字と重複し得るため、210点全体の完成数へ加算していません。</p><p>発注時の作業記録に残る「ゲーム本体はd22」という記述も過去のもの。現在の公開状態はリリース確定記録と公開コミットを優先します。</p></details></section>
+<section id="causes"><h2>時間がかかる原因</h2>
+<table class="wide"><thead><tr><th>実際に起きたこと</th><th>影響</th><th>改善ルール</th></tr></thead><tbody>
+<tr><td>同じ本体へ並行変更</td><td>技とスマホ対応で再統合・再試験。後続候補でも4競合。</td><td>本体・manifest・公開の担当を各1人に固定。他担当は差分を渡す。</td></tr>
+<tr><td>素材生成が統合より先行</td><td>形状完成後にも色、骨、軽量版、登録、配置、実読込が残る。</td><td>模型完成とゲーム公開を別状態にし、未統合が増えたら検証と統合を優先。</td></tr>
+<tr><td>Sol/Lunaの利用上限</td><td>親が途中成果を引き取り、残りの実装と検証を継続。</td><td>小さく完結する単位で成果と再開手順を保存。上限時は同じ呼出しを繰り返さない。</td></tr>
+<tr><td>GPUと試験の競合</td><td>RoLとドラゴンが同じ設備を使用。古いキュー状態では空きが分からない。</td><td>PC・GPU単位の稼働情報と予約を確認。性能測定中は重い処理を止める。</td></tr>
+<tr><td>配信容量・再送</td><td>Surge用コピーと容量対策が必要。hardlink版で失敗し通常コピーで公開成功した例あり。</td><td>容量・参照先・対象一覧を先に確認。原因をhardlinkと断定せず、成功した通常コピー手順を使う。</td></tr>
+</tbody></table></section>
+<section id="roles"><h2>SolとLunaの分担</h2>
+<p>通常は<strong>親1人＋Sol1人＋Luna1人</strong>。空き枠には独立した素材作業を追加。この会話の同時実行枠は合計4で、別チャット・別PCも含む全体作業量は別に管理します。PCを増やせばモデル利用枠も増えるとは見込みません。</p>
+<table><thead><tr><th>担当</th><th>責任</th><th>成果</th></tr></thead><tbody>
+<tr><td>親</td><td>設計・優先順位・統合・公開</td><td>基点と受入条件を固定。単一候補へ取り込み、最終画面と公開ファイルを照合。図鑑更新とSlack納品まで。</td></tr>
+<tr><td>Sol</td><td>機能実装</td><td>1キャラまたは1機構の差分、意味のある試験、既知の制限。共有indexや公開先を直接上書きしない。</td></tr>
+<tr><td>Luna</td><td>独立監査・反映漏れ確認</td><td>原提案との対応、通常/軽量の欠落、説明と挙動の差、失敗の再現手順。実装者の報告だけで合格にしない。</td></tr>
+<tr><td>別PC</td><td>素材セット・限定試験</td><td>素材ID固定の通常/軽量版と制作記録、または基点固定の試験結果。ファイル一覧とハッシュを添付。</td></tr>
+</tbody></table>
+<p>Lunaは実装待ちの間に受入条件と既存挙動を確認し、差分到着後に同じ条件で検証します。全会話を何度も渡す代わりに、原提案・対象・制約・再現手順・完了条件を短い依頼票にまとめます。</p></section>
+<section id="pcs"><h2>別PCを使う戦略</h2>
+<p><strong>別PC利用はすでに一部動いています。</strong>3台各70点の分担記録に加え、okuの直近作業にはHunyuan形状・着色の完了とUniRig環境での動作監査があります。ただし現在の空きとは別です。アプリ上では5ホストに到達できましたが、全PCのGPU空き・容量・速度を測ったわけではありません。</p>
+<table class="wide"><thead><tr><th>PC</th><th>今回確認した範囲</th><th>使い方の計画</th></tr></thead><tbody>
+<tr><td>mae<br>現在のPC</td><td>RTX 4080と4060 Tiを機器情報で確認。Hunyuan/Paint、WSLのUniRig実績。既存FIFOはGPU工程を直列化。</td><td>ゲームの親による統合・公開と既存素材制作。重いGPU処理中に性能試験をしない。</td></tr>
+<tr><td>oku</td><td>形状・Paint完了と1K模型の骨/動作監査。骨の伸びを検出し修正候補を作成。その後RoL検証へ戻っている。</td><td>担当中の竜を同じIDで仕上げる。独立キューで動くキャラの制作・監査。RoL時間と調整。</td></tr>
+<tr><td>pro<br>minis7pro</td><td>70点分担と納品候補。RoLの司令塔・配布も担当。GPU仕様と空きは今回未測定。</td><td>担当済み静物を優先。CPU中心の一覧照合・圧縮検査・配信確認も候補。公開担当は増やさない。</td></tr>
+<tr><td>naka</td><td>アプリ接続とRoL設定/AI作業。ドラゴン実行環境は未確認。</td><td>空き後に独立コピーで開始・章移動・保存復帰を1件試し、通れば試験担当へ。</td></tr>
+<tr><td>moch</td><td>アプリ接続と別のPowerShell作業。ゲーム/GPU環境は未確認。</td><td>予備。環境と負荷を確認するまで制作能力に算入しない。</td></tr>
+</tbody></table>
+<h3>増やす順番</h3><ol>
+<li><strong>既存の3台分担を整える。</strong>70点の担当を作り直さず、完成品から3〜5点ずつ受け取る。同じ素材を別PCで重複生成しない。</li>
+<li><strong>軽い処理を分離する。</strong>静的検査、画像/動画デコード、一覧照合を生成と並行。性能測定するPCには他の重い処理を置かない。</li>
+<li><strong>GPU同時運転は1組だけ試す。</strong>maeの4080で形状/Paint、4060 TiでUniRigの案は、デバイス固定・別キュー・RAM競合を確認してから計測。現行単一FIFOを無条件に外さない。</li>
+<li><strong>実スマホは別枠。</strong>PCを増やしても実スマホ検証の代わりにならない。操作と計測環境が用意できた段階で実施。</li></ol>
+<details><summary>キューの現在地と復旧</summary><p>mae台帳の読み取り時点は197件、done187・failed9・cancelled1、待機/実行/保留0。最後の完了は14:00。以後の空き予約ではありません。okuにも独立キューの実行記録があり、maeと同じDBとは扱いません。</p><p>既存FIFOは協調するジョブを直列化しますが、外部の直接投入を全部防ぐものではありません。中断したheld/runningを自動で完了扱いにせず、PID・子プロセス・Comfy履歴を確認して復旧します。</p></details></section>
+<section id="pipeline"><h2>受け渡しと公開手順</h2>
+<p>ここからは<strong>導入計画</strong>です。今回、新たに自動スケジューラや常駐監視を作ったわけではありません。</p>
+<p class="flow">原提案固定 → 担当予約 → 制作・実装 → 独立検証 → 親が統合 → 公開・図鑑・Slack</p>
+<ol>
+<li><strong>依頼を固定。</strong>提案ID、最新ユーザー文、基点コミット、担当、編集範囲、受入条件を1件にする。追加指示は同じ依頼へ履歴付きで追記。</li>
+<li><strong>本体は親が統合。</strong>各担当は別コピー/ブランチで関数単位の差分を提出。本体とmanifestを直接取り合わない。素材はID単位のフォルダーで受け渡す。</li>
+<li><strong>素材を一式で提出。</strong>GPT原画→Hunyuan3D 2.x形状/色→動くキャラはUniRigと手動補完記録→通常/軽量GLB→サイズ/接地/骨/動き。静物の骨なし理由も記録。RGB色とPBR一式を区別。</li>
+<li><strong>試験を三段階に。</strong>担当の限定試験→Luna独立確認→固定統合候補で回帰試験。全素材・全章の重い試験は候補固定後にまとめ、変更後は影響範囲を再検証。</li>
+<li><strong>公開直前に基点確認。</strong>別作業の公開が先に進んだら取り込み直す。古い固定基点の公開器を再実行しない。ゲーム・図鑑・対応表を同じリリースへ結ぶ。</li>
+<li><strong>親が公開を確定。</strong>GitHub/Surge別の配信構成と容量を確認し、ハッシュと公開画面を照合。その後に公開済みへ変更し、SlackへURLを送る。</li></ol>
+<details><summary>依頼票・状態・PC稼働表の最小項目</summary><pre>提案ID / 素材ID / 基点コミット / 対象SHA
+担当PC・作業者 / 編集範囲 / 目的 / 受入条件
+差分 / 通常版 / 軽量版 / 制作記録 / 試験結果
+待機 → 制作中 → 提出 → 検証 → 統合 → 公開
+阻害要因 / 最後の成功工程 / 次の復旧操作 / 更新時刻
+
+PC稼働表：
+現在の作業 / 実行PID / GPU / キュー / 予約担当
+最終確認時刻 / 次に受け取れる作業 / 隔離した出力先</pre><p>上位の表示は従来の「未実装／一部実装／実装済み・未検証／検証済み／公開済み」を維持。素材工程はその内訳とし、形状生成だけで検証済みにしません。</p></details></section>
+<section id="next"><h2>次の順番と評価指標</h2>
+<table><thead><tr><th>順番</th><th>担当</th><th>完了条件</th></tr></thead><tbody>
+<tr><td>最優先<br>競合・台帳整理</td><td>親＋Luna</td><td>共有本体・旧候補・最新候補・公開をSHA付きで一覧化。古い未統合記述を訂正。公開担当1人、210点と図鑑128提案を関連付け。</td></tr>
+<tr><td>次<br>完成品をゲームへ</td><td>Sol＋素材担当＋Luna</td><td>試験済みの妖精・王国・廃園等から小単位で統合。軽量版・実配置・攻撃・死亡・片付けを通し、図鑑と公開まで完了。</td></tr>
+<tr><td>並行<br>初回待ち時間</td><td>Sol実装・Luna計測</td><td>約93秒を通信・デコード・章準備へ分解。不要依存や先読みを点検。同条件で転送量と出撃時間を前版比30%削減する仮目標。達成済みではなく、計測後に調整。</td></tr>
+<tr><td>その後<br>実機の遊びやすさ</td><td>空きPC試験担当＋親</td><td>内蔵GPU機・実スマホで15分、密集戦、章移動、保存復帰。仮目標は継続30FPS、長い停止/クラッシュなし。端末別に計測。</td></tr>
+</tbody></table>
+<p>評価するのは<strong>依頼から公開までの時間、差し戻し率、未統合の提出数、GPU待ち時間、同じ試験のやり直し数</strong>。最初の1回で基準値を取り、次の同規模更新と比べます。</p>
+<p>開始時の仮ルールは、同時に受け入れる機能変更2件まで、素材の未検証受け渡しは1台3〜5点まで。上限に達したら生成拡大より検証・修正・統合へ。70点の担当は維持し、GPUの調整は実行中の1件を安全に終えてから行います。</p></section>
+<section id="evidence"><h2>根拠と確認範囲</h2>
+<p>今回はSolが公開状態・図鑑・候補を監査、LunaがPC設備・既存キュー・分担記録を調査。親が公開コミット・共有実ファイル・他PCの直近作業を照合しました。今回ゲームを全件再プレイした報告ではありません。</p>
+<details><summary>主要な根拠ファイル</summary><ul>
+<li>seabeam_forward_release_1117：published.json、delivery.json、remote-report.json、各キャラQA。109は配信照合ファイル数。</li>
+<li>mobile_release_1117：release.json、delivery.json、final-mobile-slow.json、public-mobile-browser.json、sync-apply.json。728も配信ファイル数で、ゲーム機能試験728項目ではない。</li>
+<li>graphics_all_1117、train_fairy_release_1117：素材、12シナリオ、図鑑の制作・検証記録。</li>
+<li>proposals_current_1116.json：items26＋additionalItems102＝128。</li>
+<li>graphics_remaining_1117/current-task.json、orders_210.json：70点×3台の割当。古い公開状態は現在値としない。</li>
+<li>graphics_impl_release_1117/candidate-merge.json、Sol/Luna/Terraの個別QA：新候補と限定試験。</li>
+<li>機器一覧、GPUキューREADMEと読み取り専用DB、アプリのホスト一覧、pro/oku/別ドラゴン作業の直近会話。ホスト一覧だけでGPU空きと判定しない。</li>
+</ul></details>
+<p class="meta">RoLのGPT HP正本はRoL用のため変更していません。ドラゴンはこの報告、既存図鑑対応表、素材台帳を使用。分担・閾値・追加試験は計画であり、未着手の自動化を実装済みとしません。</p></section>
+<footer><strong>次の一手：完成した小さなまとまりを、軽量版・図鑑・公開まで通す。</strong><p class="meta">2026年11月17日作成。時点固定の調査報告。</p><a href="#">先頭へ戻る</a></footer>
+</main></body></html>
