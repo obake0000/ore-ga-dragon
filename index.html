@@ -1219,7 +1219,7 @@ const MODEL=new Proxy({}, {get(target,id){mobileModelGet(id);return Reflect.get(
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVFDRKUIFRDKFGLWFIfPRSFmNCDHYRsFKLUNSWCBRWSAFBMOMGGXVUJFhpyvcLGMTCFsgrbkSjHumHHrSunAwGpuFairynNFjMTEBYSCPGWSchVTNhSPaQICON1117LPIAAR2SeaFMOBILE1117ART2LUNA4GRAPHICS1117_KINGDOM_BARRACKS_1117MUSIC5COLCAM1118'/* ARCHANGEL_ICON_CACHE_1117 *//* ICON_ART_CACHE_1117 */;let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVFDRKUIFRDKFGLWFIfPRSFmNCDHYRsFKLUNSWCBRWSAFBMOMGGXVUJFhpyvcLGMTCFsgrbkSjHumHHrSunAwGpuFairynNFjMTEBYSCPGWSchVTNhSPaQICON1117LPIAAR2SeaFMOBILE1117ART2LUNA4GRAPHICS1117_KINGDOM_BARRACKS_1117MUSIC5COLCAM1118COLGUIDE1118'/* ARCHANGEL_ICON_CACHE_1117 *//* ICON_ART_CACHE_1117 */;let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -7233,11 +7233,11 @@ ALLST.push(
   waves:[{name:'入場決闘',msg:'門の手前で剣闘士と一対一！',mood:0,go(){colWave(0,0);}},
    {name:'特別試合・三人組',msg:'第一の門が開いた。三人組を迎え撃て！',mood:0,go(){colWave(0,1);}},
    {name:'門衛との決闘',msg:'第二の門が開いた。門衛と一対一！',mood:0,go(){colWave(0,2);}}]},
- {key:'col_trial',ch:'第2章',title:'三色の軍旗',place:'四方の旗',ter:colTerrain(88,4040),
-  story:['次の試合では、相手を殴るだけでは勝てない。','光る色の旗へ近づくと、旗手を守る力が一段ずつ弱くなる。','赤、青、金。三本とも押さえて、旗手と決着をつけよう。'],
+ {key:'col_trial',ch:'第2章',title:'三色の軍旗',place:'三色の旗',ter:colTerrain(88,4040),
+  story:['次の試合では、相手を殴るだけでは勝てない。','①赤→②青→③金の順に、旗の円内で0.7秒待とう。1本取るたびに守りが弱まる。','3本とも取ると盾が消える。そのあと旗手を倒せば勝利だ。'],
   waves:[{name:'旗手との決闘',msg:'一対一。赤、青、金の順に押さえて旗手の盾を崩す',mood:0,go(){colWave(1,0);}}]},
  {key:'col_final',ch:'最終章',title:'緑の一角',place:'王者の円形劇場',ter:colTerrain(84,4410),
-  story:['陽が沈み、円形劇場の床が赤く光った。','赤が広がるとき、緑に光る一角へ逃げ込めば王者の盾がほどける。','安全な場所は毎回変わる。光を見て移動し、盾が消えた間に攻めよう。'],
+  story:['陽が沈み、円形劇場の床が赤く光った。','「退避先」の緑の床へ入り、衝撃波までそこで待とう。成功すると王者の盾が消える。','退避先は毎回変わる。盾が消えた残り時間は画面に表示される。その間に攻撃しよう。'],
   waves:[{name:'王者との決闘',msg:'王者と一対一。緑へ避けて盾を崩そう！',mood:5,go(){colWave(2,0);}}]});
 
 /* 廃墟の遊園地の章を、保存されたシナリオ番号の読込より前に登録。 */
@@ -9467,7 +9467,7 @@ function frame(now){
   if(speechT>0){speechT-=rdt;if(speechT<=0)$('speech').style.opacity=0;}upd2d(rdt);
   if(hud){drawMap();drawInd();}
   drawSpeed(rdt,vv);
-  if(window.CAMOV){cam.position.copy(CAMOV.p);cam.lookAt(CAMOV.t);}fadeClouds();colSightUpdate(rdt);R.render(scene,cam);bomberBombCameraAfterRender(bombView);
+  if(window.CAMOV){cam.position.copy(CAMOV.p);cam.lookAt(CAMOV.t);}fadeClouds();colSightUpdate(rdt);colGuideUpdate();R.render(scene,cam);bomberBombCameraAfterRender(bombView);
 }
 TER=Object.assign(TER,STAGES[0].ter);setChar('dragon');setupStage(0);{const sc=loadGame();if(reached)setupStage(reached);if(sc||reached)setChar(sc||'dragon');}sizeAll();updMood(0,true);loadModels();
 requestAnimationFrame(frame);
@@ -22821,14 +22821,97 @@ function colSightUpdate(dt){
  s.uniforms.colWidth.value=clamp((C.camB||24)*.24,7,17);
 }
 
+/* COL_GUIDE_1118: one current action, a matching destination, and explicit feedback. */
+const COL_GUIDE={root:null,arrow:null,labels:[],safe:null,last:'',target:new V3(),projected:new V3(),view:new V3()};
+const colGuideTitle=document.createElement('strong'),colGuideDetail=document.createElement('span');
+colHud.replaceChildren(colGuideTitle,colGuideDetail);
+const colPointer=document.createElement('div');colPointer.id='colGuidePointer';colPointer.hidden=true;
+colPointer.innerHTML='<b aria-hidden="true">➤</b><span></span>';$('hud').appendChild(colPointer);
+const colGuideCss=document.createElement('style');
+colGuideCss.textContent=`#colArenaStatus{left:12px;top:194px;transform:none;width:330px;max-width:calc(100vw - 24px);box-sizing:border-box;text-align:left;padding:9px 12px;background:#211810f5;line-height:1.45}
+#colArenaStatus strong{display:block;font-size:15px;color:#fff4d6}#colArenaStatus span{display:block;font-size:12px;font-weight:500;color:#fff4d6;margin-top:3px}
+#colGuidePointer{position:absolute;z-index:4;pointer-events:none;display:flex;align-items:center;gap:6px;padding:5px 8px;border:2px solid #ffe2a0;border-radius:5px;background:#211810f5;color:#fff4d6;font:700 13px sans-serif;transform:translate(-50%,-50%);white-space:nowrap}
+#colGuidePointer[hidden],#colArenaStatus[hidden]{display:none}#colGuidePointer b{font-size:18px;line-height:1;display:inline-block}
+@media(max-width:640px){#colArenaStatus{top:auto;width:calc(100vw - 24px);bottom:max(154px,18vh);font-size:12px}#colArenaStatus strong{font-size:14px}}
+@media(max-height:500px) and (orientation:landscape){#colArenaStatus{left:12px;top:110px;bottom:auto;transform:none;width:260px}#colArenaStatus strong{font-size:13px}#colArenaStatus span{font-size:11px}}`;
+document.head.appendChild(colGuideCss);
+function colGuideLabel(text,color){
+ const c=document.createElement('canvas');c.width=256;c.height=80;const ctx=c.getContext('2d');
+ ctx.fillStyle='#211810';ctx.fillRect(0,0,256,80);ctx.strokeStyle=color;ctx.lineWidth=6;ctx.strokeRect(3,3,250,74);
+ ctx.fillStyle='#fff4d6';ctx.font='bold 40px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text,128,41);
+ const map=colOwn(new THREE.CanvasTexture(c));map.encoding=THREE.sRGBEncoding;
+ const sprite=new THREE.Sprite(colOwn(new THREE.SpriteMaterial({map,transparent:true,opacity:.84,depthTest:false,depthWrite:false})));
+ sprite.scale.set(15,4.7,1);sprite.renderOrder=4;return sprite;
+}
+function colGuidePrepare(){
+ const g=COL_GUIDE,a=COL_ARENA;
+ if(g.root===a.root)return;g.root=a.root;g.labels=[];g.safe=null;g.last='';
+}
+function colGuideWrite(title,detail){
+ const key=title+'|'+detail;if(COL_GUIDE.last!==key){colGuideTitle.textContent=title;colGuideDetail.textContent=detail;COL_GUIDE.last=key;}
+ colHud.hidden=false;
+}
+function colGuidePoint(target,label){
+ const g=COL_GUIDE,q=g.projected.copy(target).project(cam),v=g.view.copy(target).applyMatrix4(cam.matrixWorldInverse);
+ let dx=q.x,dy=-q.y;if(v.z>=0){dx=-dx;dy=-dy;}
+ if(!Number.isFinite(dx)||!Number.isFinite(dy)){dx=0;dy=1;}
+ const w=innerWidth,h=innerHeight,portrait=w<641&&h>w,lo=portrait?235:155,hi=portrait?h-285:h-100;
+ const x=clamp(w/2+dx*w/2,77,w-77);let y=clamp(h/2+dy*h/2,Math.min(lo,h*.55),Math.max(lo+15,hi));
+ const box=colHud.getBoundingClientRect();if(x+76>box.left&&x-76<box.right&&y+20>box.top&&y-20<box.bottom)y=box.bottom+26;
+ colPointer.hidden=false;colPointer.style.left=x+'px';colPointer.style.top=y+'px';
+ colPointer.querySelector('b').style.transform=`rotate(${Math.atan2(dy,dx)}rad)`;
+ const span=colPointer.querySelector('span');if(span.textContent!==label)span.textContent=label;
+}
+function colGuideUpdate(){
+ colGuidePrepare();const a=COL_ARENA,g=COL_GUIDE;
+ colPointer.hidden=true;
+ if(!colActive()||state!=='play'||!a.root||cineOn||CINE.k||FORM_INTRO.active||PAUSED||LVUP){colHud.hidden=true;return;}
+ const e=a.boss,target=g.target;
+ if(e?.dead){colGuideWrite('勝利！ 次の試合へ','仕掛けを突破しました');return;}
+ if(a.flags.length){
+  while(g.labels.length<a.flags.length){const i=g.labels.length,q=a.flags[i],label=colGuideLabel(['① 赤','② 青','③ 金'][i],'#'+COL_FLAG_COLORS[i].toString(16));q.p.add(label);label.position.y=15;g.labels.push(label);}
+  g.labels.forEach((s,i)=>{s.visible=i>=a.flag;s.material.opacity=i===a.flag?.84:.5;});
+  const q=a.flags[a.flag];
+  if(q){const near=Math.hypot(P.pos.x-q.p.position.x,P.pos.z-q.p.position.z)<=q.radius;
+   const pct=Math.min(100,Math.floor(q.hold/.65*100));
+   colGuideWrite(near?`${['①','②','③'][a.flag]} 制圧中 ${pct}% · 円内にとどまる`:`${['①','②','③'][a.flag]} ${COL_FLAG_NAMES[a.flag]}旗の円に入る`,`${a.flag}/3本制圧 · 円内に0.7秒 → 盾が弱まる。3本で解除`);
+   target.copy(q.p.position);target.y+=8;colGuidePoint(target,`${['①','②','③'][a.flag]} ${COL_FLAG_NAMES[a.flag]}旗`);
+  }else{colGuideWrite('盾が消えた！ 旗手を攻撃','3/3本制圧 · もう旗へ戻らなくてOK');if(e){e.mesh.getWorldPosition(target);target.y+=e.hc||4;colGuidePoint(target,'旗手を攻撃');}}
+  return;
+ }
+ if(a.bout){
+  const b=a.bout;
+  if(!g.safe){g.safe=colGuideLabel('退避先','#a9ffd1');a.root.add(g.safe);}
+  g.safe.visible=b.warn>0;
+  if(b.open>0){colGuideWrite(`今、王者を攻撃！ あと${b.open.toFixed(1)}秒`,'退避成功で盾が解除 · 時間が来たら再び退避');if(e){e.mesh.getWorldPosition(target);target.y+=e.hc||4;colGuidePoint(target,'攻撃チャンス');}}
+  else if(b.warn>0){
+   const safe=colSafe(b.angle,b.half,P.pos.x,P.pos.z);
+   target.set(Math.cos(b.angle)*55,floorAt(0,0)+4,Math.sin(b.angle)*55);g.safe.position.copy(target);g.safe.position.y+=4;
+   colGuideWrite(safe?`退避OK · あと${b.warn.toFixed(1)}秒、ここで待つ`:`退避先へ！ 衝撃波まで${b.warn.toFixed(1)}秒`,safe?'そのまま待つ → 王者の盾が消えたら攻撃':'「退避先」の緑の床へ。赤い床に残るとダメージ');
+   if(!safe)colGuidePoint(target,'退避先');
+  }else if(b.flash>0)colGuideWrite('退避失敗 · 次は「退避先」へ','衝撃波が来る前に、緑の床へ移動する');
+  else colGuideWrite('王者の盾は攻撃無効 · 退避に備える','次に出る「退避先」へ → 衝撃波を避けると盾が解除');
+  return;
+ }
+ const crossing=a.gates.find(q=>q.target>0&&P.pos.z>q.z-4);
+ if(crossing){
+  const i=a.gates.indexOf(crossing)+1;
+  colGuideWrite(`第${i}門が開いた！ 中央の門をくぐる`,'勝つと自動で開門 · 次の相手は門の向こう');
+  target.set(0,floorAt(0,crossing.z)+5,crossing.z-8);colGuidePoint(target,`第${i}門へ`);return;
+ }
+ const foes=EN.filter(q=>!q.dead),foe=foes.reduce((best,q)=>!best||q.mesh.position.distanceToSquared(P.pos)<best.mesh.position.distanceToSquared(P.pos)?q:best,null);
+ if(foe){colGuideWrite(`${e?'門衛':foes.length===1?'決闘相手':'三人組'}を倒す · 残り${foes.length}体`,e?'最後の相手を倒すと、この章を突破':'全員倒す → 鉄門が自動で開く');foe.mesh.getWorldPosition(target);target.y+=foe.hc||4;colGuidePoint(target,'対戦相手');}
+ else colGuideWrite('勝利！ 次の試合を準備中','門は自動で開きます');
+}
+
 function colActive(){return SCN===12&&COL_KEYS.includes(STAGES[stage]?.key);}
-function colNote(text){colHud.textContent=text;colHud.hidden=!text||state!=='play';}
+function colNote(text){if(!text)colHud.hidden=true;}
 function colOwn(resource){COL_ARENA.owned.add(resource);return resource;}
 function colClear(){
  const a=COL_ARENA;if(a.root)scene.remove(a.root);
  for(const resource of a.owned)resource.dispose();a.owned.clear();
  a.root=a.boss=a.bout=null;a.gates=[];a.flags=[];a.flag=0;
- colNote('');$('hud').classList.remove('col-arena');
+ colNote('');colPointer.hidden=true;$('hud').classList.remove('col-arena');
 }
 function colBox(parent,mat,x,y,z,w,h,d,rotation=0){
  const mesh=new THREE.Mesh(colOwn(new THREE.BoxGeometry(w,h,d)),mat);
