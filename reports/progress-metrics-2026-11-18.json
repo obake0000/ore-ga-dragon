@@ -3031,5 +3031,675 @@
       "prepared_at_jst": "2026-11-18T04:37:51.51917+09:00",
       "url": "https://dragon-oubo3-fumi.surge.sh/zukan.html#wyvern-fixed-1118"
     }
-  ]
+  ],
+  "comparison": {
+    "baseline": "9a8a42a028785958244ca75a7febbba7b7e79691",
+    "usage_source_cutoff_jst": "2026-11-18T12:35:12.000+09:00",
+    "rows": [
+      {
+        "ids": [
+          "U010"
+        ],
+        "day": 16,
+        "category": "見やすさ",
+        "title": "オーク編の雲で白くなる画面を修正",
+        "result": "カメラ手前の雲を透明にし、オーク編3章で旧版の白い遮蔽を再現して比較。18項目を確認。",
+        "commit": "6098c98",
+        "url": "https://github.com/obake0000/ore-ga-dragon/commit/6098c98",
+        "scope": "単独テーマ",
+        "note": "修正のテーマは視界1件。親と検証・修正担当で分担。",
+        "date": "2026-11-16",
+        "first_instruction_at_jst": "2026-11-16T04:10:44.742+09:00",
+        "instruction_events_at_jst": [
+          "2026-11-16T04:10:44.742+09:00"
+        ],
+        "instruction_event_count": 1,
+        "turn_start_at_jst": "2026-11-16T04:10:44.661+09:00",
+        "turn_end_at_jst": "2026-11-16T04:19:18.767+09:00",
+        "work_elapsed_ms": 514106,
+        "work_elapsed": "8分34秒",
+        "start_to_last_end_ms": 514106,
+        "start_to_last_end": "8分34秒",
+        "cached_input_tokens": 4449920,
+        "uncached_input_tokens": 144966,
+        "input_tokens": 4594886,
+        "output_tokens": 20608,
+        "total_tokens": 4615494,
+        "response_count": 47,
+        "worker_turn_count": 2,
+        "token_coverage": "recorded",
+        "commit_at_jst": "2026-11-16T04:18:10+09:00",
+        "slack_delivery_at_jst": null,
+        "token_notes": null,
+        "token_coverage_by_turn": {
+          "U010": "recorded"
+        },
+        "result_url_verified_http": 200
+      },
+      {
+        "ids": [
+          "U037"
+        ],
+        "day": 16,
+        "category": "図鑑",
+        "title": "身長比較付きのWeb図鑑を作り直す",
+        "result": "33形態を同じ縮尺で比較。Web図鑑に検索・画像拡大・目次を設け、応募ページと約69.5秒の紹介動画を更新。",
+        "commit": "5e56159",
+        "url": "https://dragon-oubo3-fumi.surge.sh/zukan.html#height",
+        "scope": "一括",
+        "note": "18分15秒は比較図・図鑑・応募ページ・動画のバッチ。比較図だけの所要は不明。",
+        "date": "2026-11-16",
+        "first_instruction_at_jst": "2026-11-16T19:10:36.271+09:00",
+        "instruction_events_at_jst": [
+          "2026-11-16T19:10:36.271+09:00"
+        ],
+        "instruction_event_count": 1,
+        "turn_start_at_jst": "2026-11-16T19:10:35.727+09:00",
+        "turn_end_at_jst": "2026-11-16T19:28:50.728+09:00",
+        "work_elapsed_ms": 1095126,
+        "work_elapsed": "18分15秒",
+        "start_to_last_end_ms": 1095001,
+        "start_to_last_end": "18分15秒",
+        "cached_input_tokens": 15918848,
+        "uncached_input_tokens": 360314,
+        "input_tokens": 16279162,
+        "output_tokens": 70378,
+        "total_tokens": 16349540,
+        "response_count": 167,
+        "worker_turn_count": 3,
+        "token_coverage": "recorded",
+        "commit_at_jst": "2026-11-16T19:25:54+09:00",
+        "slack_delivery_at_jst": "2026-11-16T19:27:55+09:00",
+        "token_notes": null,
+        "token_coverage_by_turn": {
+          "U037": "recorded"
+        },
+        "result_url_verified_http": 200
+      },
+      {
+        "ids": [
+          "U040"
+        ],
+        "day": 16,
+        "category": "戦闘・素材・図鑑",
+        "title": "複数キャラの技・仲間・変身と資料をまとめて更新",
+        "result": "22キャラの近接・射撃の同時発動を制御。ゴーレムの掴み投げ、海王の前方海、竜王・海王・魔王城の模型を反映。写真と約106秒のPV、18頁補冊も公開。",
+        "commit": "56c2644 + 4cb114c",
+        "url": "https://dragon-oubo3-fumi.surge.sh/zukan.html#latest-revisions",
+        "scope": "一括",
+        "note": "親ターン中の計38指示と複数成果を含む。",
+        "date": "2026-11-16",
+        "first_instruction_at_jst": "2026-11-16T20:44:20.449+09:00",
+        "instruction_events_at_jst": [
+          "2026-11-16T20:44:20.449+09:00",
+          "2026-11-16T20:50:24.945+09:00",
+          "2026-11-16T20:53:47.283+09:00",
+          "2026-11-16T20:53:47.302+09:00",
+          "2026-11-16T20:54:44.867+09:00",
+          "2026-11-16T20:54:59.093+09:00",
+          "2026-11-16T20:55:29.859+09:00",
+          "2026-11-16T20:56:45.484+09:00",
+          "2026-11-16T20:59:26.853+09:00",
+          "2026-11-16T21:00:26.718+09:00",
+          "2026-11-16T21:00:51.708+09:00",
+          "2026-11-16T21:01:39.269+09:00",
+          "2026-11-16T21:02:21.997+09:00",
+          "2026-11-16T21:03:07.092+09:00",
+          "2026-11-16T21:03:29.587+09:00",
+          "2026-11-16T21:04:16.815+09:00",
+          "2026-11-16T21:04:50.470+09:00",
+          "2026-11-16T21:05:25.413+09:00",
+          "2026-11-16T21:07:09.366+09:00",
+          "2026-11-16T21:07:21.529+09:00",
+          "2026-11-16T21:08:39.872+09:00",
+          "2026-11-16T21:15:06.752+09:00",
+          "2026-11-16T21:18:16.844+09:00",
+          "2026-11-16T21:18:32.567+09:00",
+          "2026-11-16T21:19:12.951+09:00",
+          "2026-11-16T21:20:12.686+09:00",
+          "2026-11-16T21:20:36.878+09:00",
+          "2026-11-16T21:28:58.068+09:00",
+          "2026-11-16T21:30:46.880+09:00",
+          "2026-11-16T21:31:15.437+09:00",
+          "2026-11-16T21:31:51.281+09:00",
+          "2026-11-16T21:33:36.558+09:00",
+          "2026-11-16T21:42:13.256+09:00",
+          "2026-11-16T21:42:13.287+09:00",
+          "2026-11-16T21:42:41.901+09:00",
+          "2026-11-16T21:44:53.835+09:00",
+          "2026-11-16T21:45:00.959+09:00",
+          "2026-11-16T21:52:02.287+09:00"
+        ],
+        "instruction_event_count": 38,
+        "turn_start_at_jst": "2026-11-16T20:44:20.388+09:00",
+        "turn_end_at_jst": "2026-11-16T22:47:08.197+09:00",
+        "work_elapsed_ms": 7367809,
+        "work_elapsed": "2時間2分47秒",
+        "start_to_last_end_ms": 7367809,
+        "start_to_last_end": "2時間2分47秒",
+        "cached_input_tokens": 290118784,
+        "uncached_input_tokens": 2358999,
+        "input_tokens": 292477783,
+        "output_tokens": 748277,
+        "total_tokens": 293226060,
+        "response_count": 1563,
+        "worker_turn_count": 11,
+        "token_coverage": "recorded",
+        "commit_at_jst": "2026-11-16T22:30:19+09:00",
+        "slack_delivery_at_jst": "2026-11-16T22:46:31+09:00",
+        "token_notes": null,
+        "token_coverage_by_turn": {
+          "U040": "recorded"
+        },
+        "result_url_verified_http": 200,
+        "final_correction_commit_at_jst": "2026-11-16T22:40:46+09:00"
+      },
+      {
+        "ids": [
+          "U042"
+        ],
+        "day": 17,
+        "category": "新章・素材",
+        "title": "廃遊園地・コロセウムと列車・妖精の景観を追加",
+        "result": "各3章を追加して全39章に。装甲列車7両、景観や施設などGPU素材9点、戦闘見本9本を公開。",
+        "commit": "fab68b6",
+        "url": "https://dragon-oubo3-fumi.surge.sh/zukan.html#chapter-park_entry",
+        "scope": "一括",
+        "note": "新章・3D素材・戦闘動画をまとめたバッチ。",
+        "date": "2026-11-17",
+        "first_instruction_at_jst": "2026-11-17T00:37:45.330+09:00",
+        "instruction_events_at_jst": [
+          "2026-11-17T00:37:45.330+09:00",
+          "2026-11-17T00:37:57.620+09:00",
+          "2026-11-17T00:40:25.925+09:00",
+          "2026-11-17T00:45:04.817+09:00",
+          "2026-11-17T00:45:58.665+09:00",
+          "2026-11-17T00:47:04.443+09:00",
+          "2026-11-17T00:47:41.585+09:00",
+          "2026-11-17T00:50:36.070+09:00",
+          "2026-11-17T00:51:37.584+09:00",
+          "2026-11-17T00:52:51.027+09:00",
+          "2026-11-17T00:53:48.091+09:00"
+        ],
+        "instruction_event_count": 11,
+        "turn_start_at_jst": "2026-11-17T00:37:45.226+09:00",
+        "turn_end_at_jst": "2026-11-17T01:46:40.902+09:00",
+        "work_elapsed_ms": 4135675,
+        "work_elapsed": "1時間8分55秒",
+        "start_to_last_end_ms": 4135676,
+        "start_to_last_end": "1時間8分55秒",
+        "cached_input_tokens": 154637184,
+        "uncached_input_tokens": 1376873,
+        "input_tokens": 156014057,
+        "output_tokens": 345130,
+        "total_tokens": 156359187,
+        "response_count": 1039,
+        "worker_turn_count": 13,
+        "token_coverage": "recorded",
+        "commit_at_jst": "2026-11-17T01:37:23+09:00",
+        "slack_delivery_at_jst": "2026-11-17T01:44:15+09:00",
+        "token_notes": null,
+        "token_coverage_by_turn": {
+          "U042": "recorded"
+        },
+        "result_url_verified_http": 200
+      },
+      {
+        "ids": [
+          "U046",
+          "U050"
+        ],
+        "day": 17,
+        "category": "読み込み",
+        "title": "ゲーム全体の読み込みを章ごとに切り替える",
+        "result": "全350模型の一括取得をやめ、章・キャラ・波に必要な分から取得。軽量模型全体の容量を161.05→113.04MBへ。失敗時の再試行・キャッシュ回収を確認。",
+        "commit": "0096bc0",
+        "url": "https://obake0000.github.io/ore-ga-dragon/progress.html#mobile-performance-1117",
+        "scope": "一括",
+        "note": "2ターンの合計。最初の作業から最後の終了までには、2ターン間の空白もある。",
+        "date": "2026-11-17",
+        "first_instruction_at_jst": "2026-11-17T12:15:00.035+09:00",
+        "instruction_events_at_jst": [
+          "2026-11-17T12:15:00.035+09:00",
+          "2026-11-17T12:53:22.999+09:00"
+        ],
+        "instruction_event_count": 2,
+        "turn_start_at_jst": "2026-11-17T12:14:59.941+09:00",
+        "turn_end_at_jst": "2026-11-17T13:21:29.326+09:00",
+        "work_elapsed_ms": 3382697,
+        "work_elapsed": "56分22秒",
+        "start_to_last_end_ms": 3989385,
+        "start_to_last_end": "1時間6分29秒",
+        "cached_input_tokens": 72390912,
+        "uncached_input_tokens": 800039,
+        "input_tokens": 73190951,
+        "output_tokens": 212803,
+        "total_tokens": 73403754,
+        "response_count": 502,
+        "worker_turn_count": 5,
+        "token_coverage": "recorded",
+        "commit_at_jst": "2026-11-17T13:14:54+09:00",
+        "slack_delivery_at_jst": "2026-11-17T13:21:08+09:00",
+        "token_notes": null,
+        "token_coverage_by_turn": {
+          "U046": "recorded",
+          "U050": "recorded"
+        },
+        "result_url_verified_http": 200
+      },
+      {
+        "ids": [
+          "U047",
+          "U048",
+          "U049"
+        ],
+        "day": 17,
+        "category": "戦闘",
+        "title": "海流砲・キューブ・スライムの攻撃を更新",
+        "result": "海流砲を射線から海が広がる技に変更。キューブは分解突進と攻撃範囲、スライムはボス捕食と吐き出し、緑の着地衝撃を実装。",
+        "commit": "da8ff8c",
+        "url": "https://dragon-oubo3-fumi.surge.sh/zukan.html#seabeam-forward-update",
+        "scope": "一括",
+        "note": "実装と継続ターンを合算。短い追加指示ターンだけで緑の着地が完成したとは扱わない。",
+        "date": "2026-11-17",
+        "first_instruction_at_jst": "2026-11-17T12:26:09.828+09:00",
+        "instruction_events_at_jst": [
+          "2026-11-17T12:26:09.828+09:00",
+          "2026-11-17T12:33:41.001+09:00",
+          "2026-11-17T12:33:43.840+09:00",
+          "2026-11-17T12:43:28.178+09:00",
+          "2026-11-17T12:52:57.405+09:00"
+        ],
+        "instruction_event_count": 5,
+        "turn_start_at_jst": "2026-11-17T12:26:09.387+09:00",
+        "turn_end_at_jst": "2026-11-17T13:15:50.223+09:00",
+        "work_elapsed_ms": 2413091,
+        "work_elapsed": "40分13秒",
+        "start_to_last_end_ms": 2980836,
+        "start_to_last_end": "49分40秒",
+        "cached_input_tokens": 37152384,
+        "uncached_input_tokens": 742675,
+        "input_tokens": 37895059,
+        "output_tokens": 137493,
+        "total_tokens": 38032552,
+        "response_count": 301,
+        "worker_turn_count": 5,
+        "token_coverage": "recorded_with_one_turn_without_new_response",
+        "commit_at_jst": "2026-11-17T13:05:11+09:00",
+        "slack_delivery_at_jst": null,
+        "token_notes": "緑の着地を追記したU048には、新たなAPI応答使用量の記録がない。記録済みの実装・継続ターン全体の量を表示。",
+        "token_coverage_by_turn": {
+          "U047": "recorded",
+          "U048": "no_new_response_record",
+          "U049": "recorded"
+        },
+        "result_url_verified_http": 200
+      },
+      {
+        "ids": [
+          "U052"
+        ],
+        "day": 17,
+        "category": "素材反映",
+        "title": "50注文をゲームへ反映し、図鑑と表紙を更新",
+        "result": "50注文・51模型を軽量版込みで公開。実ゲーム写真18枚、遊園地動画、提出時の表紙を図鑑へ追加。",
+        "commit": "7622e0d",
+        "url": "https://dragon-oubo3-fumi.surge.sh/zukan.html#graphics-implementation-1117",
+        "scope": "一括",
+        "note": "受領素材の採用・実装・確認・資料・公開が含まれる。素材1件の生成時間は不明。",
+        "date": "2026-11-17",
+        "first_instruction_at_jst": "2026-11-17T13:47:35.262+09:00",
+        "instruction_events_at_jst": [
+          "2026-11-17T13:47:35.262+09:00",
+          "2026-11-17T14:27:35.294+09:00"
+        ],
+        "instruction_event_count": 2,
+        "turn_start_at_jst": "2026-11-17T13:47:35.227+09:00",
+        "turn_end_at_jst": "2026-11-17T15:05:18.086+09:00",
+        "work_elapsed_ms": 4662858,
+        "work_elapsed": "1時間17分42秒",
+        "start_to_last_end_ms": 4662859,
+        "start_to_last_end": "1時間17分42秒",
+        "cached_input_tokens": 165263488,
+        "uncached_input_tokens": 1198075,
+        "input_tokens": 166461563,
+        "output_tokens": 372994,
+        "total_tokens": 166834557,
+        "response_count": 952,
+        "worker_turn_count": 21,
+        "token_coverage": "recorded",
+        "commit_at_jst": "2026-11-17T14:55:46+09:00",
+        "slack_delivery_at_jst": "2026-11-17T15:04:52+09:00",
+        "token_notes": null,
+        "token_coverage_by_turn": {
+          "U052": "recorded"
+        },
+        "result_url_verified_http": 200
+      },
+      {
+        "ids": [
+          "U057"
+        ],
+        "day": 17,
+        "category": "素材反映",
+        "title": "受領した妖精の景観4点と王国兵舎を反映",
+        "result": "5注文を軽量版込みで接続し、6章の切替を確認。5写真を図鑑に追加。公開累計55/210。",
+        "commit": "8fcc1d4",
+        "url": "https://dragon-oubo3-fumi.surge.sh/zukan.html#graphics-followup-1117",
+        "scope": "単独テーマ",
+        "note": "受領済み5素材の反映・確認・公開。新規GPU生成は含まれない。",
+        "date": "2026-11-17",
+        "first_instruction_at_jst": "2026-11-17T16:33:36.375+09:00",
+        "instruction_events_at_jst": [
+          "2026-11-17T16:33:36.375+09:00"
+        ],
+        "instruction_event_count": 1,
+        "turn_start_at_jst": "2026-11-17T16:33:36.337+09:00",
+        "turn_end_at_jst": "2026-11-17T16:52:15.305+09:00",
+        "work_elapsed_ms": 1118968,
+        "work_elapsed": "18分38秒",
+        "start_to_last_end_ms": 1118968,
+        "start_to_last_end": "18分38秒",
+        "cached_input_tokens": 19345664,
+        "uncached_input_tokens": 361588,
+        "input_tokens": 19707252,
+        "output_tokens": 62366,
+        "total_tokens": 19769618,
+        "response_count": 165,
+        "worker_turn_count": 2,
+        "token_coverage": "recorded",
+        "commit_at_jst": "2026-11-17T16:48:38+09:00",
+        "slack_delivery_at_jst": "2026-11-17T16:51:54+09:00",
+        "token_notes": null,
+        "token_coverage_by_turn": {
+          "U057": "recorded"
+        },
+        "result_url_verified_http": 200
+      },
+      {
+        "ids": [
+          "U061"
+        ],
+        "day": 17,
+        "category": "音楽",
+        "title": "場面で変わるBGMを3曲から5曲にする",
+        "result": "冒険、通常戦、ボス、妖精と海、廃遊園地の5曲。ボス優先と停止時の挙動を確認し、図鑑に5曲の試聴を公開。",
+        "commit": "5b2d3be",
+        "url": "https://dragon-oubo3-fumi.surge.sh/zukan.html#music-five-1117",
+        "scope": "単独テーマ",
+        "note": "BGMの対応は1テーマで、譜面・ゲーム内の切替・試聴を含む。",
+        "date": "2026-11-17",
+        "first_instruction_at_jst": "2026-11-17T17:18:05.810+09:00",
+        "instruction_events_at_jst": [
+          "2026-11-17T17:18:05.810+09:00"
+        ],
+        "instruction_event_count": 1,
+        "turn_start_at_jst": "2026-11-17T17:18:05.766+09:00",
+        "turn_end_at_jst": "2026-11-17T17:31:21.446+09:00",
+        "work_elapsed_ms": 795680,
+        "work_elapsed": "13分15秒",
+        "start_to_last_end_ms": 795680,
+        "start_to_last_end": "13分15秒",
+        "cached_input_tokens": 8138112,
+        "uncached_input_tokens": 76212,
+        "input_tokens": 8214324,
+        "output_tokens": 28910,
+        "total_tokens": 8243234,
+        "response_count": 49,
+        "worker_turn_count": 3,
+        "token_coverage": "recorded",
+        "commit_at_jst": "2026-11-17T17:28:21+09:00",
+        "slack_delivery_at_jst": "2026-11-17T17:31:04+09:00",
+        "token_notes": null,
+        "token_coverage_by_turn": {
+          "U061": "recorded"
+        },
+        "result_url_verified_http": 200
+      },
+      {
+        "ids": [
+          "U062"
+        ],
+        "day": 18,
+        "category": "見やすさ",
+        "title": "コロセウムの高速カメラと遮る壁を修正",
+        "result": "速度に応じたカメラの引きと追従を改善。近い壁とアーチを局所的に透過し、6配置・390幅2キャラで確認。",
+        "commit": "ca633e9",
+        "url": "https://dragon-oubo3-fumi.surge.sh/zukan.html#col-camera-1118",
+        "scope": "単独テーマ",
+        "note": "親が単独で実装・検証・公開。",
+        "date": "2026-11-18",
+        "first_instruction_at_jst": "2026-11-18T00:15:42.605+09:00",
+        "instruction_events_at_jst": [
+          "2026-11-18T00:15:42.605+09:00"
+        ],
+        "instruction_event_count": 1,
+        "turn_start_at_jst": "2026-11-18T00:15:42.205+09:00",
+        "turn_end_at_jst": "2026-11-18T00:34:24.471+09:00",
+        "work_elapsed_ms": 1122267,
+        "work_elapsed": "18分42秒",
+        "start_to_last_end_ms": 1122266,
+        "start_to_last_end": "18分42秒",
+        "cached_input_tokens": 5712768,
+        "uncached_input_tokens": 275628,
+        "input_tokens": 5988396,
+        "output_tokens": 28667,
+        "total_tokens": 6017063,
+        "response_count": 47,
+        "worker_turn_count": 0,
+        "token_coverage": "recorded",
+        "commit_at_jst": "2026-11-18T00:31:02+09:00",
+        "slack_delivery_at_jst": "2026-11-18T00:34:12+09:00",
+        "token_notes": null,
+        "token_coverage_by_turn": {
+          "U062": "recorded"
+        },
+        "result_url_verified_http": 200
+      },
+      {
+        "ids": [
+          "U068"
+        ],
+        "day": 18,
+        "category": "見やすさ",
+        "title": "コロセウムで次にすることを表示",
+        "result": "門、三色旗、退避と王者の盾を画面上で案内。390幅と1280幅で各7状態、判定と片付けを確認。",
+        "commit": "0733262",
+        "url": "https://dragon-oubo3-fumi.surge.sh/zukan.html#col-guide-1118",
+        "scope": "単独テーマ",
+        "note": "親が単独で実装・検証・公開。この回の後に試合前の図解も別回で追加。",
+        "date": "2026-11-18",
+        "first_instruction_at_jst": "2026-11-18T00:34:24.555+09:00",
+        "instruction_events_at_jst": [
+          "2026-11-18T00:34:24.555+09:00"
+        ],
+        "instruction_event_count": 1,
+        "turn_start_at_jst": "2026-11-18T00:34:24.496+09:00",
+        "turn_end_at_jst": "2026-11-18T00:47:57.855+09:00",
+        "work_elapsed_ms": 813358,
+        "work_elapsed": "13分33秒",
+        "start_to_last_end_ms": 813359,
+        "start_to_last_end": "13分33秒",
+        "cached_input_tokens": 3993600,
+        "uncached_input_tokens": 48307,
+        "input_tokens": 4041907,
+        "output_tokens": 21019,
+        "total_tokens": 4062926,
+        "response_count": 32,
+        "worker_turn_count": 0,
+        "token_coverage": "recorded",
+        "commit_at_jst": "2026-11-18T00:45:27+09:00",
+        "slack_delivery_at_jst": "2026-11-18T00:47:47+09:00",
+        "token_notes": null,
+        "token_coverage_by_turn": {
+          "U068": "recorded"
+        },
+        "result_url_verified_http": 200
+      },
+      {
+        "ids": [
+          "U075"
+        ],
+        "day": 18,
+        "category": "本編分離・ルール・素材",
+        "title": "本編と無双を分け、試合前図解と12素材を公開",
+        "result": "レッドドラゴン本編4章と無双を分離。勝利条件を図解。受領済み12注文を軽量版込みで接続して公開累計67/210。",
+        "commit": "fb6858c",
+        "url": "https://dragon-oubo3-fumi.surge.sh/zukan.html#rules-art-1118",
+        "scope": "一括",
+        "note": "37分26秒は3成果のバッチ全体。素材だけの時間は空欄。",
+        "date": "2026-11-18",
+        "first_instruction_at_jst": "2026-11-18T01:10:32.518+09:00",
+        "instruction_events_at_jst": [
+          "2026-11-18T01:10:32.518+09:00",
+          "2026-11-18T01:25:49.081+09:00",
+          "2026-11-18T01:26:01.490+09:00"
+        ],
+        "instruction_event_count": 3,
+        "turn_start_at_jst": "2026-11-18T01:10:32.228+09:00",
+        "turn_end_at_jst": "2026-11-18T01:47:58.176+09:00",
+        "work_elapsed_ms": 2245948,
+        "work_elapsed": "37分25秒",
+        "start_to_last_end_ms": 2245948,
+        "start_to_last_end": "37分25秒",
+        "cached_input_tokens": 53279616,
+        "uncached_input_tokens": 772709,
+        "input_tokens": 54052325,
+        "output_tokens": 180817,
+        "total_tokens": 54233142,
+        "response_count": 374,
+        "worker_turn_count": 4,
+        "token_coverage": "recorded",
+        "commit_at_jst": "2026-11-18T01:42:29+09:00",
+        "slack_delivery_at_jst": "2026-11-18T01:47:41+09:00",
+        "token_notes": null,
+        "token_coverage_by_turn": {
+          "U075": "recorded"
+        },
+        "result_url_verified_http": 200
+      },
+      {
+        "ids": [
+          "U077"
+        ],
+        "day": 18,
+        "category": "読み込み",
+        "title": "スマホ本編の初回案内・操作・読み込みを改善",
+        "result": "敵の方向、タッチスティック、章目標と経験値を整理。390幅の模擬回線で出撃から序章表示を8.21→0.76秒、第1波を11.32→8.51秒に短縮。",
+        "commit": "05c5e88",
+        "url": "https://dragon-oubo3-fumi.surge.sh/zukan.html#firstplay-1118",
+        "scope": "一括",
+        "note": "20分34秒は案内・操作・ロードを合わせた作業時間。秒単位の前後値は実装時間とは別のゲーム読み込み実測。左上の敵名ボタンは次版で取り下げ。",
+        "date": "2026-11-18",
+        "first_instruction_at_jst": "2026-11-18T01:47:58.274+09:00",
+        "instruction_events_at_jst": [
+          "2026-11-18T01:47:58.274+09:00"
+        ],
+        "instruction_event_count": 1,
+        "turn_start_at_jst": "2026-11-18T01:47:58.213+09:00",
+        "turn_end_at_jst": "2026-11-18T02:08:32.279+09:00",
+        "work_elapsed_ms": 1234066,
+        "work_elapsed": "20分34秒",
+        "start_to_last_end_ms": 1234066,
+        "start_to_last_end": "20分34秒",
+        "cached_input_tokens": 20576384,
+        "uncached_input_tokens": 212227,
+        "input_tokens": 20788611,
+        "output_tokens": 63057,
+        "total_tokens": 20851668,
+        "response_count": 114,
+        "worker_turn_count": 3,
+        "token_coverage": "recorded",
+        "commit_at_jst": "2026-11-18T02:03:04+09:00",
+        "slack_delivery_at_jst": "2026-11-18T02:08:19+09:00",
+        "token_notes": null,
+        "token_coverage_by_turn": {
+          "U077": "recorded"
+        },
+        "result_url_verified_http": 200
+      },
+      {
+        "ids": [
+          "U078"
+        ],
+        "day": 18,
+        "category": "本編・戦闘",
+        "title": "ワイバーン同行・会話停止とキャラの操作を修正",
+        "result": "同行をワイバーン1体に固定。会話中は両陣営が停止。無双タッチ、ワイバーンの首、爆撃機、ネクロ、ぬらりの挙動を修正し、写真7枚・動画6本を公開。",
+        "commit": "86e2b30",
+        "url": "https://dragon-oubo3-fumi.surge.sh/zukan.html#wyvern-fixed-1118",
+        "scope": "一括",
+        "note": "42分37秒は複数修正をまとめたバッチ。共通処理の回帰とセーブ移行も確認。",
+        "date": "2026-11-18",
+        "first_instruction_at_jst": "2026-11-18T04:01:08.506+09:00",
+        "instruction_events_at_jst": [
+          "2026-11-18T04:01:08.506+09:00",
+          "2026-11-18T04:01:19.021+09:00",
+          "2026-11-18T04:03:06.575+09:00",
+          "2026-11-18T04:08:25.628+09:00",
+          "2026-11-18T04:11:40.226+09:00",
+          "2026-11-18T04:13:25.227+09:00"
+        ],
+        "instruction_event_count": 6,
+        "turn_start_at_jst": "2026-11-18T04:01:08.176+09:00",
+        "turn_end_at_jst": "2026-11-18T04:43:45.181+09:00",
+        "work_elapsed_ms": 2557005,
+        "work_elapsed": "42分37秒",
+        "start_to_last_end_ms": 2557005,
+        "start_to_last_end": "42分37秒",
+        "cached_input_tokens": 89895808,
+        "uncached_input_tokens": 1241601,
+        "input_tokens": 91137409,
+        "output_tokens": 219619,
+        "total_tokens": 91357028,
+        "response_count": 617,
+        "worker_turn_count": 8,
+        "token_coverage": "recorded",
+        "commit_at_jst": "2026-11-18T04:38:39+09:00",
+        "slack_delivery_at_jst": "2026-11-18T04:42:42+09:00",
+        "token_notes": null,
+        "token_coverage_by_turn": {
+          "U078": "recorded"
+        },
+        "result_url_verified_http": 200
+      }
+    ],
+    "analysis": [
+      {
+        "title": "画面の見づらさを直す",
+        "ids": [
+          "U010",
+          "U062",
+          "U068"
+        ],
+        "text": "11/16の雲で白くなる画面は8分34秒。11/18は、高速カメラと壁の透過が18分42秒、門・旗・退避の案内が13分33秒。対応範囲が異なるため、同一作業の速度向上とは言えない。"
+      },
+      {
+        "title": "届いた模型を遊べる形で公開する",
+        "ids": [
+          "U052",
+          "U057",
+          "U075"
+        ],
+        "text": "11/17の50注文と図鑑更新は1時間17分43秒、受領済み5注文の反映は18分39秒。11/18の12注文は本編・無双分離と試合前図解を合わせて37分26秒。18分39秒が素材反映だけに近い観測値。模型1件あたりの時間は算出しない。"
+      },
+      {
+        "title": "読み込みを軽くする",
+        "ids": [
+          "U046",
+          "U050",
+          "U077"
+        ],
+        "text": "11/17の全体の章別ロードと軽量模型は2ターン合計56分23秒。11/18の本編初回は敵方向・タッチ・経験値を含め20分34秒。広い仕組みを先に変え、次に本編の初回へ絞った。速度計測条件は日ごとに違う。"
+      }
+    ],
+    "method": {
+      "selection": "公開成果が照合でき、作業内容が比較しやすい14件。日別の全件集計は含めない。",
+      "time": "Codexの開始から終了までの親ターン計測。作業・確認・待ち・公開を含む。複数ターンは重ならない親ターンの経過時間を合計し、間の空白を別扱いにする。",
+      "group": "単独テーマは主成果が1分野。一括は同じ作業回の複数機能・資料等。子エージェントの有無は別項目。",
+      "tokens": "親ターンと紐づいた子の応答使用量。キャッシュ入力と出力は分ける。機能・模型ごとの配分はしていない。",
+      "before_nov_16": "11/15以前の対象セッションは作業時間が未計測。",
+      "working_scope": "maeの対象4親セッションと紐づく子孫。計測対象に他PCの単独作業を含めない。"
+    }
+  }
 }
