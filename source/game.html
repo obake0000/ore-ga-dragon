@@ -713,7 +713,7 @@ body.mob #select .select-info[open] .sk .sd{display:block!important;}
   <div class="ttl"><h1 class="logo"><img src="story/logo2.webp" alt="俺がドラゴン。転生したらドラゴンだったので勇者も魔王も丸焼きにします。15分で終わる爽快アクションRPG"></h1><div class="sub">キャラをえらんで、魔物・軍隊・海の怪物・古の竜を倒せ</div></div>
 </div>
 <div id="story" class="ov"><div class="box"><div class="kstage"><div class="kami" id="kami"><div class="kz" id="kz"><img id="stPic" alt=""><div class="kink" id="kink"></div></div><div class="kvig"></div></div></div><div class="kside"><div class="khd" id="khd"><div class="ch" id="stCh"></div><h2 id="stT"></h2><svg class="kbrush" viewBox="0 0 400 16" preserveAspectRatio="none" aria-hidden="true"><path d="M3 9 C40 4 90 11 150 7 C210 3 280 10 340 6 C365 5 385 7 397 9 C380 11 360 10 330 11 C270 14 200 9 140 12 C80 15 30 11 3 9Z" fill="#b3261e"/><path d="M60 13 C120 10 190 14 260 12" stroke="#b3261e" stroke-width="1.3" fill="none" opacity=".55"/></svg></div><div id="stL"></div><div class="kfoot"><i></i><div class="kdots" id="stN"></div><button class="btn" id="storyGo">出撃！</button></div></div></div><button class="btn sm" id="storySkip">スキップ ▶▶</button></div>
-<div id="paused" class="ov"><div class="box"><h1>一時停止</h1><div class="sub">Esc か P キーでも、つづきにもどれる</div><div class="gos"><button class="btn" id="resume">つづける</button><button class="btn sm" id="wazaBtn2">📖 技の一覧</button><button class="btn sm" id="quit">竜をえらびなおす</button></div></div></div>
+<div id="paused" class="ov"><div class="box"><h1>一時停止</h1><div class="sub">Esc か P キーでも、つづきにもどれる</div><div class="gos"><button class="btn" id="resume">つづける</button><button class="btn sm" id="wazaBtn2">📖 技の一覧</button><button class="btn sm" id="quit">キャラを選ぶ</button></div></div></div>
 <div id="waza" class="ov"><div class="wbox"><div class="wh"><h2>技の一覧</h2><button class="btn sm" id="wazaX">とじる ✕</button></div><div class="wsub" id="wazaSub"></div><div class="wg" id="wazaG"></div></div></div>
 <div id="scp" class="ov" role="dialog" aria-modal="true" aria-labelledby="scpH"><div class="sbox"><div class="sh"><h2 id="scpH">シナリオの概要</h2><button class="btn" id="scpGo2">▶ このシナリオで遊ぶ</button><button class="btn sm" id="scpX" aria-label="とじる">✕ とじる</button></div><div class="tabs" id="scpTabs" role="tablist"></div><div class="cols"><div><div class="pic" id="scpPic"><img id="scpA" alt=""><img id="scpB" alt=""><video id="scpV" muted playsinline preload="none" aria-label="ゲームの動画"></video><div class="cap" id="scpCap"></div><div class="bd" id="scpBd">ゲーム画面</div></div><div class="dots" id="scpDots"></div></div><div class="info"><h3 class="nm" id="scpNm"></h3><p class="ds" id="scpDs"></p><div class="st">章の並び</div><ul class="chs" id="scpChs"></ul><div class="st">ボス</div><div class="bs" id="scpBs"></div><p class="len">🔰 初心者モード 約6分／ふつう 約15分</p><div class="gos"><button class="btn" id="scpGo">このシナリオで遊ぶ</button></div></div></div></div></div>
 <div id="over" class="ov">
@@ -2849,6 +2849,34 @@ const MAT={fire:new THREE.MeshBasicMaterial({color:0xffa030}),big:new THREE.Mesh
   ball:mat(0x1e1e22),water:new THREE.MeshBasicMaterial({color:0x80d0ff}),zap:new THREE.MeshBasicMaterial({color:0xe0f6ff}),light:new THREE.MeshBasicMaterial({color:0xd0ffe0})};
 const PROJ=[];const WATC=[0x80d0ff,0xffffff,0x4aa0e0];
 const AMAT={head:new THREE.MeshLambertMaterial({color:0xd8dde4,emissive:0x303840}),feath:new THREE.MeshBasicMaterial({color:0xf4f0e6,side:THREE.DoubleSide}),feathR:new THREE.MeshBasicMaterial({color:0xd03028,side:THREE.DoubleSide})};
+// The rain arrow's tip sits at its collision position. One colored mesh keeps the silhouette readable.
+const RC_RAIN_ART=(()=>{
+  const parts=[
+    [new THREE.CylinderGeometry(0.47,0.47,15.6,6).rotateX(Math.PI/2).translate(0,0,-10.1),0xffbe5f],
+    [new THREE.CylinderGeometry(0.68,0.68,1.1,6).rotateX(Math.PI/2).translate(0,0,-3.0),0x694125],
+    [new THREE.ConeGeometry(1.46,2.9,4).rotateX(Math.PI/2).translate(0,0,-1.45),0xfff3bb],
+  ];
+  const positions=[],colors=[];
+  function append(vertices,color){
+    const c=new THREE.Color(color);
+    positions.push(...vertices);
+    for(let i=0;i<vertices.length;i+=3)colors.push(c.r,c.g,c.b);
+  }
+  for(const [part,color] of parts){
+    const g=part.toNonIndexed();
+    append(g.attributes.position.array,color);
+    g.dispose();part.dispose();
+  }
+  for(let i=0;i<3;i++){
+    const angle=i*2*Math.PI/3,x=Math.cos(angle)*1.28,y=Math.sin(angle)*1.28;
+    append([0,0,-18,0,0,-12.2,x,y,-17.2,0,0,-18,x,y,-17.2,x,y,-19],0xa7342a);
+  }
+  const geometry=new THREE.BufferGeometry();
+  geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+  geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));
+  geometry.scale(0.34,0.34,0.40);
+  return {geometry,material:new THREE.MeshBasicMaterial({vertexColors:true,side:THREE.DoubleSide,fog:false,toneMapped:false})};
+})();
 // 炎の粒の絵（ふちがゆらいだ玉）と、雷のぎざぎざの形
 const ZGEO=[0,1,2,3,4,5].map(()=>{const pts=[];const n=9;for(let i=0;i<=n;i++){const z=-3+6*i/n;const j=(i&&i<n)?1:0;pts.push(new V3(rnd(-0.55,0.55)*j,rnd(-0.55,0.55)*j,z));}
   return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts,false,'catmullrom',0.1),18,0.13,3,false);});
@@ -2858,11 +2886,11 @@ const FIREMATS=new Set([MAT.fire,MAT.big,MAT.dfire,MAT.bfire]);
 const ESHOT=[];
 function eShotOk(pos){const n=performance.now();for(let i=ESHOT.length-1;i>=0;i--)if(n-ESHOT[i].t>450)ESHOT.splice(i,1);
   let c=0;for(const q of PROJ)if(q.from!=='p'&&q.geo!=='arrow')c++;if(c>=10)return false;for(const q of ESHOT)if(q.p.distanceToSquared(pos)<900)return false;ESHOT.push({t:n,p:pos.clone()});return true;}
-function shoot(pos,vel,o){if(o&&o.from!=='p'&&o.geo!=='arrow'&&!o.fairyBossShot&&state==='play'&&!eShotOk(pos))return;const m=o.ballistaArt?ballistaRigMesh(o):o.geo==='modernBomb'?modernBombMesh():new THREE.Mesh(GEO[o.geo||'fire'],o.mat);m.position.copy(pos);m.scale.setScalar((o.size||1)*(o.ball?0.4:1)*(o.from!=='p'&&o.geo!=='arrow'?0.72:1));if(o.fat){m.scale.x*=o.fat;m.scale.y*=o.fat;}scene.add(m);
+function shoot(pos,vel,o){if(o&&o.from!=='p'&&o.geo!=='arrow'&&!o.fairyBossShot&&state==='play'&&!eShotOk(pos))return;const m=o.ballistaArt?ballistaRigMesh(o):o.geo==='modernBomb'?modernBombMesh():o.rcRain?new THREE.Mesh(RC_RAIN_ART.geometry,RC_RAIN_ART.material):new THREE.Mesh(GEO[o.geo||'fire'],o.mat);m.position.copy(pos);m.scale.setScalar((o.size||1)*(o.ball?0.4:1)*(o.from!=='p'&&o.geo!=='arrow'?0.72:1));if(o.fat){m.scale.x*=o.fat;m.scale.y*=o.fat;}scene.add(m);
   if(FXT.ok&&(!o.geo||o.geo==='fire')&&!o.ball&&!(o.from==='p'&&o.mat===MAT.fire)){const fs=new THREE.Sprite(new THREE.SpriteMaterial({map:fxT(0,4),color:(o.col&&o.col[0])||0xffa030,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false}));fs.scale.set(4.4,4.4,1);fs.material.rotation=rnd(0,6.3);m.add(fs);m.userData.fs=fs;}
   let glow=null;
   if(o.geo==='rideBlade'){const core=new THREE.Mesh(RIDE_BLADE_INSET,RIDE_BLADE_CORE);core.position.y=0.23;m.add(core);}
-  else if(o.geo==='arrow'){m.add(new THREE.Mesh(GEO.ahead,AMAT.head));m.add(new THREE.Mesh(GEO.afeath,o.holyArrow?o.mat:o.from==='p'?AMAT.feath:AMAT.feathR));if(o.holyArrow){m.children[0].material=o.mat;glow=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xffed90,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,opacity:0.6}));glow.scale.set(2.5,2.5,1);m.add(glow);}else o.trail=null;}
+  else if(o.geo==='arrow'&&!o.rcRain){m.add(new THREE.Mesh(GEO.ahead,AMAT.head));m.add(new THREE.Mesh(GEO.afeath,o.holyArrow?o.mat:o.from==='p'?AMAT.feath:AMAT.feathR));if(o.holyArrow){m.children[0].material=o.mat;glow=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xffed90,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,opacity:0.6}));glow.scale.set(2.5,2.5,1);m.add(glow);}else o.trail=null;}
   else if(o.geo==='bolt'){m.geometry=ZGEO[(Math.random()*ZGEO.length)|0];m.material=ZMAT;glow=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0x7fc8ff,blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,opacity:0.8}));if(o.from==='p'){glow.scale.set(3.4,3.4,1);m.scale.multiplyScalar(1.3);m.scale.x*=1.7;m.scale.y*=1.7;const st=new THREE.Mesh(ZST,ZSTM);st.position.z=-8;m.add(st);}else glow.scale.set(5,5,1);m.add(glow);}
   else if(FIREMATS.has(o.mat)&&!o.ball){glow=new THREE.Sprite(new THREE.SpriteMaterial({map:FLT,color:o.mat.color.clone().lerp(new THREE.Color(0xff3000),0.35),blending:THREE.AdditiveBlending,transparent:true,depthWrite:false,opacity:0.6}));glow.scale.set(3,3,1);m.add(glow);}
   PROJ.push(Object.assign({m,glow,vel:vel.clone(),life:3,grav:0,r:1,splash:0,dmg:5,from:'e',col:FIRE},o));{const q=PROJ[PROJ.length-1];if(q.from!=='p'&&q.geo!=='arrow')q.r*=0.85;if(q.crag)cragInit(q);}}
@@ -2915,7 +2943,7 @@ function updProj(dt){
     if(hit||p.life<=0){if(hit)explode(p);scene.remove(p.m);PROJ.splice(i,1);}
   }
 }
-function explode(p){const pp=p.m.position;const big=p.splash>10&&!p.tk;if(p.powerBomb){bomberBombImpactFx(p);}else if(p.dkSmall){burst(pp,p.geo==='arrow'?2:3,p.col,p.geo==='arrow'?0.28:0.5,7,0.18);}else{if(p.tk){burst(pp,16,p.col||FIRE,3.2,22,0.55);smoke(pp,2,3.5,1.6,0x4a4a4a,2.5);sfx('cannon',pp,0.5);}try{fxHit(p);}catch(_){}
+function explode(p){const pp=p.m.position;const big=p.splash>10&&!p.tk;if(p.powerBomb){bomberBombImpactFx(p);}else if(p.rcRain){burst(pp,2,p.col,0.86,7,0.26,3.5);}else if(p.dkSmall){burst(pp,p.geo==='arrow'?2:3,p.col,p.geo==='arrow'?0.28:0.5,7,0.18);}else{if(p.tk){burst(pp,16,p.col||FIRE,3.2,22,0.55);smoke(pp,2,3.5,1.6,0x4a4a4a,2.5);sfx('cannon',pp,0.5);}try{fxHit(p);}catch(_){}
   if(p.glow&&p.geo!=='bolt'){const ft=p.mat===MAT.dfire?1:p.mat===MAT.bfire?2:0;flame(pp,big?34:7,big?9:3.2,big?1.1:0.55,null,ft,big?22:7);burst(pp,big?18:3,SPARK,big?2:1,big?50:18,big?0.9:0.4);if(big)shock(pp,0xffa040,28);}
   else if(p.geo==='bolt'){burst(pp,6,ZAP,2.6,22,0.3);flame(pp,2,4,0.25,null,2,2);}
   else if(p.crag)cragHit(p);else burst(pp,big?40:p.from==='p'?6:5,p.col,big?7:2.4,big?40:12,big?1.0:0.5);
@@ -3264,10 +3292,12 @@ function ringsBuild(){ringsClear();RINGS.ck=charKey;const g=new THREE.Group(),ge
     RINGS.L.push({h,m2,x,y,z,rid:i,airR:charKey==='dragonknight'?11:RNG_R,nx:-Math.sin(a),nz:Math.cos(a),pd:0,cd:0,ph:i});}
   if(TER.fairyCity)gpm.opacity=.16;
   scene.add(g);RINGS.g=g;if(!C.fly)ringsToGround();}
-function ringPass(r){P.ringT=1.6;{const w=new THREE.Mesh(new THREE.TorusGeometry(r.R||r.airR||RNG_R,0.28,6,40),new THREE.MeshBasicMaterial({color:0xfff0c0,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));w.position.set(r.x,r.y,r.z);w.quaternion.copy(r.h.quaternion);fxAdd(w,0.55,(o,k)=>{o.scale.setScalar(1+k*1.6);o.material.opacity=1-k;});}
+function ringPass(r){if(charKey==='nurarihyon'&&(!formPlaying()||r.cd>0))return;P.ringT=1.6;{const w=new THREE.Mesh(new THREE.TorusGeometry(r.R||r.airR||RNG_R,0.28,6,40),new THREE.MeshBasicMaterial({color:0xfff0c0,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false}));w.position.set(r.x,r.y,r.z);w.quaternion.copy(r.h.quaternion);fxAdd(w,0.55,(o,k)=>{o.scale.setScalar(1+k*1.6);o.material.opacity=1-k;});}
   r.cd=16;r.h.visible=false;RINGS.ch++;RINGS.cht=r.R?12:7;const n=RINGS.ch,c=new V3(r.x,r.y,r.z);P.en=Math.min(100,P.en+14);P.hp=Math.min(P.maxHp,P.hp+P.maxHp*0.03);score+=40*n;
-  burst(c,26,GOLD,3,26,0.7);glowFlash(c,0xffd860,22,0.4);sfx('heal',null,0.5);ono(c,n>1?`${n}連続！ ＋ゲージ`:'リング！ ＋ゲージ','#ffd84a',36);
-  if(!RINGS.tip){RINGS.tip=true;say('💡 ヒント',RFORMS[charKey]?(RIDES[charKey]?'屋外の金のリングで'+RIDES[charKey].nm+'に30秒騎乗！ 時間切れで自動着地。':RFORMS[charKey].names.length===3?'金のリングで60秒変身！ 変身中にもう1個取ると、最終形態に30秒変身する。':'金のリングで30秒変身！ 変身中にもう1個取ると、残り30秒に戻る。'):'金の輪をくぐると、必殺ゲージと体力が少したまる。続けてくぐると点が上がる');}}
+  burst(c,26,GOLD,3,26,0.7);glowFlash(c,0xffd860,22,0.4);sfx('heal',null,0.5);
+  if(charKey==='nurarihyon'&&nuraWeak())ono(c,`小妖怪 ＋1（${nuraSmallCount()}/${NURA_FRONT_SEATS.length}）`,'#ffe799',35);
+  else ono(c,n>1?`${n}連続！ ＋ゲージ`:'リング！ ＋ゲージ','#ffd84a',36);
+  if(!RINGS.tip){RINGS.tip=true;say('💡 ヒント',charKey==='nurarihyon'?'金の輪をくぐると小妖怪が1体増える。4体揃うと百鬼合体が使える。':RFORMS[charKey]?(RIDES[charKey]?'屋外の金のリングで'+RIDES[charKey].nm+'に30秒騎乗！ 時間切れで自動着地。':RFORMS[charKey].names.length===3?'金のリングで60秒変身！ 変身中にもう1個取ると、最終形態に30秒変身する。':'金のリングで30秒変身！ 変身中にもう1個取ると、残り30秒に戻る。'):'金の輪をくぐると、必殺ゲージと体力が少したまる。続けてくぐると点が上がる');}}
 /* ---- 地上のキャラ用の輪（rock_ring.py）：飛べないキャラの時は、空の輪を地面に立て直す。下の端が地面すれすれで、走ってくぐれる ---- */
 // 輪の半径：体の大きさに合わせる（人は小さく、戦車・クラーケンは大きく）
 function ringGR(){return ({hero:5,redcap:5,army:7,golem:8,ground:9,orctank:10,kraken:13})[charKey]||(C.human?5:9);}
@@ -12733,17 +12763,22 @@ Object.assign(PETH,{skel:3.6,skeleton:3.6});Object.assign(PETJA,{skel:'骸骨の
 SKPOOL.necromancer=['bonehound','pillars'];
 // 味方の妖怪だけを管理する。百鬼夜行も同じ8体枠。敵軍やレア札の仲間とは混ぜない。
 const NURA=[],NURAPOOL=[],NURAKIN=['y_origami','y_oni','yokai_lantern_1116'];
-let nuraClock=0.2,nuraSerial=0,nuraDodgeCd=0;
+const NURA_FRONT_SEATS=[[8,-7.2],[8,7.2],[13,-3.8],[13,3.8]],NURA_FOLLOW_POINT=new V3();
+const NURA_RUSH_SPACING=[0,.11,.24,.37];
+let nuraClock=0.2,nuraSerial=0,nuraDodgeCd=0,nuraStarterPending=true;
 function nuraRemove(q,pop){const i=NURA.indexOf(q);if(i<0)return;
   if(pop)burst(q.g.position.clone().add(new V3(0,1.5,0)),12,[0xc08aff,0xe8d4ff,0x7040b0],2,13,0.45);
   q.active=false;q.target=null;q.g.visible=false;scene.remove(q.g);NURA.splice(i,1);
 }
-function nuraClear(){for(const q of NURA.slice())nuraRemove(q,false);nuraClock=0.2;nuraDodgeCd=0;}
-function nuraCall(mid,pos,line,seated=false){if(charKey!=='nurarihyon'||state!=='play'||P.hp<=0||NURA.length>=8||!MODEL[mid])return null;
+function nuraClear(){for(const q of NURA.slice())nuraRemove(q,false);nuraClock=0.2;nuraDodgeCd=0;nuraStarterPending=true;}
+function nuraSmallCount(){return NURA.reduce((count,q)=>count+(q.slot>=0),0);}
+function nuraCall(mid,pos,line,seated=false){if(charKey!=='nurarihyon'||state!=='play'||P.hp<=0||!MODEL[mid])return null;
+  const bell=mid===NURA_BELL_ASSET,slot=bell?-1:NURA_FRONT_SEATS.findIndex((_,i)=>!NURA.some(q=>q.slot===i));
+  if(bell?NURA.some(q=>q.mid===mid):slot<0)return null;
   let q=NURAPOOL.find(q=>!q.active&&q.mid===mid);
   if(!q){const bird=mid==='y_origami',g=makeProxy(bird?3.2:3.4,bird?1.8:3.4,bird?3:4,0xa080cf,false);attachModel(g,mid);q={g,mid,active:false};NURAPOOL.push(q);}
   q.active=true;q.age=0;q.leashReturn=false;q.leashSide=0;q.serial=++nuraSerial;q.mode=line?'line':'orbit';q.target=null;q.life=4;q.dir=line?line.clone():null;
-  q.slot=Array.from({length:8},(_,i)=>i).find(i=>!NURA.some(x=>x.slot===i));
+  q.slot=slot;q.rushWait=0;
   q.g.visible=true;q.g.scale.setScalar(1);q.g.rotation.set(0,P.yaw,0);q.g.position.copy(pos);q.g.position.y=floorAt(pos.x,pos.z)+(mid==='y_origami'?2.6:0.1);
   scene.add(q.g);const mx=q.g.userData.mix;if(mx&&!MIX.includes(mx))MIX.push(mx);NURA.push(q);if(seated)nuraSeatPose(q);
   burst(q.g.position.clone().add(new V3(0,1,0)),7,[0xc08aff,0xe8d4ff],1.3,7,0.4);return q;
@@ -16232,20 +16267,22 @@ const REVISIONS={consume:null,nuraCallCd:0,angle:0};
 // ぬらりひょんの手下は既存の8枠を使用。小妖怪と大型妖怪に役割を分ける。
 let nuraStrengthen;
 function nuraWeak(){
- const q=nuraCall(NURAKIN[nuraSerial%NURAKIN.length],P.pos,null,true);
+ if(nuraSmallCount()>=NURA_FRONT_SEATS.length)return null;
+ const mid=NURAKIN[nuraSerial%NURAKIN.length];
+ const q=nuraCall(MODEL[mid]?mid:NURAKIN.find(id=>MODEL[id]),P.pos,null,true);
  if(q){q.cd=0.42+q.slot*0.18;q.target=null;}
  return q;
 }
 function nuraRushAll(){
- const crew=NURA.filter(q=>q.mode==='orbit');
+ const crew=nuraRitualCrew();
  if(!crew.length){banner('小妖怪が集まると突撃させられる',1.6);return;}
  const f=POWER_FWD();
- for(const q of crew){
-  nuraSeatPose(q);const p=q.g.position;
+ for(const [i,q] of crew.entries()){
+  const p=q.g.position;
   q.target=powerEnemies(p,110).find(e=>cpos(e).clone().sub(p).dot(f)>-10)||null;
-  q.mode='rush';q.dir=f.clone();q.life=3.2;
+  q.mode='rush';q.dir=f.clone();q.life=3.2;q.rushWait=NURA_RUSH_SPACING[i];
  }
- banner('小妖怪 '+crew.length+'体が一斉突撃！',1.6);sfx('whoosh',null,0.6);
+ banner('小妖怪 '+crew.length+'体が次々に突撃！',1.6);sfx('whoosh',null,0.6);
 }
 function revisionRushContact(a,b,r){
  const segment=new THREE.Line3(a,b),near=new V3();
@@ -16259,13 +16296,17 @@ nuraPlayTick=function(dt){
  if(P.pos.y<hover){P.pos.y=hover;P.vel.y=Math.max(0,P.vel.y);P.onGround=false;}
  REVISIONS.angle=(REVISIONS.angle+dt*0.95)%(Math.PI*2);
  REVISIONS.nuraCallCd=Math.max(0,REVISIONS.nuraCallCd-dt);
- nuraClock-=dt;if(nuraClock<=0){if(NURA.length<8)nuraWeak();nuraClock=2.3;}
+ if(nuraStarterPending&&nuraWeak())nuraStarterPending=false;
  for(const q of NURA.slice()){
   const p=q.g.position;q.age+=dt;q.cd=Math.max(0,(q.cd||0)-dt);
   if(q.mode==='orbit'){
-   nuraSeatPose(q);
-   if(q.cd<=0){const e=powerEnemies(p,102)[0];if(e){q.cd=1.8;powerAllyShot(p.clone().add(new V3(0,1.3,0)),cpos(e),'bomberBullet',POWER_VIOLET,17*POW(),0.63,137);}}
+   nuraSeatPose(q,dt);
+   if(q.cd<=0){const e=powerEnemies(p,102)[0];q.target=e||null;if(e){q.cd=1.8;powerAllyShot(p.clone().add(new V3(0,1.3,0)),cpos(e),'bomberBullet',POWER_VIOLET,17*POW(),0.63,137);}}
   }else if(q.mode==='rush'){
+   if(q.rushWait>0){
+    q.rushWait=Math.max(0,q.rushWait-dt);
+    if(q.rushWait>0){nuraSeatPose(q,dt);continue;}
+   }
    const old=p.clone().add(new V3(0,1,0));q.life-=dt;
    if(q.target&&!q.target.dead){const d=cpos(q.target).clone().sub(p);if(d.lengthSq()>1)q.dir.lerp(d.normalize(),Math.min(1,dt*7)).normalize();}
    p.addScaledVector(q.dir,66*dt);p.y=Math.max(p.y,powerGround(p.x,p.z)+0.4);q.g.rotation.y=Math.atan2(q.dir.x,q.dir.z);
@@ -17233,13 +17274,12 @@ SKINFO.deadarmy.d=CH.necromancer.spD;
 document.querySelector('#cards .card[data-k="necromancer"] .ds').textContent=CH.necromancer.ds;
 updSeld();renderSk();updLvHud();
 
-const NURA_CLOCK={phase:0,cooldown:0,markers:null};
+const NURA_CLOCK={cooldown:0};
 const NURA_ALLIES={
  yokai_lantern_1116:{name:'提灯おばけ',height:6.8,damage:36,fly:true},
  y_firetoad:{name:'火吹き大ガマ',height:9,damage:64,fly:false},
  y_kirin:{name:'麒麟',height:10,damage:51,fly:true}
 };
-const NURA_SEATS=Array.from({length:8},(_,i)=>[Math.sin(i*Math.PI/4),Math.cos(i*Math.PI/4)]);
 Object.assign(CH.nurarihyon,{
  dash:'nuraDecoy',dashN:'百鬼の囮',dashD:'近くの敵弾を吸い込む囮を置く。',
  ds:'小妖怪が背後の時計盤に最大8体並び、1.5秒ごとに一席進む。2.3秒ごとに1体増え、席から射撃する。必殺で一斉突撃か大型化。レア札で白狐、火吹き大ガマ、麒麟が順に仲間になる。'
@@ -17255,28 +17295,29 @@ function nuraHoverFloor(){
  return Math.max(powerGround(P.pos.x,P.pos.z)+C.gOff+3.3,powerGround(x,z)+10.6);
 }
 function nuraSeat(slot,at){
- const dx=cam.position.x-P.pos.x,dz=cam.position.z-P.pos.z,d=Math.hypot(dx,dz);
- const rx=d>1?dx/d:-Math.sin(P.yaw),rz=d>1?dz/d:-Math.cos(P.yaw);
- const [side,up]=NURA_SEATS[(slot+NURA_CLOCK.phase)%8];
- const bx=-Math.sin(P.yaw),bz=-Math.cos(P.yaw);
- // The ring stays behind the actor and its vertical plane faces the rear camera.
- return at.set(P.pos.x+bx*5+rz*side*9,P.pos.y+up*9,P.pos.z+bz*5-rx*side*9);
-}
-function nuraSeatPose(q){
- nuraSeat(q.slot,q.g.position);
- q.g.position.y-=q.mid==='y_origami'?0.7:1.25;
- const p=cam.position;
- q.g.rotation.y=Math.atan2(p.x-q.g.position.x,p.z-q.g.position.z);
-}
-function nuraClockMarkers(){
- if(!NURA_CLOCK.markers){
-  const group=new THREE.Group(),geo=new THREE.SphereGeometry(0.32,8,5);
-  const material=new THREE.MeshBasicMaterial({color:0xe6c5ff,transparent:true,opacity:0.48,depthWrite:false});
-  for(let i=0;i<8;i++)group.add(new THREE.Mesh(geo,material));
-  scene.add(group);NURA_CLOCK.markers=group;
+ const [front,side]=NURA_FRONT_SEATS[slot],sin=Math.sin(P.yaw),cos=Math.cos(P.yaw);
+ at.set(P.pos.x+sin*front+cos*side,P.pos.y,P.pos.z+cos*front-sin*side);
+ if(DUN.on){
+  at.x=clamp(at.x,DUN.x0+DUN.xm,DUN.x1-DUN.xm);
+  at.z=clamp(at.z,DUN.zmin,DUN.z1-8);
+  for(const gate of DUN.gates){
+   if(gate.open<1&&(P.pos.z-gate.z)*(at.z-gate.z)<0)at.z=gate.z+Math.sign(P.pos.z-gate.z)*2.2;
+  }
+ }else{
+  const cx=CAVE.on?CAVE.x:0,cz=CAVE.on?CAVE.z:0,r=CAVE.on?Math.max(2,CAVE.R-10):464;
+  const dx=at.x-cx,dz=at.z-cz,d=Math.hypot(dx,dz);
+  if(d>r){at.x=cx+dx*r/d;at.z=cz+dz*r/d;}
  }
- const occupied=new Set(NURA.filter(q=>q.mode==='orbit').map(q=>q.slot));
- NURA_CLOCK.markers.children.forEach((m,i)=>{m.visible=!occupied.has(i);if(m.visible)nuraSeat(i,m.position);});
+ return at;
+}
+function nuraSeatPose(q,dt=0){
+ const p=q.g.position,at=nuraSeat(q.slot,NURA_FOLLOW_POINT);
+ at.y=Math.max(powerGround(at.x,at.z)+2.4,at.y-1.1+Math.sin(q.age*2.1+q.slot)*.42);
+ if(dt>0&&p.distanceToSquared(P.pos)<52**2)p.lerp(at,1-Math.exp(-dt*16));else p.copy(at);
+ p.y=Math.max(p.y,powerGround(p.x,p.z)+1.2);
+ const target=q.mode==='orbit'&&q.target&&!q.target.dead?cpos(q.target):null;
+ const yaw=target?Math.atan2(target.x-p.x,target.z-p.z):P.yaw;
+ q.g.rotation.set(Math.sin(q.age*1.7+q.slot)*.08,yaw,Math.sin(q.age*2.3+q.slot)*.10);
 }
 function nuraClockRemoveGhost(q){
  scene.remove(q.pose);q.material.dispose();
@@ -17292,13 +17333,11 @@ function nuraSlidePath(from,to){
 let nuraClockAdvance;
 {const before=nuraClear;nuraClear=function(){
  before.apply(this,arguments);
- const s=NURA_CLOCK;
- if(s.markers){scene.remove(s.markers);s.markers.children[0].geometry.dispose();s.markers.children[0].material.dispose();s.markers=null;}
- s.phase=s.cooldown=0;
+ NURA_CLOCK.cooldown=0;
 };}
 {const before=nuraPlayTick;nuraPlayTick=function(dt){
  if(charKey!=='nurarihyon'||!D||state!=='play'||P.hp<=0||PAUSED||LVUP||!(dt>0))return;
- nuraClockAdvance(dt);before.apply(this,arguments);nuraClockMarkers();
+ nuraClockAdvance(dt);before.apply(this,arguments);
 };}
 {const before=act;act=function(){if(charKey==='nurarihyon')return nuraDecoyCast();return before.apply(this,arguments);};}
 {const before=dash;dash=function(){if(charKey==='nurarihyon')return nuraDecoyCast();return before.apply(this,arguments);};}
@@ -17532,32 +17571,18 @@ Object.assign(CH.dragonking,{dash:'royalOrder',dashN:'号令',dashD:'狙った�
 for(const key of ['cube','dragonking'])document.querySelector('#cards .card[data-k="'+key+'"] .ds').textContent=CH[key].ds;
 cubeLabels();updSeld();renderSk();
 
-// 小妖怪の時計陣と、生け贄から大型妖怪が立ち上がるまでの進行。
+// 小妖怪を生け贄にして、大釣鐘が立ち上がるまでの進行。
 const NURA_MOTION={ritual:null,rising:null};
 const NURA_RITUAL_TIME=1.05,NURA_RISE_TIME=0.48;
 const NURA_RITUAL_COLORS=[0x9062bf,0xc38dcd,0x5b327c];
 
-nuraSeat=function(slot,at){
- const dx=cam.position.x-P.pos.x,dz=cam.position.z-P.pos.z,d=Math.hypot(dx,dz);
- const rx=d>1?dx/d:-Math.sin(P.yaw),rz=d>1?dz/d:-Math.cos(P.yaw);
- const angle=slot*Math.PI/4+NURA_CLOCK.phase,side=Math.sin(angle),up=Math.cos(angle);
- const bx=-Math.sin(P.yaw),bz=-Math.cos(P.yaw);
- return at.set(P.pos.x+bx*5+rz*side*9,P.pos.y+up*8,P.pos.z+bz*5-rx*side*9);
-};
-nuraSeatPose=function(q){
- nuraSeat(q.slot,q.g.position);
- q.g.position.y+=(q.mid==='y_origami'?-0.45:-1.05)+Math.sin(q.age*1.56+q.serial*1.7)*0.66;
- const p=cam.position;
- q.g.rotation.set(Math.sin(q.age*1.17+q.slot)*0.12,
-  Math.atan2(p.x-q.g.position.x,p.z-q.g.position.z)+q.age*0.49+q.slot*0.55,
-  Math.sin(q.age*1.23+q.slot*0.8)*0.15);
-};
-function nuraRitualCrew(){return NURA.filter(q=>q.mode==='orbit'||q.mode==='rush');}
+function nuraRitualCrew(){return NURA.filter(q=>q.slot>=0&&q.mode==='orbit');}
 function nuraRitualCount(){return NURA.filter(q=>q.mode==='strong'||q.mode==='rise').length;}
 function nuraRitualAvailability(){
  if(NURA_MOTION.ritual||NURA_MOTION.rising)return '合体中';
  if(nuraRitualCount()>=1)return '大釣鐘が出ている';
- if(!nuraRitualCrew().length)return '小妖怪が必要';
+ const ready=nuraRitualCrew().length;
+ if(ready<NURA_FRONT_SEATS.length)return `小妖怪 ${ready}/${NURA_FRONT_SEATS.length}体`;
  if(!MODEL[NURA_BELL_ASSET])return '準備中';
  if(!nuraFloorPoint(16,5))return '広い場所が必要';
  return '';
@@ -17586,7 +17611,6 @@ nuraStrengthen=function(){
   return {q,offset:q.g.position.clone().sub(center),yaw:q.g.rotation.y,thread};
  });
  NURA_MOTION.ritual={time:0,victims,ring,landed,nextDust:0};
- nuraClock=Math.max(nuraClock,NURA_RITUAL_TIME+NURA_RISE_TIME+.24);
  ring.position.copy(center);ring.lookAt(cam.position);mixOnce(D.body.userData.mix,1.2);
  banner('小妖怪'+crew.length+'体で百鬼合体！',1.1);sfx('charge',null,0.35);
  return true;
@@ -17644,7 +17668,6 @@ function nuraRitualAdvance(dt){
 }
 nuraClockAdvance=function(dt){
  NURA_CLOCK.cooldown=Math.max(0,NURA_CLOCK.cooldown-dt);
- NURA_CLOCK.phase=(NURA_CLOCK.phase+dt*.25)%(Math.PI*2);
  nuraRitualAdvance(dt);nuraDecoyTick(dt);
 };
 {const before=nuraClear;nuraClear=function(){
@@ -17661,10 +17684,13 @@ nuraClockAdvance=function(dt){
 
 Object.assign(CH.nurarihyon,{
  dash:'nuraDecoy',dashN:'百鬼の囮',
- dashD:'囮を3秒出し、近くの敵弾を最大3発吸い込む。消えるときに周囲を攻撃。消費12、再使用まで6秒。',
- ds:'2.3秒ごとに小妖怪が1体増え、大小合わせて最大8体。小妖怪全員を1体の大釣鐘に合体できる。レア仲間は提灯おばけ、火吹き大ガマ、麒麟。'
+ dashD:'「囮」の印が付いた分身を3秒出し、近くの敵弾を最大3発吸い込む。消えるときに周囲を攻撃。消費12、再使用まで6秒。',
+ ds:'小妖怪1体で出撃。金のリングで1体ずつ増え、最大4体が前方で援護する。4体揃うと大釣鐘に合体できる。レア仲間は提灯おばけ、火吹き大ガマ、麒麟。'
 });
-POWER_SKILLS.nurarihyon.hyakki=['百鬼合体','小妖怪全員を1体の大釣鐘に合体。人数が多いほど強くなり、28秒間浮いて動き、鐘の音で周囲を攻撃。','sp'];
+POWER_SKILLS.nurarihyon.hyakki=['百鬼合体','前方に揃った小妖怪4体を生け贄に、大釣鐘を1体召喚。28秒間浮いて動き、鐘の音で周囲を攻撃。','sp'];
+POWER_SKILLS.nurarihyon.thunder=['百鬼突撃','小妖怪がわずかに間隔を空けて次々に突撃する。突撃に参加した小妖怪は、命中するか時間が切れると消える。','sp2'];
+CH.nurarihyon.sp2N=POWER_SKILLS.nurarihyon.thunder[0];
+CH.nurarihyon.sp2D=POWER_SKILLS.nurarihyon.thunder[1];
 CH.nurarihyon.spN=POWER_SKILLS.nurarihyon.hyakki[0];
 CH.nurarihyon.spD=POWER_SKILLS.nurarihyon.hyakki[1];
 SKDASH['百鬼の囮']='dash_guard';
@@ -17829,7 +17855,7 @@ function rcRainArrow(v){
   const ground=dunFloorY(x,z),height=CAVE.on||DUN.on?10:25;
   shoot(new V3(x,ground+height,z),new V3(0,-88,0),{from:'p',geo:'arrow',mat:MAT.arrow,
     size:a.mounted?0.46:0.4,r:1.25,splash:2.8,dmg:(p?11:17)*v.k,life:1.0,
-    col:[0xe8b474],dkSmall:true,rcRain:a,rideBuddy:!!p});
+    col:[0xffe19a,0xffbd6a],dkSmall:true,rcRain:a,rideBuddy:!!p});
 }
 function rcRainRemoveMark(m){
   const i=FXL.findIndex(f=>f.m===m);
@@ -22383,7 +22409,14 @@ function fairyBloomObjective(q){
 const NURA_BELL_ASSET='y_bronzebell',NURA_LANTERN_ASSET='yokai_lantern_1116';
 const NURA_DECOY={active:null,cost:12,wait:6,life:3,shots:3};
 const NURA_BELL_TIME=28;
-const NURA_DECOY_RING=new THREE.TorusGeometry(3.4,.085,5,32);
+const NURA_DECOY_RING=new THREE.TorusGeometry(3.4,.13,5,32);
+const NURA_DECOY_MARK=(()=>{
+ const canvas=document.createElement('canvas');canvas.width=128;canvas.height=64;
+ const ctx=canvas.getContext('2d');ctx.font='bold 48px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+ ctx.lineJoin='round';ctx.lineWidth=8;ctx.strokeStyle='#2a1730';ctx.fillStyle='#ffeaa7';
+ ctx.strokeText('囮',64,33);ctx.fillText('囮',64,33);
+ return new THREE.CanvasTexture(canvas);
+})();
 const NURA_SOUL_COLORS=[0xb478e8,0xdcb1f1,0x7c41ba];
 function nuraFloorPoint(distance,pad,needsGround=true){
  const f=POWER_FWD(),side=new V3(f.z,0,-f.x);
@@ -22447,15 +22480,17 @@ function nuraDecoyVisual(at){
  pose.traverse(o=>{if(o.isMesh){o.material=material;o.castShadow=false;o.receiveShadow=false;}});
  const auraMat=new THREE.SpriteMaterial({map:GT,color:0xac58e4,opacity:.48,transparent:true,depthWrite:false});
  const aura=new THREE.Sprite(auraMat);aura.position.y=.65;aura.scale.set(8.8,8.8,1);pose.add(aura);
- const base=new THREE.Group(),ringMat=new THREE.MeshBasicMaterial({color:0xc67afa,transparent:true,opacity:.72,depthWrite:false});
+ const base=new THREE.Group(),ringMat=new THREE.MeshBasicMaterial({color:0xffcc75,transparent:true,opacity:.80,depthWrite:false});
  const ring=new THREE.Mesh(NURA_DECOY_RING,ringMat);ring.rotation.x=-Math.PI/2;ring.position.y=-1.6;base.add(ring);
  const inner=new THREE.Mesh(NURA_DECOY_RING,ringMat);inner.rotation.x=-Math.PI/2;inner.position.y=-1.53;inner.scale.setScalar(.75);base.add(inner);
+ const mark=new THREE.Sprite(new THREE.SpriteMaterial({map:NURA_DECOY_MARK,transparent:true,depthWrite:false,fog:false,toneMapped:false}));
+ mark.name='nurarihyon-decoy-mark';mark.position.y=4.1;mark.scale.set(7.4,3.7,1);base.add(mark);
  pose.scale.multiplyScalar(1.3);pose.position.copy(at);pose.name='nurarihyon-decoy';base.position.copy(at);scene.add(pose,base);
- return {pose,material,aura,base,ringMat};
+ return {pose,material,aura,base,ringMat,mark};
 }
 function nuraDecoyClear(){
  const q=NURA_DECOY.active;if(!q)return;
- NURA_DECOY.active=null;q.aura.material.dispose();q.ringMat.dispose();scene.remove(q.base);nuraClockRemoveGhost(q);
+ NURA_DECOY.active=null;q.aura.material.dispose();q.ringMat.dispose();q.mark.material.dispose();scene.remove(q.base);nuraClockRemoveGhost(q);
 }
 function nuraDecoyCast(){
  if(charKey!=='nurarihyon'||!formPlaying()||NURA_CLOCK.cooldown>0||NURA_DECOY.active||P.en<NURA_DECOY.cost)return;

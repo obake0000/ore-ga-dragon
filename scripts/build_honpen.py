@@ -76,7 +76,7 @@ def patch_game(data):
           '<meta property="og:url" content="https://obake0000.github.io/ore-ga-dragon/honpen.html">',
         '<div class="sub">キャラをえらんで、魔物・軍隊・海の怪物・古の竜を倒せ</div>':
           '<div class="sub">本編 · レッドドラゴンで地下の迷宮へ</div>',
-        '<button class="btn sm" id="quit">竜をえらびなおす</button>':
+        '<button class="btn sm" id="quit">キャラを選ぶ</button>':
           '<button class="btn sm" id="quit">本編メニューに戻る</button>',
         "function scnHas(n){return !!SCK[n]": "function scnHas(n){return n===1&&!!SCK[n]",
         'function setScn(n){SCN=scnHas(n)?n:1;': 'function setScn(n){SCN=1;',
