@@ -1220,7 +1220,7 @@ const MODEL=new Proxy({}, {get(target,id){mobileModelGet(id);return Reflect.get(
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVFDRKUIFRDKFGLWFIfPRSFmNCDHYRsFKLUNSWCBRWSAFBMOMGGXVUJFhpyvcLGMTCFsgrbkSjHumHHrSunAwGpuFairynNFjMTEBYSCPGWSchVTNhSPaQICON1117LPIAAR2SeaFMOBILE1117ART2LUNA4GRAPHICS1117_KINGDOM_BARRACKS_1117MUSIC5COLCAM1118COLGUIDE1118RULEART1118FIRSTPLAY1118WYVERNFIX1118'/* ARCHANGEL_ICON_CACHE_1117 *//* ICON_ART_CACHE_1117 */;let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVFDRKUIFRDKFGLWFIfPRSFmNCDHYRsFKLUNSWCBRWSAFBMOMGGXVUJFhpyvcLGMTCFsgrbkSjHumHHrSunAwGpuFairynNFjMTEBYSCPGWSchVTNhSPaQICON1117LPIAAR2SeaFMOBILE1117ART2LUNA4GRAPHICS1117_KINGDOM_BARRACKS_1117MUSIC5COLCAM1118COLGUIDE1118RULEART1118FIRSTPLAY1118WYVERNFIX1118S'/* ARCHANGEL_ICON_CACHE_1117 *//* ICON_ART_CACHE_1117 */;let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -3312,7 +3312,7 @@ function clawFx(ad,n,col){const g=new THREE.Group(),k=(C.mel?C.mel.r:12)/12,side
   g.scale.setScalar(k);fxAdd(g,0.26,(o,q)=>{o.rotation.z=(-0.7+q*1.6)*side;o.scale.setScalar(k*(0.7+q*0.7));o.children.forEach(c=>{c.material.opacity=0.95*(1-q);});});
   if(n){const q=P.pos.clone().addScaledVector(ad,7*k);burst(q,10,[col,0xffffff],3,22,0.35);glowFlash(q,col,10*k,0.25);shake(0.2);}}
 // ボスが現れた時：ボスの近くへ寄って、アップで映す
-function bossZoom(e){if(state!=='play'||window.NOCINE||!e||!e.mesh)return;setTimeout(()=>{if(state!=='play'||e.dead||e.cave||CINE.k===7)return;const c=cpos(e),d=new V3(P.pos.x-c.x,0,P.pos.z-c.z);if(d.lengthSq()<1)d.set(0,0,1);d.normalize();
+function bossZoom(e){if(state!=='play'||window.NOCINE||!e||!e.mesh)return;setTimeout(()=>{if(state!=='play'||e.dead||e.cave||CINE.k===7||CINE.tg?.referenceScene&&CINE.k===8)return;const c=cpos(e),d=new V3(P.pos.x-c.x,0,P.pos.z-c.z);if(d.lengthSq()<1)d.set(0,0,1);d.normalize();
     const R=Math.max(3,e.r*(e.sc&&e.sc>1?1:1)),q=c.clone().addScaledVector(d,R*2.4+7).add(new V3(d.z*R*0.7,R*0.35,-d.x*R*0.7));const fl=Math.max(floorAt(q.x,q.z),WATER)+1.5;if(q.y<fl)q.y=fl;
     cine(7,3,{px:q.x,py:q.y,pz:q.z,lx:c.x,ly:c.y+R*0.15,lz:c.z,t0:performance.now(),ms:2700});if(CINE.k===7){TS=0.2;tsT=2.9;}},60);}
 // ---- 本物の兵士の隊：隊の中心がプレイヤーへ進み、兵は自分の持ち場（列・段）を守って歩く
@@ -7671,10 +7671,10 @@ function updCave(dt,rdt){if(storyBanterHold())return;if(!CAVE.on||state!=='play'
 /* ---- 第1章：勇者の次は、緑のワイバーンとの一騎打ち（竜のキャラだけ） ---- */
 const WGRN=[0x7dff6a,0xc8ffb0,0x2fd060,0xffffff];
 function wyvTint(g){g.traverse(o=>{if(!o.isMesh||!o.visible||!o.material||o.material.isMeshBasicMaterial)return;o.material=o.material.clone();o.material.color.setRGB(0.8,1.5,0.42);});}
-function wyvDuel(){if(CAVE.on)caveFront();const a=P.yaw,fx=Math.sin(a),fz=Math.cos(a),inC=CAVE.on,dd0=inC?Math.min(S1R.wyvD,CAVE.R-34):S1R.wyvD;let x=P.pos.x+fx*dd0,z=P.pos.z+fz*dd0;if(inC){const ox=x-CAVE.x,oz=z-CAVE.z,od=Math.hypot(ox,oz),mm=CAVE.R-30;if(od>mm){x=CAVE.x+ox*mm/od;z=CAVE.z+oz*mm/od;}}{const d=Math.hypot(x,z);if(d>300){x*=300/d;z*=300/d;}}
+function wyvDuel(){if(CAVE.on)caveFront();const a=P.yaw,fx=Math.sin(a),fz=Math.cos(a),inC=CAVE.on,dd0=storyDragon()?34:(inC?Math.min(S1R.wyvD,CAVE.R-34):S1R.wyvD);let x=P.pos.x+fx*dd0,z=P.pos.z+fz*dd0;if(inC){const ox=x-CAVE.x,oz=z-CAVE.z,od=Math.hypot(ox,oz),mm=CAVE.R-30;if(od>mm){x=CAVE.x+ox*mm/od;z=CAVE.z+oz*mm/od;}}{const d=Math.hypot(x,z);if(d>300){x*=300/d;z*=300/d;}}
   const blue=charKey==='wyvern',gm=!blue&&!!MODEL.wyvern2,e=addEnemy('rival',x,z,floorAt(x,z)+9,{model:gm?'wyvern2':'wyvern'});e.wyv=1;e.boss=blue?'🐉 青のワイバーン':'🐉 緑のワイバーン';e.hp=e.maxHp=EASY?260:380;e.dmg=14;e.val=900;e.p2=1;e.r=7;
   if(!MAT.wind)MAT.wind=new THREE.MeshBasicMaterial({color:0x8dff7a});if(!blue&&!gm)wyvTint(e.mesh);
-  const dx=P.pos.x-x,dz=P.pos.z-z,dd=Math.hypot(dx,dz)||1;e.state='charge';e.st=1.7;e.done=false;e.vel.set(dx/dd*60,0,dz/dd*60);e.cd=2.5;e.mesh.rotation.y=Math.atan2(dx,dz);
+  const dx=P.pos.x-x,dz=P.pos.z-z,dd=Math.hypot(dx,dz)||1;e.state='charge';e.st=1.7;e.done=false;e.vel.set(dx/dd*(storyDragon()?16:60),0,dz/dd*(storyDragon()?16:60));e.cd=2.5;e.mesh.rotation.y=Math.atan2(dx,dz);
   $('cutin').style.display='none';cutT=0;
   talk([['ME','……今度は同族か。朝から客が多い。'],['💡 ヒント','ワイバーンは突進と風の弾で来る。横によけて、炎を当てよう']]);}
 // 風をまいて横へよける（自分の弾が近づいた時）
@@ -25289,6 +25289,49 @@ const storyTalkNext=document.createElement('button');storyTalkNext.id='storyTalk
 storyTalkNext.onclick=e=>{e.stopPropagation();if(SCN!==1||!TK.cur||PAUSED||LVUP)return;if(TK.n<TK.cur[1].length){TK.t=Math.max(TK.t,TK.cur[1].length/32+.01);TK.n=TK.cur[1].length;$('talk').querySelector('.tt').textContent=TK.cur[1];}else{TK.t=Math.max(lineDur(TK.cur[1]),TK.vd||0)+.1;voStop();}};
 {const base=updTalk;updTalk=function(dt){if(SCN===1&&(PAUSED||LVUP))return;base.apply(this,arguments);storyTalkNext.hidden=!(SCN===1&&state==='play'&&TK.cur);document.body.classList.toggle('story-banter',storyBanterHold());};}
 
+
+/* SOL_STORY_TWO_SHOTS_1118 */
+// Reference: ref-cave panels 1/4, ref-wyvern panel 1. Only event cameras.
+function solStoryPair1118(a,b,ra,rb,fov){
+ const mid=a.clone().add(b).multiplyScalar(.5),axis=b.clone().sub(a);axis.y=0;
+ if(axis.lengthSq()<.01)axis.set(0,0,1);axis.normalize();
+ const side=new V3(-axis.z,0,axis.x),gap=a.distanceTo(b),radius=Math.max(ra,rb),
+  half=gap*.5+radius+2,aspect=Math.max(.42,cam.aspect),
+  distance=Math.max(half/(Math.tan(fov*Math.PI/360)*Math.min(1,aspect)) *1.16,18),
+  lift=Math.min(9,distance*.16),p=mid.clone().addScaledVector(side,distance);p.y+=lift;
+ const other=mid.clone().addScaledVector(side,-distance);other.y+=lift;
+ if(cineBlock(other,a)+cineBlock(other,b)<cineBlock(p,a)+cineBlock(p,b))p.copy(other);
+ return {p,l:mid,fov};
+}
+{const previous=cvIn;cvIn=function(T){
+ previous.apply(this,arguments);
+ if(!storyDragon()||window.CVC||window.CVD)return;
+ const u=window.CVU!==undefined?window.CVU:clamp(CINE.t/(CINE.d||1),0,1);
+ // Keep the authored descent, then reveal the human party and red dragon together.
+ if(u<.34)return;
+ const hero=EN.find(e=>e.cave&&!e.dead&&e.type==='hero');if(!hero)return;
+ const a=CVO.dp.clone();a.y+=Math.max(2,ROAR.H*.1);
+ const b=cpos(hero).clone();b.y+=1;
+ const shot=solStoryPair1118(a,b,Math.max(5,ROAR.H*.42),3,56),blend=rigSm((u-.34)/.22);
+ CVO.p.lerp(shot.p,blend);CVO.l.lerp(shot.l,blend);CVO.fov+=(shot.fov-CVO.fov)*blend;
+};}
+{const previous=cineWave;cineWave=function(){
+ const result=previous.apply(this,arguments);
+ if(!storyDragon()||window.NOCINE||CINE.k!==5)return result;
+ const e=CINE.tg?.e;if(!e?.wyv||e.dead)return result;
+ // Existing 2.4-second opening, same enemy position/HP and normal battle camera afterwards.
+ const a=P.pos.clone(),b=cpos(e).clone(),shot=solStoryPair1118(a,b,10,Math.max(6,e.r||6),54);
+ // Fit the pair across the horizontal field of view, not the shorter vertical field.
+ const along=b.clone().sub(a);along.y=0;if(along.lengthSq()>.01){
+  const gap=along.length();along.normalize();const portrait=cam.aspect<1,side=new V3(-along.z,0,along.x),sideK=portrait?.52:.76;
+  const dist=Math.max(30,(gap*.5*sideK+12)/(Math.tan(54*Math.PI/360)*Math.max(.42,cam.aspect))*1.08);
+  shot.p.copy(a).lerp(b,.5).addScaledVector(side,dist*sideK).addScaledVector(along,-dist*Math.sqrt(1-sideK*sideK));shot.p.y+=portrait?10:6;
+ }
+ cine(7,2.4,{px:shot.p.x,py:shot.p.y,pz:shot.p.z,lx:shot.l.x,ly:shot.l.y,lz:shot.l.z,fov:shot.fov,solWyvern1118:true});
+ if(CINE.k===7){TS=.3;tsT=2.25;}
+ return result;
+};}
+
 window.GAME={P,EN,BLD,WAVES,STAGES,CH,setChar,startGame,setupStage,hurt,go(){KAMI.i=99;$('storyGo').click();},get stage(){return stage;},get D(){return D;},get MODEL(){return MODEL;},get TER(){return TER;},addEnemy,killAll(){EN.slice().forEach(e=>killEnemy(e));},get state(){return state;},get wave(){return wave;},get charKey(){return charKey;},H:(x,z)=>H(x,z),ST,STACKS,get EASY(){return EASY;}};
 /* MOBILE_RENDER_1117 */
 /* MOBILE_RENDER_1117: context loss recovery; does not replace stage or character functions. */
@@ -25372,6 +25415,70 @@ function parkDensityBuild1117(root){
   };
 }
 
+
+/* REFERENCE_SCENES_1118: playable, ordinary chapter events, no photo-only placement. */
+const REF_SCENE={last:null};
+function referencePairPose1118(T){
+ const a=P.pos.clone(),b=T.e&&!T.e.dead?cpos(T.e).clone():T.at.clone();
+ const axis=b.clone().sub(a);axis.y=0;if(axis.lengthSq()<.01)axis.set(0,0,-1);axis.normalize();
+ const side=new V3(-axis.z,0,axis.x),portrait=cam.aspect<1;
+ if(T.kind==='kingdom'){
+  CINE.p.copy(a).addScaledVector(axis,-(portrait?48:30)).addScaledVector(side,portrait?27:34);CINE.p.y+=portrait?22:14;
+  CINE.l.copy(a).addScaledVector(axis,75);CINE.l.y-=8;CINE.fov=60;
+ }else{
+  const gap=a.distanceTo(b),fov=portrait?64:56,back=portrait?39:22,lateral=portrait?19:21;
+  CINE.p.copy(a).addScaledVector(side,lateral).addScaledVector(axis,-back);
+  CINE.p.y=a.y+(portrait?13:8);CINE.l.copy(a).lerp(b,portrait?.48:.66);CINE.l.y+=2;CINE.fov=fov;
+  if(DUN.on){CINE.p.x=clamp(CINE.p.x,DUN.x0+6,DUN.x1-6);CINE.p.z=clamp(CINE.p.z,DUN.z0+6,DUN.z1-6);}
+ }
+ CINE.p.y=Math.max(CINE.p.y,floorAt(CINE.p.x,CINE.p.z)+2);
+}
+function referenceScene1118(kind,e,at,d=3.2){
+ if(state!=='play'||charKey!=='dragon'||window.NOCINE)return;
+ const T={kind,e,at:at||e&&cpos(e).clone()||P.pos.clone().add(new V3(0,0,-45)),referenceScene:true};
+ cine(8,d,T);if(CINE.k===8){TS=.15;tsT=d-.15;REF_SCENE.last=kind;}
+}
+{const base=cinePose;cinePose=function(){if(CINE.k===8&&CINE.tg?.referenceScene){referencePairPose1118(CINE.tg);return;}const r=base.apply(this,arguments);if(CINE.k===7&&CINE.tg?.solWyvern1118)CINE.fov=CINE.tg.fov;return r;};}
+{const base=cineWave;cineWave=function(){
+ const result=base.apply(this,arguments);if(charKey!=='dragon'||window.NOCINE)return result;
+ const key=STAGES[stage]?.key;
+ if(SCN===1&&DUN.on){
+  const boss=EN.find(e=>!e.dead&&(e.type==='biggolem'||e.type==='demon'||e.type==='drak'));
+  if(boss)referenceScene1118(key,boss);
+  else if(wave===0&&key==='dungeon')referenceScene1118('dungeon',null,new V3(0,DUN.y+8,P.pos.z-55),2.8);
+ }else if(SCN===2&&wave===0&&key==='castle'&&WORLD?.royal){const r=WORLD.royal;referenceScene1118('kingdom',null,new V3(r.x,r.y||P.pos.y,r.z),3.2);}
+ return result;
+};}
+// The sealed demon is positioned by the existing story event; frame it after that placement.
+{const base=msfStart;msfStart=function(){const r=base.apply(this,arguments);if(storyDragon()&&MSF.on)referenceScene1118('maou',MSF.e,null,3.4);return r;};}
+{const base=maouSkin;maouSkin=function(dm){const r=base.apply(this,arguments);
+ if(storyDragon()&&dm.mskin&&!dm.mskin.userData.referenceLit){
+  dm.mskin.userData.referenceLit=true;
+  dm.mskin.traverse(o=>{if(o.isMesh)for(const m of(Array.isArray(o.material)?o.material:[o.material])){if(m?.color)m.color.multiplyScalar(3.8);if(m?.emissive){m.emissive.setHex(0x50151c);m.emissiveIntensity=.45;}}});
+ }return r;};}
+{const base=msfPost;msfPost=function(){const r=base.apply(this,arguments);if(storyDragon()&&MSF.on&&MSF.ph<2&&MSF.pil){MSF.pil.material.opacity*=.24;MSF.c1.material.opacity*=.65;MSF.bg.material.opacity*=.55;}return r;};}
+// Keep faces, wings and opponent unobstructed while the dialogue is on screen.
+const refSceneStyle=document.createElement('style');refSceneStyle.textContent=`
+body.ref-scene #banner,body.fp-story #banner{top:74px!important;font-size:clamp(14px,2vw,22px)!important;max-width:80vw;white-space:normal;line-height:1.35;pointer-events:none}
+body.ref-scene #talk{top:auto!important;bottom:8px!important;max-height:23vh;max-width:min(720px,94vw);overflow:auto}
+body.ref-scene #cutin,body.ref-scene #ulti,body.ref-scene #cross,body.ref-scene #arrow,body.ref-scene #skb,body.ref-scene #touch,body.ref-scene #fpMission,body.ref-scene #fpTarget,body.ref-scene #wvfx,body.ref-scene #wvred{visibility:hidden!important;pointer-events:none!important}
+body.ref-scene #hud::before,body.ref-scene #hud::after{height:0!important}
+body.ref-scene #boss{opacity:.65;top:116px!important;bottom:auto!important;left:50%!important;transform:translateX(-50%)!important;max-width:88vw}
+@media(max-width:600px){body.ref-scene #banner,body.fp-story #banner{top:82px!important;max-width:92vw;font-size:13px!important}body.ref-scene #talk{max-height:25vh;font-size:12px!important}body.ref-scene #talk .tt{font-size:12px!important}}
+@media(max-height:500px){body.ref-scene #banner{top:36px!important;font-size:13px!important}body.ref-scene #talk{max-height:25vh}}
+`;document.head.appendChild(refSceneStyle);
+{const base=cineCam;cineCam=function(rdt){
+ const result=base.apply(this,arguments);
+ const speaking=storyDragon()&&state==='play'&&MSF.on&&MSF.ph===0&&!!(TK.cur||TK.q.length);
+ if(speaking&&!window.NOCINE&&!PAUSED&&!LVUP){
+  if(!CINE.k)GCAM.copy(cam.position);
+  referencePairPose1118({kind:'maou',e:MSF.e});cam.position.copy(CINE.p);cam.lookAt(CINE.l);CINE.fov=cam.aspect<1?62:56;cineOn=true;
+ }
+ const active=state==='play'&&charKey==='dragon'&&((SCN===1&&(CINE.k===4||CINE.k===8||CINE.k===7&&CINE.tg?.solWyvern1118||speaking))||(CINE.k===8&&CINE.tg?.kind==='kingdom'));
+ document.body.classList.toggle('ref-scene',active);return result;
+};}
+{const base=clearWorld;clearWorld=function(){REF_SCENE.last=null;document.body.classList.remove('ref-scene');return base.apply(this,arguments);};}
+
 </script>
 </body>
 </html>
