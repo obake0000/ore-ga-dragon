@@ -2975,7 +2975,7 @@ const CH={
     br:{mat:mat(0x8a7a5a),geo:'rock',dmg:85,cd:1.8,spd:115,life:1.5,size:2.3,splash:11,col:[0x8a7a5a,0x6a5a3a,0xc0b090]},sp:'fissure',spN:'地割れ',sp2:'gbeam',sp2N:'破壊光線',dash:'guard',dashN:'防御',mel:{r:17,dmg:115,cd:0.55,ono:'ドゴッ！'},
     model:{id:'golem',w:4.9,h:7.2,d:3.8,mouth:[0,-0.75,1.5]},camB:23,camU:9.5,gOff:3.6,stat:[5,1,5]},
   orctank:{name:'オークキング',em:'👑',tag:'地上・リングで戦車に30秒変身',ds:'人型は近くの敵を大槌で打つ。必殺技は周りを払う横なぎと、前方へのたたき割り。金のリングをくぐると30秒だけ戦車に乗り、小砲弾を撃つ。戦車の必殺技は大砲3連発と、とげの突撃。',hp:460,spd:34,turn:3.0,fly:false,range:170,
-    br:{mat:new THREE.MeshBasicMaterial({color:0xffe08a}),geo:'arrow',dmg:36,cd:0.45,spd:190,life:1.5,size:1.8,splash:2,col:[0xffd060,0xff9a30,0xffffff],trail:[0xffd060,0xff8a20],flash:0xffc040},sp:'orcsweep',spN:'大槌の横なぎ',spD:'大槌を横に振って周りの敵を打ち、近くの小型を押し戻す',sp2:'orcsplit',sp2N:'大槌のたたき割り',sp2D:'高く掲げた大槌を下ろし、前方に6段の地割れを走らせる',dash:'guard',dashN:'盾受け',dashD:'実盾を上げて受けるダメージを8割軽くする。構えの直後は正面の小さな弾を弾き返す',mel:{r:15,dmg:95,cd:0.6,ono:'ドガッ！'},
+    br:{mat:new THREE.MeshBasicMaterial({color:0xffe08a}),geo:'arrow',dmg:36,cd:0.45,spd:190,life:1.5,size:1.8,splash:2,col:[0xffd060,0xff9a30,0xffffff],trail:[0xffd060,0xff8a20],flash:0xffc040},sp:'orcsweep',spN:'大槌の横なぎ',spD:'大槌を横に振って周りの敵を打ち、近くの小型を押し戻す',sp2:'orcsplit',sp2N:'大槌のたたき割り',sp2D:'大槌を地面にたたきつけ、前方72までの直線上にいる敵を巻きこむ',dash:'guard',dashN:'盾受け',dashD:'実盾を上げて受けるダメージを8割軽くする。構えの直後は正面の小さな弾を弾き返す',mel:{r:15,dmg:95,cd:0.6,ono:'ドガッ！'},
     model:{id:'kingtank',w:20,h:22,d:30,mouth:[0,5,15]},camB:40,camU:16,gOff:6.05,stat:[4,3,4]},
   airship:{name:'飛空艇',em:'🎈',tag:'空を飛ぶ・大砲',ds:'王国の飛空艇に乗って戦う。大砲を前の敵へ撃ち続ける。必殺技は兵員降下と、全砲門の一斉射撃。スペースで横によけながら後ろを向く。',hp:300,spd:42,turn:1.5,fly:true,range:230,
     br:{mat:MAT.ball,dmg:48,cd:0.6,spd:160,life:2,size:1.2,splash:6,col:[0xff9a30,0xffe080,0x888888]},sp:'bombs',spN:'兵員降下',sp2:'broadside',sp2N:'全砲門斉射',dash:'bank',dashN:BANK_NAME,dashD:BANK_DESC,mel:{r:12,dmg:36,cd:0.6,ono:'ドンッ！'},
@@ -4896,7 +4896,13 @@ function feelRate(ml,slow){if(slow)return 7;if(charKey==='wyvern'&&ml<P.vel.leng
 // 曲がりやすさ：ゆっくりの時はよく曲がり、速い時は大回り。攻撃中は少し細かく
 function feelTurn(){if(charKey!=='wyvern'||P.dashT>0||!C.fly)return 1;const r=P.vel.length()/Math.max(C.spd,1);return Math.min(1.3,Math.max(0.6,1.4-0.4*r))*(P.firing?0.85:1);}
 // 必殺技：前に出してから SKQUICK ミリ秒たたない間は見せ場なし。どれを出しても次まで SKGAP ミリ秒あける
-const SKGAP=800,SKQUICK=6000;
+const SKGAP=6000,SKQUICK=12000;
+let skillClock=1;
+function skillGap(){return skillClock-(P.skLast??-1e9);}
+function spendSpecialEnergy(){P.en-=SPC();P.skLast=skillClock;}
+function updateSpecialClock(rdt){
+ if(state==='play'&&!PAUSED&&!LVUP&&!document.hidden&&!storyBanterHold()&&!FORM_INTRO.active&&CINE.k<=1)skillClock+=rdt*1000;
+}
 function skQuick(k){const b=$(k===P.sp2?'sk2':'sk1');if(b){b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');setTimeout(()=>b.classList.remove('pop'),460);}
   const q=scr(P.pos.clone().add(new V3(0,C.fly?8:7,0)));   // ono() は見せ場のあとの1.8秒は間引かれるので、自分で出す
   if(q){const d=document.createElement('div');d.className='ono';d.textContent=skName(k);d.style.color=k===P.sp2?'#9fe6ff':'#ffe08a';d.style.fontSize='16px';d.style.left=clamp(q[0],50,innerWidth-50)+'px';d.style.top=clamp(q[1],24,innerHeight-24)+'px';$('fx2d').appendChild(d);B2.push({d,life:0.9});}
@@ -5034,7 +5040,7 @@ function updG2(o,dt){const f=o.g2,g=o.g,me=(typeof D!=='undefined'&&D&&g===D.g),
   f.holder.position.y=hh*f.h;}
 // 近接の3回（かみつき→突き上げ→しっぽのなぎ払い）と、足ぶみの「上げる→たたきつける」の合図
 {const _ml=melee;melee=function(){if(charKey==='ground'){P.g2N=((P.g2N||0)+1)%3;P.g2K=P.g2N===0?2:P.g2N-1;}return _ml.apply(this,arguments);};
- const _us=useSkill;useSkill=function(k){if(k==='quake'&&charKey==='ground'&&state==='play'&&P.onGround&&P.en>=SPC()&&!LVUP&&!PAUSED&&ultT<=0&&performance.now()-(P.skLast||-1e9)>=SKGAP)P.g2Qs=1.6;return _us.apply(this,arguments);};
+ const _us=useSkill;useSkill=function(k){if(k==='quake'&&charKey==='ground'&&state==='play'&&P.onGround&&P.en>=SPC()&&!LVUP&&!PAUSED&&ultT<=0&&skillGap()>=SKGAP)P.g2Qs=1.6;return _us.apply(this,arguments);};
  const _fq=fxQuake;fxQuake=function(){if(charKey==='ground'){P.g2Qs=0;P.g2Sl=0.6;}return _fq.apply(this,arguments);};}
 // ---- 骨入りのワイバーン（Tripo の wyvern3。骨78本。羽＝L_/R_ の Clavicle・Upperarm・Forearm・Hand）----
 // 立った姿勢の模型。空では pv（背骨の根もとが中心）を前へ倒して横長にし、地上では起こす。歩き・息は Tripo の動き（idle／walk）、羽ばたき・足をたたむ・首は骨をこちらで回す。
@@ -6137,8 +6143,8 @@ kr8hit=function(){const r=D&&D.krig;if(!r)return kr8hit0();
 // 今つけている技（P.sp＝左クリック・P.sp2＝右クリック）を出す。どの枠にどの技が入っていても同じ
 function useSkill(k){if(UFO_SKILLS.has(k)){if(charKey==='ufo')ufoLaserSkill(k);return;}if(charKey==='orctank'){orcUseSkill(k);return;}if(ORCONLY.has(k))return;if(state!=='play'||P.en<SPC()||LVUP||PAUSED||!SKINFO[k])return;
   if(k==='quake'&&!P.onGround&&charKey!=='slime'&&charKey!=='cube'&&!maouGiant())return;
-  const nw0=performance.now(),gp0=nw0-(P.skLast||-1e9);if(ultT>0||gp0<SKGAP)return;const quick=gp0<SKQUICK,powerStamp=POWERS.stamp;P.skLast=nw0;
-  P.en-=SPC();CINE.skip=(k==='bombs'||k==='bonehound'||charKey==='bomber'&&k==='broadside');const tr=charKey==='airship'&&k==='bombs'?1:skTier(k),run=()=>{SKTM=tr===1?1:tr===2?0.75:0.7;try{if(powerStamp!==POWERS.stamp)return;if(powersSkill(k))return;if(TKSK[k])TKSK[k]();else if(SKB[k])skillB(k);else skillA(k);}finally{SKTM=1;}};
+  const gap=skillGap();if(ultT>0||gap<SKGAP)return;const quick=gap<SKQUICK,powerStamp=POWERS.stamp;
+  spendSpecialEnergy();CINE.skip=(k==='bombs'||k==='bonehound'||charKey==='bomber'&&k==='broadside');const tr=charKey==='airship'&&k==='bombs'?1:skTier(k),run=()=>{SKTM=tr===1?1:tr===2?0.75:0.7;try{if(powerStamp!==POWERS.stamp)return;if(powersSkill(k))return;if(TKSK[k])TKSK[k]();else if(SKB[k])skillB(k);else skillA(k);}finally{SKTM=1;}};
   const buddyStamp=RIDE_BUDDY_STAMP,red=charKey==='redcap',rain=red&&k==='rcrain'?rcRainPlan():null;
   const valid=()=>!red||(charKey==='redcap'&&buddyStamp===RIDE_BUDDY_STAMP&&P.hp>0);
   const fire=()=>{
@@ -7985,7 +7991,7 @@ function updHud2(){const f=$('pface');if(!f)return;if(f.dataset.k!==charKey){f.d
   const A=$('sk1'),B=$('sk2'),Z=$('sk0'),ia=SKINFO[P.sp],ib=SKINFO[P.sp2];
   if(A.dataset.k!==P.sp){A.dataset.k=P.sp;skIc(A,'sk_'+P.sp,ia&&ia.img);A.title=ia?ia.n:'';A.dataset.nm=ia?ia.n:'';}
   if(B.dataset.k!==P.sp2){B.dataset.k=P.sp2;skIc(B,'sk_'+P.sp2,ib&&ib.img);B.title=ib?ib.n:'';B.dataset.nm=ib?ib.n:'';}
-  const ok=P.en>=SPC(),gp=performance.now()-(P.skLast||-1e9)<SKGAP;A.classList.toggle('off',!ok);A.classList.toggle('rdy',ok&&!gp);B.classList.toggle('off',!ok);A.classList.toggle('gap',gp);B.classList.toggle('gap',gp);
+  const ok=P.en>=SPC(),gp=skillGap()<SKGAP;A.classList.toggle('off',!ok);A.classList.toggle('rdy',ok&&!gp);B.classList.toggle('off',!ok);A.classList.toggle('gap',gp);B.classList.toggle('gap',gp);
   const n=Math.min(3,Math.floor(P.en/33.4)),pp=$('skpip').children;for(let i=0;i<3;i++)pp[i].classList.toggle('on',i<n);
   if(charKey==='orctank'){A.dataset.nm=A.title=skName(P.sp);B.dataset.nm=B.title=skName(P.sp2);}
   const t=charKey==='orctank'&&orcTank()?'装甲かため':(C.dashN||'突進'),seaIcon=C.dash==='seaField'?charKey:'';
@@ -8124,7 +8130,7 @@ function addHell(){const gate=STAGES[stage]?.key==='hellgate',N=64,sg=gate?hellB
   const gy=H(0,-160);
   const bm=new THREE.Mesh(new THREE.CylinderGeometry(6,10,320,16,1,true),new THREE.MeshBasicMaterial({color:0xb060ff,transparent:true,opacity:0.2,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending,fog:false}));bm.position.set(0,gy+160,-160);scene.add(bm);TERRAIN.push(bm);
   const rg=new THREE.Mesh(new THREE.RingGeometry(12,30,40),new THREE.MeshBasicMaterial({color:0xff4a8a,transparent:true,opacity:0.5,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending,fog:false}));rg.rotation.x=-Math.PI/2;rg.position.set(0,gy+0.8,-160);scene.add(rg);TERRAIN.push(rg);}
-function setupStage(i){P.dvE=P.dvS=0;stage=i;const S=STAGES[i];
+function setupStage(i){P.dvE=P.dvS=0;P.skLast=-1e9;stage=i;const S=STAGES[i];
   TER=Object.assign({amp:1,ox:0,oz:0,flats:[],dirt:[],grass:0x5c9e3c,hill:0x6e7a3a,rock:0x7a756d,snow:0xf4f6f8,sand:0xd8c690,dirtC:0x9a8a62,water:0x2a70b8,lava:false,trees:480,trunk:0x6b4a2a,leaf:0x2f6e2a,rocks:40,rockC:0x8a857c,start:[0,120]},S.ter);
   if(TER.forest){const o=S.ter||{};if(o.grass===undefined)TER.grass=0x35542c;if(o.hill===undefined)TER.hill=0x3a4a2a;if(o.dirtC===undefined)TER.dirtC=0x5a4a34;TER.leaf=0x1f4426;}
   if(['coralsea','deepsea','seaking'].includes(S.key)){Object.assign(TER,{grass:S.key==='coralsea'?0x6f7780:0x545c66,hill:S.key==='coralsea'?0x626a72:0x4a525c,sand:S.key==='coralsea'?0xa49c8c:0x77726a,dirtC:0x5e5a56,rockC:0x7a7f88,trees:0,rocks:90});}
@@ -9330,7 +9336,7 @@ function drawMap(){const c=mctx;c.clearRect(0,0,150,150);c.save();c.translate(75
   c.fillStyle='#fff';c.beginPath();c.moveTo(0,-7);c.lineTo(5,5);c.lineTo(-5,5);c.closePath();c.fill();c.restore();}
 
 /* ================= 入力 ================= */
-addEventListener('keydown',e=>{keys[e.code]=true;if(LVUP&&/^(Digit|Numpad)[1-3]$/.test(e.code)){pickLv(+e.code.slice(-1)-1);return;}if(e.code==='Space'||e.code==='KeyE'){e.preventDefault();if(!e.repeat)act();}if(e.code==='KeyQ'||e.code==='KeyF'||e.code==='Enter')special();if(e.code==='KeyM')$('mute').click();});
+addEventListener('keydown',e=>{keys[e.code]=true;if(LVUP&&/^(Digit|Numpad)[1-3]$/.test(e.code)){pickLv(+e.code.slice(-1)-1);return;}if(e.code==='Space'||e.code==='KeyE'){e.preventDefault();if(!e.repeat)act();}if(!e.repeat&&(e.code==='KeyQ'||e.code==='KeyF'||e.code==='Enter'))special();if(e.code==='KeyM')$('mute').click();});
 addEventListener('keyup',e=>{keys[e.code]=false;});
 R.domElement.addEventListener('mousedown',e=>{if(state!=='play'||firstplayTouch())return;if(e.button===2)special2();else if(e.button===0)special();});
 addEventListener('contextmenu',e=>e.preventDefault());
@@ -9471,7 +9477,7 @@ let PYR=0;
 function frame(now){
   requestAnimationFrame(frame);
   if(state==='play'&&!LVUP&&!PAUSED)autoQ(now-last);else{qAcc=0;qN=0;qSkip=180;}
-  const rdt=Math.min(0.05,Math.max(0,(now-last)/1000));last=now;
+  const rdt=Math.min(0.05,Math.max(0,(now-last)/1000));last=now;updateSpecialClock(rdt);
   if(tsT>0){tsT-=rdt;if(tsT<=0)TS=1;}
   if(!PAUSED&&!storyBanterHold()&&!solEncounterActive())updUlt(rdt);
   storyWyvernBeat(rdt);solEncounterTick(rdt);const dt=(LVUP||PAUSED||storyBanterHold())?0:rdt*TS,t=now/1000;
@@ -13778,25 +13784,25 @@ function orcMelee(){P.melCd=C.mel.cd;if(orcTank()||P.guardT>0)return;
   if(n){ono(tip.clone().add(new V3(0,3,0)),C.mel.ono,'#ffe6a5',31);shake(0.12);}
  });
 }
-function orcHammer(k,dmg){if(orcTank())return;if(k==='orcsplit')return orcCrackCast(dmg);orcArmStart(k);
+function orcHammer(k,dmg){if(orcTank())return;orcArmStart(k);
  const yaw=P.yaw,dir=orcDir(),at0=P.pos.clone();P.melCd=Math.max(P.melCd,0.6);P.melT=0.4;
  mixOnce(D.okb.userData.mix,1.7);sfx('whoosh',at0,0.65);
- orcLater(0.18,()=>{const at=P.pos.clone(),ground=at.clone().setY(at.y-C.gOff+0.7),split=k==='orcsplit',stomp=k==='orcstomp';
+ orcLater(0.18,()=>{const at=P.pos.clone(),ground=at.clone().setY(at.y-C.gOff+0.7),split=k==='orcsplit',stomp=k==='orcstomp',reach=split?orcSplitReach(at,dir):0;
   if(split){
-   for(const d of [6,13,20]){const q=ground.clone().addScaledVector(dir,d);q.y=Math.max(ground.y-1,floorAt(q.x,q.z)+0.5);
+   for(const d of [6,reach*.50,reach-3]){if(d<=0||d>reach)continue;const q=ground.clone().addScaledVector(dir,d);q.y=dunFloorY(q.x,q.z)+.5;
     shock(q,0xffbf73,4.6);debris(q,4,[0x9e7956,0x625047],0.65);smoke(q,2,2,0.55,0xc19b6c,1.7);}
   }else if(stomp){shock(ground,0xe1b583,11);debris(ground,8,[0xa28566,0x625047],0.7);smoke(ground,5,2.5,0.7,0xbb9574,3.4);}
   else{for(const a of [-Math.PI/2,Math.PI/2])slashAt(at,yaw+a,0xffd078,14);shock(ground,0xffd999,11);}
   for(const e of EN){if(e.dead||e.rise)continue;const q=cpos(e),x=q.x-at.x,z=q.z-at.z;
    if(Math.abs(q.y-at.y)>8+e.r)continue;
    const f=x*dir.x+z*dir.z,rd=Math.abs(x*dir.z-z*dir.x);
-   if(split?(f>=-1&&f<23+e.r&&rd<4.2+e.r):Math.hypot(x,z)<(stomp?10:15)+e.r){hitEnemy(e,dmg);if(k==='orcsweep')orcSweepPush(e,at);burst(q,7,SPARK,1.8,14,0.28);}
+   if(split?(f>=-1&&f<reach+(reach===ORC_SPLIT_REACH?e.r:0)&&rd<4.2+e.r):Math.hypot(x,z)<(stomp?10:15)+e.r){hitEnemy(e,dmg);if(k==='orcsweep')orcSweepPush(e,at);burst(q,7,SPARK,1.8,14,0.28);}
   }
   for(const b of BLD){if(b.dead)continue;const q=b.box.clampPoint(at,new V3()),x=q.x-at.x,z=q.z-at.z,f=x*dir.x+z*dir.z;
-   if(Math.abs(q.y-at.y)<9&&(split?(f>=-1&&f<23&&Math.abs(x*dir.z-z*dir.x)<4.2):Math.hypot(x,z)<(stomp?9:13)))hitBld(b,dmg*0.8);
+   if(Math.abs(q.y-at.y)<9&&(split?(f>=-1&&f<reach&&Math.abs(x*dir.z-z*dir.x)<4.2):Math.hypot(x,z)<(stomp?9:13)))hitBld(b,dmg*0.8);
   }
-  if(split)treeDamageBeam(at,at.clone().addScaledVector(dir,23),4.2,dmg*.8);else treeDamageArea(at,stomp?9:13,dmg*.8);
-  if(split)for(const d of [5,12,19])ranksHit(ground.clone().addScaledVector(dir,d),5);
+  if(split){if(reach>0)treeDamageBeam(at,at.clone().addScaledVector(dir,reach),4.2,dmg*.8);}else treeDamageArea(at,stomp?9:13,dmg*.8);
+  if(split)for(let d=4;d+4<=reach;d+=6){const q=ground.clone().addScaledVector(dir,d);q.y=dunFloorY(q.x,q.z)+.5;ranksHit(q,4.2);}
   else ranksHit(ground,stomp?10:14);
   sfx(split?'crash':stomp?'boom':'hit',ground,0.75);shake(0.26);
   ono(ground.clone().add(new V3(0,9,0)),split?'ズガン！':stomp?'ドン！':'ブォン！','#ffe2ac',39);
@@ -13824,9 +13830,9 @@ function orcCannon(n,dmg,heavy=true){
 function orcRush(dmg){if(!orcTank())return;P.rwD=dmg;P.rw=0.5;
  sfx('roar',null,0.7);shake(0.2);ono(P.pos.clone().add(new V3(0,14,0)),'ブオォォン…！','#ff8a40',40);}
 function orcUseSkill(k){if(state!=='play'||P.en<SPC()||PAUSED||LVUP||!skOk(k)||(k!==P.sp&&k!==P.sp2))return;
- const nw=performance.now(),gap=nw-(P.skLast||-1e9);if(ultT>0||gap<SKGAP)return;
+ const gap=skillGap();if(ultT>0||gap<SKGAP)return;
  const quick=gap<SKQUICK,epoch=ORCATT.epoch,tier=skTier(k),power=SPM()*(tier===1?1:tier===2?0.75:0.7);
- P.skLast=nw;P.en-=SPC();CINE.skip=false;
+ spendSpecialEnergy();CINE.skip=false;
  const fire=()=>{if(epoch!==ORCATT.epoch||charKey!=='orctank')return;ORCATT.cine=false;
   if(k==='tkrush'){orcRush(170*power*(1+(tier-1)*0.43));return;}
   if(k==='tkcannon'||k==='tksalvo'){orcCannon((k==='tkcannon'?3:6)*tier,(k==='tkcannon'?120:52)*power,k==='tkcannon');return;}
@@ -13837,7 +13843,7 @@ function orcUseSkill(k){if(state!=='play'||P.en<SPC()||PAUSED||LVUP||!skOk(k)||(
 }
 {const before=setChar;setChar=function(k){if(!RFORM.busy&&(k==='orctank'||charKey==='orctank')){orcClear();if(charKey==='orctank'&&D)rideRelease(D.g);}
  const r=before.apply(this,arguments);if(k==='orctank'&&!RFORM.busy){ORCATT.slots=[orcDefault(0),orcDefault(1)];orcEquip(0);skUI();}return r;};}
-{const before=startGame;startGame=function(){if(charKey==='orctank'){orcClear();P.skLast=-1e9;ORCATT.slots=[orcDefault(0),orcDefault(1)];}return before.apply(this,arguments);};}
+{const before=startGame;startGame=function(){if(charKey==='orctank'){orcClear();ORCATT.slots=[orcDefault(0),orcDefault(1)];}return before.apply(this,arguments);};}
 {const before=setupStage;setupStage=function(){if(charKey==='orctank')orcClear();return before.apply(this,arguments);};}
 {const before=skExtra;skExtra=function(){const html=before.apply(this,arguments);if(charKey!=='orctank')return html;
  return html+'<div class="skx"><b>⚔ 人型</b> 近づいた敵へ大槌　<b>🛞 戦車</b> 小砲弾で自動攻撃。必殺技は形態ごとに固定。上級強化は保存。<div class="orctank-samples" aria-label="戦車の必殺技の見本">'+[['sp','tkcannon'],['sp2','tkrush']].map(([slot,k])=>`<button type="button" data-skv="orctank_tank|${slot}"><img loading="lazy" src="${SKINFO[k].img}?v=${ASSET_V}" alt=""><span>${SKINFO[k].n} ▷</span></button>`).join('')+'</div></div>';};}
@@ -14009,8 +14015,8 @@ function ufoSweep(a){
 }
 function ufoLaserSkill(k){
  if(state!=='play'||PAUSED||LVUP||P.en<SPC()||ultT>0||UFO_LASER.attacks.length)return;
- const now=performance.now();if(now-(P.skLast||-1e9)<SKGAP)return;
- P.skLast=now;P.en-=SPC();skQuick(k);
+ if(skillGap()<SKGAP)return;
+ spendSpecialEnergy();skQuick(k);
  const salvo=k==='ufolaser',tier=skTier(k),power=SPM()*(tier===1?1:tier===2?0.75:0.7);
  UFO_LASER.attacks.push({salvo,repeats:tier,wait:0,yaw:P.yaw,step:0,hits:new Set(),
   dmg:power*(salvo?36:149),interval:salvo?0.125:0.046,count:salvo?6:48});
@@ -14093,7 +14099,7 @@ function ufoLaserTick(dt){
  }
 }
 {const before=setChar;setChar=function(k){if(charKey==='ufo'){ufoLaserClear();if(D)rideRelease(D.g);}return before.apply(this,arguments);};}
-{const before=startGame;startGame=function(){if(charKey==='ufo'){ufoLaserClear();P.skLast=-1e9;}return before.apply(this,arguments);};}
+{const before=startGame;startGame=function(){if(charKey==='ufo')ufoLaserClear();return before.apply(this,arguments);};}
 {const before=setupStage;setupStage=function(){if(charKey==='ufo'){ufoLaserClear();if(D){D.ufoLift=0;D.landing=null;}}return before.apply(this,arguments);};}
 
 // 木は描画をまとめたまま、近くの格子だけ調べて攻撃を当てる。
@@ -17811,8 +17817,8 @@ function nuraBellStorm(){
 }
 {const before=useSkill;useSkill=function(k){
  if(charKey!=='nurarihyon'||k!=='hyakki')return before.apply(this,arguments);
- if(!formPlaying()||P.en<SPC()||ultT>0||performance.now()-(P.skLast||-1e9)<SKGAP)return;
- if(nuraBellStorm()){P.en-=SPC();P.skLast=performance.now();skQuick(k);}
+ if(!formPlaying()||P.en<SPC()||ultT>0||skillGap()<SKGAP)return;
+ if(nuraBellStorm()){spendSpecialEnergy();skQuick(k);}
 };}
 
 Object.assign(CH.nurarihyon,{
@@ -19214,14 +19220,14 @@ function royalSweepHit(q){
  if(royalHuman()&&ROYAL_PLAY.motion?.kind==='transform')return;
  const s=royalHumanSkill(k);
  if(!s)return before.apply(this,arguments);
- if(!formPlaying()||P.en<SPC()||ultT>0||performance.now()-(P.skLast||-1e9)<SKGAP)return;
+ if(!formPlaying()||P.en<SPC()||ultT>0||skillGap()<SKGAP)return;
  royalClearMotion();
  const gain=SPM()*[1,1,1.75,2.45][skTier(k)],target=royalTarget(POWER_FWD());
  const dir=target.clone().sub(P.pos).setY(0);if(dir.lengthSq()<.1)dir.copy(POWER_FWD());else dir.normalize();
  P.yaw=P.lastYaw=Math.atan2(dir.x,dir.z);
  const q={kind:k,age:0,duration:s.duration,impact:s.impact,anim:royalPlayAction(s.clip,s.duration),target,dir,gain};
  q.damage=(k==='bigfire'?171:199)*gain;
- ROYAL_PLAY.motion=q;P.en-=SPC();P.skLast=performance.now();skQuick(k);
+ ROYAL_PLAY.motion=q;spendSpecialEnergy();skQuick(k);
 };}
 function royalTransformStart(){
  royalClearMotion();
@@ -19723,13 +19729,13 @@ function seaKingReturnTick(dt){
 {const before=useSkill;useSkill=function(k){
  if(charKey!=='seaking'||!SEA_KING_ATTACKS[k])return before.apply(this,arguments);
  if((DUN.on||CAVE.on)&&!D.sf){banner('海をつくる必殺技は屋外で使える',1.25);return;}
- if(!formPlaying()||seaKingMotionActive()||P.en<SPC()||ultT>0||performance.now()-(P.skLast||-1e9)<SKGAP)return;
+ if(!formPlaying()||seaKingMotionActive()||P.en<SPC()||ultT>0||skillGap()<SKGAP)return;
  const active=seaFieldOwn();
  if(!D.sf&&active?.front?.age<SEA_FRONT_WINDUP+SEA_FRONT_TRAVEL)return;
  const gain=SPM()*[1,1,1.75,2.45][skTier(k)];
  if(D.sf){if(!seaHeavyHit(k,gain))return;}
  else seaKingLaunch(k,gain);
- P.en-=SPC();P.skLast=performance.now();skQuick(k);
+ spendSpecialEnergy();skQuick(k);
 };}
 {const before=powerSkillInfo;powerSkillInfo=function(k){
  if(charKey==='seaking'&&SEA_KING_ATTACKS[k]){
@@ -19867,7 +19873,7 @@ function powerParatroopPlan(){
  const base=useSkill;
  useSkill=function(k){
   if(charKey==='airship'&&k==='bombs'&&formPlaying()&&P.en>=SPC()&&
-   ultT<=0&&performance.now()-(P.skLast||-1e9)>=SKGAP&&!powerParatroopPlan().length){
+   ultT<=0&&skillGap()>=SKGAP&&!powerParatroopPlan().length){
    banner('地上部隊は、陸の上へ近づくと降ろせる',2);
    return;
   }
@@ -20355,39 +20361,15 @@ function orcTryParry(p){
  burst(at,6,[0xffe0a8,0xd2e7ed],1.0,9,.22);sfx('clang',at,.65);
  return true;
 }
-function orcFissureTile(at,dir,i){
- const side=new V3(dir.z,0,-dir.x),pos=[],base=[[-.8,-3.0],[.46,-1.1],[-.48,.6],[.80,2.85]];
- const sample=(x,z)=>{const p=at.clone().addScaledVector(side,x).addScaledVector(dir,z);p.y=dunFloorY(p.x,p.z)+.15;return p.toArray();};
- for(let j=0;j<base.length-1;j++){
-  const [x,z]=base[j],[X,Z]=base[j+1],p=sample(x-.31,z),q=sample(x+.31,z),a=sample(X-.24,Z),b=sample(X+.24,Z);
-  pos.push(...p,...q,...a,...a,...q,...b);
+const ORC_SPLIT_REACH=72;
+function orcSplitReach(at,dir){
+ let reach=ORC_SPLIT_REACH;
+ if(DUN.on&&Math.abs(dir.z)>.0001)for(const g of DUN.gates){
+  if(g.open>=1)continue;
+  const d=(g.z-at.z)/dir.z;
+  if(d>=0&&d<reach)reach=d;
  }
- const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
- const m=new THREE.Mesh(g,nMat(i%2?0xf3a365:0xd86938,null,.86));m.name='orcFissureTile';
- fxAdd(m,.9,(o,k)=>{o.material.opacity=(1-k)*.86;});
- debris(at,5,[0x9a7059,0x5f4d48],.75);smoke(at,2,1.8,.5,0xa89075,1.3);
-}
-function orcCrackCast(dmg){
- const dir=orcDir(),yaw=P.yaw;P.melCd=Math.max(P.melCd,.79);P.melT=.42;orcArmStart('orcsplit');
- mixOnce(D.okb.userData.mix,1.72);sfx('whoosh',P.pos,.6);
- orcLater(.27,()=>{
-  const start=P.pos.clone(),hit=new Set();let stopped=false,previous=start.clone();
-  for(let j=0;j<6;j++)orcLater(j*.058,()=>{
-   if(stopped||orcTank())return;
-   const at=start.clone().addScaledVector(dir,6.5+j*6.6);
-   if(DUN.on&&DUN.gates.some(g=>g.open<1&&(previous.z-g.z)*(at.z-g.z)<0)){stopped=true;return;}
-   at.y=dunFloorY(at.x,at.z)+.36;orcFissureTile(at,dir,j);
-   for(const e of EN){
-    if(e.dead||e.rise||hit.has(e))continue;
-    const p=cpos(e),dx=p.x-at.x,dz=p.z-at.z;
-    if(Math.abs(dx*dir.x+dz*dir.z)>4.2+e.r||Math.abs(dx*dir.z-dz*dir.x)>3.15+e.r||Math.abs(p.y-at.y)>7+e.r)continue;
-    hit.add(e);hitEnemy(e,dmg);burst(p,4,[0xf6ba8b,0x8c7058],1.3,10,.3);
-   }
-   for(const b of BLD){if(b.dead||hit.has(b)||b.box.distanceToPoint(at)>4.3)continue;hit.add(b);hitBld(b,dmg*.8);if(!b.dead&&!b.np)stopped=true;}
-   treeDamageBeam(previous,at,3.2,dmg*.8);ranksHit(at,4.2);previous=at;
-   if(j===0){slashAt(start,yaw,0xffb675,6.0);sfx('crash',at,.8);shake(.22);}
-  });
- });
+ return reach;
 }
 function orcSweepPush(e,at){
  if(e.dead||e.inv||e.boss||e.perch||e.r>5)return;
@@ -20939,7 +20921,7 @@ function abilityGaugeState(slot){
  if(slot){
   if(playerAttackBlocked('skill'))return blocked('攻撃中');
   const k=slot===1?P.sp:P.sp2;energy(SPC());
-  cool(Math.max(0,(SKGAP-(performance.now()-(P.skLast||-1e9)))/1000),SKGAP/1000);
+  cool(Math.max(0,(SKGAP-(skillGap()))/1000),SKGAP/1000);
   if(ultT>0)blocked('発動中');
   if(charKey==='bomber'){
    if(typeof BOMBER_DIVE!=='undefined'&&BOMBER_DIVE.motion)blocked('急降下中');
@@ -21349,7 +21331,7 @@ function maouRecruitTick(dt){
  useSkill=function(k){
   if(charKey==='maou'&&!maouGiant()&&k==='thunder'&&state==='play'&&P.hp>0&&!PAUSED&&!LVUP){
    if(MAOU_RECRUIT.current?.pending)return;
-   if(!playerAttackBlocked('skill')&&ultT<=0&&performance.now()-(P.skLast||-1e9)>=SKGAP&&!maouRecruitTargets(P.pos).length){
+   if(!playerAttackBlocked('skill')&&ultT<=0&&skillGap()>=SKGAP&&!maouRecruitTargets(P.pos).length){
     maouRecruitPreview(P.pos,false);banner('円の中に勧誘できる敵がいない',1.05);return;
    }
   }
@@ -21765,7 +21747,7 @@ function giantWizardTick(dt){
  if(k>=1)giantWizardClose();
 }
 function giantWizardCast(k){
- if(!formPlaying()||playerAttackBlocked('skill')||P.en<SPC()||ultT>0||performance.now()-(P.skLast||-1e9)<SKGAP)return;
+ if(!formPlaying()||playerAttackBlocked('skill')||P.en<SPC()||ultT>0||skillGap()<SKGAP)return;
  const body=D.body,mix=body.userData.mix,clip=mix?.acts.slash||mix?.acts.box_01;
  let hand=null;body.traverse(o=>{if(o.isBone&&/RightHand$/i.test(o.name))hand=o;});
  if(clip){
@@ -21778,7 +21760,7 @@ function giantWizardCast(k){
  if(k==='thunder')q.targets=giantWizardTargets(q);
  GWIZARD_GIANT_CAST.active=q;
  magicCircle(origin.clone().add(new V3(0,-C.gOff+.4,0)),0xb1a5ff,10,.45);
- sfx('charge',P.pos,.52);P.en-=SPC();P.skLast=performance.now();skQuick(k);
+ sfx('charge',P.pos,.52);spendSpecialEnergy();skQuick(k);
 }
 {const before=useSkill;useSkill=function(k){
  if(charKey==='gwizard'&&D?.gf&&(k==='thunder'||k==='gbeam'))return giantWizardCast(k);
@@ -22413,7 +22395,7 @@ function cubeSkill(k){
  const q=CUBE_KIT[D.cf][slot];
  const strength=[1,1.5,2.1][checkpointSkillTier(skTier(k))-1];
  if(!cubeLaunchAttack({...q,dmg:q.dmg*strength},autoTarget()||aimPoint(),slot))return;
- P.en-=SPC();P.skLast=performance.now();PLAYER_ATTACK.cast=Math.max(PLAYER_ATTACK.cast,.30);skQuick(k);
+ spendSpecialEnergy();PLAYER_ATTACK.cast=Math.max(PLAYER_ATTACK.cast,.30);skQuick(k);
 }
 function cubeSkillIcon(kind){
  const paths={heavy:'M19 33l24-13 25 13v29L43 75 19 62Z M19 33l24 15 25-15M43 48v27 M78 26v40l-7 9m7-9 8 8',orbit:'M36 36l13-8 13 8v17l-13 8-13-8Z M20 58a33 24 0 1 1 53 2l-8 7m1-13-1 13 13-1',sword:'M61 18l15-3-3 15-33 33-10-10Z M22 49l24 24m-17-7L16 80m51-59L40 58',bow:'M51 16Q84 47 51 81L40 51Z M15 49h63m-8-9 8 9-8 9',breath:'M17 28l17-9 17 9v20l-17 9-17-9Z M17 28l17 10 17-10m-17 10v19 M51 45l28 20m-8-4 5-4m-22 0 23 17m-48-9 21 15',tail:'M31 28l14-8 15 8v19l-15 8-14-8Z M14 64c15 21 46 18 60-7l7-15m-12 6 12-6 4 13'};
