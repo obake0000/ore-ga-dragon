@@ -1,4 +1,4 @@
 {
-  "dynamic_ids": [],
+  "dynamic_ids": ["soldier", "archer", "field_cannon_1116"],
   "intentional_fallback_ids": ["slime"]
 }

@@ -5343,5 +5343,16 @@
     "mobileBytes": 203172,
     "mobileCompression": "meshopt-lossless",
     "mobileCodec": "meshopt"
+  },
+  "fairy_root_1117": {
+    "file": "fairy_root_1117.glb",
+    "ja": "森の番人の根の噴出",
+    "h": 1,
+    "rot": 0,
+    "version": "dc6c7872780414da",
+    "bytes": 324736,
+    "mobileFile": "mobile/fairy_root_1117.glb",
+    "mobileVersion": "5c56a7da55c46bcd",
+    "mobileBytes": 263656
   }
 }

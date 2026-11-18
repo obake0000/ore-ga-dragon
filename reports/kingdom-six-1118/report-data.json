@@ -1,0 +1,961 @@
+{
+  "generated_at": "2026-11-18T23:56:22.822137+09:00",
+  "publication": {
+    "status": "公開確認待ち",
+    "commit": null,
+    "verified_at": null
+  },
+  "kingdom_final": {
+    "seconds": 347.0,
+    "status": "13波完走・採用版／目安内",
+    "ended_at": "2026-11-18T23:47:30.816642+09:00",
+    "ended_at_kind": "共通GPUキュージョブの実終了時刻。個別のゲーム終了の壁時計時刻は未記録。",
+    "file_generated_at": "2026-11-18T23:42:07.922105+09:00",
+    "individual_run_ended_at": null,
+    "individual_run_ended_at_reason": "保存JSONのgeneratedは試験開始付近の生成時刻。ゲーム終了の壁時計時刻は別途取得されていない。",
+    "minimum_hp": {
+      "hp": 191.95999999999992,
+      "maxHp": 260,
+      "ratio": 0.738307692307692
+    },
+    "special_gap_ms": 6000,
+    "waves": 13,
+    "chapters": 3,
+    "runs": 1,
+    "character": "dragon",
+    "policy": "cautious",
+    "clock": "virtual",
+    "viewport": [
+      960,
+      600
+    ],
+    "seed": 20261118,
+    "wall_seconds": 306.91,
+    "reference_upper_seconds": 390,
+    "reference_upper_excess_seconds": 0,
+    "paper": "紙芝居は既存の送り操作。掛け合いは残し、表示速度を変えない。",
+    "scope": "第1波からクリアまで。従来と同じ標準自動入力方針、仮想時計、通常の敵AIとダメージ、単回。操作・キャラで時間は変動。",
+    "evidence": "kingdom-final.json",
+    "job": {
+      "id": 324,
+      "name": "kingdom_talk_damage_final",
+      "state": "done",
+      "started": "2026-11-18T23:42:06.648006+09:00",
+      "ended": "2026-11-18T23:47:30.816642+09:00",
+      "exit_code": 0,
+      "log": "C:\\lo\\dx\\hunyuan3d-lab\\gpu-queue\\00324-dragon-kingdom_talk_damage_final.log"
+    },
+    "source_sha256": "a4af2e81111a815e22b21671d291fbefe7b9327bc0b7c9ea8d8ec9faae6ec797",
+    "previous_reference": {
+      "seconds": 393.6,
+      "status": "13波完走・採用版／参考上限を3.6秒超過",
+      "ended_at": "2026-11-18T23:31:34.250180+09:00",
+      "ended_at_kind": "共通GPUキュージョブの実終了時刻。個別のゲーム終了の壁時計時刻は未記録。",
+      "file_generated_at": "2026-11-18T23:25:37.656970+09:00",
+      "individual_run_ended_at": null,
+      "individual_run_ended_at_reason": "保存JSONのgeneratedは試験開始付近の生成時刻。ゲーム終了の壁時計時刻は別途取得されていない。",
+      "minimum_hp": {
+        "hp": 61.91999999999997,
+        "maxHp": 260,
+        "ratio": 0.23815384615384605
+      },
+      "special_gap_ms": 6000,
+      "waves": 13,
+      "chapters": 3,
+      "runs": 1,
+      "character": "dragon",
+      "policy": "cautious",
+      "clock": "virtual",
+      "viewport": [
+        960,
+        600
+      ],
+      "seed": 20261118,
+      "wall_seconds": 340.6,
+      "reference_upper_seconds": 390,
+      "reference_upper_excess_seconds": 3.6,
+      "paper": "紙芝居は既存の送り操作。掛け合いは残し、表示速度を変えない。",
+      "scope": "第1波からクリアまで。従来と同じ標準自動入力方針、仮想時計、通常の敵AIとダメージ、単回。操作・キャラで時間は変動。",
+      "evidence": "kingdom-final.json",
+      "job": {
+        "id": 321,
+        "name": "kingdom_six_dialogue_fix",
+        "state": "done",
+        "started": "2026-11-18T23:25:36.439367+09:00",
+        "ended": "2026-11-18T23:31:34.250180+09:00",
+        "exit_code": 0,
+        "log": "C:\\lo\\dx\\hunyuan3d-lab\\gpu-queue\\00321-dragon-kingdom_six_dialogue_fix.log"
+      },
+      "source_sha256": "941c58a089865f1bc1f599984fa419d032ab3ed58733cbd6a645776c601937eb"
+    },
+    "difference_reason": "保護追加前393.6秒との差46.6秒を保護だけの因果とは断定しない。同じHP/編成・同じ入力方針の単回結果。"
+  },
+  "root": {
+    "status": "検証済み・公開待ち",
+    "ended_at": "2026-11-18T23:01:16.955139+09:00",
+    "evidence": "materials/browser/result.json",
+    "attack_cases": 3,
+    "attacks_per_case": 2,
+    "normal_faces": 6978,
+    "lod_faces": 1499
+  },
+  "combat": {
+    "status": "検証済み・公開待ち",
+    "ended_at": "2026-11-18T23:21:07.364006+09:00",
+    "evidence": "combat_visual/browser/report.json",
+    "browser_cases": 4
+  },
+  "trial2": {
+    "seconds": 398.2,
+    "evidence": "kingdom-trial2.json",
+    "final": false
+  },
+  "player": {
+    "ok": true,
+    "ended_at": "2026-11-18T22:39:18.361055+09:00",
+    "before": {
+      "form": 1,
+      "root": 13,
+      "gOff": 10,
+      "expected": 3,
+      "support": 3,
+      "bottom": 2.1065498208096174,
+      "height": 13.417657035344774,
+      "penetration": 0.8934501791903826,
+      "samples": 0,
+      "timer": 30,
+      "name": "hit-cast"
+    },
+    "after": {
+      "form": 1,
+      "root": 13,
+      "gOff": 10,
+      "expected": 3,
+      "support": 3,
+      "bottom": 3.0000000083209084,
+      "height": 13.417657029520141,
+      "penetration": -8.32090840674482e-09,
+      "samples": 675,
+      "timer": 30,
+      "name": "hit-cast"
+    }
+  },
+  "enemy": {
+    "ok": true,
+    "ended_at": "2026-11-18T22:38:28.462041+09:00",
+    "before": {
+      "state": "sw1",
+      "giant": true,
+      "scale": 24,
+      "root": 3,
+      "support": 3,
+      "bottom": -1.3656387187557302,
+      "height": 36.50434629683846,
+      "penetration": 4.36563871875573,
+      "offset": -4.36563871875573,
+      "samples": 0,
+      "vertices": 8225,
+      "vy": 0,
+      "name": "sw1"
+    },
+    "after": {
+      "state": "sw1",
+      "giant": true,
+      "scale": 24,
+      "root": 3,
+      "support": 3,
+      "bottom": 2.9999998698938235,
+      "height": 36.50434639848392,
+      "penetration": 1.3010617649911183e-07,
+      "offset": -1.3010617649911183e-07,
+      "samples": 610,
+      "vertices": 8225,
+      "vy": 0,
+      "name": "sw1"
+    }
+  },
+  "usage_at": "2026-11-18T23:55:37.448452+09:00",
+  "usage_scope": "This request after 22:15 JST only. Last checkpoint onwards; cumulative deltas excluding prior tasks and inherited counts. Cached input is subset of input. Read-only agents may have multiple resumed turns in this task; interval includes waits. Completion per agent is not publication completion.",
+  "metrics": [
+    {
+      "task": "親：全体統合・検証・公開準備",
+      "agent": "/root",
+      "instructed_at": null,
+      "instructed_at_reason": "親の本人指示時刻は今回task-times.jsonに未収録。",
+      "started_at": "2026-11-18T13:15:05.949Z",
+      "followup_instructions": [],
+      "last_reported_completion": null,
+      "final_completion": null,
+      "final_completion_reason": "担当を再開して追加作業中。公開を含む最終完了時刻は未取得。",
+      "cutoff": "2026-11-18T14:55:31.044Z",
+      "interval_seconds": 6025.095,
+      "tokens": {
+        "total_tokens": 48858310,
+        "input_tokens": 48724795,
+        "cached_input_tokens": 48339072,
+        "output_tokens": 133515,
+        "uncached_input_tokens": 385723
+      },
+      "scope": "This request after 22:15 JST only. Last checkpoint onwards; cumulative deltas excluding prior tasks and inherited counts. Cached input is subset of input. Read-only agents may have multiple resumed turns in this task; interval includes waits. Completion per agent is not publication completion.",
+      "evidence": {
+        "usage": "usage.json",
+        "agent_id": "01a1ee8e-8543-7121-b338-c0699c347f5e",
+        "log_basename": "rollout-2026-11-18T21-08-00-01a1ee8e-8543-7121-b338-c0699c347f5e.jsonl",
+        "from_byte": 25591118,
+        "to_byte": 34269429,
+        "assignment_log": "C:\\Users\\obake\\.codex\\sessions\\2026\\11\\18\\rollout-2026-11-18T21-08-00-01a1ee8e-8543-7121-b338-c0699c347f5e.jsonl",
+        "assignment_from_byte": 25591118,
+        "assignment_to_byte": 34269429
+      }
+    },
+    {
+      "task": "巨大魔術師・資料・追加調査",
+      "agent": "/root/sol_docs_audit",
+      "instructed_at": "2026-11-18T13:16:19.866Z",
+      "instructed_at_reason": null,
+      "started_at": "2026-11-18T13:16:19.898Z",
+      "followup_instructions": [
+        {
+          "at": "2026-11-18T13:28:39.417Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T13:37:17.578Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T13:43:34.217Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T13:53:25.744Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T14:00:45.421Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T14:06:44.391Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T14:12:48.540Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T14:16:23.522Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T14:24:06.113Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T14:29:52.277Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T14:33:14.439Z",
+          "operation": "followup_task"
+        }
+      ],
+      "last_reported_completion": null,
+      "final_completion": null,
+      "final_completion_reason": "担当を再開して追加作業中。公開を含む最終完了時刻は未取得。",
+      "cutoff": "2026-11-18T14:55:31.021Z",
+      "interval_seconds": 5951.155,
+      "tokens": {
+        "total_tokens": 57528348,
+        "input_tokens": 57398389,
+        "cached_input_tokens": 57135488,
+        "output_tokens": 129959,
+        "uncached_input_tokens": 262901
+      },
+      "scope": "This request after 22:15 JST only. Last checkpoint onwards; cumulative deltas excluding prior tasks and inherited counts. Cached input is subset of input. Read-only agents may have multiple resumed turns in this task; interval includes waits. Completion per agent is not publication completion.",
+      "evidence": {
+        "usage": "usage.json",
+        "agent_id": "01a1ee9a-9d77-7e90-bc81-3a7c12b45d78",
+        "log_basename": "rollout-2026-11-18T21-21-12-01a1ee9a-9d77-7e90-bc81-3a7c12b45d78.jsonl",
+        "from_byte": 7910905,
+        "to_byte": 8528976,
+        "assignment_log": "C:\\Users\\obake\\.codex\\sessions\\2026\\11\\18\\rollout-2026-11-18T21-08-00-01a1ee8e-8543-7121-b338-c0699c347f5e.jsonl",
+        "assignment_from_byte": 25591118,
+        "assignment_to_byte": 34269429
+      }
+    },
+    {
+      "task": "王国の時間調整・魔王の見た目・シナリオ1",
+      "agent": "/root/luna_metrics",
+      "instructed_at": "2026-11-18T13:16:31.094Z",
+      "instructed_at_reason": null,
+      "started_at": "2026-11-18T13:16:31.124Z",
+      "followup_instructions": [
+        {
+          "at": "2026-11-18T13:27:12.579Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T13:43:24.867Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T13:46:16.065Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T13:51:45.825Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T13:57:48.044Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T14:20:04.005Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T14:22:15.163Z",
+          "operation": "followup_task"
+        }
+      ],
+      "last_reported_completion": "2026-11-18T14:51:37.680Z",
+      "final_completion": null,
+      "final_completion_reason": "担当を再開して追加作業中。公開を含む最終完了時刻は未取得。",
+      "cutoff": "2026-11-18T14:51:37.701Z",
+      "interval_seconds": 5706.607,
+      "tokens": {
+        "total_tokens": 39763163,
+        "input_tokens": 39667737,
+        "cached_input_tokens": 39225344,
+        "output_tokens": 95426,
+        "uncached_input_tokens": 442393
+      },
+      "scope": "This request after 22:15 JST only. Last checkpoint onwards; cumulative deltas excluding prior tasks and inherited counts. Cached input is subset of input. Read-only agents may have multiple resumed turns in this task; interval includes waits. Completion per agent is not publication completion.",
+      "evidence": {
+        "usage": "usage.json",
+        "agent_id": "01a1ee9a-b8b6-7253-9a3a-56e6be6b2741",
+        "log_basename": "rollout-2026-11-18T21-21-19-01a1ee9a-b8b6-7253-9a3a-56e6be6b2741.jsonl",
+        "from_byte": 3778555,
+        "to_byte": 4270530,
+        "assignment_log": "C:\\Users\\obake\\.codex\\sessions\\2026\\11\\18\\rollout-2026-11-18T21-08-00-01a1ee8e-8543-7121-b338-c0699c347f5e.jsonl",
+        "assignment_from_byte": 25591118,
+        "assignment_to_byte": 34269429
+      }
+    },
+    {
+      "task": "素材の継続制作",
+      "agent": "/root/materials_continue",
+      "instructed_at": "2026-11-18T13:16:41.209Z",
+      "instructed_at_reason": null,
+      "started_at": "2026-11-18T13:16:42.119Z",
+      "followup_instructions": [
+        {
+          "at": "2026-11-18T13:33:47.920Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T13:46:27.816Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T14:00:59.867Z",
+          "operation": "followup_task"
+        },
+        {
+          "at": "2026-11-18T14:30:31.565Z",
+          "operation": "followup_task"
+        }
+      ],
+      "last_reported_completion": "2026-11-18T14:49:41.761Z",
+      "final_completion": null,
+      "final_completion_reason": "担当を再開して追加作業中。公開を含む最終完了時刻は未取得。",
+      "cutoff": "2026-11-18T14:49:41.795Z",
+      "interval_seconds": 5580.586,
+      "tokens": {
+        "total_tokens": 52650062,
+        "input_tokens": 52548316,
+        "cached_input_tokens": 51766912,
+        "output_tokens": 101746,
+        "uncached_input_tokens": 781404
+      },
+      "scope": "This request after 22:15 JST only. Last checkpoint onwards; cumulative deltas excluding prior tasks and inherited counts. Cached input is subset of input. Read-only agents may have multiple resumed turns in this task; interval includes waits. Completion per agent is not publication completion.",
+      "evidence": {
+        "usage": "usage.json",
+        "agent_id": "01a1eecd-678c-7c30-8f5c-8a2d3d30adf8",
+        "log_basename": "rollout-2026-11-18T22-16-41-01a1eecd-678c-7c30-8f5c-8a2d3d30adf8.jsonl",
+        "from_byte": 63506873,
+        "to_byte": 75849739,
+        "assignment_log": "C:\\Users\\obake\\.codex\\sessions\\2026\\11\\18\\rollout-2026-11-18T21-08-00-01a1ee8e-8543-7121-b338-c0699c347f5e.jsonl",
+        "assignment_from_byte": 25591118,
+        "assignment_to_byte": 34269429
+      }
+    }
+  ],
+  "media": [
+    {
+      "file": "reports/kingdom-six-1118/feet-baseline-player.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\docs\\feet-ground\\baseline-player-960.png",
+      "source_sha256": "066b339f2584a813961857c0aca3eeac7b3070a0c2528bce5743fa8f3af4784e",
+      "sha256": "15f1081595ce7536d27f2614df137ea545120cfd5e8eec1c7da7ee19450beac1",
+      "bytes": 79946
+    },
+    {
+      "file": "reports/kingdom-six-1118/feet-after-player.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\docs\\feet-ground\\after-player-960.png",
+      "source_sha256": "3afc5b8a9bc871dc0bec9c2657a55fe172e10f1a437efebcbacf3efcff4e66f4",
+      "sha256": "1e408f88ab1f7cfbcad8445d0dc9c7ad6eb08f75e25fb6b8cdf004aab898379b",
+      "bytes": 80118
+    },
+    {
+      "file": "reports/kingdom-six-1118/feet-baseline-enemy.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\docs\\feet-ground\\baseline-enemy-960.png",
+      "source_sha256": "cb0cb03f71fc0f11bf969e86ebb4aa3002353fd9f0870b24d01121fd216e8fa0",
+      "sha256": "0afba5ebd7ec7a28db6c5be1b83a8b812eedd8d39e4cce26ae3cbaed6629bd3b",
+      "bytes": 88860
+    },
+    {
+      "file": "reports/kingdom-six-1118/feet-after-enemy.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\docs\\feet-ground\\after-enemy-960.png",
+      "source_sha256": "c353c17d883389939222669f172d9a16a0e6f4a51211473848410f958bacffc5",
+      "sha256": "afbfd4dce7b3bfc49c0c46cfdae5811585442a2416fbe7c58cde875497835bd0",
+      "bytes": 89986
+    },
+    {
+      "file": "reports/kingdom-six-1118/scenario1-army.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\scenario1\\photos\\army.png",
+      "source_sha256": "1be9aca0521d529515e1353781e726621c2db03a235c9bc2227948168e15d8d7",
+      "sha256": "7331a05353bdb97c72435bcbbe634beff9be7b26049805d99256de42d817b813",
+      "bytes": 86970
+    },
+    {
+      "file": "reports/kingdom-six-1118/scenario1-cannon.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\scenario1\\photos\\cannon.png",
+      "source_sha256": "c246195c9b9a9d0cc8666873b6958ddf263c60e54b742c9a896d42a8a060bff8",
+      "sha256": "682e790b1de49b0231cda7001300344986c023e76e19f0254d936b202e11b680",
+      "bytes": 83840
+    },
+    {
+      "file": "reports/kingdom-six-1118/scenario1-cave.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\scenario1\\photos\\cave.png",
+      "source_sha256": "9ce157dfb00715d36f73be13cd9c42617b41eb50991a01ee1e66969ce649a24a",
+      "sha256": "9fa3867e54bbd00498eee452984abfcb6113d652ba233fb12684f8a693fcc236",
+      "bytes": 88956
+    },
+    {
+      "file": "reports/kingdom-six-1118/player-browser-baseline-ring.mp4",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\wizard\\player-browser\\baseline-ring-960.mp4",
+      "source_sha256": "e4ef1be29a0240f12ae96a3f52d224e692eaca9df2b3bc5de38ce01e4646e380",
+      "sha256": "e4ef1be29a0240f12ae96a3f52d224e692eaca9df2b3bc5de38ce01e4646e380",
+      "bytes": 165130
+    },
+    {
+      "file": "reports/kingdom-six-1118/player-browser-after-ring.mp4",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\wizard\\player-browser\\after-ring-960.mp4",
+      "source_sha256": "8d79d34a07d6ecea5236a67efb8273d7f1978e5eee4c002eb7fdedc9f961885b",
+      "sha256": "8d79d34a07d6ecea5236a67efb8273d7f1978e5eee4c002eb7fdedc9f961885b",
+      "bytes": 164829
+    },
+    {
+      "file": "reports/kingdom-six-1118/browser-v2-baseline-attack.mp4",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\wizard\\browser-v2\\baseline-attack-960.mp4",
+      "source_sha256": "c7fe8cc6e931f49b6ac5512553d647ce05b71b1d7ac4bd62dd18622e0779cd56",
+      "sha256": "c7fe8cc6e931f49b6ac5512553d647ce05b71b1d7ac4bd62dd18622e0779cd56",
+      "bytes": 103286
+    },
+    {
+      "file": "reports/kingdom-six-1118/browser-v2-after-attack.mp4",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\wizard\\browser-v2\\after-attack-960.mp4",
+      "source_sha256": "9adb37c11e4e46256e2a010a8579dcacf1ebc230efeb3fe31356e1818aaf2f74",
+      "sha256": "9adb37c11e4e46256e2a010a8579dcacf1ebc230efeb3fe31356e1818aaf2f74",
+      "bytes": 104084
+    },
+    {
+      "file": "reports/kingdom-six-1118/extra-1ad23e28-before-human-ready-960.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\combat_visual\\browser\\before-human-ready-960.png",
+      "source_sha256": "0d1d42a0ef04eaad4068c18d851bae583986485f36e2abd6eeb21e198ea5a5b9",
+      "sha256": "a8d44e342226e77754cca3d2468bf5cb52bf0da798081b79a94958ef0f7a99e3",
+      "bytes": 85754
+    },
+    {
+      "file": "reports/kingdom-six-1118/extra-a3c6932f-after-human-ready-960.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\combat_visual\\browser\\after-human-ready-960.png",
+      "source_sha256": "24b884526503e4277cf15399131171ffb9212d8c26b46665b5f6a79a944c19df",
+      "sha256": "13fe26bd6274c2595db9f46099c0b9b727844c8bb7e247278edc20ca940e67be",
+      "bytes": 81540
+    },
+    {
+      "file": "reports/kingdom-six-1118/extra-acc1fbe6-before-form1-hit-impact-960.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\combat_visual\\browser\\before-form1-hit-impact-960.png",
+      "source_sha256": "9d298a7030c39c040f9b48004ef882208e97ddb08fb68dcd92160ab0dfaffc37",
+      "sha256": "5b364e2cbaf5670c11d664a0db67e91dc19d4bb1ff424b2dea17e3f5361bd414",
+      "bytes": 69540
+    },
+    {
+      "file": "reports/kingdom-six-1118/extra-57dbcc73-after-form1-hit-impact-960.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\combat_visual\\browser\\after-form1-hit-impact-960.png",
+      "source_sha256": "a123f472b50c58c5b2c23401f836b1a8df6b5a917a578bf04d5560233e7c5258",
+      "sha256": "948858832f89e554b40cd7b71c9289bc1d4e91cc3ce491c510911e28e81d4d4d",
+      "bytes": 74812
+    },
+    {
+      "file": "reports/kingdom-six-1118/extra-55aecdc8-before-form2-hit-impact-960.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\combat_visual\\browser\\before-form2-hit-impact-960.png",
+      "source_sha256": "017fbb110138925656d1df96ca45e7aca27bf008b3f00fee16e29827fb879b35",
+      "sha256": "c38acc7455981a9c7f6f3461c2ee31c8ceab589195d721afa01c2cbe259996f5",
+      "bytes": 72628
+    },
+    {
+      "file": "reports/kingdom-six-1118/extra-8325e053-after-form2-hit-impact-960.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\combat_visual\\browser\\after-form2-hit-impact-960.png",
+      "source_sha256": "615a43bc2b0fe0a212376bd99e984b8003b2b8b917aaf97e9a1dae0ce98f4c92",
+      "sha256": "4ce3614544cb51fdc872ed3841ca68789ade4d55c85ddc775a7a59c413af3ae8",
+      "bytes": 80636
+    },
+    {
+      "file": "reports/kingdom-six-1118/extra-after-form1-hit-960.mp4",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\combat_visual\\browser\\after-form1-hit-960.mp4",
+      "source_sha256": "2d68b9f6456055fa282507a197c39710d3ffdb2246ef38d9b6faaba2ebc12f51",
+      "sha256": "2d68b9f6456055fa282507a197c39710d3ffdb2246ef38d9b6faaba2ebc12f51",
+      "bytes": 150614
+    },
+    {
+      "file": "reports/kingdom-six-1118/extra-after-form2-hit-960.mp4",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\combat_visual\\browser\\after-form2-hit-960.mp4",
+      "source_sha256": "e5075a72099ee2b727d900ed18153240a74ef9a2086d2d3696a691dd2e4da1fb",
+      "sha256": "e5075a72099ee2b727d900ed18153240a74ef9a2086d2d3696a691dd2e4da1fb",
+      "bytes": 177736
+    },
+    {
+      "file": "reports/kingdom-six-1118/extra-5931c34a-qa-front-quarter.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\hunyuan\\fairy_root_1117\\mae\\fairy_root_1117_f50fb95149_v1\\qa-front-quarter.png",
+      "source_sha256": "a9a39a9a24a3d84818399710305f4ce5cd217b5b759c9e50d3556a95e925088a",
+      "sha256": "d91bf82777bcc9fce6e919be3b3e2fdb8c6240b9126a38df4c553ce48ac4e57e",
+      "bytes": 14940
+    },
+    {
+      "file": "reports/kingdom-six-1118/extra-626aabec-qa-front-quarter.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\materials\\root-after\\qa-front-quarter.png",
+      "source_sha256": "f2e2bcedcbd4d9cf44c3e6ed87380f3cd4d774ddc2b6a053c5afcc0298b84360",
+      "sha256": "4fe49462fec93cff9100b388c1bb3aeb2f4afefee07236edfbe495612eb133a6",
+      "bytes": 12512
+    },
+    {
+      "file": "reports/kingdom-six-1118/extra-18fcc462-windup-960.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\materials\\browser\\windup-960.png",
+      "source_sha256": "c3e85e8ef41203eb8feebd93b1f863299791e6f1c5f462a832ae8177acd57e4b",
+      "sha256": "426fa99a5d2e745609261fcc12c8fe7c9ac7fc41dfe36cabd7c37616a403b89d",
+      "bytes": 65784
+    },
+    {
+      "file": "reports/kingdom-six-1118/extra-41d55652-impact-1-960.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\materials\\browser\\impact-1-960.png",
+      "source_sha256": "cd7686255b1e890eb3a8ae4c51c9343078989f7c1eee13d146b3e9bd08789e00",
+      "sha256": "145a12b264fa21c177ab20c15abfc54b493850a87eae98be86fe38d50a355a8d",
+      "bytes": 73660
+    },
+    {
+      "file": "reports/kingdom-six-1118/mushroom-house.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\materials\\mushroom-painted\\qa-front-quarter.png",
+      "source_sha256": "060210f0e308144a775a58d8b86b4ee96be98f6d868529bd1bfd7b68fc5c1a07",
+      "sha256": "e5d45c50665dfbfc15ecbfefd00008a3b61f1376160bb87c0519776c4dd96837",
+      "bytes": 19750
+    },
+    {
+      "file": "reports/kingdom-six-1118/park_ruin_rubble_1117.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\materials\\prop-repairs\\park_ruin_rubble_1117\\refined\\painted\\qa-front-quarter.png",
+      "source_sha256": "2eb1ba8f246d697010dfaabb9b025b8f3f51c3da67e9e4f0c11e717c2292510f",
+      "sha256": "894a558b64c04f8b21d6aae77bab40396ab621ecedafd626a70b0d14c3289fd6",
+      "bytes": 11172
+    },
+    {
+      "file": "reports/kingdom-six-1118/fairy_watermill_1117.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\materials\\prop-repairs\\fairy_watermill_1117\\painted\\qa-front-quarter.png",
+      "source_sha256": "bcc4d369df03f60a5838616ca264edcba5609cb66600ea6deb382631d055e0d2",
+      "sha256": "3663bcdf0162135234d0bfdd5531488c32cd98265b6ddf17add83ef23ca7849a",
+      "bytes": 21862
+    },
+    {
+      "file": "reports/kingdom-six-1118/fairy_seedpod_hut_1117.webp",
+      "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\materials\\prop-repairs\\fairy_seedpod_hut_1117\\refined\\painted\\qa-front-quarter.png",
+      "source_sha256": "68bbbb4080ca495f7d686d494b5936f316d535d6477d803386a5cd81e7bc586d",
+      "sha256": "53bf5364dc8cfd57dd7051b9962bab72c292ec38578cd541ba2200c9ede540af",
+      "bytes": 17740
+    }
+  ],
+  "reading_scope": "共有README→今回README→zukan ch_gwizard / progress W20→担当検証JSON。原提案全件の再照合ではない。",
+  "extra_evidence": {
+    "combat": {
+      "completed_at": "2026-11-18T23:21:07.364006+09:00",
+      "cases": 4,
+      "source": "combat_visual/browser/report.json"
+    },
+    "root": {
+      "ended_at": "2026-11-18T23:01:16.955139+09:00",
+      "cases": 3,
+      "source": "materials/browser/result.json"
+    }
+  },
+  "scenario1": {
+    "status": "竜ルート検証済み・公開待ち",
+    "ended_at": "2026-11-18T23:54:58.641625+09:00",
+    "evidence": "scenario1/browser-photos.json",
+    "dragon_route": true,
+    "non_dragon_route": null,
+    "non_dragon_route_reason": "今回の通し試験はdragonのみ。非竜ルートは変更対象外で、同試験の完走確認には含めない。",
+    "wyvern_allies": 1,
+    "checks": {
+      "three_waves_in_order": true,
+      "unchanged_cave_heroes": true,
+      "green_wyvern_fight": true,
+      "patrol_in_valley": true,
+      "patrol_uses_bow_soldier_and_field_cannon_models": true,
+      "cannon_clear_sightline": true,
+      "field_cannon_fired": true,
+      "patrol_acted_after_join": true,
+      "patrol_defeated": true,
+      "dungeon_after_patrol": true,
+      "one_ally_in_dungeon": true,
+      "no_page_errors": true
+    },
+    "initial_check_ended_at": "2026-11-18T23:22:59.389512+09:00",
+    "photos_evidence": "scenario1/photos/index.json",
+    "photo_job": 330,
+    "photo_scope": "Same real-input route; genuine renderer before each screenshot. Cave after measurement via storySkip and 1.2 seconds; dungeon attached, story hidden, one ally."
+  },
+  "feet_photos": {
+    "started_at": "2026-11-18T23:31:54.341548+09:00",
+    "scope": "Additional fixed pose photos only, with a thin photo-only ground reference ring. Full visible posed-vertex lowest Y and floor at that vertex recorded. Actual source model/mixer and same seeded scene; no gameplay QA repeated.",
+    "errors": [],
+    "rows": [
+      {
+        "kind": "player",
+        "fixture": {
+          "x": 0,
+          "z": -55,
+          "y": 3,
+          "err": 0,
+          "clear": 100,
+          "blocked": 0,
+          "a": 4.71238898038469,
+          "score": 100,
+          "camera": [
+            -4.2434011590455786e-15,
+            11.12,
+            -78.1
+          ]
+        },
+        "form": 1,
+        "occluderMeshes": 358,
+        "measurement": {
+          "lowestY": 2.1030830763816057,
+          "lowestVertex": [
+            -2.5384171932169792,
+            2.1030830763816057,
+            -56.12795534618727
+          ],
+          "groundAtFootY": 3,
+          "terrainAtFootY": 3,
+          "groundAtCenterY": 3,
+          "offsetFromGround": -0.8969169236183943,
+          "rootFootTargetY": 3,
+          "vertices": 8225
+        },
+        "groundMarker": {
+          "photoOnly": true,
+          "y": 3.025,
+          "radius": 2.66
+        },
+        "version": "baseline"
+      },
+      {
+        "kind": "enemy",
+        "fixture": {
+          "x": 0,
+          "z": -55,
+          "y": 3,
+          "err": 0,
+          "clear": 83.22251198177773,
+          "blocked": 0,
+          "a": 4.71238898038469,
+          "score": 83.22251198177773,
+          "camera": [
+            -1.1214703063191885e-14,
+            24.459999999999997,
+            -116.05
+          ]
+        },
+        "form": 1,
+        "occluderMeshes": 388,
+        "measurement": {
+          "lowestY": -1.0691957277488178,
+          "lowestVertex": [
+            -5.819024611381603,
+            -1.0691957277488178,
+            -69.91343206746942
+          ],
+          "groundAtFootY": 3,
+          "terrainAtFootY": 3,
+          "groundAtCenterY": 3,
+          "offsetFromGround": -4.069195727748818,
+          "rootFootTargetY": 3,
+          "vertices": 8225
+        },
+        "groundMarker": {
+          "photoOnly": true,
+          "y": 3.025,
+          "radius": 7.03
+        },
+        "version": "baseline"
+      },
+      {
+        "kind": "player",
+        "fixture": {
+          "x": 0,
+          "z": -55,
+          "y": 3,
+          "err": 0,
+          "clear": 100,
+          "blocked": 0,
+          "a": 4.71238898038469,
+          "score": 100,
+          "camera": [
+            -4.2434011590455786e-15,
+            11.12,
+            -78.1
+          ]
+        },
+        "form": 1,
+        "occluderMeshes": 358,
+        "measurement": {
+          "lowestY": 2.9999999732697975,
+          "lowestVertex": [
+            -2.5384171932169792,
+            2.9999999732697975,
+            -56.507165727963276
+          ],
+          "groundAtFootY": 3,
+          "terrainAtFootY": 3,
+          "groundAtCenterY": 3,
+          "offsetFromGround": -2.673020249588376e-08,
+          "rootFootTargetY": 3,
+          "vertices": 8225
+        },
+        "groundMarker": {
+          "photoOnly": true,
+          "y": 3.025,
+          "radius": 2.66
+        },
+        "version": "after"
+      },
+      {
+        "kind": "enemy",
+        "fixture": {
+          "x": 0,
+          "z": -55,
+          "y": 3,
+          "err": 0,
+          "clear": 83.22251198177773,
+          "blocked": 0,
+          "a": 4.71238898038469,
+          "score": 83.22251198177773,
+          "camera": [
+            -1.1214703063191885e-14,
+            24.459999999999997,
+            -116.05
+          ]
+        },
+        "form": 1,
+        "occluderMeshes": 388,
+        "measurement": {
+          "lowestY": 3.0000001212714835,
+          "lowestVertex": [
+            -5.819024611381603,
+            3.0000001212714835,
+            -71.17218185033241
+          ],
+          "groundAtFootY": 3,
+          "terrainAtFootY": 3,
+          "groundAtCenterY": 3,
+          "offsetFromGround": 1.2127148352192307e-07,
+          "rootFootTargetY": 3,
+          "vertices": 8225
+        },
+        "groundMarker": {
+          "photoOnly": true,
+          "y": 3.025,
+          "radius": 7.03
+        },
+        "version": "after"
+      }
+    ],
+    "ok": true,
+    "ended_at": "2026-11-18T23:32:23.704683+09:00"
+  },
+  "scenario1_photos": {
+    "index": {
+      "scope": "Same real-input route with screenshot callbacks only",
+      "photos": {
+        "army": {
+          "file": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\scenario1\\photos\\army.png",
+          "at": 80670,
+          "guards": [
+            "soldier",
+            "soldier",
+            "archer",
+            "archer",
+            "soldier",
+            "cannon"
+          ],
+          "models": [
+            true,
+            true,
+            true,
+            true
+          ]
+        },
+        "cannon": {
+          "file": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\scenario1\\photos\\cannon.png",
+          "at": 99670,
+          "shots": [
+            {
+              "at": 99504,
+              "position": [
+                185.65308967226207,
+                9.947663353394326,
+                59.29333912699212
+              ]
+            }
+          ]
+        },
+        "cave": {
+          "file": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\scenario1\\photos\\cave.png",
+          "after_measurement": true,
+          "input": "existing storySkip click, then 1.2 seconds, actual renderer before screenshot",
+          "status": {
+            "state": "play",
+            "stageKey": "dungeon",
+            "dungeon": true,
+            "sceneAttached": true,
+            "storyHidden": true,
+            "allies": 1
+          }
+        }
+      }
+    },
+    "ok": true,
+    "checks": {
+      "three_waves_in_order": true,
+      "unchanged_cave_heroes": true,
+      "green_wyvern_fight": true,
+      "patrol_in_valley": true,
+      "patrol_uses_bow_soldier_and_field_cannon_models": true,
+      "cannon_clear_sightline": true,
+      "field_cannon_fired": true,
+      "patrol_acted_after_join": true,
+      "patrol_defeated": true,
+      "dungeon_after_patrol": true,
+      "one_ally_in_dungeon": true,
+      "no_page_errors": true
+    },
+    "finished_at": "2026-11-18T23:54:58.641625+09:00",
+    "scope": "Job330 same real-input route with screenshot callbacks and genuine renderer immediately before capture. Army/cannon/cave selected. Cave rendered after measurement via existing storySkip plus 1.2 seconds, dungeon attached, story hidden, one ally."
+  },
+  "mushroom": {
+    "status": "制作・4視点の外観検品済み。ゲーム配置・公開待ち",
+    "source": "materials/キノコ住居の再検品.md",
+    "rgb_source_px": 2048,
+    "normal_faces": 7978,
+    "normal_rgb_px": 1024,
+    "normal_bytes": 393312,
+    "lod_faces": 1497,
+    "lod_rgb_px": 512,
+    "lod_bytes": 213156,
+    "remaining": "屋根右端の短い白筋、階段の小さな淡色斑を記録。配置・衝突・距離による切替・実機・公開は未確認。"
+  },
+  "photo_retry_notes": {
+    "scenario1_photos": [
+      {
+        "job": null,
+        "reason": "試験用OBSERVEが描画関数を無描画へ置換しており、以前の軍戦・砲撃・洞窟写真には直前のGPU画面が残っていた。新写真は撮影直前に保存した本来の描画を1回実行する。",
+        "scope": "写真準備。機能通しの合格とは別。",
+        "game_failure": false
+      },
+      {
+        "job": 329,
+        "reason": "page.evaluateへ渡した代入式が関数値を返し、自動実行されて撮影準備の開始前に失敗。代入を即時実行しない関数ブロックへ入れ、330で再実行する。",
+        "scope": "撮影道具の初期化。ゲームの実装失敗ではない。",
+        "game_failure": false
+      }
+    ]
+  },
+  "prop_repairs": [
+    {
+      "id": "park_ruin_rubble_1117",
+      "label": "遊園地の瓦礫",
+      "evidence": "materials/prop-repairs/park_ruin_rubble_1117/refined/painted/verification.json",
+      "normal": {
+        "faces": 7967,
+        "bytes": 381944,
+        "rgb_px": 1024
+      },
+      "lod": {
+        "faces": 1499,
+        "bytes": 152528,
+        "rgb_px": 512
+      },
+      "rgb_source_px": 2048,
+      "visual_review": "素材担当検品済み（親の受領報告）",
+      "placed": false,
+      "runtime_verified": false,
+      "published": false,
+      "total_tokens": null,
+      "tokens_reason": "担当区間で集計。個別素材へトークンを割り当てていない。"
+    },
+    {
+      "id": "fairy_watermill_1117",
+      "label": "妖精の水車",
+      "evidence": "materials/prop-repairs/fairy_watermill_1117/painted/verification.json",
+      "normal": {
+        "faces": 7990,
+        "bytes": 416848,
+        "rgb_px": 1024
+      },
+      "lod": {
+        "faces": 1499,
+        "bytes": 168608,
+        "rgb_px": 512
+      },
+      "rgb_source_px": 2048,
+      "visual_review": "素材担当検品済み（親の受領報告）",
+      "placed": false,
+      "runtime_verified": false,
+      "published": false,
+      "total_tokens": null,
+      "tokens_reason": "担当区間で集計。個別素材へトークンを割り当てていない。"
+    },
+    {
+      "id": "fairy_seedpod_hut_1117",
+      "label": "種莢の小屋",
+      "evidence": "materials/prop-repairs/fairy_seedpod_hut_1117/refined/painted/verification.json",
+      "normal": {
+        "faces": 7963,
+        "bytes": 399296,
+        "rgb_px": 1024
+      },
+      "lod": {
+        "faces": 1500,
+        "bytes": 163280,
+        "rgb_px": 512
+      },
+      "rgb_source_px": 2048,
+      "visual_review": "素材担当検品済み（親の受領報告）",
+      "placed": false,
+      "runtime_verified": false,
+      "published": false,
+      "total_tokens": null,
+      "tokens_reason": "担当区間で集計。個別素材へトークンを割り当てていない。"
+    }
+  ]
+}
