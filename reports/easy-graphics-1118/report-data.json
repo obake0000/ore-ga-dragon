@@ -1,0 +1,288 @@
+{
+  "characters": [
+    "army",
+    "necromancer",
+    "slime",
+    "golem"
+  ],
+  "progress_rows": [
+    "A06",
+    "A07",
+    "A12",
+    "A42",
+    "C01",
+    "C02",
+    "C16",
+    "G1117-05",
+    "G1117-14",
+    "N1117-12",
+    "W04",
+    "W10",
+    "W12"
+  ],
+  "qa_widths": {
+    "captain": [
+      390,
+      960
+    ],
+    "park": [
+      390,
+      960
+    ],
+    "necromancer": [
+      390,
+      960
+    ],
+    "slime": [
+      390,
+      960
+    ],
+    "golem": [
+      390,
+      960
+    ]
+  },
+  "images": {
+    "captain": [
+      {
+        "output": "captain-shell-in-flight.webp",
+        "caption": "砲弾の明るい弾頭と短い軌跡",
+        "width": 960,
+        "height": 600,
+        "source": "captain-shell-in-flight-960.png",
+        "source_sha256": "eaaee3bca97bddce5ac349fe3d64d698155084926e9a6de69298f7be3138e67e",
+        "webp_bytes": 82552
+      },
+      {
+        "output": "captain-shell-impact.webp",
+        "caption": "着弾時の火花と輪",
+        "width": 960,
+        "height": 600,
+        "source": "captain-shell-impact-960.png",
+        "source_sha256": "234d3f19c88cbe4c9c58656f0026615fa0d7439d441962b7c0a47109eb3bb18c",
+        "webp_bytes": 83196
+      }
+    ],
+    "park": [
+      {
+        "output": "park-park_entry-standby.webp",
+        "caption": "入園広場・発電器の復旧前",
+        "width": 960,
+        "height": 600,
+        "source": "park-park_entry-standby-960.png",
+        "source_sha256": "87214de52097e874f86388aa3cb6133dcd151f4abedd19fee7983158240f0f8a",
+        "webp_bytes": 105682
+      },
+      {
+        "output": "park-park_entry-powered.webp",
+        "caption": "入園広場・発電器の復旧後",
+        "width": 960,
+        "height": 600,
+        "source": "park-park_entry-powered-960.png",
+        "source_sha256": "b6a5c9061b4f8fb1a4cc543bf1a02cf633ba143a8d7f77941a480a0a2cefbf33",
+        "webp_bytes": 113812
+      },
+      {
+        "output": "park-park_ride-standby.webp",
+        "caption": "回転木馬の広場・復旧前",
+        "width": 960,
+        "height": 600,
+        "source": "park-park_ride-standby-960.png",
+        "source_sha256": "e351fa92e288bd0924637a1ccc129241c49cf239c4a29a96b5c251837e86db50",
+        "webp_bytes": 101150
+      },
+      {
+        "output": "park-park_ride-powered.webp",
+        "caption": "回転木馬の広場・復旧後",
+        "width": 960,
+        "height": 600,
+        "source": "park-park_ride-powered-960.png",
+        "source_sha256": "19da3639e1daa02e5e62f6350e9198085896eb663cf221dca717b006f613c99b",
+        "webp_bytes": 104698
+      },
+      {
+        "output": "park-park_control-standby.webp",
+        "caption": "総合管理塔・復旧前",
+        "width": 960,
+        "height": 600,
+        "source": "park-park_control-standby-960.png",
+        "source_sha256": "9f36add2e825903e040f891883ca66f1e4afa8db8dafc8077feadbc3ae14bfeb",
+        "webp_bytes": 106836
+      },
+      {
+        "output": "park-park_control-powered.webp",
+        "caption": "総合管理塔・復旧後",
+        "width": 960,
+        "height": 600,
+        "source": "park-park_control-powered-960.png",
+        "source_sha256": "5c6b007eccd07c9cb5119e278d974e4a97b8d73a8563f74cdd510c3f09e374a5",
+        "webp_bytes": 107568
+      }
+    ],
+    "necromancer": [
+      {
+        "output": "necro-revive-soldier.webp",
+        "caption": "倒した兵士が紫の味方に蘇生",
+        "width": 960,
+        "height": 600,
+        "source": "necro-revive-soldier-960.png",
+        "source_sha256": "6716ede943ae43e9610289221ff0ef82ab3d0e1603ee31725094b2d5587e1033",
+        "webp_bytes": 68488
+      },
+      {
+        "output": "necro-revive-archer.webp",
+        "caption": "弓兵も元の姿で蘇生",
+        "width": 960,
+        "height": 600,
+        "source": "necro-revive-archer-960.png",
+        "source_sha256": "5211d5642b67e53605f841d49d1c70846bf5e78303c302abe1b93933a5bf887d",
+        "webp_bytes": 67558
+      }
+    ],
+    "slime": [
+      {
+        "output": "slime-air-form.webp",
+        "caption": "範囲攻撃へ向かう空中の姿",
+        "width": 960,
+        "height": 600,
+        "source": "slime-air-form-960.png",
+        "source_sha256": "110b5bab8793fbfe82fe4a445cf7dede722b514823ef6eaa9ed573909840416a",
+        "webp_bytes": 74596
+      },
+      {
+        "output": "slime-air-landing-marker.webp",
+        "caption": "下降時に緑で示す着地点",
+        "width": 960,
+        "height": 600,
+        "source": "slime-air-landing-marker-960.png",
+        "source_sha256": "f80f1b1d3659c070f05e1cbed51fe9ffc23c3803c64965f451078ea7972d15a3",
+        "webp_bytes": 80264
+      },
+      {
+        "output": "slime-return-ground.webp",
+        "caption": "着地すると地上の姿へ復帰",
+        "width": 960,
+        "height": 600,
+        "source": "slime-return-ground-960.png",
+        "source_sha256": "03e01662e1f2f01521cbefbe091997ecf046b4ed507219617aee72c9006cd182",
+        "webp_bytes": 75166
+      }
+    ],
+    "golem": [
+      {
+        "output": "golem-contact-fist.webp",
+        "caption": "近接攻撃が当たった位置に出る岩の拳",
+        "width": 960,
+        "height": 600,
+        "source": "golem-contact-fist-960.png",
+        "source_sha256": "c149744648a965e87547b31355fd20a0e75f0b51a24e9e50ed370d99271fa94f",
+        "webp_bytes": 94272
+      },
+      {
+        "output": "golem-supply-tree.webp",
+        "caption": "近くの木から岩石補給",
+        "width": 960,
+        "height": 600,
+        "source": "golem-supply-tree-960.png",
+        "source_sha256": "6788da17a0e0c5a7d9b614852bad5b6135c665f46440a73644c9135e859e7a8f",
+        "webp_bytes": 73520
+      },
+      {
+        "output": "golem-supply-house.webp",
+        "caption": "一般建物から岩石補給",
+        "width": 960,
+        "height": 600,
+        "source": "golem-supply-house-960.png",
+        "source_sha256": "04df512356592e1e3407acc5df6af648cff5ae866abc3ef6e47f4d873ae33945",
+        "webp_bytes": 94076
+      }
+    ]
+  },
+  "video": {
+    "output": "park-motion.mp4",
+    "source": "park-motion-960.mp4",
+    "width": 768,
+    "height": 480,
+    "sha256": "f0aa66c4ac2ffc78fe52848140181219488a0033d7f6088bb32bd373a935f926",
+    "bytes": 1041967
+  },
+  "metrics": [
+    {
+      "task": "移管前の統合・検証",
+      "assignee": "mae / 主担当",
+      "instructed_at": null,
+      "finished_at": "2026-11-18T21:06:33.436+09:00",
+      "elapsed_seconds": 3192.454563,
+      "total_tokens": 22108539,
+      "cached_input_tokens": 21871488,
+      "uncached_input_tokens": 161439,
+      "output_tokens": 75612,
+      "retry_reason": "ジャンプ解除と人数表示の残留を実画面で発見して修正。見本版の移動ロックを保持して差分を統合。写真は移動後のカメラ追従を待つ試験配置へ調整。",
+      "scope": "今回の担当単位。子はtask_started受領、親の指示時刻は未取得で20:13:20の記録開始から。終了未取得は進行中で集計時点まで。待機を含み、複数キャラ・追加作業へ按分しない。トークン集計末尾 2026-11-18T12:06:33.458Z。キャッシュは入力の内数。 旧主担当は21:06:33.436に引継ぎ終了。後継の作業は別行。",
+      "evidence": "report-data.json（詳細ログの根拠は共有索引→今回のusage.json）"
+    },
+    {
+      "task": "ネクロ・スライム・ゴーレム",
+      "assignee": "mae / Sol",
+      "instructed_at": "2026-11-18T20:13:40.212000+09:00",
+      "finished_at": "2026-11-18T20:35:42.833+09:00",
+      "elapsed_seconds": 1322.621,
+      "total_tokens": 9138283,
+      "cached_input_tokens": 9013120,
+      "uncached_input_tokens": 92511,
+      "output_tokens": 32652,
+      "retry_reason": "powersClear(false)と死亡の空中モデル解除漏れ、他キャラへ人数表示が残る不具合を追加修正。",
+      "scope": "今回の担当単位。子はtask_started受領、親の指示時刻は未取得で20:13:20の記録開始から。終了未取得は進行中で集計時点まで。待機を含み、複数キャラ・追加作業へ按分しない。トークン集計末尾 2026-11-18T11:35:42.855Z。キャッシュは入力の内数。",
+      "evidence": "report-data.json（詳細ログの根拠は共有索引→今回のusage.json）"
+    },
+    {
+      "task": "簡単モード",
+      "assignee": "mae / Sol",
+      "instructed_at": "2026-11-18T20:13:55.392000+09:00",
+      "finished_at": "2026-11-18T20:58:05.850+09:00",
+      "elapsed_seconds": 2650.458,
+      "total_tokens": 25504957,
+      "cached_input_tokens": 25276288,
+      "uncached_input_tokens": 171847,
+      "output_tokens": 56822,
+      "retry_reason": "最初の時計引数で秒とミリ秒を混同し、物理が進まない試験を無効化して修正。必殺6秒版を追加測定し、旧0.8秒の結果と分離。",
+      "scope": "今回の担当単位。子はtask_started受領、親の指示時刻は未取得で20:13:20の記録開始から。終了未取得は進行中で集計時点まで。待機を含み、複数キャラ・追加作業へ按分しない。トークン集計末尾 2026-11-18T11:58:05.883Z。キャッシュは入力の内数。",
+      "evidence": "report-data.json（詳細ログの根拠は共有索引→今回のusage.json）"
+    },
+    {
+      "task": "兵団長・遊園地・資料",
+      "assignee": "mae / Sol",
+      "instructed_at": "2026-11-18T20:14:11.999000+09:00",
+      "finished_at": "2026-11-18T20:45:42.480+09:00",
+      "elapsed_seconds": 1890.481,
+      "total_tokens": 13170456,
+      "cached_input_tokens": 12969856,
+      "uncached_input_tokens": 148130,
+      "output_tokens": 52470,
+      "retry_reason": "最初は素材の読み込みが遅れた場合の装飾表示が不足し、既存モデルの後読みを追加。",
+      "scope": "今回の担当単位。子はtask_started受領、親の指示時刻は未取得で20:13:20の記録開始から。終了未取得は進行中で集計時点まで。待機を含み、複数キャラ・追加作業へ按分しない。トークン集計末尾 2026-11-18T11:45:42.526Z。キャッシュは入力の内数。",
+      "evidence": "report-data.json（詳細ログの根拠は共有索引→今回のusage.json）"
+    },
+    {
+      "task": "引継ぎ後の資料確認・統合公開",
+      "assignee": "mae / 後継主担当",
+      "instructed_at": "2026-11-18T21:08:02.951000+09:00",
+      "finished_at": null,
+      "elapsed_seconds": 1149.122959,
+      "total_tokens": 2259393,
+      "cached_input_tokens": 2157312,
+      "uncached_input_tokens": 94165,
+      "output_tokens": 7916,
+      "retry_reason": "制限内でのローカル接続失敗は待機を取消し、承認後に再実行。確認サーバー終了を同一処理内起動で修正。図鑑の砲弾という用語を検査と揃えた。",
+      "scope": "後継会話の本作業のみ。旧主担当の使用量とは分離。完了前の途中集計、待機込み。子の読取監査は別範囲で本行に加算しない。集計末尾 2026-11-18T12:26:36.189Z",
+      "evidence": "共有索引→今回のsuccessor-usage.json。完了時刻は公開・納品記録で別確認。"
+    }
+  ],
+  "publication": {
+    "status": "実装・検証済み。公開先の反映は配信記録で別確認。",
+    "commit": null,
+    "url": "https://obake0000.github.io/ore-ga-dragon/musou.html",
+    "verified_at": null
+  },
+  "easy_summary_present": true
+}
