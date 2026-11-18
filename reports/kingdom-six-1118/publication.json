@@ -1,0 +1,103 @@
+{
+  "published_all": true,
+  "game_commit": "bccfa1d4bb0bc3962c29837ff77fd870503eb86c",
+  "verified_at": "2026-11-19T00:03:10.176893+09:00",
+  "sites": [
+    {
+      "label": "GitHub Pages",
+      "host": "github",
+      "url": "https://obake0000.github.io/ore-ga-dragon/reports/kingdom-six-1118/index.html",
+      "checked": 40,
+      "ok": 40,
+      "verified_at": "2026-11-19T00:00:42.988805+09:00"
+    },
+    {
+      "label": "ゲーム公開先",
+      "host": "game",
+      "url": "https://ore-ga-dragon.surge.sh/reports/kingdom-six-1118/index.html",
+      "checked": 12,
+      "ok": 12,
+      "verified_at": "2026-11-19T00:03:10.031480+09:00"
+    },
+    {
+      "label": "応募資料公開先",
+      "host": "applicant",
+      "url": "https://dragon-oubo3-fumi.surge.sh/reports/kingdom-six-1118/index.html",
+      "checked": 7,
+      "ok": 7,
+      "verified_at": "2026-11-19T00:03:10.176893+09:00"
+    }
+  ],
+  "usage": {
+    "at": "2026-11-19T00:03:30.969439+09:00",
+    "scope": "This request after 22:15 JST only. Last checkpoint onwards; cumulative deltas excluding prior tasks and inherited counts. Cached input is subset of input. Read-only agents may have multiple resumed turns in this task; interval includes waits. Completion per agent is not publication completion.",
+    "rows": [
+      {
+        "label": "mae／統合・検証・公開",
+        "session_id": "01a1ee8e-8543-7121-b338-c0699c347f5e",
+        "started_at": "2026-11-18T13:15:05.949Z",
+        "finished_at": null,
+        "cutoff": "2026-11-18T15:03:10.253Z",
+        "elapsed_seconds": 6484.304,
+        "log": "C:\\Users\\obake\\.codex\\sessions\\2026\\11\\18\\rollout-2026-11-18T21-08-00-01a1ee8e-8543-7121-b338-c0699c347f5e.jsonl",
+        "scanned_from_byte": 34269429,
+        "resume_byte": 34695526,
+        "total_tokens": 52592927,
+        "cached_input_tokens": 52053504,
+        "uncached_input_tokens": 396978,
+        "output_tokens": 142445
+      },
+      {
+        "label": "Sol／魔術師・資料の照合",
+        "session_id": "01a1ee9a-9d77-7e90-bc81-3a7c12b45d78",
+        "started_at": "2026-11-18T13:16:19.898Z",
+        "finished_at": "2026-11-18T14:57:00.866Z",
+        "cutoff": "2026-11-18T14:57:00.898Z",
+        "elapsed_seconds": 6041.0,
+        "log": "C:\\Users\\obake\\.codex\\sessions\\2026\\11\\18\\rollout-2026-11-18T21-21-12-01a1ee9a-9d77-7e90-bc81-3a7c12b45d78.jsonl",
+        "scanned_from_byte": 8528976,
+        "resume_byte": 8602335,
+        "total_tokens": 59592975,
+        "cached_input_tokens": 59194880,
+        "uncached_input_tokens": 265322,
+        "output_tokens": 132773
+      },
+      {
+        "label": "Luna担当／王国編・魔王・公開準備",
+        "session_id": "01a1ee9a-b8b6-7253-9a3a-56e6be6b2741",
+        "started_at": "2026-11-18T13:16:31.124Z",
+        "finished_at": "2026-11-18T14:51:37.680Z",
+        "cutoff": "2026-11-18T14:51:37.701Z",
+        "elapsed_seconds": 5706.577,
+        "log": "C:\\Users\\obake\\.codex\\sessions\\2026\\11\\18\\rollout-2026-11-18T21-21-19-01a1ee9a-b8b6-7253-9a3a-56e6be6b2741.jsonl",
+        "scanned_from_byte": 4270530,
+        "resume_byte": 4270530,
+        "total_tokens": 39763163,
+        "cached_input_tokens": 39225344,
+        "uncached_input_tokens": 442393,
+        "output_tokens": 95426
+      },
+      {
+        "label": "Sol／素材制作・検品",
+        "session_id": "01a1eecd-678c-7c30-8f5c-8a2d3d30adf8",
+        "started_at": "2026-11-18T13:16:42.119Z",
+        "finished_at": null,
+        "cutoff": "2026-11-18T15:03:19.966Z",
+        "elapsed_seconds": 6397.847,
+        "log": "C:\\Users\\obake\\.codex\\sessions\\2026\\11\\18\\rollout-2026-11-18T22-16-41-01a1eecd-678c-7c30-8f5c-8a2d3d30adf8.jsonl",
+        "scanned_from_byte": 75849739,
+        "resume_byte": 84679398,
+        "total_tokens": 58221124,
+        "cached_input_tokens": 57307648,
+        "uncached_input_tokens": 805336,
+        "output_tokens": 108140
+      }
+    ],
+    "total": {
+      "total_tokens": 210170189,
+      "cached_input_tokens": 207781376,
+      "uncached_input_tokens": 1910029,
+      "output_tokens": 478784
+    }
+  }
+}
