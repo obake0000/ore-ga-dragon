@@ -1,0 +1,168 @@
+{
+  "at": "2026-11-19T03:22:54.041960+09:00",
+  "scope": "11/19 01:08:21の本人修正依頼以降。前回の読取位置から差分集計し、前回作業と継承使用量を除外。担当セッションの区間で、待ちを含む。個別キャラへの按分ではない。キャッシュ入力は入力の内数で二重加算しない。",
+  "rows": [
+    {
+      "id": "01a1ee8e-8543-7121-b338-c0699c347f5e",
+      "source": "vscode",
+      "log": "C:\\Users\\obake\\.codex\\sessions\\2026\\11\\18\\rollout-2026-11-18T21-08-00-01a1ee8e-8543-7121-b338-c0699c347f5e.jsonl",
+      "scanned_from_byte": 55951312,
+      "resume_byte": 57006849,
+      "baseline": {
+        "input_tokens": 64982608,
+        "cached_input_tokens": 64441728,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 185080,
+        "reasoning_output_tokens": 77223,
+        "total_tokens": 65167688
+      },
+      "last": {
+        "input_tokens": 125841853,
+        "cached_input_tokens": 124920576,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 370699,
+        "reasoning_output_tokens": 171263,
+        "total_tokens": 126212552
+      },
+      "started_at": "2026-11-18T16:08:21.317Z",
+      "finished_at": null,
+      "cutoff": "2026-11-18T18:22:30.972Z",
+      "tokens": {
+        "total_tokens": 61044864,
+        "input_tokens": 60859245,
+        "cached_input_tokens": 60478848,
+        "output_tokens": 185619,
+        "uncached_input_tokens": 380397
+      }
+    },
+    {
+      "id": "01a1ee9a-9d77-7e90-bc81-3a7c12b45d78",
+      "source": {
+        "subagent": {
+          "thread_spawn": {
+            "parent_thread_id": "01a1ee8e-8543-7121-b338-c0699c347f5e",
+            "depth": 1,
+            "agent_path": "/root/sol_docs_audit",
+            "agent_nickname": "Ptolemy",
+            "agent_role": null
+          }
+        }
+      },
+      "log": "C:\\Users\\obake\\.codex\\sessions\\2026\\11\\18\\rollout-2026-11-18T21-21-12-01a1ee9a-9d77-7e90-bc81-3a7c12b45d78.jsonl",
+      "scanned_from_byte": 12292611,
+      "resume_byte": 12292611,
+      "baseline": {
+        "input_tokens": 59945521,
+        "cached_input_tokens": 59641856,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 134504,
+        "reasoning_output_tokens": 45617,
+        "total_tokens": 60080025
+      },
+      "last": {
+        "input_tokens": 87507906,
+        "cached_input_tokens": 86216064,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 228499,
+        "reasoning_output_tokens": 83042,
+        "total_tokens": 87736405
+      },
+      "started_at": "2026-11-18T16:10:31.480Z",
+      "finished_at": "2026-11-18T18:15:08.354Z",
+      "cutoff": "2026-11-18T18:15:08.378Z",
+      "tokens": {
+        "total_tokens": 27656380,
+        "input_tokens": 27562385,
+        "cached_input_tokens": 26574208,
+        "output_tokens": 93995,
+        "uncached_input_tokens": 988177
+      }
+    },
+    {
+      "id": "01a1ee9a-b8b6-7253-9a3a-56e6be6b2741",
+      "source": {
+        "subagent": {
+          "thread_spawn": {
+            "parent_thread_id": "01a1ee8e-8543-7121-b338-c0699c347f5e",
+            "depth": 1,
+            "agent_path": "/root/luna_metrics",
+            "agent_nickname": "Socrates",
+            "agent_role": null
+          }
+        }
+      },
+      "log": "C:\\Users\\obake\\.codex\\sessions\\2026\\11\\18\\rollout-2026-11-18T21-21-19-01a1ee9a-b8b6-7253-9a3a-56e6be6b2741.jsonl",
+      "scanned_from_byte": 9737935,
+      "resume_byte": 9737935,
+      "baseline": {
+        "input_tokens": 40066739,
+        "cached_input_tokens": 39550720,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 98329,
+        "reasoning_output_tokens": 21659,
+        "total_tokens": 40165068
+      },
+      "last": {
+        "input_tokens": 83541990,
+        "cached_input_tokens": 82764544,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 181426,
+        "reasoning_output_tokens": 44530,
+        "total_tokens": 83723416
+      },
+      "started_at": "2026-11-18T16:10:44.660Z",
+      "finished_at": "2026-11-18T18:10:14.653Z",
+      "cutoff": "2026-11-18T18:10:14.669Z",
+      "tokens": {
+        "total_tokens": 43558348,
+        "input_tokens": 43475251,
+        "cached_input_tokens": 43213824,
+        "output_tokens": 83097,
+        "uncached_input_tokens": 261427
+      }
+    },
+    {
+      "id": "01a1eecd-678c-7c30-8f5c-8a2d3d30adf8",
+      "source": {
+        "subagent": {
+          "thread_spawn": {
+            "parent_thread_id": "01a1ee8e-8543-7121-b338-c0699c347f5e",
+            "depth": 1,
+            "agent_path": "/root/materials_continue",
+            "agent_nickname": "Pasteur",
+            "agent_role": null
+          }
+        }
+      },
+      "log": "C:\\Users\\obake\\.codex\\sessions\\2026\\11\\18\\rollout-2026-11-18T22-16-41-01a1eecd-678c-7c30-8f5c-8a2d3d30adf8.jsonl",
+      "scanned_from_byte": 118781378,
+      "resume_byte": 118781378,
+      "baseline": {
+        "input_tokens": 74638819,
+        "cached_input_tokens": 73792896,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 121682,
+        "reasoning_output_tokens": 25182,
+        "total_tokens": 74760501
+      },
+      "last": {
+        "input_tokens": 115737437,
+        "cached_input_tokens": 114589696,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 189781,
+        "reasoning_output_tokens": 43114,
+        "total_tokens": 115927218
+      },
+      "started_at": "2026-11-18T16:10:55.510Z",
+      "finished_at": "2026-11-18T17:23:09.304Z",
+      "cutoff": "2026-11-18T17:23:09.366Z",
+      "tokens": {
+        "total_tokens": 41166717,
+        "input_tokens": 41098618,
+        "cached_input_tokens": 40796800,
+        "output_tokens": 68099,
+        "uncached_input_tokens": 301818
+      }
+    }
+  ]
+}

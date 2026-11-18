@@ -1,0 +1,7692 @@
+{
+  "started_at": "2026-11-19T02:19:31.400717+09:00",
+  "rows": [
+    {
+      "width": 960,
+      "scenario": 1,
+      "version": "after",
+      "errors": [],
+      "shots": {
+        "sealed-door": {
+          "stage": "maou",
+          "wave": 0,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            4.286136447482788e-10,
+            33.7,
+            73.99335572118461
+          ],
+          "p": [
+            -4.4175186304165686e-13,
+            16.7,
+            31.956719948744496
+          ],
+          "aim": [
+            -1.9437140661880624e-10,
+            19.2,
+            12.956719948744496
+          ],
+          "playerClip": [
+            3.835306183074921e-17,
+            -0.2615299055797764,
+            0.9781044260401618
+          ],
+          "distance": 45.34400453273611,
+          "gate": [],
+          "door": {
+            "open": 0,
+            "scaleX": 1.65,
+            "seal": true,
+            "point": [
+              7.005392001925963e-12,
+              0.36945108303937224,
+              0.9912837328708122
+            ]
+          },
+          "inShell": true,
+          "seals": [
+            {
+              "x": -70,
+              "z": -14
+            },
+            {
+              "x": 70,
+              "z": -14
+            },
+            {
+              "x": -74,
+              "z": 90
+            },
+            {
+              "x": 74,
+              "z": 90
+            }
+          ],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": true,
+            "body": false,
+            "dais": false
+          },
+          "boss": null,
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 151,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "left-seal": {
+          "stage": "maou",
+          "wave": 0,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            -37.222102500149134,
+            33.7,
+            129.5074937190589
+          ],
+          "p": [
+            -74.00000000000044,
+            16.7,
+            102.95671994874449
+          ],
+          "aim": [
+            -74.00000000019438,
+            19.2,
+            83.95671994874449
+          ],
+          "playerClip": [
+            -0.3044664938374148,
+            -0.24409293932335777,
+            0.9789370498555356
+          ],
+          "distance": 48.44127715401386,
+          "gate": [],
+          "door": {
+            "open": 0,
+            "scaleX": 1.65,
+            "seal": true,
+            "point": [
+              1.5269372398854097,
+              0.4256898448229625,
+              0.9908349959859035
+            ]
+          },
+          "inShell": true,
+          "seals": [
+            {
+              "x": -70,
+              "z": -14
+            },
+            {
+              "x": 70,
+              "z": -14
+            },
+            {
+              "x": -74,
+              "z": 90
+            },
+            {
+              "x": 74,
+              "z": 90
+            }
+          ],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": true,
+            "body": false,
+            "dais": false
+          },
+          "boss": null,
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 142,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "right-seal": {
+          "stage": "maou",
+          "wave": 0,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            35.824266522493055,
+            33.7,
+            131
+          ],
+          "p": [
+            73.99999999999956,
+            16.7,
+            102.95671994874449
+          ],
+          "aim": [
+            73.99999999980562,
+            19.2,
+            83.95671994874449
+          ],
+          "playerClip": [
+            0.3039045627302353,
+            -0.23821606147307445,
+            0.9798062579050544
+          ],
+          "distance": 50.32705219440888,
+          "gate": [],
+          "door": {
+            "open": 0,
+            "scaleX": 1.65,
+            "seal": true,
+            "point": [
+              -1.5574845518425153,
+              0.4259346817854475,
+              0.991001063030316
+            ]
+          },
+          "inShell": true,
+          "seals": [
+            {
+              "x": -70,
+              "z": -14
+            },
+            {
+              "x": 70,
+              "z": -14
+            },
+            {
+              "x": -74,
+              "z": 90
+            },
+            {
+              "x": 74,
+              "z": 90
+            }
+          ],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": true,
+            "body": false,
+            "dais": false
+          },
+          "boss": null,
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 142,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "left-corner": {
+          "stage": "maou",
+          "wave": 0,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            -119,
+            33.7,
+            100.13696279531666
+          ],
+          "p": [
+            -100,
+            16.7,
+            129.96958654201933
+          ],
+          "aim": [
+            -86.48200629697396,
+            19.2,
+            116.6180380833218
+          ],
+          "playerClip": [
+            0.5993031686221925,
+            -0.24203024183581898,
+            0.9714775323627778
+          ],
+          "distance": 39.242648223741575,
+          "gate": [],
+          "door": {
+            "open": 0,
+            "scaleX": 1.65,
+            "seal": true,
+            "point": [
+              -4.903981194758129,
+              0.6169885503247475,
+              0.9763092819782369
+            ]
+          },
+          "inShell": true,
+          "seals": [
+            {
+              "x": -70,
+              "z": -14
+            },
+            {
+              "x": 70,
+              "z": -14
+            },
+            {
+              "x": -74,
+              "z": 90
+            },
+            {
+              "x": 74,
+              "z": 90
+            }
+          ],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": true,
+            "body": false,
+            "dais": false
+          },
+          "boss": null,
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 131,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "right-corner": {
+          "stage": "maou",
+          "wave": 0,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            119,
+            33.7,
+            100.13696279531669
+          ],
+          "p": [
+            100,
+            16.7,
+            129.96958654201933
+          ],
+          "aim": [
+            86.48200629697396,
+            19.2,
+            116.6180380833218
+          ],
+          "playerClip": [
+            -0.5901814004530571,
+            -0.2383463905372827,
+            0.9714775323627778
+          ],
+          "distance": 39.242648223741554,
+          "gate": [],
+          "door": {
+            "open": 0,
+            "scaleX": 1.65,
+            "seal": true,
+            "point": [
+              4.82933954107351,
+              0.6075975996110834,
+              0.976309281978237
+            ]
+          },
+          "inShell": true,
+          "seals": [
+            {
+              "x": -70,
+              "z": -14
+            },
+            {
+              "x": 70,
+              "z": -14
+            },
+            {
+              "x": -74,
+              "z": 90
+            },
+            {
+              "x": 74,
+              "z": 90
+            }
+          ],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": true,
+            "body": false,
+            "dais": false
+          },
+          "boss": null,
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 126,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "unsealed-door": {
+          "stage": "maou",
+          "wave": 0,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            2.0271153910202573e-06,
+            33.69999914968113,
+            39.612041123454716
+          ],
+          "p": [
+            -4.1636771164817956e-10,
+            16.7,
+            -4
+          ],
+          "aim": [
+            -6.102973664039441e-10,
+            19.2,
+            -23
+          ],
+          "playerClip": [
+            -1.3281590718030457e-08,
+            -0.23222757113330803,
+            0.9788247155666608
+          ],
+          "distance": 46.8082268628397,
+          "gate": [],
+          "door": {
+            "open": 1,
+            "scaleX": 1.65,
+            "seal": false,
+            "point": [
+              6.388266320134115e-09,
+              0.3188339598311735,
+              0.9872824595537167
+            ]
+          },
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": true,
+            "body": false,
+            "dais": false
+          },
+          "boss": null,
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 95,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "boss-cinematic": {
+          "stage": "maou",
+          "wave": 1,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            24,
+            27,
+            57
+          ],
+          "p": [
+            0,
+            15,
+            30
+          ],
+          "aim": [
+            -6.102973664039441e-10,
+            19.2,
+            -23
+          ],
+          "playerClip": [
+            -0.38103513627208735,
+            -0.5916674105555233,
+            0.9706677942181363
+          ],
+          "distance": 38.06573262134856,
+          "gate": [],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": false,
+            "body": false,
+            "dais": false
+          },
+          "boss": {
+            "id": "demon",
+            "clip": [
+              0.08923057407671356,
+              0.021236932781777903,
+              0.9890502070126282
+            ]
+          },
+          "msf": true,
+          "phase": 0,
+          "cine": 8,
+          "cineOn": true,
+          "overlay": true,
+          "rendered": 188,
+          "caption": {
+            "cutT": 1.316666666666653,
+            "letterbox": true,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "boss-return": {
+          "stage": "maou",
+          "wave": 1,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            3.058475092127416,
+            32.80919549640191,
+            99.49064612912176
+          ],
+          "p": [
+            -4.4175186304172805e-13,
+            16.7,
+            60.95671994874449
+          ],
+          "aim": [
+            4.055534172956546e-06,
+            21.27014114870277,
+            15.239322100361042
+          ],
+          "playerClip": [
+            -0.04253224280490793,
+            -0.4399927741566402,
+            0.9756880599053743
+          ],
+          "distance": 41.87748698650895,
+          "gate": [],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": false,
+            "body": false,
+            "dais": false
+          },
+          "boss": {
+            "id": "demon",
+            "clip": [
+              0.010945189391317538,
+              0.19911560276142767,
+              0.9919178532345794
+            ]
+          },
+          "msf": true,
+          "phase": 4,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 935,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "boss-battle": {
+          "stage": "maou",
+          "wave": 1,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            23.356019833258927,
+            27.720881628628867,
+            75.43291721379669
+          ],
+          "p": [
+            -4.4175186304172805e-13,
+            16.7,
+            60.95671994874449
+          ],
+          "aim": [
+            8.992258326280414e-05,
+            23.902038429356505,
+            16.540599963280975
+          ],
+          "playerClip": [
+            -0.748857868958406,
+            -0.7078273282005951,
+            0.9563353074949983
+          ],
+          "distance": 29.606144321416775,
+          "gate": [],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": false,
+            "body": false,
+            "dais": false
+          },
+          "boss": {
+            "id": "demon",
+            "clip": [
+              0.14151277731763776,
+              0.15411395342565634,
+              0.9899983856010005
+            ]
+          },
+          "msf": true,
+          "phase": 4,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 924,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        }
+      },
+      "sha256": "4866688a1a3d20aa9b4c59003cc7bc6202d8776ba1d8cd29c8210ffb5e6e9a80",
+      "fixture": {
+        "SCN": 1,
+        "i": 3,
+        "queue": [
+          "dragon",
+          "tree_pine",
+          "tree_oak",
+          "gdoor",
+          "sealdoor",
+          "dunarch",
+          "hpillar",
+          "htorch",
+          "hbanner",
+          "hwindow",
+          "hstairs",
+          "hprops",
+          "hstatue",
+          "dwall",
+          "hrubble",
+          "wyvern2",
+          "bgolem",
+          "golem",
+          "bgolem2",
+          "bigcannon",
+          "orctank",
+          "slime2",
+          "sealstone",
+          "imp",
+          "goblin",
+          "skeleton",
+          "ogre",
+          "hbrazier",
+          "demon",
+          "anc_darkdemon",
+          "seal_pillar_1117"
+        ]
+      },
+      "assetStates": [
+        [
+          "dragon",
+          "ready"
+        ],
+        [
+          "tree_pine",
+          "ready"
+        ],
+        [
+          "tree_oak",
+          "ready"
+        ],
+        [
+          "gdoor",
+          "ready"
+        ],
+        [
+          "sealdoor",
+          "ready"
+        ],
+        [
+          "dunarch",
+          "ready"
+        ],
+        [
+          "hpillar",
+          "ready"
+        ],
+        [
+          "htorch",
+          "ready"
+        ],
+        [
+          "hbanner",
+          "ready"
+        ],
+        [
+          "hwindow",
+          "ready"
+        ],
+        [
+          "hstairs",
+          "ready"
+        ],
+        [
+          "hprops",
+          "ready"
+        ],
+        [
+          "hstatue",
+          "ready"
+        ],
+        [
+          "dwall",
+          "ready"
+        ],
+        [
+          "hrubble",
+          "ready"
+        ],
+        [
+          "wyvern2",
+          "ready"
+        ],
+        [
+          "bgolem",
+          "ready"
+        ],
+        [
+          "golem",
+          "ready"
+        ],
+        [
+          "bgolem2",
+          "ready"
+        ],
+        [
+          "bigcannon",
+          "ready"
+        ],
+        [
+          "orctank",
+          "ready"
+        ],
+        [
+          "slime2",
+          "ready"
+        ],
+        [
+          "sealstone",
+          "ready"
+        ],
+        [
+          "imp",
+          "ready"
+        ],
+        [
+          "goblin",
+          "ready"
+        ],
+        [
+          "skeleton",
+          "ready"
+        ],
+        [
+          "ogre",
+          "ready"
+        ],
+        [
+          "hbrazier",
+          "ready"
+        ],
+        [
+          "demon",
+          "ready"
+        ],
+        [
+          "anc_darkdemon",
+          "ready"
+        ],
+        [
+          "seal_pillar_1117",
+          "ready"
+        ]
+      ],
+      "pitch": [
+        12.248259855222232,
+        19.2,
+        26.15174014477777
+      ],
+      "unlockTrace": [
+        {
+          "wave": 0,
+          "open": 0,
+          "clock": 1.3833333333333453,
+          "dialogue": null,
+          "queued": 0,
+          "held": false,
+          "enemies": 25,
+          "level": false,
+          "paused": false
+        },
+        {
+          "wave": 0,
+          "open": 0,
+          "clock": 1.3833333333333453,
+          "dialogue": null,
+          "queued": 0,
+          "held": false,
+          "enemies": 25,
+          "level": false,
+          "paused": false
+        },
+        {
+          "wave": 0,
+          "open": 0.021666666666666876,
+          "clock": 1.4000000000000123,
+          "dialogue": null,
+          "queued": 0,
+          "held": false,
+          "enemies": 0,
+          "level": false,
+          "paused": false
+        },
+        {
+          "wave": 0,
+          "open": 0.7216666666666786,
+          "clock": 2.4000000000000354,
+          "dialogue": null,
+          "queued": 0,
+          "held": false,
+          "enemies": 0,
+          "level": false,
+          "paused": false
+        },
+        {
+          "wave": 0,
+          "open": 0.9900000000000155,
+          "clock": 2.7833333333333776,
+          "dialogue": null,
+          "queued": 0,
+          "held": false,
+          "enemies": 0,
+          "level": false,
+          "paused": false
+        }
+      ],
+      "bossProgress": {
+        "trace": [
+          {
+            "frame": 0,
+            "state": "play",
+            "phase": 0,
+            "clock": 0.5833333333333434,
+            "seal": 223.2,
+            "clockHold": true,
+            "cine": 8,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              24,
+              27,
+              57
+            ],
+            "scriptPosition": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "mesh": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "held": true
+          },
+          {
+            "frame": 37,
+            "state": "story",
+            "phase": 0,
+            "clock": 1.2,
+            "seal": 223.2,
+            "clockHold": false,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              24,
+              27,
+              57
+            ],
+            "scriptPosition": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "mesh": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "held": true
+          },
+          {
+            "frame": 46,
+            "state": "play",
+            "phase": 1,
+            "clock": 0,
+            "seal": 223.2,
+            "clockHold": false,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              0.05184848782323085,
+              32.47152969060456,
+              71.99900398935463
+            ],
+            "scriptPosition": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "mesh": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "held": false
+          },
+          {
+            "frame": 61,
+            "state": "play",
+            "phase": 1,
+            "clock": 0.03500000000000063,
+            "seal": 186,
+            "clockHold": false,
+            "cine": 0,
+            "talk": "魔王",
+            "queued": 1,
+            "form": false,
+            "eye": [
+              -0.5671682009383336,
+              32.03618157564029,
+              71.94052536860129
+            ],
+            "scriptPosition": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "mesh": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "held": true
+          },
+          {
+            "frame": 63,
+            "state": "play",
+            "phase": 1,
+            "clock": 0.03500000000000063,
+            "seal": 186,
+            "clockHold": false,
+            "cine": 0,
+            "talk": "ME",
+            "queued": 0,
+            "form": false,
+            "eye": [
+              -0.5671682009383336,
+              32.03618157564029,
+              71.94052536860129
+            ],
+            "scriptPosition": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "mesh": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "held": true
+          },
+          {
+            "frame": 65,
+            "state": "play",
+            "phase": 1,
+            "clock": 0.03750000000000067,
+            "seal": 186,
+            "clockHold": false,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              -0.5050841661148313,
+              31.99243498607445,
+              71.9323167028282
+            ],
+            "scriptPosition": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "mesh": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "held": false
+          },
+          {
+            "frame": 151,
+            "state": "play",
+            "phase": 2,
+            "clock": 0,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              -0.41341203074361926,
+              30.22844984780512,
+              66.13680720980389
+            ],
+            "scriptPosition": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "mesh": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "held": true
+          },
+          {
+            "frame": 182,
+            "state": "play",
+            "phase": 2,
+            "clock": 0.5166666666666477,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              14,
+              20.418396472930908,
+              14
+            ],
+            "scriptPosition": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "mesh": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "held": true
+          },
+          {
+            "frame": 212,
+            "state": "play",
+            "phase": 2,
+            "clock": 1.0166666666666293,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              14,
+              20.418396472930908,
+              14
+            ],
+            "scriptPosition": [
+              0,
+              24.27146917526272,
+              -26.30246913580274
+            ],
+            "mesh": [
+              0,
+              24.27146917526272,
+              -26.30246913580274
+            ],
+            "held": true
+          },
+          {
+            "frame": 242,
+            "state": "play",
+            "phase": 2,
+            "clock": 1.5166666666666142,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              14,
+              20.418396472930908,
+              14
+            ],
+            "scriptPosition": [
+              0,
+              26.648012385139165,
+              -22.024691358025137
+            ],
+            "mesh": [
+              0,
+              26.648012385139165,
+              -22.024691358025137
+            ],
+            "held": true
+          },
+          {
+            "frame": 272,
+            "state": "play",
+            "phase": 2,
+            "clock": 2.016666666666599,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              14,
+              20.418396472930908,
+              14
+            ],
+            "scriptPosition": [
+              0,
+              28.283814854275143,
+              -19.080246913580375
+            ],
+            "mesh": [
+              0,
+              28.283814854275143,
+              -19.080246913580375
+            ],
+            "held": true
+          },
+          {
+            "frame": 302,
+            "state": "play",
+            "phase": 2,
+            "clock": 2.516666666666584,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              14,
+              20.418396472930908,
+              14
+            ],
+            "scriptPosition": [
+              0,
+              28.32839647293091,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.32839647293091,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 320,
+            "state": "play",
+            "phase": 3,
+            "clock": 0,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              14,
+              20.418396472930908,
+              14
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 346,
+            "state": "play",
+            "phase": 3,
+            "clock": 0.4333333333333174,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": "魔王",
+            "queued": 1,
+            "form": false,
+            "eye": [
+              14,
+              20.418396472930908,
+              14
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 350,
+            "state": "play",
+            "phase": 3,
+            "clock": 0.4999999999999816,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              14,
+              20.418396472930908,
+              14
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 417,
+            "state": "play",
+            "phase": 3,
+            "clock": 1.6166666666666112,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 9,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              13.84342943526618,
+              20.55858989465237,
+              15.440968570621962
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 593,
+            "state": "play",
+            "phase": 3,
+            "clock": 4.549999999999893,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              10,
+              24,
+              47.81326877939565
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 596,
+            "state": "play",
+            "phase": 3,
+            "clock": 0.01666666666666788,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": "魔王",
+            "queued": 2,
+            "form": false,
+            "eye": [
+              10,
+              24,
+              47.81326877939565
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 598,
+            "state": "play",
+            "phase": 3,
+            "clock": 0.05000000000000364,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": "ME",
+            "queued": 1,
+            "form": false,
+            "eye": [
+              10,
+              24,
+              47.81326877939565
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 600,
+            "state": "play",
+            "phase": 3,
+            "clock": 0.08333333333333941,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": "魔王",
+            "queued": 0,
+            "form": false,
+            "eye": [
+              10,
+              24,
+              47.81326877939565
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 602,
+            "state": "play",
+            "phase": 3,
+            "clock": 0.11666666666667518,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              10,
+              24,
+              47.81326877939565
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 667,
+            "state": "play",
+            "phase": 4,
+            "clock": 0,
+            "seal": 0,
+            "clockHold": false,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              10,
+              24,
+              47.81326877939565
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": false
+          }
+        ],
+        "shots": 7,
+        "nexts": 23,
+        "finished": {
+          "state": "play",
+          "phase": 4,
+          "clock": 0,
+          "seal": 0,
+          "clockHold": false,
+          "cine": 0,
+          "talk": null,
+          "queued": 0,
+          "form": false,
+          "eye": [
+            10,
+            24,
+            47.81326877939565
+          ],
+          "scriptPosition": [
+            0,
+            28.839631233215332,
+            -19
+          ],
+          "mesh": [
+            0,
+            28.839631233215332,
+            -19
+          ],
+          "held": false
+        }
+      },
+      "ok": true
+    },
+    {
+      "width": 960,
+      "scenario": 4,
+      "version": "after",
+      "errors": [],
+      "shots": {
+        "first-gate-closed": {
+          "stage": "maoujo",
+          "wave": 0,
+          "char": "maou",
+          "form": 0,
+          "giant": false,
+          "shell": [
+            320,
+            108,
+            380
+          ],
+          "bounds": [
+            -114,
+            114
+          ],
+          "y": 3,
+          "eye": [
+            112.00009258779282,
+            37.454232323621454,
+            99.00804002207916
+          ],
+          "p": [
+            111.99999999993842,
+            20.454545454545453,
+            57
+          ],
+          "aim": [
+            111.99999999974449,
+            22.954545454545453,
+            50
+          ],
+          "playerClip": [
+            -2.944480381540104e-07,
+            -0.15615040987286485,
+            0.9782415940689498
+          ],
+          "distance": 45.31737834597023,
+          "gate": [
+            {
+              "z": 50,
+              "open": 0,
+              "y": 0,
+              "eyeSameSide": true
+            },
+            {
+              "z": -50,
+              "open": 0,
+              "y": 0,
+              "eyeSameSide": true
+            }
+          ],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": true,
+            "door": false,
+            "body": true,
+            "dais": true
+          },
+          "boss": {
+            "id": "cerberus",
+            "clip": [
+              13.666792935003095,
+              6.757393286745621,
+              1.1321956644613755
+            ]
+          },
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 278,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "giant-left-ramp": {
+          "stage": "maoujo",
+          "wave": 1,
+          "char": "maou",
+          "form": 2,
+          "giant": true,
+          "shell": [
+            320,
+            108,
+            380
+          ],
+          "bounds": [
+            -114,
+            114
+          ],
+          "y": 3,
+          "eye": [
+            -111.00002247037,
+            45.9545251201799,
+            100.37548413044101
+          ],
+          "p": [
+            -111.000000000125,
+            24.954545454545453,
+            45.75557984016286
+          ],
+          "aim": [
+            -111.00000000030872,
+            29.954545454545453,
+            27.75557984016286
+          ],
+          "playerClip": [
+            9.553982779649783e-08,
+            -0.24030750563656947,
+            0.9831297672913107
+          ],
+          "distance": 58.51780148499011,
+          "gate": [
+            {
+              "z": 50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": false
+            },
+            {
+              "z": -50,
+              "open": 0,
+              "y": 0,
+              "eyeSameSide": true
+            }
+          ],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": true,
+            "door": false,
+            "body": true,
+            "dais": true
+          },
+          "boss": {
+            "id": "bknight",
+            "clip": [
+              0.9643488604748913,
+              -0.12455715646797455,
+              0.9898393169655417
+            ]
+          },
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 276,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "giant-right-ramp": {
+          "stage": "maoujo",
+          "wave": 1,
+          "char": "maou",
+          "form": 2,
+          "giant": true,
+          "shell": [
+            320,
+            108,
+            380
+          ],
+          "bounds": [
+            -114,
+            114
+          ],
+          "y": 3,
+          "eye": [
+            111.00000000054092,
+            53.90909090909091,
+            85.99747517405015
+          ],
+          "p": [
+            110.99999999999983,
+            32.90909090909091,
+            32.98355358052291
+          ],
+          "aim": [
+            110.99999999981611,
+            37.90909090909091,
+            14.983553580522909
+          ],
+          "playerClip": [
+            2.5919139990416732e-16,
+            -0.25779965733881627,
+            0.9826615479009382
+          ],
+          "distance": 57.02171413351807,
+          "gate": [
+            {
+              "z": 50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": false
+            },
+            {
+              "z": -50,
+              "open": 0,
+              "y": 0,
+              "eyeSameSide": true
+            }
+          ],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": true,
+            "door": false,
+            "body": true,
+            "dais": true
+          },
+          "boss": {
+            "id": "bknight",
+            "clip": [
+              -1.620863977317392,
+              -0.3578081806268788,
+              0.9882566798873572
+            ]
+          },
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 247,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "giant-turn": {
+          "stage": "maoujo",
+          "wave": 1,
+          "char": "maou",
+          "form": 2,
+          "giant": true,
+          "shell": [
+            320,
+            108,
+            380
+          ],
+          "bounds": [
+            -114,
+            114
+          ],
+          "y": 3,
+          "eye": [
+            132,
+            53.90909090909091,
+            68.7399584464554
+          ],
+          "p": [
+            111,
+            32.90909090909091,
+            33.01644641947709
+          ],
+          "aim": [
+            111,
+            37.90909090909091,
+            51.01644641947709
+          ],
+          "playerClip": [
+            0.3199640896755234,
+            0.05659434552637825,
+            0.9778625057261792
+          ],
+          "distance": 46.45610090764898,
+          "gate": [
+            {
+              "z": 50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": false
+            },
+            {
+              "z": -50,
+              "open": 0,
+              "y": 0,
+              "eyeSameSide": true
+            }
+          ],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": true,
+            "door": false,
+            "body": true,
+            "dais": true
+          },
+          "boss": {
+            "id": "bknight",
+            "clip": [
+              -0.3568804653809427,
+              0.5086808994249379,
+              0.9937525337025901
+            ]
+          },
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 349,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "giant-second-ramp": {
+          "stage": "maoujo",
+          "wave": 2,
+          "char": "maou",
+          "form": 2,
+          "giant": true,
+          "shell": [
+            320,
+            108,
+            380
+          ],
+          "bounds": [
+            -114,
+            114
+          ],
+          "y": 3,
+          "eye": [
+            57.27160679631994,
+            60.364543632479624,
+            -1.1079747052958169
+          ],
+          "p": [
+            56.99999999985958,
+            38.95454545454545,
+            -55.75948395715652
+          ],
+          "aim": [
+            56.99999999967586,
+            43.95454545454545,
+            -73.75948395715652
+          ],
+          "playerClip": [
+            -0.0011496271734989481,
+            -0.24171611539902157,
+            0.9831795889053603
+          ],
+          "distance": 58.69624566986584,
+          "gate": [
+            {
+              "z": 50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": true
+            },
+            {
+              "z": -50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": false
+            }
+          ],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": true,
+            "door": false,
+            "body": true,
+            "dais": true
+          },
+          "boss": null,
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 236,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "throne-cinematic": {
+          "stage": "maoujo",
+          "wave": 3,
+          "char": "maou",
+          "form": 2,
+          "giant": true,
+          "shell": [
+            320,
+            108,
+            380
+          ],
+          "bounds": [
+            -114,
+            114
+          ],
+          "y": 3,
+          "eye": [
+            17.31877618373318,
+            43.621248285322345,
+            -104.72361699509091
+          ],
+          "p": [
+            56.99999999919656,
+            38.5,
+            -120.70473050529228
+          ],
+          "aim": [
+            56.999999999012836,
+            43.5,
+            -136
+          ],
+          "playerClip": [
+            0.2814368506494039,
+            0.3004545277645727,
+            1.0247227044559444
+          ],
+          "distance": 43.08390298613574,
+          "gate": [
+            {
+              "z": 50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": true
+            },
+            {
+              "z": -50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": true
+            }
+          ],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [
+            {
+              "x": -50,
+              "z": -112,
+              "dead": false
+            },
+            {
+              "x": 50,
+              "z": -112,
+              "dead": false
+            },
+            {
+              "x": -50,
+              "z": -72,
+              "dead": false
+            },
+            {
+              "x": 50,
+              "z": -72,
+              "dead": false
+            }
+          ],
+          "model": {
+            "castle": true,
+            "door": false,
+            "body": true,
+            "dais": true
+          },
+          "boss": {
+            "id": "demon",
+            "clip": [
+              7.197142912970456e-16,
+              -0.04856476941673194,
+              0.9539882328493912
+            ]
+          },
+          "msf": false,
+          "phase": 0,
+          "cine": 7,
+          "cineOn": true,
+          "overlay": true,
+          "rendered": 291,
+          "caption": {
+            "cutT": 1.299999999999954,
+            "letterbox": true,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "giant-throne": {
+          "stage": "maoujo",
+          "wave": 3,
+          "char": "maou",
+          "form": 2,
+          "giant": true,
+          "shell": [
+            320,
+            108,
+            380
+          ],
+          "bounds": [
+            -114,
+            114
+          ],
+          "y": 3,
+          "eye": [
+            44.072934079126796,
+            66.39312138544302,
+            -17.687495010924906
+          ],
+          "p": [
+            56.99999999999983,
+            47.54545454545455,
+            -69.01644641947709
+          ],
+          "aim": [
+            56.999999999816104,
+            52.54545454545455,
+            -87.01644641947709
+          ],
+          "playerClip": [
+            0.06260201903379557,
+            -0.252447420851228,
+            0.9823853714550698
+          ],
+          "distance": 56.18723014471624,
+          "gate": [
+            {
+              "z": 50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": true
+            },
+            {
+              "z": -50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": false
+            }
+          ],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [
+            {
+              "x": -50,
+              "z": -112,
+              "dead": false
+            },
+            {
+              "x": 50,
+              "z": -112,
+              "dead": false
+            },
+            {
+              "x": -50,
+              "z": -72,
+              "dead": false
+            },
+            {
+              "x": 50,
+              "z": -72,
+              "dead": false
+            }
+          ],
+          "model": {
+            "castle": true,
+            "door": false,
+            "body": true,
+            "dais": true
+          },
+          "boss": {
+            "id": "demon",
+            "clip": [
+              -0.87563954359521,
+              -0.28083574775463516,
+              0.9858033589219105
+            ]
+          },
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 165,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        }
+      },
+      "sha256": "fe2180a51eeb04e58c8183ca892c05acff2381a554c7d00047f102ccee93abc7",
+      "fixture": {
+        "SCN": 4,
+        "i": 2,
+        "queue": [
+          "blackknight",
+          "demon",
+          "anc_darkdemon",
+          "tree_pine",
+          "tree_oak",
+          "gdoor",
+          "dunarch",
+          "hpillar",
+          "htorch",
+          "hbanner",
+          "hwindow",
+          "hstairs",
+          "hbrazier",
+          "hstatue",
+          "hrubble",
+          "dthrone",
+          "dtower",
+          "lavaspire",
+          "bonefence",
+          "hprops",
+          "demonhut",
+          "throne_dais_1117",
+          "maou_castle_1116",
+          "seal_pillar_1117",
+          "throne_dais_seat_1117",
+          "bgolem",
+          "golem",
+          "bgolem2",
+          "bigcannon",
+          "orctank",
+          "slime2",
+          "cerberus",
+          "devilsoldier",
+          "skeleton",
+          "skelmage",
+          "catapult",
+          "field_cannon_1116",
+          "ballista",
+          "ogre",
+          "bigskeleton",
+          "imp"
+        ]
+      },
+      "assetStates": [
+        [
+          "blackknight",
+          "ready"
+        ],
+        [
+          "demon",
+          "ready"
+        ],
+        [
+          "anc_darkdemon",
+          "ready"
+        ],
+        [
+          "tree_pine",
+          "ready"
+        ],
+        [
+          "tree_oak",
+          "ready"
+        ],
+        [
+          "gdoor",
+          "ready"
+        ],
+        [
+          "dunarch",
+          "ready"
+        ],
+        [
+          "hpillar",
+          "ready"
+        ],
+        [
+          "htorch",
+          "ready"
+        ],
+        [
+          "hbanner",
+          "ready"
+        ],
+        [
+          "hwindow",
+          "ready"
+        ],
+        [
+          "hstairs",
+          "ready"
+        ],
+        [
+          "hbrazier",
+          "ready"
+        ],
+        [
+          "hstatue",
+          "ready"
+        ],
+        [
+          "hrubble",
+          "ready"
+        ],
+        [
+          "dthrone",
+          "ready"
+        ],
+        [
+          "dtower",
+          "ready"
+        ],
+        [
+          "lavaspire",
+          "ready"
+        ],
+        [
+          "bonefence",
+          "ready"
+        ],
+        [
+          "hprops",
+          "ready"
+        ],
+        [
+          "demonhut",
+          "ready"
+        ],
+        [
+          "throne_dais_1117",
+          "ready"
+        ],
+        [
+          "maou_castle_1116",
+          "ready"
+        ],
+        [
+          "seal_pillar_1117",
+          "ready"
+        ],
+        [
+          "throne_dais_seat_1117",
+          "ready"
+        ],
+        [
+          "bgolem",
+          "ready"
+        ],
+        [
+          "golem",
+          "ready"
+        ],
+        [
+          "bgolem2",
+          "ready"
+        ],
+        [
+          "bigcannon",
+          "ready"
+        ],
+        [
+          "orctank",
+          "ready"
+        ],
+        [
+          "slime2",
+          "ready"
+        ],
+        [
+          "cerberus",
+          "ready"
+        ],
+        [
+          "devilsoldier",
+          "ready"
+        ],
+        [
+          "skeleton",
+          "ready"
+        ],
+        [
+          "skelmage",
+          "ready"
+        ],
+        [
+          "catapult",
+          "ready"
+        ],
+        [
+          "field_cannon_1116",
+          "ready"
+        ],
+        [
+          "ballista",
+          "ready"
+        ],
+        [
+          "ogre",
+          "ready"
+        ],
+        [
+          "bigskeleton",
+          "ready"
+        ],
+        [
+          "imp",
+          "ready"
+        ]
+      ],
+      "intro": {
+        "open": true,
+        "trace": [
+          {
+            "frame": 0,
+            "hold": true,
+            "open": null,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 60,
+            "hold": true,
+            "open": null,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 120,
+            "hold": true,
+            "open": null,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 180,
+            "hold": false,
+            "open": null,
+            "cine": 0,
+            "state": "play"
+          }
+        ]
+      },
+      "waveTransitions": [
+        {
+          "name": "黒い騎士",
+          "before": {
+            "state": "play",
+            "wave": 0,
+            "name": "地獄の番犬",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 0,
+            "waveWait": 0,
+            "pending": null,
+            "enemies": [
+              [
+                "cerberus",
+                false,
+                true
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "cannon",
+                false,
+                false
+              ],
+              [
+                "cannon",
+                false,
+                false
+              ],
+              [
+                "cannon",
+                false,
+                false
+              ],
+              [
+                "cannon",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ]
+            ]
+          },
+          "cleared": {
+            "state": "play",
+            "wave": 0,
+            "name": "地獄の番犬",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 0,
+            "waveWait": 0,
+            "pending": null,
+            "enemies": [
+              [
+                "cerberus",
+                true,
+                true
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skelmage",
+                true,
+                false
+              ],
+              [
+                "skelmage",
+                true,
+                false
+              ],
+              [
+                "cannon",
+                true,
+                false
+              ],
+              [
+                "cannon",
+                true,
+                false
+              ],
+              [
+                "cannon",
+                true,
+                false
+              ],
+              [
+                "cannon",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ]
+            ]
+          },
+          "after": {
+            "state": "play",
+            "wave": 1,
+            "name": "黒い騎士",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 7,
+            "waveWait": -0.0016666666665584862,
+            "pending": null,
+            "enemies": [
+              [
+                "bknight",
+                false,
+                true
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "bigcannon",
+                false,
+                false
+              ],
+              [
+                "bigcannon",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ]
+            ]
+          }
+        },
+        {
+          "name": "魔王軍の巨兵",
+          "before": {
+            "state": "play",
+            "wave": 1,
+            "name": "黒い騎士",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 0,
+            "waveWait": -0.0016666666665584862,
+            "pending": null,
+            "enemies": [
+              [
+                "bknight",
+                false,
+                true
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "bigcannon",
+                false,
+                false
+              ],
+              [
+                "bigcannon",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ]
+            ]
+          },
+          "cleared": {
+            "state": "play",
+            "wave": 1,
+            "name": "黒い騎士",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 0,
+            "waveWait": -0.0016666666665584862,
+            "pending": null,
+            "enemies": [
+              [
+                "bknight",
+                true,
+                true
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skelmage",
+                true,
+                false
+              ],
+              [
+                "skelmage",
+                true,
+                false
+              ],
+              [
+                "bigcannon",
+                true,
+                false
+              ],
+              [
+                "bigcannon",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ]
+            ]
+          },
+          "after": {
+            "state": "play",
+            "wave": 2,
+            "name": "魔王軍の巨兵",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 2,
+            "waveWait": -0.013333333333587927,
+            "pending": null,
+            "enemies": [
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "bigskel",
+                false,
+                false
+              ],
+              [
+                "bigskel",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ]
+            ]
+          }
+        },
+        {
+          "name": "魔王",
+          "before": {
+            "state": "play",
+            "wave": 2,
+            "name": "魔王軍の巨兵",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 0,
+            "waveWait": -0.013333333333587927,
+            "pending": null,
+            "enemies": [
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "bigskel",
+                false,
+                false
+              ],
+              [
+                "bigskel",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ]
+            ]
+          },
+          "cleared": {
+            "state": "play",
+            "wave": 2,
+            "name": "魔王軍の巨兵",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 0,
+            "waveWait": -0.013333333333587927,
+            "pending": null,
+            "enemies": [
+              [
+                "ogre",
+                true,
+                false
+              ],
+              [
+                "ogre",
+                true,
+                false
+              ],
+              [
+                "ogre",
+                true,
+                false
+              ],
+              [
+                "ogre",
+                true,
+                false
+              ],
+              [
+                "ogre",
+                true,
+                false
+              ],
+              [
+                "ogre",
+                true,
+                false
+              ],
+              [
+                "bigskel",
+                true,
+                false
+              ],
+              [
+                "bigskel",
+                true,
+                false
+              ],
+              [
+                "skelmage",
+                true,
+                false
+              ],
+              [
+                "skelmage",
+                true,
+                false
+              ]
+            ]
+          },
+          "after": {
+            "state": "play",
+            "wave": 3,
+            "name": "魔王",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 7,
+            "waveWait": -0.013333333333587927,
+            "pending": null,
+            "enemies": [
+              [
+                "demon",
+                false,
+                true
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ]
+            ]
+          }
+        }
+      ],
+      "firstGate": {
+        "open": true,
+        "trace": [
+          {
+            "frame": 0,
+            "hold": true,
+            "open": 1,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 60,
+            "hold": true,
+            "open": 1,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 120,
+            "hold": true,
+            "open": 1,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 180,
+            "hold": true,
+            "open": 1,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 181,
+            "hold": false,
+            "open": 1,
+            "cine": 0,
+            "state": "play"
+          }
+        ]
+      },
+      "giantIntro": {
+        "open": true,
+        "trace": [
+          {
+            "frame": 0,
+            "hold": false,
+            "open": 1,
+            "cine": 0,
+            "state": "play"
+          }
+        ]
+      },
+      "secondGate": {
+        "open": true,
+        "trace": [
+          {
+            "frame": 0,
+            "hold": true,
+            "open": 1,
+            "cine": 2,
+            "state": "play"
+          },
+          {
+            "frame": 60,
+            "hold": true,
+            "open": 1,
+            "cine": 2,
+            "state": "play"
+          },
+          {
+            "frame": 120,
+            "hold": true,
+            "open": 1,
+            "cine": 2,
+            "state": "play"
+          },
+          {
+            "frame": 137,
+            "hold": false,
+            "open": 1,
+            "cine": 0,
+            "state": "play"
+          }
+        ]
+      },
+      "throneIntro": {
+        "open": true,
+        "trace": [
+          {
+            "frame": 0,
+            "hold": true,
+            "open": 1,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 60,
+            "hold": true,
+            "open": 1,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 120,
+            "hold": true,
+            "open": 1,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 145,
+            "hold": false,
+            "open": 1,
+            "cine": 0,
+            "state": "play"
+          }
+        ]
+      },
+      "ok": true
+    },
+    {
+      "width": 390,
+      "scenario": 1,
+      "version": "after",
+      "errors": [],
+      "shots": {
+        "sealed-door": {
+          "stage": "maou",
+          "wave": 0,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            5.511618793710365e-10,
+            37.7,
+            86
+          ],
+          "p": [
+            0,
+            16.7,
+            32
+          ],
+          "aim": [
+            -1.4289553508319494e-10,
+            19.2,
+            18
+          ],
+          "playerClip": [
+            8.792163313694072e-17,
+            -0.18165074170890783,
+            0.9830577311670492
+          ],
+          "distance": 57.9396237474839,
+          "gate": [],
+          "door": {
+            "open": 0,
+            "scaleX": 1.65,
+            "seal": true,
+            "point": [
+              2.191040713462295e-11,
+              0.37377102353278746,
+              0.9921731262747883
+            ]
+          },
+          "inShell": true,
+          "seals": [
+            {
+              "x": -70,
+              "z": -14
+            },
+            {
+              "x": 70,
+              "z": -14
+            },
+            {
+              "x": -74,
+              "z": 90
+            },
+            {
+              "x": 74,
+              "z": 90
+            }
+          ],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": true,
+            "body": false,
+            "dais": false
+          },
+          "boss": null,
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 117,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "left-seal": {
+          "stage": "maou",
+          "wave": 0,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            -20.682975507792285,
+            37.7,
+            121.73235337594426
+          ],
+          "p": [
+            -74,
+            16.7,
+            103
+          ],
+          "aim": [
+            -74.00000000014289,
+            19.2,
+            89
+          ],
+          "playerClip": [
+            -0.8342528755102817,
+            -0.14456987685208506,
+            0.9834426901039078
+          ],
+          "distance": 60.28769496094478,
+          "gate": [],
+          "door": {
+            "open": 0,
+            "scaleX": 1.65,
+            "seal": true,
+            "point": [
+              9.307325566560872,
+              0.36766278515913303,
+              0.9850412927429787
+            ]
+          },
+          "inShell": true,
+          "seals": [
+            {
+              "x": -70,
+              "z": -14
+            },
+            {
+              "x": 70,
+              "z": -14
+            },
+            {
+              "x": -74,
+              "z": 90
+            },
+            {
+              "x": 74,
+              "z": 90
+            }
+          ],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": true,
+            "body": false,
+            "dais": false
+          },
+          "boss": null,
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 79,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "right-seal": {
+          "stage": "maou",
+          "wave": 0,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            19.463211614323633,
+            37.7,
+            125.17012186361069
+          ],
+          "p": [
+            74,
+            16.7,
+            103
+          ],
+          "aim": [
+            73.99999999985711,
+            19.2,
+            89
+          ],
+          "playerClip": [
+            0.8136420098517191,
+            -0.14535659379768026,
+            0.9840840837835567
+          ],
+          "distance": 62.50420458554283,
+          "gate": [],
+          "door": {
+            "open": 0,
+            "scaleX": 1.65,
+            "seal": true,
+            "point": [
+              -8.59434203869117,
+              0.37788606698026933,
+              0.9866997920499405
+            ]
+          },
+          "inShell": true,
+          "seals": [
+            {
+              "x": -70,
+              "z": -14
+            },
+            {
+              "x": 70,
+              "z": -14
+            },
+            {
+              "x": -74,
+              "z": 90
+            },
+            {
+              "x": 74,
+              "z": 90
+            }
+          ],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": true,
+            "body": false,
+            "dais": false
+          },
+          "boss": null,
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 84,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "left-corner": {
+          "stage": "maou",
+          "wave": 0,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            -111.83579391767402,
+            37.7,
+            79.85709447300863
+          ],
+          "p": [
+            -100,
+            16.7,
+            130
+          ],
+          "aim": [
+            -90.03937306092818,
+            19.2,
+            120.16201692517025
+          ],
+          "playerClip": [
+            1.030416558497008,
+            -0.030191176358050905,
+            0.9818880268048679
+          ],
+          "distance": 55.63629204350728,
+          "gate": [],
+          "door": {
+            "open": 0,
+            "scaleX": 1.65,
+            "seal": true,
+            "point": [
+              14.392743149064392,
+              1.0692775301996855,
+              1.0229420731669603
+            ]
+          },
+          "inShell": true,
+          "seals": [
+            {
+              "x": -70,
+              "z": -14
+            },
+            {
+              "x": 70,
+              "z": -14
+            },
+            {
+              "x": -74,
+              "z": 90
+            },
+            {
+              "x": 74,
+              "z": 90
+            }
+          ],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": true,
+            "body": false,
+            "dais": false
+          },
+          "boss": null,
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 53,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "right-corner": {
+          "stage": "maou",
+          "wave": 0,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            119,
+            37.7,
+            91.61066894733705
+          ],
+          "p": [
+            100,
+            16.7,
+            130
+          ],
+          "aim": [
+            90.03937306092818,
+            19.2,
+            120.16201692517025
+          ],
+          "playerClip": [
+            -1.230619187071241,
+            -0.09557316532419027,
+            0.9784553044400969
+          ],
+          "distance": 47.70472449004346,
+          "gate": [],
+          "door": {
+            "open": 0,
+            "scaleX": 1.65,
+            "seal": true,
+            "point": [
+              -231.5489723852002,
+              5.119797871484307,
+              1.329377496867719
+            ]
+          },
+          "inShell": true,
+          "seals": [
+            {
+              "x": -70,
+              "z": -14
+            },
+            {
+              "x": 70,
+              "z": -14
+            },
+            {
+              "x": -74,
+              "z": 90
+            },
+            {
+              "x": 74,
+              "z": 90
+            }
+          ],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": true,
+            "body": false,
+            "dais": false
+          },
+          "boss": null,
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 42,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "unsealed-door": {
+          "stage": "maou",
+          "wave": 0,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            7.263095134014212e-06,
+            37.699994292438376,
+            86.0000075210645
+          ],
+          "p": [
+            0,
+            16.7,
+            32
+          ],
+          "aim": [
+            -1.4289553508319494e-10,
+            19.2,
+            18
+          ],
+          "playerClip": [
+            -1.0279178918347335e-07,
+            -0.19338181952144545,
+            0.9830577327073518
+          ],
+          "distance": 57.93962868846779,
+          "gate": [],
+          "door": {
+            "open": 1,
+            "scaleX": 1.65,
+            "seal": false,
+            "point": [
+              1.9528252634565386e-07,
+              0.3979093212327762,
+              0.9921731268563334
+            ]
+          },
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": true,
+            "body": false,
+            "dais": false
+          },
+          "boss": null,
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 73,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "boss-cinematic": {
+          "stage": "maou",
+          "wave": 1,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            14,
+            32,
+            70
+          ],
+          "p": [
+            0,
+            15,
+            30
+          ],
+          "aim": [
+            -1.4289553508319494e-10,
+            19.2,
+            18
+          ],
+          "playerClip": [
+            -0.5507906160052456,
+            -0.614039013443165,
+            0.9771123969480012
+          ],
+          "distance": 45.661800227323496,
+          "gate": [],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": false,
+            "body": false,
+            "dais": false
+          },
+          "boss": {
+            "id": "demon",
+            "clip": [
+              0.21210804965901794,
+              0.06207898272939382,
+              0.9902966315385394
+            ]
+          },
+          "msf": true,
+          "phase": 0,
+          "cine": 8,
+          "cineOn": true,
+          "overlay": true,
+          "rendered": 116,
+          "caption": {
+            "cutT": 1.316666666666653,
+            "letterbox": true,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "boss-return": {
+          "stage": "maou",
+          "wave": 1,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            3.257452143704951,
+            36.93699879379563,
+            112.1847850676683
+          ],
+          "p": [
+            0,
+            16.7,
+            61
+          ],
+          "aim": [
+            4.055534580865528e-06,
+            21.27014114870277,
+            15.279286440360655
+          ],
+          "playerClip": [
+            -0.10400910088590941,
+            -0.3692285510799821,
+            0.9818382839215481
+          ],
+          "distance": 55.13646104958146,
+          "gate": [],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": false,
+            "body": false,
+            "dais": false
+          },
+          "boss": {
+            "id": "demon",
+            "clip": [
+              0.03216246842966614,
+              0.19246043886646108,
+              0.9927525325637349
+            ]
+          },
+          "msf": true,
+          "phase": 4,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 865,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "boss-battle": {
+          "stage": "maou",
+          "wave": 1,
+          "char": "dragon",
+          "form": null,
+          "giant": false,
+          "shell": [
+            288,
+            100,
+            180
+          ],
+          "bounds": [
+            -100,
+            100
+          ],
+          "y": 3,
+          "eye": [
+            41.45331016953716,
+            30.833265590308866,
+            116.49123768949116
+          ],
+          "p": [
+            0,
+            16.7,
+            61
+          ],
+          "aim": [
+            8.992258351580498e-05,
+            23.902038429356505,
+            16.565387382968286
+          ],
+          "playerClip": [
+            -0.9072953383898597,
+            -0.24159315561595635,
+            0.9856874679441243
+          ],
+          "distance": 70.69231627673311,
+          "gate": [],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": false,
+            "door": false,
+            "body": false,
+            "dais": false
+          },
+          "boss": {
+            "id": "demon",
+            "clip": [
+              0.3501687614682123,
+              0.10720502479476719,
+              0.9933089431709252
+            ]
+          },
+          "msf": true,
+          "phase": 4,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 868,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        }
+      },
+      "sha256": "4866688a1a3d20aa9b4c59003cc7bc6202d8776ba1d8cd29c8210ffb5e6e9a80",
+      "fixture": {
+        "SCN": 1,
+        "i": 3,
+        "queue": [
+          "dragon",
+          "tree_pine",
+          "tree_oak",
+          "gdoor",
+          "sealdoor",
+          "dunarch",
+          "hpillar",
+          "htorch",
+          "hbanner",
+          "hwindow",
+          "hstairs",
+          "hprops",
+          "hstatue",
+          "dwall",
+          "hrubble",
+          "wyvern2",
+          "bgolem",
+          "golem",
+          "bgolem2",
+          "bigcannon",
+          "orctank",
+          "slime2",
+          "sealstone",
+          "imp",
+          "goblin",
+          "skeleton",
+          "ogre",
+          "hbrazier",
+          "demon",
+          "anc_darkdemon",
+          "seal_pillar_1117"
+        ]
+      },
+      "assetStates": [
+        [
+          "dragon",
+          "ready"
+        ],
+        [
+          "tree_pine",
+          "ready"
+        ],
+        [
+          "tree_oak",
+          "ready"
+        ],
+        [
+          "gdoor",
+          "ready"
+        ],
+        [
+          "sealdoor",
+          "ready"
+        ],
+        [
+          "dunarch",
+          "ready"
+        ],
+        [
+          "hpillar",
+          "ready"
+        ],
+        [
+          "htorch",
+          "ready"
+        ],
+        [
+          "hbanner",
+          "ready"
+        ],
+        [
+          "hwindow",
+          "ready"
+        ],
+        [
+          "hstairs",
+          "ready"
+        ],
+        [
+          "hprops",
+          "ready"
+        ],
+        [
+          "hstatue",
+          "ready"
+        ],
+        [
+          "dwall",
+          "ready"
+        ],
+        [
+          "hrubble",
+          "ready"
+        ],
+        [
+          "wyvern2",
+          "ready"
+        ],
+        [
+          "bgolem",
+          "ready"
+        ],
+        [
+          "golem",
+          "ready"
+        ],
+        [
+          "bgolem2",
+          "ready"
+        ],
+        [
+          "bigcannon",
+          "ready"
+        ],
+        [
+          "orctank",
+          "ready"
+        ],
+        [
+          "slime2",
+          "ready"
+        ],
+        [
+          "sealstone",
+          "ready"
+        ],
+        [
+          "imp",
+          "ready"
+        ],
+        [
+          "goblin",
+          "ready"
+        ],
+        [
+          "skeleton",
+          "ready"
+        ],
+        [
+          "ogre",
+          "ready"
+        ],
+        [
+          "hbrazier",
+          "ready"
+        ],
+        [
+          "demon",
+          "ready"
+        ],
+        [
+          "anc_darkdemon",
+          "ready"
+        ],
+        [
+          "seal_pillar_1117",
+          "ready"
+        ]
+      ],
+      "pitch": [
+        14.07766515647954,
+        19.2,
+        24.32233484352046
+      ],
+      "unlockTrace": [
+        {
+          "wave": 0,
+          "open": 0,
+          "clock": 1.3833333333333406,
+          "dialogue": null,
+          "queued": 0,
+          "held": false,
+          "enemies": 25,
+          "level": false,
+          "paused": false
+        },
+        {
+          "wave": 0,
+          "open": 0,
+          "clock": 1.3833333333333406,
+          "dialogue": null,
+          "queued": 0,
+          "held": false,
+          "enemies": 25,
+          "level": false,
+          "paused": false
+        },
+        {
+          "wave": 0,
+          "open": 0.021666666666666876,
+          "clock": 1.4000000000000077,
+          "dialogue": null,
+          "queued": 0,
+          "held": false,
+          "enemies": 0,
+          "level": false,
+          "paused": false
+        },
+        {
+          "wave": 0,
+          "open": 0.7216666666666786,
+          "clock": 2.4000000000000306,
+          "dialogue": null,
+          "queued": 0,
+          "held": false,
+          "enemies": 0,
+          "level": false,
+          "paused": false
+        },
+        {
+          "wave": 0,
+          "open": 0.9900000000000155,
+          "clock": 2.7833333333333727,
+          "dialogue": null,
+          "queued": 0,
+          "held": false,
+          "enemies": 0,
+          "level": false,
+          "paused": false
+        }
+      ],
+      "bossProgress": {
+        "trace": [
+          {
+            "frame": 0,
+            "state": "play",
+            "phase": 0,
+            "clock": 0.5833333333333434,
+            "seal": 223.2,
+            "clockHold": true,
+            "cine": 8,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              14,
+              32,
+              70
+            ],
+            "scriptPosition": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "mesh": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "held": true
+          },
+          {
+            "frame": 37,
+            "state": "story",
+            "phase": 0,
+            "clock": 1.2,
+            "seal": 223.2,
+            "clockHold": false,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              14,
+              32,
+              70
+            ],
+            "scriptPosition": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "mesh": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "held": true
+          },
+          {
+            "frame": 46,
+            "state": "play",
+            "phase": 1,
+            "clock": 0,
+            "seal": 223.2,
+            "clockHold": false,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              0.4507506692065498,
+              35.57920757094033,
+              84
+            ],
+            "scriptPosition": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "mesh": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "held": false
+          },
+          {
+            "frame": 61,
+            "state": "play",
+            "phase": 1,
+            "clock": 0.03500000000000063,
+            "seal": 186,
+            "clockHold": false,
+            "cine": 0,
+            "talk": "魔王",
+            "queued": 1,
+            "form": false,
+            "eye": [
+              0.37708210390890606,
+              35.94749709078335,
+              84.00305852011266
+            ],
+            "scriptPosition": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "mesh": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "held": true
+          },
+          {
+            "frame": 63,
+            "state": "play",
+            "phase": 1,
+            "clock": 0.03500000000000063,
+            "seal": 186,
+            "clockHold": false,
+            "cine": 0,
+            "talk": "ME",
+            "queued": 0,
+            "form": false,
+            "eye": [
+              0.37708210390890606,
+              35.94749709078335,
+              84.00305852011266
+            ],
+            "scriptPosition": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "mesh": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "held": true
+          },
+          {
+            "frame": 65,
+            "state": "play",
+            "phase": 1,
+            "clock": 0.03750000000000067,
+            "seal": 186,
+            "clockHold": false,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              0.28757252806694894,
+              35.907854453111675,
+              84.00276007069584
+            ],
+            "scriptPosition": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "mesh": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "held": false
+          },
+          {
+            "frame": 151,
+            "state": "play",
+            "phase": 2,
+            "clock": 0,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              0.08135980789972876,
+              35.402678658191206,
+              81.77132762471915
+            ],
+            "scriptPosition": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "mesh": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "held": true
+          },
+          {
+            "frame": 182,
+            "state": "play",
+            "phase": 2,
+            "clock": 0.5166666666666477,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              14,
+              20.418396472930908,
+              14
+            ],
+            "scriptPosition": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "mesh": [
+              0,
+              23.32839647293091,
+              -28
+            ],
+            "held": true
+          },
+          {
+            "frame": 212,
+            "state": "play",
+            "phase": 2,
+            "clock": 1.0166666666666293,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              14,
+              20.418396472930908,
+              14
+            ],
+            "scriptPosition": [
+              0,
+              24.27146917526272,
+              -26.30246913580274
+            ],
+            "mesh": [
+              0,
+              24.27146917526272,
+              -26.30246913580274
+            ],
+            "held": true
+          },
+          {
+            "frame": 242,
+            "state": "play",
+            "phase": 2,
+            "clock": 1.5166666666666142,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              14,
+              20.418396472930908,
+              14
+            ],
+            "scriptPosition": [
+              0,
+              26.648012385139165,
+              -22.024691358025137
+            ],
+            "mesh": [
+              0,
+              26.648012385139165,
+              -22.024691358025137
+            ],
+            "held": true
+          },
+          {
+            "frame": 272,
+            "state": "play",
+            "phase": 2,
+            "clock": 2.016666666666599,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              14,
+              20.418396472930908,
+              14
+            ],
+            "scriptPosition": [
+              0,
+              28.283814854275143,
+              -19.080246913580375
+            ],
+            "mesh": [
+              0,
+              28.283814854275143,
+              -19.080246913580375
+            ],
+            "held": true
+          },
+          {
+            "frame": 302,
+            "state": "play",
+            "phase": 2,
+            "clock": 2.516666666666584,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              14,
+              20.418396472930908,
+              14
+            ],
+            "scriptPosition": [
+              0,
+              28.32839647293091,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.32839647293091,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 320,
+            "state": "play",
+            "phase": 3,
+            "clock": 0,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              14,
+              20.418396472930908,
+              14
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 346,
+            "state": "play",
+            "phase": 3,
+            "clock": 0.4333333333333174,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": "魔王",
+            "queued": 1,
+            "form": false,
+            "eye": [
+              14,
+              20.418396472930908,
+              14
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 350,
+            "state": "play",
+            "phase": 3,
+            "clock": 0.4999999999999816,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              14,
+              20.418396472930908,
+              14
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 417,
+            "state": "play",
+            "phase": 3,
+            "clock": 1.6166666666666112,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 9,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              13.647716229348907,
+              20.55858989465237,
+              15.996274700356194
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 593,
+            "state": "play",
+            "phase": 3,
+            "clock": 4.549999999999872,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              5,
+              24,
+              62
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 596,
+            "state": "play",
+            "phase": 3,
+            "clock": 0.01666666666666788,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": "魔王",
+            "queued": 2,
+            "form": false,
+            "eye": [
+              5,
+              24,
+              62
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 598,
+            "state": "play",
+            "phase": 3,
+            "clock": 0.05000000000000364,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": "ME",
+            "queued": 1,
+            "form": false,
+            "eye": [
+              5,
+              24,
+              62
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 600,
+            "state": "play",
+            "phase": 3,
+            "clock": 0.08333333333333941,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": "魔王",
+            "queued": 0,
+            "form": false,
+            "eye": [
+              5,
+              24,
+              62
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 602,
+            "state": "play",
+            "phase": 3,
+            "clock": 0.11666666666667518,
+            "seal": 0,
+            "clockHold": true,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              5,
+              24,
+              62
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": true
+          },
+          {
+            "frame": 667,
+            "state": "play",
+            "phase": 4,
+            "clock": 0,
+            "seal": 0,
+            "clockHold": false,
+            "cine": 0,
+            "talk": null,
+            "queued": 0,
+            "form": false,
+            "eye": [
+              5,
+              24,
+              62
+            ],
+            "scriptPosition": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "mesh": [
+              0,
+              28.839631233215332,
+              -19
+            ],
+            "held": false
+          }
+        ],
+        "shots": 7,
+        "nexts": 23,
+        "finished": {
+          "state": "play",
+          "phase": 4,
+          "clock": 0,
+          "seal": 0,
+          "clockHold": false,
+          "cine": 0,
+          "talk": null,
+          "queued": 0,
+          "form": false,
+          "eye": [
+            5,
+            24,
+            62
+          ],
+          "scriptPosition": [
+            0,
+            28.839631233215332,
+            -19
+          ],
+          "mesh": [
+            0,
+            28.839631233215332,
+            -19
+          ],
+          "held": false
+        }
+      },
+      "ok": true
+    },
+    {
+      "width": 390,
+      "scenario": 4,
+      "version": "after",
+      "errors": [],
+      "shots": {
+        "first-gate-closed": {
+          "stage": "maoujo",
+          "wave": 0,
+          "char": "maou",
+          "form": 0,
+          "giant": false,
+          "shell": [
+            320,
+            108,
+            380
+          ],
+          "bounds": [
+            -114,
+            114
+          ],
+          "y": 3,
+          "eye": [
+            111.99977986508607,
+            41.45396202259451,
+            111.00803989336953
+          ],
+          "p": [
+            111.99999999993842,
+            20.454545454545453,
+            57
+          ],
+          "aim": [
+            111.99999999979553,
+            22.954545454545453,
+            50
+          ],
+          "playerClip": [
+            1.5201689873471767e-06,
+            -0.12302625853570168,
+            0.9831054627941881
+          ],
+          "distance": 57.946905606517994,
+          "gate": [
+            {
+              "z": 50,
+              "open": 0,
+              "y": 0,
+              "eyeSameSide": true
+            },
+            {
+              "z": -50,
+              "open": 0,
+              "y": 0,
+              "eyeSameSide": true
+            }
+          ],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": true,
+            "door": false,
+            "body": true,
+            "dais": true
+          },
+          "boss": {
+            "id": "cerberus",
+            "clip": [
+              -65.03049313613485,
+              -9.454121448117498,
+              0.8179454376935266
+            ]
+          },
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 157,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "giant-left-ramp": {
+          "stage": "maoujo",
+          "wave": 1,
+          "char": "maou",
+          "form": 2,
+          "giant": true,
+          "shell": [
+            320,
+            108,
+            380
+          ],
+          "bounds": [
+            -114,
+            114
+          ],
+          "y": 3,
+          "eye": [
+            -111.00001933398916,
+            48.95452211446048,
+            110.37548404585371
+          ],
+          "p": [
+            -111.000000000125,
+            24.954545454545453,
+            45.75557984016286
+          ],
+          "aim": [
+            -111.00000000030872,
+            29.954545454545453,
+            27.75557984016286
+          ],
+          "playerClip": [
+            2.117724511065542e-07,
+            -0.20691835559601568,
+            0.9857841835984729
+          ],
+          "distance": 68.93279987951674,
+          "gate": [
+            {
+              "z": 50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": false
+            },
+            {
+              "z": -50,
+              "open": 0,
+              "y": 0,
+              "eyeSameSide": true
+            }
+          ],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": true,
+            "door": false,
+            "body": true,
+            "dais": true
+          },
+          "boss": {
+            "id": "bknight",
+            "clip": [
+              3.00088606676722,
+              -0.10896856401412662,
+              0.9909018872793095
+            ]
+          },
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 170,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "giant-right-ramp": {
+          "stage": "maoujo",
+          "wave": 1,
+          "char": "maou",
+          "form": 2,
+          "giant": true,
+          "shell": [
+            320,
+            108,
+            380
+          ],
+          "bounds": [
+            -114,
+            114
+          ],
+          "y": 3,
+          "eye": [
+            111.000000000643,
+            56.90909090909091,
+            95.99747517405015
+          ],
+          "p": [
+            110.99999999999983,
+            32.90909090909091,
+            32.98355358052291
+          ],
+          "aim": [
+            110.99999999981611,
+            37.90909090909091,
+            14.983553580522909
+          ],
+          "playerClip": [
+            -1.5130261985508001e-15,
+            -0.22084773025796894,
+            0.9854501328225533
+          ],
+          "distance": 67.42962490326636,
+          "gate": [
+            {
+              "z": 50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": false
+            },
+            {
+              "z": -50,
+              "open": 0,
+              "y": 0,
+              "eyeSameSide": true
+            }
+          ],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": true,
+            "door": false,
+            "body": true,
+            "dais": true
+          },
+          "boss": {
+            "id": "bknight",
+            "clip": [
+              -4.972136497506179,
+              -0.3149830546350008,
+              0.9896509018859965
+            ]
+          },
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 149,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "giant-turn": {
+          "stage": "maoujo",
+          "wave": 1,
+          "char": "maou",
+          "form": 2,
+          "giant": true,
+          "shell": [
+            320,
+            108,
+            380
+          ],
+          "bounds": [
+            -114,
+            114
+          ],
+          "y": 3,
+          "eye": [
+            132,
+            56.90909090909091,
+            77.18582159312334
+          ],
+          "p": [
+            111,
+            32.90909090909091,
+            33.01644641947709
+          ],
+          "aim": [
+            111,
+            37.90909090909091,
+            51.01644641947709
+          ],
+          "playerClip": [
+            0.7557869035086606,
+            0.07956713668521584,
+            0.981629753320849
+          ],
+          "distance": 54.47874542636162,
+          "gate": [
+            {
+              "z": 50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": false
+            },
+            {
+              "z": -50,
+              "open": 0,
+              "y": 0,
+              "eyeSameSide": true
+            }
+          ],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": true,
+            "door": false,
+            "body": true,
+            "dais": true
+          },
+          "boss": {
+            "id": "bknight",
+            "clip": [
+              -1.8280048359404926,
+              0.43646443668559826,
+              0.9936017159945734
+            ]
+          },
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 151,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "giant-second-ramp": {
+          "stage": "maoujo",
+          "wave": 2,
+          "char": "maou",
+          "form": 2,
+          "giant": true,
+          "shell": [
+            320,
+            108,
+            380
+          ],
+          "bounds": [
+            -114,
+            114
+          ],
+          "y": 3,
+          "eye": [
+            108.63579062616736,
+            63.59706913645002,
+            10.08264862644856
+          ],
+          "p": [
+            107.99999999987192,
+            38.95454545454545,
+            -54.54593911149915
+          ],
+          "aim": [
+            107.9999999996882,
+            43.95454545454545,
+            -72.54593911149915
+          ],
+          "playerClip": [
+            -0.006938431821003644,
+            -0.20897373861153012,
+            0.9858318743803064
+          ],
+          "distance": 69.17017099975479,
+          "gate": [
+            {
+              "z": 50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": true
+            },
+            {
+              "z": -50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": false
+            }
+          ],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [],
+          "model": {
+            "castle": true,
+            "door": false,
+            "body": true,
+            "dais": true
+          },
+          "boss": null,
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 129,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "throne-cinematic": {
+          "stage": "maoujo",
+          "wave": 3,
+          "char": "maou",
+          "form": 2,
+          "giant": true,
+          "shell": [
+            320,
+            108,
+            380
+          ],
+          "bounds": [
+            -114,
+            114
+          ],
+          "y": 3,
+          "eye": [
+            19.65833716857193,
+            43.621248285322345,
+            -100.68217816603378
+          ],
+          "p": [
+            107.99999999921036,
+            38.5,
+            -119.4377399222379
+          ],
+          "aim": [
+            107.99999999902664,
+            43.5,
+            -136
+          ],
+          "playerClip": [
+            0.795147286733735,
+            0.18458946084642444,
+            1.0117768540194274
+          ],
+          "distance": 90.45577744109497,
+          "gate": [
+            {
+              "z": 50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": true
+            },
+            {
+              "z": -50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": true
+            }
+          ],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [
+            {
+              "x": -50,
+              "z": -112,
+              "dead": false
+            },
+            {
+              "x": 50,
+              "z": -112,
+              "dead": false
+            },
+            {
+              "x": -50,
+              "z": -72,
+              "dead": false
+            },
+            {
+              "x": 50,
+              "z": -72,
+              "dead": false
+            }
+          ],
+          "model": {
+            "castle": true,
+            "door": false,
+            "body": true,
+            "dais": true
+          },
+          "boss": {
+            "id": "demon",
+            "clip": [
+              -4.9835288787151966e-15,
+              -0.04855907059601333,
+              0.9539882328493912
+            ]
+          },
+          "msf": false,
+          "phase": 0,
+          "cine": 7,
+          "cineOn": true,
+          "overlay": true,
+          "rendered": 152,
+          "caption": {
+            "cutT": 1.299999999999954,
+            "letterbox": true,
+            "count": 0,
+            "maxLife": 0
+          }
+        },
+        "giant-throne": {
+          "stage": "maoujo",
+          "wave": 3,
+          "char": "maou",
+          "form": 2,
+          "giant": true,
+          "shell": [
+            320,
+            108,
+            380
+          ],
+          "bounds": [
+            -114,
+            114
+          ],
+          "y": 3,
+          "eye": [
+            41.632179291117836,
+            67.80492233993174,
+            -9.330904157103411
+          ],
+          "p": [
+            56.99999999999983,
+            47.54545454545455,
+            -69.01644641947709
+          ],
+          "aim": [
+            56.999999999816104,
+            52.54545454545455,
+            -87.01644641947709
+          ],
+          "playerClip": [
+            0.19810733814392573,
+            -0.21622533013340142,
+            0.984850516586937
+          ],
+          "distance": 64.87665145342656,
+          "gate": [
+            {
+              "z": 50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": true
+            },
+            {
+              "z": -50,
+              "open": 1,
+              "y": 77.75999999999999,
+              "eyeSameSide": false
+            }
+          ],
+          "door": null,
+          "inShell": true,
+          "seals": [],
+          "pillar": [
+            {
+              "x": -50,
+              "z": -112,
+              "dead": false
+            },
+            {
+              "x": 50,
+              "z": -112,
+              "dead": false
+            },
+            {
+              "x": -50,
+              "z": -72,
+              "dead": false
+            },
+            {
+              "x": 50,
+              "z": -72,
+              "dead": false
+            }
+          ],
+          "model": {
+            "castle": true,
+            "door": false,
+            "body": true,
+            "dais": true
+          },
+          "boss": {
+            "id": "demon",
+            "clip": [
+              -2.70631363438075,
+              -0.25333827783668617,
+              0.9873555972617114
+            ]
+          },
+          "msf": false,
+          "phase": 0,
+          "cine": 0,
+          "cineOn": false,
+          "overlay": false,
+          "rendered": 82,
+          "caption": {
+            "cutT": 0,
+            "letterbox": false,
+            "count": 0,
+            "maxLife": 0
+          }
+        }
+      },
+      "sha256": "fe2180a51eeb04e58c8183ca892c05acff2381a554c7d00047f102ccee93abc7",
+      "fixture": {
+        "SCN": 4,
+        "i": 2,
+        "queue": [
+          "blackknight",
+          "demon",
+          "anc_darkdemon",
+          "tree_pine",
+          "tree_oak",
+          "gdoor",
+          "dunarch",
+          "hpillar",
+          "htorch",
+          "hbanner",
+          "hwindow",
+          "hstairs",
+          "hbrazier",
+          "hstatue",
+          "hrubble",
+          "dthrone",
+          "dtower",
+          "lavaspire",
+          "bonefence",
+          "hprops",
+          "demonhut",
+          "throne_dais_1117",
+          "maou_castle_1116",
+          "seal_pillar_1117",
+          "throne_dais_seat_1117",
+          "bgolem",
+          "golem",
+          "bgolem2",
+          "bigcannon",
+          "orctank",
+          "slime2",
+          "cerberus",
+          "devilsoldier",
+          "skeleton",
+          "skelmage",
+          "catapult",
+          "field_cannon_1116",
+          "ballista",
+          "ogre",
+          "bigskeleton",
+          "imp"
+        ]
+      },
+      "assetStates": [
+        [
+          "blackknight",
+          "ready"
+        ],
+        [
+          "demon",
+          "ready"
+        ],
+        [
+          "anc_darkdemon",
+          "ready"
+        ],
+        [
+          "tree_pine",
+          "ready"
+        ],
+        [
+          "tree_oak",
+          "ready"
+        ],
+        [
+          "gdoor",
+          "ready"
+        ],
+        [
+          "dunarch",
+          "ready"
+        ],
+        [
+          "hpillar",
+          "ready"
+        ],
+        [
+          "htorch",
+          "ready"
+        ],
+        [
+          "hbanner",
+          "ready"
+        ],
+        [
+          "hwindow",
+          "ready"
+        ],
+        [
+          "hstairs",
+          "ready"
+        ],
+        [
+          "hbrazier",
+          "ready"
+        ],
+        [
+          "hstatue",
+          "ready"
+        ],
+        [
+          "hrubble",
+          "ready"
+        ],
+        [
+          "dthrone",
+          "ready"
+        ],
+        [
+          "dtower",
+          "ready"
+        ],
+        [
+          "lavaspire",
+          "ready"
+        ],
+        [
+          "bonefence",
+          "ready"
+        ],
+        [
+          "hprops",
+          "ready"
+        ],
+        [
+          "demonhut",
+          "ready"
+        ],
+        [
+          "throne_dais_1117",
+          "ready"
+        ],
+        [
+          "maou_castle_1116",
+          "ready"
+        ],
+        [
+          "seal_pillar_1117",
+          "ready"
+        ],
+        [
+          "throne_dais_seat_1117",
+          "ready"
+        ],
+        [
+          "bgolem",
+          "ready"
+        ],
+        [
+          "golem",
+          "ready"
+        ],
+        [
+          "bgolem2",
+          "ready"
+        ],
+        [
+          "bigcannon",
+          "ready"
+        ],
+        [
+          "orctank",
+          "ready"
+        ],
+        [
+          "slime2",
+          "ready"
+        ],
+        [
+          "cerberus",
+          "ready"
+        ],
+        [
+          "devilsoldier",
+          "ready"
+        ],
+        [
+          "skeleton",
+          "ready"
+        ],
+        [
+          "skelmage",
+          "ready"
+        ],
+        [
+          "catapult",
+          "ready"
+        ],
+        [
+          "field_cannon_1116",
+          "ready"
+        ],
+        [
+          "ballista",
+          "ready"
+        ],
+        [
+          "ogre",
+          "ready"
+        ],
+        [
+          "bigskeleton",
+          "ready"
+        ],
+        [
+          "imp",
+          "ready"
+        ]
+      ],
+      "intro": {
+        "open": true,
+        "trace": [
+          {
+            "frame": 0,
+            "hold": true,
+            "open": null,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 60,
+            "hold": true,
+            "open": null,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 120,
+            "hold": true,
+            "open": null,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 180,
+            "hold": false,
+            "open": null,
+            "cine": 0,
+            "state": "play"
+          }
+        ]
+      },
+      "waveTransitions": [
+        {
+          "name": "黒い騎士",
+          "before": {
+            "state": "play",
+            "wave": 0,
+            "name": "地獄の番犬",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 0,
+            "waveWait": 0,
+            "pending": null,
+            "enemies": [
+              [
+                "cerberus",
+                false,
+                true
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "cannon",
+                false,
+                false
+              ],
+              [
+                "cannon",
+                false,
+                false
+              ],
+              [
+                "cannon",
+                false,
+                false
+              ],
+              [
+                "cannon",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "devilsol",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ]
+            ]
+          },
+          "cleared": {
+            "state": "play",
+            "wave": 0,
+            "name": "地獄の番犬",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 0,
+            "waveWait": 0,
+            "pending": null,
+            "enemies": [
+              [
+                "cerberus",
+                true,
+                true
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skelmage",
+                true,
+                false
+              ],
+              [
+                "skelmage",
+                true,
+                false
+              ],
+              [
+                "cannon",
+                true,
+                false
+              ],
+              [
+                "cannon",
+                true,
+                false
+              ],
+              [
+                "cannon",
+                true,
+                false
+              ],
+              [
+                "cannon",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "devilsol",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ]
+            ]
+          },
+          "after": {
+            "state": "play",
+            "wave": 1,
+            "name": "黒い騎士",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 7,
+            "waveWait": -0.013333333333256737,
+            "pending": null,
+            "enemies": [
+              [
+                "bknight",
+                false,
+                true
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "bigcannon",
+                false,
+                false
+              ],
+              [
+                "bigcannon",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ]
+            ]
+          }
+        },
+        {
+          "name": "魔王軍の巨兵",
+          "before": {
+            "state": "play",
+            "wave": 1,
+            "name": "黒い騎士",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 0,
+            "waveWait": -0.013333333333256737,
+            "pending": null,
+            "enemies": [
+              [
+                "bknight",
+                false,
+                true
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "bigcannon",
+                false,
+                false
+              ],
+              [
+                "bigcannon",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ],
+              [
+                "skel",
+                false,
+                false
+              ]
+            ]
+          },
+          "cleared": {
+            "state": "play",
+            "wave": 1,
+            "name": "黒い騎士",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 0,
+            "waveWait": -0.013333333333256737,
+            "pending": null,
+            "enemies": [
+              [
+                "bknight",
+                true,
+                true
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skelmage",
+                true,
+                false
+              ],
+              [
+                "skelmage",
+                true,
+                false
+              ],
+              [
+                "bigcannon",
+                true,
+                false
+              ],
+              [
+                "bigcannon",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ],
+              [
+                "skel",
+                true,
+                false
+              ]
+            ]
+          },
+          "after": {
+            "state": "play",
+            "wave": 2,
+            "name": "魔王軍の巨兵",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 2,
+            "waveWait": -0.0016666666668443894,
+            "pending": null,
+            "enemies": [
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "bigskel",
+                false,
+                false
+              ],
+              [
+                "bigskel",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ]
+            ]
+          }
+        },
+        {
+          "name": "魔王",
+          "before": {
+            "state": "play",
+            "wave": 2,
+            "name": "魔王軍の巨兵",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 0,
+            "waveWait": -0.0016666666668443894,
+            "pending": null,
+            "enemies": [
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "ogre",
+                false,
+                false
+              ],
+              [
+                "bigskel",
+                false,
+                false
+              ],
+              [
+                "bigskel",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ]
+            ]
+          },
+          "cleared": {
+            "state": "play",
+            "wave": 2,
+            "name": "魔王軍の巨兵",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 0,
+            "waveWait": -0.0016666666668443894,
+            "pending": null,
+            "enemies": [
+              [
+                "ogre",
+                true,
+                false
+              ],
+              [
+                "ogre",
+                true,
+                false
+              ],
+              [
+                "ogre",
+                true,
+                false
+              ],
+              [
+                "ogre",
+                true,
+                false
+              ],
+              [
+                "ogre",
+                true,
+                false
+              ],
+              [
+                "ogre",
+                true,
+                false
+              ],
+              [
+                "bigskel",
+                true,
+                false
+              ],
+              [
+                "bigskel",
+                true,
+                false
+              ],
+              [
+                "skelmage",
+                true,
+                false
+              ],
+              [
+                "skelmage",
+                true,
+                false
+              ]
+            ]
+          },
+          "after": {
+            "state": "play",
+            "wave": 3,
+            "name": "魔王",
+            "names": [
+              "地獄の番犬",
+              "黒い騎士",
+              "魔王軍の巨兵",
+              "魔王"
+            ],
+            "cine": 7,
+            "waveWait": -0.013333333333587927,
+            "pending": null,
+            "enemies": [
+              [
+                "demon",
+                false,
+                true
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "skelmage",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ],
+              [
+                "imp",
+                false,
+                false
+              ]
+            ]
+          }
+        }
+      ],
+      "firstGate": {
+        "open": true,
+        "trace": [
+          {
+            "frame": 0,
+            "hold": true,
+            "open": 1,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 60,
+            "hold": true,
+            "open": 1,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 120,
+            "hold": true,
+            "open": 1,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 180,
+            "hold": true,
+            "open": 1,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 181,
+            "hold": false,
+            "open": 1,
+            "cine": 0,
+            "state": "play"
+          }
+        ]
+      },
+      "giantIntro": {
+        "open": true,
+        "trace": [
+          {
+            "frame": 0,
+            "hold": false,
+            "open": 1,
+            "cine": 0,
+            "state": "play"
+          }
+        ]
+      },
+      "secondGate": {
+        "open": true,
+        "trace": [
+          {
+            "frame": 0,
+            "hold": true,
+            "open": 1,
+            "cine": 2,
+            "state": "play"
+          },
+          {
+            "frame": 60,
+            "hold": true,
+            "open": 1,
+            "cine": 2,
+            "state": "play"
+          },
+          {
+            "frame": 120,
+            "hold": true,
+            "open": 1,
+            "cine": 2,
+            "state": "play"
+          },
+          {
+            "frame": 137,
+            "hold": false,
+            "open": 1,
+            "cine": 0,
+            "state": "play"
+          }
+        ]
+      },
+      "secondGatePass": {
+        "passed": true,
+        "trace": [
+          {
+            "frame": 0,
+            "p": [
+              108,
+              38.95454545454545,
+              -42
+            ],
+            "speed": 0,
+            "cine": 0
+          },
+          {
+            "frame": 30,
+            "p": [
+              107.99999999995009,
+              38.95454545454545,
+              -46.88650375673928
+            ],
+            "speed": 15.163966158101987,
+            "cine": 0
+          },
+          {
+            "frame": 56,
+            "p": [
+              107.999999999875,
+              38.95454545454545,
+              -54.24442015983895
+            ],
+            "speed": 18.04134851723832,
+            "cine": 0
+          }
+        ]
+      },
+      "throneIntro": {
+        "open": true,
+        "trace": [
+          {
+            "frame": 0,
+            "hold": true,
+            "open": 1,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 60,
+            "hold": true,
+            "open": 1,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 120,
+            "hold": true,
+            "open": 1,
+            "cine": 7,
+            "state": "play"
+          },
+          {
+            "frame": 145,
+            "hold": false,
+            "open": 1,
+            "cine": 0,
+            "state": "play"
+          }
+        ]
+      },
+      "ok": true
+    }
+  ],
+  "ok": true,
+  "saved_4": {
+    "ok": true,
+    "scenario": 4,
+    "stage": "hellgate",
+    "basalt": true,
+    "rendered": 100,
+    "errors": [],
+    "sha256": "fe2180a51eeb04e58c8183ca892c05acff2381a554c7d00047f102ccee93abc7"
+  },
+  "ended_at": "2026-11-19T02:22:07.682335+09:00",
+  "scope": "361の同一ビルドで合格した3条件と、衝突を避ける通路へ修正した390幅の再試験を統合。各行の対象SHAを保持。"
+}

@@ -1,0 +1,734 @@
+{
+  "started_at": "2026-11-19T02:19:09.514265+09:00",
+  "source": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\combat_readable_1119\\after\\musou.html",
+  "errors": [],
+  "rows": [
+    {
+      "width": 960,
+      "source_sha256": "fe2180a51eeb04e58c8183ca892c05acff2381a554c7d00047f102ccee93abc7",
+      "layout": [
+        {
+          "box": [
+            140,
+            364,
+            680,
+            224
+          ],
+          "next": [
+            718,
+            536,
+            88,
+            40
+          ],
+          "font": "16px",
+          "transform": "none",
+          "animation": "none",
+          "text": "王国軍だ！　ここで足を止めろ。",
+          "hidden": "hidden",
+          "scrollHeight": 108,
+          "clientHeight": 108,
+          "scrollWidth": 596,
+          "clientWidth": 596,
+          "lineBreak": "strict",
+          "lines": [
+            {
+              "x": 208,
+              "y": 426,
+              "width": 240,
+              "height": 24
+            }
+          ]
+        },
+        {
+          "box": [
+            140,
+            364,
+            680,
+            224
+          ],
+          "next": [
+            718,
+            536,
+            88,
+            40
+          ],
+          "font": "16px",
+          "transform": "none",
+          "animation": "none",
+          "text": "長い文章でも、読みやすい位置を保つ。王国軍と竜の戦いはまだ終わらない。次の合図が出るまで、兵士たちは隊列を整えて待っている。",
+          "hidden": "hidden",
+          "scrollHeight": 108,
+          "clientHeight": 108,
+          "scrollWidth": 596,
+          "clientWidth": 596,
+          "lineBreak": "strict",
+          "lines": [
+            {
+              "x": 208,
+              "y": 426,
+              "width": 592,
+              "height": 24
+            },
+            {
+              "x": 208,
+              "y": 450.796875,
+              "width": 400,
+              "height": 24
+            }
+          ]
+        },
+        {
+          "box": [
+            140,
+            364,
+            680,
+            224
+          ],
+          "next": [
+            718,
+            536,
+            88,
+            40
+          ],
+          "font": "16px",
+          "transform": "none",
+          "animation": "none",
+          "text": "次の一行だ。",
+          "hidden": "hidden",
+          "scrollHeight": 108,
+          "clientHeight": 108,
+          "scrollWidth": 596,
+          "clientWidth": 596,
+          "lineBreak": "strict",
+          "lines": [
+            {
+              "x": 208,
+              "y": 426,
+              "width": 96,
+              "height": 24
+            }
+          ]
+        }
+      ],
+      "hud_comparison": {
+        "normal": {
+          "hud": {
+            "display": "block",
+            "visibility": "visible",
+            "pointerEvents": "none",
+            "hidden": false,
+            "box": [
+              0,
+              0,
+              960,
+              600
+            ]
+          },
+          "touch": {
+            "display": "none",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": false,
+            "box": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "fpTouch": null,
+          "fpPane": {
+            "display": "none",
+            "visibility": "visible",
+            "pointerEvents": "none",
+            "hidden": true,
+            "box": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "fpHelp": {
+            "display": "none",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": true,
+            "box": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "fpStick": {
+            "display": "none",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": true,
+            "box": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "pause": {
+            "display": "block",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": false,
+            "box": [
+              861.21875,
+              204,
+              82.78125,
+              29
+            ]
+          },
+          "mute": {
+            "display": "block",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": false,
+            "box": [
+              861.21875,
+              172,
+              82.78125,
+              29
+            ]
+          },
+          "fs": {
+            "display": "block",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": false,
+            "box": [
+              861.21875,
+              236,
+              82.78125,
+              29
+            ]
+          },
+          "presentationPanel": {
+            "display": "none",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": true,
+            "box": [
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "event": {
+          "hud": {
+            "display": "block",
+            "visibility": "hidden",
+            "pointerEvents": "none",
+            "hidden": false,
+            "box": [
+              0,
+              0,
+              960,
+              600
+            ]
+          },
+          "touch": {
+            "display": "none",
+            "visibility": "hidden",
+            "pointerEvents": "none",
+            "hidden": false,
+            "box": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "fpTouch": null,
+          "fpPane": {
+            "display": "none",
+            "visibility": "hidden",
+            "pointerEvents": "none",
+            "hidden": true,
+            "box": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "fpHelp": {
+            "display": "none",
+            "visibility": "hidden",
+            "pointerEvents": "none",
+            "hidden": true,
+            "box": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "fpStick": {
+            "display": "none",
+            "visibility": "hidden",
+            "pointerEvents": "none",
+            "hidden": true,
+            "box": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "pause": {
+            "display": "block",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": false,
+            "box": [
+              861.21875,
+              204,
+              82.78125,
+              29
+            ]
+          },
+          "mute": {
+            "display": "block",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": false,
+            "box": [
+              861.21875,
+              172,
+              82.78125,
+              29
+            ]
+          },
+          "fs": {
+            "display": "block",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": false,
+            "box": [
+              861.21875,
+              236,
+              82.78125,
+              29
+            ]
+          },
+          "presentationPanel": {
+            "display": "grid",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": false,
+            "box": [
+              140,
+              364,
+              680,
+              224
+            ]
+          }
+        }
+      },
+      "text_fully_shown": true,
+      "long_japanese_fits": true,
+      "display_after_event": {
+        "cutT": 0,
+        "temporaryText": 0,
+        "bannerT": 0,
+        "speechT": 0,
+        "letterbox": false
+      },
+      "world_frozen": true,
+      "world_resumed_after_event": true,
+      "owner_clock": 3.5166666666666884,
+      "next_one_line": true,
+      "blocked_held_key_until_up": true,
+      "short_shout_nonblocking": true,
+      "btk_exited": true,
+      "paper_story": {
+        "index": 0,
+        "count": 7,
+        "after_index": 1
+      }
+    },
+    {
+      "width": 390,
+      "source_sha256": "fe2180a51eeb04e58c8183ca892c05acff2381a554c7d00047f102ccee93abc7",
+      "layout": [
+        {
+          "box": [
+            12,
+            608,
+            366,
+            224
+          ],
+          "next": [
+            276,
+            780,
+            88,
+            40
+          ],
+          "font": "15px",
+          "transform": "none",
+          "animation": "none",
+          "text": "王国軍だ！　ここで足を止めろ。",
+          "hidden": "hidden",
+          "scrollHeight": 108,
+          "clientHeight": 108,
+          "scrollWidth": 282,
+          "clientWidth": 282,
+          "lineBreak": "strict",
+          "lines": [
+            {
+              "x": 80,
+              "y": 670,
+              "width": 225,
+              "height": 23
+            }
+          ]
+        },
+        {
+          "box": [
+            12,
+            608,
+            366,
+            224
+          ],
+          "next": [
+            276,
+            780,
+            88,
+            40
+          ],
+          "font": "15px",
+          "transform": "none",
+          "animation": "none",
+          "text": "長い文章でも、読みやすい位置を保つ。王国軍と竜の戦いはまだ終わらない。次の合図が出るまで、兵士たちは隊列を整えて待っている。",
+          "hidden": "hidden",
+          "scrollHeight": 108,
+          "clientHeight": 108,
+          "scrollWidth": 282,
+          "clientWidth": 282,
+          "lineBreak": "strict",
+          "lines": [
+            {
+              "x": 80,
+              "y": 670,
+              "width": 270,
+              "height": 23
+            },
+            {
+              "x": 80,
+              "y": 693.25,
+              "width": 270,
+              "height": 23
+            },
+            {
+              "x": 80,
+              "y": 716.5,
+              "width": 270,
+              "height": 23
+            },
+            {
+              "x": 80,
+              "y": 739.75,
+              "width": 120,
+              "height": 23
+            }
+          ]
+        },
+        {
+          "box": [
+            12,
+            608,
+            366,
+            224
+          ],
+          "next": [
+            276,
+            780,
+            88,
+            40
+          ],
+          "font": "15px",
+          "transform": "none",
+          "animation": "none",
+          "text": "次の一行だ。",
+          "hidden": "hidden",
+          "scrollHeight": 108,
+          "clientHeight": 108,
+          "scrollWidth": 282,
+          "clientWidth": 282,
+          "lineBreak": "strict",
+          "lines": [
+            {
+              "x": 80,
+              "y": 670,
+              "width": 90,
+              "height": 23
+            }
+          ]
+        }
+      ],
+      "hud_comparison": {
+        "normal": {
+          "hud": {
+            "display": "block",
+            "visibility": "visible",
+            "pointerEvents": "none",
+            "hidden": false,
+            "box": [
+              0,
+              0,
+              390,
+              844
+            ]
+          },
+          "touch": {
+            "display": "block",
+            "visibility": "visible",
+            "pointerEvents": "none",
+            "hidden": false,
+            "box": [
+              0,
+              0,
+              390,
+              844
+            ]
+          },
+          "fpTouch": null,
+          "fpPane": {
+            "display": "none",
+            "visibility": "visible",
+            "pointerEvents": "none",
+            "hidden": true,
+            "box": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "fpHelp": {
+            "display": "none",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": true,
+            "box": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "fpStick": {
+            "display": "none",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": true,
+            "box": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "pause": {
+            "display": "block",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": false,
+            "box": [
+              317.234375,
+              132,
+              64.765625,
+              21.296875
+            ]
+          },
+          "mute": {
+            "display": "block",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": false,
+            "box": [
+              318.078125,
+              106,
+              63.921875,
+              21.296875
+            ]
+          },
+          "fs": {
+            "display": "block",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": false,
+            "box": [
+              312.59375,
+              158,
+              69.40625,
+              21.296875
+            ]
+          },
+          "presentationPanel": {
+            "display": "none",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": true,
+            "box": [
+              0,
+              0,
+              0,
+              0
+            ]
+          }
+        },
+        "event": {
+          "hud": {
+            "display": "block",
+            "visibility": "hidden",
+            "pointerEvents": "none",
+            "hidden": false,
+            "box": [
+              0,
+              0,
+              390,
+              844
+            ]
+          },
+          "touch": {
+            "display": "block",
+            "visibility": "hidden",
+            "pointerEvents": "none",
+            "hidden": false,
+            "box": [
+              0,
+              0,
+              390,
+              844
+            ]
+          },
+          "fpTouch": null,
+          "fpPane": {
+            "display": "none",
+            "visibility": "hidden",
+            "pointerEvents": "none",
+            "hidden": true,
+            "box": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "fpHelp": {
+            "display": "none",
+            "visibility": "hidden",
+            "pointerEvents": "none",
+            "hidden": true,
+            "box": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "fpStick": {
+            "display": "none",
+            "visibility": "hidden",
+            "pointerEvents": "none",
+            "hidden": true,
+            "box": [
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "pause": {
+            "display": "block",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": false,
+            "box": [
+              317.234375,
+              132,
+              64.765625,
+              21.296875
+            ]
+          },
+          "mute": {
+            "display": "block",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": false,
+            "box": [
+              318.078125,
+              106,
+              63.921875,
+              21.296875
+            ]
+          },
+          "fs": {
+            "display": "block",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": false,
+            "box": [
+              312.59375,
+              158,
+              69.40625,
+              21.296875
+            ]
+          },
+          "presentationPanel": {
+            "display": "grid",
+            "visibility": "visible",
+            "pointerEvents": "auto",
+            "hidden": false,
+            "box": [
+              12,
+              608,
+              366,
+              224
+            ]
+          }
+        }
+      },
+      "text_fully_shown": true,
+      "long_japanese_fits": true,
+      "display_after_event": {
+        "cutT": 0,
+        "temporaryText": 0,
+        "bannerT": 0,
+        "speechT": 0,
+        "letterbox": false
+      },
+      "world_frozen": true,
+      "world_resumed_after_event": true,
+      "owner_clock": 3.5166666666666706,
+      "next_one_line": true,
+      "blocked_held_key_until_up": true,
+      "short_shout_nonblocking": true,
+      "btk_exited": true,
+      "paper_story": {
+        "index": 0,
+        "count": 7,
+        "after_index": 1
+      }
+    }
+  ],
+  "scope": "Actual central frame under deterministic virtual clock; PC960/touch390, fixed layout, dialogue, scripted owner, BTK expiry and input release. Army choreography/complete SCN1 is tested separately by army owner.",
+  "paper_probe": {
+    "width": 390,
+    "index": 0,
+    "count": 7,
+    "after_index": 1
+  },
+  "ok": true,
+  "completed_at": "2026-11-19T02:19:31.001969+09:00"
+}

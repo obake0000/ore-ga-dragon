@@ -1,0 +1,2813 @@
+{
+  "started_at": "2026-11-19T03:11:24.553815+09:00",
+  "errors": [],
+  "runs": [
+    {
+      "url": "http://127.0.0.1:62347/after/musou.html",
+      "sha256": "176099944e4a2a5580c1a3cddf2bd60b6e51a53fbbae56ebcdad59017f542e21",
+      "scenario": 2,
+      "character": "dragon",
+      "easy": true,
+      "scope": "scenario",
+      "policy": "cautious",
+      "seed": 20261118,
+      "viewport": [
+        960,
+        600
+      ],
+      "clock": "virtual",
+      "status": "clear",
+      "storyOpenToEndSeconds": 424.95,
+      "firstWaveToEndSeconds": 412.8,
+      "combatPhysicsSeconds": 250.5,
+      "wallSeconds": 330.17,
+      "clockDelta": {
+        "frames": 25800,
+        "rdtSum": 412.8,
+        "playFrames": 18309,
+        "enemyFrames": 17031,
+        "physicsSeconds": 270.002,
+        "blockedSeconds": 78.96,
+        "bossTalkSeconds": 27.376,
+        "paperSeconds": 34.336,
+        "paper": 34.336,
+        "dialogue": 76.384,
+        "cinematic": 25.552,
+        "assetWait": 0.032,
+        "transition": 2.208,
+        "upgrade": 0.928,
+        "paused": 0.512,
+        "combatControl": 254.544,
+        "travelControl": 18.16,
+        "other": 0.144
+      },
+      "specialGapMs": 6000,
+      "specialQuickMs": 12000,
+      "specialCasts": [
+        {
+          "skill": "bigfire",
+          "at": 22069,
+          "chapter": 0,
+          "wave": 0
+        },
+        {
+          "skill": "flamering",
+          "at": 28069,
+          "chapter": 0,
+          "wave": 0
+        },
+        {
+          "skill": "bigfire",
+          "at": 34069,
+          "chapter": 0,
+          "wave": 0
+        },
+        {
+          "skill": "bigfire",
+          "at": 52469,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "skill": "flamering",
+          "at": 58869,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "skill": "bigfire",
+          "at": 74869,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "skill": "bigfire",
+          "at": 85469,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "skill": "bigfire",
+          "at": 105269,
+          "chapter": 0,
+          "wave": 3
+        },
+        {
+          "skill": "flamering",
+          "at": 111669,
+          "chapter": 0,
+          "wave": 3
+        },
+        {
+          "skill": "bigfire",
+          "at": 119869,
+          "chapter": 0,
+          "wave": 3
+        },
+        {
+          "skill": "bigfire",
+          "at": 125869,
+          "chapter": 0,
+          "wave": 3
+        },
+        {
+          "skill": "bigfire",
+          "at": 140669,
+          "chapter": 0,
+          "wave": 3
+        },
+        {
+          "skill": "bigfire",
+          "at": 146669,
+          "chapter": 0,
+          "wave": 3
+        },
+        {
+          "skill": "bigfire",
+          "at": 166669,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "skill": "flamering",
+          "at": 174869,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "skill": "flamering",
+          "at": 182869,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "skill": "bigfire",
+          "at": 192069,
+          "chapter": 1,
+          "wave": 2
+        },
+        {
+          "skill": "flamering",
+          "at": 201469,
+          "chapter": 1,
+          "wave": 2
+        },
+        {
+          "skill": "bigfire",
+          "at": 223869,
+          "chapter": 1,
+          "wave": 3
+        },
+        {
+          "skill": "bigfire",
+          "at": 229869,
+          "chapter": 1,
+          "wave": 3
+        },
+        {
+          "skill": "bigfire",
+          "at": 237469,
+          "chapter": 1,
+          "wave": 3
+        },
+        {
+          "skill": "bigfire",
+          "at": 257269,
+          "chapter": 1,
+          "wave": 3
+        },
+        {
+          "skill": "bigfire",
+          "at": 287269,
+          "chapter": 1,
+          "wave": 4
+        },
+        {
+          "skill": "flamering",
+          "at": 293269,
+          "chapter": 1,
+          "wave": 4
+        },
+        {
+          "skill": "bigfire",
+          "at": 318269,
+          "chapter": 2,
+          "wave": 0
+        },
+        {
+          "skill": "bigfire",
+          "at": 326269,
+          "chapter": 2,
+          "wave": 0
+        },
+        {
+          "skill": "bigfire",
+          "at": 340269,
+          "chapter": 2,
+          "wave": 0
+        },
+        {
+          "skill": "bigfire",
+          "at": 346269,
+          "chapter": 2,
+          "wave": 0
+        },
+        {
+          "skill": "bigfire",
+          "at": 352869,
+          "chapter": 2,
+          "wave": 0
+        },
+        {
+          "skill": "bigfire",
+          "at": 358869,
+          "chapter": 2,
+          "wave": 0
+        },
+        {
+          "skill": "bigfire",
+          "at": 376669,
+          "chapter": 2,
+          "wave": 2
+        },
+        {
+          "skill": "bigfire",
+          "at": 382669,
+          "chapter": 2,
+          "wave": 2
+        },
+        {
+          "skill": "bigfire",
+          "at": 390869,
+          "chapter": 2,
+          "wave": 2
+        },
+        {
+          "skill": "bigfire",
+          "at": 407069,
+          "chapter": 2,
+          "wave": 3
+        },
+        {
+          "skill": "flamering",
+          "at": 416469,
+          "chapter": 2,
+          "wave": 3
+        }
+      ],
+      "defeats": [
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 0
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 0
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 0
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 0
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 0
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 0
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 0
+        },
+        {
+          "type": "archer",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 0
+        },
+        {
+          "type": "priest",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 0
+        },
+        {
+          "type": "cannon",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 0
+        },
+        {
+          "type": "archer",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 0
+        },
+        {
+          "type": "archer",
+          "boss": null,
+          "quiet": true,
+          "chapter": 0,
+          "wave": 0
+        },
+        {
+          "type": "bigcannon",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 0
+        },
+        {
+          "type": "wizard",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "type": "biggolem",
+          "boss": "🗿 石の巨人",
+          "quiet": false,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "type": "dknight",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "type": "airship",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "type": "archer",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "type": "archer",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 1
+        },
+        {
+          "type": "wizard",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 3
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 3
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 3
+        },
+        {
+          "type": "dknight",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 3
+        },
+        {
+          "type": "siegecart",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 3
+        },
+        {
+          "type": "cannon",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 3
+        },
+        {
+          "type": "siegecart",
+          "boss": "💣 超大型大砲車「竜ごろし」",
+          "quiet": false,
+          "chapter": 0,
+          "wave": 3
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 3
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 0,
+          "wave": 3
+        },
+        {
+          "type": "bigcannon",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "type": "dknight",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "type": "archer",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "type": "archer",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "type": "cannon",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "type": "archer",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "type": "archer",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "type": "airship",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "type": "archer",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 0
+        },
+        {
+          "type": "wizard",
+          "boss": "🧙 巨大魔術師",
+          "quiet": false,
+          "chapter": 1,
+          "wave": 2
+        },
+        {
+          "type": "wizard",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 3
+        },
+        {
+          "type": "hero",
+          "boss": "🛡️ 人間の勇者",
+          "quiet": false,
+          "chapter": 1,
+          "wave": 3
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 3
+        },
+        {
+          "type": "dknight",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 3
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 3
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 3
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 3
+        },
+        {
+          "type": "cannon",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 3
+        },
+        {
+          "type": "bigcannon",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 4
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 4
+        },
+        {
+          "type": "dknight",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 4
+        },
+        {
+          "type": "cannon",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 4
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 4
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 4
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 4
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 4
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 4
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 4
+        },
+        {
+          "type": "soldier",
+          "boss": null,
+          "quiet": false,
+          "chapter": 1,
+          "wave": 4
+        },
+        {
+          "type": "walker",
+          "boss": "🏰 うごく城",
+          "quiet": false,
+          "chapter": 1,
+          "wave": 4
+        },
+        {
+          "type": "wizard",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 0
+        },
+        {
+          "type": "dknight",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 0
+        },
+        {
+          "type": "dknight",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 0
+        },
+        {
+          "type": "wizard",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 0
+        },
+        {
+          "type": "ship",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 0
+        },
+        {
+          "type": "archer",
+          "boss": null,
+          "quiet": true,
+          "chapter": 2,
+          "wave": 0
+        },
+        {
+          "type": "archer",
+          "boss": null,
+          "quiet": true,
+          "chapter": 2,
+          "wave": 0
+        },
+        {
+          "type": "archer",
+          "boss": null,
+          "quiet": true,
+          "chapter": 2,
+          "wave": 0
+        },
+        {
+          "type": "archer",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 0
+        },
+        {
+          "type": "airship",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 2
+        },
+        {
+          "type": "ship",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 2
+        },
+        {
+          "type": "wizard",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 2
+        },
+        {
+          "type": "battleship",
+          "boss": "🚢 巨大戦艦",
+          "quiet": false,
+          "chapter": 2,
+          "wave": 2
+        },
+        {
+          "type": "ship",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 2
+        },
+        {
+          "type": "dknight",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 2
+        },
+        {
+          "type": "ship",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 2
+        },
+        {
+          "type": "wizard",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 3
+        },
+        {
+          "type": "airship",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 3
+        },
+        {
+          "type": "dknight",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 3
+        },
+        {
+          "type": "wizard",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 3
+        },
+        {
+          "type": "airship",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 3
+        },
+        {
+          "type": "airship",
+          "boss": null,
+          "quiet": false,
+          "chapter": 2,
+          "wave": 3
+        },
+        {
+          "type": "bigairship",
+          "boss": "🎈 空中戦艦",
+          "quiet": false,
+          "chapter": 2,
+          "wave": 3
+        }
+      ],
+      "end": {
+        "state": "clear",
+        "chapter": 2,
+        "wave": -1,
+        "hp": 218.4464000000003,
+        "maxHp": 260,
+        "level": 9,
+        "kills": 94,
+        "pos": [
+          110.69873779870838,
+          108.30365777401404,
+          101.92914034768911
+        ],
+        "blocked": false,
+        "enemies": 0,
+        "elapsed": 432669,
+        "activeMs": 250503.9999999974,
+        "clock": {
+          "frames": 26804,
+          "rdtSum": 428.89400000015644,
+          "maxRdt": 0.016,
+          "playFrames": 18309,
+          "enemyFrames": 17031,
+          "physicsSeconds": 270.0023999999606,
+          "blockedSeconds": 79.10399999999977,
+          "bossTalkSeconds": 27.375999999998758,
+          "paperSeconds": 45.43799999999678,
+          "paper": 45.43799999999678,
+          "dialogue": 76.38399999999886,
+          "cinematic": 25.695999999998943,
+          "assetWait": 0.032,
+          "transition": 2.2080000000000015,
+          "upgrade": 0.9280000000000007,
+          "paused": 0.5120000000000003,
+          "combatControl": 254.54399999994595,
+          "travelControl": 18.159999999999773,
+          "other": 4.9920000000000035
+        },
+        "bosses": [],
+        "engagement": {
+          "mode": "idle",
+          "horizontal": null,
+          "angle": 0,
+          "elevation": 0,
+          "escapeSy": 0
+        },
+        "eventControls": true
+      },
+      "atSixMinutes": {
+        "state": "play",
+        "chapter": 2,
+        "wave": 2,
+        "hp": 258.08,
+        "maxHp": 260,
+        "level": 7,
+        "kills": 82,
+        "pos": [
+          159.35537222040932,
+          29.54845408881846,
+          -104.96024229074307
+        ],
+        "blocked": false,
+        "enemies": 3,
+        "elapsed": 379869,
+        "activeMs": 223591.9999999974,
+        "clock": {
+          "frames": 23504,
+          "rdtSum": 376.0940000000919,
+          "maxRdt": 0.016,
+          "playFrames": 16380,
+          "enemyFrames": 15348,
+          "physicsSeconds": 239.328799999953,
+          "blockedSeconds": 67.37599999999586,
+          "bossTalkSeconds": 18.71999999999971,
+          "paperSeconds": 35.725999999997846,
+          "paper": 35.725999999997846,
+          "dialogue": 64.89599999999503,
+          "cinematic": 25.45599999999897,
+          "assetWait": 0.032,
+          "transition": 1.472000000000001,
+          "upgrade": 0.5760000000000004,
+          "paused": 0.5120000000000003,
+          "combatControl": 227.61599999996088,
+          "travelControl": 14.960000000000012,
+          "other": 4.848000000000003
+        },
+        "bosses": [
+          {
+            "name": "🚢 巨大戦艦",
+            "hp": 375.0581213081743,
+            "maxHp": 691.6
+          }
+        ],
+        "engagement": {
+          "mode": "align",
+          "horizontal": 25.506199967682946,
+          "angle": 1.216536841196992,
+          "elevation": -0.3437181213605013,
+          "escapeSy": 0
+        },
+        "target": {
+          "name": "dknight",
+          "hp": 58.60641810713419,
+          "range": 26,
+          "yawError": 1.22,
+          "invulnerable": false,
+          "firing": false
+        },
+        "eventControls": true
+      },
+      "minimumHP": {
+        "hp": 206.08,
+        "maxHp": 260,
+        "ratio": 0.7926153846153846
+      },
+      "samples": [
+        {
+          "state": "story",
+          "chapter": 0,
+          "wave": -1,
+          "hp": 260,
+          "maxHp": 260,
+          "level": 1,
+          "kills": 0,
+          "pos": [
+            0,
+            47.51478753904766,
+            140
+          ],
+          "blocked": false,
+          "enemies": 0,
+          "elapsed": 7869,
+          "activeMs": 0,
+          "clock": {
+            "frames": 308,
+            "rdtSum": 4.962000000000003,
+            "maxRdt": 0.98,
+            "playFrames": 0,
+            "enemyFrames": 0,
+            "physicsSeconds": 0,
+            "blockedSeconds": 0,
+            "bossTalkSeconds": 0,
+            "paperSeconds": 0.114,
+            "paper": 0.114,
+            "dialogue": 0,
+            "cinematic": 0,
+            "assetWait": 0,
+            "transition": 0,
+            "upgrade": 0,
+            "paused": 0,
+            "combatControl": 0,
+            "travelControl": 0,
+            "other": 4.848000000000003
+          },
+          "bosses": [],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 0,
+          "wave": 0,
+          "hp": 260,
+          "maxHp": 260,
+          "level": 1,
+          "kills": 0,
+          "pos": [
+            0,
+            47.51478753904766,
+            140
+          ],
+          "blocked": true,
+          "enemies": 13,
+          "elapsed": 19869,
+          "activeMs": 0,
+          "clock": {
+            "frames": 1004,
+            "rdtSum": 16.094,
+            "maxRdt": 0.98,
+            "playFrames": 0,
+            "enemyFrames": 0,
+            "physicsSeconds": 0,
+            "blockedSeconds": 0.14400000000000002,
+            "bossTalkSeconds": 0,
+            "paperSeconds": 11.10200000000001,
+            "paper": 11.10200000000001,
+            "dialogue": 0,
+            "cinematic": 0.14400000000000002,
+            "assetWait": 0,
+            "transition": 0,
+            "upgrade": 0,
+            "paused": 0,
+            "combatControl": 0,
+            "travelControl": 0,
+            "other": 4.848000000000003
+          },
+          "bosses": [],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 0,
+          "wave": 1,
+          "hp": 260,
+          "maxHp": 260,
+          "level": 2,
+          "kills": 13,
+          "pos": [
+            -57.8143514917327,
+            12.581674268218343,
+            -65.1647312071623
+          ],
+          "blocked": true,
+          "enemies": 13,
+          "elapsed": 41669,
+          "activeMs": 15737.6,
+          "clock": {
+            "frames": 2367,
+            "rdtSum": 37.9019999999976,
+            "maxRdt": 0.016,
+            "playFrames": 1216,
+            "enemyFrames": 1120,
+            "physicsSeconds": 17.11599999999988,
+            "blockedSeconds": 4.400000000000003,
+            "bossTalkSeconds": 0,
+            "paperSeconds": 11.10200000000001,
+            "paper": 11.10200000000001,
+            "dialogue": 0.096,
+            "cinematic": 4.304000000000003,
+            "assetWait": 0,
+            "transition": 0,
+            "upgrade": 0.096,
+            "paused": 0,
+            "combatControl": 15.936000000000012,
+            "travelControl": 1.5200000000000011,
+            "other": 4.848000000000003
+          },
+          "bosses": [
+            {
+              "name": "🗿 石の巨人",
+              "hp": 495,
+              "maxHp": 495
+            }
+          ],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 0,
+          "wave": 1,
+          "hp": 216.57311999999843,
+          "maxHp": 260,
+          "level": 3,
+          "kills": 23,
+          "pos": [
+            -19.365166249768173,
+            9.494209159726797,
+            -44.34132839406192
+          ],
+          "blocked": false,
+          "enemies": 3,
+          "elapsed": 71669,
+          "activeMs": 33785.6,
+          "clock": {
+            "frames": 4242,
+            "rdtSum": 67.90199999999602,
+            "maxRdt": 0.016,
+            "playFrames": 2345,
+            "enemyFrames": 2249,
+            "physicsSeconds": 35.17999999999789,
+            "blockedSeconds": 7.424000000000006,
+            "bossTalkSeconds": 0,
+            "paperSeconds": 11.10200000000001,
+            "paper": 11.10200000000001,
+            "dialogue": 11.840000000000009,
+            "cinematic": 4.496000000000003,
+            "assetWait": 0,
+            "transition": 0,
+            "upgrade": 0.096,
+            "paused": 0,
+            "combatControl": 33.99999999999803,
+            "travelControl": 1.5200000000000011,
+            "other": 4.848000000000003
+          },
+          "bosses": [],
+          "engagement": {
+            "mode": "align",
+            "horizontal": 19.920577657354887,
+            "angle": 1.3122006777049813,
+            "elevation": -0.2650458148105823,
+            "escapeSy": 0
+          },
+          "target": {
+            "name": "soldier",
+            "hp": 1.6999999999999886,
+            "range": 21,
+            "yawError": -1.31,
+            "invulnerable": false,
+            "firing": false
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 0,
+          "wave": 3,
+          "hp": 260,
+          "maxHp": 260,
+          "level": 3,
+          "kills": 26,
+          "pos": [
+            -72.17983752737806,
+            10.17504716274944,
+            -101.97754487601685
+          ],
+          "blocked": true,
+          "enemies": 9,
+          "elapsed": 88269,
+          "activeMs": 45891.200000000026,
+          "clock": {
+            "frames": 5279,
+            "rdtSum": 84.49400000000156,
+            "maxRdt": 0.016,
+            "playFrames": 3373,
+            "enemyFrames": 3142,
+            "physicsSeconds": 49.28799999999623,
+            "blockedSeconds": 9.568000000000007,
+            "bossTalkSeconds": 0.14400000000000002,
+            "paperSeconds": 11.10200000000001,
+            "paper": 11.10200000000001,
+            "dialogue": 11.984000000000009,
+            "cinematic": 6.496000000000005,
+            "assetWait": 0.016,
+            "transition": 0,
+            "upgrade": 0.096,
+            "paused": 0,
+            "combatControl": 46.28799999999668,
+            "travelControl": 3.664000000000003,
+            "other": 4.848000000000003
+          },
+          "bosses": [
+            {
+              "name": "💣 超大型大砲車「竜ごろし」",
+              "hp": 741,
+              "maxHp": 741
+            }
+          ],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 0,
+          "wave": 3,
+          "hp": 233.76236799999958,
+          "maxHp": 260,
+          "level": 4,
+          "kills": 30,
+          "pos": [
+            28.08316903606075,
+            0.9206908797242161,
+            -160.99542989742972
+          ],
+          "blocked": false,
+          "enemies": 5,
+          "elapsed": 118269,
+          "activeMs": 65075.200000000026,
+          "clock": {
+            "frames": 7154,
+            "rdtSum": 114.49400000001158,
+            "maxRdt": 0.016,
+            "playFrames": 4572,
+            "enemyFrames": 4341,
+            "physicsSeconds": 68.4719999999961,
+            "blockedSeconds": 20.19199999999955,
+            "bossTalkSeconds": 10.768000000000008,
+            "paperSeconds": 11.10200000000001,
+            "paper": 11.10200000000001,
+            "dialogue": 22.607999999999283,
+            "cinematic": 6.496000000000005,
+            "assetWait": 0.016,
+            "transition": 0,
+            "upgrade": 0.28800000000000014,
+            "paused": 0,
+            "combatControl": 65.47199999999522,
+            "travelControl": 3.664000000000003,
+            "other": 4.848000000000003
+          },
+          "bosses": [
+            {
+              "name": "💣 超大型大砲車「竜ごろし」",
+              "hp": 354.6446244773981,
+              "maxHp": 741
+            }
+          ],
+          "engagement": {
+            "mode": "align",
+            "horizontal": 19.174756576676597,
+            "angle": 2.3400900317309863,
+            "elevation": -0.339608664706237,
+            "escapeSy": 0
+          },
+          "target": {
+            "name": "💣 超大型大砲車「竜ごろし」",
+            "hp": 354.6446244773981,
+            "range": 19,
+            "yawError": 2.34,
+            "invulnerable": false,
+            "firing": false
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 0,
+          "wave": 3,
+          "hp": 224.4035199999994,
+          "maxHp": 260,
+          "level": 5,
+          "kills": 35,
+          "pos": [
+            83.64955919907158,
+            -0.9776153134585226,
+            -198.33119056453785
+          ],
+          "blocked": false,
+          "enemies": 0,
+          "elapsed": 148269,
+          "activeMs": 89880.00000000003,
+          "clock": {
+            "frames": 9029,
+            "rdtSum": 144.49400000000696,
+            "maxRdt": 0.016,
+            "playFrames": 6346,
+            "enemyFrames": 6055,
+            "physicsSeconds": 94.39280000000448,
+            "blockedSeconds": 23.72799999999916,
+            "bossTalkSeconds": 10.768000000000008,
+            "paperSeconds": 11.10200000000001,
+            "paper": 11.10200000000001,
+            "dialogue": 23.82399999999915,
+            "cinematic": 8.816000000000006,
+            "assetWait": 0.016,
+            "transition": 0,
+            "upgrade": 0.3680000000000002,
+            "paused": 0,
+            "combatControl": 90.89600000000371,
+            "travelControl": 4.624000000000003,
+            "other": 4.848000000000003
+          },
+          "bosses": [],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        },
+        {
+          "state": "story",
+          "chapter": 1,
+          "wave": -1,
+          "hp": 260,
+          "maxHp": 260,
+          "level": 5,
+          "kills": 35,
+          "pos": [
+            -26,
+            42.337295112115264,
+            -60
+          ],
+          "blocked": false,
+          "enemies": 0,
+          "elapsed": 149669,
+          "activeMs": 89880.00000000003,
+          "clock": {
+            "frames": 9117,
+            "rdtSum": 145.90200000000618,
+            "maxRdt": 0.016,
+            "playFrames": 6407,
+            "enemyFrames": 6055,
+            "physicsSeconds": 95.36880000000481,
+            "blockedSeconds": 23.72799999999916,
+            "bossTalkSeconds": 10.768000000000008,
+            "paperSeconds": 11.27800000000001,
+            "paper": 11.27800000000001,
+            "dialogue": 23.82399999999915,
+            "cinematic": 8.816000000000006,
+            "assetWait": 0.016,
+            "transition": 0.7360000000000005,
+            "upgrade": 0.3680000000000002,
+            "paused": 0.2560000000000001,
+            "combatControl": 90.89600000000371,
+            "travelControl": 4.864000000000003,
+            "other": 4.848000000000003
+          },
+          "bosses": [],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 1,
+          "wave": 0,
+          "hp": 260,
+          "maxHp": 260,
+          "level": 5,
+          "kills": 35,
+          "pos": [
+            -26,
+            42.337295112115264,
+            -60
+          ],
+          "blocked": true,
+          "enemies": 15,
+          "elapsed": 162069,
+          "activeMs": 89880.00000000003,
+          "clock": {
+            "frames": 9892,
+            "rdtSum": 158.3019999999993,
+            "maxRdt": 0.016,
+            "playFrames": 6407,
+            "enemyFrames": 6055,
+            "physicsSeconds": 95.36880000000481,
+            "blockedSeconds": 23.887999999999142,
+            "bossTalkSeconds": 10.768000000000008,
+            "paperSeconds": 23.517999999999187,
+            "paper": 23.517999999999187,
+            "dialogue": 23.98399999999913,
+            "cinematic": 8.816000000000006,
+            "assetWait": 0.016,
+            "transition": 0.7360000000000005,
+            "upgrade": 0.3680000000000002,
+            "paused": 0.2560000000000001,
+            "combatControl": 90.89600000000371,
+            "travelControl": 4.864000000000003,
+            "other": 4.848000000000003
+          },
+          "bosses": [],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 1,
+          "wave": 2,
+          "hp": 258.72,
+          "maxHp": 260,
+          "level": 5,
+          "kills": 50,
+          "pos": [
+            22.878963632605537,
+            25.633304109785396,
+            -208.99357874865157
+          ],
+          "blocked": true,
+          "enemies": 1,
+          "elapsed": 185069,
+          "activeMs": 104049.59999999992,
+          "clock": {
+            "frames": 11329,
+            "rdtSum": 181.29399999998657,
+            "maxRdt": 0.016,
+            "playFrames": 7563,
+            "enemyFrames": 7077,
+            "physicsSeconds": 111.52480000000992,
+            "blockedSeconds": 30.383999999998426,
+            "bossTalkSeconds": 10.768000000000008,
+            "paperSeconds": 23.517999999999187,
+            "paper": 23.517999999999187,
+            "dialogue": 27.231999999998774,
+            "cinematic": 12.064000000000009,
+            "assetWait": 0.016,
+            "transition": 0.7360000000000005,
+            "upgrade": 0.3680000000000002,
+            "paused": 0.2560000000000001,
+            "combatControl": 105.2480000000085,
+            "travelControl": 7.008000000000005,
+            "other": 4.848000000000003
+          },
+          "bosses": [
+            {
+              "name": "🧙 宮廷魔術師",
+              "hp": 428,
+              "maxHp": 428
+            }
+          ],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 1,
+          "wave": 2,
+          "hp": 236.33791999999977,
+          "maxHp": 260,
+          "level": 6,
+          "kills": 51,
+          "pos": [
+            72.22427525505022,
+            26.70533892186972,
+            -219.7854568422252
+          ],
+          "blocked": true,
+          "enemies": 0,
+          "elapsed": 215069,
+          "activeMs": 127265.59999999992,
+          "clock": {
+            "frames": 13204,
+            "rdtSum": 211.29399999996994,
+            "maxRdt": 0.016,
+            "playFrames": 9015,
+            "enemyFrames": 8528,
+            "physicsSeconds": 134.75680000001168,
+            "blockedSeconds": 37.151999999997685,
+            "bossTalkSeconds": 10.768000000000008,
+            "paperSeconds": 23.517999999999187,
+            "paper": 23.517999999999187,
+            "dialogue": 30.99199999999836,
+            "cinematic": 15.072000000000012,
+            "assetWait": 0.016,
+            "transition": 0.7360000000000005,
+            "upgrade": 0.3680000000000002,
+            "paused": 0.2560000000000001,
+            "combatControl": 128.48000000001582,
+            "travelControl": 7.008000000000005,
+            "other": 4.848000000000003
+          },
+          "bosses": [],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 1,
+          "wave": 3,
+          "hp": 260,
+          "maxHp": 260,
+          "level": 6,
+          "kills": 51,
+          "pos": [
+            32.825783918115434,
+            26.705338922608952,
+            -284.1208818400707
+          ],
+          "blocked": true,
+          "enemies": 8,
+          "elapsed": 218069,
+          "activeMs": 127265.59999999992,
+          "clock": {
+            "frames": 13392,
+            "rdtSum": 214.30199999996827,
+            "maxRdt": 0.016,
+            "playFrames": 9148,
+            "enemyFrames": 8528,
+            "physicsSeconds": 136.57120000001044,
+            "blockedSeconds": 38.01599999999759,
+            "bossTalkSeconds": 10.768000000000008,
+            "paperSeconds": 23.517999999999187,
+            "paper": 23.517999999999187,
+            "dialogue": 31.679999999998284,
+            "cinematic": 15.248000000000012,
+            "assetWait": 0.016,
+            "transition": 0.7360000000000005,
+            "upgrade": 0.38400000000000023,
+            "paused": 0.2560000000000001,
+            "combatControl": 128.48000000001582,
+            "travelControl": 9.136000000000006,
+            "other": 4.848000000000003
+          },
+          "bosses": [
+            {
+              "name": "🛡️ 人間の勇者",
+              "hp": 247,
+              "maxHp": 247
+            }
+          ],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 1,
+          "wave": 3,
+          "hp": 229.9148799999994,
+          "maxHp": 260,
+          "level": 6,
+          "kills": 55,
+          "pos": [
+            58.98741599499915,
+            4.8542017834421545,
+            -321.7454981047476
+          ],
+          "blocked": false,
+          "enemies": 4,
+          "elapsed": 248069,
+          "activeMs": 147947.1999999998,
+          "clock": {
+            "frames": 15267,
+            "rdtSum": 244.30199999995165,
+            "maxRdt": 0.016,
+            "playFrames": 10577,
+            "enemyFrames": 9957,
+            "physicsSeconds": 157.40879999999922,
+            "blockedSeconds": 44.52799999999687,
+            "bossTalkSeconds": 10.768000000000008,
+            "paperSeconds": 23.517999999999187,
+            "paper": 23.517999999999187,
+            "dialogue": 38.8159999999975,
+            "cinematic": 17.247999999999873,
+            "assetWait": 0.016,
+            "transition": 0.7360000000000005,
+            "upgrade": 0.38400000000000023,
+            "paused": 0.2560000000000001,
+            "combatControl": 149.34400000000426,
+            "travelControl": 9.136000000000006,
+            "other": 4.848000000000003
+          },
+          "bosses": [],
+          "engagement": {
+            "mode": "align",
+            "horizontal": 53.886220848953634,
+            "angle": 1.1835545497443283,
+            "elevation": -0.08237956719055918,
+            "escapeSy": 0
+          },
+          "target": {
+            "name": "cannon",
+            "hp": 105.1659580017566,
+            "range": 54,
+            "yawError": -1.18,
+            "invulnerable": false,
+            "firing": false
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 1,
+          "wave": 4,
+          "hp": 260,
+          "maxHp": 260,
+          "level": 6,
+          "kills": 59,
+          "pos": [
+            44.3270251387,
+            7.7,
+            -235.19433627885581
+          ],
+          "blocked": true,
+          "enemies": 6,
+          "elapsed": 261869,
+          "activeMs": 157364.7999999997,
+          "clock": {
+            "frames": 16129,
+            "rdtSum": 258.0939999999477,
+            "maxRdt": 0.016,
+            "playFrames": 11436,
+            "enemyFrames": 10682,
+            "physicsSeconds": 168.812799999993,
+            "blockedSeconds": 46.57599999999665,
+            "bossTalkSeconds": 10.768000000000008,
+            "paperSeconds": 23.517999999999187,
+            "paper": 23.517999999999187,
+            "dialogue": 38.863999999997496,
+            "cinematic": 19.247999999999653,
+            "assetWait": 0.016,
+            "transition": 0.7360000000000005,
+            "upgrade": 0.38400000000000023,
+            "paused": 0.2560000000000001,
+            "combatControl": 158.94399999999894,
+            "travelControl": 11.280000000000008,
+            "other": 4.848000000000003
+          },
+          "bosses": [
+            {
+              "name": "🏰 うごく城",
+              "hp": 642.2,
+              "maxHp": 642.2
+            }
+          ],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 1,
+          "wave": 4,
+          "hp": 219.52,
+          "maxHp": 260,
+          "level": 6,
+          "kills": 61,
+          "pos": [
+            -50.806076663687975,
+            15.137880508980514,
+            -190.0561423733054
+          ],
+          "blocked": false,
+          "enemies": 10,
+          "elapsed": 291869,
+          "activeMs": 171039.9999999988,
+          "clock": {
+            "frames": 18004,
+            "rdtSum": 288.09399999998436,
+            "maxRdt": 0.016,
+            "playFrames": 12474,
+            "enemyFrames": 11720,
+            "physicsSeconds": 182.64399999998508,
+            "blockedSeconds": 51.583999999996095,
+            "bossTalkSeconds": 10.768000000000008,
+            "paperSeconds": 23.517999999999187,
+            "paper": 23.517999999999187,
+            "dialogue": 52.047999999996044,
+            "cinematic": 21.45599999999941,
+            "assetWait": 0.016,
+            "transition": 0.7360000000000005,
+            "upgrade": 0.38400000000000023,
+            "paused": 0.2560000000000001,
+            "combatControl": 173.55199999999084,
+            "travelControl": 11.280000000000008,
+            "other": 4.848000000000003
+          },
+          "bosses": [
+            {
+              "name": "🏰 うごく城",
+              "hp": 480.04076744465533,
+              "maxHp": 963.3000000000001
+            }
+          ],
+          "engagement": {
+            "mode": "align",
+            "horizontal": 32.98377106315703,
+            "angle": 0.4022920709307102,
+            "elevation": -0.2813329399574098,
+            "escapeSy": 0
+          },
+          "target": {
+            "name": "dknight",
+            "hp": 95,
+            "range": 33,
+            "yawError": 0.4,
+            "invulnerable": false,
+            "firing": true
+          },
+          "eventControls": true
+        },
+        {
+          "state": "story",
+          "chapter": 2,
+          "wave": -1,
+          "hp": 260,
+          "maxHp": 260,
+          "level": 7,
+          "kills": 71,
+          "pos": [
+            0,
+            43,
+            120
+          ],
+          "blocked": false,
+          "enemies": 0,
+          "elapsed": 302269,
+          "activeMs": 175268.79999999763,
+          "clock": {
+            "frames": 18654,
+            "rdtSum": 298.4939999999971,
+            "maxRdt": 0.016,
+            "playFrames": 12990,
+            "enemyFrames": 12055,
+            "physicsSeconds": 189.4551999999802,
+            "blockedSeconds": 53.119999999995926,
+            "bossTalkSeconds": 10.768000000000008,
+            "paperSeconds": 23.67799999999917,
+            "paper": 23.67799999999917,
+            "dialogue": 53.583999999995875,
+            "cinematic": 21.45599999999941,
+            "assetWait": 0.016,
+            "transition": 1.472000000000001,
+            "upgrade": 0.5760000000000004,
+            "paused": 0.5120000000000003,
+            "combatControl": 178.92799999998786,
+            "travelControl": 13.42400000000001,
+            "other": 4.848000000000003
+          },
+          "bosses": [],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 2,
+          "wave": 0,
+          "hp": 260,
+          "maxHp": 260,
+          "level": 7,
+          "kills": 71,
+          "pos": [
+            0,
+            43,
+            120
+          ],
+          "blocked": true,
+          "enemies": 9,
+          "elapsed": 314469,
+          "activeMs": 175268.79999999763,
+          "clock": {
+            "frames": 19417,
+            "rdtSum": 310.702000000012,
+            "maxRdt": 0.016,
+            "playFrames": 12990,
+            "enemyFrames": 12055,
+            "physicsSeconds": 189.4551999999802,
+            "blockedSeconds": 53.27999999999591,
+            "bossTalkSeconds": 10.768000000000008,
+            "paperSeconds": 35.725999999997846,
+            "paper": 35.725999999997846,
+            "dialogue": 53.74399999999586,
+            "cinematic": 21.45599999999941,
+            "assetWait": 0.016,
+            "transition": 1.472000000000001,
+            "upgrade": 0.5760000000000004,
+            "paused": 0.5120000000000003,
+            "combatControl": 178.92799999998786,
+            "travelControl": 13.42400000000001,
+            "other": 4.848000000000003
+          },
+          "bosses": [],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 2,
+          "wave": 0,
+          "hp": 225.12000000000012,
+          "maxHp": 260,
+          "level": 7,
+          "kills": 75,
+          "pos": [
+            105.85750951179371,
+            172.70659388328332,
+            196.98482251117986
+          ],
+          "blocked": false,
+          "enemies": 5,
+          "elapsed": 344469,
+          "activeMs": 197703.9999999974,
+          "clock": {
+            "frames": 21292,
+            "rdtSum": 340.70200000004866,
+            "maxRdt": 0.016,
+            "playFrames": 14665,
+            "enemyFrames": 13730,
+            "physicsSeconds": 212.20239999996826,
+            "blockedSeconds": 59.42399999999523,
+            "bossTalkSeconds": 10.768000000000008,
+            "paperSeconds": 35.725999999997846,
+            "paper": 35.725999999997846,
+            "dialogue": 56.943999999995505,
+            "cinematic": 25.45599999999897,
+            "assetWait": 0.016,
+            "transition": 1.472000000000001,
+            "upgrade": 0.5760000000000004,
+            "paused": 0.5120000000000003,
+            "combatControl": 201.72799999997522,
+            "travelControl": 13.42400000000001,
+            "other": 4.848000000000003
+          },
+          "bosses": [],
+          "engagement": {
+            "mode": "align",
+            "horizontal": 129.55887175586292,
+            "angle": 1.1255228883302444,
+            "elevation": -0.03256759993960201,
+            "escapeSy": 0
+          },
+          "target": {
+            "name": "ship",
+            "hp": 51.83136804300713,
+            "range": 217,
+            "yawError": -1.13,
+            "invulnerable": false,
+            "firing": false
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 2,
+          "wave": 2,
+          "hp": 260,
+          "maxHp": 260,
+          "level": 7,
+          "kills": 80,
+          "pos": [
+            170.53335161821053,
+            12.919811937994101,
+            -74.8789970028756
+          ],
+          "blocked": true,
+          "enemies": 5,
+          "elapsed": 361469,
+          "activeMs": 213015.9999999974,
+          "clock": {
+            "frames": 22354,
+            "rdtSum": 357.6940000000694,
+            "maxRdt": 0.016,
+            "playFrames": 15719,
+            "enemyFrames": 14687,
+            "physicsSeconds": 228.75279999995885,
+            "blockedSeconds": 59.55199999999522,
+            "bossTalkSeconds": 10.896000000000008,
+            "paperSeconds": 35.725999999997846,
+            "paper": 35.725999999997846,
+            "dialogue": 57.07199999999549,
+            "cinematic": 25.45599999999897,
+            "assetWait": 0.032,
+            "transition": 1.472000000000001,
+            "upgrade": 0.5760000000000004,
+            "paused": 0.5120000000000003,
+            "combatControl": 217.03999999996674,
+            "travelControl": 14.960000000000012,
+            "other": 4.848000000000003
+          },
+          "bosses": [
+            {
+              "name": "🚢 巨大戦艦",
+              "hp": 691.6,
+              "maxHp": 691.6
+            }
+          ],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 2,
+          "wave": 2,
+          "hp": 228.6400000000001,
+          "maxHp": 260,
+          "level": 8,
+          "kills": 84,
+          "pos": [
+            256.7425926689067,
+            4.744884375724239,
+            -63.20408757191862
+          ],
+          "blocked": false,
+          "enemies": 3,
+          "elapsed": 391469,
+          "activeMs": 233479.9999999974,
+          "clock": {
+            "frames": 24229,
+            "rdtSum": 387.6940000001061,
+            "maxRdt": 0.016,
+            "playFrames": 16999,
+            "enemyFrames": 15967,
+            "physicsSeconds": 249.2327999999475,
+            "blockedSeconds": 68.91199999999637,
+            "bossTalkSeconds": 18.71999999999971,
+            "paperSeconds": 35.725999999997846,
+            "paper": 35.725999999997846,
+            "dialogue": 66.39999999999553,
+            "cinematic": 25.487999999998966,
+            "assetWait": 0.032,
+            "transition": 1.472000000000001,
+            "upgrade": 0.7360000000000005,
+            "paused": 0.5120000000000003,
+            "combatControl": 237.5199999999554,
+            "travelControl": 14.960000000000012,
+            "other": 4.848000000000003
+          },
+          "bosses": [],
+          "engagement": {
+            "mode": "approach",
+            "horizontal": 66.60590559146155,
+            "angle": 0.2960894484921428,
+            "elevation": -0.09084292178624716,
+            "escapeSy": 0
+          },
+          "target": {
+            "name": "ship",
+            "hp": 62.101354107986715,
+            "range": 67,
+            "yawError": -0.3,
+            "invulnerable": false,
+            "firing": true
+          },
+          "eventControls": true
+        },
+        {
+          "state": "play",
+          "chapter": 2,
+          "wave": 3,
+          "hp": 219.88000000000014,
+          "maxHp": 260,
+          "level": 8,
+          "kills": 87,
+          "pos": [
+            172.31123494845193,
+            0.6854089427581922,
+            -56.29711836628982
+          ],
+          "blocked": true,
+          "enemies": 5,
+          "elapsed": 398069,
+          "activeMs": 238839.9999999974,
+          "clock": {
+            "frames": 24642,
+            "rdtSum": 394.30200000011416,
+            "maxRdt": 0.016,
+            "playFrames": 17409,
+            "enemyFrames": 16302,
+            "physicsSeconds": 255.79279999994387,
+            "blockedSeconds": 68.95999999999638,
+            "bossTalkSeconds": 18.767999999999706,
+            "paperSeconds": 35.725999999997846,
+            "paper": 35.725999999997846,
+            "dialogue": 66.44799999999555,
+            "cinematic": 25.487999999998966,
+            "assetWait": 0.032,
+            "transition": 1.472000000000001,
+            "upgrade": 0.7360000000000005,
+            "paused": 0.5120000000000003,
+            "combatControl": 242.87999999995242,
+            "travelControl": 16.159999999999993,
+            "other": 4.848000000000003
+          },
+          "bosses": [
+            {
+              "name": "🎈 空中戦艦",
+              "hp": 543.4,
+              "maxHp": 543.4
+            }
+          ],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        },
+        {
+          "state": "story",
+          "chapter": 2,
+          "wave": -1,
+          "hp": 218.4464000000003,
+          "maxHp": 260,
+          "level": 9,
+          "kills": 94,
+          "pos": [
+            110.69873779870838,
+            108.30365777401404,
+            101.92914034768911
+          ],
+          "blocked": false,
+          "enemies": 0,
+          "elapsed": 422869,
+          "activeMs": 250503.9999999974,
+          "clock": {
+            "frames": 26192,
+            "rdtSum": 419.10200000014447,
+            "maxRdt": 0.016,
+            "playFrames": 18309,
+            "enemyFrames": 17031,
+            "physicsSeconds": 270.0023999999606,
+            "blockedSeconds": 79.10399999999977,
+            "bossTalkSeconds": 27.375999999998758,
+            "paperSeconds": 35.78999999999784,
+            "paper": 35.78999999999784,
+            "dialogue": 76.38399999999886,
+            "cinematic": 25.695999999998943,
+            "assetWait": 0.032,
+            "transition": 2.2080000000000015,
+            "upgrade": 0.9280000000000007,
+            "paused": 0.5120000000000003,
+            "combatControl": 254.54399999994595,
+            "travelControl": 18.159999999999773,
+            "other": 4.848000000000003
+          },
+          "bosses": [],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        },
+        {
+          "state": "clear",
+          "chapter": 2,
+          "wave": -1,
+          "hp": 218.4464000000003,
+          "maxHp": 260,
+          "level": 9,
+          "kills": 94,
+          "pos": [
+            110.69873779870838,
+            108.30365777401404,
+            101.92914034768911
+          ],
+          "blocked": false,
+          "enemies": 0,
+          "elapsed": 432669,
+          "activeMs": 250503.9999999974,
+          "clock": {
+            "frames": 26804,
+            "rdtSum": 428.89400000015644,
+            "maxRdt": 0.016,
+            "playFrames": 18309,
+            "enemyFrames": 17031,
+            "physicsSeconds": 270.0023999999606,
+            "blockedSeconds": 79.10399999999977,
+            "bossTalkSeconds": 27.375999999998758,
+            "paperSeconds": 45.43799999999678,
+            "paper": 45.43799999999678,
+            "dialogue": 76.38399999999886,
+            "cinematic": 25.695999999998943,
+            "assetWait": 0.032,
+            "transition": 2.2080000000000015,
+            "upgrade": 0.9280000000000007,
+            "paused": 0.5120000000000003,
+            "combatControl": 254.54399999994595,
+            "travelControl": 18.159999999999773,
+            "other": 4.9920000000000035
+          },
+          "bosses": [],
+          "engagement": {
+            "mode": "idle",
+            "horizontal": null,
+            "angle": 0,
+            "elevation": 0,
+            "escapeSy": 0
+          },
+          "eventControls": true
+        }
+      ],
+      "errors": [],
+      "nextClicks": {
+        "paper": 29,
+        "dialogue": 48
+      },
+      "waveHealth": {
+        "0:0": {
+          "soldier": {
+            "count": 7,
+            "min": 95,
+            "max": 95
+          },
+          "archer": {
+            "count": 3,
+            "min": 95,
+            "max": 136.95
+          },
+          "cannon": {
+            "count": 1,
+            "min": 161.85,
+            "max": 161.85
+          },
+          "priest": {
+            "count": 1,
+            "min": 85,
+            "max": 85
+          },
+          "bigcannon": {
+            "count": 1,
+            "min": 225.39999999999998,
+            "max": 225.39999999999998
+          }
+        },
+        "0:1": {
+          "soldier": {
+            "count": 7,
+            "min": 95,
+            "max": 157.7
+          },
+          "archer": {
+            "count": 2,
+            "min": 136.95,
+            "max": 136.95
+          },
+          "airship": {
+            "count": 1,
+            "min": 96.6,
+            "max": 96.6
+          },
+          "wizard": {
+            "count": 1,
+            "min": 105,
+            "max": 105
+          },
+          "dknight": {
+            "count": 1,
+            "min": 95,
+            "max": 95
+          },
+          "🗿 石の巨人": {
+            "count": 1,
+            "min": 495,
+            "max": 495
+          }
+        },
+        "0:3": {
+          "💣 超大型大砲車「竜ごろし」": {
+            "count": 1,
+            "min": 741,
+            "max": 741
+          },
+          "siegecart": {
+            "count": 1,
+            "min": 386.4,
+            "max": 386.4
+          },
+          "soldier": {
+            "count": 4,
+            "min": 95,
+            "max": 95
+          },
+          "cannon": {
+            "count": 1,
+            "min": 161.85,
+            "max": 161.85
+          },
+          "dknight": {
+            "count": 1,
+            "min": 95,
+            "max": 95
+          },
+          "wizard": {
+            "count": 1,
+            "min": 105,
+            "max": 105
+          }
+        },
+        "1:0": {
+          "dknight": {
+            "count": 1,
+            "min": 95,
+            "max": 95
+          },
+          "soldier": {
+            "count": 6,
+            "min": 95,
+            "max": 117.208
+          },
+          "archer": {
+            "count": 5,
+            "min": 95,
+            "max": 136.95
+          },
+          "cannon": {
+            "count": 1,
+            "min": 105,
+            "max": 105
+          },
+          "bigcannon": {
+            "count": 1,
+            "min": 225.39999999999998,
+            "max": 225.39999999999998
+          },
+          "airship": {
+            "count": 1,
+            "min": 96.6,
+            "max": 96.6
+          }
+        },
+        "1:2": {
+          "🧙 宮廷魔術師": {
+            "count": 1,
+            "min": 428,
+            "max": 428
+          }
+        },
+        "1:3": {
+          "🛡️ 人間の勇者": {
+            "count": 1,
+            "min": 247,
+            "max": 247
+          },
+          "soldier": {
+            "count": 4,
+            "min": 95,
+            "max": 100.464
+          },
+          "cannon": {
+            "count": 1,
+            "min": 161.85,
+            "max": 161.85
+          },
+          "dknight": {
+            "count": 1,
+            "min": 95,
+            "max": 95
+          },
+          "wizard": {
+            "count": 1,
+            "min": 105,
+            "max": 105
+          }
+        },
+        "1:4": {
+          "🏰 うごく城": {
+            "count": 1,
+            "min": 642.2,
+            "max": 642.2
+          },
+          "bigcannon": {
+            "count": 1,
+            "min": 225.39999999999998,
+            "max": 225.39999999999998
+          },
+          "dknight": {
+            "count": 1,
+            "min": 95,
+            "max": 95
+          },
+          "cannon": {
+            "count": 1,
+            "min": 161.85,
+            "max": 161.85
+          },
+          "soldier": {
+            "count": 2,
+            "min": 95,
+            "max": 95
+          }
+        },
+        "2:0": {
+          "dknight": {
+            "count": 2,
+            "min": 95,
+            "max": 95
+          },
+          "ship": {
+            "count": 1,
+            "min": 83.72,
+            "max": 83.72
+          },
+          "wizard": {
+            "count": 2,
+            "min": 105,
+            "max": 105
+          },
+          "archer": {
+            "count": 4,
+            "min": 95,
+            "max": 95
+          }
+        },
+        "2:2": {
+          "🚢 巨大戦艦": {
+            "count": 1,
+            "min": 691.6,
+            "max": 691.6
+          },
+          "ship": {
+            "count": 1,
+            "min": 83.72,
+            "max": 83.72
+          },
+          "dknight": {
+            "count": 1,
+            "min": 95,
+            "max": 95
+          },
+          "airship": {
+            "count": 1,
+            "min": 96.6,
+            "max": 96.6
+          },
+          "wizard": {
+            "count": 1,
+            "min": 105,
+            "max": 105
+          }
+        },
+        "2:3": {
+          "🎈 空中戦艦": {
+            "count": 1,
+            "min": 543.4,
+            "max": 543.4
+          },
+          "airship": {
+            "count": 1,
+            "min": 96.6,
+            "max": 96.6
+          },
+          "dknight": {
+            "count": 1,
+            "min": 95,
+            "max": 95
+          },
+          "wizard": {
+            "count": 2,
+            "min": 105,
+            "max": 105
+          }
+        }
+      },
+      "reposition": [
+        {
+          "policy": "engagement",
+          "at": 66669,
+          "chapter": 0,
+          "wave": 1,
+          "range": 33.58295674973885,
+          "horizontal": 33.47823896286705,
+          "angle": 1.3511724922206105,
+          "elevation": -0.09553567604863103,
+          "hp": 1.6999999999999886
+        },
+        {
+          "policy": "engagement",
+          "at": 72269,
+          "chapter": 0,
+          "wave": 1,
+          "range": 24.9570462545529,
+          "horizontal": 24.375892156467362,
+          "angle": 1.5119262818550205,
+          "elevation": -0.21584407315834048,
+          "hp": 1.6999999999999886
+        },
+        {
+          "policy": "engagement",
+          "at": 82269,
+          "chapter": 0,
+          "wave": 1,
+          "range": 24.605455214666204,
+          "horizontal": 23.830909003115142,
+          "angle": 1.264439631328426,
+          "elevation": -0.25157579023806176,
+          "hp": 1.6999999999999886
+        },
+        {
+          "policy": "engagement",
+          "at": 137669,
+          "chapter": 0,
+          "wave": 3,
+          "range": 37.44740588825678,
+          "horizontal": 37.40502707245886,
+          "angle": 1.4923516634645908,
+          "elevation": -0.05447416418276893,
+          "hp": 45.51774861816912
+        },
+        {
+          "policy": "engagement",
+          "at": 214069,
+          "chapter": 1,
+          "wave": 2,
+          "range": 28.941634845841413,
+          "horizontal": 28.146824648492295,
+          "angle": 0.9926808031878996,
+          "elevation": -0.23490060066793603,
+          "hp": 32.70140387824203
+        },
+        {
+          "policy": "engagement",
+          "at": 279869,
+          "chapter": 1,
+          "wave": 4,
+          "range": 34.47523086758832,
+          "horizontal": 33.899386244063145,
+          "angle": 0.9103513810603379,
+          "elevation": -0.18849003630434397,
+          "hp": 225.39999999999998
+        },
+        {
+          "policy": "engagement",
+          "at": 334469,
+          "chapter": 2,
+          "wave": 0,
+          "range": 26.98309270763029,
+          "horizontal": 26.788454620073047,
+          "angle": 1.2797323142589305,
+          "elevation": 0.009291571293340434,
+          "hp": 105
+        }
+      ],
+      "clockBucketsSeconds": {
+        "paper": 34.336,
+        "dialogue": 76.384,
+        "cinematic": 25.552,
+        "assetWait": 0.032,
+        "transition": 2.208,
+        "upgrade": 0.928,
+        "paused": 0.512,
+        "combatControl": 254.544,
+        "travelControl": 18.16,
+        "other": 0.144
+      },
+      "waitSeconds": 139.952,
+      "controllableSeconds": 272.704,
+      "counterTotalSeconds": 412.8
+    }
+  ],
+  "reference": {
+    "file": "C:\\lo\\ドラゴンゲーム\\tripo\\shots\\kingdom_six_1118\\kingdom-final.json",
+    "firstWaveToEndSeconds": 347.0,
+    "sha256": "a4af2e81111a815e22b21671d291fbefe7b9327bc0b7c9ea8d8ec9faae6ec797"
+  },
+  "scope": "Same red dragon and seed; experimental engagement steering differs from earlier cautious/reposition inputs, so completion times are not a controlled before/after comparison. Fixed Next uses the chosen reading policy. Slow while turning or within 45 horizontal units; approach at normal speed once aligned. If the same target within 40 horizontal units remains outside the actual aim arc without HP loss for 2.4s, depart for 1.4s. Departure is level when safe, climbing only for sampled forward terrain clearance. All steering uses ordinary key/mouse events; game HP, positions, RNG, attacks and clocks are unchanged.",
+  "event_policy": "next",
+  "steering_policy": "engagement",
+  "gameTimeClock": "virtual",
+  "profiles": {
+    "before": {
+      "sha256": "a4af2e81111a815e22b21671d291fbefe7b9327bc0b7c9ea8d8ec9faae6ec797",
+      "profiles": [
+        {
+          "difficulty": "normal",
+          "attack": {
+            "damage": 38,
+            "period": 0.5,
+            "specialGap": 6000
+          },
+          "rows": [
+            {
+              "type": "soldier",
+              "hp": 19.5,
+              "firstArrow": 1.602591530950936,
+              "firstVolley": 0
+            },
+            {
+              "type": "archer",
+              "hp": 15,
+              "firstArrow": 1.910788261544221,
+              "firstVolley": 0
+            },
+            {
+              "type": "cannon",
+              "hp": 67.5,
+              "firstArrow": 2.1874794139538634,
+              "firstVolley": 0
+            },
+            {
+              "type": "battleship",
+              "hp": 1736,
+              "firstArrow": 2.9522228184599415,
+              "firstVolley": 0
+            },
+            {
+              "type": "bigairship",
+              "hp": 1364,
+              "firstArrow": 2.4193488408494144,
+              "firstVolley": 0
+            },
+            {
+              "type": "walker",
+              "hp": 1612,
+              "firstArrow": 2.2407981551307294,
+              "firstVolley": 0
+            }
+          ]
+        },
+        {
+          "difficulty": "easy",
+          "attack": {
+            "damage": 38,
+            "period": 0.5,
+            "specialGap": 6000
+          },
+          "rows": [
+            {
+              "type": "soldier",
+              "hp": 5.98,
+              "firstArrow": 2.582313212622096,
+              "firstVolley": 0
+            },
+            {
+              "type": "archer",
+              "hp": 4.6000000000000005,
+              "firstArrow": 1.3819326330375485,
+              "firstVolley": 0
+            },
+            {
+              "type": "cannon",
+              "hp": 20.7,
+              "firstArrow": 1.7129893616956273,
+              "firstVolley": 0
+            },
+            {
+              "type": "battleship",
+              "hp": 340.48,
+              "firstArrow": 1.6230889150987173,
+              "firstVolley": 0
+            },
+            {
+              "type": "bigairship",
+              "hp": 267.52,
+              "firstArrow": 1.2912613397822732,
+              "firstVolley": 0
+            },
+            {
+              "type": "walker",
+              "hp": 316.16,
+              "firstArrow": 2.3524548412823343,
+              "firstVolley": 0
+            }
+          ]
+        }
+      ]
+    },
+    "after": {
+      "sha256": "176099944e4a2a5580c1a3cddf2bd60b6e51a53fbbae56ebcdad59017f542e21",
+      "profiles": [
+        {
+          "difficulty": "normal",
+          "attack": {
+            "damage": 38,
+            "period": 0.5,
+            "specialGap": 6000
+          },
+          "rows": [
+            {
+              "type": "soldier",
+              "hp": 190,
+              "firstArrow": 2.7493434142108173,
+              "firstVolley": 0
+            },
+            {
+              "type": "archer",
+              "hp": 165,
+              "firstArrow": 1.05,
+              "firstVolley": 0
+            },
+            {
+              "type": "cannon",
+              "hp": 195,
+              "firstArrow": 1.05,
+              "firstVolley": 0
+            },
+            {
+              "type": "battleship",
+              "hp": 1736,
+              "firstArrow": 2.729402681702038,
+              "firstVolley": 0
+            },
+            {
+              "type": "bigairship",
+              "hp": 1364,
+              "firstArrow": 1.3032746992042805,
+              "firstVolley": 0
+            },
+            {
+              "type": "walker",
+              "hp": 1612,
+              "firstArrow": 1.0257459456541056,
+              "firstVolley": 0
+            }
+          ]
+        },
+        {
+          "difficulty": "easy",
+          "attack": {
+            "damage": 38,
+            "period": 0.5,
+            "specialGap": 6000
+          },
+          "rows": [
+            {
+              "type": "soldier",
+              "hp": 157.7,
+              "firstArrow": 1.5357457109226385,
+              "firstVolley": 0
+            },
+            {
+              "type": "archer",
+              "hp": 136.95,
+              "firstArrow": 1.05,
+              "firstVolley": 0
+            },
+            {
+              "type": "cannon",
+              "hp": 161.85,
+              "firstArrow": 1.05,
+              "firstVolley": 0
+            },
+            {
+              "type": "battleship",
+              "hp": 691.6,
+              "firstArrow": 2.190632444049937,
+              "firstVolley": 0
+            },
+            {
+              "type": "bigairship",
+              "hp": 543.4,
+              "firstArrow": 2.346891037845559,
+              "firstVolley": 0
+            },
+            {
+              "type": "walker",
+              "hp": 642.2,
+              "firstArrow": 2.781718380411574,
+              "firstVolley": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "profile_checks": {
+    "easy_regulars_survive_ordinary_flame": true,
+    "easy_bosses_have_more_health": true,
+    "normal_boss_health_preserved": true,
+    "normal_stays_above_easy": true,
+    "player_flame_and_cooldown_unchanged": true
+  },
+  "finished_at": "2026-11-19T03:17:17.254949+09:00",
+  "ok": true
+}

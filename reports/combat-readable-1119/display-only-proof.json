@@ -1,0 +1,18 @@
+{
+  "ok": true,
+  "checked_at": "2026-11-19T02:17:14.214038+09:00",
+  "only_display_helpers_changed": true,
+  "from": {
+    "source/game.html": "e47677919334343063f44cd32629f915da42d10554c9041280636d4592282ddb",
+    "musou.html": "48c1e2363ba5d1d056a328c2500d494a8e64cab5e1a052a1264963f8f6280266",
+    "honpen.html": "2535d8f137a7601bce6917131046a3d3d58fcb24df56346cb0eb9e7f6831a91e"
+  },
+  "to": {
+    "source/game.html": "7af295a889be35e4c6533a5703d77f0af8cb5b930fbffa4885640721eee50bc2",
+    "musou.html": "fe2180a51eeb04e58c8183ca892c05acff2381a554c7d00047f102ccee93abc7",
+    "honpen.html": "4866688a1a3d20aa9b4c59003cc7bc6202d8776ba1d8cd29c8210ffb5e6e9a80"
+  },
+  "scope": "通し計測後の変更はイベント表示のcutT/B2/banner/speech寿命と黒帯の清掃だけ。ゲーム本体・攻撃・敵編成・乱数・台詞時計は同一。既存updTalkを同じ引数で1回呼ぶ。UIと城の個別再検証は別途。",
+  "helper_sha256": "731949353d8d5fb378bdb66d8bfbad045e10f9f6ebf0e9f28266c05506c1c2ee",
+  "cpu_evidence": "event_ui/cpu-result.json"
+}

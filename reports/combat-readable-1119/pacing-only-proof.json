@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "at": "2026-11-19T03:10:43.908494+09:00",
+  "from": {
+    "source/game.html": "7af295a889be35e4c6533a5703d77f0af8cb5b930fbffa4885640721eee50bc2",
+    "musou.html": "fe2180a51eeb04e58c8183ca892c05acff2381a554c7d00047f102ccee93abc7",
+    "honpen.html": "4866688a1a3d20aa9b4c59003cc7bc6202d8776ba1d8cd29c8210ffb5e6e9a80"
+  },
+  "to": {
+    "source/game.html": "f52793e15e4706a82b36e1c5bda6296f3329e6f01fec879ce55b430a16f614b3",
+    "musou.html": "176099944e4a2a5580c1a3cddf2bd60b6e51a53fbbae56ebcdad59017f542e21",
+    "honpen.html": "2e23417da689827fc5822b99c2c787f1b23163b8802e4c0757123847eaf7defc"
+  },
+  "unchanged_components": [
+    "event_ui",
+    "balance_army",
+    "castle",
+    "palette"
+  ],
+  "proof": "Both sources become byte-identical after reversing only their isolated pacing patch. Display-only proof connects earlier route evidence to the prior full candidate. Kingdom is remeasured on the new final candidate.",
+  "normal_and_other_scenarios": "pacing_10_durable/cpu_report.json"
+}

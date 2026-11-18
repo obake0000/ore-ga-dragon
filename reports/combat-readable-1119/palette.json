@@ -1,0 +1,93 @@
+{
+  "started_at": "2026-11-19T01:30:00.324356+09:00",
+  "errors": [],
+  "rows": [
+    {
+      "version": "before",
+      "width": 960,
+      "sha256": "a4af2e81111a815e22b21671d291fbefe7b9327bc0b7c9ea8d8ec9faae6ec797",
+      "scene": "town",
+      "fixture": {
+        "stage": "town",
+        "position": [
+          0,
+          23.624437408793828,
+          120
+        ],
+        "grass": 6986306,
+        "sky": [
+          0.08235294117647057,
+          0.4,
+          0.8784313725490196
+        ],
+        "filter": "saturate(1.13) contrast(1.08)"
+      }
+    },
+    {
+      "version": "before",
+      "width": 390,
+      "sha256": "a4af2e81111a815e22b21671d291fbefe7b9327bc0b7c9ea8d8ec9faae6ec797",
+      "scene": "town",
+      "fixture": {
+        "stage": "town",
+        "position": [
+          0,
+          23.624437408793828,
+          120
+        ],
+        "grass": 6986306,
+        "sky": [
+          0.08235294117647057,
+          0.4,
+          0.8784313725490196
+        ],
+        "filter": "none"
+      }
+    },
+    {
+      "version": "after",
+      "width": 960,
+      "sha256": "f7759314f84e6403bb9471cc872fc6f63588ba6946ab182b1fc5fad3ff9d6a8b",
+      "scene": "town",
+      "fixture": {
+        "stage": "town",
+        "position": [
+          0,
+          23.624437408793828,
+          120
+        ],
+        "grass": 7509334,
+        "sky": [
+          0.17344351372549022,
+          0.3894435137254902,
+          0.7147768470588235
+        ],
+        "filter": "none"
+      }
+    },
+    {
+      "version": "after",
+      "width": 390,
+      "sha256": "f7759314f84e6403bb9471cc872fc6f63588ba6946ab182b1fc5fad3ff9d6a8b",
+      "scene": "town",
+      "fixture": {
+        "stage": "town",
+        "position": [
+          0,
+          23.624437408793828,
+          120
+        ],
+        "grass": 7509334,
+        "sky": [
+          0.17344351372549022,
+          0.3894435137254902,
+          0.7147768470588235
+        ],
+        "filter": "none"
+      }
+    }
+  ],
+  "scope": "Fixed seeded scene and camera photographs; no combat timing conclusions. Integrated build; town scene only, scene-key checked.",
+  "ok": true,
+  "ended_at": "2026-11-19T01:30:24.536979+09:00"
+}

@@ -1,0 +1,428 @@
+{
+  "started_at": "2026-11-19T03:17:17.452033+09:00",
+  "errors": [],
+  "rows": [
+    {
+      "kind": "shield",
+      "original": {
+        "hp": 16.744,
+        "maxHp": 16.744,
+        "pos": [
+          -14,
+          3.190707462862413,
+          18
+        ],
+        "shd": true,
+        "perch": false,
+        "model": "shieldman",
+        "initialCd": 1.0672275366180761,
+        "allSpawnedRoleMaxHp": [
+          16.744,
+          16.744,
+          16.744,
+          16.744,
+          16.744,
+          16.744,
+          16.744
+        ]
+      },
+      "fixture": {
+        "fixed": [
+          45,
+          3,
+          -90
+        ],
+        "player": [
+          45,
+          4.8,
+          -25
+        ],
+        "clear": 77.82326572156362
+      },
+      "hp": 16.744,
+      "branch": "reference",
+      "source_sha256": "3c3de74738f8946d9eb23c2b2fd8dba96630ff48b2756776b647a23e2786153c",
+      "fight": {
+        "kind": "shield",
+        "initial": {
+          "hp": 16.744,
+          "maxHp": 16.744,
+          "pos": [
+            -14,
+            3.190707462862413,
+            18
+          ],
+          "shd": true,
+          "perch": false,
+          "model": "shieldman",
+          "initialCd": 1.0672275366180761,
+          "allSpawnedRoleMaxHp": [
+            16.744,
+            16.744,
+            16.744,
+            16.744,
+            16.744,
+            16.744,
+            16.744
+          ]
+        },
+        "dead": true,
+        "hp": -16.60415207294144,
+        "maxHp": 16.744,
+        "seconds": 5.35,
+        "shots": 11,
+        "losses": [
+          {
+            "frame": 321,
+            "before": 16.744,
+            "after": -16.60415207294144,
+            "shots": 11
+          }
+        ],
+        "first_hit_survived": false,
+        "arrows": [],
+        "specialGap": 6000
+      }
+    },
+    {
+      "kind": "perch",
+      "original": {
+        "hp": 6.44,
+        "maxHp": 6.44,
+        "pos": [
+          50.903999999999996,
+          14.00356559914402,
+          -29.096000000000004
+        ],
+        "shd": false,
+        "perch": true,
+        "model": null,
+        "initialCd": 1.6831991611690567,
+        "allSpawnedRoleMaxHp": [
+          6.44
+        ]
+      },
+      "fixture": {
+        "fixed": [
+          15,
+          14.00356559914402,
+          -120
+        ],
+        "player": [
+          15,
+          15.05356559914402,
+          -55
+        ],
+        "clear": 82.63661838274692
+      },
+      "hp": 6.44,
+      "branch": "reference",
+      "source_sha256": "3c3de74738f8946d9eb23c2b2fd8dba96630ff48b2756776b647a23e2786153c",
+      "fight": {
+        "kind": "perch",
+        "initial": {
+          "hp": 6.44,
+          "maxHp": 6.44,
+          "pos": [
+            50.903999999999996,
+            14.00356559914402,
+            -29.096000000000004
+          ],
+          "shd": false,
+          "perch": true,
+          "model": null,
+          "initialCd": 1.6831991611690567,
+          "allSpawnedRoleMaxHp": [
+            6.44
+          ]
+        },
+        "dead": true,
+        "hp": -19.71781303577356,
+        "maxHp": 6.44,
+        "seconds": 3.8333333333333335,
+        "shots": 8,
+        "losses": [
+          {
+            "frame": 230,
+            "before": 6.44,
+            "after": -19.71781303577356,
+            "shots": 8
+          }
+        ],
+        "first_hit_survived": false,
+        "arrows": [
+          1.6666666666666667
+        ],
+        "specialGap": 6000
+      }
+    },
+    {
+      "kind": "shield",
+      "original": {
+        "hp": 95,
+        "maxHp": 95,
+        "pos": [
+          -14,
+          3.190707462862413,
+          18
+        ],
+        "shd": true,
+        "perch": false,
+        "model": "shieldman",
+        "initialCd": 2.7340759641901364,
+        "allSpawnedRoleMaxHp": [
+          95,
+          95,
+          95,
+          95,
+          95,
+          95,
+          95
+        ]
+      },
+      "fixture": {
+        "fixed": [
+          0,
+          3,
+          -105
+        ],
+        "player": [
+          0,
+          4.8,
+          -40
+        ],
+        "clear": 110.11156487949674
+      },
+      "hp": 95,
+      "branch": "after",
+      "source_sha256": "176099944e4a2a5580c1a3cddf2bd60b6e51a53fbbae56ebcdad59017f542e21",
+      "fight": {
+        "kind": "shield",
+        "initial": {
+          "hp": 95,
+          "maxHp": 95,
+          "pos": [
+            -14,
+            3.190707462862413,
+            18
+          ],
+          "shd": true,
+          "perch": false,
+          "model": "shieldman",
+          "initialCd": 2.7340759641901364,
+          "allSpawnedRoleMaxHp": [
+            95,
+            95,
+            95,
+            95,
+            95,
+            95,
+            95
+          ]
+        },
+        "dead": true,
+        "hp": -3.595932973292303,
+        "maxHp": 95,
+        "seconds": 5.35,
+        "shots": 11,
+        "losses": [
+          {
+            "frame": 111,
+            "before": 95,
+            "after": 61.856818692324445,
+            "shots": 4
+          },
+          {
+            "frame": 290,
+            "before": 61.856818692324445,
+            "after": 31.814855966142755,
+            "shots": 10
+          },
+          {
+            "frame": 321,
+            "before": 31.814855966142755,
+            "after": -3.595932973292303,
+            "shots": 11
+          }
+        ],
+        "first_hit_survived": true,
+        "arrows": [],
+        "specialGap": 6000
+      }
+    },
+    {
+      "kind": "perch",
+      "original": {
+        "hp": 95,
+        "maxHp": 95,
+        "pos": [
+          50.903999999999996,
+          14.00356559914402,
+          -29.096000000000004
+        ],
+        "shd": false,
+        "perch": true,
+        "model": null,
+        "initialCd": 1.016666666666667,
+        "allSpawnedRoleMaxHp": [
+          95
+        ]
+      },
+      "fixture": {
+        "fixed": [
+          -15,
+          14.00356559914402,
+          -90
+        ],
+        "player": [
+          -15,
+          15.05356559914402,
+          -25
+        ],
+        "clear": 75.77178203632863
+      },
+      "hp": 95,
+      "branch": "after",
+      "source_sha256": "176099944e4a2a5580c1a3cddf2bd60b6e51a53fbbae56ebcdad59017f542e21",
+      "fight": {
+        "kind": "perch",
+        "initial": {
+          "hp": 95,
+          "maxHp": 95,
+          "pos": [
+            50.903999999999996,
+            14.00356559914402,
+            -29.096000000000004
+          ],
+          "shd": false,
+          "perch": true,
+          "model": null,
+          "initialCd": 1.016666666666667,
+          "allSpawnedRoleMaxHp": [
+            95
+          ]
+        },
+        "dead": true,
+        "hp": -27.36078252601898,
+        "maxHp": 95,
+        "seconds": 3.8333333333333335,
+        "shots": 8,
+        "losses": [
+          {
+            "frame": 50,
+            "before": 95,
+            "after": 65.30201707919866,
+            "shots": 2
+          },
+          {
+            "frame": 80,
+            "before": 65.30201707919866,
+            "after": 33.61458658636943,
+            "shots": 3
+          },
+          {
+            "frame": 93,
+            "before": 33.61458658636943,
+            "after": 4.612434549371958,
+            "shots": 4
+          },
+          {
+            "frame": 230,
+            "before": 4.612434549371958,
+            "after": -27.36078252601898,
+            "shots": 8
+          }
+        ],
+        "first_hit_survived": true,
+        "arrows": [
+          1,
+          3.7666666666666666
+        ],
+        "specialGap": 6000
+      }
+    }
+  ],
+  "profiles": {
+    "reference": {
+      "sha256": "3c3de74738f8946d9eb23c2b2fd8dba96630ff48b2756776b647a23e2786153c",
+      "waves": {
+        "1": [
+          {
+            "type": "biggolem",
+            "boss": "🗿 石の巨人",
+            "model": null,
+            "hp": 495,
+            "maxHp": 495
+          },
+          {
+            "type": "soldier",
+            "boss": null,
+            "model": "captain",
+            "hp": 100.464,
+            "maxHp": 100.464
+          }
+        ],
+        "2": [
+          {
+            "type": "soldier",
+            "boss": null,
+            "model": "captain",
+            "hp": 117.208,
+            "maxHp": 117.208
+          }
+        ],
+        "3": [
+          {
+            "type": "siegecart",
+            "boss": "💣 超大型大砲車「竜ごろし」",
+            "model": "dslayer",
+            "hp": 741,
+            "maxHp": 741
+          }
+        ]
+      }
+    },
+    "after": {
+      "sha256": "176099944e4a2a5580c1a3cddf2bd60b6e51a53fbbae56ebcdad59017f542e21",
+      "waves": {
+        "1": [
+          {
+            "type": "biggolem",
+            "boss": "🗿 石の巨人",
+            "model": null,
+            "hp": 495,
+            "maxHp": 495
+          },
+          {
+            "type": "soldier",
+            "boss": null,
+            "model": "captain",
+            "hp": 100.464,
+            "maxHp": 100.464
+          }
+        ],
+        "2": [
+          {
+            "type": "soldier",
+            "boss": null,
+            "model": "captain",
+            "hp": 117.208,
+            "maxHp": 117.208
+          }
+        ],
+        "3": [
+          {
+            "type": "siegecart",
+            "boss": "💣 超大型大砲車「竜ごろし」",
+            "model": "dslayer",
+            "hp": 741,
+            "maxHp": 741
+          }
+        ]
+      }
+    }
+  },
+  "scope": "SCN2 easy, real town startWave(0) -> actual s2Sol shieldman and tower s2a(perch) -> role finalization. No enemy HP/CD/damage/role overrides. Post-spawn isolation and fixed firing positions; real normal-fire frame/projectile/AI. Boss and captain x12/x14 compared to saved immediate predecessor, not original 6e6c baseline.",
+  "ok": true,
+  "ended_at": "2026-11-19T03:17:53.750475+09:00"
+}

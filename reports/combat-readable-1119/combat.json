@@ -1,0 +1,77 @@
+{
+  "started_at": "2026-11-19T01:25:53.771527+09:00",
+  "errors": [],
+  "checks": {
+    "archer_shot_before_defeat": true,
+    "ship_fired_twice_before_defeat": true,
+    "both_enemy_types_lived_longer": true,
+    "unchanged_special_gap": true
+  },
+  "combat": {
+    "before": [
+      {
+        "type": "archer",
+        "hp": 4.6000000000000005,
+        "firstReady": 2.5516984840575434,
+        "dead": true,
+        "firstLoss": 21,
+        "seconds": 0.36666666666666664,
+        "breaths": 1,
+        "attackSeconds": [],
+        "specialGap": 6000
+      },
+      {
+        "type": "battleship",
+        "hp": 340.48,
+        "firstReady": 0,
+        "dead": true,
+        "firstLoss": 37,
+        "seconds": 7.016666666666667,
+        "breaths": 15,
+        "attackSeconds": [
+          0,
+          2.6,
+          5.216666666666667
+        ],
+        "specialGap": 6000
+      }
+    ],
+    "after": [
+      {
+        "type": "archer",
+        "hp": 136.95,
+        "firstReady": 1.05,
+        "dead": true,
+        "firstLoss": 21,
+        "seconds": 2.4,
+        "breaths": 5,
+        "attackSeconds": [
+          1.0333333333333334
+        ],
+        "specialGap": 6000
+      },
+      {
+        "type": "battleship",
+        "hp": 691.6,
+        "firstReady": 0,
+        "dead": true,
+        "firstLoss": 39,
+        "seconds": 17.85,
+        "breaths": 36,
+        "attackSeconds": [
+          0,
+          2.6,
+          5.216666666666667,
+          7.833333333333333,
+          11.466666666666667,
+          13.266666666666667,
+          15.066666666666666,
+          16.866666666666667
+        ],
+        "specialGap": 6000
+      }
+    ]
+  },
+  "finished_at": "2026-11-19T01:26:12.177757+09:00",
+  "ok": true
+}

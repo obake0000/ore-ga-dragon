@@ -1,0 +1,24 @@
+{
+  "ended_at": "2026-11-19T03:10:43.753482+09:00",
+  "rows": [
+    {
+      "file": "source/game.html",
+      "inline_scripts": 2,
+      "sha256": "f52793e15e4706a82b36e1c5bda6296f3329e6f01fec879ce55b430a16f614b3",
+      "passed": true
+    },
+    {
+      "file": "musou.html",
+      "inline_scripts": 4,
+      "sha256": "176099944e4a2a5580c1a3cddf2bd60b6e51a53fbbae56ebcdad59017f542e21",
+      "passed": true
+    },
+    {
+      "file": "honpen.html",
+      "inline_scripts": 2,
+      "sha256": "2e23417da689827fc5822b99c2c787f1b23163b8802e4c0757123847eaf7defc",
+      "passed": true
+    }
+  ],
+  "ok": true
+}

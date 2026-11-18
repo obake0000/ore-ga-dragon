@@ -1,0 +1,312 @@
+{
+  "starterReinforcement": {
+    "before": {
+      "groupSizes": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "hp": [
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744,
+        16.744
+      ]
+    },
+    "after": {
+      "groupSizes": [
+        4
+      ],
+      "hp": [
+        95,
+        95,
+        95,
+        95
+      ]
+    }
+  },
+  "crowdSix": {
+    "before": 18,
+    "after": 6
+  },
+  "radius": {
+    "before": [
+      100,
+      150
+    ],
+    "after": [
+      78,
+      117
+    ]
+  },
+  "openingBaseCounts": [
+    {
+      "key": "T",
+      "wave": 0,
+      "before": 24,
+      "after": 15,
+      "roles": [
+        "archer",
+        "bigcannon",
+        "cannon",
+        "dknight",
+        "priest",
+        "soldier"
+      ]
+    },
+    {
+      "key": "T",
+      "wave": 1,
+      "before": 23,
+      "after": 14,
+      "roles": [
+        "airship",
+        "archer",
+        "catapult",
+        "dknight",
+        "knight",
+        "soldier",
+        "wizard"
+      ]
+    },
+    {
+      "key": "C",
+      "wave": 0,
+      "before": 37,
+      "after": 17,
+      "roles": [
+        "airship",
+        "archer",
+        "bigcannon",
+        "cannon",
+        "catapult",
+        "dknight",
+        "knight",
+        "soldier"
+      ]
+    }
+  ],
+  "campaignSummary": {
+    "town": {
+      "internal": [
+        0,
+        1,
+        3
+      ],
+      "display": [
+        1,
+        2,
+        3
+      ],
+      "healOpportunities": {
+        "before": 3,
+        "after": 2
+      }
+    },
+    "castle": {
+      "internal": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "display": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "healOpportunities": {
+        "before": 4,
+        "after": 3
+      }
+    },
+    "sea": {
+      "internal": [
+        0,
+        2,
+        3
+      ],
+      "display": [
+        1,
+        2,
+        3
+      ],
+      "healOpportunities": {
+        "before": 3,
+        "after": 2
+      }
+    }
+  },
+  "sea": {
+    "seaSamples": 55368,
+    "closeSamples": 36104,
+    "maxCloseDistance": 85.00000000000003,
+    "patrol": [
+      85,
+      8
+    ]
+  },
+  "normalAndOtherScenariosPreserved": true,
+  "roleFloorPreservesBossHpAndDamage": true,
+  "roleFloor": {
+    "shield": 95,
+    "types": [
+      [
+        "archer",
+        95
+      ],
+      [
+        "cannon",
+        105
+      ],
+      [
+        "priest",
+        85
+      ],
+      [
+        "wizard",
+        105
+      ],
+      [
+        "dknight",
+        95
+      ],
+      [
+        "soldier",
+        95
+      ],
+      [
+        "soldier",
+        117.208
+      ],
+      [
+        "hero",
+        247
+      ]
+    ],
+    "firstHit": [
+      95,
+      95,
+      95,
+      95,
+      105,
+      85,
+      105,
+      95,
+      95,
+      117.208,
+      247
+    ],
+    "openingShotCooldowns": [
+      1.05,
+      1.05,
+      2,
+      1.05,
+      2,
+      2,
+      2,
+      2
+    ],
+    "ratios": [
+      23.75,
+      95,
+      0,
+      20
+    ]
+  },
+  "gateReinforcement": {
+    "groupSizes": [
+      4
+    ],
+    "hp": [
+      95,
+      95,
+      95,
+      95
+    ]
+  },
+  "bossReinforcement": [
+    [
+      "soldier",
+      95
+    ],
+    [
+      "soldier",
+      95
+    ],
+    [
+      "soldier",
+      95
+    ],
+    [
+      "soldier",
+      95
+    ],
+    [
+      "soldier",
+      95
+    ],
+    [
+      "soldier",
+      95
+    ],
+    [
+      "priest",
+      85
+    ],
+    [
+      "soldier",
+      95
+    ],
+    [
+      "soldier",
+      95
+    ],
+    [
+      "soldier",
+      95
+    ],
+    [
+      "soldier",
+      95
+    ],
+    [
+      "soldier",
+      95
+    ],
+    [
+      "soldier",
+      95
+    ]
+  ]
+}

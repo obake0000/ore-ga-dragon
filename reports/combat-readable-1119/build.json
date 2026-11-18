@@ -1,0 +1,30 @@
+{
+  "base": "6e6c8399c15ab0fa43c5e89d05c9539f6db8309c",
+  "inputs": [
+    {
+      "component": "event_ui",
+      "sha256": "00096ea71decdf9683fda1cebbe9181d747af6a1c7fdc40b2f6f7aa10d87e154"
+    },
+    {
+      "component": "balance_army",
+      "sha256": "ae2143ea62d8d621dc7b1367491730b1a147ccc42a3d5c164fcb0b6d6c65a8ac"
+    },
+    {
+      "component": "castle",
+      "sha256": "f6f9184237bade92815cefa58497a0170eddae0621eb5a34f15256b156f94dd1"
+    },
+    {
+      "component": "palette",
+      "sha256": "a6bc0c5c8fa076d53ddff409a89116871e1b4cac74d04e78d60beae3b9ca4041"
+    },
+    {
+      "component": "pacing_10_durable",
+      "sha256": "a6245729f740348ab760e5c61eaa549bdf000a6b03c74a027c66e97e63b8b663"
+    }
+  ],
+  "files_sha256": {
+    "source/game.html": "f52793e15e4706a82b36e1c5bda6296f3329e6f01fec879ce55b430a16f614b3",
+    "musou.html": "176099944e4a2a5580c1a3cddf2bd60b6e51a53fbbae56ebcdad59017f542e21",
+    "honpen.html": "2e23417da689827fc5822b99c2c787f1b23163b8802e4c0757123847eaf7defc"
+  }
+}
