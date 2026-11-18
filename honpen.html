@@ -1233,7 +1233,7 @@ function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
 /* MOBILE_LOADING_1117 */
-const MOBILE_DEPS={"stages":{"valley":["tree_pine","tree_oak","jungle_rockspire_1116","rock_big","col_broken","cliff_waterfall","crag_peak","aqueduct","ruin","house2","house","mill","well","stall","warehouse","watchtower","rocktorii","royalbanner"],"dungeon":["tree_pine","tree_oak","gdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hprops","hrubble","hstatue","dwall","dstairs","portcullis"],"golem":["tree_pine","tree_oak","gdoor","sealdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hstatue","hrubble","hprops","dwall"],"maou":["tree_pine","tree_oak","gdoor","sealdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hprops","hstatue","dwall","hrubble"],"town":["tree_pine","tree_oak","jungle_rockspire_1116","house2","house","warehouse","smithy","inn","church","well","stall","logwall","watchtower","royalbanner"],"castle":["tree_pine","tree_oak","jungle_rockspire_1116","castle_wall","castle_tower","castle_keep","castle_gate","castle_wall_burning","siege_tower","kingdom_barracks_1117","war_banner","catapult","house","warehouse","house2","inn","smithy","church","mill","watchtower","royalcastle","royalcastle2","royalbanner"],"sea":["tree_pine","tree_oak","jungle_rockspire_1116","house","house2","warehouse","well","watchtower","lighthouse","seaspire","buoy"],"orcwood":["tree_pine","tree_oak","jungle_rockspire_1116","orctent","logwall","watchtower","wardrum","bonfire","weaponrack","orchut"],"orcfort":["tree_pine","tree_oak","jungle_rockspire_1116","orcfort","logwall","orcwall","siege_tower","orctower","orctent","wardrum","weaponrack","bonfire","watchtower","orchut"],"orcking":["tree_pine","tree_oak","jungle_rockspire_1116","dragonskull","war_banner","orcthrone","orctotem","orctent","logwall","wardrum","bonfire","weaponrack","watchtower","orchut"],"hellgate":["tree_pine","tree_oak","jungle_rockspire_1116","dgate","dtower","dcastle","ruin","lavaspire","bonefence","deadtree","royalbanner","hrubble","tombstones","bonearch","demonhut"],"bonefield":["tree_pine","tree_oak","bonearch","dcastle","tombstones","deadtree","bonefence","royalbanner","ribcage","hrubble","demonhut","bonehut"],"maoujo":["tree_pine","tree_oak","gdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hbrazier","hstatue","hrubble","dthrone","dtower","lavaspire","bonefence","hprops","demonhut","throne_dais_1117","maou_castle_1116"],"peak":["tree_pine","tree_oak","jungle_rockspire_1116","ruin","dragonskull","skytemple","bonehut"],"dragongrave":["tree_pine","tree_oak","jungle_rockspire_1116","dragonskull","dragonskel","ribcage","ruin","tombstones","deadtree","royalbanner","bonehut"],"dragonking":["tree_pine","tree_oak","jungle_rockspire_1116","dkthrone","obelisk","ruin","dragonskull","dragonskel","royalbanner","bonehut"],"skygate":["tree_pine","tree_oak","skyisle","cloudgate","angelstatue","skytower","ruin","skytemple","skypillar","angelfountain","holycrystal","colonnade","house","skychapel"],"skytemple":["tree_pine","tree_oak","skyisle","skytower","colonnade","angelstatue","skytemple","ruin","skyfort","skypillar","angelfountain","holycrystal","skystairs","house","skychapel"],"archangel":["tree_pine","tree_oak","skyisle","colonnade","angelstatue","ruin","skytemple","skypillar","holycrystal","skytower","house","angelfountain","skychapel"],"coralsea":["tree_pine","tree_oak","jungle_rockspire_1116","house","house2","fishhut","shelltower","coralreef","clam","seaarch","lighthouse","seaspire","buoy"],"deepsea":["tree_pine","tree_oak","jungle_rockspire_1116","shipwreck","searuin","coralreef","clam","shelltower","seaarch","lighthouse","seaspire","buoy","fishhut"],"seaking":["tree_pine","tree_oak","jungle_rockspire_1116","seapalace","shellthrone","shelltower","searuin","coralreef","clam","lighthouse","seaspire","buoy","fishhut"],"p8war":["tree_pine","tree_oak","sandbags","hedgehog","tankwreck","p8battleship","deadtree","p8ruin","p8watertower","p8apart","p8factory","p8shop","military_freight_1117"],"p8robo":["tree_pine","tree_oak","container","neonlamp","cyber_factory_1117","p8tower","p8neonbldg","deb_metal","p8kiosk"],"p8dino":["tree_pine","dino_canopy_small_1116","jungle_rockspire_1116","rock_big","fern","dino_canopy_1116","dino_fern_1116","volcano","volcanic_basalt_1117","p8bones"],"p8anc":["tree_pine","tree_oak","dogu_city_tower_1116","anc_dogutemple"],"p8poly":["tree_pine","tree_oak","poly_cube_district_1117"],"y9town":["tree_pine","tree_oak","jungle_rockspire_1116","y_toro","rocktorii","lavaspire","volcano","y_demonstatue","y_tenshu","y_pagoda","y_machiya1","y_machiya2","y_lanternpole"],"y9castle":["tree_pine","tree_oak","jungle_rockspire_1116","y_toro","y_machiya1","field_cannon_1116","y_pagoda","y_tenshu","y_machiya2"],"y9lord":["tree_pine","tree_oak","jungle_rockspire_1116","y_toro","rocktorii","y_demonstatue","y_tenshu","y_pagoda","y_machiya2","y_lotus","y_bronzebell","y_machiya1"],"fairywood":["fairy_root_bridge_1117","fairy_tree_stair_1117","tree_pine","tree_oak","fairy_treehouse_1117","fairy_treetower_1117","fairy_giantflower_1117","dino_canopy_small_1116","dino_fern_1116","fairy_blossom_1116"],"fairylake":["fairy_flower_bridge_1117","tree_pine","tree_oak","fairy_treehouse_1117","fairy_treetower_1117","fairy_giantflower_1117","fairy_blossom_1116","dino_fern_1116"],"fairypalace":["fairy_hollow_gate_1117","tree_pine","tree_oak","fairy_treehouse_1117","fairy_treetower_1117","fairy_giantflower_1117","fairy_blossom_1116","dino_fern_1116"],"park_entry":["tree_pine","tree_oak","park_generator_1117","park_ferris_wheel_1117","hpillar","park_ironfence_1117","park_ticketbooth_1117","park_rustlamp_1117","dino_fern_1116","park_ruined_facade_1117","park_clockcastle_1117","park_coaster_station_1117","park_carnival_theatre_1117","park_coaster_track_1117","park_coaster_support_1117","orctent","stall"],"park_ride":["tree_pine","tree_oak","park_generator_1117","park_carousel_1117","hpillar","park_ironfence_1117","park_ticketbooth_1117","park_rustlamp_1117","dino_fern_1116","park_ruined_facade_1117","park_clockcastle_1117","park_coaster_station_1117","park_carnival_theatre_1117","park_coaster_track_1117","park_coaster_support_1117","stall","orctent"],"park_control":["tree_pine","tree_oak","park_generator_1117","park_ferris_wheel_1117","park_carousel_1117","hpillar","park_ironfence_1117","park_ticketbooth_1117","park_rustlamp_1117","dino_fern_1116","park_ruined_facade_1117","park_clockcastle_1117","park_coaster_station_1117","park_carnival_theatre_1117","park_coaster_track_1117","park_coaster_support_1117","orctent","stall","p8tower"],"col_gate":["tree_pine","tree_oak","jungle_rockspire_1116","colosseum_seats_1117","anc_villager_crowd_lod_1117","colosseum_arch_1117","portcullis"],"col_trial":["tree_pine","tree_oak","jungle_rockspire_1116","colosseum_seats_1117","anc_villager_crowd_lod_1117","colosseum_arch_1117"],"col_final":["tree_pine","tree_oak","jungle_rockspire_1116","colosseum_seats_1117","anc_villager_crowd_lod_1117","colosseum_arch_1117"]},"characters":{"dragon":["dragon"],"wyvern":["wyvern3","wyvern2"],"ground":["ground2"],"hero":["hero","hero_pegasus_game_1116","pegasus"],"army":["shieldman","soldier","archer","angelarcher","redcap","fishbow","field_cannon_1116"],"golem":["golem"],"orctank":["kingtank","orcking"],"airship":["airship"],"redcap":["redcap","redcap_hawk_game_1116"],"kraken":["kraken2","kraken"],"archangel":["archangel_sacred_1117"],"dragonknight":["wyvern2","blackknight"],"seaking":["seaking_royal_1116"],"bomber":["p8bomber","bomber_modern_bomb","p8fighter"],"maou":["blackknight"],"ufo":["p8ufo","p8mech"],"gwizard":["wizard","gwizard"],"cube":["cube_module_1117"],"slime":["slime2"],"dragonking":["dragonking_winged_1116"],"necromancer":["skelmage","necrobonehound_1116"],"nurarihyon":["nurarihyon","y_origami","y_oni","yokai_lantern_1116","y_firetoad","y_kirin","y_bronzebell"]},"waves":{"valley":[["cstalag","chest","choard","cbones","dunarch","hbrazier","crystalc","bgolem","golem","bgolem2","bigcannon","orctank","slime2","hero","captain","merchant","roardragon","slime","bat"],["wyvern2","bgolem","golem","bgolem2","slime2","kingtank","orctank","ogre","slime","bat"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bat"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","kingtank","ogre","bat"]],"dungeon":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","goblin","slime"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bat","skeleton","goblin","redcap"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","drak","skeleton","goblin"]],"golem":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2"]],"maou":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","sealstone","imp","goblin","skeleton","ogre"],["gdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hbrazier","hrubble","bgolem","golem","bgolem2","bigcannon","orctank","slime2","demon","imp","anc_darkdemon","dwall","seal_pillar_1117","hstatue"]],"town":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","shieldman","soldier","archer","field_cannon_1116"],["shieldman","bgolem","golem","bgolem2","bigcannon","orctank","slime2","soldier","archer","field_cannon_1116","catapult","captain","airship","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","captain","shieldman","soldier","field_cannon_1116","catapult","airship","wizard"],["dslayer","bgolem","golem","bgolem2","shieldman","bigcannon","orctank","slime2","soldier","field_cannon_1116","airship","dknight","wizard"]],"castle":[["soldier","bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","shieldman","archer","field_cannon_1116","catapult","airship"],["bgolem","golem","bgolem2","captain","bigcannon","orctank","slime2","dknight","shieldman","soldier","wizard","airship"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","hero","soldier","shieldman","field_cannon_1116","captain","dknight","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","walker","airship","dknight","field_cannon_1116","shieldman"]],"sea":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","ship","airship","wizard","archer"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","ship","airship","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","battleship","ship","dknight","airship","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bigairship","airship","dknight","ship","wizard"]],"orcwood":[["orc","bgolem","golem","bgolem2","dogrider"],["hawkrider","bgolem","golem","bgolem2","dogrider","orcknight","orc","troll","ogre","bigcannon","orctank","slime2","redcap"],["orcgeneral","bgolem","golem","bgolem2","ogre","orc","troll","hawkrider","dogrider"]],"orcfort":[["orc","ballista","hawkrider","dogrider"],["orc","ballista","wooddragon","hawkrider","dogrider"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","redcap","gianttank","orcgeneral","troll","orc","hawkrider","dogrider"]],"orcking":[["orc","bgolem","golem","bgolem2","orcgeneral","ogre","bigwolf","troll","hawkrider","dogrider","orctank","ballista"],["orcgeneral","bgolem","golem","bgolem2","ogre","orc","hawkrider","dogrider"],["orcking","bgolem","golem","bgolem2","ogre","orc"]],"hellgate":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","devilsoldier","skeleton","skelmage","imp","ogre","catapult","field_cannon_1116","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","skelmage","skeleton","devilsoldier","imp","ogre"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","imp","bat","griffin"],["bgolem","golem","bgolem2","ogre","devilsoldier","bigcannon","orctank","slime2","skeleton","skelmage","imp"]],"bonefield":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bigskeleton","skeleton","skelmage","devilsoldier","catapult","field_cannon_1116","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bigskeleton","skeleton","skelmage","devilsoldier"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","archer","skelmage","skeleton"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bigskeleton","skeleton","skelmage","devilsoldier"]],"maoujo":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","cerberus","devilsoldier","skeleton","skelmage","catapult","field_cannon_1116","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","blackknight","skeleton","skelmage"],["bgolem","golem","bgolem2","ogre","bigcannon","orctank","slime2","bigskeleton","skelmage"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","demon","imp","skelmage"]],"peak":[["bgolem","golem","bgolem2","wyvern","bigcannon","orctank","slime2","rival"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","elder"]],"dragongrave":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","ground2","wyvern2","catapult","field_cannon_1116","icedrake","thundrake","ballista"],["wyvern2","bgolem","golem","bgolem2","wyvern","ground2","bigcannon","orctank","slime2","icedrake"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","ground2","wyvern2","icedrake","thundrake"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","ground2","bonedrake"]],"dragonking":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","bonedrake","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","catapult","field_cannon_1116","bonedrake","thundrake"],["blackknight","bgolem","golem","bgolem2","wyvern"]],"skygate":[["bgolem","golem","bgolem2","angel","angelsword","angelarcher","pegasus","bigcannon","orctank","slime2","griffin","skychariot","dknight","ballista","godballista"],["bgolem","golem","bgolem2","pegasus","bigcannon","orctank","slime2","griffin","angel","angelsword","angelarcher","catapult","field_cannon_1116","skychariot","dknight"],["bgolem","golem","bgolem2","pegasus","angel","angelarcher","angelsword","bigcannon","orctank","slime2","griffin","skychariot","dknight","godballista"]],"skytemple":[["bgolem","golem","bgolem2","angel","angelsword","angelarcher","pegasus","bigcannon","orctank","slime2","griffin","catapult","field_cannon_1116","skychariot","dknight","ballista","godballista"],["bgolem","golem","bgolem2","angelgeneral","angel","pegasus","bigcannon","orctank","slime2","griffin","angelarcher","skychariot","dknight","angelsword","godballista"],["bgolem","golem","bgolem2","angel","pegasus","angelarcher","angelsword","bigcannon","orctank","slime2","griffin","skychariot","dknight","godballista"]],"archangel":[["bgolem","golem","bgolem2","angel","pegasus","angelarcher","angelsword","catapult","field_cannon_1116","skychariot","dknight","ballista","godballista"],["bgolem","golem","bgolem2","pegasus","bigcannon","orctank","slime2","griffin","angel","angelarcher","skychariot","dknight","angelsword","godballista"],["archangel_sacred_1117","bgolem","golem","bgolem2","angel","pegasus","angelarcher","bigcannon","orctank","slime2","griffin","skychariot","dknight","angelsword","archangel","godballista"]],"coralsea":[["bgolem","golem","bgolem2","fishman","fishbow","shark","ogre","crab","leviathan","seaserpent","bigcannon","orctank","slime2","dknight","catapult","field_cannon_1116","slime","ballista"],["bgolem","golem","bgolem2","ogre","crab","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","griffin","airship","slime"],["bgolem","golem","bgolem2","ogre","crab","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","dknight","griffin"]],"deepsea":[["bgolem","golem","bgolem2","shark","leviathan","seaserpent","fishman","fishbow","bigcannon","orctank","slime2","griffin","catapult","field_cannon_1116","slime","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","kraken","leviathan","seaserpent","shark","fishman","fishbow","ogre","crab","dknight","airship"],["bgolem","golem","bgolem2","leviathan","seaserpent","shark","fishman","fishbow","ogre","crab","bigcannon","orctank","slime2","dknight","griffin","airship"]],"seaking":[["bgolem","golem","bgolem2","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","dknight","ballista"],["bgolem","golem","bgolem2","ogre","crab","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","griffin","airship","catapult","field_cannon_1116","slime"],["bgolem","golem","bgolem2","seakingman","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","dknight","griffin","airship"]],"p8war":[["bgolem","golem","bgolem2","p8rifle","field_cannon_1116","p8flak","dknight","p8fighter"],["bgolem","golem","bgolem2","p8tank","p8rifle","dknight","p8fighter","p8bomber"],["bgolem","golem","bgolem2","p8supertank","p8tank","p8rifle","field_cannon_1116","p8flak","dknight","p8fighter"],["bgolem","golem","bgolem2","p8train","p8traincar","p8rifle","dknight","p8fighter"]],"p8robo":[["bgolem","golem","bgolem2","p8robot","p8drone","p8car","p8ufo"],["bgolem","golem","bgolem2","p8mech","p8robot","p8drone","p8futank","p8car","p8ufo"],["bgolem","golem","bgolem2","p8titan","p8robot","p8drone"],["bgolem","golem","bgolem2","p8mothership","p8ufo","p8futank"]],"p8dino":[["bgolem","golem","bgolem2","p8raptor","p8ptera","p8ufo"],["bgolem","golem","bgolem2","p8trike","p8raptor","p8ptera"],["bgolem","golem","bgolem2","p8rex","p8raptor","p8ptera"]],"p8anc":[["bgolem","golem","bgolem2","anc_dogu","anc_haniwa","anc_tribal","anc_dogustatue","anc_dragonfly","anc_doguhead","anc_crow","anc_shaman","anc_haniwabird","anc_wolf"],["bgolem","golem","bgolem2","anc_mammoth","anc_boar","anc_bear","anc_dogu","anc_dragonfly","anc_palanquin","anc_spiritbear","anc_wolf","anc_haniwabird"],["bgolem","golem","bgolem2","anc_sunking","anc_chief","anc_dogu","anc_haniwa","anc_shaman","anc_haniwabird"],["bgolem","golem","bgolem2"]],"p8poly":[["bgolem","golem","bgolem2","p8face"],["bgolem","golem","bgolem2","p8goddess","p8face"],["bgolem","golem","bgolem2"],["bgolem","golem","bgolem2","p8supertank"],["bgolem","golem","bgolem2","p8titan"],["bgolem","golem","bgolem2","p8rex"],["bgolem","golem","bgolem2","anc_sunking"],["bgolem","golem","bgolem2","p8goddess","p8face"]],"y9town":[["bgolem","golem","bgolem2","y_oni","y_clockwork","bat","y_origami","y_samuraihunter","y_tengu","y_ninja","y_karasu","y_oboro"],["bgolem","golem","bgolem2","y_samuraihunter","y_crystalmonk","y_oni","bat","y_origami","y_mikoarcher","y_onmyoji","y_ninjakite","y_warcart"],["bgolem","golem","bgolem2","y_firetoad","y_oni","bat","y_origami","y_samuraihunter","y_onispider","y_tengu","y_karasu"]],"y9castle":[[],[],[]],"y9lord":[["bgolem","golem","bgolem2","y_whitefox","y_kirin","ogre","y_fierywarrior","y_oni","y_samuraihunter","y_kyubi","y_foxsorc","y_karasu"],["bgolem","golem","bgolem2","ogre","y_fierywarrior","y_oni","y_firetoad","y_samuraihunter","bat","y_origami","y_heli","y_gasha","y_tsuchigumo","y_toadlord","y_tengu"],["bgolem","golem","bgolem2","nurarihyon","y_whitefox","y_kirin","y_samuraihunter","y_onisamurai","y_onmyoji","y_karasu","y_ninjakite"]],"fairywood":[["bgolem","golem","bgolem2","angel","anc_tribal"],["fairy_blossom_1116","bgolem","golem","bgolem2","anc_spiritbear","anc_tribal"]],"fairylake":[["bgolem","golem","bgolem2","anc_dragonfly","angel"],["fairy_blossom_1116","bgolem","golem","bgolem2","leviathan","anc_dragonfly"]],"fairypalace":[["bgolem","golem","bgolem2","anc_tribal","angel"],["fairy_blossom_1116","bgolem","golem","bgolem2","p8goddess","angel"]],"park_entry":[["park_marionette_1117","park_toysoldier_1117","park_mascot_1117"],["park_mascot_1117"]],"park_ride":[["park_marionette_1117","park_clown_1117","park_toysoldier_1117","park_android_1117"],["park_clown_1117","park_toysoldier_1117","park_marionette_1117"]],"park_control":[["park_marionette_1117","park_clown_1117","park_toysoldier_1117","park_android_1117","park_mascot_1117"],["park_android_1117","park_toysoldier_1117","park_marionette_1117","park_mascot_1117"]],"col_gate":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","hero"],["bgolem","golem","bgolem2","ogre","bigcannon","orctank","slime2","soldier","archer"],["bgolem","golem","bgolem2","ogre","bigcannon","orctank","slime2"]],"col_trial":[["golem"]],"col_final":[["blackknight"]]}};
+const MOBILE_DEPS={"stages":{"valley":["tree_pine","tree_oak","jungle_rockspire_1116","rock_big","col_broken","cliff_waterfall","crag_peak","aqueduct","ruin","house2","house","mill","well","stall","warehouse","watchtower","rocktorii","royalbanner"],"dungeon":["tree_pine","tree_oak","gdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hprops","hrubble","hstatue","dwall","dstairs","portcullis"],"golem":["tree_pine","tree_oak","gdoor","sealdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hstatue","hrubble","hprops","dwall"],"maou":["tree_pine","tree_oak","gdoor","sealdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hprops","hstatue","dwall","hrubble"],"town":["tree_pine","tree_oak","jungle_rockspire_1116","house2","house","warehouse","smithy","inn","church","well","stall","logwall","watchtower","royalbanner"],"castle":["tree_pine","tree_oak","jungle_rockspire_1116","castle_wall","castle_tower","castle_keep","castle_gate","castle_wall_burning","siege_tower","kingdom_barracks_1117","war_banner","catapult","house","warehouse","house2","inn","smithy","church","mill","watchtower","royalcastle","royalcastle2","royalbanner"],"sea":["tree_pine","tree_oak","jungle_rockspire_1116","house","house2","warehouse","well","watchtower","lighthouse","seaspire","buoy"],"orcwood":["tree_pine","tree_oak","jungle_rockspire_1116","orctent","logwall","watchtower","wardrum","bonfire","weaponrack","orchut"],"orcfort":["tree_pine","tree_oak","jungle_rockspire_1116","orcfort","logwall","orcwall","siege_tower","orctower","orctent","wardrum","weaponrack","bonfire","watchtower","orchut"],"orcking":["tree_pine","tree_oak","jungle_rockspire_1116","dragonskull","war_banner","orcthrone","orctotem","orctent","logwall","wardrum","bonfire","weaponrack","watchtower","orchut"],"hellgate":["tree_pine","tree_oak","jungle_rockspire_1116","dgate","dtower","dcastle","ruin","lavaspire","bonefence","deadtree","royalbanner","hrubble","tombstones","bonearch","demonhut"],"bonefield":["tree_pine","tree_oak","bonearch","dcastle","tombstones","deadtree","bonefence","royalbanner","ribcage","hrubble","demonhut","bonehut"],"maoujo":["tree_pine","tree_oak","gdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hbrazier","hstatue","hrubble","dthrone","dtower","lavaspire","bonefence","hprops","demonhut","throne_dais_1117","maou_castle_1116"],"peak":["tree_pine","tree_oak","jungle_rockspire_1116","ruin","dragonskull","skytemple","bonehut"],"dragongrave":["tree_pine","tree_oak","jungle_rockspire_1116","dragonskull","dragonskel","ribcage","ruin","tombstones","deadtree","royalbanner","bonehut"],"dragonking":["tree_pine","tree_oak","jungle_rockspire_1116","dkthrone","obelisk","ruin","dragonskull","dragonskel","royalbanner","bonehut"],"skygate":["tree_pine","tree_oak","skyisle","cloudgate","angelstatue","skytower","ruin","skytemple","skypillar","angelfountain","holycrystal","colonnade","house","skychapel"],"skytemple":["tree_pine","tree_oak","skyisle","skytower","colonnade","angelstatue","skytemple","ruin","skyfort","skypillar","angelfountain","holycrystal","skystairs","house","skychapel"],"archangel":["tree_pine","tree_oak","skyisle","colonnade","angelstatue","ruin","skytemple","skypillar","holycrystal","skytower","house","angelfountain","skychapel"],"coralsea":["tree_pine","tree_oak","jungle_rockspire_1116","house","house2","fishhut","shelltower","coralreef","clam","seaarch","lighthouse","seaspire","buoy"],"deepsea":["tree_pine","tree_oak","jungle_rockspire_1116","shipwreck","searuin","coralreef","clam","shelltower","seaarch","lighthouse","seaspire","buoy","fishhut"],"seaking":["tree_pine","tree_oak","jungle_rockspire_1116","seapalace","shellthrone","shelltower","searuin","coralreef","clam","lighthouse","seaspire","buoy","fishhut"],"p8war":["tree_pine","tree_oak","sandbags","hedgehog","tankwreck","p8battleship","deadtree","p8ruin","p8watertower","p8apart","p8factory","p8shop","military_freight_1117"],"p8robo":["tree_pine","tree_oak","container","neonlamp","cyber_factory_1117","p8tower","p8neonbldg","deb_metal","p8kiosk"],"p8dino":["tree_pine","dino_canopy_small_1116","jungle_rockspire_1116","rock_big","fern","dino_canopy_1116","dino_fern_1116","volcano","volcanic_basalt_1117","p8bones"],"p8anc":["tree_pine","tree_oak","dogu_city_tower_1116","anc_dogutemple"],"p8poly":["tree_pine","tree_oak","poly_cube_district_1117"],"y9town":["tree_pine","tree_oak","jungle_rockspire_1116","y_toro","rocktorii","lavaspire","volcano","y_demonstatue","y_tenshu","y_pagoda","y_machiya1","y_machiya2","y_lanternpole"],"y9castle":["tree_pine","tree_oak","jungle_rockspire_1116","y_toro","y_machiya1","field_cannon_1116","y_pagoda","y_tenshu","y_machiya2"],"y9lord":["tree_pine","tree_oak","jungle_rockspire_1116","y_toro","rocktorii","y_demonstatue","y_tenshu","y_pagoda","y_machiya2","y_lotus","y_bronzebell","y_machiya1"],"fairywood":["fairy_root_bridge_1117","fairy_tree_stair_1117","tree_pine","tree_oak","fairy_treehouse_1117","fairy_treetower_1117","fairy_giantflower_1117","dino_canopy_small_1116","dino_fern_1116","fairy_blossom_1116"],"fairylake":["fairy_flower_bridge_1117","tree_pine","tree_oak","fairy_treehouse_1117","fairy_treetower_1117","fairy_giantflower_1117","fairy_blossom_1116","dino_fern_1116"],"fairypalace":["fairy_hollow_gate_1117","tree_pine","tree_oak","fairy_treehouse_1117","fairy_treetower_1117","fairy_giantflower_1117","fairy_blossom_1116","dino_fern_1116"],"park_entry":["tree_pine","tree_oak","park_generator_1117","park_ferris_wheel_1117","hpillar","park_ironfence_1117","park_ticketbooth_1117","park_rustlamp_1117","dino_fern_1116","park_ruined_facade_1117","park_clockcastle_1117","park_coaster_station_1117","park_carnival_theatre_1117","park_coaster_track_1117","park_coaster_support_1117","orctent","stall"],"park_ride":["tree_pine","tree_oak","park_generator_1117","park_carousel_1117","hpillar","park_ironfence_1117","park_ticketbooth_1117","park_rustlamp_1117","dino_fern_1116","park_ruined_facade_1117","park_clockcastle_1117","park_coaster_station_1117","park_carnival_theatre_1117","park_coaster_track_1117","park_coaster_support_1117","stall","orctent"],"park_control":["tree_pine","tree_oak","park_generator_1117","park_ferris_wheel_1117","park_carousel_1117","hpillar","park_ironfence_1117","park_ticketbooth_1117","park_rustlamp_1117","dino_fern_1116","park_ruined_facade_1117","park_clockcastle_1117","park_coaster_station_1117","park_carnival_theatre_1117","park_coaster_track_1117","park_coaster_support_1117","orctent","stall","p8tower"],"col_gate":["tree_pine","tree_oak","jungle_rockspire_1116","colosseum_seats_1117","anc_villager_crowd_lod_1117","colosseum_arch_1117","portcullis"],"col_trial":["tree_pine","tree_oak","jungle_rockspire_1116","colosseum_seats_1117","anc_villager_crowd_lod_1117","colosseum_arch_1117"],"col_final":["tree_pine","tree_oak","jungle_rockspire_1116","colosseum_seats_1117","anc_villager_crowd_lod_1117","colosseum_arch_1117"]},"characters":{"dragon":["dragon"],"wyvern":["wyvern3","wyvern2"],"ground":["ground2"],"hero":["hero","hero_pegasus_game_1116","pegasus"],"army":["shieldman","soldier","archer","angelarcher","redcap","fishbow","field_cannon_1116"],"golem":["golem"],"orctank":["kingtank","orcking"],"airship":["airship"],"redcap":["redcap","redcap_hawk_game_1116"],"kraken":["kraken2","kraken"],"archangel":["archangel_sacred_1117"],"dragonknight":["wyvern2","blackknight"],"seaking":["seaking_royal_1116"],"bomber":["p8bomber","bomber_modern_bomb","p8fighter"],"maou":["blackknight"],"ufo":["p8ufo","p8mech"],"gwizard":["wizard","gwizard"],"cube":["cube_module_1117"],"slime":["slime2"],"dragonking":["dragonking_winged_1116"],"necromancer":["skelmage","necrobonehound_1116","skel","skeleton"],"nurarihyon":["nurarihyon","y_origami","y_oni","yokai_lantern_1116","y_firetoad","y_kirin","y_bronzebell"]},"waves":{"valley":[["cstalag","chest","choard","cbones","dunarch","hbrazier","crystalc","bgolem","golem","bgolem2","bigcannon","orctank","slime2","hero","captain","merchant","roardragon","slime","bat"],["wyvern2","bgolem","golem","bgolem2","slime2","kingtank","orctank","ogre","slime","bat"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bat"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","kingtank","ogre","bat"]],"dungeon":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","goblin","slime"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bat","skeleton","goblin","redcap"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","drak","skeleton","goblin"]],"golem":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2"]],"maou":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","sealstone","imp","goblin","skeleton","ogre"],["gdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hbrazier","hrubble","bgolem","golem","bgolem2","bigcannon","orctank","slime2","demon","imp","anc_darkdemon","dwall","seal_pillar_1117","hstatue"]],"town":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","shieldman","soldier","archer","field_cannon_1116"],["shieldman","bgolem","golem","bgolem2","bigcannon","orctank","slime2","soldier","archer","field_cannon_1116","catapult","captain","airship","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","captain","shieldman","soldier","field_cannon_1116","catapult","airship","wizard"],["dslayer","bgolem","golem","bgolem2","shieldman","bigcannon","orctank","slime2","soldier","field_cannon_1116","airship","dknight","wizard"]],"castle":[["soldier","bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","shieldman","archer","field_cannon_1116","catapult","airship"],["bgolem","golem","bgolem2","captain","bigcannon","orctank","slime2","dknight","shieldman","soldier","wizard","airship"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","hero","soldier","shieldman","field_cannon_1116","captain","dknight","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","walker","airship","dknight","field_cannon_1116","shieldman"]],"sea":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","ship","airship","wizard","archer"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","ship","airship","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","battleship","ship","dknight","airship","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bigairship","airship","dknight","ship","wizard"]],"orcwood":[["orc","bgolem","golem","bgolem2","dogrider"],["hawkrider","bgolem","golem","bgolem2","dogrider","orcknight","orc","troll","ogre","bigcannon","orctank","slime2","redcap"],["orcgeneral","bgolem","golem","bgolem2","ogre","orc","troll","hawkrider","dogrider"]],"orcfort":[["orc","ballista","hawkrider","dogrider"],["orc","ballista","wooddragon","hawkrider","dogrider"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","redcap","gianttank","orcgeneral","troll","orc","hawkrider","dogrider"]],"orcking":[["orc","bgolem","golem","bgolem2","orcgeneral","ogre","bigwolf","troll","hawkrider","dogrider","orctank","ballista"],["orcgeneral","bgolem","golem","bgolem2","ogre","orc","hawkrider","dogrider"],["orcking","bgolem","golem","bgolem2","ogre","orc"]],"hellgate":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","devilsoldier","skeleton","skelmage","imp","ogre","catapult","field_cannon_1116","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","skelmage","skeleton","devilsoldier","imp","ogre"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","imp","bat","griffin"],["bgolem","golem","bgolem2","ogre","devilsoldier","bigcannon","orctank","slime2","skeleton","skelmage","imp"]],"bonefield":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bigskeleton","skeleton","skelmage","devilsoldier","catapult","field_cannon_1116","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bigskeleton","skeleton","skelmage","devilsoldier"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","archer","skelmage","skeleton"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bigskeleton","skeleton","skelmage","devilsoldier"]],"maoujo":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","cerberus","devilsoldier","skeleton","skelmage","catapult","field_cannon_1116","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","blackknight","skeleton","skelmage"],["bgolem","golem","bgolem2","ogre","bigcannon","orctank","slime2","bigskeleton","skelmage"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","demon","imp","skelmage"]],"peak":[["bgolem","golem","bgolem2","wyvern","bigcannon","orctank","slime2","rival"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","elder"]],"dragongrave":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","ground2","wyvern2","catapult","field_cannon_1116","icedrake","thundrake","ballista"],["wyvern2","bgolem","golem","bgolem2","wyvern","ground2","bigcannon","orctank","slime2","icedrake"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","ground2","wyvern2","icedrake","thundrake"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","ground2","bonedrake"]],"dragonking":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","bonedrake","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","catapult","field_cannon_1116","bonedrake","thundrake"],["blackknight","bgolem","golem","bgolem2","wyvern"]],"skygate":[["bgolem","golem","bgolem2","angel","angelsword","angelarcher","pegasus","bigcannon","orctank","slime2","griffin","skychariot","dknight","ballista","godballista"],["bgolem","golem","bgolem2","pegasus","bigcannon","orctank","slime2","griffin","angel","angelsword","angelarcher","catapult","field_cannon_1116","skychariot","dknight"],["bgolem","golem","bgolem2","pegasus","angel","angelarcher","angelsword","bigcannon","orctank","slime2","griffin","skychariot","dknight","godballista"]],"skytemple":[["bgolem","golem","bgolem2","angel","angelsword","angelarcher","pegasus","bigcannon","orctank","slime2","griffin","catapult","field_cannon_1116","skychariot","dknight","ballista","godballista"],["bgolem","golem","bgolem2","angelgeneral","angel","pegasus","bigcannon","orctank","slime2","griffin","angelarcher","skychariot","dknight","angelsword","godballista"],["bgolem","golem","bgolem2","angel","pegasus","angelarcher","angelsword","bigcannon","orctank","slime2","griffin","skychariot","dknight","godballista"]],"archangel":[["bgolem","golem","bgolem2","angel","pegasus","angelarcher","angelsword","catapult","field_cannon_1116","skychariot","dknight","ballista","godballista"],["bgolem","golem","bgolem2","pegasus","bigcannon","orctank","slime2","griffin","angel","angelarcher","skychariot","dknight","angelsword","godballista"],["archangel_sacred_1117","bgolem","golem","bgolem2","angel","pegasus","angelarcher","bigcannon","orctank","slime2","griffin","skychariot","dknight","angelsword","archangel","godballista"]],"coralsea":[["bgolem","golem","bgolem2","fishman","fishbow","shark","ogre","crab","leviathan","seaserpent","bigcannon","orctank","slime2","dknight","catapult","field_cannon_1116","slime","ballista"],["bgolem","golem","bgolem2","ogre","crab","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","griffin","airship","slime"],["bgolem","golem","bgolem2","ogre","crab","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","dknight","griffin"]],"deepsea":[["bgolem","golem","bgolem2","shark","leviathan","seaserpent","fishman","fishbow","bigcannon","orctank","slime2","griffin","catapult","field_cannon_1116","slime","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","kraken","leviathan","seaserpent","shark","fishman","fishbow","ogre","crab","dknight","airship"],["bgolem","golem","bgolem2","leviathan","seaserpent","shark","fishman","fishbow","ogre","crab","bigcannon","orctank","slime2","dknight","griffin","airship"]],"seaking":[["bgolem","golem","bgolem2","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","dknight","ballista"],["bgolem","golem","bgolem2","ogre","crab","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","griffin","airship","catapult","field_cannon_1116","slime"],["bgolem","golem","bgolem2","seakingman","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","dknight","griffin","airship"]],"p8war":[["bgolem","golem","bgolem2","p8rifle","field_cannon_1116","p8flak","dknight","p8fighter"],["bgolem","golem","bgolem2","p8tank","p8rifle","dknight","p8fighter","p8bomber"],["bgolem","golem","bgolem2","p8supertank","p8tank","p8rifle","field_cannon_1116","p8flak","dknight","p8fighter"],["bgolem","golem","bgolem2","p8train","p8traincar","p8rifle","dknight","p8fighter"]],"p8robo":[["bgolem","golem","bgolem2","p8robot","p8drone","p8car","p8ufo"],["bgolem","golem","bgolem2","p8mech","p8robot","p8drone","p8futank","p8car","p8ufo"],["bgolem","golem","bgolem2","p8titan","p8robot","p8drone"],["bgolem","golem","bgolem2","p8mothership","p8ufo","p8futank"]],"p8dino":[["bgolem","golem","bgolem2","p8raptor","p8ptera","p8ufo"],["bgolem","golem","bgolem2","p8trike","p8raptor","p8ptera"],["bgolem","golem","bgolem2","p8rex","p8raptor","p8ptera"]],"p8anc":[["bgolem","golem","bgolem2","anc_dogu","anc_haniwa","anc_tribal","anc_dogustatue","anc_dragonfly","anc_doguhead","anc_crow","anc_shaman","anc_haniwabird","anc_wolf"],["bgolem","golem","bgolem2","anc_mammoth","anc_boar","anc_bear","anc_dogu","anc_dragonfly","anc_palanquin","anc_spiritbear","anc_wolf","anc_haniwabird"],["bgolem","golem","bgolem2","anc_sunking","anc_chief","anc_dogu","anc_haniwa","anc_shaman","anc_haniwabird"],["bgolem","golem","bgolem2"]],"p8poly":[["bgolem","golem","bgolem2","p8face"],["bgolem","golem","bgolem2","p8goddess","p8face"],["bgolem","golem","bgolem2"],["bgolem","golem","bgolem2","p8supertank"],["bgolem","golem","bgolem2","p8titan"],["bgolem","golem","bgolem2","p8rex"],["bgolem","golem","bgolem2","anc_sunking"],["bgolem","golem","bgolem2","p8goddess","p8face"]],"y9town":[["bgolem","golem","bgolem2","y_oni","y_clockwork","bat","y_origami","y_samuraihunter","y_tengu","y_ninja","y_karasu","y_oboro"],["bgolem","golem","bgolem2","y_samuraihunter","y_crystalmonk","y_oni","bat","y_origami","y_mikoarcher","y_onmyoji","y_ninjakite","y_warcart"],["bgolem","golem","bgolem2","y_firetoad","y_oni","bat","y_origami","y_samuraihunter","y_onispider","y_tengu","y_karasu"]],"y9castle":[[],[],[]],"y9lord":[["bgolem","golem","bgolem2","y_whitefox","y_kirin","ogre","y_fierywarrior","y_oni","y_samuraihunter","y_kyubi","y_foxsorc","y_karasu"],["bgolem","golem","bgolem2","ogre","y_fierywarrior","y_oni","y_firetoad","y_samuraihunter","bat","y_origami","y_heli","y_gasha","y_tsuchigumo","y_toadlord","y_tengu"],["bgolem","golem","bgolem2","nurarihyon","y_whitefox","y_kirin","y_samuraihunter","y_onisamurai","y_onmyoji","y_karasu","y_ninjakite"]],"fairywood":[["bgolem","golem","bgolem2","angel","anc_tribal"],["fairy_blossom_1116","bgolem","golem","bgolem2","anc_spiritbear","anc_tribal"]],"fairylake":[["bgolem","golem","bgolem2","anc_dragonfly","angel"],["fairy_blossom_1116","bgolem","golem","bgolem2","leviathan","anc_dragonfly"]],"fairypalace":[["bgolem","golem","bgolem2","anc_tribal","angel"],["fairy_blossom_1116","bgolem","golem","bgolem2","p8goddess","angel"]],"park_entry":[["park_marionette_1117","park_toysoldier_1117","park_mascot_1117"],["park_mascot_1117"]],"park_ride":[["park_marionette_1117","park_clown_1117","park_toysoldier_1117","park_android_1117"],["park_clown_1117","park_toysoldier_1117","park_marionette_1117"]],"park_control":[["park_marionette_1117","park_clown_1117","park_toysoldier_1117","park_android_1117","park_mascot_1117"],["park_android_1117","park_toysoldier_1117","park_marionette_1117","park_mascot_1117"]],"col_gate":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","hero"],["bgolem","golem","bgolem2","ogre","bigcannon","orctank","slime2","soldier","archer"],["bgolem","golem","bgolem2","ogre","bigcannon","orctank","slime2"]],"col_trial":[["golem"]],"col_final":[["blackknight"]]}};
 const mobileArt={
  manifest:null,manifestState:null,jobs:new Map(),ready:new Map(),failed:new Map(),groups:new Map(),retired:new Set(),
  pending:new Map(),active:0,serial:0,scope:null,stageSerial:0,wave:null,start:null,preview:0,titleOpen:false,
@@ -3318,7 +3318,7 @@ function ringPass(r){if(charKey==='nurarihyon'&&(!formPlaying()||r.cd>0))return;
   burst(c,26,GOLD,3,26,0.7);glowFlash(c,0xffd860,22,0.4);sfx('heal',null,0.5);
   if(charKey==='nurarihyon'&&nuraWeak())ono(c,`小妖怪 ＋1（${nuraSmallCount()}/${NURA_FRONT_SEATS.length}）`,'#ffe799',35);
   else ono(c,n>1?`${n}連続！ ＋ゲージ`:'リング！ ＋ゲージ','#ffd84a',36);
-  if(!RINGS.tip){RINGS.tip=true;say('💡 ヒント',charKey==='nurarihyon'?'金の輪をくぐると小妖怪が1体増える。4体揃うと百鬼合体が使える。':RFORMS[charKey]?(RIDES[charKey]?'屋外の金のリングで'+RIDES[charKey].nm+'に30秒騎乗！ 時間切れで自動着地。':RFORMS[charKey].names.length===3?'金のリングで60秒変身！ 変身中にもう1個取ると、最終形態に30秒変身する。':'金のリングで30秒変身！ 変身中にもう1個取ると、残り30秒に戻る。'):'金の輪をくぐると、必殺ゲージと体力が少したまる。続けてくぐると点が上がる');}}
+  if(!RINGS.tip){RINGS.tip=true;say('💡 ヒント',charKey==='nurarihyon'?'金の輪で小妖怪が1体増える。4体揃うと大釣鐘に自動で合体する。':RFORMS[charKey]?(RIDES[charKey]?'屋外の金のリングで'+RIDES[charKey].nm+'に30秒騎乗！ 時間切れで自動着地。':RFORMS[charKey].names.length===3?'金のリングで60秒変身！ 変身中にもう1個取ると、最終形態に30秒変身する。':'金のリングで30秒変身！ 変身中にもう1個取ると、残り30秒に戻る。'):'金の輪をくぐると、必殺ゲージと体力が少したまる。続けてくぐると点が上がる');}}
 /* ---- 地上のキャラ用の輪（rock_ring.py）：飛べないキャラの時は、空の輪を地面に立て直す。下の端が地面すれすれで、走ってくぐれる ---- */
 // 輪の半径：体の大きさに合わせる（人は小さく、戦車・クラーケンは大きく）
 function ringGR(){return ({hero:5,redcap:5,army:7,golem:8,ground:9,orctank:10,kraken:13})[charKey]||(C.human?5:9);}
@@ -8225,7 +8225,7 @@ function skvInfo(k,s){
  const match=/^cube_(swarm|man|dragon)_1117$/.exec(k);
  if(match){
   const form=['swarm','man','dragon'].indexOf(match[1]);
-  const action=s==='sp3'?{n:form?'分解突進':'ばらける',d:form?'群れに戻り、前方へ突進して体当たりする。':'1.8秒散開して攻撃をすり抜ける。'}:CUBE_KIT[form][s==='sp'?0:1];
+  const action=s==='sp3'?{n:form?'分解突進':'ばらける',d:form?cubeRushDescription(form):'1.8秒散開して攻撃をすり抜ける。'}:CUBE_KIT[form][s==='sp'?0:1];
   const key=matchMedia('(pointer:coarse)').matches?{sp:'右下の丸ボタン①',sp2:'右下の丸ボタン②',sp3:'右下の丸ボタン③'}:{sp:'左クリック',sp2:'右クリック',sp3:'スペース'};
   return {who:CH.cube.name+'（'+CUBEF[form].nm+'）',key:key[s],n:action.n,d:action.d};
  }
@@ -12666,32 +12666,62 @@ function cubeTick(dt,t){if(charKey!=='cube'||!D||D.cf===undefined||PAUSED||LVUP|
 Object.assign(PETM,{cube:[['bgolem',0]]});
 SKPOOL.cube=['cubeCraft','cubeCast'];
 // 手下の模型は最大10匹分を使い回す。敵側のスライムやPETMとは混ぜない。
-const SLIMES=[],SLIMEPOOL=[];
+const SLIMES=[],SLIMEPOOL=[],SLIME_FOLLOW_POINT=new V3();
+const SLIME_FOLLOW_ANGLES=[.93,1.43,.59,.31,1.85];
+function slimeFollowSeat(slot) {
+  const rank=Math.floor(slot/2),side=slot%2?1:-1;
+  const angle=P.yaw+side*SLIME_FOLLOW_ANGLES[rank],radius=9.5+5.5*slimeMassSize()+rank*.8;
+  return SLIME_FOLLOW_POINT.set(Math.sin(angle)*radius,0,Math.cos(angle)*radius);
+}
 function slimeChild(){if(charKey!=='slime'||state!=='play'||SLIMES.length>=10)return;
   let q=SLIMEPOOL.find(q=>!q.active);
   if(!q){const g=makeProxy(2.8,1.8,2.6,0x9adb3a,false);attachModel(g,'slime2');q={g,active:false,t:0};SLIMEPOOL.push(q);}
-  q.active=true;q.t=0;const a=SLIMEPOOL.indexOf(q)*Math.PI*2/10;
-  q.g.position.set(P.pos.x+Math.cos(a)*8,0,P.pos.z+Math.sin(a)*8);q.g.position.y=floorAt(q.g.position.x,q.g.position.z)+0.1;
-  q.g.scale.setScalar(1);q.g.visible=true;scene.add(q.g);SLIMES.push(q);
+  q.active=true;q.t=0;q.guardCd=0;q.leashSide=0;q.h=2.2;
+  const seat=slimeFollowSeat(SLIMES.filter(child=>!child.revisionRush).length);
+  q.g.position.set(P.pos.x+seat.x*.62,0,P.pos.z+seat.z*.62);q.g.position.y=floorAt(q.g.position.x,q.g.position.z)+0.1;
+  q.g.scale.setScalar(1.24);q.g.visible=true;scene.add(q.g);SLIMES.push(q);
   burst(q.g.position.clone().add(new V3(0,1,0)),8,GOO,1.2,7,0.3);
 }
 function slimeRemove(i,pop){const q=SLIMES[i];if(pop){burst(q.g.position.clone().add(new V3(0,1,0)),16,GOO,2.2,16,0.45);sfx('small',q.g.position,0.4);}
   q.active=false;q.g.visible=false;scene.remove(q.g);SLIMES.splice(i,1);
 }
 function slimeClear(){for(let i=SLIMES.length-1;i>=0;i--)slimeRemove(i,false);}
-function slimeTick(dt,t){if(charKey!=='slime'||!D)return;if(PAUSED||LVUP)return;
-  if(state==='select'||state==='play'){const bounce=Math.sin(t*(state==='play'?7:3))*0.045,hit=state==='play'&&P.melT>0?Math.sin(P.melT/0.3*Math.PI):0;
-    D.body.scale.set(1+bounce+hit*0.12,1-bounce*1.5-hit*0.18,1+bounce+hit*0.18);D.body.position.z=hit*2.2;}
-  if(state!=='play'||P.hp<=0){if(state!=='story')slimeClear();return;}if(!(dt>0))return;
-  for(let i=SLIMES.length-1;i>=0;i--){const q=SLIMES[i],p=q.g.position;q.t+=dt;let enemy=null,best=85;
-    for(const e of EN){if(e.dead||e.rise)continue;const c=cpos(e);if(Math.abs(c.y-(floorAt(c.x,c.z)+1))>6+(e.r||0))continue;const d=p.distanceTo(c);if(d<best){best=d;enemy=e;}}
-    const a=t*0.7+SLIMEPOOL.indexOf(q)*Math.PI*2/10,target=enemy?cpos(enemy).clone():new V3(P.pos.x+Math.cos(a)*9,0,P.pos.z+Math.sin(a)*9);
-    const before=p.clone().add(new V3(0,1,0)),dx=target.x-p.x,dz=target.z-p.z,dist=Math.hypot(dx,dz),step=Math.min(dist,(enemy?38:26)*dt);
-    if(dist>0.01){p.x+=dx/dist*step;p.z+=dz/dist*step;q.g.rotation.y=Math.atan2(dx,dz);}
-    p.y=floorAt(p.x,p.z)+0.1+Math.abs(Math.sin(q.t*12))*0.4;q.g.scale.set(1.05,0.92+Math.sin(q.t*12)*0.08,1.05);
-    if(enemy){const near=new V3();new THREE.Line3(before,p.clone().add(new V3(0,1,0))).closestPointToPoint(cpos(enemy),true,near);
-      if(near.distanceTo(cpos(enemy))<(enemy.r||1)+1.6){hitEnemy(enemy,65*POW());slimeRemove(i,true);}}
+function slimeFollow(q,slot,dt){
+  const p=q.g.position,seat=slimeFollowSeat(slot);
+  const dx=P.pos.x+seat.x-p.x,dz=P.pos.z+seat.z-p.z;
+  const distance=Math.hypot(dx,dz),speed=Math.hypot(P.vel.x,P.vel.z);
+  q.leashReturn=Math.hypot(p.x-P.pos.x,p.z-P.pos.z)>seat.length()+4;
+  allyLeashWalk(q,p,dx,dz,Math.min(distance,clamp(speed+distance*2,18,62)*dt));
+  q.t+=dt;
+  const hop=Math.abs(Math.sin(q.t*12));
+  p.y=powerGround(p.x,p.z)+.1+hop*.44;
+  q.g.scale.set(1.24,1.11+hop*.17,1.24);
+  q.guardCd-=dt;
+  if(q.guardCd>0||q.leashReturn)return;
+  q.guardCd=.19;
+  const at=p.clone().add(new V3(0,1.1,0));
+  const e=powerEnemies(at,2.45).find(e=>!e.rise&&slimeBitePath(cpos(e),at));
+  if(!e)return;
+  q.guardCd=.95;
+  hitEnemy(e,18*POW());
+  burst(at,4,GOO,.6,6,.25);
+}
+function slimeTick(dt,t){
+  if(charKey!=='slime'||!D||PAUSED||LVUP)return;
+  if(state==='select'||state==='play'){
+    const play=state==='play',bounce=Math.sin(t*(play?7:3))*.045,hit=play&&P.melT>0?Math.sin(P.melT/.3*Math.PI):0;
+    const stretch=play&&SLIME_LEAP.active?.18+.44*clamp(Math.abs(P.vy)/SLIME_JUMP_SPEED,0,1):0;
+    const squash=play?SLIME_LEAP.squash:0;
+    D.body.scale.set(1+bounce+hit*.12-stretch*.27+squash*.19,
+      1-bounce*1.5-hit*.18+stretch-squash*.32,
+      1+bounce+hit*.18-stretch*.22+squash*.19);
+    D.body.position.z=hit*2.2;
+    if(play&&dt>0)SLIME_LEAP.squash=Math.max(0,squash-dt*3.5);
   }
+  if(state!=='play'||P.hp<=0){if(state!=='story')slimeClear();return;}
+  if(!(dt>0))return;
+  let slot=0;
+  for(const q of SLIMES)if(!q.revisionRush)slimeFollow(q,slot++,dt);
 }
 {const prev=updTheme;updTheme=function(dt,t){prev.apply(this,arguments);slimeTick(dt,t);};}
 {const prev=clearWorld;clearWorld=function(){slimeClear();return prev.apply(this,arguments);};}
@@ -12782,6 +12812,7 @@ SKPOOL.necromancer=['bonehound','pillars'];
 const NURA=[],NURAPOOL=[],NURAKIN=['y_origami','y_oni','yokai_lantern_1116'];
 const NURA_FRONT_SEATS=[[8,-7.2],[8,7.2],[13,-3.8],[13,3.8]],NURA_FOLLOW_POINT=new V3();
 const NURA_RUSH_SPACING=[0,.11,.24,.37];
+const NURA_BELL_SEATS=[[15,-7.5],[15,7.5],[27,-10],[27,10]];
 let nuraClock=0.2,nuraSerial=0,nuraDodgeCd=0,nuraStarterPending=true;
 function nuraRemove(q,pop){const i=NURA.indexOf(q);if(i<0)return;
   if(pop)burst(q.g.position.clone().add(new V3(0,1.5,0)),12,[0xc08aff,0xe8d4ff,0x7040b0],2,13,0.45);
@@ -12790,12 +12821,13 @@ function nuraRemove(q,pop){const i=NURA.indexOf(q);if(i<0)return;
 function nuraClear(){for(const q of NURA.slice())nuraRemove(q,false);nuraClock=0.2;nuraDodgeCd=0;nuraStarterPending=true;}
 function nuraSmallCount(){return NURA.reduce((count,q)=>count+(q.slot>=0),0);}
 function nuraCall(mid,pos,line,seated=false){if(charKey!=='nurarihyon'||state!=='play'||P.hp<=0||!MODEL[mid])return null;
-  const bell=mid===NURA_BELL_ASSET,slot=bell?-1:NURA_FRONT_SEATS.findIndex((_,i)=>!NURA.some(q=>q.slot===i));
-  if(bell?NURA.some(q=>q.mid===mid):slot<0)return null;
+  const bell=mid===NURA_BELL_ASSET,slots=bell?NURA_BELL_SEATS:NURA_FRONT_SEATS,key=bell?'bellSlot':'slot';
+  const slot=slots.findIndex((_,i)=>!NURA.some(q=>q[key]===i));
+  if(slot<0)return null;
   let q=NURAPOOL.find(q=>!q.active&&q.mid===mid);
   if(!q){const bird=mid==='y_origami',g=makeProxy(bird?3.2:3.4,bird?1.8:3.4,bird?3:4,0xa080cf,false);attachModel(g,mid);q={g,mid,active:false};NURAPOOL.push(q);}
   q.active=true;q.age=0;q.leashReturn=false;q.leashSide=0;q.serial=++nuraSerial;q.mode=line?'line':'orbit';q.target=null;q.life=4;q.dir=line?line.clone():null;
-  q.slot=slot;q.rushWait=0;
+  q.slot=bell?-1:slot;q.bellSlot=bell?slot:-1;q.rushWait=0;
   q.g.visible=true;q.g.scale.setScalar(1);q.g.rotation.set(0,P.yaw,0);q.g.position.copy(pos);q.g.position.y=floorAt(pos.x,pos.z)+(mid==='y_origami'?2.6:0.1);
   scene.add(q.g);const mx=q.g.userData.mix;if(mx&&!MIX.includes(mx))MIX.push(mx);NURA.push(q);if(seated)nuraSeatPose(q);
   burst(q.g.position.clone().add(new V3(0,1,0)),7,[0xc08aff,0xe8d4ff],1.3,7,0.4);return q;
@@ -15445,6 +15477,7 @@ function powerAllyTick(dt){
   if(!POWERS.allies.includes(q))continue;
   q.t-=dt;q.age+=dt;q.cd-=dt;if(q.t<=0){powerAllyRemove(q);continue;}
   const p=q.g.position;
+  if(q.kind==='necro'&&necroRiseStep(q,dt))continue;
   if(q.drop){
    const d=q.drop;d.v=Math.min(38,d.v+25*dt);p.y-=d.v*dt;
    const k=1-Math.exp(-dt*3.8);p.x+=(d.at.x-p.x)*k;p.z+=(d.at.z-p.z)*k;
@@ -16331,7 +16364,7 @@ nuraPlayTick=function(dt){
    if(e){nuraRemove(q,true);hitEnemy(e,103*SPM());}
    else if(q.life<=0||Math.hypot(p.x,p.z)>468)nuraRemove(q,true);
   }else if(q.mode==='strong'){
-   q.life-=dt;if(q.life<=0||q.hp<=0){nuraRemove(q,true);continue;}
+   if(q.hp<=0){nuraRemove(q,true);continue;}
    nuraBellTick(q,dt);
   }
  }
@@ -16357,11 +16390,11 @@ nuraPlayTick=function(dt){
  return d;
 };}
 
-// 巨大な海王は槍の打撃で戦う。通常の海流砲／大津波の能力は人型に残す。
+// 巨大な海王は槍で打ち、必殺の打撃とともに屋外の前方へ海を広げる。
 const SEA_HITS={
  normal:{reach:49,width:0,arc:Math.PI*.37,high:19,dmg:145,clip:'attack',duration:.66,wind:.26},
- seabeam:{name:'大槍の叩き割り',info:'前方96まで巨大な槍を叩きつけ、幅36の水衝撃で敵・建物・木を打つ。',reach:96,width:18,arc:0,high:29,dmg:211,clip:'castwave',duration:.85,wind:.34},
- seatide:{name:'大槍の水輪斬り',info:'大槍を一回転し、半径76の全周へ水の斬撃を広げ、敵・建物・木を打つ。',reach:76,width:0,arc:Math.PI,high:25,dmg:179,clip:'sweep',duration:.90,wind:.37}
+ seabeam:{name:'大槍の叩き割り',info:'前方96まで巨大な槍を叩きつけ、幅36の水衝撃で敵・建物・木を打つ。屋外では前方に海が広がる。',reach:96,width:18,arc:0,high:29,dmg:211,clip:'castwave',duration:.85,wind:.34},
+ seatide:{name:'大槍の水輪斬り',info:'大槍を一回転し、半径76の全周へ水の斬撃を広げ、敵・建物・木を打つ。屋外では前方に海が広がる。',reach:76,width:0,arc:Math.PI,high:25,dmg:179,clip:'sweep',duration:.90,wind:.37}
 };
 function seaSkillLabels(giant){
  for(const [slot,k] of [['sp','seabeam'],['sp2','seatide']]){
@@ -16436,6 +16469,7 @@ function seaHeavyHit(kind,gain){
  const at=origin.clone().addScaledVector(forward,kind==='seatide'?0:12);at.y=floorAt(at.x,at.z)+2.5;
  burst(at,11,[0x69b9dc,0xbceffa,0xe3fcff],2.1,16,.5);
  sfx(kind==='normal'?'slash':'crash',at,.64);
+ if(kind!=='normal'&&!DUN.on&&!CAVE.on)seaFieldStart(false,false,false);
 }
 {const before=breathe;breathe=function(){
  if(charKey==='nurarihyon')return;
@@ -16524,6 +16558,7 @@ function slimeEat(){
   ono(at.clone().add(new V3(0,3,0)),'がぶっ！','#c8f780',33);
   hitEnemy(e,125*SPM());return;
  }
+ slimeCatchTrail(cpos(e).clone());
  e.powerHeld=true;e.slimeDigestHeld=true;e.vel.set(0,0,0);e.vy=0;
  REVISIONS.consume={e,from:e.mesh.position.clone(),rot:e.mesh.rotation.clone(),scale:e.mesh.scale.clone(),t:0,inside:false};
  slimeGelSkin();sfx('whoosh',P.pos,0.5);
@@ -16565,7 +16600,8 @@ function slimeBossBlocked(e){
 function slimeBossEdible(e){return !!(e?.boss&&!slimeBossBlocked(e)&&!e.guard);}
 {const before=slimeEdible;slimeEdible=function(e){return e?.boss?slimeBossEdible(e):before.apply(this,arguments);};}
 slimeBiteTarget=function(){
- const range=32+9*slimeMassSize(),near=powerEnemies(P.pos,range).filter(e=>!e.rise&&!e.tele&&!e.seal&&!e.dunSeal);
+ const range=1.8*(32+9*slimeMassSize());
+ const near=powerEnemies(P.pos,Math.hypot(range+5,46)).filter(e=>!e.rise&&!e.tele&&!e.seal&&!e.dunSeal);
  let bite=null;
  for(const e of near){
   const c=cpos(e),rd=Math.min(5,(e.r||0)*0.55),vertical=e.boss?15+rd+Math.min(26,(e.hc||0)*0.25):15+rd;
@@ -16579,7 +16615,8 @@ slimeBiteTarget=function(){
 {const before=slimeEat;slimeEat=function(){
  if(REVISIONS.consume||state!=='play'||P.hp<=0)return before.apply(this,arguments);
  const target=slimeBiteTarget();if(!target?.eat||!target.e?.boss)return before.apply(this,arguments);
- const e=target.e;e.powerHeld=true;e.slimeDigestHeld=true;e.vel.set(0,0,0);e.vy=0;
+ const e=target.e;slimeCatchTrail(cpos(e).clone());
+ e.powerHeld=true;e.slimeDigestHeld=true;e.vel.set(0,0,0);e.vy=0;
  REVISIONS.consume={e,mesh:e.mesh,from:e.mesh.position.clone(),rot:e.mesh.rotation.clone(),scale:e.mesh.scale.clone(),t:0,inside:false,
   bossEat:true,nextChew:.75,bossName:e.boss,bossState:Object.fromEntries(['type','boss','s7','ph','tfm','giant','form','state','p2','k1','tk2','tfd','fairyPhase'].map(k=>[k,e[k]]))};
  slimeGelSkin();sfx('whoosh',P.pos,0.5);
@@ -16677,7 +16714,8 @@ function slimeAllRush(){
 {const before=slimeTick;slimeTick=function(dt,t){
  if(charKey!=='slime'||state!=='play'||PAUSED||LVUP||!(dt>0))return before.apply(this,arguments);
  slimeApplyMass(dt);slimeEatTick(dt);
- if(!SLIMES.some(q=>q.revisionRush))return before.apply(this,arguments);
+ const result=before.apply(this,arguments);
+ if(P.hp<=0)return result;
  for(let i=SLIMES.length-1;i>=0;i--){
   const q=SLIMES[i],v=q.revisionRush;if(!v)continue;
   const p=q.g.position,old=p.clone().add(new V3(0,1,0));v.t-=dt;
@@ -16688,13 +16726,14 @@ function slimeAllRush(){
   if(e){slimeRemove(i,true);hitEnemy(e,86*SPM());}
   else if(v.t<=0||Math.hypot(p.x,p.z)>465)slimeRemove(i,true);
  }
+ return result;
 };}
 {const before=slimeChild;slimeChild=function(){
  const n=SLIMES.length,r=before.apply(this,arguments);if(SLIMES.length>n)SLIMES[SLIMES.length-1].revisionRush=null;return r;
 };}
 function revisionClear(){
  if(REVISIONS.consume)slimeEatRelease(REVISIONS.consume);
- REVISIONS.nuraCallCd=0;REVISIONS.angle=0;SLIME_LEAP.active=false;slimeGelReset();
+ REVISIONS.nuraCallCd=0;REVISIONS.angle=0;SLIME_LEAP.active=false;SLIME_LEAP.squash=0;slimeGelReset();
 }
 {const before=clearWorld;clearWorld=function(){revisionClear();return before.apply(this,arguments);};}
 const REVISION_PLAYERS=new Set(['golem','ground','maou','seaking','kraken','dragonking','airship','bomber','necromancer','nurarihyon','slime']);
@@ -16715,7 +16754,7 @@ const REVISION_PLAYERS=new Set(['golem','ground','maou','seaking','kraken','drag
 };}
 {const before=powersSkill;powersSkill=function(k){
  if(charKey==='nurarihyon'){
-  if(k==='hyakki'){nuraStrengthen();return true;}
+  if(k==='hyakki'){nuraBellStorm();return true;}
   if(k==='thunder'){nuraRushAll();return true;}
  }
  if(charKey==='seaking'&&D?.sf&&(k==='seabeam'||k==='seatide')){seaHeavyHit(k,SPM());return true;}
@@ -16986,7 +17025,7 @@ function seaFieldMesh(x,z){
  geometry.setAttribute('color',new THREE.Float32BufferAttribute(colors,3));geometry.setIndex(indices);
  const m=new THREE.Mesh(geometry,SEA_FIELD_MAT);m.renderOrder=2;scene.add(m);return m;
 }
-function seaFieldStart(radial=false,beam=false){seaFieldRemove('flood');seaFrontStart(radial,beam);}
+function seaFieldStart(radial=false,beam=false,pose=true){seaFieldRemove('flood');seaFrontStart(radial,beam,pose);}
 function seaFieldCast(){
  if(state!=='play'||PAUSED||LVUP||BTK.on||P.hp<=0)return;
  if(charKey!=='kraken'&&charKey!=='seaking')return;
@@ -17172,18 +17211,61 @@ updSeld();renderSk();
 
 const NECRO_MEMORY_LIMIT=20;
 const NECRO_MEMORIES=[];
-let necroDeathMemory=null;
+let necroDeathMemory=null,necroRaiseCue=0;
 function necroUpgradeCount(){
  return clamp(Math.floor(Number(UP.pet)||0),0,3);
 }
 function necroCapacity(){return 8+necroUpgradeCount()*4;}
 function necroSnapshot(e){
- const mid=S8K[e.s8]?.mid||e.mesh?.userData?.mdlId||enMdl(e);
- return {mid:typeof mid==='string'&&mid?mid:'skel',fly:!!e.fly,hc:Number.isFinite(e.hc)?e.hc:2};
+ const root=e.mesh,mid=root.userData?.mdlId||S8K[e.s8]?.mid||enMdl(e);
+ const hc=Number.isFinite(e.hc)?e.hc:2,bounds=new THREE.Box3(),piece=new THREE.Box3();
+ const fallback=new THREE.Group(),local=new THREE.Matrix4();
+ root.updateWorldMatrix(true,true);
+ const anchor=new THREE.Matrix4().compose(root.getWorldPosition(new V3()),
+  root.getWorldQuaternion(new THREE.Quaternion()),new V3(1,1,1)).invert();
+ root.traverseVisible(o=>{
+  if(!o.isMesh||!o.geometry||o.material?.visible===false)return;
+  if(!o.geometry.boundingBox)o.geometry.computeBoundingBox();
+  local.multiplyMatrices(anchor,o.matrixWorld);
+  bounds.union(piece.copy(o.geometry.boundingBox).applyMatrix4(local));
+  if(!MODEL[mid]&&!o.isSkinnedMesh){
+   const m=new THREE.Mesh(o.geometry,o.material);m.matrix.copy(local);m.matrixAutoUpdate=false;fallback.add(m);
+  }
+ });
+ const size=bounds.getSize(new V3());
+ return {mid,fly:!!e.fly,hc,size,fallback:fallback.children.length?fallback:null};
+}
+function necroFitBody(look,h,fly){
+ const box=new THREE.Box3().setFromObject(look),height=box.getSize(new V3()).y;
+ if(height>.001){
+  const k=h/height;look.scale.multiplyScalar(k);
+  look.position.y=(fly?-h*.50:0)-box.min.y*k;
+ }
 }
 function necroSummon(memory,at){
- const h=clamp((memory.hc||2)*1.8,2.5,9),mid=MODEL[memory.mid]?memory.mid:'skel';
- return powerAlly('necro',memory,at,{mid,fly:memory.fly,h,t:22});
+ const {mid,fly,size}=memory;
+ const h=clamp(size?.y||Math.max(2.5,(memory.hc||2)*1.8),1.2,13);
+ const w=clamp(size?.x||h*.72,.65,18),d=clamp(size?.z||h*.65,.65,18);
+ const body=new THREE.Group();
+ if(!MODEL[mid]&&memory.fallback){
+  const look=memory.fallback.clone(true);
+  look.scale.setScalar(Math.min(1,h/Math.max(h,size?.y||h),18/Math.max(w,d,size?.x||0,size?.z||0)));
+  body.add(look);
+ }else if(MODEL[mid]){
+  const proxy=makeProxy(w,h,d,0x9f8cad,fly);body.add(proxy);
+  if(!attachModel(proxy,mid))return null;
+  necroFitBody(proxy.children.at(-1),h,fly);
+  if(proxy.userData.mix)body.userData.mix=proxy.userData.mix;
+ }else{
+  if(mid&&mobileKnown(mid))mobileWant(mid,24);
+  if(mid!=='skel'&&mid!=='skeleton')return null;
+  const look=makeHuman({skin:0xe8e2cc,armor:0xcfc8b0,cloth:0xb0a890,weapon:'spear',shield:0x6a6252,s:1.5});
+  necroFitBody(look,h,false);body.add(look);
+ }
+ const q=powerAlly('necro',memory,at,{mid,fly,h,t:22,mesh:body});
+ q.necroBody=body.children[0];q.necroRise=.46;q.necroDip=Math.min(1.35,h*.24);
+ q.necroBody.position.y=-q.necroDip;
+ return q;
 }
 {const base=killEnemy;killEnemy=function(e,quiet){
  if(!e||e.dead||quiet||charKey!=='necromancer'||state!=='play'||P.hp<=0||!powerCanTurn(e))
@@ -17202,6 +17284,10 @@ function necroSummon(memory,at){
 {const base=powerReanimate;powerReanimate=function(e,pos){
  if(charKey!=='necromancer')return base.apply(this,arguments);
  const q=necroSummon(necroDeathMemory||necroSnapshot(e),pos);
+ if(q){
+  magicCircle(new V3(pos.x,powerGround(pos.x,pos.z)+.18,pos.z),0x82eacb,Math.min(4,1.5+q.h*.19),.56);
+  if(performance.now()>=necroRaiseCue){necroRaiseCue=performance.now()+260;ono(pos.clone().add(new V3(0,q.h*.7+1,0)),'味方に蘇生','#b3ffe6',23);}
+ }
  burst(pos.clone().add(new V3(0,2,0)),6,[0xa56bde,0xdab3ed],.85,8,.30);
  return q;
 };}
@@ -17210,6 +17296,7 @@ function necroSummon(memory,at){
  if(state!=='play'||P.hp<=0||PAUSED||LVUP)return;
  for(const q of POWERS.allies.slice())if(q.kind==='necro')powerAllyRemove(q);
  const forward=POWER_FWD(),right=new V3(forward.z,0,-forward.x);
+ let raised=0;
  for(let i=0;i<necroCapacity();i++){
   const memory=NECRO_MEMORIES[i]||{mid:i%2?'skeleton':'skel',fly:false,hc:2};
   const at=P.pos.clone().addScaledVector(forward,7+Math.floor(i/4)*6)
@@ -17219,11 +17306,11 @@ function necroSummon(memory,at){
    at.x=land.x;at.z=land.z;
   }
   at.y=powerGround(at.x,at.z)+(memory.fly?5:0);
-  necroSummon(memory,at);
+  if(necroSummon(memory,at))raised++;
  }
  magicCircle(gpos(P.pos),0xa45bff,11,1.15);
  sfx('roar',null,.55);
- banner('死者の軍勢 · '+necroCapacity()+'体',1.4);
+ banner('死者の軍勢 · '+raised+'体',1.4);
 };}
 {const base=startGame;startGame=function(){
  NECRO_MEMORIES.length=0;necroDeathMemory=null;
@@ -17429,7 +17516,7 @@ function cubePhasing(){return charKey==='cube'&&FORMPLAY.phase>0;}
 function formPlaying(){return state==='play'&&!PAUSED&&!LVUP&&P.hp>0;}
 /* Movement follows the player's facing and the same collision path as regular flight. */
 const CUBE_SCATTER_TIME=1.8,CUBE_MOVE_COOLDOWN=4,CUBE_SCATTER_COST=12,CUBE_RUSH_COST=20;
-const CUBE_RUSH_FORMS=[null,{range:36,life:.54,baseDamage:110,width:4.2},{range:48,life:.62,baseDamage:145,width:5.2}];
+const CUBE_RUSH_FORMS=[null,{range:56,life:.70,baseDamage:110,width:4.2},{range:74,life:.80,baseDamage:145,width:5.2}];
 let cubeRush=null;
 function cubeRushActive(){return charKey==='cube'&&cubeRush?.owner===D;}
 function cubeMove(){
@@ -17474,11 +17561,12 @@ function cubeRushPostMove(dt){
   cubeRush=null;P.vel.set(0,0,0);P.vy=0;D.body.userData.cb.t=1;
  }
 }
+function cubeRushDescription(form){return '群れに戻り、前方'+CUBE_RUSH_FORMS[form].range+'まで突進して体当たりする。';}
 function cubeLabels(){
  if(charKey!=='cube'||!D)return;
  C.fly=true;C.dash=D.cf?'cubeRush':'cubeScatter';
  C.dashN=D.cf?'分解突進':'ばらける';
- C.dashD=D.cf?'群れに戻り、前方へ突進して体当たり。消費20・待ち時間4秒。':'1.8秒大きく散開してから合流する。敵と弾をすり抜け、消費12・待ち時間4秒。';
+ C.dashD=D.cf?cubeRushDescription(D.cf)+' 消費20・待ち時間4秒。':'1.8秒大きく散開してから合流する。敵と弾をすり抜け、消費12・待ち時間4秒。';
 }
 
 {const base=cubeStats;cubeStats=function(i){const r=base.apply(this,arguments);CH.cube.fly=true;return r;};}
@@ -17582,28 +17670,38 @@ function formPlayClear(){cubeRush=null;FORMPLAY.phase=FORMPLAY.phaseCd=FORMPLAY.
  if(charKey==='cube'&&D.cf===0){z.dataset.ic='cube_scatter';z.style.backgroundImage='url(chara/sk/cube_sp3.webp?v='+ASSET_V+')';}
  if(charKey==='dragonking'){z.dataset.ic='king_order';z.style.backgroundImage='url(chara/sk/dragonking_sp3.webp?v='+ASSET_V+')';}
  }return r;};}
-{const base=skExtra;skExtra=function(){let s=base.apply(this,arguments);if(charKey==='cube')s+='<div class="skx"><b>形ごとの技</b> 全形態で飛べる。通常は1個を投げ、行き帰りで攻撃。金のリングで人型60秒、もう1個で竜型30秒。群れは返り投げ・横回しと1.8秒の散開回避。人型は近くを斬る大剣と遠くを射る大弓、竜型は遠くまで飛ぶブレスと周囲を一周するテイル。人型・竜型の移動技は分解突進で、群れに戻りながら前方の敵に体当たりする。合体した人型と竜型は、骨で手足・翼・顎を動かす。</div>';if(charKey==='dragonking')s+='<div class="skx"><b>王の号令</b> 家来の竜が狙った場所へ急降下して焼く。巨大な竜の30秒が終わると、届く敵へ突進して人型に戻る瞬間に大ダメージを与える。人型でも飛行できる。</div>';return s;};}
+{const base=skExtra;skExtra=function(){let s=base.apply(this,arguments);if(charKey==='cube')s+='<div class="skx"><b>形ごとの技</b> 全形態で飛べる。通常は1個を投げ、行き帰りで攻撃。金のリングで人型60秒、もう1個で竜型30秒。群れは返り投げ・横回しと1.8秒の散開回避。人型は大剣と矢を2本放つ大弓。竜型は3本のブレスと周囲を一周するテイル。人型・竜型の分解突進は群れに戻り、前方の敵に体当たりする（人型56・竜型74まで）。合体した人型と竜型は、骨で手足・翼・顎を動かす。</div>';if(charKey==='dragonking')s+='<div class="skx"><b>王の号令</b> 家来の竜が狙った場所へ急降下して焼く。巨大な竜の30秒が終わると、届く敵へ突進して人型に戻る瞬間に大ダメージを与える。人型でも飛行できる。</div>';return s;};}
 Object.assign(CH.cube,{tag:'空中・群れ／人型／竜型',ds:'群れ・人型・竜型すべてで空を飛び、1個を投げて行き帰りで攻撃。金のリングで人型になり、もう1個で竜型になる。'});
 Object.assign(CH.dragonking,{dash:'royalOrder',dashN:'号令',dashD:'狙った場所へ家来の竜が急降下して焼く。消費12・待ち時間4秒。',ds:'スペースで家来の竜へ号令。金リングで巨大な竜に30秒変身し、時間切れに王の急降下で地面を爆破して人へ戻る。'});
 for(const key of ['cube','dragonking'])document.querySelector('#cards .card[data-k="'+key+'"] .ds')?.replaceChildren(CH[key].ds);
 cubeLabels();updSeld();renderSk();
 
 // 小妖怪を生け贄にして、大釣鐘が立ち上がるまでの進行。
-const NURA_MOTION={ritual:null,rising:null};
+const NURA_MOTION={ritual:null,rising:null,autoCheck:0};
 const NURA_RITUAL_TIME=1.05,NURA_RISE_TIME=0.48;
 const NURA_RITUAL_COLORS=[0x9062bf,0xc38dcd,0x5b327c];
 
 function nuraRitualCrew(){return NURA.filter(q=>q.slot>=0&&q.mode==='orbit');}
-function nuraRitualCount(){return NURA.filter(q=>q.mode==='strong'||q.mode==='rise').length;}
-function nuraRitualAvailability(){
- if(NURA_MOTION.ritual||NURA_MOTION.rising)return '合体中';
- if(nuraRitualCount()>=1)return '大釣鐘が出ている';
- const ready=nuraRitualCrew().length;
- if(ready<NURA_FRONT_SEATS.length)return `小妖怪 ${ready}/${NURA_FRONT_SEATS.length}体`;
- if(!MODEL[NURA_BELL_ASSET])return '準備中';
- if(!nuraFloorPoint(16,5))return '広い場所が必要';
- return '';
+function nuraRitualCount(){return NURA.filter(q=>q.bellSlot>=0).length;}
+function nuraBellLanding(){
+ const slot=NURA_BELL_SEATS.findIndex((_,i)=>!NURA.some(q=>q.bellSlot===i));
+ if(slot<0)return null;
+ const [front,side]=NURA_BELL_SEATS[slot],f=POWER_FWD();
+ return nuraFloorPoint(Math.hypot(front,side),5,true,P.yaw+Math.atan2(side,front),at=>
+  (at.x-P.pos.x)*f.x+(at.z-P.pos.z)*f.z>=5&&
+  NURA.every(q=>q.bellSlot<0||Math.hypot(at.x-q.g.position.x,at.z-q.g.position.z)>=10));
 }
+function nuraRitualState(){
+ if(charKey!=='nurarihyon'||!D||!formPlaying())return {issue:'待機'};
+ if(NURA_MOTION.ritual||NURA_MOTION.rising)return {issue:'合体中'};
+ if(nuraRitualCount()>=NURA_BELL_SEATS.length)return {issue:'大釣鐘は最大4体'};
+ const crew=nuraRitualCrew();
+ if(crew.length<NURA_FRONT_SEATS.length)return {issue:`小妖怪 ${crew.length}/${NURA_FRONT_SEATS.length}体`};
+ if(!MODEL[NURA_BELL_ASSET])return {issue:'準備中'};
+ const landed=nuraBellLanding();
+ return landed?{crew,landed,issue:''}:{issue:'広い場所が必要'};
+}
+function nuraRitualAvailability(){return nuraRitualState().issue;}
 function nuraRitualPoint(){
  return P.pos.clone().addScaledVector(POWER_FWD(),3).add(new V3(0,2.4,0));
 }
@@ -17618,8 +17716,8 @@ function nuraRitualRingClear(mesh){
  mesh.traverse(m=>{m.geometry.dispose();m.material.dispose();});
 }
 nuraStrengthen=function(){
- const issue=nuraRitualAvailability();if(issue){banner(issue,1.5);return false;}
- const crew=nuraRitualCrew(),center=nuraRitualPoint(),ring=nuraRitualRing(),landed=nuraFloorPoint(16,5);
+ const {issue,crew,landed}=nuraRitualState();if(issue)return false;
+ const center=nuraRitualPoint(),ring=nuraRitualRing();
  const victims=crew.map(q=>{
   q.mode='sacrifice';q.target=null;
   const thread=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.13,1,5),
@@ -17629,18 +17727,19 @@ nuraStrengthen=function(){
  });
  NURA_MOTION.ritual={time:0,victims,ring,landed,nextDust:0};
  ring.position.copy(center);ring.lookAt(cam.position);mixOnce(D.body.userData.mix,1.2);
- banner('小妖怪'+crew.length+'体で百鬼合体！',1.1);sfx('charge',null,0.35);
+ banner('小妖怪4体が大釣鐘に合体！',1.1);sfx('charge',null,0.35);
  return true;
 };
 function nuraRitualFinish(ritual){
  const center=nuraRitualPoint(),landed=ritual.landed,count=ritual.victims.length;
- for(const {q} of ritual.victims)nuraRemove(q,false);
  nuraRitualRingClear(ritual.ring);NURA_MOTION.ritual=null;
  const big=nuraCall(NURA_BELL_ASSET,landed,null);
- if(!big)return;
+ if(!big){for(const {q} of ritual.victims){q.mode='orbit';q.g.scale.setScalar(1);nuraSeatPose(q);}return;}
+ for(const {q} of ritual.victims)nuraRemove(q,false);
  nuraBellDetails(big);
- const scale=Math.min(3.75+count*.42,(landed.room-3.2)/3.4);
- Object.assign(big,{mode:'rise',cd:.8,life:NURA_BELL_TIME,crew:count,hp:225+count*55,damage:66+count*10,r:4.3+count*.38,ringTimer:0});
+ delete big.life;
+ const scale=Math.min(3.45,(landed.room-3.2)/3.4);
+ Object.assign(big,{mode:'rise',cd:.8,crew:count,hp:225+count*55,damage:66+count*10,r:4.3+count*.38,ringTimer:0});
  NURA_MOTION.rising={big,landed,scale,time:0};
  big.g.scale.setScalar(scale*.30);big.g.position.copy(landed);big.g.position.y-=1.2;
  burst(center,8,NURA_RITUAL_COLORS,1.6,6,.32);
@@ -17686,25 +17785,55 @@ function nuraRitualAdvance(dt){
 nuraClockAdvance=function(dt){
  NURA_CLOCK.cooldown=Math.max(0,NURA_CLOCK.cooldown-dt);
  nuraRitualAdvance(dt);nuraDecoyTick(dt);
+ NURA_MOTION.autoCheck=Math.max(0,NURA_MOTION.autoCheck-dt);
+ if(NURA_MOTION.autoCheck===0&&nuraSmallCount()===NURA_FRONT_SEATS.length){
+  NURA_MOTION.autoCheck=.30;nuraStrengthen();
+ }
 };
 {const before=nuraClear;nuraClear=function(){
  if(NURA_MOTION.ritual)nuraRitualRingClear(NURA_MOTION.ritual.ring);
- NURA_MOTION.ritual=NURA_MOTION.rising=null;
+ NURA_MOTION.ritual=NURA_MOTION.rising=null;NURA_MOTION.autoCheck=0;
  return before.apply(this,arguments);
 };}
-// 儀式自体を演出にして、共通の白い閃光や多段タイマーは使わない。
+// 小妖怪と鐘は自分の位置から敵へ音波を送る。術者だけでも一波は出る。
+const NURA_BELL_WAVE_MAT=new THREE.MeshBasicMaterial({color:0xf3c7ff,fog:false,toneMapped:false});
+function nuraBellWave(at,forward,size,damage){
+ const target=powerEnemies(at,102).find(e=>{
+  if(e.rise)return false;
+  const p=cpos(e),dx=p.x-at.x,dz=p.z-at.z;
+  return dx*forward.x+dz*forward.z>=-4;
+ });
+ const vel=target?cpos(target).clone().sub(at):forward.clone();
+ if(vel.lengthSq()<1)vel.copy(forward);
+ shoot(at,vel.setLength(84),{from:'p',geo:'beam',mat:NURA_BELL_WAVE_MAT,size,r:3.1,splash:3.7,dmg:damage,life:.72,col:[0xdfabff,0xffedd2],dkSmall:true,nuraBellWave:true});
+}
+function nuraBellStorm(){
+ if(charKey!=='nurarihyon'||!D||!formPlaying())return false;
+ const forward=POWER_FWD(),gain=SPM();
+ nuraBellWave(P.pos.clone().add(new V3(0,1,0)),forward,1.02,42*gain);
+ for(const q of NURA){
+  if(q.mode!=='orbit'&&q.mode!=='strong')continue;
+  const bell=q.mode==='strong';
+  if(bell)q.ringTimer=.7;
+  nuraBellWave(q.g.position.clone().add(new V3(0,bell?4.7:1.3,0)),forward,bell?1.22:.9,(bell?46:25)*gain);
+ }
+ mixOnce(D.body.userData.mix,1.35);sfx('clang',P.pos,.65);
+ return true;
+}
 {const before=useSkill;useSkill=function(k){
  if(charKey!=='nurarihyon'||k!=='hyakki')return before.apply(this,arguments);
- if(state!=='play'||LVUP||PAUSED||P.hp<=0||P.en<SPC()||ultT>0||performance.now()-(P.skLast||-1e9)<SKGAP)return;
- if(nuraStrengthen()){P.en-=SPC();P.skLast=performance.now();skQuick(k);}
+ if(!formPlaying()||P.en<SPC()||ultT>0||performance.now()-(P.skLast||-1e9)<SKGAP)return;
+ if(nuraBellStorm()){P.en-=SPC();P.skLast=performance.now();skQuick(k);}
 };}
 
 Object.assign(CH.nurarihyon,{
  dash:'nuraDecoy',dashN:'百鬼の囮',
  dashD:'「囮」の印が付いた分身を3秒出し、近くの敵弾を最大3発吸い込む。消えるときに周囲を攻撃。消費12、再使用まで6秒。',
- ds:'小妖怪1体で出撃。金のリングで1体ずつ増え、最大4体が前方で援護する。4体揃うと大釣鐘に合体できる。レア仲間は提灯おばけ、火吹き大ガマ、麒麟。'
+ ds:'小妖怪1体で出撃。金のリングで1体ずつ増え、4体揃うと自動で大釣鐘に合体する。大釣鐘は最大4体。倒されるか章を出るまで前方で戦う。レア仲間は提灯おばけ、火吹き大ガマ、麒麟。'
 });
-POWER_SKILLS.nurarihyon.hyakki=['百鬼合体','前方に揃った小妖怪4体を生け贄に、大釣鐘を1体召喚。28秒間浮いて動き、鐘の音で周囲を攻撃。','sp'];
+POWER_SKILLS.nurarihyon.hyakki=['百鬼の鐘嵐','自分と援護中の小妖怪・大釣鐘から、敵の方向へ音波を放つ。一人の時は自分から1波。','sp'];
+Object.assign(SKINFO.hyakki,{n:POWER_SKILLS.nurarihyon.hyakki[0],d:POWER_SKILLS.nurarihyon.hyakki[1]});
+ULTL.hyakki='百鬼の鐘よ、響け！';
 POWER_SKILLS.nurarihyon.thunder=['百鬼突撃','小妖怪がわずかに間隔を空けて次々に突撃する。突撃に参加した小妖怪は、命中するか時間が切れると消える。','sp2'];
 CH.nurarihyon.sp2N=POWER_SKILLS.nurarihyon.thunder[0];
 CH.nurarihyon.sp2D=POWER_SKILLS.nurarihyon.thunder[1];
@@ -18069,7 +18198,7 @@ function seaBeamAdvance(q,dt){
  burst(new V3(x,floorAt(x,z)+.9,z),4,[0x6acde7,0xd0f7ff],1.1,8,.32);
 }
 
-function seaFrontStart(radial=false,beam=false){
+function seaFrontStart(radial=false,beam=false,pose=true){
  const dir=POWER_FWD(),p=P.pos.clone();
  if(!radial&&!beam)p.addScaledVector(dir,SEA_FIELD_RADIUS+SEA_FRONT_START);
  p.y=floorAt(p.x,p.z);
@@ -18077,7 +18206,7 @@ function seaFrontStart(radial=false,beam=false){
  if(beam){seaBeamStart(front);return;}
  const m=seaFieldMesh(p.x,p.z);m.material=seaFrontMaterial(front);
  const q={owner:charKey,p,r:SEA_FIELD_RADIUS,t:SEA_FIELD_SECONDS+SEA_FRONT_WINDUP+SEA_FRONT_TRAVEL,m,wake:0,front};
- POWERS.flood=q;seaFrontPoseStart(front);
+ POWERS.flood=q;if(pose)seaFrontPoseStart(front);
  banner((radial?'足元から水が広がる':'前方へ波を放つ')+' · 海が15秒続く',1.65);
  sfx('whoosh',P.pos,0.37);
 }
@@ -18469,24 +18598,37 @@ function necroCouncil(){return PETS.filter(p=>p.revision==='necroCouncil'&&p.hp>
 necroCapacity=function(){return 8+4*(charKey==='necromancer'?necroCouncil().length:necroUpgradeCount());};
 function necroCouncilAdd(){
  if(necroCouncil().length>=3)return;
- const h=5.5,g=makeProxy(3.7,h,3.2,0x493960);attachModel(g,'skelmage');
+ const h=3.35,g=makeProxy(2.50,h,2.25,0x493960);attachModel(g,'skelmage');
  const p={g,id:'necromancer',mid:'skelmage',fly:false,revision:'necroCouncil',h,hp:190,max:190,cd:0,hitT:0,ph:necroCouncil().length,castT:0};
  g.position.copy(P.pos);g.position.y=powerGround(g.position.x,g.position.z);scene.add(g);PETS.push(p);return p;
 }
-function necroPurple(q){
+const NECRO_ALLY_RING=new THREE.RingGeometry(.77,1,20).rotateX(-Math.PI/2);
+const NECRO_ALLY_RING_MAT=new THREE.MeshBasicMaterial({color:0x8beed6,transparent:true,opacity:.84,depthWrite:false,side:THREE.DoubleSide,toneMapped:false});
+const NECRO_ALLY_TINT=new THREE.Color(0xa38bdd);
+function necroAllyAppearance(q){
  const materials=new Map();q.necroMaterials=[];
- q.g.traverse(o=>{if(!o.isMesh||!o.material)return;
-  const paint=old=>{if(materials.has(old))return materials.get(old);const m=old.clone();
-   m.map=null;m.emissiveMap=null;m.vertexColors=false;
-   m.color?.setHex(0x542581);m.emissive?.setHex(0x321352);if('emissiveIntensity'in m)m.emissiveIntensity=.6;
-   if('roughness'in m)m.roughness=.88;if('metalness'in m)m.metalness=0;
-   m.needsUpdate=true;materials.set(old,m);q.necroMaterials.push(m);return m;};
-  o.material=Array.isArray(o.material)?o.material.map(paint):paint(o.material);
+ q.g.traverseVisible(o=>{if(!o.isMesh||!o.material)return;
+  const tint=old=>{if(materials.has(old))return materials.get(old);const m=old.clone();
+   m.color?.lerp(NECRO_ALLY_TINT,.12);m.emissive?.lerp(NECRO_ALLY_TINT,.10);
+   materials.set(old,m);q.necroMaterials.push(m);return m;};
+  o.material=Array.isArray(o.material)?o.material.map(tint):tint(o.material);
  });
+ const mark=new THREE.Mesh(NECRO_ALLY_RING,NECRO_ALLY_RING_MAT);
+ mark.name='necro-ally-mark';mark.position.y=q.fly?-q.h*.50-.12:.14;
+ mark.scale.setScalar(clamp(q.h*.34,.88,3.1));q.g.add(mark);q.necroMark=mark;
 }
-{const base=powerAlly;powerAlly=function(){const q=base.apply(this,arguments);if(q?.kind==='necro')necroPurple(q);return q;};}
+function necroRiseStep(q,dt){
+ if(!q.necroRise)return false;
+ q.necroRise=Math.max(0,q.necroRise-dt);
+ q.necroBody.position.y=-q.necroDip*(q.necroRise/.46)**2;
+ return q.necroRise>0;
+}
+{const base=powerAlly;powerAlly=function(){const q=base.apply(this,arguments);if(q?.kind==='necro')necroAllyAppearance(q);return q;};}
 {const base=powerAllyRemove;powerAllyRemove=function(q){
- const r=base.apply(this,arguments);if(q.necroMaterials){q.necroMaterials.forEach(m=>m.dispose());q.necroMaterials=null;}return r;
+ const r=base.apply(this,arguments);
+ if(q.necroMark){q.g.remove(q.necroMark);q.necroMark=null;}
+ if(q.necroMaterials){q.necroMaterials.forEach(m=>m.dispose());q.necroMaterials=null;}
+ return r;
 };}
 function necroCouncilTrim(){
  if(charKey!=='necromancer')return;
@@ -18533,38 +18675,40 @@ function necroCouncilTrim(){
  const a=POWERS.allies.filter(q=>q.kind==='necro').length;$('allyhud').textContent='術者 '+necroCouncil().length+'/3人 · 死者 '+a+'/'+necroCapacity()+'体';}return r;
 };}
 PET_GROUPS.necromancer={kind:'術者',counter:'人',roster:'仲間の術者1人につき、操れる死者+4体。最大3人で20体。術者が倒れると上限も減る。'};
-PET_SEPARATE.necromancer='紫色の死者は22秒。同行する術者と別枠。';
+PET_SEPARATE.necromancer='倒した敵は元の姿と足元の青緑の印で味方に。死者は22秒で、同行する術者と別枠。';
 PETJA.skelmage='ネクロマンサー';
 {const base=petPortrait;petPortrait=function(id){return id==='necro-council'?'chara/necromancer.webp?v='+ASSET_V:base.apply(this,arguments);};}
 CH.necromancer.ds='同行する術者1人につき、操れる死者が4体増える（基本8・最大20体）。死者は元の敵の形をした紫色。';
-CH.necromancer.spD='記憶した敵を紫色の死者として呼ぶ。22秒・基本8体、仲間の術者1人につき+4体。空きは骸骨兵。';
+CH.necromancer.spD='記憶した敵を元の姿で呼ぶ。22秒・基本8体、仲間の術者1人につき+4体。空きは骸骨兵。';
 SKINFO.deadarmy.d=CH.necromancer.spD;
 document.querySelector('#cards .card[data-k="necromancer"] .ds')?.replaceChildren(document.createTextNode(CH.necromancer.ds));
 updSeld();renderSk();updLvHud();
 
 /* 巨大スライムの育ち方と、足で踏み切る大ジャンプ。 */
-const SLIME_LEAP={active:false};
+const SLIME_JUMP_SPEED=49*Math.SQRT2;
+const SLIME_LEAP={active:false,squash:0};
+function slimeJumpImpactRadius(){return 12+3.5*slimeMassSize();}
 function slimeJump(){
  if(state!=='play'||LVUP||PAUSED||P.hp<=0||!P.onGround||P.dashCd>0||SLIME_LEAP.active||REVISIONS.consume||slimeStrikeActive())return;
- P.dashT=0;P.vy=49*Math.SQRT2;P.vel.y=P.vy;P.onGround=false;P.dashCd=2.4;
- SLIME_LEAP.active=true;
+ P.dashT=0;P.vy=SLIME_JUMP_SPEED;P.vel.y=P.vy;P.onGround=false;P.dashCd=2.4;
+ SLIME_LEAP.active=true;SLIME_LEAP.squash=0;
  const at=P.pos.clone().add(new V3(0,-C.gOff+0.25,0));
  burst(at,10,GOO,0.70,11,0.34);sfx('whoosh',P.pos,0.66);
 }
 function slimeJumpLanding(){
- if(!SLIME_LEAP.active||!P.onGround)return;
- SLIME_LEAP.active=false;
- const radius=9+slimeMassSize()*2.1,at=P.pos.clone().add(new V3(0,-C.gOff+0.24,0));
+ if(!SLIME_LEAP.active||!P.onGround||!formPlaying())return;
+ SLIME_LEAP.active=false;SLIME_LEAP.squash=1;
+ P.melCd=Math.max(P.melCd,.44);
+ const radius=slimeJumpImpactRadius(),at=P.pos.clone().add(new V3(0,-C.gOff+0.24,0));
  shock(at,0x44f75e,radius);
  burst(at,16,GOO,0.9,14,0.43);sfx('small',at,0.78);shake(0.34);
- for(const e of powerEnemies(at,radius+3)){
-  const p=cpos(e);
-  if(Math.hypot(p.x-at.x,p.z-at.z)<=radius+(e.r||0)&&Math.abs(p.y-at.y)<=8+(e.r||0)&&slimeBitePath(p))
+ for(const e of powerEnemies(at,Math.hypot(radius,8))){
+  const p=cpos(e),r=e.r||0;
+  if(Math.hypot(p.x-at.x,p.z-at.z)<=radius+r&&Math.abs(p.y-at.y)<=8+r&&slimeBitePath(p,at))
    hitEnemy(e,32*POW());
  }
 }
-function slimeBitePath(to){
- const from=P.pos.clone().add(new V3(0,1.2,0));
+function slimeBitePath(to,from=P.pos.clone().add(new V3(0,1.2,0))){
  if(DUN.on&&DUN.gates.some(g=>g.open<1&&(from.z-g.z)*(to.z-g.z)<0))return false;
  const path=to.clone().sub(from),length=path.length();if(length<0.25)return true;
  const ray=new THREE.Ray(from,path.divideScalar(length)),hit=new V3(),box=new THREE.Box3();
@@ -18592,7 +18736,7 @@ function slimeBitePath(to){
  return true;
 }
 function slimeBiteTarget(){
- const r=slimeMassSize(),range=32+9*r;
+ const r=slimeMassSize(),range=1.8*(32+9*r);
  const near=powerEnemies(P.pos,range).filter(e=>!e.rise&&!e.tele&&!e.seal&&!e.dunSeal);
  let bite=null;
  for(const e of near){
@@ -18603,6 +18747,17 @@ function slimeBiteTarget(){
  }
  return bite;
 }
+
+{const before=ringPass;ringPass=function(r){
+ if(charKey!=='slime')return before.apply(this,arguments);
+ if(!formPlaying()||r.cd>0)return;
+ const result=before.apply(this,arguments);
+ if(r.cd>0&&SLIMES.length<10){
+  slimeChild();
+  banner('金リングで分身が増えた · '+SLIMES.length+'/10匹',1.3);
+ }
+ return result;
+};}
 
 /* 海スライムは水面の模様としずく、顔の縁で見分けられる。 */
 let SEA_SLIME_STYLE=null;
@@ -19202,7 +19357,7 @@ if(royalPlayerCard)royalPlayerCard.textContent=CH.dragonking.ds;
 royalHumanLabels();
 
 // 海王は必殺技で海を伸ばし、移動技は海流に乗って大きく飛び上がる。
-const SEA_KING_RIDE_COST=12,SEA_KING_RIDE_COOLDOWN=4,SEA_KING_RIDE_TIME=2.35,SEA_KING_LEAP_HEIGHT=237;
+const SEA_KING_RIDE_COST=12,SEA_KING_RIDE_COOLDOWN=4,SEA_KING_RIDE_TIME=2.35,SEA_KING_LEAP_HEIGHT=118.5;
 const SEA_KING_MOVE={ride:null,returning:null,cooldown:0,immune:0};
 const SEA_KING_COLORS=[0x398aaa,0x7ccada,0xc1e7e6];
 const SEA_KING_ATTACKS={
@@ -19463,12 +19618,12 @@ function seaKingLeapPoint(q,t,out){
 function seaKingLeapPlan(start,dir,giant){
  const pad=giant?7:3,height=giant?31:6;
  const f=dir.clone(),side=new V3(f.z,0,-f.x),point=new V3();
- for(const distance of [164,136,108,80,54,28,0]){
+ for(const distance of [82,68,54,40,27,14,0]){
   for(const angle of distance?[0,.23,-.23,.48,-.48,.8,-.8]:[0]){
    const heading=f.clone().multiplyScalar(Math.cos(angle)).addScaledVector(side,Math.sin(angle));
    const landing=start.clone().addScaledVector(heading,distance);
    if(!seaKingLeapFloor(landing,pad,height))continue;
-   const plan={start,landing,dir:heading,height:SEA_KING_LEAP_HEIGHT};
+   const plan={start,landing,dir:heading,height:SEA_KING_LEAP_HEIGHT,giant,stompRadius:giant?18:10};
    let clear=true;
    for(let i=1;i<48;i++){
     seaKingLeapPoint(plan,i/48,point);
@@ -19487,7 +19642,8 @@ function seaKingRideCast(){
  const plan=seaKingLeapPlan(foot,seaKingRideDirection(),!!D.sf);
  if(!plan){banner('着地できる場所の方を向こう',1.25);return;}
  P.en-=SEA_KING_RIDE_COST;s.cooldown=SEA_KING_RIDE_COOLDOWN;s.immune=.60;
- const marker=new THREE.Mesh(new THREE.RingGeometry(D.sf?9:6,D.sf?11:7.3,40),
+ const radius=plan.stompRadius;
+ const marker=new THREE.Mesh(new THREE.RingGeometry(radius*.84,radius,40),
   new THREE.MeshBasicMaterial({color:0x79e8fd,transparent:true,opacity:.86,depthWrite:false,side:THREE.DoubleSide}));
  marker.rotation.x=-Math.PI/2;
  marker.position.copy(plan.landing);marker.position.y+=.55;marker.name='seaKingLeapLanding';scene.add(marker);
@@ -19507,15 +19663,17 @@ function seaKingRideStop(){
  SEA_KING_MOVE.ride=null;
 }
 function seaKingLeapWaterImpact(q){
- const at=q.landing,radius=D.sf?12:7;
- shock(at.clone().add(new V3(0,.3,0)),0x80d0ff,radius);
- burst(at.clone().add(new V3(0,1,0)),16,SEA_KING_COLORS,1.7,14,.49);
- sfx('splash',at,.82);shake(.38);
- for(const e of powerEnemies(at,radius+10)){
+ const at=q.landing,radius=q.stompRadius,origin=at.clone().add(new V3(0,1.2,0));
+ shock(at,0xa8edff,radius);
+ landingImpactRing(at,radius,0x75e6ff,'seaKingStompImpact');
+ burst(origin,16,SEA_KING_COLORS,1.7,14,.49);
+ sfx('splash',at,.82);shake(q.giant?.52:.38);
+ const high=q.giant?9:6;
+ for(const e of powerEnemies(at,Math.hypot(radius,high))){
   const p=cpos(e),r=e.r||0;
-  if(Math.hypot(p.x-at.x,p.z-at.z)>radius+r||Math.abs(p.y-at.y)>r+7)continue;
-  hitEnemy(e,(D.sf?56:42)*POW());
-  if(!e.fly&&!e.boss&&!e.gimmickProtected){e.kx=q.dir.x*19;e.kz=q.dir.z*19;}
+  if(Math.hypot(p.x-at.x,p.z-at.z)>radius+r||Math.abs(p.y-at.y)>r+high||!slimeBitePath(p,origin))continue;
+  hitEnemy(e,(q.giant?56:42)*POW());
+  if(!e.dead&&!e.fly&&!e.boss&&!e.gimmickProtected){e.kx=q.dir.x*19;e.kz=q.dir.z*19;}
  }
 }
 function seaKingRideTick(dt){
@@ -19608,8 +19766,8 @@ function seaKingReturnTick(dt){
  return result;
 };}
 Object.assign(CH.seaking,{
- dash:'waveRide',dashN:'海流大ジャンプ',dashD:'海流に乗り、向きや入力方向へ巨大スライムの約5倍の高さまで跳ぶ。着地点を光の輪で示す。屋外・ゲージ12・再使用まで4秒。',
- ds:'海流砲の線に沿って前方へ海を広げ、大津波では高い波の壁を前へ送る。サメは水から跳びかかる。スペースで海流に乗って大ジャンプ。金リングで30秒巨大化すると大槍の打撃、前方への叩き割り、全周の水輪斬りに変わる。'
+ dash:'waveRide',dashN:'海流大ジャンプ',dashD:'海流に乗って向きや入力方向へ跳ぶ。水色の輪に着地し、踏みつけで周囲を攻撃。屋外・ゲージ12・再使用まで4秒。',
+ ds:'海流砲の線に沿って前方へ海を広げ、大津波では高い波の壁を前へ送る。サメは水から跳びかかる。スペースで海流に乗って大ジャンプ。金リングで30秒巨大化し、叩き割りと水輪斬りでも前方に海を広げる。着地の踏みつけも広がる。'
 });
 seaSkillLabels(false);
 SKDASH['海流大ジャンプ']='dash_dodge';
@@ -19929,9 +20087,10 @@ function bomberDiveWake(q){
 // A stationary aircraft still releases the full ten-bomb salvo over four seconds.
 powerBombTrail=function(){if(POWERS.bombs)return;POWERS.bombs={left:10,cd:0,last:null,t:4};bomberBombCameraStart('trail');banner('じゅうたん爆撃 · 10発を連続投下',.86);};
 CH.bomber.ds='通常は機銃のみ。10発のじゅうたん爆撃と、大型爆弾1発の急降下爆撃で戦う。護衛戦闘機も機銃で援護する。';
-CH.bomber.sp2D='上昇してから加速しながら急降下。大型爆弾1発を落として引き起こし、着弾の輪と火柱を見せる。屋外で使う。';
+CH.bomber.sp2D='上昇してから加速しながら急降下。大型爆弾1発を落として引き起こす。着弾すると大きな衝撃波と火柱、黒煙が広がる。屋外で使う。';
 POWER_SKILLS.bomber.broadside=['急降下爆撃',CH.bomber.sp2D,'sp2'];
-POWER_SKILLS.bomber.bombs=['じゅうたん爆撃','飛行の軌跡へ10発の爆弾を順に投下する。着弾が見えるよう一時的にカメラを引く。操縦はそのまま。','sp'];
+POWER_SKILLS.bomber.bombs=['じゅうたん爆撃','飛行の軌跡へ10発の爆弾を順に投下する。着弾が大きな炎と煙の列になり、一時的にカメラを引く。','sp'];
+CH.bomber.spD=POWER_SKILLS.bomber.bombs[1];
 {const note=document.querySelector('#cards .card[data-k="bomber"] .ds');if(note)note.textContent=CH.bomber.ds;}
 
 // 勧誘した敵の骨と道具を残し、材質だけを黒い素材に差し替える。
@@ -20812,9 +20971,6 @@ function abilityGaugeState(slot){
    else if(CUBE_ACTION.shots.some(q=>q.slot>=0||q.idx===CUBE_KIT[D.cf][slot-1].idx))blocked('帰還中');
   }
   if(typeof ROYAL_PLAY!=='undefined'&&royalHuman()&&ROYAL_PLAY.motion)blocked('攻撃中');
-  if(charKey==='nurarihyon'&&k==='hyakki'){
-   const issue=nuraRitualAvailability();if(issue)blocked(issue);
-  }
   return result;
  }
  if(D?.landing)return blocked('着陸中');
@@ -21363,14 +21519,14 @@ function bomberBombCameraFollow(p){
   o.quaternion.setFromUnitVectors(up,direction);o.scale.set(1,length,1);
  });
 }
-function bomberBlastSparks(ground,water,large,detail){
+function bomberBlastSparks(ground,water,large,detail,scale){
  const N=detail?(large?44:23):(large?19:10),G=new THREE.BoxGeometry(0.24,0.24,1);
  const M=new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.94,depthWrite:false}),m=new THREE.InstancedMesh(G,M,N);
  m.frustumCulled=false;const dummy=new THREE.Object3D(),v=new V3(),pos=new V3(),yUp=new V3(0,0,1);
  const list=Array.from({length:N},(_,i)=>{
   const a=i*2.39996+rnd(-.22,.22),r=rnd(10,large?53:25),vy=rnd(9,large?41:20),len=rnd(.8,large?4.1:2.3);
   m.setColorAt(i,new THREE.Color((water?[0xc3edff,0x85d7f7,0x61b9dd]:[0xffc45c,0xff8f36,0xf7d16d])[i%3]));
-  return [Math.cos(a)*r,vy,Math.sin(a)*r,len];
+  return [Math.cos(a)*r*scale,vy*scale,Math.sin(a)*r*scale,len*scale];
  });
  const life=large?.68:.43;m.name='bomberBlastSparks';
  fxAdd(m,life,(o,k)=>{
@@ -21386,26 +21542,34 @@ function bomberBlastSparks(ground,water,large,detail){
 function bomberBombImpactFx(p){
  const at=p.m.position.clone(),large=p.powerBomb==='dive',R=p.splash||0,floor=powerGround(at.x,at.z),onFloor=at.y<=floor+3.3;
  const water=onFloor&&!DUN.on&&!CAVE.on&&!TER.lava&&!TER.sky&&H(at.x,at.z)<WATER-.15&&floor<=WATER+.8;
- const q=BOMBER_BOMB_VIEW.current;if(q&&p.bombView===q)q.hits.push({at:at.clone(),r:R,t:0,water});
+ // Only the visual layers grow. explode() still uses p.splash and p.dmg.
+ const scale=large?3:2,visualRadius=R*(large?1.32:1)*scale,fireRadius=R*(large?1.38:1)*scale;
+ const q=BOMBER_BOMB_VIEW.current;
+ if(q&&p.bombView===q)q.hits.push({at:at.clone(),visualRadius,visualHeight:water?9*scale:fireRadius*.65,t:0});
  const color=water?[0x97d8fa,0x52a6c7,0xb4e5f7]:[0xf7a333,0xff7133,0xffca5e];
  const detail=BOMBER_BOMB_VIEW.dust.length<5,ground=new V3(at.x,onFloor?floor+.08:at.y,at.z);
  const flare=at.clone();flare.y=Math.max(flare.y,floor+.92);
- bomberBlastSparks(flare,water,large,detail);
- burst(flare,large?(detail?20:12):detail?12:6,color,large?2.0:1.05,water?(large?23:15):large?30:20,.28);
+ const sparksScale=1+(scale-1)*.25;
+ bomberBlastSparks(flare,water,large,detail,sparksScale);
+ burst(flare,large?(detail?20:12):detail?12:6,color,(large?2.0:1.05)*sparksScale,(water?(large?23:15):large?30:20)*sparksScale,.28);
  if(water){
   for(let j=0;j<(large?5:3);j++){
-   const a=j*2.39,b=new V3(Math.cos(a)*4,large?19:13,Math.sin(a)*4);
-   burst(new V3(at.x+b.x*.25,ground.y+.18,at.z+b.z*.25),detail?5:3,color,(large?1.15:.72),large?24:16,.42);
+   const a=j*2.39;
+   burst(new V3(at.x+Math.cos(a)*scale,ground.y+.18,at.z+Math.sin(a)*scale),detail?5:3,color,
+    (large?1.15:.72)*scale,(large?24:16)*sparksScale,.42);
   }
  }else{
-  const flash=glowFlash(flare.clone().add(new V3(0,.75,0)),0xffa13b,Math.min(R*(large?1.05:.86),large?25:14),large?.22:.12);
-  flash.name='bomberBlastFlash';
-  bomberBlastFireball(flare,R*(large?1.38:1),large,detail);
-  flame(flare,large?(detail?11:6):detail?6:3,large?5.8:3.25,.47,null,0,large?15:9);
+  const flash=new THREE.Sprite(new THREE.SpriteMaterial({map:fxTex('glow'),color:0xffa13b,
+   transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:.5}));
+  const flashSize=Math.min(R*(large?1.05:.86),large?25:14);
+  flash.name='bomberBlastFlash';flash.position.copy(flare).add(new V3(0,.75,0));flash.scale.setScalar(flashSize*.45);
+  fxAdd(flash,large?.22:.12,(o,k)=>{o.scale.setScalar(flashSize*(.45+k*.8));o.material.opacity=.5*(1-k*k);});
+  bomberBlastFireball(flare,fireRadius,large,detail);
+  flame(flare,large?(detail?11:6):detail?6:3,(large?5.8:3.25)*sparksScale,.47,null,0,(large?15:9)*sparksScale);
   if(detail&&onFloor)debris(ground,large?12:6,[0x807260,0xa59675,0x635247],large?.98:.64);
  }
- if(onFloor&&R>0)bomberBlastWave(ground,R*(large?1.32:1),water,large);
- if(BOMBER_BOMB_VIEW.dust.length<24)BOMBER_BOMB_VIEW.dust.push({at:ground,t:water?.15:.19,large,water,onFloor,detail,stage,phase:0});
+ if(onFloor&&R>0)bomberBlastWave(ground,visualRadius,water,large);
+ if(BOMBER_BOMB_VIEW.dust.length<24)BOMBER_BOMB_VIEW.dust.push({at:ground,t:water?.15:.19,large,water,onFloor,detail,stage,phase:0,scale});
  if(large)sfx('boom',at,.83);else sfx('small',at,.74);
  shake(large?.48:.10);
 }
@@ -21415,14 +21579,15 @@ function bomberBombDustTick(dt){
  for(let i=L.length-1;i>=0;i--){
   const q=L[i];q.t-=dt;if(q.t>0)continue;
   if(q.stage!==stage){L.splice(i,1);continue;}
+  const s=q.scale;
   if(q.water){
-   smoke(q.at,q.large?5:3,q.large?6:3.5,.95,0xaecfd4,q.large?4:2.0);
+   smoke(q.at,q.large?5:3,(q.large?6:3.5)*s,.95,0xaecfd4,(q.large?4:2.0)*s);
   }else if(q.phase===0){
-   smoke(q.at,q.large?(q.detail?11:6):q.detail?6:4,q.large?7.8:4.5,q.large?1.65:1.1,q.onFloor?0x99806a:0x52453c,q.large?7.0:3.6);
+   smoke(q.at,q.large?(q.detail?11:6):q.detail?6:4,(q.large?7.8:4.5)*s,q.large?1.65:1.1,q.onFloor?0x99806a:0x52453c,(q.large?7.0:3.6)*s);
    q.phase=1;q.t=.21;continue;
   }else{
-   const core=q.at.clone().add(new V3(0,q.large?11.4:4.4,0));
-   smoke(core,q.large?(q.detail?12:6):q.detail?6:3,q.large?13:5.2,q.large?2.55:1.6,0x423b38,q.large?4.5:2.0);
+   const core=q.at.clone().add(new V3(0,(q.large?11.4:4.4)*s,0));
+   smoke(core,q.large?(q.detail?12:6):q.detail?6:3,(q.large?13:5.2)*s,q.large?2.55:1.6,0x423b38,(q.large?4.5:2.0)*s);
   }
   L.splice(i,1);
  }
@@ -21446,7 +21611,11 @@ function bomberBombFrameFit(q,dt){
  const drop=POWERS.bombs;
  if(drop&&!q.track.length){const p=P.pos.clone();p.y=powerGround(p.x,p.z);add(p,9);}
  for(const {p,land} of q.track){add(p.m.position,2.0);add(land,Math.min(p.splash||0,27));}
- for(const h of q.hits){const p=h.at,large=q.kind==='dive';add(p,Math.min(h.r*(large?1.32:1),42));add(p.clone().add(new V3(0,large?22:9,0)),0);}
+ for(const h of q.hits){
+  const p=h.at,large=q.kind==='dive',coverage=.48+.25*clamp(h.t/.5,0,1);
+  add(p,Math.min(h.visualRadius*coverage,large?95:34));
+  add(p.clone().add(new V3(0,Math.min(h.visualHeight,large?76:31),0)),0);
+ }
  pts.forEach(v=>ext.expandByPoint(v));
  const mid=ext.getCenter(new V3());if(!q.focus)q.focus=mid.clone();
  q.focus.lerp(mid,1-Math.exp(-8*Math.max(dt,.0001)));
@@ -21939,8 +22108,25 @@ function slimeGelNear(e,curves,L,o){
   }return false;
  });
 }
+function slimeCatchTrail(to){
+ const m=new THREE.Mesh(new THREE.CylinderGeometry(.42,1.15,1,8),
+  new THREE.MeshBasicMaterial({color:0xd0ff79,transparent:true,opacity:.78,depthWrite:false}));
+ m.name='slimeCatchTether';m.renderOrder=2;
+ const owner=D.g,up=new V3(0,1,0),delta=new V3(),tip=new V3();
+ fxAdd(m,.32,(o,k)=>{
+  if(D?.g!==owner||!REVISIONS.consume){o.visible=false;return;}
+  const from=slimeBellyPoint(),f=clamp(k/.94,0,1);
+  tip.copy(to).lerp(from,f*f*(3-2*f));delta.copy(tip).sub(from);
+  const length=delta.length();
+  o.visible=length>.04;
+  if(!o.visible)return;
+  o.position.copy(from).lerp(tip,.5);
+  o.quaternion.setFromUnitVectors(up,delta.divideScalar(length));
+  o.scale.set(1-k*.5,length,1-k*.5);o.material.opacity=.78*(1-k*.65);
+ });
+}
 function slimeGelStart(){
- if(charKey!=='slime'||state!=='play'||PAUSED||LVUP||P.hp<=0||SLIME_GEL.stroke||playerAttackBlocked('melee'))return;
+ if(charKey!=='slime'||state!=='play'||PAUSED||LVUP||P.hp<=0||SLIME_LEAP.active||SLIME_GEL.stroke||playerAttackBlocked('melee'))return;
  const size=slimeMassSize(),r=8.8+3.2*size,o=P.pos.clone(),yaw=P.yaw,curves=slimeGelCurves(o,yaw,size,r,1);
  if(!powerEnemies(o,r+4).some(e=>slimeGelNear(e,curves,r,o))){P.melCd=.09;return;}
  SLIME_GEL.stroke={o,yaw,size,r,t:0,done:false,arms:[0,1,2].map(slimeGelMesh),owner:D.g};
@@ -21992,18 +22178,29 @@ function slimeGelTick(dt){
   return r;
  };
 }
-CH.slime.dashD='高く跳び、着地の衝撃で近くの敵を攻撃する。';
-CH.slime.spD='弱った小型の敵を取り込み、半透明の体の中で少しずつ消化して成長する。';
-if(POWER_SKILLS.slime?.quake)POWER_SKILLS.slime.quake[1]=CH.slime.spD;
+CH.slime.ds='粘液の腕で攻撃。遠くの敵やボスを引き寄せて捕食し、倒すと回復・成長する。大ジャンプの着地は緑の衝撃で周囲を攻撃。被弾や金リングで分身が増え、近くを守る。';
+CH.slime.tag='地上・分身が近くを守る';
+CH.slime.dashD='体を伸ばして大きく跳び、着地の緑の衝撃で周囲を攻撃する。';
+CH.slime.spD='広い範囲から敵やボスを引き寄せ、飲み込む。倒せば回復・成長し、ボスを倒し切れなければ最大3.2秒で吐き出す。';
+CH.slime.sp2D='分身を6匹まで補い、地上の敵へ一斉に突撃。分身は被弾や金リングで最大10匹になる。';
+POWER_SKILLS.slime.quake[1]=CH.slime.spD;
+POWER_SKILLS.slime.fissure[1]=CH.slime.sp2D;
+PET_SEPARATE.slime='被弾と金リングで増え、そばを守る分身';
+document.querySelector('#cards .card[data-k="slime"] .tag')?.replaceChildren(document.createTextNode(CH.slime.tag));
 document.querySelector('#cards .card[data-k="slime"] .ds')?.replaceChildren(document.createTextNode(CH.slime.ds));
 /* 合体キューブ：飛ばすのは実体をもつ立方体。1個ずつ外れ、同じ場所に戻る。 */
+const CUBE_NORMAL=[
+ {idx:18,dmg:36,size:1.35,range:96,out:.48,back:.40,cd:.945},
+ {idx:41,dmg:50,size:1.68,range:112,out:.51,back:.43,cd:1.005},
+ {idx:25,dmg:68,size:2.05,range:128,out:.52,back:.45,cd:1.035}
+];
 const CUBE_KIT=[
- [{n:'大キューブの返り投げ',d:'大きな1個をまっすぐ投げ、行き帰りで敵や建物をたたく。',k:'heavy',dmg:155,size:4.0,range:86,out:.76,back:.58,prep:.15,arc:1.8,idx:0},
-  {n:'横回しキューブ',d:'1個を横へ大きく回して、正面に集まった敵を横からたたく。',k:'orbit',dmg:112,size:3.2,range:30,out:.72,back:.53,prep:.14,arc:18,idx:1}],
- [{n:'キューブの剣',d:'右手に大きな立方体剣を組み、前方26までを広く斬る。',k:'sword',dmg:235,size:1.8,range:26,out:.51,back:.23,prep:.22,idx:51},
-  {n:'キューブの弓',d:'大弓で立方体を前方180まで射る。立方体は手元に戻る。',k:'bow',dmg:175,size:3.6,range:180,out:.94,back:.72,prep:.42,arc:0,idx:50}],
- [{n:'キューブブレス',d:'口にためた巨大な立方体を前方190まで飛ばす。敵を貫き、口元へ戻る。',k:'breath',dmg:205,size:6.4,range:190,out:1.05,back:.75,prep:.30,arc:0,idx:26},
-  {n:'キューブテイル',d:'連なった立方体の尾を伸ばし、周囲を一周して半径42まで一度ずつ打つ。',k:'tail',dmg:145,size:4.2,range:42,out:.90,back:.30,prep:.28,idx:61}]
+ [{n:'大キューブの返り投げ',d:'大きな立方体を前方132まで投げる。行きと帰りに当たる。',k:'heavy',dmg:155,size:4.0,range:132,out:.76,back:.58,prep:.15,arc:1.8,idx:0},
+  {n:'横回しキューブ',d:'立方体を前方46まで弧を描いて飛ばし、横に並ぶ敵も狙う。',k:'orbit',dmg:112,size:3.2,range:46,out:.72,back:.53,prep:.14,arc:18,idx:1}],
+ [{n:'キューブの剣',d:'右手に大きな立方体の剣を組み、前方40まで広く斬る。',k:'sword',dmg:235,size:1.8,range:40,out:.51,back:.23,prep:.22,idx:51},
+  {n:'キューブの弓',d:'大弓から立方体の矢を2本並べて前方276まで射る。矢は手元へ戻る。',k:'bow',dmg:175,size:3.6,range:276,count:2,spacing:6,out:.94,back:.72,prep:.42,arc:0,idx:50}],
+ [{n:'キューブブレス',d:'口にためた大きな立方体を3本並べて前方292まで吹き飛ばす。敵を貫き、頭へ戻る。',k:'breath',dmg:205,size:6.4,range:292,count:3,spacing:11,out:1.05,back:.75,prep:.30,arc:0,idx:26},
+  {n:'キューブテイル',d:'尾を長く伸ばし、半径64まで一回転して打つ。',k:'tail',dmg:145,size:4.2,range:64,out:.90,back:.30,prep:.28,idx:61}]
 ];
 const CUBE_ACTION={shots:[],pose:null};
 const CUBE_PART=new THREE.BoxGeometry(1,1,1),CUBE_LINE=new THREE.EdgesGeometry(CUBE_PART),
@@ -22043,13 +22240,19 @@ function cubeLaunchAttack(spec,target,slot=-1){
  if(CUBE_ACTION.shots.some(q=>q.idx===spec.idx||q.slot<0&&slot<0||q.slot>=0&&slot>=0))return false;
  const owner=D,at=cubeAttackSource(owner,spec.idx,new V3()),node=new THREE.Group();
  node.name='cubeAttack-'+spec.k;scene.add(node);
- const p=cubeBlock(node,0,0,0,spec.size,spec.size,spec.size,true);
  const weapon=spec.k==='sword'||spec.k==='bow'?cubeWeapon(spec.k,node):null;
  const tail=spec.k==='tail'?Array.from({length:12},(_,i)=>cubeBlock(node,0,0,0,spec.size,spec.size,spec.size,i%2===0)):null;
- const q={...spec,slot,owner,at:at.clone(),prev:at.clone(),base:at.clone(),turn:at.clone(),goal:target.clone(),age:0,node,p,weapon,tail,
+ const count=spec.count??1;
+ const projectiles=spec.k==='sword'||tail?[]:Array.from({length:count},(_,i)=>{
+  const part=cubeBlock(node,0,0,0,spec.size,spec.size,spec.size,true);
+  part.name='cubeProjectile-'+spec.k;
+  return {part,offset:(i-(count-1)/2)*(spec.spacing||0),at:at.clone(),base:at.clone(),prev:at.clone(),
+   turn:at.clone(),returnFrom:at.clone(),hit:[new Set(),new Set()]};
+ });
+ const q={...spec,slot,owner,at:at.clone(),goal:target.clone(),age:0,node,weapon,tail,projectiles,
   damage:spec.dmg*(slot<0?POW():SPM()),hit:[new Set(),new Set()],secondary:0,launched:false};
  CUBE_ACTION.shots.push(q);CUBE_ACTION.pose=q;
- cubeDrawAttack(q,0);return true;
+ cubeDrawAttack(q);return true;
 }
 function cubeDropAttack(i){
  const q=CUBE_ACTION.shots[i];scene.remove(q.node);CUBE_ACTION.shots.splice(i,1);
@@ -22067,14 +22270,14 @@ function cubeAttackClear(){
  cubeAttackMask();
 }
 function cubeAimWeapon(node,at,dir){node.position.copy(at);node.lookAt(at.clone().add(dir));}
-function cubeAttackHit(q,a,b,pass,width){
- const hit=q.hit[pass],d=b.clone().sub(a),ll=d.lengthSq(),damage=q.damage*(pass?0.72:1),
+function cubeAttackHit(q,a,b,pass,width,hits=q.hit){
+ const hit=hits[pass],dx=b.x-a.x,dy=b.y-a.y,dz=b.z-a.z,ll=dx*dx+dy*dy+dz*dz,damage=q.damage*(pass?0.72:1),
   mag=width+(q.k==='sword'?0:.20);
  const impact=(p)=>{if(q.secondary++<5)burst(p,4,[0xa7e9ff,0x599af0],1.2,6,.22);};
  for(const e of EN){
   if(e.dead||hit.has(e))continue;
-  const p=cpos(e),f=ll?clamp(p.clone().sub(a).dot(d)/ll,0,1):0;
-  const px=p.x-a.x-d.x*f,py=p.y-a.y-d.y*f,pz=p.z-a.z-d.z*f;
+  const p=cpos(e),x=p.x-a.x,y=p.y-a.y,z=p.z-a.z,f=ll?clamp((x*dx+y*dy+z*dz)/ll,0,1):0;
+  const px=x-dx*f,py=y-dy*f,pz=z-dz*f;
   if(px*px+py*py+pz*pz>(e.r+mag)**2)continue;
   hit.add(e);hitEnemy(e,damage);impact(p);
  }
@@ -22104,17 +22307,18 @@ function cubeDrawTail(q,source,t){
    cubeAttackHit(q,origin,end,0,q.size*.53);
   }
  }
- q.tailProgress=progress;setRadial(progress);q.at.copy(end);q.p.visible=false;
+ q.tailProgress=progress;setRadial(progress);q.at.copy(end);
  const visible=Math.max(1,Math.min(q.tail.length,Math.round(length/(q.size*.82))));
+ const width=q.size*(.4+.6*extend),depth=Math.max(width,(length-2.6)/Math.max(1,visible-1)+.25);
  q.tail.forEach((part,i)=>{
   part.visible=i<visible;
   if(!part.visible)return;
   part.position.copy(origin).lerp(end,i/Math.max(1,visible-1));
   part.rotation.y=yaw+Math.PI+progress*Math.PI*2;
-  part.scale.setScalar(q.size*(.4+.6*extend));
+  part.scale.set(width,width,depth);
  });
 }
-function cubeDrawAttack(q,dt){
+function cubeDrawAttack(q){
  const hand=cubeAttackSource(q.owner,q.idx,new V3()),init=cubeAimFrom(hand,q.goal),t=q.age-q.prep;
  if(q.tail){cubeDrawTail(q,hand,t);return;}
  if(q.weapon){
@@ -22125,58 +22329,80 @@ function cubeDrawAttack(q,dt){
    const dir=init.clone().applyAxisAngle(new V3(0,1,0),sweep);
    const retract=clamp((t-q.out)/q.back,0,1),scale=(.22+.78*draw)*(1-(q.k==='sword'?retract:0)*.94);
    const weaponAt=q.k==='bow'?hand.clone().addScaledVector(init,1.4):hand;
-   cubeAimWeapon(q.weapon,weaponAt,dir);q.weapon.scale.setScalar(scale);
+   cubeAimWeapon(q.weapon,weaponAt,dir);
+   q.weapon.scale.set(scale,scale,scale*(q.k==='sword'?q.range/26:1));
    if(q.k==='bow')for(const [side,string] of q.weapon.userData.strings){
     const pull=t<0?3.18-6.1*draw:3.18-Math.max(0,1-t/.12)*6.1;
     const edge=new V3(0,7.3*side,3.18),mid=new V3(0,0,pull),v=edge.clone().sub(mid);
     string.position.copy(edge).lerp(mid,.5);string.scale.y=v.length();
     string.quaternion.setFromUnitVectors(new V3(0,1,0),v.normalize());
    }
-   if(q.k==='sword'&&t>=0&&t<=q.out){
+   if(q.k==='sword'&&t<0)q.swordDir=dir;
+   if(q.k==='sword'&&t>=0&&!q.lastOut){
     const dirPrev=q.swordDir||dir;
-    // Sweep the blade as well as its tip, so something between frames still gets hit once.
-    for(let j=1;j<=4;j++)cubeAttackHit(q,hand,hand.clone().addScaledVector(dirPrev.clone().lerp(dir,j/4).normalize(),q.range),0,q.size);
-    q.swordDir=dir;
+    // Sample the entire blade sweep, including the last step at the end of the swing.
+    const samples=Math.max(4,Math.ceil(dirPrev.angleTo(dir)*q.range/q.size));
+    for(let j=1;j<=samples;j++)cubeAttackHit(q,hand,hand.clone().addScaledVector(dirPrev.clone().lerp(dir,j/samples).normalize(),q.range),0,q.size);
+    q.swordDir=dir;q.lastOut=t>=q.out;
    }
   }
-  if(q.k==='sword'){q.p.visible=false;return;}
+  if(q.k==='sword')return;
  }
+ const side=new V3(init.z,0,-init.x);
+ if(side.lengthSq()<.0001)side.set(Math.cos(P.yaw),0,-Math.sin(P.yaw));else side.normalize();
  if(t<0){
-  const a=clamp(q.age/Math.max(.001,q.prep),0,1);
-  q.at.copy(hand).addScaledVector(init,q.k==='bow'?1.55-a*1.7:a*.7);q.p.position.copy(q.at);
-  q.p.scale.setScalar(.94+(q.size-.94)*a);return;
+  const a=clamp(q.age/q.prep,0,1),size=.94+(q.size-.94)*a;
+  q.at.copy(hand).addScaledVector(init,q.k==='bow'?1.55-a*1.7:a*.7);
+  for(const line of q.projectiles){
+   line.at.copy(q.at).addScaledVector(side,line.offset*a);
+   line.part.position.copy(line.at);line.part.scale.setScalar(size);
+  }
+  return;
  }
  if(!q.launched){
-  q.launched=true;q.base.copy(q.at);q.prev.copy(q.at);q.fwd=cubeAimFrom(q.at,q.goal);
-  q.side=new V3(q.fwd.z,0,-q.fwd.x).normalize();
-  const rail=q.k==='bow'||q.k==='breath'||q.k==='orbit';
+  q.launched=true;q.at.copy(hand).addScaledVector(init,q.k==='bow'?-.15:.7);
+  const fwd=cubeAimFrom(q.at,q.goal),rail=q.slot>=0;
+  q.side=side;
   q.travel=rail?q.range:Math.min(q.range,Math.max(Math.min(24,q.range),q.goal.distanceTo(q.at)+(q.slot<0?6:12)));
-  q.turn.copy(q.base).addScaledVector(q.fwd,q.travel);
+  for(const line of q.projectiles){
+   line.base.copy(q.at).addScaledVector(side,line.offset);
+   line.prev.copy(line.base);line.turn.copy(line.base).addScaledVector(fwd,q.travel);
+  }
   sfx(q.k==='bow'?'slash':'whoosh',q.at,.55);
  }
  const a=clamp(t/q.out,0,1),b=clamp((t-q.out)/q.back,0,1),w=q.size*.53;
- if(t<=q.out||q.lastOut!==true){
-  // Apply the last fraction of the outward path before checking the return separately.
-  q.at.copy(q.base).lerp(q.turn,a).addScaledVector(q.side,Math.sin(a*Math.PI)*(q.arc||0));
-  q.at.y=Math.max(q.at.y,Math.min(q.base.y,floorAt(q.at.x,q.at.z)+w));
-  cubeAttackHit(q,q.prev,q.at,0,w);q.prev.copy(q.at);
-  if(a===1){q.returnFrom=q.at.clone();q.lastOut=true;}
+ const size=b?q.size+(.92-q.size)*b*b:q.size;
+ for(const line of q.projectiles){
+  const at=line.at;
+  if(!q.lastOut){
+   // The visible projectile and swept hit use the same position, including the range endpoint.
+   at.copy(line.base).lerp(line.turn,a).addScaledVector(q.side,Math.sin(a*Math.PI)*(q.arc||0));
+   at.y=Math.max(at.y,Math.min(line.base.y,floorAt(at.x,at.z)+w));
+   cubeAttackHit(q,line.prev,at,0,w,line.hit);line.prev.copy(at);
+   if(a===1)line.returnFrom.copy(at);
+  }
+  if(t>q.out){
+   const mix=b*(1.46-.46*b);
+   at.copy(line.returnFrom).lerp(hand,mix);
+   at.y+=Math.sin(b*Math.PI)*(q.slot<0?1.2:2.2);
+   cubeAttackHit(q,line.prev,at,1,w,line.hit);line.prev.copy(at);
+  }
+  line.part.position.copy(at);
+  if(q.k==='bow'){
+   cubeAimWeapon(line.part,at,b?hand.clone().sub(line.returnFrom):line.turn.clone().sub(line.base));
+   line.part.scale.set(size*.60,size*.60,size);
+  }else{
+   line.part.rotation.set(t*7,t*5,t*3);line.part.scale.setScalar(size);
+  }
  }
- if(t>q.out){
-  const mix=b*(1.46-.46*b);
-  q.at.copy(q.returnFrom).lerp(hand,mix);
-  q.at.y+=Math.sin(b*Math.PI)*(q.slot<0?1.2:2.2);
-  cubeAttackHit(q,q.prev,q.at,1,w);q.prev.copy(q.at);
- }
- q.p.position.copy(q.at);q.p.rotation.set(t*7,t*5,t*3);
- q.p.scale.setScalar(b?q.size+(0.92-q.size)*b*b:q.size);
+ q.lastOut=a===1;q.at.copy(q.projectiles[0].at);
 }
 function cubeAttackTick(dt){
  if(!CUBE_ACTION.shots.length||!formPlaying()||dt<=0)return;
  for(let i=CUBE_ACTION.shots.length-1;i>=0;i--){
   const q=CUBE_ACTION.shots[i];
   if(q.owner!==D||charKey!=='cube'||D.body.userData.cb.t<1){cubeDropAttack(i);continue;}
-  q.age+=dt;cubeDrawAttack(q,dt);
+  q.age+=dt;cubeDrawAttack(q);
   if(q.age>=q.prep+q.out+q.back){cubeDropAttack(i);sfx('clang',q.at,.25);}
  }
  cubeAttackMask();
@@ -22187,10 +22413,10 @@ function cubeAttackWindup(){
  return !!(q&&q.age<(q.k==='sword'?q.prep+q.out:q.prep));
 }
 function cubeNormalAttack(target){
- const form=D.cf,idx=[18,41,25][form],shot=[{size:1.35,range:62,out:.48,back:.40},{size:1.68,range:73,out:.51,back:.43},{size:2.05,range:84,out:.52,back:.45}][form];
+ const shot=CUBE_NORMAL[D.cf];
  if(CUBE_ACTION.shots.some(q=>q.slot<0)){P.fireCd=Math.min(P.fireCd,.05);return;}
  const rate=RATE();
- if(cubeLaunchAttack({...shot,out:shot.out/rate,back:shot.back/rate,size:shot.size*SZM(),k:'normal',dmg:[36,50,68][form],prep:.065/rate,arc:0,idx},target))P.atkM=.22;
+ if(cubeLaunchAttack({...shot,out:shot.out/rate,back:shot.back/rate,size:shot.size*SZM(),k:'normal',prep:.065/rate,arc:0},target))P.atkM=.22;
 }
 function cubeSkill(k){
  const slot=k===P.sp?0:k===P.sp2?1:-1;
@@ -22215,8 +22441,9 @@ function cubeSkillInfo(k){
 }
 for(const [i,k] of ['cubeCraft','cubeCast'].entries()){
  const q=CUBE_KIT[0][i];SKINFO[k]={n:q.n,d:q.d,img:cubeSkillIcon(q.k)};
+ CH.cube[i?'sp2D':'spD']=q.d;
 }
-{const base=cubeStats;cubeStats=function(i){const r=base.apply(this,arguments);CH.cube.range=[62,73,84][i];CH.cube.br.cd=[.945,1.005,1.035][i];return r;};}
+{const base=cubeStats;cubeStats=function(i){const r=base.apply(this,arguments);CH.cube.range=CUBE_NORMAL[i].range;CH.cube.br.cd=CUBE_NORMAL[i].cd;return r;};}
 {const base=powerSkillInfo;powerSkillInfo=function(k){return charKey==='cube'&&cubeSkillInfo(k)||base.apply(this,arguments);};}
 {const base=skName;skName=function(k){return charKey==='cube'&&cubeSkillInfo(k)?.n||base.apply(this,arguments);};}
 {const base=useSkill;useSkill=function(k){if(charKey==='cube')return cubeSkill(k);return base.apply(this,arguments);};}
@@ -22425,7 +22652,6 @@ function fairyBloomObjective(q){
 /* 百鬼合体の釣鐘と、受けた敵弾を返す囮。 */
 const NURA_BELL_ASSET='y_bronzebell',NURA_LANTERN_ASSET='yokai_lantern_1116';
 const NURA_DECOY={active:null,cost:12,wait:6,life:3,shots:3};
-const NURA_BELL_TIME=28;
 const NURA_DECOY_RING=new THREE.TorusGeometry(3.4,.13,5,32);
 const NURA_DECOY_MARK=(()=>{
  const canvas=document.createElement('canvas');canvas.width=128;canvas.height=64;
@@ -22435,8 +22661,8 @@ const NURA_DECOY_MARK=(()=>{
  return new THREE.CanvasTexture(canvas);
 })();
 const NURA_SOUL_COLORS=[0xb478e8,0xdcb1f1,0x7c41ba];
-function nuraFloorPoint(distance,pad,needsGround=true){
- const f=POWER_FWD(),side=new V3(f.z,0,-f.x);
+function nuraFloorPoint(distance,pad,needsGround=true,heading=P.yaw,accept=null){
+ const f=new V3(Math.sin(heading),0,Math.cos(heading)),side=new V3(f.z,0,-f.x);
  for(const [front,lateral] of [[1,0],[.72,.64],[.72,-.64],[0,1],[0,-1],[-.82,0],[0,0]]){
   const at=P.pos.clone().addScaledVector(f,distance*front).addScaledVector(side,distance*lateral);
   if(needsGround&&!powerOpen(at.x,at.z,pad))continue;
@@ -22449,7 +22675,7 @@ function nuraFloorPoint(distance,pad,needsGround=true){
    if(roof<ground+2.7||bldAt(at.x,at.z,pad).top>at.y-1.1)continue;
    at.y=clamp(at.y,ground+2.4,roof-1.8);
   }
-  return at;
+  if(!accept||accept(at))return at;
  }
  return null;
 }
@@ -22465,18 +22691,25 @@ function nuraBellDetails(big){
  big.g.add(eyes);big.bellEyes=eyes;
 }
 function nuraBellTick(q,dt){
- const p=q.g.position,e=allyLeashTarget(q,p,116,false,(e,c)=>Math.abs(c.y-p.y)<q.r+10+e.r);
- const at=e?cpos(e):allyLeashHome(q,new V3(P.pos.x+Math.sin(P.yaw)*14,0,P.pos.z+Math.cos(P.yaw)*14));
+ const p=q.g.position,f=POWER_FWD(),[front,side]=NURA_BELL_SEATS[q.bellSlot];
+ const home=allyLeashHome(q,P.pos.clone().addScaledVector(f,front).addScaledVector(new V3(f.z,0,-f.x),side));
+ const e=allyLeashTarget(q,p,116,false,(enemy,c)=>
+  Math.abs(c.y-p.y)<q.r+10+enemy.r&&(c.x-P.pos.x)*f.x+(c.z-P.pos.z)*f.z>=-5);
+ const at=home.clone(),enemy=e?cpos(e):null;
+ if(enemy){
+  const along=(enemy.x-home.x)*f.x+(enemy.z-home.z)*f.z;
+  at.addScaledVector(f,clamp(along-e.r-q.r,-1.8,6));
+ }
  const dx=at.x-p.x,dz=at.z-p.z,dist=Math.hypot(dx,dz),reach=q.r+9;
- const travel=Math.min(Math.max(0,dist-(e?e.r+q.r+2:2)),allyLeashSpeed(q,p,19,false)*dt);
- const next=dist>.001?p.clone().add(new V3(dx*travel/dist,0,dz*travel/dist)):p.clone();
- if(powerOpen(next.x,next.z,Math.min(4,q.r*.55))&&nuraSlidePath(p,next))allyLeashWalk(q,p,dx,dz,travel);
- if(dist>.1)q.g.rotation.y=Math.atan2(dx,dz);
- p.y=powerGround(p.x,p.z)+1.55+Math.sin(q.age*2.55)*.57;
+ const targetDist=enemy?Math.hypot(enemy.x-p.x,enemy.z-p.z):Infinity;
+ const travel=Math.min(Math.max(0,dist-1.2),allyLeashSpeed(q,p,19,false)*dt);
+ if(travel>.01)allyLeashWalk(q,p,dx,dz,travel);
+ if(enemy||dist>.1)q.g.rotation.y=enemy?Math.atan2(enemy.x-p.x,enemy.z-p.z):Math.atan2(dx,dz);
+ p.y=powerGround(p.x,p.z)+1.55+Math.sin(q.age*2.55+q.bellSlot*.72)*.57;
  const swing=Math.max(0,q.ringTimer||0);
  q.ringTimer=Math.max(0,swing-dt);
  q.g.rotation.z=Math.sin(q.age*2.1)*.067+Math.sin((1-swing/.7)*Math.PI*2)*swing*.91;
- if(e&&dist<reach+e.r&&q.cd<=0){
+ if(e&&targetDist<reach+e.r&&q.cd<=0){
   q.cd=1.55;q.ringTimer=.7;
   const center=p.clone().add(new V3(0,3.5,0));
   shock(gpos(center.clone()),0xc99bf3,reach);
@@ -22487,7 +22720,7 @@ function nuraBellTick(q,dt){
   }
   burst(center,7,NURA_SOUL_COLORS,1.15,13,.48);sfx('clang',p,.72);
  }
- if(e&&dist<e.r+q.r+3)q.hp-=Math.max(0,e.dmg)*dt*.45;
+ if(e&&targetDist<e.r+q.r+3)q.hp-=Math.max(0,e.dmg)*dt*.45;
 }
 function nuraDecoyVisual(at){
  const saved=[];let pose;
@@ -22777,7 +23010,7 @@ function necroHoundTick(dt){
   necroHoundMark(q,seen);necroHoundAnim(q,dt);
  }
 }
-CH.necromancer.ds='近くに敵がいると、記憶した死者や骸骨が自動で立ち上がる。必殺技の骨犬は地上を駆けて敵にかみつく。';
+CH.necromancer.ds='倒した通常の敵が元の姿で起き上がり、足元の青緑の輪を付けて同行する。近くに敵がいれば死者や骸骨を補充。術者が加わると軍勢は最大20体。';
 CH.necromancer.spD='地上の敵が近くにいるときに使う。骨犬を最大3体呼び、紫の輪をつけた敵に一度かみつかせる。';
 SKINFO.deadarmy.d='敵が近くにいる間、軍勢の空いている枠へ死者が自動で立ち上がる。';
 SKINFO.bonehound={n:CH.necromancer.spN,d:CH.necromancer.spD,img:'chara/sk/necromancer_sp.webp'};
@@ -22969,7 +23202,7 @@ function earthTrailCamera(dt){
 }
 // 爆弾の火球と地面に沿う衝撃波は、着弾位置と爆風半径から作る。
 function bomberBlastFireball(at,radius,large,detail){
- const g=new THREE.Group();g.name='bomberBlastFireball';g.position.copy(at);
+ const g=new THREE.Group();g.name='bomberBlastFireball';g.position.copy(at);g.userData.radius=radius;
  const life=large?1.12:.68,amount=large?(detail?9:6):detail?6:4;
  const hot=new THREE.Color(0xffc362),cool=new THREE.Color(0xff4415);
  for(let i=0;i<amount;i++){
@@ -22986,7 +23219,7 @@ function bomberBlastFireball(at,radius,large,detail){
    const size=radius*d.width*(.30+1.40*expand);s.scale.set(size,size*(large?1.17:1.08),1);
    if(s.material.map===COMBAT_GFX_1117.bomber_fire)s.material.color.setRGB(1,.98-t*.15,.89-t*.18);
    else s.material.color.copy(hot).lerp(cool,Math.min(1,t*1.4));
-   s.material.opacity=Math.min(1,t/.09)*(1-t)*(d.delay?.74:.94);
+   s.material.opacity=Math.min(1,t/.09)*(1-t)*(d.delay?.62:.80);
   }
  });
 }
@@ -24274,23 +24507,26 @@ function maouGraphicTick(a,k,radius,rise,fade){
 {const before=slimeJump;slimeJump=function(){
  const grounded=!SLIME_LEAP.active,r=before.apply(this,arguments);
  if(!grounded||!SLIME_LEAP.active)return r;
- const at=P.pos.clone().add(new V3(0,-C.gOff+.28,0)),radius=9+slimeMassSize()*2.1,dir=POWER_FWD();
+ const at=P.pos.clone().add(new V3(0,-C.gOff+.28,0)),radius=slimeJumpImpactRadius(),dir=POWER_FWD();
  combatGraphicGround('slime_splash','slimeLaunchFloor',at,radius*.62,.57,0xe5f69e);
  combatGraphicTrail('slime_splash','slimeLaunchArc',at.clone().add(new V3(0,1,0)),dir,radius*.74,radius*.42,.36,0xd6f498,.9);
  SLIME_LEAP.graphicAt=0;return r;
 };}
 {const before=slimeJumpLanding;slimeJumpLanding=function(){
- const active=SLIME_LEAP.active,landed=active&&P.onGround,r=before.apply(this,arguments);
- if(!active||PAUSED||LVUP)return r;
- const radius=9+slimeMassSize()*2.1,foot=P.pos.clone().add(new V3(0,-C.gOff+.3,0)),dir=POWER_FWD();
+ const active=SLIME_LEAP.active,r=before.apply(this,arguments);
+ if(!active||!formPlaying())return r;
+ const landed=!SLIME_LEAP.active,radius=slimeJumpImpactRadius(),foot=P.pos.clone().add(new V3(0,-C.gOff+.3,0)),dir=POWER_FWD();
  if(landed){
   combatGraphicGround('slime_splash','slimeLandingFloor',foot,radius,.65,0x49ed60,.26);
-  slimeLandingGreenRing(foot,radius);
+  landingImpactRing(foot,radius,0x61fb6d,'slimeGreenLandingImpact');
   for(const roll of [-.65,.65])combatGraphicTrail('slime_splash','slimeLandingArc',foot.clone().add(new V3(0,1.2,0)),dir,radius*1.14,radius*.57,.49,0x65f879,roll);
  }else if(performance.now()>=(SLIME_LEAP.graphicAt||0)){
-  SLIME_LEAP.graphicAt=performance.now()+140;
-  const tail=foot.addScaledVector(dir,-2).add(new V3(0,-1.2,0));
-  combatGraphicTrail('slime_splash','slimeAirDrops',tail,dir,3.3,1.65,.31,0xd4f2a3,.74);
+  SLIME_LEAP.graphicAt=performance.now()+160;
+  const tail=foot.addScaledVector(dir,-2).add(new V3(0,-.5,0)),size=slimeMassSize();
+  const course=P.vel.clone();
+  if(course.lengthSq()<1)course.copy(dir);
+  if(!combatGraphicTrail('slime_splash','slimeAirDrops',tail,course,6.3*size,3.4*size,.31,0xe0ff9d,.74))
+   burst(tail,3,GOO,.75,5,.3);
  }
  return r;
 };}
@@ -25070,19 +25306,19 @@ function remainingStatic(id,w,h,d){
  const holder=new THREE.Group();holder.name='generated:'+id;holder.add(g);return holder;
 }
 
-function slimeLandingGreenRing(at,radius){
- const rows=2,steps=48,positions=new Float32Array((steps+1)*rows*3),indices=[];
+function landingImpactRing(at,radius,color,name){
+ const rows=2,steps=40,positions=new Float32Array((steps+1)*rows*3),indices=[];
  for(let i=0;i<steps;i++){const k=i*2;indices.push(k,k+1,k+2,k+1,k+3,k+2);}
  const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.BufferAttribute(positions,3));geometry.setIndex(indices);
- const material=new THREE.MeshBasicMaterial({color:0x3eea54,transparent:true,opacity:.76,depthWrite:false,side:THREE.DoubleSide});
- const m=new THREE.Mesh(geometry,material);m.name='slimeGreenLandingImpact';m.frustumCulled=false;m.renderOrder=3;
+ const material=new THREE.MeshBasicMaterial({color,transparent:true,opacity:.9,depthWrite:false,side:THREE.DoubleSide});
+ const m=new THREE.Mesh(geometry,material);m.name=name;m.frustumCulled=false;m.renderOrder=3;
  fxAdd(m,.52,(mesh,k)=>{
   const r=radius*(.25+.75*Math.min(1,k/.68)),width=1.6*(1-k)+.2,v=geometry.attributes.position;
   for(let i=0;i<=steps;i++)for(let j=0;j<2;j++){
    const a=i/steps*Math.PI*2,d=Math.max(0,r-j*width),x=at.x+Math.cos(a)*d,z=at.z+Math.sin(a)*d;
-   v.setXYZ(i*2+j,x,floorAt(x,z)+.45,z);
+   v.setXYZ(i*2+j,x,powerGround(x,z)+.52,z);
   }
-  v.needsUpdate=true;material.opacity=.76*(1-k);
+  v.needsUpdate=true;material.opacity=.90*(1-k);
  });
 }
 {const before=setChar;setChar=function(k){prepareCombatGraphic(k);return before.apply(this,arguments);};prepareCombatGraphic(charKey);}
