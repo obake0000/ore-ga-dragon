@@ -2202,7 +2202,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2219,7 +2219,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 10,
@@ -2229,7 +2236,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2246,7 +2253,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 11,
@@ -2256,7 +2270,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2273,7 +2287,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 12,
@@ -2283,7 +2304,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2300,7 +2321,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 13,
@@ -2310,7 +2338,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2327,7 +2355,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 14,
@@ -2337,7 +2372,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2354,7 +2389,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 15,
@@ -2364,7 +2406,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2381,7 +2423,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 16,
@@ -2391,7 +2440,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2408,7 +2457,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 17,
@@ -2418,7 +2474,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2435,7 +2491,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 18,
@@ -2445,7 +2508,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2462,7 +2525,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 19,
@@ -2472,7 +2542,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2489,7 +2559,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 20,
@@ -2499,7 +2576,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2516,7 +2593,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 21,
@@ -2526,7 +2610,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2543,7 +2627,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 22,
@@ -2553,7 +2644,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2570,7 +2661,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 23,
@@ -2580,7 +2678,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2597,7 +2695,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 24,
@@ -2607,7 +2712,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2624,7 +2729,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 25,
@@ -2634,7 +2746,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2651,7 +2763,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 26,
@@ -2661,7 +2780,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2678,7 +2797,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 27,
@@ -2688,7 +2814,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2705,7 +2831,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 28,
@@ -2715,7 +2848,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2732,7 +2865,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 29,
@@ -2742,7 +2882,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2759,7 +2899,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 30,
@@ -2786,7 +2933,8 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "受領済み・公開保留：同じ役割の既存建物がなく、安全な島への配置を確認できていない。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 31,
@@ -2813,7 +2961,8 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "受領済み・公開保留：浮いた破片があるため外観の修正待ち。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 32,
@@ -2823,7 +2972,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2840,7 +2989,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 33,
@@ -2850,7 +3006,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2867,7 +3023,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 34,
@@ -2877,7 +3040,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2894,7 +3057,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 35,
@@ -2904,7 +3074,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2921,7 +3091,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 36,
@@ -2948,7 +3125,8 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "受領済み・公開保留：PC幅では通路を塞がない安全な配置場所を確保できていない。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 37,
@@ -2958,7 +3136,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -2975,7 +3153,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 38,
@@ -2985,7 +3170,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3002,7 +3187,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 39,
@@ -3029,7 +3221,8 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "受領済み・公開保留：屋根の穴と破片があるため外観の修正待ち。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 40,
@@ -3039,7 +3232,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3056,7 +3249,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 41,
@@ -3066,7 +3266,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3083,7 +3283,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 42,
@@ -3093,7 +3300,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3110,7 +3317,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 43,
@@ -3120,7 +3334,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3137,7 +3351,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 44,
@@ -3147,7 +3368,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3164,7 +3385,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 45,
@@ -3191,7 +3419,8 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "受領済み・公開保留：屋根と壁の破綻があるため外観の修正待ち。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 46,
@@ -3218,7 +3447,8 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "受領済み・公開保留：実ゲームで脚部の白い角材状パーツが目立つため外観の修正待ち。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 47,
@@ -3228,7 +3458,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3245,7 +3475,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 48,
@@ -3255,7 +3492,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3272,7 +3509,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 49,
@@ -3282,7 +3526,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3299,7 +3543,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 50,
@@ -3309,7 +3560,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3326,7 +3577,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 51,
@@ -3336,7 +3594,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3353,7 +3611,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 52,
@@ -3380,7 +3645,8 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "受領済み・公開保留：既存建物や通路と重ならない安全な配置場所を確保できていない。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 53,
@@ -3390,7 +3656,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3407,7 +3673,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 54,
@@ -3417,7 +3690,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3434,7 +3707,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 55,
@@ -3444,7 +3724,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3461,7 +3741,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 56,
@@ -3471,7 +3758,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3488,7 +3775,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 57,
@@ -3515,7 +3809,8 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "受領済み・公開保留：実ゲームで白い板状の台座が目立つため外観の修正待ち。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 58,
@@ -3542,7 +3837,8 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "受領済み・公開保留：実ゲームで白い器状の台座が目立つため外観の修正待ち。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 59,
@@ -3552,7 +3848,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3569,7 +3865,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 60,
@@ -3579,7 +3882,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3596,7 +3899,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 61,
@@ -3606,7 +3916,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3623,7 +3933,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 62,
@@ -3633,7 +3950,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3650,7 +3967,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 63,
@@ -3660,7 +3984,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3677,7 +4001,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 64,
@@ -3687,7 +4018,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3704,7 +4035,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 65,
@@ -3714,7 +4052,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3731,7 +4069,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 66,
@@ -3741,7 +4086,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3758,7 +4103,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 67,
@@ -3768,7 +4120,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3785,7 +4137,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 68,
@@ -3795,7 +4154,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3812,7 +4171,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 69,
@@ -3822,7 +4188,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3839,7 +4205,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 70,
@@ -3849,7 +4222,7 @@
       "owner": "pro",
       "executor": "external_pro",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P2",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -3866,7 +4239,14 @@
       "integration": "所属章の配置・破壊可否・衝突と通路を確認して接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "手元の台帳に採用できる最終GLBの受領根拠なし。他PCの未報告成果は未確認。未公開。"
+      "release_progress": "色付きGLB受領 → ゲーム適用 → PC・スマホ幅で表示・章切替を確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/",
+      "received_pipeline": [
+        "FLUX.1 schnell image",
+        "Hunyuan shape",
+        "Hunyuan GPU RGB texture"
+      ]
     },
     {
       "order": 1,
@@ -3895,7 +4275,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "動作付き試作。最終品とゲーム内の合格が未確認。"
+      "release_progress": "受領済み・公開保留：飛行・攻撃の試作を受領。軽量化の面数、動作の見え方、ゲーム内への接続が未合格。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 2,
@@ -3924,7 +4305,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "動作付き試作。最終品とゲーム内の合格が未確認。"
+      "release_progress": "受領済み・公開保留：飛行・攻撃の試作を受領。軽量化の面数、動作の見え方、ゲーム内への接続が未合格。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 3,
@@ -3953,7 +4335,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "動作付き試作。最終品とゲーム内の合格が未確認。"
+      "release_progress": "受領済み・公開保留：飛行・攻撃の試作を受領。軽量化の面数、動作の見え方、ゲーム内への接続が未合格。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 4,
@@ -3982,7 +4365,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "動作付き試作。最終品とゲーム内の合格が未確認。"
+      "release_progress": "受領済み・公開保留：飛行・攻撃の試作を受領。軽量化の面数、動作の見え方、ゲーム内への接続が未合格。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 5,
@@ -4011,7 +4395,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 6,
@@ -4040,7 +4425,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "修正版を受領。okuの測定では歩行で2倍を超える伸びが0箇所、通常・軽量版の高さを修正。足の接地・全方向の見た目・ゲーム内は未検証。"
+      "release_progress": "受領済み・公開保留：元形状を保持した安全な動作では歩行・攻撃の変化が小さいため保留。受領軽量版の面抜けも不採用。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 7,
@@ -4069,7 +4455,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 8,
@@ -4098,7 +4485,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 9,
@@ -4127,7 +4515,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 10,
@@ -4156,7 +4545,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 11,
@@ -4185,7 +4575,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 12,
@@ -4214,7 +4605,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 13,
@@ -4243,7 +4635,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 14,
@@ -4272,7 +4665,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 15,
@@ -4301,7 +4695,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 16,
@@ -4330,7 +4725,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 17,
@@ -4359,7 +4755,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 18,
@@ -4388,7 +4785,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 19,
@@ -4417,7 +4815,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 20,
@@ -4446,7 +4845,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 21,
@@ -4475,7 +4875,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 22,
@@ -4504,7 +4905,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 23,
@@ -4533,7 +4935,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 24,
@@ -4562,7 +4965,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 25,
@@ -4591,7 +4995,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 26,
@@ -4620,7 +5025,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 27,
@@ -4649,7 +5055,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 28,
@@ -4678,7 +5085,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 29,
@@ -4707,7 +5115,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 30,
@@ -4736,7 +5145,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 31,
@@ -4765,7 +5175,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 32,
@@ -4794,7 +5205,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 33,
@@ -4823,7 +5235,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 34,
@@ -4852,7 +5265,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 35,
@@ -4881,7 +5295,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 36,
@@ -4910,7 +5325,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 37,
@@ -4939,7 +5355,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 38,
@@ -4968,7 +5385,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 39,
@@ -4997,7 +5415,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 40,
@@ -5026,7 +5445,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 41,
@@ -5055,7 +5475,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 42,
@@ -5084,7 +5505,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 43,
@@ -5113,7 +5535,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 44,
@@ -5142,7 +5565,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 45,
@@ -5171,7 +5595,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 46,
@@ -5200,7 +5625,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 47,
@@ -5229,7 +5655,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 48,
@@ -5258,7 +5685,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 49,
@@ -5287,7 +5715,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 50,
@@ -5316,7 +5745,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 51,
@@ -5345,7 +5775,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 52,
@@ -5374,7 +5805,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 53,
@@ -5403,7 +5835,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 54,
@@ -5432,7 +5865,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 55,
@@ -5461,7 +5895,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 56,
@@ -5490,7 +5925,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 57,
@@ -5519,7 +5955,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 58,
@@ -5548,7 +5985,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 59,
@@ -5577,7 +6015,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 60,
@@ -5606,7 +6045,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 61,
@@ -5635,7 +6075,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 62,
@@ -5664,7 +6105,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 63,
@@ -5693,7 +6135,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 64,
@@ -5722,7 +6165,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 65,
@@ -5751,7 +6195,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 66,
@@ -5780,7 +6225,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 67,
@@ -5809,7 +6255,8 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "骨付き試作。動作と最終品の合格が未確認。"
+      "release_progress": "受領済み・公開保留：骨付き模型は受領。歩行・攻撃などの標準動作が未完成で、担当が修正中。ゲーム内確認・公開は未完。",
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 68,
@@ -5819,7 +6266,7 @@
       "owner": "oku",
       "executor": "external_oku",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P1",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -5838,7 +6285,9 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "待機・移動・攻撃を収録した通常版と軽量版の試作を受領。足の接地・全方向の見た目・ゲーム内の当たり判定との同期は未検証。"
+      "release_progress": "骨付きGLB受領 → 面抜け軽量版を不採用 → 元形状の512px版へ修復 → 歩行・攻撃を調整 → 実ゲームで確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 69,
@@ -5848,7 +6297,7 @@
       "owner": "oku",
       "executor": "external_oku",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P1",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -5867,7 +6316,9 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "待機・移動・攻撃を収録した通常版と軽量版の試作を受領。足の接地・全方向の見た目・ゲーム内の当たり判定との同期は未検証。"
+      "release_progress": "骨付きGLB受領 → 面抜け軽量版を不採用 → 元形状の512px版へ修復 → 歩行・攻撃を調整 → 実ゲームで確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/"
     },
     {
       "order": 70,
@@ -5877,7 +6328,7 @@
       "owner": "oku",
       "executor": "external_oku",
       "scope": "additional_dedicated_art_variant",
-      "status": "awaiting_delivery",
+      "status": "published",
       "priority": "P1",
       "deliverable": "single_distinct_graphic_asset",
       "pipeline": [
@@ -5896,7 +6347,9 @@
       "integration": "既存の移動・攻撃・当たり判定を維持し、同系統の外見バリエーションとして接続",
       "quality": "原画だけで完了扱いにしない。固有の形状と色を持つGLBを出力、原点・大きさ・正面・透明部・見た目を検品。人は現行の基準身長を維持。",
       "source_policy": "既存模型の単なる改名コピー・工程分割は1点と数えない。既存制作済み資産を未生成と再分類しない。追加デザインとして区別。",
-      "release_progress": "待機・移動・攻撃を収録した通常版と軽量版の試作を受領。足の接地・全方向の見た目・ゲーム内の当たり判定との同期は未検証。"
+      "release_progress": "骨付きGLB受領 → 面抜け軽量版を不採用 → 元形状の512px版へ修復 → 歩行・攻撃を調整 → 実ゲームで確認 → 今回の公開対象。スマホ実機は未確認。",
+      "mobile_ready": true,
+      "verification_report": "reports/assets140-1119/"
     }
   ]
 }

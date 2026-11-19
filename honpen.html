@@ -1259,7 +1259,7 @@ const MODEL=new Proxy({}, {get(target,id){mobileModelGet(id);return Reflect.get(
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVFDRKUIFRDKFGLWFIfPRSFmNCDHYRsFKLUNSWCBRWSAFBMOMGGXVUJFhpyvcLGMTCFsgrbkSjHumHHrSunAwGpuFairynNFjMTEBYSCPGWSchVTNhSPaQICON1117LPIAAR2SeaFMOBILE1117ART2LUNA4GRAPHICS1117_KINGDOM_BARRACKS_1117MUSIC5COLCAM1118COLGUIDE1118RULEART1118FIRSTPLAY1118WYVERNFIX1118S'/* ARCHANGEL_ICON_CACHE_1117 *//* ICON_ART_CACHE_1117 */;let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVFDRKUIFRDKFGLWFIfPRSFmNCDHYRsFKLUNSWCBRWSAFBMOMGGXVUJFhpyvcLGMTCFsgrbkSjHumHHrSunAwGpuFairynNFjMTEBYSCPGWSchVTNhSPaQICON1117LPIAAR2SeaFMOBILE1117ART2LUNA4GRAPHICS1117_KINGDOM_BARRACKS_1117MUSIC5COLCAM1118COLGUIDE1118RULEART1118FIRSTPLAY1118WYVERNFIX1118Sa140'/* ARCHANGEL_ICON_CACHE_1117 *//* ICON_ART_CACHE_1117 */;let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -27296,6 +27296,201 @@ addEventListener('click',presentationPointerGuard,true);
 #cutin .ic img{border-color:#aa9c7e;box-shadow:none}
 @media(max-width:640px){#glory{padding-top:85px}#glory .gb{max-width:86vw;font-size:19px!important}#glory .gs{font-size:12px!important;max-width:86vw}}
 `;document.head.appendChild(style);}
+
+/* PRO_CHAPTER_SCENERY_1119: explicit chapter sites, route-aware placement, shared loader. */
+const PRO_SCENE_PLAN_1119={"town":[{"id":"kingdom_market_1117","x":-114,"z":-72,"w":25,"h":13,"d":18,"yaw":1.57,"profile":"building","purpose":"west market annex"},{"id":"kingdom_chapel_1117","x":113,"z":-125,"w":19,"h":26,"d":20,"yaw":-1.57,"profile":"building","purpose":"east parish"},{"id":"kingdom_supply_wagon_1117","x":96,"z":-28,"w":12,"h":9,"d":7,"yaw":-0.5,"profile":"building","purpose":"market deliveries"}],"castle":[{"id":"kingdom_archery_range_1117","x":-162,"z":-162,"w":23,"h":15,"d":20,"yaw":1.57,"profile":"building","purpose":"west training yard"},{"id":"kingdom_stable_1117","x":159,"z":-158,"w":25,"h":18,"d":22,"yaw":-1.57,"profile":"building","purpose":"east cavalry yard"},{"id":"kingdom_siege_workshop_1117","x":167,"z":-263,"w":27,"h":19,"d":23,"yaw":-1.57,"profile":"building","purpose":"siege workshop behind east wing"},{"id":"kingdom_bridge_1117","x":-149,"z":-265,"w":25,"h":15,"d":11,"yaw":0,"profile":"gate","purpose":"side courtyard arcade; not a new route"}],"orcwood":[{"id":"orc_war_hut_1117","x":-65,"z":-100,"w":24,"h":21,"d":21,"yaw":0.7,"profile":"building","purpose":"west war camp"},{"id":"orc_beast_pen_1117","x":63,"z":-135,"w":23,"h":13,"d":23,"yaw":-0.7,"profile":"building","purpose":"east beast enclosure"},{"id":"orc_fuel_depot_1117","x":-63,"z":-155,"w":18,"h":11,"d":16,"yaw":0.6,"profile":"building","purpose":"camp fuel store"}],"orcfort":[{"id":"orc_forge_1117","x":-128,"z":-218,"w":24,"h":21,"d":23,"yaw":1.57,"profile":"building","purpose":"forge outside west curtain"},{"id":"orc_siege_ramp_1117","x":124,"z":-183,"w":22,"h":23,"d":26,"yaw":-1.57,"profile":"building","purpose":"siege staging outside east curtain"},{"id":"orc_palisade_corner_1117","x":-126,"z":-158,"w":23,"h":18,"d":23,"yaw":0.6,"profile":"building","purpose":"outer camp corner"}],"orcking":[{"id":"orc_trophy_gate_1117","x":-70,"z":-137,"w":27,"h":27,"d":12,"yaw":0.3,"profile":"gate","purpose":"west trophy court"},{"id":"orc_drum_tower_1117","x":74,"z":-202,"w":19,"h":31,"d":18,"yaw":-0.6,"profile":"building","purpose":"east signal tower"}],"coralsea":[{"id":"sea_coral_gate_1117","x":-161,"z":-14,"w":19,"h":20,"d":10,"yaw":0.2,"profile":"gate","purpose":"west island coral shrine","replace":{"model":"seaarch","side":-1}},{"id":"sea_kelp_arch_1117","x":147,"z":-45,"w":17,"h":19,"d":9,"yaw":-0.2,"profile":"gate","purpose":"east island kelp garden","replace":{"model":"seaarch","side":1}},{"id":"sea_dock_ruin_1117","x":-130,"z":-233,"w":17,"h":9,"d":24,"yaw":0.5,"profile":"building","purpose":"northwest landing ruin"}],"deepsea":[{"id":"sea_ruined_ship_1117","x":-140,"z":-130,"w":29,"h":23,"d":18,"yaw":0.4,"profile":"building","purpose":"west wreck island","replace":{"model":"shipwreck","side":-1}},{"id":"sea_anchor_fort_1117","x":141,"z":-118,"w":24,"h":21,"d":20,"yaw":-0.3,"profile":"building","purpose":"east anchor redoubt","replace":{"model":"shelltower","side":1}}],"seaking":[{"id":"sea_shell_palace_1117","x":-149,"z":-49,"w":25,"h":33,"d":23,"yaw":0.5,"profile":"building","purpose":"west shell court","replace":{"model":"seapalace","side":0}},{"id":"sea_trident_tower_1117","x":151,"z":-60,"w":18,"h":32,"d":17,"yaw":-0.4,"profile":"building","purpose":"east trident lookout","replace":{"model":"shelltower","side":1}},{"id":"sea_pearl_altar_1117","x":-35,"z":-173,"w":16,"h":14,"d":16,"yaw":0.2,"profile":"building","purpose":"palace west pearl garden","replace":{"model":"shellthrone","side":0}}],"skygate":[{"id":"heaven_sun_gate_1117","x":-124,"z":-104,"w":26,"h":26,"d":12,"yaw":0.4,"profile":"gate","purpose":"side island sun court","replace":{"model":"cloudgate","side":0}},{"id":"heaven_wing_bridge_1117","x":-90,"z":-68,"w":23,"h":12,"d":11,"yaw":-0.6,"profile":"gate","purpose":"side island arcade; original bridges retained"}],"skytemple":[{"id":"heaven_cloud_palace_1117","x":178,"z":-156,"w":31,"h":35,"d":28,"yaw":-0.5,"profile":"building","purpose":"east island palace"},{"id":"heaven_harp_tower_1117","x":143,"z":-132,"w":16,"h":30,"d":15,"yaw":-0.2,"profile":"building","purpose":"east island music court"},{"id":"heaven_star_observatory_1117","x":-62,"z":-246,"w":25,"h":29,"d":23,"yaw":0.5,"profile":"building","purpose":"west observatory court"}],"archangel":[{"id":"heaven_light_crystal_1117","x":-101,"z":-53,"w":14,"h":30,"d":14,"yaw":0.3,"profile":"building","purpose":"west sanctuary crystal"},{"id":"heaven_sanctuary_1117","x":103,"z":-78,"w":34,"h":32,"d":30,"yaw":-0.4,"profile":"building","purpose":"east sanctuary"}],"p8war":[{"id":"war_station_hall_1117","x":-168,"z":-140,"w":30,"h":25,"d":24,"yaw":1.57,"profile":"building","purpose":"station outside railway"},{"id":"war_signal_tower_1117","x":-170,"z":-89,"w":14,"h":25,"d":14,"yaw":1.57,"profile":"building","purpose":"west signal box"},{"id":"war_munitions_1117","x":-167,"z":-197,"w":22,"h":16,"d":17,"yaw":1.57,"profile":"building","purpose":"west supply siding"},{"id":"war_fuel_tanker_1117","x":169,"z":-92,"w":24,"h":12,"d":12,"yaw":-1.57,"profile":"building","purpose":"east fuel siding"},{"id":"war_aa_platform_1117","x":169,"z":-146,"w":20,"h":15,"d":20,"yaw":-1.57,"profile":"building","purpose":"east air defence"},{"id":"war_bunker_1117","x":-163,"z":-254,"w":21,"h":12,"d":20,"yaw":0.5,"profile":"building","purpose":"west rear bunker"},{"id":"war_hangar_1117","x":167,"z":-207,"w":34,"h":22,"d":29,"yaw":-1.57,"profile":"building","purpose":"east rear hangar"},{"id":"war_crane_1117","x":115,"z":-295,"w":23,"h":32,"d":20,"yaw":-0.5,"profile":"building","purpose":"rear freight crane"}],"p8robo":[{"id":"cyber_transit_station_1117","x":-153,"z":-65,"w":27,"h":19,"d":17,"yaw":1.57,"profile":"building","purpose":"west transit block"},{"id":"cyber_server_spire_1117","x":159,"z":-115,"w":23,"h":44,"d":21,"yaw":-1.57,"profile":"building","purpose":"east data block"},{"id":"cyber_power_core_1117","x":-161,"z":-167,"w":29,"h":31,"d":25,"yaw":0.4,"profile":"building","purpose":"west power block"},{"id":"cyber_skybridge_1117","x":154,"z":-49,"w":31,"h":17,"d":11,"yaw":-0.4,"profile":"gate","purpose":"east pedestrian arcade; central street kept clear"},{"id":"cyber_repair_dock_1117","x":-159,"z":22,"w":27,"h":22,"d":24,"yaw":1.57,"profile":"building","purpose":"southwest repair yard"},{"id":"cyber_drone_port_1117","x":155,"z":25,"w":28,"h":18,"d":27,"yaw":-1.57,"profile":"building","purpose":"southeast drone apron"},{"id":"cyber_housing_block_1117","x":168,"z":-213,"w":31,"h":34,"d":28,"yaw":-1.57,"profile":"building","purpose":"northeast housing"},{"id":"cyber_dogu_shrine_1117","x":-159,"z":-242,"w":24,"h":29,"d":23,"yaw":0.5,"profile":"building","purpose":"northwest dogu shrine"}],"p8dino":[{"id":"dino_cycad_1117","x":-69,"z":-73,"w":18,"h":17,"d":18,"yaw":0.3,"profile":"plant","purpose":"west cycad grove"},{"id":"dino_horsetail_1117","x":70,"z":-91,"w":17,"h":20,"d":17,"yaw":-0.4,"profile":"plant","purpose":"east wetland edge"},{"id":"dino_fallen_trunk_1117","x":-69,"z":-149,"w":24,"h":13,"d":13,"yaw":0.6,"profile":"low","purpose":"west fallen timber"},{"id":"dino_nest_1117","x":67,"z":-158,"w":18,"h":7,"d":17,"yaw":-0.2,"profile":"low","purpose":"east nesting ground"},{"id":"dino_fossil_arch_1117","x":-62,"z":-207,"w":26,"h":23,"d":12,"yaw":0.4,"profile":"gate","purpose":"west fossil ridge"},{"id":"dino_lava_vent_1117","x":64,"z":-212,"w":22,"h":9,"d":18,"yaw":-0.4,"profile":"low","purpose":"east volcanic edge"}],"y9castle":[{"id":"yokai_gear_gate_1117","x":-84,"z":-85,"w":30,"h":24,"d":12,"yaw":0.4,"profile":"gate","purpose":"west service gate"},{"id":"yokai_cannon_turret_1117","x":86,"z":-94,"w":22,"h":28,"d":20,"yaw":-0.4,"profile":"building","purpose":"east static cannon exhibit"},{"id":"yokai_walking_tower_1117","x":-88,"z":-157,"w":23,"h":36,"d":21,"yaw":0.3,"profile":"building","purpose":"west dormant walking tower"},{"id":"yokai_bell_workshop_1117","x":88,"z":-161,"w":27,"h":25,"d":23,"yaw":-0.4,"profile":"building","purpose":"east bell workshop"},{"id":"yokai_clock_keep_1117","x":-86,"z":-230,"w":31,"h":42,"d":28,"yaw":0.4,"profile":"building","purpose":"west clock keep annex"}],"col_gate":[{"id":"arena_champion_gate_1117","x":-137,"z":-44,"w":27,"h":29,"d":12,"yaw":0.6,"profile":"gate","purpose":"west outer champions court"},{"id":"arena_weapon_rack_1117","x":135,"z":40,"w":17,"h":15,"d":8,"yaw":-0.6,"profile":"building","purpose":"east outer armoury"}],"col_trial":[{"id":"arena_statue_pair_1117","x":-137,"z":-38,"w":23,"h":24,"d":13,"yaw":0.5,"profile":"building","purpose":"west outer memorial"},{"id":"arena_brazier_1117","x":137,"z":-42,"w":12,"h":14,"d":12,"yaw":-0.5,"profile":"building","purpose":"east outer ceremonial brazier"}],"col_final":[{"id":"arena_trophy_podium_1117","x":-137,"z":-35,"w":24,"h":18,"d":22,"yaw":0.5,"profile":"building","purpose":"west outer winners court"}]};
+const PRO_SCENE_HOLD_1119={"sea_dock_ruin_1117": "浮いた破片があるため外観の修正待ち。", "war_station_hall_1117": "屋根の穴と破片があるため外観の修正待ち。", "war_hangar_1117": "屋根と壁の破綻があるため外観の修正待ち。", "sea_anchor_fort_1117": "同じ役割の既存建物がなく、安全な島への配置を確認できていない。", "heaven_wing_bridge_1117": "PC幅では通路を塞がない安全な配置場所を確保できていない。", "cyber_drone_port_1117": "既存建物や通路と重ならない安全な配置場所を確保できていない。", "dino_fallen_trunk_1117": "実ゲームで白い板状の台座が目立つため外観の修正待ち。", "dino_nest_1117": "実ゲームで白い器状の台座が目立つため外観の修正待ち。", "war_crane_1117": "実ゲームで脚部の白い角材状パーツが目立つため外観の修正待ち。"};
+const PRO_SCENE_1119={generation:0,roots:[],materials:new Set(),colliders:[],sites:[],status:[]};
+for(const [key,rows] of Object.entries(PRO_SCENE_PLAN_1119)){
+ MOBILE_DEPS.stages[key]=[...new Set([...(MOBILE_DEPS.stages[key]||[]),...rows.filter(p=>!PRO_SCENE_HOLD_1119[p.id]).map(p=>p.id)])];
+}
+function proSceneClear1119(){
+ const S=PRO_SCENE_1119;S.generation++;
+ for(const root of S.roots){scene.remove(root);const n=TERRAIN.indexOf(root);if(n>=0)TERRAIN.splice(n,1);for(const [id,set] of mobileArt.late){set.delete(root);if(!set.size)mobileArt.late.delete(id);}}
+ for(const c of S.colliders){const i=COLS.indexOf(c);if(i>=0)COLS.splice(i,1);}
+ for(const m of S.materials)m.dispose();
+ S.roots.length=0;S.colliders.length=0;S.materials.clear();S.sites.length=0;S.status.length=0;
+}
+function proSceneSegmentDistance1119(x,z,ax,az,bx,bz){
+ const dx=bx-ax,dz=bz-az,t=clamp(((x-ax)*dx+(z-az)*dz)/(dx*dx+dz*dz||1),0,1);
+ return Math.hypot(x-ax-t*dx,z-az-t*dz);
+}
+function proSceneSafe1119(p,x,z,key){
+ const r=Math.hypot(p.w,p.d)*.5,pad=6,gy=H(x,z),start=TER.start||[0,120];
+ if(Math.hypot(x-start[0],z-start[1])<r+39)return false;
+ // Keep the existing approach corridor open, including the camera's forward sight line.
+ if(Math.abs(x)<27+r&&z>-335&&z<start[1]+25)return false;
+ if(key.startsWith('col_')&&Math.hypot(x,z)<COL_ARENA.radius+19+r)return false;
+ if(key==='p8war'&&Math.abs(Math.hypot(x-TRN.cx,z-TRN.cz)-TRN.R)<r+25)return false;
+ if(gy<WATER+.7)return false;
+ for(const b of BRIDGES)if(proSceneSegmentDistance1119(x,z,b.ax,b.az,b.bx,b.bz)<r+12)return false;
+ for(const b of BLD){if(b.dead||!b.box)continue;const dx=Math.max(b.box.min.x-x,0,x-b.box.max.x),dz=Math.max(b.box.min.z-z,0,z-b.box.max.z);if(Math.hypot(dx,dz)<r+pad)return false;}
+ for(const c of COLS){if(c.proScene1119)continue;const cr=c.t===0?c.r:Math.hypot(c.hw||0,c.hd||0);if(Math.hypot(x-c.x,z-c.z)<r+(cr||0)+4)return false;}
+ for(const s of PRO_SCENE_1119.sites)if(Math.hypot(x-s.x,z-s.z)<r+s.r+5)return false;
+ // Do not flatten hills or add islands to force an asset into the scene.
+ const step=Math.min(8,Math.min(p.w,p.d)*.28),samples=[H(x-step,z),H(x+step,z),H(x,z-step),H(x,z+step)];
+ if(Math.min(...samples)<WATER+.4||Math.max(...samples)-Math.min(...samples)>Math.max(3.4,p.h*.17))return false;
+ return true;
+}
+function proSceneSite1119(p,key){
+ const offsets=[[0,0]];
+ // Search the same side of the chapter for an actually clear plot. Random scenery
+ // may occupy the authored point; never force a building through that scenery.
+ for(let ring=1;ring<=12;ring++)for(let k=0;k<24;k++){
+  const a=k*Math.PI/12;offsets.push([Math.cos(a)*ring*14,Math.sin(a)*ring*14]);
+ }
+ for(const [dx,dz] of offsets){const x=p.x+dx,z=p.z+dz;
+  if(Math.abs(x)>285||z< -335||z>110||Math.sign(x)!==Math.sign(p.x))continue;
+  if(proSceneSafe1119(p,x,z,key))return {x,z,r:Math.hypot(p.w,p.d)*.5};
+ }
+ return null;
+}
+function proSceneCollider1119(root,p,w,h,d){
+ const S=PRO_SCENE_1119,x=root.position.x,z=root.position.z,y=root.position.y,a=p.yaw||0;
+ function circle(lx,lz,r,y0,y1){const c={t:0,x:x+lx*Math.cos(a)+lz*Math.sin(a),z:z-lx*Math.sin(a)+lz*Math.cos(a),r,y0:y+y0,y1:y+y1,proScene1119:true};COLS.push(c);S.colliders.push(c);}
+ if(p.profile==='plant'){circle(0,0,Math.min(w,d)*.16,0,h*.5);return;}
+ if(p.profile==='gate'){
+  // Keep the aperture open. A single full-box collider would make an invisible wall.
+  circle(-w*.39,0,Math.min(w*.13,d*.3),0,h*.85);circle(w*.39,0,Math.min(w*.13,d*.3),0,h*.85);return;
+ }
+ const c={t:1,x,z,hw:w*.46,hd:d*.46,c:Math.cos(a),s:Math.sin(a),y0:y-.2,y1:y+h*(p.profile==='low'?.7:.93),proScene1119:true};COLS.push(c);S.colliders.push(c);
+}
+function proSceneArt1119(root,p,record){
+ if(root.userData.proSceneApplied||!mobileIsMounted(root)||!MODEL[p.id])return false;
+ const art=cloneModel(p.id);if(!art)return false;
+ const orient=new THREE.Group();art.rotation.y=MODEL[p.id].rot||0;orient.add(art);orient.updateMatrixWorld(true);
+ const box=new THREE.Box3().setFromObject(orient),sz=box.getSize(new V3()),center=box.getCenter(new V3());
+ if(!Number.isFinite(sz.x+sz.y+sz.z)||Math.min(sz.x,sz.y,sz.z)<.001){record.state='invalid-bounds';return false;}
+ // Uniform scale keeps the received model's proportions; dimensions are safe envelopes.
+ const k=Math.min(p.w/sz.x,p.h/sz.y,p.d/sz.z);orient.scale.setScalar(k);orient.position.set(-center.x*k,-box.min.y*k+(root.userData.proSceneExisting1119?.minY||0),-center.z*k);
+ art.traverse(o=>{if(!o.isMesh)return;o.castShadow=false;o.receiveShadow=true;
+  const copy=m=>{const n=m.clone();PRO_SCENE_1119.materials.add(n);if(n.emissive)n.emissive.multiplyScalar(.22);if(n.emissiveIntensity!==undefined)n.emissiveIntensity=Math.min(n.emissiveIntensity,.25);
+   n.onBeforeCompile=shader=>{shader.fragmentShader=shader.fragmentShader.replace('#include <map_fragment>','#include <map_fragment>\nfloat proSceneLuma1119=dot(diffuseColor.rgb,vec3(.2126,.7152,.0722));\ndiffuseColor.rgb=mix(diffuseColor.rgb,vec3(proSceneLuma1119),.28);');};
+   n.customProgramCacheKey=()=> 'pro-scene-muted-1119';return n;};
+  o.material=Array.isArray(o.material)?o.material.map(copy):copy(o.material);
+ });
+ if(root.userData.proSceneExisting1119)for(const child of [...root.children])root.remove(child);
+ root.add(orient);root.userData.proSceneApplied=true;
+ const w=sz.x*k,h=sz.y*k,d=sz.z*k;if(!root.userData.proSceneExisting1119)proSceneCollider1119(root,p,w,h,d);
+ record.state='placed';record.actual={x:root.position.x,y:root.position.y,z:root.position.z,w,h,d,yaw:p.yaw};return true;
+}
+function proSceneBuild1119(i){
+ const key=STAGES[i]?.key,rows=PRO_SCENE_PLAN_1119[key];if(!rows)return;
+ const S=PRO_SCENE_1119,gen=S.generation;
+ for(const p of rows){
+  const record={id:p.id,chapter:key,state:'planned',purpose:p.purpose};S.status.push(record);
+  if(PRO_SCENE_HOLD_1119[p.id]){record.state='held-quality';record.reason=PRO_SCENE_HOLD_1119[p.id];continue;}
+  if(p.replace){proSceneReplace1119(p,key,record);continue;}
+  const site=proSceneSite1119(p,key);if(!site){record.state='held-no-safe-site';continue;}
+  record.site={x:site.x,z:site.z};
+  S.sites.push(site);const root=new THREE.Group();root.name='pro-scene-1119:'+p.id;root.userData.proSceneId=p.id;
+  root.position.set(site.x,H(site.x,site.z)+.04,site.z);root.rotation.y=p.yaw||0;scene.add(root);TERRAIN.push(root);S.roots.push(root);
+  const apply=()=>gen===S.generation&&proSceneArt1119(root,p,record);
+  if(!apply()){record.state='awaiting-model';mobileLateArt(p.id,root,apply);mobileWant(p.id,60).then(ok=>{if(gen!==S.generation||!mobileIsMounted(root))return;if(ok)apply();else if(!root.userData.proSceneApplied)record.state='held-model-unavailable';});}
+ }
+}
+{const before=clearWorld;clearWorld=function(){proSceneClear1119();return before.apply(this,arguments);};}
+{const before=setupStage;setupStage=function(i){const result=before.apply(this,arguments);proSceneBuild1119(i);return result;};}
+// Read-only inspection seam for the shared browser verification queue.
+Object.defineProperty(window,'PRO_SCENE_STATUS_1119',{get:()=>PRO_SCENE_1119.status.map(s=>JSON.parse(JSON.stringify(s)))});
+/* END_PRO_CHAPTER_SCENERY_1119 */
+
+/* PRO_EXISTING_LANDMARKS_1119: replace the same role, never add another occupied plot. */
+PRO_SCENE_1119.existing=[];
+function proSceneCapture1119(root,id,bld,colliders){if(!root)return;
+ PRO_SCENE_1119.existing.push({root,id,bld,colliders:colliders||[],used:false});
+}
+{const before=s7Put;s7Put=function(id){const first=COLS.length,root=before.apply(this,arguments);proSceneCapture1119(root,id,BLD.find(b=>b.g===root)||null,COLS.slice(first));return root;};}
+{const before=s7Bld;s7Bld=function(id){const first=COLS.length,b=before.apply(this,arguments);if(b)proSceneCapture1119(b.g,id,b,COLS.slice(first));return b;};}
+{const before=s6Bld;s6Bld=function(id){const first=COLS.length,b=before.apply(this,arguments);if(b)proSceneCapture1119(b.g,id,b,COLS.slice(first));return b;};}
+function proSceneReplace1119(p,key,record){
+ const rule=p.replace,S=PRO_SCENE_1119;
+ const choices=S.existing.filter(o=>!o.used&&o.id===rule.model&&o.root.parent&&(!rule.side||Math.sign(o.root.position.x)===rule.side));
+ choices.sort((a,b)=>Math.hypot(a.root.position.x-p.x,a.root.position.z-p.z)-Math.hypot(b.root.position.x-p.x,b.root.position.z-p.z));
+ const target=choices[0];
+ if(!target){record.state='held-no-compatible-landmark';record.reason='No existing '+rule.model+' with the required role/side; no new water plot is created.';return;}
+ const root=target.root,box=posedModelBounds(root),size=box.getSize(new V3());
+ if(!Number.isFinite(size.x+size.y+size.z)||Math.min(size.x,size.y,size.z)<.01){record.state='held-invalid-existing-landmark';return;}
+ target.used=true;
+ const b=target.bld,colliders=target.colliders;
+ record.replacement={model:target.id,position:root.position.toArray(),yaw:root.rotation.y,localMin:box.min.toArray(),localMax:box.max.toArray(),floor:H(root.position.x,root.position.z),baseY:root.position.y+box.min.y,wetBase:root.position.y+box.min.y<WATER,
+  hp:b?.hp??null,maxHp:b?.max??null,value:b?.val??null,armor:b?.armor??null,solid:b?.solid??false,buildingCollision:b?{min:b.box.min.toArray(),max:b.box.max.toArray()}:null,
+  colliders:colliders.map(c=>Object.fromEntries(Object.entries(c).filter(([,v])=>typeof v==='number'||typeof v==='string')))};
+ record.envelope={w:size.x,h:size.y,d:size.z};record.site={x:root.position.x,z:root.position.z};
+ root.userData.proSceneId=p.id;if(!S.roots.includes(root))S.roots.push(root);
+ if(S.baselineOnly1119){record.state='baseline-existing-landmark';record.reason='Test-only baseline flag; existing appearance retained.';return;}
+ root.userData.proSceneExisting1119={minY:box.min.y,bld:b};root.userData.proSceneId=p.id;
+ const fit={...p,w:size.x,h:size.y,d:size.z,yaw:root.rotation.y};
+ const gen=S.generation,apply=()=>gen===S.generation&&proSceneArt1119(root,fit,record);
+ if(!apply()){record.state='awaiting-model';mobileLateArt(p.id,root,apply);mobileWant(p.id,60).then(ok=>{if(gen!==S.generation||!mobileIsMounted(root))return;if(ok)apply();else if(!root.userData.proSceneApplied)record.state='held-model-unavailable';});}
+}
+{const before=proSceneClear1119;proSceneClear1119=function(){const r=before.apply(this,arguments);PRO_SCENE_1119.existing.length=0;return r;};}
+/* END_PRO_EXISTING_LANDMARKS_1119 */
+
+/* OKU_ACTOR_ROLES_1119: four received rigs in existing enemy roles; no new AI/stats. */
+const OKU_ACTOR_IDS_1119={earth:'rock_wyrm_variant_1117',park_clown:'park_clockwork_jester_1117',park_mascot:'park_worn_mascot_1117',park_marionette:'park_porcelain_doll_1117'};
+const OKU_ACTOR_1119={counts:Object.create(null),context:null,serial:0,decisions:[],generation:0};
+const OKU_ACTOR_ID_SET_1119=new Set(Object.values(OKU_ACTOR_IDS_1119));
+function okuActorChoice1119(role){
+ const S=OKU_ACTOR_1119,n=S.counts[role]||0;S.counts[role]=n+1;
+ const id=OKU_ACTOR_IDS_1119[role],wanted=n%2===0,ready=role!=='earth'&&!!(MODEL[id]?.skin&&MODEL[id]?.anims?.length);
+ const d={role,id,ordinal:n+1,selected:wanted&&ready,reason:!wanted?'existing-variant':ready?'received-variant':'received-rig-not-ready'};
+ S.decisions.push(d);if(S.decisions.length>48)S.decisions.shift();return d;
+}
+// Alias only: keep the loader's original move clip and every bone/keyframe unchanged.
+{const before=animsFor;animsFor=function(id){const A=before.apply(this,arguments);if(!OKU_ACTOR_ID_SET_1119.has(id)||A.some(a=>/run|walk|fly/i.test(a.name)))return A;
+ const move=A.find(a=>/^move$/i.test(a.name));if(!move)return A;
+ const alias=move.clone();alias.name='walk';return [...A,alias];
+};}
+// The received rock dragon faces -X; +90 degrees aligns its head with the game's +Z.
+{const before=attachModel;attachModel=function(g,id,er=0,fitHeight=false){return before.call(this,g,id,er+(id===OKU_ACTOR_IDS_1119.earth?Math.PI/2:0),fitHeight);};}
+function okuActorTag1119(e,d){if(!e||!d.selected)return e;
+ e.okuActor1119={id:d.id,role:d.role,serial:++OKU_ACTOR_1119.serial,generation:OKU_ACTOR_1119.generation};
+ e.mesh.userData.okuActorId1119=d.id;
+ if(e.mesh.userData.mix)e.mesh.userData.mix.okuActor1119=true;
+ return e;
+}
+// Limit the new ground dragon to the existing scenario-five earth spawner.
+// Temporary call context avoids changing shared MODEL aliases or other gdrake users.
+{const before=addEnemy;addEnemy=function(type,x,z,y,o){
+ const d=OKU_ACTOR_1119.context;
+ if(d?.selected&&d.role==='earth'&&type==='gdrake')return okuActorTag1119(before.call(this,type,x,z,y,{...(o||{}),model:d.id}),d);
+ return before.apply(this,arguments);
+};}
+{const before=s5Spawn;s5Spawn=function(kind){
+ if(kind!=='earth'||SCN!==5)return before.apply(this,arguments);
+ const S=OKU_ACTOR_1119,previous=S.context,d=okuActorChoice1119('earth');S.context=d;
+ try{return before.apply(this,arguments);}finally{S.context=previous;}
+};}
+// Keep the rock texture's own stone colours instead of cloning/tinting its materials.
+{const before=s5Tint;s5Tint=function(g){if(g.userData.okuActorId1119===OKU_ACTOR_IDS_1119.earth)return;return before.apply(this,arguments);};}
+// Existing park spawner and parkFitActor run unchanged, including bosses and patrol HP caps.
+{const before=s8Spawn;s8Spawn=function(role){
+ if(SCN!==11||!OKU_ACTOR_IDS_1119[role]||role==='earth')return before.apply(this,arguments);
+ const d=okuActorChoice1119(role);if(!d.selected)return before.apply(this,arguments);
+ const K=S8K[role],mid=K.mid;K.mid=d.id;
+ try{return okuActorTag1119(before.apply(this,arguments),d);}finally{K.mid=mid;}
+};}
+// Rock dragon remains on hold until its motion is accepted.
+for(const key of ['park_entry','park_ride','park_control']){
+ const added=['park_clown','park_mascot','park_marionette'].map(k=>OKU_ACTOR_IDS_1119[k]);
+ MOBILE_DEPS.stages[key]=[...new Set([...(MOBILE_DEPS.stages[key]||[]),...added])];
+ MOBILE_DEPS.waves[key]=(MOBILE_DEPS.waves[key]||[]).map(ids=>[...new Set([...ids,...Object.entries(OKU_ACTOR_IDS_1119).filter(([role])=>role!=='earth'&&ids.includes(S8K[role].mid)).map(([,id])=>id)])]);
+}
+{const before=clearWorld;clearWorld=function(){
+ // Remove only our detached actor mixers; shared model geometries/materials stay owned by loader.
+ const own=MIX.filter(o=>o.okuActor1119);const r=before.apply(this,arguments);
+ for(const o of own){o.mx.stopAllAction();o.mx.uncacheRoot?.(o.mx.getRoot());const n=MIX.indexOf(o);if(n>=0)MIX.splice(n,1);}
+ OKU_ACTOR_1119.counts=Object.create(null);OKU_ACTOR_1119.context=null;OKU_ACTOR_1119.decisions.length=0;OKU_ACTOR_1119.generation++;return r;
+};}
+function okuActorRead1119(){
+ const rows=EN.filter(e=>e.okuActor1119).map(e=>{const o=e.mesh.userData.mix,p=e.mesh.position,a=e.okuActor1119;
+  return {id:a.id,role:a.role,serial:a.serial,dead:!!e.dead,attached:!!e.mesh.parent,position:{x:p.x,y:p.y,z:p.z},yaw:e.mesh.rotation.y,scale:e.mesh.scale.x,hp:e.hp,maxHp:e.maxHp,damage:e.dmg,radius:e.r,hitCenter:e.hc,speed:e.spd??null,aiType:e.type,s8:e.s8??null,attackCooldown:e.cd,movingSpeed:o?.v??null,currentClip:o?.cur?.getClip?.().name??null,locomotion:o?.loco?.name??null,idle:o?.idle?.name??null,attack:o?.hit?.name??null,attackActive:!!o?.once,held:!!e.powerHeld};});
+ return {scenario:SCN,chapter:STAGES[stage]?.key,state,generation:OKU_ACTOR_1119.generation,rigs:Object.fromEntries(Object.entries(OKU_ACTOR_IDS_1119).map(([role,id])=>[id,{role,ready:!!MODEL[id],skinned:!!MODEL[id]?.skin,clips:(MODEL[id]?.anims||[]).map(a=>a.name)}])),decisions:OKU_ACTOR_1119.decisions.map(d=>({...d})),actors:rows,mixers:MIX.filter(o=>o.okuActor1119).length};
+}
+Object.defineProperty(window,'OKU_ACTOR_STATUS_1119',{get:okuActorRead1119});
+/* END_OKU_ACTOR_ROLES_1119 */
+
 {
  const previous=storyEnd;
  let pending=null;

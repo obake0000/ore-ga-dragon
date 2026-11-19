@@ -1,0 +1,98 @@
+{
+  "at": "2026-11-19T02:51:54.696055+00:00",
+  "scope": "今回の140点受領・検品・適用を行った担当区間。過去からの累計は区間直前との差分で除外。経過時間は待ち込みで秒を四捨五入。キャッシュ入力は入力の内数。画像・GPU生成と全140点の制作費は含まない。",
+  "rows": [
+    {
+      "role": "統合・最終検証",
+      "tokens": {
+        "total_tokens": 29556026,
+        "input_tokens": 29478307,
+        "cached_input_tokens": 29010560,
+        "output_tokens": 77719,
+        "uncached_input_tokens": 467747
+      },
+      "reason": null,
+      "started_at": "2026-11-19T02:00:56.009Z",
+      "last_report_at": null,
+      "completed_at": null,
+      "cutoff": "2026-11-19T02:51:31.161Z",
+      "elapsed_seconds_including_wait_rounded": 3035,
+      "elapsed": "50分35秒"
+    },
+    {
+      "role": "pro素材・検証",
+      "tokens": {
+        "total_tokens": 25096166,
+        "input_tokens": 25040541,
+        "cached_input_tokens": 24774272,
+        "output_tokens": 55625,
+        "uncached_input_tokens": 266269
+      },
+      "reason": null,
+      "started_at": "2026-11-19T02:02:46.736Z",
+      "last_report_at": "2026-11-19T02:47:46.962Z",
+      "completed_at": "2026-11-19T02:47:47.021Z",
+      "cutoff": "2026-11-19T02:47:47.003Z",
+      "elapsed_seconds_including_wait_rounded": 2700,
+      "elapsed": "45分0秒"
+    },
+    {
+      "role": "使用量の集計",
+      "tokens": {
+        "total_tokens": 1738129,
+        "input_tokens": 1732263,
+        "cached_input_tokens": 1525504,
+        "output_tokens": 5866,
+        "uncached_input_tokens": 206759
+      },
+      "reason": null,
+      "started_at": "2026-11-19T02:16:56.256Z",
+      "last_report_at": "2026-11-19T02:19:32.118Z",
+      "completed_at": "2026-11-19T02:19:32.177Z",
+      "cutoff": "2026-11-19T02:19:32.158Z",
+      "elapsed_seconds_including_wait_rounded": 156,
+      "elapsed": "2分36秒"
+    },
+    {
+      "role": "oku素材",
+      "tokens": {
+        "total_tokens": 37089875,
+        "input_tokens": 37026064,
+        "cached_input_tokens": 36263680,
+        "output_tokens": 63811,
+        "uncached_input_tokens": 762384
+      },
+      "reason": null,
+      "started_at": "2026-11-19T02:02:38.732Z",
+      "last_report_at": "2026-11-19T02:48:11.883Z",
+      "completed_at": "2026-11-19T02:48:11.961Z",
+      "cutoff": "2026-11-19T02:48:11.940Z",
+      "elapsed_seconds_including_wait_rounded": 2733,
+      "elapsed": "45分33秒"
+    },
+    {
+      "role": "章への配置",
+      "tokens": {
+        "total_tokens": 23098763,
+        "input_tokens": 23018424,
+        "cached_input_tokens": 22777472,
+        "output_tokens": 80339,
+        "uncached_input_tokens": 240952
+      },
+      "reason": null,
+      "started_at": "2026-11-19T02:02:30.588Z",
+      "last_report_at": "2026-11-19T02:47:16.620Z",
+      "completed_at": "2026-11-19T02:47:16.664Z",
+      "cutoff": "2026-11-19T02:47:16.647Z",
+      "elapsed_seconds_including_wait_rounded": 2686,
+      "elapsed": "44分46秒"
+    }
+  ],
+  "total_observed": {
+    "total_tokens": 116578959,
+    "input_tokens": 116295599,
+    "cached_input_tokens": 114351488,
+    "output_tokens": 283360,
+    "uncached_input_tokens": 1944111
+  }
+}
