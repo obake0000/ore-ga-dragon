@@ -677,7 +677,7 @@ body.presentation-event #pause,body.presentation-event #mute,body.presentation-e
 #presentationNext{position:absolute;right:12px;bottom:10px;width:88px;height:40px;background:#f8d682;color:#16262f;border:0;border-radius:5px;font:700 15px Meiryo,system-ui,sans-serif;touch-action:manipulation}
 #presentationNext:disabled{opacity:.5;cursor:default}#presentationNext:focus-visible{outline:3px solid #fff;outline-offset:3px}
 #presentationShout{position:fixed;z-index:25;left:50%;top:12px;transform:translateX(-50%);width:min(420px,calc(100vw - 24px));height:72px;padding:10px 14px;box-sizing:border-box;background:#16262fed;color:#fff6df;border:1px solid #d6bd79;border-radius:6px;font:15px/1.5 Meiryo,system-ui,sans-serif;word-break:normal;line-break:strict;overflow:hidden;pointer-events:none;animation:none}
-body.presentation-event #story{padding:10px 12px 242px!important}body.presentation-event #story .box{display:block!important;height:auto!important;max-height:calc(100dvh - 260px);overflow:hidden}body.presentation-event #story .kside{display:none!important}body.presentation-event #story .kstage{width:100%;height:auto!important}body.presentation-event #story .kami{max-height:calc(100dvh - 260px)}body.presentation-event #story .kami,body.presentation-event #story #kz,body.presentation-event #story #khd{animation:none!important;transform:none!important}body.presentation-event #storySkip{display:none!important}
+body.presentation-event #story{padding:10px 12px 242px!important}body.presentation-event #story .box{display:block!important;height:auto!important;max-height:calc(100dvh - 260px);overflow:hidden}body.presentation-event #story .kside{display:none!important}body.presentation-event #story .kstage{width:100%;height:auto!important}body.presentation-event #story .kami{max-height:calc(100dvh - 260px)}body.presentation-event #story .kami,body.presentation-event #story #kz,body.presentation-event #story #khd{animation:none!important;transform:none!important}body.presentation-event #storySkip{display:block}
 @media(max-width:600px){#presentationPanel p{font-size:15px}#presentationPanel{font-size:15px}}
 
 /* MOBILE_PRESENTATION_1119: size dialogue to content and place story art beside its dialogue. */
@@ -886,6 +886,28 @@ body.musou-selection #select .select-menu { flex-wrap: wrap; }
 }
 
 </style>
+<style>
+/* SC1_ENCOUNTER_UI_1120 */
+#story #storySkip{position:fixed;inset:max(10px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) auto auto;z-index:35;min-width:84px;min-height:44px;display:block!important;margin:0;padding:8px 13px;color:#fff5df;background:#17252bee;border:1px solid #bc9d64;border-radius:5px;transform:none;touch-action:manipulation}
+#story #storySkip:focus-visible{outline:3px solid #ffe4a3;outline-offset:2px}
+#story[style*="display: none"] #storySkip{display:none!important}
+#ult .bd{left:0;right:0;overflow:hidden;transform:none;animation:skillBandEncounter 1.3s ease-out both}
+#ult .in{transform:none;display:grid;grid-template-columns:minmax(0,min(28vw,170px)) minmax(0,1fr);grid-template-rows:1fr 1fr;align-items:center;gap:2px clamp(8px,2.2vw,28px);padding:6px max(12px,env(safe-area-inset-right)) 6px max(12px,env(safe-area-inset-left))}
+#ult .in>img{position:static;grid-row:1/3;justify-self:center;width:auto;height:auto;max-width:100%;max-height:100%;min-height:0;object-fit:contain;clip-path:none;animation:none;filter:none}
+#ult .in>.nm,#ult .in>.sb{min-width:0;position:static;grid-column:2;white-space:normal;animation:none}
+#ult .in>.nm{align-self:end;line-height:1.08;font-size:clamp(22px,5.7vw,78px);overflow-wrap:anywhere}
+#ult .in>.sb{align-self:start;line-height:1.25;font-size:clamp(13px,2.5vw,24px)}
+#ult .in:has(>.sb:empty)>.nm{grid-row:1/3;align-self:center}
+#ult .in>.nm img{position:static;display:block;max-width:100%;height:auto;max-height:1.3em;object-fit:contain;aspect-ratio:auto;clip-path:none;animation:none;filter:none}
+@keyframes skillBandEncounter{0%{opacity:0}14%,82%{opacity:1}100%{opacity:0}}
+body.presentation-event #story #stPic[src*="sc1-encounters-1120/"]{object-fit:contain!important;object-position:center!important;inset:0!important;width:100%!important;height:100%!important}
+@media (orientation:portrait),(min-height:501px){
+ body.presentation-event #story:has(#stPic[src*="sc1-encounters-1120/"]){--paper:min(92vw,99dvh,900px);--paper-top:max(58px,calc((100dvh - var(--paper)*.5 - 142px)/2))}
+ body.presentation-event #story#story:has(#stPic[src*="sc1-encounters-1120/"]) .kami{aspect-ratio:2/1!important}
+ body.presentation-event #story#story:has(#stPic[src*="sc1-encounters-1120/"]) #presentationPanel{top:calc(var(--paper-top) + var(--paper)*.5 + 16px);min-height:0;max-height:calc(100dvh - var(--paper-top) - var(--paper)*.5 - 24px)}
+}
+
+</style>
 </head>
 <body>
 <div id="hud">
@@ -930,11 +952,11 @@ body.musou-selection #select .select-menu { flex-wrap: wrap; }
   </details>
   <div class="gos">
     <div class="select-start"><button class="btn" id="go">この竜で出撃</button><button class="btn sm" id="first" style="display:none">第1章から</button></div>
-    <div class="select-menu"><button class="btn sm" id="scn" title="シナリオ1＝勇者一行→ワイバーン→王国軍→洞窟の奥の地下迷宮→ゴーレム→魔王。シナリオ2＝今までの6章（町・王都・海・魔界の門・嵐の頂）。切りかえると第1章からになります">📖 シナリオ1：地下の迷宮</button><button class="btn sm" id="easy" title="受けるダメージと敵の体力が少なく、前の敵を狙いやすい。攻撃を受けずにいると、低い体力が55%まで回復します">🔰 初心者モード：オフ</button><button class="btn sm" id="wazaBtn">📖 技の一覧</button><a class="btn sm" id="zukanBtn" href="zukan.html" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">📚 図鑑</a></div>
+    <div class="select-menu"><button class="btn sm" id="scn" title="シナリオ1＝勇者一行→サンドワーム→ワイバーン→王国軍→地下迷宮→封印の番人・竜人→魔王。シナリオ2＝今までの6章（町・王都・海・魔界の門・嵐の頂）。切りかえると第1章からになります">📖 シナリオ1：地下の迷宮</button><button class="btn sm" id="easy" title="受けるダメージと敵の体力が少なく、前の敵を狙いやすい。攻撃を受けずにいると、低い体力が55%まで回復します">🔰 初心者モード：オフ</button><button class="btn sm" id="wazaBtn">📖 技の一覧</button><a class="btn sm" id="zukanBtn" href="zukan.html" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">📚 図鑑</a></div>
   </div>
   <div class="ttl"><h1 class="logo"><img src="story/logo2.webp" alt="俺がドラゴン。転生したらドラゴンだったので勇者も魔王も丸焼きにします。15分で終わる爽快アクションRPG"></h1><div class="sub">キャラをえらんで、魔物・軍隊・海の怪物・古の竜を倒せ</div></div>
 </div>
-<div id="story" class="ov"><div class="box"><div class="kstage"><div class="kami" id="kami"><div class="kz" id="kz"><img id="stPic" alt=""><div class="kink" id="kink"></div></div><div class="kvig"></div></div></div><div class="kside"><div class="khd" id="khd"><div class="ch" id="stCh"></div><h2 id="stT"></h2><svg class="kbrush" viewBox="0 0 400 16" preserveAspectRatio="none" aria-hidden="true"><path d="M3 9 C40 4 90 11 150 7 C210 3 280 10 340 6 C365 5 385 7 397 9 C380 11 360 10 330 11 C270 14 200 9 140 12 C80 15 30 11 3 9Z" fill="#b3261e"/><path d="M60 13 C120 10 190 14 260 12" stroke="#b3261e" stroke-width="1.3" fill="none" opacity=".55"/></svg></div><div id="stL"></div><div class="kfoot"><i></i><div class="kdots" id="stN"></div><button class="btn" id="storyGo">出撃！</button></div></div></div><button class="btn sm" id="storySkip">スキップ ▶▶</button></div>
+<div id="story" class="ov"><div class="box"><div class="kstage"><div class="kami" id="kami"><div class="kz" id="kz"><img id="stPic" alt=""><div class="kink" id="kink"></div></div><div class="kvig"></div></div></div><div class="kside"><div class="khd" id="khd"><div class="ch" id="stCh"></div><h2 id="stT"></h2><svg class="kbrush" viewBox="0 0 400 16" preserveAspectRatio="none" aria-hidden="true"><path d="M3 9 C40 4 90 11 150 7 C210 3 280 10 340 6 C365 5 385 7 397 9 C380 11 360 10 330 11 C270 14 200 9 140 12 C80 15 30 11 3 9Z" fill="#b3261e"/><path d="M60 13 C120 10 190 14 260 12" stroke="#b3261e" stroke-width="1.3" fill="none" opacity=".55"/></svg></div><div id="stL"></div><div class="kfoot"><i></i><div class="kdots" id="stN"></div><button class="btn" id="storyGo">出撃！</button></div></div></div><button class="btn sm" type="button" id="storySkip" aria-label="この紙芝居をスキップ">スキップ</button></div>
 <div id="paused" class="ov"><div class="box"><h1>一時停止</h1><div class="sub">Esc か P キーでも、つづきにもどれる</div><div class="gos"><button class="btn" id="resume">つづける</button><button class="btn sm" id="wazaBtn2">📖 技の一覧</button><button class="btn sm" id="quit">キャラを選ぶ</button></div></div></div>
 <div id="waza" class="ov"><div class="wbox"><div class="wh"><h2>技の一覧</h2><button class="btn sm" id="wazaX">とじる ✕</button></div><div class="wsub" id="wazaSub"></div><label class="waza-choice">キャラクター<select id="wazaWho"></select></label><div class="wg" id="wazaG"></div></div></div>
 <div id="scp" class="ov" role="dialog" aria-modal="true" aria-labelledby="scpH"><div class="sbox"><div class="sh"><h2 id="scpH">シナリオの概要</h2><button class="btn" id="scpGo2">▶ このシナリオで遊ぶ</button><button class="btn sm" id="scpX" aria-label="とじる">✕ とじる</button></div><div class="tabs" id="scpTabs" role="tablist"></div><div class="cols"><div><div class="pic" id="scpPic"><img id="scpA" alt=""><img id="scpB" alt=""><video id="scpV" muted playsinline preload="none" aria-label="ゲームの動画"></video><div class="cap" id="scpCap"></div><div class="bd" id="scpBd">ゲーム画面</div></div><div class="dots" id="scpDots"></div></div><div class="info"><h3 class="nm" id="scpNm"></h3><p class="ds" id="scpDs"></p><div class="st">章の並び</div><ul class="chs" id="scpChs"></ul><div class="st">ボス</div><div class="bs" id="scpBs"></div><p class="len">🔰 初心者モードでは、敵が弱まり、次の波へ早く進みます。</p><div class="gos"><button class="btn" id="scpGo">このシナリオで遊ぶ</button></div></div></div></div></div>
@@ -2143,6 +2165,7 @@ function updMix(dt){for(let i=MIX.length-1;i>=0;i--){const o=MIX[i];if(!o.g.pare
   if(o.pegasus){pegasusFlightMix(o,dt);continue;}
   if(o.maouFlight){maouHumanFlightMix(o,dt);continue;}
   if(o.court){courtMix(o,dt);continue;}
+  if(o.royalStride1120){royalActorMix1120(o,dt);continue;}
   if(o.wolfSeat){orcWolfRiderMix(o,dt);continue;}
   if(o.arch){archangelMix(o,dt);continue;}if(o.wy3){updWy3(o,dt);continue;}if(o.rig){updRig(o,dt);continue;}
   if(o.g2){updG2(o,dt);continue;}
@@ -6218,10 +6241,10 @@ function updFall(rdt){if(PAUSED||LVUP)return;updDie(rdt);tankFx(rdt);for(let i=F
     if(state==='play'&&D.human!=='army'&&Math.hypot(o.x-P.pos.x,o.z-P.pos.z)<130){const a=mouthPos(),b=tmp2.set(o.x,o.y+e.hc,o.z);for(let j=0;j<5;j++){const q=(o.t*2.4+j/5)%1;tmp3.lerpVectors(a,b,q);flame(tmp3,1,1.5+q*e.r*0.26,0.3,null,0,3);}}
     if(k>=1){scene.remove(m);FALL.splice(i,1);const c=new V3(o.x,o.y+e.hc,o.z);burst(c,60,FIRE,e.r*0.6,46,1.2);if(rk)debris(c,14,[0x7a7468,0x6a4a2a,0x9a8a72],e.r*0.2);smoke(c,8,e.r*0.7,3,0x5a5248,e.r*0.5);if(state==='play'){sfx('boom',c,0.8);shake(0.7);flashV=Math.max(flashV,0.5);}}}}
 function ult(nm,line,fire){const u=$('ult');u.style.display='none';void u.offsetWidth;u.querySelector('img').src=(C.portrait||`chara/${charKey}.webp`)+'?v='+ASSET_V;
-  u.querySelector('.nm').textContent=nm;u.querySelector('.tg').textContent=nm;u.classList.remove('fired');u.querySelector('.sb').textContent=`${C.name}「${line||''}」`;u.classList.toggle('two',nm===skName(P.sp2));u.style.display='block';
+  u.querySelector('.nm').textContent=nm;u.querySelector('.tg').textContent=nm;u.classList.remove('fired');u.querySelector('.sb').textContent=storyDragon()?'':`${C.name}「${line||''}」`;u.classList.toggle('two',nm===skName(P.sp2));u.style.display='block';
   clearTimeout(ultTm);ultTm=setTimeout(()=>{u.style.display='none';},2200);
   if(ultFn){const f=ultFn;ultFn=null;f();}
-  TS=0.05;tsT=0.6;sfx('charge',null,0.9);if(!voice('ME',line))sfx('roar',null,0.3);ultFn=fire||null;ultT=0.45;cine(1,2.0);if(CINE.k===1&&CINE.t===0){ultT=1.85;tsT=2.0;if(ROAR.use){CINE.d=2.5;ultT=2.2;tsT=2.35;}}u.classList.toggle('cine',CINE.k===1);}
+  TS=0.05;tsT=0.6;sfx('charge',null,0.9);if(storyDragon()||!voice('ME',line))sfx('roar',null,0.3);ultFn=fire||null;ultT=0.45;cine(1,2.0);if(CINE.k===1&&CINE.t===0){ultT=1.85;tsT=2.0;if(ROAR.use){CINE.d=2.5;ultT=2.2;tsT=2.35;}}u.classList.toggle('cine',CINE.k===1);}
 function updUlt(rdt){if(ultT<=0)return;ultT-=rdt;if(ultT>0)return;const f=ultFn;ultFn=null;TS=1;tsT=0;ultQ=performance.now();{const u=$('ult');u.classList.add('fired');clearTimeout(ultTm);ultTm=setTimeout(()=>{u.style.display='none';},1250);}if(f&&state==='play'){flashV=Math.max(flashV,0.75);shake(0.6);sfx('release');f();swBlast(tmp.copy(P.pos).addScaledVector(aimDir(),34),52);if(CINE.k===1){TS=0.4;tsT=0.45;}}}
 const FXL=[],FXTX={};
 function fxAdd(m,life,upd){scene.add(m);FXL.push({m,t:0,life,upd});return m;}
@@ -6773,11 +6796,11 @@ function addEnemy(type,x,z,y,o={}){
   const e={type,mesh:m,dr,hp:s.hp*(EASY?(s.boss?0.38:0.46):(s.boss?0.62:0.75)),maxHp:s.hp*(EASY?(s.boss?0.38:0.46):(s.boss?0.62:0.75)),r:s.r,hc:s.hc,val:s.val,dmg:s.dmg,fly:!!s.fly,boss:s.boss,t:rnd(0,5),cd:rnd(1,3),vy:0,vel:new V3(),cp:new V3(),
     seed:rnd(0,9),hx:0,hz:0,lx:0,lz:0,dvx:0,dvz:0,mv:'run',mt:1.5,state:'chase',ang:rnd(0,6.3),sum:8,met:6,st:0,sub:0,cnt:0,hitT:0,flyT:0,dodgeCd:2,
     thrower:type==='soldier'&&Math.random()<0.35,dashSeen:0,dead:false,perch:!!o.perch,bld:o.bld||null,inv:false,guard:false};
-  enemyActionHealth(e,o);if(storyDragon()&&type==='drak'&&!o.model&&!o.mesh){e.hp=e.maxHp=sc1EasyDungeon1120()?690:EASY?1800:2400;e.storyArmor1119=true;}EN.push(e);if(type==='bigslime')e.sc=8.8;{const z=o.model?0:{ship:1.5,battleship:1.4,airship:1.3,bigairship:2.3,hero:0.65,priest:0.7,goblin:0.72,drak:2.0,orccart:0.8,orctank:0.52,kraken:1.05}[type];if(z){e.sc=z;e.r*=z;e.hc*=z;}}if(s.boss&&state==='play'){cutin(PTE[type]||s.ic,s.boss.replace(/^\S+\s/,''),'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');bossZoom(e);}return e;
+  enemyActionHealth(e,o);if(storyDragon()&&type==='drak'&&!o.model&&!o.mesh){e.hp=e.maxHp=sc1EasyDrak1120()?690:EASY?1800:2400;e.storyArmor1119=true;}EN.push(e);if(type==='bigslime')e.sc=8.8;{const z=o.model?0:{ship:1.5,battleship:1.4,airship:1.3,bigairship:2.3,hero:0.65,priest:0.7,goblin:0.72,drak:2.0,orccart:0.8,orctank:0.52,kraken:1.05}[type];if(z){e.sc=z;e.r*=z;e.hc*=z;}}if(s.boss&&state==='play'){cutin(PTE[type]||s.ic,s.boss.replace(/^\S+\s/,''),'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');bossZoom(e);}return e;
 }
 function hitEnemy(e,n){if(e.dead||e.slimeDigestHeld)return;
   if(e.type==='sandworm'&&n>0)n=Math.min(n,e.maxHp*.19);
-  if(e.storyArmor1119&&n>0)n=sc1EasyDungeon1120()&&e.type==='drak'?Math.min(n*(sc1DrakOpen1120(e)?1.85:1),e.maxHp*.36):Math.min(n*.65,e.maxHp*.26);if(sc1EasyGolem1120()&&e.type==='biggolem'&&e.boss&&e.paceSlamUntil1120>e.t&&n>0)n*=1.4;
+  if(e.storyArmor1119&&n>0)n=sc1EasyDrak1120()&&e.type==='drak'?Math.min(n*(sc1DrakOpen1120(e)?1.85:1),e.maxHp*.36):Math.min(n*.65,e.maxHp*.26);if(sc1EasyGolem1120()&&e.type==='biggolem'&&e.boss&&e.paceSlamUntil1120>e.t&&n>0)n*=1.4;
   if(e.inv||BTK.on){burst(cpos(e),3,GOLD,2,8,0.2);sfx('clang',e.mesh.position,0.5);return;}
   if(e.guard){n*=0.15;burst(cpos(e),3,[0x80c0ff,0xffffff],2.5,8,0.25);sfx('clang',e.mesh.position,0.4);}
   if(e.type==='bigslime'&&n>=1.5&&!(e.spT>e.t)){e.spT=e.t+(e.spCd||0.2);slimeSpawn(e,n>=30?7:n>=10?5:3);}if(e.barT>0){n*=0.25;if(Math.random()<0.3)burst(cpos(e),3,GOLD,2.5,8,0.25);}if(e.cave&&e.type==='hero'&&!CAVE.flee&&e.hp-n<e.maxHp*0.3){e.hp=e.maxHp*0.3;caveFlee();return;}e.hp-=n;e.hitT=0.14;
@@ -6914,7 +6937,7 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);if(dt>0&&!BTK.on)o
       const w=e.mesh.userData.w,a=Math.sin(e.t*18)*0.9;w.R.rotation.z=a;w.L.rotation.z=-a;if(e.mesh.userData.bh)s1Flap(e,a);
       if(e.type==='imp'&&e.cd<=0&&hd<90){e.cd=rnd(3,5);shootAtP(p.clone(),70,{mat:MAT.dfire,size:0.8,r:1.2,dmg:6,life:3,trail:PURP,col:PURP});}
       if(d3<e.r+4)hurt(e.dmg*dt,true);break;}
-    case 'drak':case 'ogre':case 'gdrake':{if(e.king||e.gen){orcBossAI(e,dt,dx,dz,hd,d3);break;}if(storyDragon()&&DUN.on&&e.type==='drak'&&drakStrike1120(e,dt,hd,d3))break;grav(e,dt);walk(e,P.pos.x,P.pos.z,hd>(e.type==='drak'&&sc1EasyDungeon1120()?15:22)?(e.type==='gdrake'?17:e.type==='drak'&&sc1EasyDungeon1120()?11:6.5):0,dt);animWalk(e,4);
+    case 'drak':case 'ogre':case 'gdrake':{if(e.king||e.gen){orcBossAI(e,dt,dx,dz,hd,d3);break;}if(storyDragon()&&DUN.on&&e.type==='drak'&&drakStrike1120(e,dt,hd,d3))break;grav(e,dt);walk(e,P.pos.x,P.pos.z,hd>(e.type==='drak'&&sc1EasyDrak1120()?15:22)?(e.type==='gdrake'?17:e.type==='drak'&&sc1EasyDrak1120()?11:6.5):0,dt);animWalk(e,4);
       if(e.cd<=0&&hd<150){e.cd=rnd(3.5,5);const f=cpos(e).clone();f.y+=7*(e.type==='drak'?1.3:1);shoot(f,lob(f,tmp2.copy(P.pos).addScaledVector(P.vel,0.8),55,30),{geo:'rock',mat:MAT.rock,size:1.8*(e.type==='drak'?1.3:1),r:2.2,splash:6,dmg:16,grav:30,life:6,col:[0x999080,0xbbaa90]});if(e.mesh.userData.armR)e.mesh.userData.armR.rotation.x=-2.5;else bubble(e,e.type==='gdrake'?'ガオーッ！':'ウガー！','shout',1);}
       if(e.mesh.userData.armR)e.mesh.userData.armR.rotation.x*=Math.max(0,1-dt*3);
       if(d3<e.r+5*(e.type==='drak'?1.3:1))hurt(e.dmg*dt,true);break;}
@@ -8058,7 +8081,7 @@ $('scpGo').addEventListener('click',()=>{const n=SCP.n;scpClose();if(n!==SCN)scn
 addEventListener('keydown',e=>{if(!SCP.open)return;if(e.code==='Escape')scpClose();e.stopImmediatePropagation();},true);
 addEventListener('keyup',e=>{if(SCP.open)e.stopImmediatePropagation();},true);
 document.addEventListener('visibilitychange',()=>{if(SCP.open){if(document.hidden){clearInterval(SCP.tm);SCP.tm=0;}else scpTimer();}});
-function curWaves(){const W=STAGES[stage].waves;if(!W[0].cave)return W;const d=caveOK();return W.filter(w=>d?!w.nodrg:!(w.cave||w.drg));}
+function curWaves(){const W=STAGES[stage].waves;if(sc1GuardianStory1120())return SC1_GUARDIAN_WAVES_1120;if(sc1GuardianMaze1120())return sc1GuardianMazeWaves1120(W);if(!W[0].cave)return W;const d=caveOK();return W.filter(w=>d?!w.nodrg:!(w.cave||w.drg));}
 /* ---- 第1章の最初：ねぐらの洞窟で勇者の一行と戦う（竜のキャラだけ） ---- */
 const CAVE={on:false,g:null,x:0,z:0,y:0,R:125,hy:0.56,flee:false,out:false,t:0,bar:6};
 function caveOK(){return SCN===1&&['dragon','wyvern','ground'].includes(charKey);}
@@ -8468,7 +8491,9 @@ function valleyRoyalPatrol(){
  P.pos.set(origin.x,floorAt(origin.x,origin.z)+7,origin.z);P.vel.set(0,0,0);P.yaw=P.lastYaw=Math.PI;P.pitch=P.roll=0;P.rockPrev1119=null;
  D.g.position.copy(P.pos);ORB.on=0;
  const actors=slots.map(({from,to,row},i)=>{
-  const e=addEnemy(row.type,from.x,from.z,undefined,row.model?{model:row.model}:{});
+  const captain=row.model==='captain',model=captain&&MODEL[ROYAL_CAPTAIN_1120]?.skin?ROYAL_CAPTAIN_1120:row.model;
+  const e=addEnemy(row.type,from.x,from.z,undefined,model?{model}:{});
+  if(captain&&model===ROYAL_CAPTAIN_1120){e.mesh.userData.royalCaptainLook1120=model;okuRecord(e.mesh,e.mesh,'valley','captain',model);}
   e.royalPatrol=true;e.royalMarch1119=true;
   const hp=row.model==='captain'?(EASY?900:1200):row.type==='cannon'?(EASY?550:720):row.type==='archer'?(EASY?240:320):(EASY?280:360);
   e.hp=e.maxHp=Math.max(e.maxHp,hp);e.cd=2.2;e.thrower=false;e.mesh.rotation.y=0;
@@ -8482,24 +8507,28 @@ function valleyRoyalPatrol(){
  const tick=dt=>{
   time+=dt;
   for(const a of actors){
-   const t=clamp((time-a.start)/(20/5.5),0,1),p=a.e.mesh.position;
+   const t=rigSm(clamp((time-a.start)/ROYAL_APPROACH_1120,0,1)),p=a.e.mesh.position,x=p.x,z=p.z;
    p.lerpVectors(a.from,a.to,t);
    const spread=rigSm((time-3.4)/1.2);
    p.x+=Math.sign(a.row.lane)*(marchScope1120()?(a.row.type==='soldier'?1.2:a.row.type==='archer'?2:.8):(a.row.type==='soldier'?4:a.row.type==='archer'?8:2))*spread;
-   p.y=floorAt(p.x,p.z);if(t>0&&t<1){a.e.t+=dt;animWalk(a.e,5.5);}
+   p.y=floorAt(p.x,p.z);
+   const step=dt>0?Math.hypot(p.x-x,p.z-z):0;
+   if(dt>0&&step>.004){const facing=clamp(Math.atan2(p.x-x,Math.max(.035,p.z-z)),-.55,.55);a.e.mesh.rotation.y+=(facing-a.e.mesh.rotation.y)*Math.min(1,dt*6);}
+   else a.e.mesh.rotation.y*=1-Math.min(1,dt*5);
+   royalStride1120(a.e,step,dt);
   }
   valleyRoyalView(actors,view,f,side,time);
   if(time>=5.2)arrived();if(spoken&&!TK.cur&&!TK.q.length)presentationEnd(owner);
  };
  const finish=()=>{
-  for(const a of actors){a.e.cd=Math.max(1.8,a.e.cd);a.e.royalMarch1119=false;}
+  for(const a of actors){a.e.cd=Math.max(1.8,a.e.cd);a.e.royalMarch1119=false;royalStrideFinish1120(a.e);}
   if(window.CAMOV===view)window.CAMOV=cameraBefore;
  };
  if(presentationBegin(owner,{next:false,tick,finish})){
   tick(0);window.CAMOV=view;
  }else{for(const a of actors)a.e.mesh.position.copy(a.to);finish();arrived();}
  window.royalMarch1119=()=>({scenario:SCN,stage:STAGES[stage]?.key,wave,time,phase:view.phase,framing:view.framing,
-  player:P.pos.toArray(),units:actors.map(a=>({type:a.e.type,model:a.row.model||null,hp:a.e.hp,maxHp:a.e.maxHp,dead:a.e.dead,marching:a.e.royalMarch1119,position:a.e.mesh.position.toArray(),floor:floorAt(a.e.mesh.position.x,a.e.mesh.position.z),cd:a.e.cd})),speed:5.5,approachDuration:20/5.5});
+  player:P.pos.toArray(),units:actors.map(a=>({type:a.e.type,model:a.row.model||null,hp:a.e.hp,maxHp:a.e.maxHp,dead:a.e.dead,marching:a.e.royalMarch1119,position:a.e.mesh.position.toArray(),floor:floorAt(a.e.mesh.position.x,a.e.mesh.position.z),cd:a.e.cd})),speed:20/ROYAL_APPROACH_1120,approachDuration:ROYAL_APPROACH_1120});
 }
 
 const WGRN=[0x7dff6a,0xc8ffb0,0x2fd060,0xffffff];
@@ -8685,7 +8714,39 @@ function dunPut(g,id,x,y,z,o){const M=MODEL[id];if(!M)return null;const hb=DUN.h
   const MA=DUN.maou,tn=(o.t||1);if(M.__tb!==DUN.bid||M.__tt!==tn){M.__tb=DUN.bid;M.__tt=tn;M.scene.traverse(n=>{if(n.isMesh){(Array.isArray(n.material)?n.material:[n.material]).forEach(mt=>{if(!mt.userData.c0)mt.userData.c0=mt.color.clone();mt.color.copy(mt.userData.c0);if(MA)mt.color.multiply(new THREE.Color(1.5*tn,1.0*tn,0.95*tn));else mt.color.multiply(new THREE.Color(1.4*tn,1.4*tn,1.55*tn));});}});}
   m.traverse(n=>{if(n.isMesh){n.castShadow=false;n.receiveShadow=false;}});g.add(q);q.updateMatrixWorld(true);return q;}
 // アーチ（dunarch）の奥行きと高さ
-function dunArchInfo(h,stp){if(!MODEL.dunarch)return {deep:0,H:0};const hb=DUN.hb||(DUN.hb={}),bb=hb.__a||(hb.__a=new THREE.Box3().setFromObject(MODEL.dunarch.scene)),sz=bb.getSize(new V3()),k=Math.min((stp-1)/Math.max(sz.x,sz.z),h*0.62/sz.y);return {deep:Math.min(sz.x,sz.z)*k,H:sz.y*k};}
+/* SC1_DUNGEON_MASONRY_1120 */
+function sc1DungeonScenery1120(){
+ return storyDragon()&&DUN.on&&STAGES[stage]?.key==='dungeon';
+}
+function sc1GroundScenery1120(group,kind){
+ const x=group.position.x,z=group.position.z,step=dunSt(x,z);
+ const floor=DUN.y+(step>=1?step:.5);
+ const box=new THREE.Box3().setFromObject(group);
+ if(!box.isEmpty()){
+  group.position.y+=floor-box.min.y-.025;
+  group.updateMatrixWorld(true);
+ }
+ group.userData.sc1Masonry1120=kind;
+ group.name=kind==='statue'?'groundedHallStatue':'groundedHallWallArch';
+}
+{const before=dunPut;dunPut=function(g,id){
+ const result=before.apply(this,arguments);
+ if(result&&id==='hstatue'&&sc1DungeonScenery1120())sc1GroundScenery1120(result,'statue');
+ return result;
+};}
+window.sc1DungeonMasonryProof1120=()=>{
+ if(!sc1DungeonScenery1120())return null;
+ return {
+  room:[DUN.x1-DUN.x0,DUN.z1-DUN.z0,DUN.h],
+  floor:DUN.y+.5,gates:DUN.gates.map(gate=>gate.z),
+  props:DUN.g.children.filter(o=>o.userData.sc1Masonry1120).map(o=>{
+   const box=new THREE.Box3().setFromObject(o),size=box.getSize(new V3());
+   const x=o.position.x,z=o.position.z,step=dunSt(x,z);
+   return {kind:o.userData.sc1Masonry1120,x,z,floor:DUN.y+(step>=1?step:.5),base:box.min.y,height:size.y,width:size.x,depth:size.z};
+  })
+ };
+};
+function dunArchInfo(h,stp){if(!MODEL.dunarch)return {deep:0,H:0};const hb=DUN.hb||(DUN.hb={}),bb=hb.__a||(hb.__a=new THREE.Box3().setFromObject(MODEL.dunarch.scene)),sz=bb.getSize(new V3()),k=Math.min((stp-1)/Math.max(sz.x,sz.z),h*0.62/sz.y);return {deep:Math.min(sz.x,sz.z)*k,H:sz.y*k*(sc1DungeonScenery1120()?1.36:1)};}
 // かざり：石像・たる・がれきをアーチの手前に、魔王の間はかがり火を足す
 function dunDeco(g,o,c){const w=c.w,h=c.h,gy=c.gy,z0=c.z0,z1=c.z1,cx=c.cx,MA=c.MA,n=c.n,stp=c.stp,wide=w>=140,key=(STAGES[stage]||{}).key||'';
   const gz=i=>z0+20+(i+0.5)*stp,inner=w/2-c.AR.deep,fire=(p,k)=>{const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0xff6a30,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false}));sp.scale.set(20,20,1);sp.position.copy(p);g.add(sp);DUN.tor.push({p:p.clone(),s:sp,ph:rnd(0,6),k:k||1.5});};
@@ -8693,7 +8754,7 @@ function dunDeco(g,o,c){const w=c.w,h=c.h,gy=c.gy,z0=c.z0,z1=c.z1,cx=c.cx,MA=c.M
   for(let i=0;i<n;i++){const z=gz(i);if(!wide&&z<z0+64)continue;if((o.gates||[]).some(q=>Math.abs(q-z)<14))continue;
     for(const sx of [-1,1]){if(Math.random()>fp)continue;const k=kinds[(Math.random()*kinds.length)|0];if(k==='S'&&ns>=(wide?4:3))continue;
       const x=cx+sx*(inner-(k==='S'?6.5:6)-rnd(0,1.5)),zz=z+rnd(-0.18,0.18)*stp,ry=-sx*Math.PI/2+(k==='S'?rnd(-0.25,0.25):rnd(-0.9,0.9));
-      if(k==='S'){if(dunPut(g,'hstatue',x,gy+0.5,zz,{h:wide?17:12.5,ry,t:1.1,lod:wide?0:160}))ns++;}
+      if(k==='S'){if(dunPut(g,'hstatue',x,gy+0.5,zz,{h:sc1DungeonScenery1120()?wide?24:18:wide?17:12.5,ry,t:1.1,lod:wide?0:160}))ns++;}
       else if(k==='P')dunPut(g,'hprops',x,gy+0.5,zz,{h:wide?9:8,ry,t:1.15,lod:wide?0:160});
       else dunPut(g,'hrubble',x,gy+0.5,zz,{h:wide?9:7.5,ry,t:1.15,lod:wide?0:160});}}
   if(MA&&MODEL.hbrazier){const bh=24,sw=Math.max(46,w*0.4),pts=[[sw/2+15,z0+16],[w/2-10,z0+9],[w/2-10,z1-10]];
@@ -8721,9 +8782,9 @@ function dunBuild(o){dunClear();const g=new THREE.Group(),cx=o.cx,cz=o.cz,w=o.w,
   for(const sx of [-1,1])add(new THREE.Mesh(new THREE.BoxGeometry(8,5,d-24),pm),cx+sx*(w/2-16),gy+h*0.8+2.5,cz);
   // 横のかべのアーチ柱（Tripo）：柱と柱の間ごとに1つ。かべにぴったり付けて、広間の内がわへ向ける
   if(MODEL.dunarch){const bb=new THREE.Box3().setFromObject(MODEL.dunarch.scene),sz=bb.getSize(new V3()),ct=bb.getCenter(new V3()),wide=Math.max(sz.x,sz.z),deep=Math.min(sz.x,sz.z),k=Math.min((stp-1)/wide,h*0.62/sz.y),alongX=sz.x>=sz.z;
-    for(let i=0;i<n;i++)for(const sx of [-1,1]){const c=cloneModel('dunarch');if(!c)break;const q=new THREE.Group();c.position.set(-ct.x,-bb.min.y,-ct.z);q.add(c);{const kd=Math.min(k,5/deep);if(alongX)q.scale.set(k,k,kd);else q.scale.set(kd,k,k);}
+    for(let i=0;i<n;i++)for(const sx of [-1,1]){const c=cloneModel('dunarch');if(!c)break;const q=new THREE.Group();c.position.set(-ct.x,-bb.min.y,-ct.z);q.add(c);{const kd=Math.min(k,5/deep),ky=k*(sc1DungeonScenery1120()?1.36:1);if(alongX)q.scale.set(k,ky,kd);else q.scale.set(kd,ky,k);}
       q.rotation.y=(alongX?-sx*Math.PI/2:(sx<0?0:Math.PI));c.traverse(o=>{if(o.isMesh){o.material=o.material.clone();if(MA)o.material.color.setRGB(1.5,1.0,0.95);else o.material.color.setRGB(1.45,1.45,1.6);}});
-      add(q,cx+sx*(w/2-deep*Math.min(k,5/deep)/2-0.4),gy+0.5,z0+20+(i+0.5)*stp);}}
+      add(q,cx+sx*(w/2-deep*Math.min(k,5/deep)/2-(sc1DungeonScenery1120()?5.8:0.4)),gy+0.5,z0+20+(i+0.5)*stp);if(sc1DungeonScenery1120())sc1GroundScenery1120(q,'wall-arch');}}
   // 奥のかべ：青く光る窓3つ、階段と見はり台、扉
   for(const k of o.door===1?[-1,1]:[-1,0,1]){{const wh=Math.max(16,h*0.28);if(!dunPut(g,'hwindow',cx+k*w*0.3,gy+h*0.76-wh/2,z0+1.4,{h:wh,t:1.25}))add(new THREE.Mesh(new THREE.PlaneGeometry(9,17),new THREE.MeshBasicMaterial({color:0xa8d4ff})),cx+k*w*0.3,gy+h*0.76,z0+0.6);}
     const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:GT,color:0x7ab0ff,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending,depthWrite:false}));gl.scale.set(46,46,1);gl.position.set(cx+k*w*0.3,gy+h*0.74,z0+4);g.add(gl);}
@@ -8955,7 +9016,7 @@ function kimg(D,A){if(A)D.forEach((q,j)=>{if(A[j])q.img=A[j];});return D;}
 function showStory(i,ending,fromClear){document.body.classList.remove('escape-paper-cut');state='story';TK.q.length=0;TK.cur=null;const S=STAGES[i];
   const ch=ending?'エピローグ':S.ch+'　'+S.place,t=ending?(ENDT[SCN]||'空の王'):S.title,key=ending?'end':S.key,L=ending?(ENDS[SCN]||ENDING):(S.storyN&&!caveOK()?S.storyN:S.story);
   let sl=L.map((l,j)=>({img:(SCN>=11?S.key+'_1':null)||(!ending&&L===S.story&&S.simg&&S.simg[j])||(ending&&ENDIMG[SCN]&&ENDIMG[SCN][j])||key+'_'+Math.min(j+1,3),ch,t,l}));
-  const dlg=(L2,img,ch2,t2)=>L2.map(([who,l])=>({img,ch:ch2,t:t2,l,who}));
+  const dlg=(L2,img,ch2,t2)=>(storyDragon()?L2.filter(([who])=>who!=='長老'):L2).map(([who,l])=>({img,ch:ch2,t:t2,l,who}));
   // 章のはじめの掛け合い（前は戦いながら出していた1つ目の会話）
   if(!ending){const w0=((TALKS[S.key]||{}).w||[])[0];if(w0&&!(S.storyN&&caveOK()))sl=sl.concat(kimg(dlg(w0,key+'_'+(TALKPIC[key]||3),ch,t),(KIMG[key]||{}).w));}
   if(!ending&&i===0&&SCN===1)sl=PROLOGUE.concat(sl);
@@ -9076,19 +9137,19 @@ $('title').addEventListener('click',()=>{const t=$('title');if(t.dataset.off||!R
  ['touchstart','pointerdown'].forEach(ev=>document.addEventListener(ev,()=>document.querySelectorAll('#title video').forEach(kvTry),{passive:true,capture:true}));}
 let bannerT=0,speechT=0;
 function banner(t,s){$('banner').textContent=t;$('banner').style.opacity=1;bannerT=s;}
-function say(who,t){talk([[who,t]],{event:false});
+function say(who,t){if(state==='play'&&storyDragon())return;talk([[who,t]],{event:false});
   const ty={勇者:'hero',魔王:'demon',ライバル:'rival',古の竜:'elder',王:'walker',王国の技師:'wooddragon',魔術師:'wizard',黒い騎士:'bknight'}[who];
   const e=ty&&EN.find(x=>x.type===ty&&!x.dead&&(ty!=='wizard'||x.giant));if(e)bubble(e,t,'boss',3);}
 /* ---- 会話：顔の絵・名前・セリフを1行ずつ出す（ゲームは止めない） ---- */
-const TPT={オークキング:'orcking',長老:'villager',兵隊長:'army',王国の技師:'engineer',王:'king',勇者:'hero',魔王:'demon',ライバル:'rival',古の竜:'elder',魔術師:'wizard'};
+const TPT={オークキング:'orcking',長老:'villager',兵隊長:'army',王国の隊長:'captain',王国の技師:'engineer',王:'king',勇者:'hero',魔王:'demon',ライバル:'rival',古の竜:'elder',魔術師:'wizard'};
 const TBOSS={勇者:'hero',魔王:'demon',ライバル:'rival',古の竜:'elder',王:'walker',王国の技師:'wooddragon',魔術師:'wizard',黒い騎士:'bknight'};
 const TK={q:[],cur:null,t:0,n:0};
 const lineDur=t=>Math.min(5.5,1.7+t.length*0.075);const talkDur=L=>L.reduce((a,l)=>a+lineDur(l[1]),0);
 function talk(L){TK.q.push(...L);}
 function updTalk(dt){const el=$('talk');if(state!=='play'){if(TK.cur||TK.q.length){TK.q.length=0;TK.cur=null;voStop();}el.style.display='none';return;}
   if(!TK.cur||TK.t>=Math.max(lineDur(TK.cur[1]),TK.vd||0)){if(TK.cur&&!TK.q.length){TK.cur=null;el.style.display='none';return;}if(!TK.q.length)return;
-    TK.cur=TK.q.shift();TK.t=0;TK.n=0;const [w,tx]=TK.cur,me=w==='ME',nm=me?C.name:(w==='ライバル'?'ブラックドラゴン':w),pt=me?charKey:(TPT[w]||'');
-    el.classList.toggle('me',me);el.classList.toggle('ex',/[！!]/.test(tx));el.querySelector('img').onerror=function(){this.style.display='none';};el.querySelector('img').src=pt?`chara/${pt}.webp`:'';el.querySelector('img').style.display=pt?'':'none';el.querySelector('.tn').textContent=nm;el.querySelector('.tt').textContent='';
+    TK.cur=TK.q.shift();TK.t=0;TK.n=0;const [w,tx]=TK.cur,me=w==='ME',nm=me?C.name:(w==='ライバル'?'ブラックドラゴン':w),pt=me?charKey:royalCaptainFaceKey1120(w);
+    el.classList.toggle('me',me);el.classList.toggle('ex',/[！!]/.test(tx));el.querySelector('img').onerror=function(){this.style.display='none';};el.querySelector('img').src=pt==='captain'&&SCN===1?'assets/sc1-encounters-1120/royal-captain.webp':pt?`chara/${pt}.webp`:'';el.querySelector('img').style.display=pt?'':'none';el.querySelector('.tn').textContent=nm;el.querySelector('.tt').textContent='';
     el.style.display='none';void el.offsetWidth;el.style.display='flex';
     // 声があれば声を流し、声の長さだけ文を出しておく。無ければ短い音（相手は高く、自分は低く）
     TK.vd=0;{const a=voice(w,tx);if(a)a.addEventListener('loadedmetadata',()=>{if(TK.cur&&TK.cur[1]===tx)TK.vd=Math.min(9,a.duration/(a.playbackRate||1)+0.3);});else sfx(me?'blipB':'blipA',null,0.5);}
@@ -11666,7 +11727,7 @@ function dl2Build(o){DL2.st=null;DL2.seal=null;if(!o||o.kind==='maou'||!DUN.g)re
   // ---- 壁：アーチのくぼみと柱の付いた一区画を、柱の間ごとに並べる ----
   if(MODEL.dwall){
     for(let i=g.children.length-1;i>=0;i--){const c=g.children[i],ax=Math.abs(c.position.x-cx);
-      const arch=c.isGroup&&Math.abs(ax-w/2)<6&&(Math.abs(c.scale.x-1)>1e-3||Math.abs(c.scale.z-1)>1e-3);            // 前のアーチ柱
+      const arch=c.isGroup&&c.userData.sc1Masonry1120!=='wall-arch'&&Math.abs(ax-w/2)<6&&(Math.abs(c.scale.x-1)>1e-3||Math.abs(c.scale.z-1)>1e-3); // 前のアーチ柱
       const ban=Math.abs(ax-(w/2-1.1))<0.06||(c.isMesh&&Math.abs(ax-(w/2-0.7))<0.06&&c.geometry.type==='PlaneGeometry'&&c.geometry.parameters.width<12);   // 壁にじかに付けた たれ幕
       if(arch||ban){g.remove(c);if(arch)c.traverse(q=>{if(q.isMesh&&q.material&&q.material.dispose)q.material.dispose();});}}
     const L=[],mh=wide?44:h-0.5;
@@ -26577,7 +26638,7 @@ function storyWyvernBeat(dt){
  if(j.t<1.5)return; // Let the defeated opponent finish its fall first.
  j.p.g.visible=true;const k=clamp((j.t-1.5)/1.3,0,1),e=k*k*(3-2*k);j.p.g.position.lerpVectors(j.from,storyWyvernHome(),e);j.p.g.rotation.y=P.yaw;j.p.g.rotation.x=-.18*Math.sin(k*Math.PI);
  if(!j.announced){j.announced=true;talk([['緑のワイバーン','お見事です、若。ここからは私がお供いたします']]);sfx('heal',null,.45);}
- if(j.t>=3.5){j.p.g.rotation.x=0;STORY_WYVERN.join=null;petToast('緑のワイバーンが仲間になった',2300);updLvHud();}
+ if(j.t>=3.5&&!encounterJoinLine1120()){j.p.g.rotation.x=0;STORY_WYVERN.join=null;petToast('緑のワイバーンが仲間になった',2300);updLvHud();}
 }
 function storyWyvernTick(p,dt,t){
  if(!p.storyWyvern)return false;
@@ -27051,7 +27112,7 @@ function solEncounterTick(rdt){
   D.g.rotation.set(-P.pitch,P.yaw,P.roll,'YXZ');
   if(q.kind==='wyvern'&&q.grabbing)solWyvernGrapplePose(q);
   if(!PAUSED&&!LVUP&&!document.hidden&&!q.waiting){
-   if(q.kind==='cave')solCaveFX(q,rdt);else solWyvernFX(q,rdt);
+   if(q.kind==='cave')encounterCaveQueue1120(q,rdt);else solWyvernFX(q,rdt);
   }
  }
  return previous.apply(this,arguments);
@@ -27250,15 +27311,15 @@ function refHallMasonry(o){
  if(narrow){
   // The entrance is a raised terrace. Repeated side galleries, windows and
   // arches make it readable both coming down and looking back up the stair.
-  arch(0,z1-4,12,17,3,4);
-  for(const z of [z1-59,z1-149,-40,-175])arch(0,z,30,11,2.6,3.1);
+  arch(0,z1-4,12,sc1DungeonScenery1120()?22:17,3,4);
+  for(const z of [z1-59,z1-149,-40,-175])arch(0,z,30,sc1DungeonScenery1120()?16:11,2.6,3.1);
   for(const side of [-1,1]){
    gallery(side,z1-147,z1-8,23);
    for(const z of [z1-32,z1-73,z1-114])dunPut(g,'hwindow',side*(o.w/2-3),y+26,z,{h:17,ry:-side*Math.PI/2,t:1.14,lod:155});
    dunPut(g,'hbanner',side*18,y+26,z1-3.9,{h:15,t:1.03});
-   dunPut(g,'hstatue',side*18,y+12.8,z1-62,{h:9.5,t:1,lod:130});
+   if(sc1DungeonScenery1120())dunPut(g,'hstatue',side*25,y+.5,z1-62,{h:18.5,t:1.08});else dunPut(g,'hstatue',side*18,y+12.8,z1-62,{h:9.5,t:1,lod:130});
   }
-  arch(0,z0+3,18.7,28,3.3,4.4);
+  arch(0,z0+3,18.7,sc1DungeonScenery1120()?34:28,3.3,4.4);
  }else{
   arch(0,z0+2.3,maou?36:30,maou?32:29,maou?5:4.2,6);
   for(const side of [-1,1]){
@@ -27752,8 +27813,8 @@ function presentationUI(rdt){
   const speaker=who==='ME'?C.name:(isStory?who:TK.cur?$('talk').querySelector('.tn').textContent:who);
   u.speaker.textContent=who==='N'?'':speaker;u.text.textContent=text;
   u.panel.classList.toggle('narration',!u.speaker.textContent);
-  const key=who==='ME'?charKey:TPT[who],crop=PRESENTATION_FACES[key];
-  const src=crop?'assets/sc1-polish-1120/face-'+key+'.webp':'';
+  const key=who==='ME'?charKey:royalCaptainFaceKey1120(who),crop=PRESENTATION_FACES[key];
+  const src=key==='captain'&&SCN===1?'assets/sc1-encounters-1120/royal-captain.webp':crop?'assets/sc1-polish-1120/face-'+key+'.webp':'';
   u.face.hidden=!src;u.panel.classList.toggle('no-face',!src);
   if(src&&u.portrait.getAttribute('src')!==src){u.portrait.src=src;u.portrait.alt=speaker+'の顔';}
   
@@ -27765,7 +27826,7 @@ function presentationUI(rdt){
   if(!u.toast.hidden){let bottom=12;for(const id of ['bars','map','fpPane']){const el=$(id),s=getComputedStyle(el),r=el.getBoundingClientRect();if(s.visibility!=='hidden'&&s.display!=='none'&&r.width&&r.height)bottom=Math.max(bottom,r.bottom+8);}u.toast.style.setProperty('--shout-top',Math.min(bottom,innerHeight*.55)+'px');}
  }
 }
-function presentationShout(text,life=2.2){PRESENTATION.toast={text:String(text),left:life};}
+function presentationShout(text,life=2.2){if(state==='play'&&storyDragon())return;PRESENTATION.toast={text:String(text),left:life};}
 function presentationFrame(rdt){
  presentationControls();qAcc=0;qN=0;qSkip=180;
  if(!PAUSED&&!LVUP){
@@ -27798,6 +27859,9 @@ function presentationFrame(rdt){
 {const before=updProj;updProj=function(){if(presentationHold())return;return before.apply(this,arguments);};}
 {const before=playerAttackBlocked;playerAttackBlocked=function(){return presentationHold()||before.apply(this,arguments);};}
 addEventListener('keydown',e=>{
+ if(state==='story'&&e.target?.id==='storySkip'&&['Enter','Space'].includes(e.code)){
+  e.preventDefault();e.stopImmediatePropagation();if(!e.repeat)e.target.click();return;
+ }
  if(presentationHold()&&e.target?.id==='presentationNext'&&['Enter','Space'].includes(e.code)){e.preventDefault();e.stopImmediatePropagation();if(!e.repeat)presentationNext();return;}
  if(presentationHold()&&!['Escape','KeyP','KeyM'].includes(e.code)||PRESENTATION.blockedKeys.has(e.code)){
   PRESENTATION.blockedKeys.add(e.code);keys[e.code]=false;e.preventDefault();e.stopImmediatePropagation();
@@ -27805,6 +27869,7 @@ addEventListener('keydown',e=>{
 },true);
 addEventListener('keyup',e=>{PRESENTATION.blockedKeys.delete(e.code);keys[e.code]=false;},true);
 function presentationPointerGuard(e){
+ if(state==='story'&&e.target.closest?.('#storySkip'))return;
  if(PRESENTATION.storyAdvance&&e.target?.id==='storyGo')return;
  if(presentationHold()&&!e.target.closest?.('#presentationNext,#pause,#resume,#quit,#mute,#fs,#colRules')){e.preventDefault();e.stopImmediatePropagation();}
 }
@@ -27845,6 +27910,7 @@ function sceneSpeaker1119(w){
 {const before=talk;talk=function(lines,options={}){
  const valid=[];
  for(const line of Array.isArray(lines)?lines:[]){
+  if(state==='play'&&storyDragon()&&(options.event===false||line?.[0]==='長老'))continue;
   if(!Array.isArray(line)||typeof line[1]!=='string'||!line[1].trim()){SCENE_REPAIR_1119.invalidTalk++;continue;}
   const clean=[sceneSpeaker1119(line[0]),line[1]];
   if(line.presentationEvent!==undefined)clean.presentationEvent=line.presentationEvent;
@@ -27874,7 +27940,7 @@ function sceneEncounter1119(e,kind){
 }
 {const before=cineWave;cineWave=function(){
  const key=STAGES[stage]?.key;
- const boss=EN.find(e=>!e.dead&&(key==='golem'&&e.type==='biggolem'||key==='dungeon'&&e.type==='drak'||['elder','dking'].includes(e.type)));
+ const boss=EN.find(e=>!e.dead&&(key==='golem'&&(e.type==='biggolem'||sc1GuardianStory1120()&&e.type==='drak')||key==='dungeon'&&e.type==='drak'||['elder','dking'].includes(e.type)));
  if(boss)sceneEncounter1119(boss,boss.type==='drak'?'drak':key==='golem'?'golem':'elder');
  const result=before.apply(this,arguments);
  if(boss&&['elder','dking'].includes(boss.type)&&!window.NOCINE)referenceScene1118('elder',boss,null,3.2);
@@ -28309,7 +28375,7 @@ function drakSwingClip1120(e){
  return {mixer,action};
 }
 function drakStrike1120(e,dt,hd,d3){
- const pace=sc1EasyDungeon1120();
+ const pace=sc1EasyDrak1120();
  if(pace&&sc1DrakOpen1120(e))return true;
  if(pace&&e.paceWeakUntil1120){e.paceWeakUntil1120=0;glowOff(e);}
  if(e.axeAge==null){
@@ -29261,13 +29327,15 @@ function valleyPaceHealth1120(e,hp){e.hp=e.maxHp=hp;}
  actors.forEach((e,i)=>{const row=rows[i];e.valleyPaceRoyal1120=true;if(row?.model==='captain'){e.valleyPaceCaptain1120=true;VALLEY_PACE_1120.captain=e;valleyPaceHealth1120(e,480);}else valleyPaceHealth1120(e,e.type==='cannon'?180:e.type==='archer'?85:110);});
  }return r;};}
 function valleyPaceRetreatBegin1120(){const s=VALLEY_PACE_1120;if(!s.pending||s.retreat||!valleyPaceScope1120()||state!=='play'||PRESENTATION.owner)return false;
- const actors=EN.filter(e=>!e.dead&&e.valleyPaceRoyal1120).map(e=>{const dir=e.mesh.position.clone().sub(P.pos).setY(0);if(dir.lengthSq()<.01)dir.set(0,0,-1);dir.normalize();return {e,start:e.mesh.position.clone(),dir,inv:e.inv};});
+ const actors=EN.filter(e=>!e.dead&&e.valleyPaceRoyal1120).map(e=>({e,start:e.mesh.position.clone(),inv:e.inv}));
  const q={id:'valley-army-retreat-'+(++s.serial),time:0,duration:3.4,actors,count:actors.length,dark:false};
- if(!presentationBegin(q.id,{label:'王国軍、撤退',text:`隊長が倒れた！ 残る${q.count}体は武器を下げ、谷の外へ退いていく。`,letterbox:true,next:false,tick:valleyPaceRetreatTick1120}))return false;
+ if(!presentationBegin(q.id,{label:'王国軍、撤退',text:`隊長が倒れた！ 残る${q.count}体は武器を下げ、谷の外へ退いていく。`,letterbox:true,next:false,tick:valleyPaceRetreatTick1120,finish:()=>royalRetreatFinish1120(q)}))return false;
+ royalRetreatLayout1120(q);royalRetreatView1120(q);
  s.pending=false;s.retreat=q;for(let i=PROJ.length-1;i>=0;i--)if(PROJ[i].from!=='p'){scene.remove(PROJ[i].m);PROJ.splice(i,1);}actors.forEach(a=>{a.e.inv=true;a.e.royalRetreat1120=true;});presentationClearInput();P.firing=false;return true;
 }
 function valleyPaceRetreatTick1120(dt){const s=VALLEY_PACE_1120,q=s.retreat;if(!q||PAUSED||LVUP||document.hidden)return;if(!valleyPaceScope1120()||state!=='play'){valleyPaceRetreatAbort1120();return;}q.time+=Math.min(.05,Math.max(0,dt));
- for(const a of q.actors){const e=a.e,p=e.mesh.position;p.copy(a.start).addScaledVector(a.dir,Math.min(q.time,q.duration)*8.5);p.y=floorAt(p.x,p.z);e.mesh.rotation.y=Math.atan2(a.dir.x,a.dir.z);e.t+=dt;animWalk(e,8.5);}
+ for(const a of q.actors)royalRetreatPose1120(q,a,dt);
+ royalRetreatView1120(q);
  if(q.time>=q.duration-.5&&!q.dark){q.dark=true;pacFade(1,.5);}
  if(q.time>=q.duration){for(const a of q.actors){a.e.dead=true;a.e.inv=a.inv;scene.remove(a.e.mesh);const at=EN.indexOf(a.e);if(at>=0)EN.splice(at,1);}s.retreated+=q.count;s.retreat=null;WV.maj=WV.majT=null;waveWait=1e3;presentationEnd(q.id);
   document.body.classList.add('escape-paper-cut');
@@ -29291,10 +29359,90 @@ window.valleyPaceState1120=()=>({eligible:valleyPaceScope1120(),combatSeconds:{.
 
 
 /* SC1_DUNGEON_PACE_1120 */
+/* SC1_DRAGONKIN_GUARDIAN_1120 */
+{const before=mobileWaveIds;mobileWaveIds=function(i,n){
+ if(storyDragon()&&STAGES[i]?.key==='golem'&&n===0)return ['drak'];
+ return before.apply(this,arguments);
+};}
+function sc1GuardianStory1120(){return storyDragon()&&STAGES[stage]?.key==='golem';}
+function sc1GuardianMaze1120(){return storyDragon()&&STAGES[stage]?.key==='dungeon';}
+function sc1EasyDrak1120(){return EASY&&sc1GuardianStory1120()||sc1EasyDungeon1120();}
+const SC1_GUARDIAN_MAZE_1120=new WeakMap();
+function sc1GuardianMazeWaves1120(waves){
+ if(!SC1_GUARDIAN_MAZE_1120.has(waves))SC1_GUARDIAN_MAZE_1120.set(waves,waves.slice(0,1));
+ return SC1_GUARDIAN_MAZE_1120.get(waves);
+}
+const SC1_GUARDIAN_WAVES_1120=[{
+ name:'封印の番人・よろいの竜人',msg:'🐲 よろいの竜人が、封印の扉の前に立ちふさがる！',mood:7,
+ go(){
+  const z=DUN.z0+47,e=addEnemy('drak',0,z);
+  e.mesh.position.y=dunFloorY(0,z)+.48;
+  e.die='……お前なら、扉の向こうから戻れるかもしれぬ。';
+ }
+}];
+function sc1GuardianValue1120(obj,key,value){
+ const old=Object.getOwnPropertyDescriptor(obj,key);
+ Object.defineProperty(obj,key,{configurable:true,enumerable:true,get(){
+  return storyDragon()?(typeof value==='function'?value():value):(old?.get?old.get.call(this):old?.value);
+ }});
+}
+{
+ const maze=ALLST.find(room=>room.key==='dungeon'),guard=ALLST.find(room=>room.key==='golem');
+ const end=ALLST.find(room=>room.key==='maou');
+ sc1GuardianValue1120(guard,'title','封印の番人');
+ sc1GuardianValue1120(guard,'place','番人の間');
+ sc1GuardianValue1120(maze,'story',[
+  '赤い竜とワイバーンは、洞窟の奥で古い石段を見つけた。',
+  '階段の下に広がる石の迷宮には、小鬼やスライムが住みついていた。',
+  '小鬼たちを追い払い、石の広間を抜けて奥の扉へ進む。'
+ ]);
+ sc1GuardianValue1120(guard,'story',[
+  '石の広間を抜けると、鎖で閉ざされた封印の扉が見えた。',
+  '扉を背に、古いよろいを着た竜人が立っている。封印を守る番人だ。',
+  '竜人は長い柄の斧を構えた。赤い竜は足を止め、斧の行方を見た。'
+ ]);
+ sc1GuardianValue1120(end,'story',[
+  '竜人が道をゆずり、赤い竜は鎖で閉ざされた扉へたどり着いた。',
+  '四つの赤い石から伸びた鎖が、扉を固く閉ざしている。石のそばには小悪魔が集まっていた。',
+  '四つの石を壊せば、魔王の間に入れる。'
+ ]);
+ sc1GuardianValue1120(TALKS.dungeon,'clear',[
+  ['ME','小鬼たちは片づいた。この先に、まだ別の広間があるな。']
+ ]);
+ sc1GuardianValue1120(TALKS.golem.w,0,()=>[
+  ['よろいの竜人','あの扉の向こうで仲間を失った。ここから先へは、誰も通さん。'],
+  ['ME','向こうへ行って戻る。戻ったら、仲間の話を聞かせてくれ。'],
+  ...(EASY?[['💡 ヒント','斧をかわし、胸が光ったら炎や必殺技で反撃しよう。']]:[])
+ ]);
+ sc1GuardianValue1120(TALKS.golem,'clear',[
+  ['よろいの竜人','見事だ。封印を開くなら赤い石を壊せ。……必ず、戻ってこい。']
+ ]);
+}
+{const before=storyArt1120Deck;storyArt1120Deck=function(key,lines){
+ const deck=before.apply(this,arguments);
+ if(!storyDragon())return deck;
+ return deck.map(line=>{
+  if(/^dungeon_[123c]$/.test(line.img)||key==='dungeon'&&line.img==='story-dragonkin')
+   return {...line,img:'dungeon_1'};
+  if(/^golem_[123c]$/.test(line.img)||line.img==='story-golem-gate'||key==='golem'&&line.img==='story-dragonkin')
+   return {...line,img:key==='maou'?'story-sealed-door':'story-dragonkin'};
+  return line;
+ });
+};}
+{const before=firstplayMission;firstplayMission=function(){
+ if(sc1GuardianStory1120()&&EN.some(e=>!e.dead&&e.type==='drak'))return '目的：封印の扉を守る竜人を倒す';
+ return before.apply(this,arguments);
+};}
+window.sc1GuardianProof1120=()=>({
+ key:STAGES[stage]?.key,title:STAGES[stage]?.title,stage,wave,checkpoint:CKPT?.stage,
+ waveNames:curWaves().map(w=>w.name),
+ living:EN.filter(e=>!e.dead).map(e=>({type:e.type,hp:e.hp,z:e.mesh.position.z})),
+ door:DUN.door?{open:DUN.door.open,exit:!!DUN.door.exit}:null
+});
 function sc1EasyDungeon1120(){return EASY&&storyDragon()&&STAGES[stage]?.key==='dungeon';}
 function sc1EasyGolem1120(){return EASY&&storyDragon()&&STAGES[stage]?.key==='golem';}
 function sc1DrakOpen1120(e){
- return sc1EasyDungeon1120()&&e.type==='drak'&&(e.paceWeakUntil1120||0)>e.t;
+ return sc1EasyDrak1120()&&e.type==='drak'&&(e.paceWeakUntil1120||0)>e.t;
 }
 function sc1DrakExpose1120(e){
  e.paceWeakUntil1120=e.t+2.6;
@@ -29648,7 +29796,7 @@ function sc1BossKind1120(e){
  const chapter=STAGES[stage]?.key;
  if(chapter==='valley'&&e.type==='sandworm')return 'sandworm';
  if(chapter==='valley'&&e.wyv)return 'wyvern';
- if(chapter==='dungeon'&&e.type==='drak')return 'drak';
+ if((chapter==='dungeon'||sc1GuardianStory1120())&&e.type==='drak')return 'drak';
  if(chapter==='golem'&&e.type==='biggolem')return 'golem';
  if(chapter==='maou'&&e.type==='demon')return 'demon';
  return null;
@@ -29837,7 +29985,7 @@ function sc1BossArtTick1120(dt){
 };}
 {const before=startWave;startWave=function(){
  if(storyDragon()){
-  const kind={valley:'wyvern',dungeon:'drak',golem:'golem',maou:'demon'}[STAGES[stage]?.key];
+  const kind={valley:'wyvern',dungeon:'drak',golem:sc1GuardianStory1120()?'drak':'golem',maou:'demon'}[STAGES[stage]?.key];
   if(kind){sc1BossImage1120(kind,'hit');sc1BossImage1120(kind,'down');}
  }
  return before.apply(this,arguments);
@@ -30019,10 +30167,105 @@ window.wyvernArrivalProof1120=()=>{
   green:q.e.mesh.position.toArray(),red:P.pos.toArray()};
 };
 
+/* SC1_ROYAL_STRIDE_1120 */
+const ROYAL_APPROACH_1120=4.25;
+const ROYAL_CAPTAIN_1120='kingdom_banner_captain_1117';
+function royalCaptainFaceKey1120(who){
+ return SCN===1&&who==='兵隊長'?'captain':TPT[who]||'';
+}
+function royalStrideMixer1120(e){
+ const mesh=e.mesh;
+ return mesh.userData.mix||(e.type==='cannon'?mesh.children.find(o=>o.userData.mix)?.userData.mix:null);
+}
+function royalStride1120(e,step,dt,running=false){
+ const u=e.mesh.userData,mix=royalStrideMixer1120(e);
+ e.royalTravel1120=(e.royalTravel1120||0)+step;
+ if(dt>0&&step>.003)e.t+=dt;
+ if(e.type==='cannon'&&dt>0)e.mesh.rotation.z=Math.sin(e.royalTravel1120*3.9)*Math.min(.022,step/dt*.003);
+ if(!mix||!mix.loco||!/(walk|run)/i.test(mix.loco.name)){
+  if(u.legL){animWalk(e,running?14:8);if(!step){u.legL.rotation.x*=.65;u.legR.rotation.x*=.65;}}
+
+  return;
+ }
+ const span=/run/i.test(mix.loco.name)?3.65:e.type==='archer'?2.18:2.36;
+ let stepper=mix.royalStride1120;
+ if(!stepper){
+  const gait=mix.acts[mix.loco.name],idle=mix.idle&&mix.acts[mix.idle.name];
+  stepper=mix.royalStride1120={gait,idle,span,time:mix.loco.duration*((e.seed*.197)%1),weight:0,target:0};
+  gait.stopFading().reset().play();
+  gait.paused=true;
+  if(idle&&idle!==gait)idle.stopFading().play();
+ }
+ const s=stepper;
+ s.time=(s.time+step/s.span*s.gait.getClip().duration)%s.gait.getClip().duration;
+ s.target=Math.min(1,(dt>0?step/dt:0)*.67);
+}
+function royalActorMix1120(o,dt){
+ const s=o.royalStride1120,weight=s.weight+(s.target-s.weight)*Math.min(1,Math.max(0,dt)*10);
+ s.weight=weight;
+ s.gait.time=s.time;
+ s.gait.setEffectiveWeight(s.idle&&s.idle!==s.gait?weight:1);
+ if(s.idle&&s.idle!==s.gait)s.idle.setEffectiveWeight(1-weight);
+ o.mx.update(dt);
+}
+function royalStrideFinish1120(e){
+ const o=e&&royalStrideMixer1120(e),s=o?.royalStride1120;
+ if(s){
+  const active=s.idle||s.gait;
+  s.gait.paused=false;
+  for(const a of [s.gait,s.idle]){if(!a)continue;if(a===active){a.stopFading().setEffectiveWeight(1).setEffectiveTimeScale(1).play();}else a.stop();}
+  o.cur=active;o.v=0;o.last=null;o.acc=0;delete o.royalStride1120;
+ }
+ if(e?.type==='cannon')e.mesh.rotation.z=0;
+}
+function royalRetreatLayout1120(q){
+ q.cameraBefore=window.CAMOV;
+ q.view={p:new V3(),t:new V3(),phase:'royal-withdrawal'};
+ q.player=[D.g,D.g.visible];
+ D.g.visible=false;
+ const units=q.actors;
+ const centre=units.reduce((p,a)=>p.add(a.start),new V3()).divideScalar(Math.max(1,units.length));
+ q.centre=centre;
+ units.forEach((a,i)=>{
+  a.yaw=a.e.mesh.rotation.y;a.turnEnd=.33+(i%4)*.044;a.speed=a.e.type==='cannon'?9.6:13.1+(i%3)*.62;
+  a.lane=Math.max(-10,Math.min(10,(a.start.x-centre.x)*.62));
+  a.dust=.19+(i%7)*.058;a.i=i;
+ });
+ window.CAMOV=q.view;
+}
+function royalRetreatPose1120(q,a,dt){
+ const p=a.e.mesh.position,age=Math.max(0,q.time-a.turnEnd);
+ const x=p.x,z=p.z,step=age-.21*(1-Math.exp(-age/.21));
+ const f=Math.min(.78,age*.24);
+ p.x=a.start.x+(q.centre.x+a.lane-a.start.x)*f;
+ p.z=a.start.z-a.speed*step;p.y=floorAt(p.x,p.z);
+ const yaw=Math.PI+Math.atan2((a.start.x-p.x)*.055,1);
+ const delta=Math.atan2(Math.sin(yaw-a.yaw),Math.cos(yaw-a.yaw));
+ a.e.mesh.rotation.y=a.yaw+delta*rigSm(q.time/a.turnEnd);
+ royalStride1120(a.e,Math.hypot(p.x-x,p.z-z),dt,true);
+ if(dt>0&&age>.13&&a.i%4===0&&q.time>a.dust){
+  a.dust=q.time+.27;
+  const at=p.clone();at.y+=.22;at.z+=.75;
+  smoke(at,2,1.05,.62,0xae9771,1.1);
+ }
+}
+function royalRetreatView1120(q){
+ const focus=q.actors.reduce((p,a)=>p.add(a.e.mesh.position),new V3()).divideScalar(Math.max(1,q.actors.length));
+ const zoom=rigSm(q.time/2.65),portrait=cam.aspect<.8;
+ const lateral=-24+14*zoom,back=portrait?53:44;
+ q.view.p.set(focus.x+lateral,floorAt(focus.x+lateral,focus.z+back)+16+(portrait?7:0)+3*zoom,focus.z+back);
+ q.view.t.set(focus.x,focus.y+1.65,focus.z-3.8);
+}
+function royalRetreatFinish1120(q){
+ if(window.CAMOV===q.view)window.CAMOV=q.cameraBefore;
+ if(q.player)q.player[0].visible=q.player[1];
+ q.actors.forEach(a=>royalStrideFinish1120(a.e));
+}
+
 /* SC1_DENSE_MARCH_1120 */
 const DENSE_MARCH_1120={hidden:null,handoffs:0};
 function marchScope1120(){return SCN===1&&charKey==='dragon'&&EASY&&STAGES[stage]?.key==='valley';}
-function marchWarm1120(){if(marchScope1120())mobileGroup('march1120',['soldier','archer','captain','bigcannon'],85);}
+function marchWarm1120(){if(marchScope1120())mobileGroup('march1120',['soldier','archer','captain',ROYAL_CAPTAIN_1120,'bigcannon'],85);}
 {const before=setupStage;setupStage=function(){const r=before.apply(this,arguments);marchWarm1120();return r;};}
 {const before=valleyRoyalColumns;valleyRoyalColumns=function(){const rows=before.apply(this,arguments);if(!marchScope1120())return rows;let foot=0,bows=0,guns=0;return rows.map(row=>{
  if(row.model==='captain')return {...row,depth:32,lane:0};
@@ -30450,6 +30693,7 @@ const wormIllustrations1120=new Set(['emerge','burrow','lunge']);
 function sandwormPrelude1120(){
  sc1BossImage1120('sandworm','hit');sc1BossImage1120('sandworm','down');
  midKami([
+  {img:'party-retreat',l:'魔法使いが杖を拾うと、三人は洞窟の出口へ駆けていった。'},
   {img:'caveworm-emerge',l:'勇者の足音が消えた。今度は宝の山の下で、何かが砂を押し上げている。'},
   {img:'caveworm-burrow',l:'砂の筋が、弧を描いて近づいてくる。'},
   {img:'caveworm-lunge',who:'ME',l:'でかい口だな。俺の寝床で朝飯にする気か？'}
@@ -30559,6 +30803,104 @@ function sandwormFight1120(e,dt){
   }
  }
  return before.apply(this,arguments);
+};}
+
+/* ENCOUNTER_READABILITY_1120 */
+function encounterJoinLine1120(){return !!([TK.cur,...TK.q].some(l=>l&&l[0]==='緑のワイバーン'&&/お供/.test(l[1])));}
+function encounterCaveQueue1120(q,dt){q.readableFX1120={dt,time:q.time};}
+{const before=solEncounterStart;solEncounterStart=function(kind,e){const r=before.apply(this,arguments);if(kind==='cave'&&solEncounter?.e===e){P.firing=false;P.flT=0;P.flTk=0;}return r;};}
+{const before=R.render;R.render=function(world,lens){
+ const q=solEncounter;
+ if(world===scene&&lens===cam&&q?.kind==='cave'&&q.readableFX1120){
+  const fx=q.readableFX1120;q.readableFX1120=null;
+  if(q.readablePainted1120!==fx.time){
+   q.readablePainted1120=fx.time;
+   D.g.updateWorldMatrix(true,true);
+   const rig=D.g.userData.flap;
+   if(rig?.rig&&rig.headB&&D.mouth?.parent){
+    if(!rig.readableMouth1120){
+     let mesh=null;D.g.traverse(o=>{if(o.isSkinnedMesh&&!mesh)mesh=o;});
+     if(mesh){
+      mesh.skeleton.update();const b3=mesh.skeleton.bones.find(b=>/tripoHead_3$/.test(b.name));
+      if(b3){
+       const base=b3.getWorldPosition(new V3()),forward=rig.headB.getWorldPosition(new V3()).sub(base).normalize(),samples=[];
+       const a=mesh.geometry.attributes,ids=new Set(mesh.skeleton.bones.map((b,i)=>/tripoHead_[345]$|^jaw$/.test(b.name)?i:-1));
+       for(let i=0;i<a.position.count;i++){
+        let weight=0;for(let k=0;k<4;k++)if(ids.has(a.skinIndex.array[i*4+k]))weight+=a.skinWeight.array[i*4+k];
+        if(weight<.65)continue;const v=new V3().fromBufferAttribute(a.position,i);mesh.boneTransform(i,v);mesh.localToWorld(v);samples.push({v,d:v.clone().sub(base).dot(forward)});
+       }
+       samples.sort((a,b)=>a.d-b.d);const tip=samples.slice(Math.floor(samples.length*.90));
+       if(tip.length){const v=tip.reduce((v,p)=>v.add(p.v),new V3()).multiplyScalar(1/tip.length);rig.readableMouth1120={bone:b3,local:b3.worldToLocal(v)};}
+      }
+     }
+    }
+    const socket=rig.readableMouth1120;
+    if(socket){const mouth=socket.bone.localToWorld(socket.local.clone());D.mouth.position.copy(D.mouth.parent.worldToLocal(mouth));D.mouth.updateWorldMatrix(true,false);}
+   }
+   for(const e of [q.e,q.k,q.m])e.mesh.updateWorldMatrix(true,true);
+   solCaveFX(q,fx.dt);
+   if(q.phase!==2||q.progress<.19||q.progress>=.91){if(BRC.m)BRC.m.visible=false;BRC.k=0;}
+  }
+ }
+ return before.apply(this,arguments);
+};}
+{const before=solEncounterCamera;solEncounterCamera=function(q){
+ const r=before.apply(this,arguments);
+ if(storyDragon()&&q.kind==='cave'&&q.phase===2){
+  const mid=P.pos.clone().lerp(q.e.mesh.position,.5),distance=cam.aspect<.85?62:43;
+  CINE.p.copy(mid).addScaledVector(q.side,-distance).addScaledVector(q.axis,4);CINE.p.y=CAVE.y+14;
+  CINE.l.copy(mid);CINE.l.y=CAVE.y+8;CINE.fov=q.fov=cam.aspect<.85?61:54;
+ }
+ return r;
+};}
+const ENCOUNTER_JOIN_1120={active:null};
+function encounterJoinCamera1120(j){
+ const a=P.pos,b=j.p.g.position,mid=a.clone().lerp(b,.5),axis=new V3(Math.sin(P.yaw),0,Math.cos(P.yaw)),side=new V3(axis.z,0,-axis.x);
+ const portrait=cam.aspect<.85,span=a.distanceTo(b),distance=portrait?Math.max(75,span*2.5):Math.max(36,span*1.25);
+ const view=ENCOUNTER_JOIN_1120.active;
+ view.p.copy(mid).addScaledVector(axis,distance*.35).addScaledVector(side,distance*.94);view.p.y=mid.y+distance*.26;
+ view.t.copy(mid).add(new V3(0,3,0));
+}
+{const before=storyWyvernBeat;storyWyvernBeat=function(dt){
+ const prior=STORY_WYVERN.join,result=before.apply(this,arguments),j=STORY_WYVERN.join;
+ if(j&&j.t>=1.5){
+  if(!ENCOUNTER_JOIN_1120.active)ENCOUNTER_JOIN_1120.active={p:cam.position.clone(),t:P.pos.clone(),previous:window.CAMOV,j};
+  encounterJoinCamera1120(j);window.CAMOV=ENCOUNTER_JOIN_1120.active;
+ }else if(ENCOUNTER_JOIN_1120.active){
+  const v=ENCOUNTER_JOIN_1120.active;if(window.CAMOV===v)window.CAMOV=v.previous;ENCOUNTER_JOIN_1120.active=null;
+ }
+ return result;
+};}
+{const before=clearWorld;clearWorld=function(){const v=ENCOUNTER_JOIN_1120.active;if(v&&window.CAMOV===v)window.CAMOV=v.previous;ENCOUNTER_JOIN_1120.active=null;return before.apply(this,arguments);};}
+window.encounterReadability1120=()=>({caveFX:solEncounter?.readablePainted1120??null,join:!!ENCOUNTER_JOIN_1120.active,line:encounterJoinLine1120(),mouth:mouthPos().toArray(),cone:BRC.m?.visible?BRC.m.position.toArray():null});
+{const before=R.render;R.render=function(world,lens){
+ const ring=(ENCOUNTER_JOIN_1120.active||solEncounter?.kind==='cave')&&world===scene&&lens===cam?RINGS.g:null;
+ if(!ring)return before.apply(this,arguments);
+ const visible=ring.visible;ring.visible=false;try{return before.apply(this,arguments);}finally{ring.visible=visible;}
+};}
+/* END_ENCOUNTER_READABILITY_1120 */
+
+{const before=storyImageV2;storyImageV2=function(key){
+ if(['sealed-gate','four-stones','follow-chain','party-retreat','royal-retreat'].includes(key))return 'assets/sc1-encounters-1120/'+key+'.webp';
+ return before.apply(this,arguments);
+};}
+{const before=storyArt1120Deck;storyArt1120Deck=function(key,lines){
+ const deck=before.apply(this,arguments);
+ if(!storyDragon())return deck;
+ if(key==='dungeon')return deck.map(line=>line.l.includes('王国軍は谷から退きました')?{...line,img:'royal-retreat'}:line);
+ if(key!=='maou')return deck;
+ const narration=ALLST.find(s=>s.key==='maou').story;
+ const cuts=[
+  ['sealed-gate','竜人が斧を下ろした。奥の鉄扉には、まだ鎖がかかっている。'],
+  ['four-stones','赤い石は四つ。どの石からも、扉のかんぬきへ鎖が伸びている。'],
+  ['follow-chain','一つずつ石を砕けば、鎖が外れる。竜は手前の石へ向き直った。']
+ ];
+ const doorChatter=TALKS.maou.w[0].map(([,text])=>text);
+ return deck.filter(line=>!doorChatter.includes(line.l)).map(line=>{
+  const index=narration.indexOf(line.l);
+  if(index>=0&&index<cuts.length)return {...line,img:cuts[index][0],l:cuts[index][1]};
+  return line.img==='story-sealed-door'?{...line,img:'sealed-gate'}:line;
+ });
 };}
 
 </script>
