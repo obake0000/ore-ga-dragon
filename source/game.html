@@ -908,11 +908,11 @@ body.presentation-event #story #stPic[src*="sc1-encounters-1120/"]{object-fit:co
 }
 
 </style>
-<style id="wormArenaPaper">body.presentation-event #story #stPic[src*="worm-arena-1120/"]{object-fit:contain!important;object-position:center!important;inset:0!important;width:100%!important;height:100%!important}
+<style id="wormArenaPaper">body.presentation-event #story #stPic:is([src*="worm-arena-1120/"],[src*="park-1120/"]){object-fit:contain!important;object-position:center!important;inset:0!important;width:100%!important;height:100%!important}
 @media (orientation:portrait),(min-height:501px){
- body.presentation-event #story:has(#stPic[src*="worm-arena-1120/"]){--paper:min(92vw,86dvh,900px);--paper-top:max(56px,calc((100dvh - var(--paper)*.666667 - 142px)/2))}
- body.presentation-event #story#story:has(#stPic[src*="worm-arena-1120/"]) .kami{aspect-ratio:3/2!important}
- body.presentation-event #story#story:has(#stPic[src*="worm-arena-1120/"]) #presentationPanel{top:calc(var(--paper-top) + var(--paper)*.666667 + 14px);min-height:0;max-height:calc(100dvh - var(--paper-top) - var(--paper)*.666667 - 23px)}
+ body.presentation-event #story:has(#stPic:is([src*="worm-arena-1120/"],[src*="park-1120/"])){--paper:min(92vw,86dvh,900px);--paper-top:max(56px,calc((100dvh - var(--paper)*.666667 - 142px)/2))}
+ body.presentation-event #story#story:has(#stPic:is([src*="worm-arena-1120/"],[src*="park-1120/"])) .kami{aspect-ratio:3/2!important}
+ body.presentation-event #story#story:has(#stPic:is([src*="worm-arena-1120/"],[src*="park-1120/"])) #presentationPanel{top:calc(var(--paper-top) + var(--paper)*.666667 + 14px);min-height:0;max-height:calc(100dvh - var(--paper-top) - var(--paper)*.666667 - 23px)}
 }
 </style></head>
 <body>
@@ -2171,6 +2171,7 @@ function updMix(dt){for(let i=MIX.length-1;i>=0;i--){const o=MIX[i];if(!o.g.pare
   if(o.pegasus){pegasusFlightMix(o,dt);continue;}
   if(o.maouFlight){maouHumanFlightMix(o,dt);continue;}
   if(o.court){courtMix(o,dt);continue;}
+  if(o.parkGuardian1120){parkGuardianMix1120(o,dt);continue;}
   if(o.royalStride1120){royalActorMix1120(o,dt);continue;}
   if(o.wolfSeat){orcWolfRiderMix(o,dt);continue;}
   if(o.arch){archangelMix(o,dt);continue;}if(o.wy3){updWy3(o,dt);continue;}if(o.rig){updRig(o,dt);continue;}
@@ -7164,6 +7165,7 @@ function bsTick(e,dt,p,half){const kd=bsKind(e);if(!kd)return;let b=e.bs;if(!b)b
   b.ox=b.dir.x*b.L*off;b.oy=b.dir.y*b.L*off;b.oz=b.dir.z*b.L*off;p.x+=b.ox;p.y+=b.oy;p.z+=b.oz;b.ry=yaw;m.rotation.y+=yaw;e._rx=b.rx0+tilt;m.rotation.x=e._rx;}
 function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);if(dt>0&&!BTK.on)orcWolfTick(dt);
   for(let i=EN.length-1;i>=0;i--){const e=EN[i];if(e.dead){EN.splice(i,1);continue;}
+    if(e.parkGuardian1120){parkGuardianAI1120(e,dt);continue;}
     if(e.type==='sandworm'){if(!BTK.on)sandwormFight1120(e,dt);continue;}
     if(e.ltBow||e.powerHeld||e.powerBound)continue;if(BTK.on){e.cd+=dt;continue;}e.t+=dt;if(e.bs)bsPre(e);{const mx=e.mesh.userData.mix,atk=e.cd>(e._pc===undefined?e.cd:e._pc)+0.3;if(mx&&mx.hit){if(!mx.fairyArt&&(atk||(e.mv!==e._pm&&e.mv&&!/run|dodge|power|choose|windup|guard/.test(e.mv))))mixOnce(mx,1.9);e._pm=e.mv;}else if(atk)e.atkT=0.35;}e.cd-=dt;e._pc=e.cd;const p=e.mesh.position,dx=P.pos.x-p.x,dz=P.pos.z-p.z,hd=Math.hypot(dx,dz)||1;
     const d3=cpos(e).distanceTo(P.pos);const half=e.hp<e.maxHp/2;
@@ -8246,17 +8248,17 @@ const PARK_STAGES=[
   ter:{park:true,dry:true,amp:.32,ox:315,oz:940,flats:[[0,-8,181,4,1]],dirt:[[0,30,125]],dirtC:0x77756b,grass:0x627459,hill:0x465c50,snow:0x87888a,trees:31,rocks:8,stacks:0,spires:0,ruins:-1,start:[0,106]},
   story:['切符売り場の先に、止まった観覧車が立っていた。門番の着ぐるみが錆びた頭を上げ、木の操り人形が物陰から飛び出した。','入口の発電器に近づけば、観覧車と門の電気が戻る。動き出した光が、管理室へ続く道を照らす。'],
   waves:[{name:'玩具の見回り',msg:'操り人形とゼンマイ機械兵が来る。黄色い発電器を探そう',mood:1,go(){parkWave(0,0);}},
-   {name:'入園口の番人',msg:'発電器を起動すると、番人の守りが切れる',mood:1,go(){parkWave(0,1);}}]},
+   {name:'巨大ぬいぐるみの門番',msg:'発電器で守りを解き、足元の琥珀色の輪から離れよう',mood:1,go(){parkWave(0,1);}}]},
  {key:'park_ride',ch:'第2章',title:'逆回転の木馬',place:'回転木馬の広場',
   ter:{park:true,dry:true,amp:.28,ox:1494,oz:-318,flats:[[0,-14,192,5,1]],dirt:[[0,-5,122]],dirtC:0x646d75,grass:0x586c67,hill:0x515766,snow:0x7c8095,trees:23,rocks:7,stacks:0,spires:0,ruins:-1,start:[0,104]},
   story:['回転木馬の電気が切れ、予備電力が警備人形に流れ込んでいる。通路にはときどき弱い火花が散った。','左右の発電器を起こすと遊具が正しく回りだす。給電が切り替わった側では、火花も飛ばなくなる。'],
   waves:[{name:'広場で踊る玩具',msg:'ピエロの跳躍と青い火花を避け、左右の発電器へ',mood:1,go(){parkWave(1,0);}},
-   {name:'木馬を守る機械',msg:'左右を起動して扉を開き、木馬番と対決',mood:1,go(){parkWave(1,1);}}]},
+   {name:'糸吊りマリオネット',msg:'左右の電源で扉を開き、青い糸の予告線を横によけよう',mood:1,go(){parkWave(1,1);}}]},
  {key:'park_control',ch:'最終章',title:'閉園放送を止めろ',place:'総合管理塔の前',
   ter:{park:true,dry:true,amp:.30,ox:-1250,oz:1805,flats:[[0,-12,196,6,1]],dirt:[[0,-10,135]],dirtC:0x756974,grass:0x626b63,hill:0x586075,snow:0x7e8597,trees:27,rocks:6,stacks:0,spires:0,ruins:-1,start:[0,106]},
   story:['管理塔は「閉園します」と繰り返していた。最後の管理アンドロイドは、誰もいないのに遊具から電力を吸い上げ続ける。','観覧車と木馬の両方へ電気を戻そう。片方を戻すごとに管理機の攻撃が減り、二つそろえば動力の盾が落ちる。'],
   waves:[{name:'最後の巡回',msg:'観覧車と木馬へ、二つの電源を戻そう',mood:1,go(){parkWave(2,0);}},
-   {name:'閉園管理機',msg:'両方の遊具が動けば、閉園管理機の盾が消える',mood:1,go(){parkWave(2,1);}}]}
+   {name:'閉園を操るマリオネットと巨大ぬいぐるみ',msg:'両方の電源で二体の盾を消し、輪と糸をよけながら両方倒そう',mood:1,go(){parkWave(2,1);}}]}
 ];
 ALLST.push(...PARK_STAGES);
 ALLST.push(...FAIRY_STAGES);SCK[10]=FAIRY_STAGES.map(s=>s.key);SCNM[10]='妖精の国編';
@@ -16122,7 +16124,7 @@ function parkReceivedArt1118(parent){
  if(STAGES[stage]?.key!=='park_ride')return;
  const mount=new THREE.Group();mount.name='parkReceived:root';parent.add(mount);
  const pavilion='park_bumper_pavilion_1117',fence='park_fence_corner_1117';
- const addPavilion=()=>parkExpansionArt(mount,pavilion,139,117,12,-.25,false);
+ const addPavilion=()=>parkExpansionArt(mount,pavilion,103,145,20,-.25,false);
  const addCorners=()=>{
   parkExpansionArt(mount,fence,-112,104,3.8,Math.PI/2,false);
   parkExpansionArt(mount,fence,112,104,3.8,Math.PI,false);
@@ -25149,9 +25151,9 @@ const PARK={
  woodRot:mat(0x544b43),glass:mat(0xb0a47e),iron:mat(0x554952),cloth:new THREE.ConeGeometry(1,1,8)
 };
 const PARK_PLAN=[
- {switches:[[-38,48]],rides:[['wheel',-70,-64]],gate:[0,-36],boss:['park_mascot','入園口の着ぐるみ番人',-70,2.1]},
- {switches:[[-39,47],[39,23]],rides:[['carousel',-68,-57],['carousel',70,-77]],gate:[0,-37],boss:['park_clown','木馬を守るピエロ',-63,3.3]},
- {switches:[[-60,39],[59,17]],rides:[['wheel',-69,-77],['carousel',73,-86]],gate:[0,-44],boss:['park_android','閉園管理アンドロイド',-93,1.2]}
+ {switches:[[-38,48]],rides:[['wheel',-70,-64]],gate:[0,-36],boss:['plush','巨大ぬいぐるみの門番',-70,2.1]},
+ {switches:[[-39,47],[39,23]],rides:[['carousel',-68,-57],['carousel',70,-77]],gate:[0,-37],boss:['jester','糸吊りマリオネット',-63,3.3]},
+ {switches:[[-60,39],[59,17]],rides:[['wheel',-69,-77],['carousel',73,-86]],gate:[0,-44],boss:['jester','閉園を操るマリオネット',-91,1.95],partner:['plush','巨大ぬいぐるみ',-83,.66]}
 ];
 const PARK_SKY=[
  mood(0x454658,0xa68488,0xffd4a8,1.15,1.02,.16,[.5,.7,.3],false),
@@ -25221,7 +25223,7 @@ function parkRideArt(root,id,height,centered){
  return true;
 }
 function parkRide(kind,x,z){
- const g=new THREE.Group(),moving=new THREE.Group(),wheel=kind==='wheel',height=wheel?102:25;
+ const g=new THREE.Group(),moving=new THREE.Group(),wheel=kind==='wheel',height=wheel?108:30;
  g.name='park:'+kind;g.position.set(x,H(x,z),z);g.add(moving);
  if(wheel){
   g.rotation.x=.12;moving.position.y=60;
@@ -25306,7 +25308,7 @@ function parkSceneryArt(g,id,x,z,height,yaw=0){
  COLS.push({t:1,x,z,c:1,s:0,hw:d.x*.37,hd:d.z*.38,y0:b.min.y,y1:b.min.y+d.y*.91,wk:1});
  return true;
 }
-function parkTicket(g,x,z,height){
+function parkTicket(g,x,z,height){height*=1.55;if(Math.abs(x)<70)x=Math.sign(x)*70;
  if(parkSceneryArt(g,'park_ticketbooth_1117',x,z,height,(x<0?.3:-.3))||
     parkSceneryArt(g,'stall',x,z,height*.69,(x<0?.36:-.36)))return;
  const y=H(x,z);
@@ -25391,7 +25393,7 @@ function parkSetup(){
  const i=PARK_STAGES.findIndex(s=>s.key===STAGES[stage]?.key),plan=PARK_PLAN[i];
  if(!plan)return;
  PARK.current={i,plan,switches:plan.switches.map(p=>parkSwitch(...p)),rides:plan.rides.map(p=>parkRide(...p)),
-  gate:parkGate(...plan.gate,i),pulses:[],clock:2.6,phase:0,boss:null};
+  gate:parkGate(...plan.gate,i),pulses:[],clock:2.6,phase:0,boss:null,guardians:[]};
  parkKiosks(i);parkToyScenery(i);parkReadout();
 }
 function parkMap(ctx,project){
@@ -25405,12 +25407,15 @@ function parkWave(i,round){
   parkToyPatrol(i,false);
   return;
  }
+ if(a.guardians.length)return;
  const [id,name,z,hk]=a.plan.boss;
- const e=s8Spawn(id,0,z,undefined,{boss:'⚙ '+name,hk});
- e.die=i===2?'閉園放送、終了。明かりを消します。':'……通行、許可……';
- const shield=parkPiece(e.mesh,PARK.hoop,new THREE.MeshBasicMaterial({color:0xffbd55,transparent:true,opacity:.72}),0,e.hc,0,e.r+2,e.r+2,e.r+2);
- shield.name='park:shield';shield.castShadow=false;
- a.boss=e;a.shield=shield;s8BossIn(e,'⚙',name);parkReadout();
+ const e=parkGuardianSpawn1120(a,id,i===2?-10:0,z,name,hk);
+ a.boss=e;a.shield=e?.parkGuardian1120.shield;
+ if(a.plan.partner){
+  const [kind,label,pz,ratio]=a.plan.partner;
+  parkGuardianSpawn1120(a,kind,15,pz,label,ratio,1.1);
+ }
+ parkGuardianIntro1120(e,name);parkReadout();
  if(i)parkToyPatrol(i,true);
 }
 function parkPulse(a,q){
@@ -25451,8 +25456,10 @@ function parkTick(dt){
   else q.moving.rotation.y+=dt*.83;
  });
  if(ready&&a.track)parkCoasterStep(a.track,dt);
- if(a.shield)a.shield.visible=!ready&&!a.boss.dead;
- if(a.i>0&&wave>=0&&(a.i<2||a.boss&&!a.boss.dead)){
+ for(const e of a.guardians){
+  const shield=e.parkGuardian1120.shield;shield.visible=!ready&&!e.dead;
+ }
+ if(a.i>0&&wave>=0&&(a.i<2||a.guardians.some(e=>!e.dead))){
   a.clock-=dt;
   if(a.clock<=0){
    a.clock=a.i===1?3.7:2.85;
@@ -25481,7 +25488,8 @@ function parkTick(dt){
  const clear=clearWorld;clearWorld=function(){
   for(const q of PARK.current?.pulses||[])q.material.dispose();
   for(const q of PARK.current?.switches||[])q.lamp.dispose();
-  PARK.current?.shield?.material.dispose();
+  if(PARK.current?.intro)presentationEnd(PARK.current.intro);
+  for(const e of PARK.current?.guardians||[])parkGuardianRelease1120(e,true);
   PARK.current=null;parkReadout();return clear.apply(this,arguments);
  };
  const start=startWave;startWave=function(){const r=start.apply(this,arguments);if(SCN===11)parkReadout();return r;};
@@ -25489,7 +25497,7 @@ function parkTick(dt){
   if(SCN===11&&win){$('ovS').textContent='閉園放送が止まり、錆びた遊園地に明かりが戻った。';$('again').textContent='キャラ選びに戻る';}return r;};
  const damage=hitEnemy;hitEnemy=function(e,n){
   const a=PARK.current;
-  if(a?.boss!==e||a.switches.every(q=>q.on))return damage.call(this,e,n);
+  if(!a||e.parkGuardian1120?.area!==a||a.switches.every(q=>q.on))return damage.call(this,e,n);
   n=Math.min(n,Math.max(0,e.hp-e.maxHp*.67));
   if(n>0)return damage.call(this,e,n);
  };
@@ -26174,6 +26182,276 @@ function venueCrowdDraw(parent,crowd,rows){
 }
 
 const PARK_TOY_HEIGHT={park_marionette:3.35,park_android:3.45,park_mascot:5.4,park_clown:3.6,park_toysoldier:3.3};
+/* PARK_RIGGED_GUARDIANS_1120 */
+const PARK_GUARDIAN_1120={
+ plush:{kind:'park_plush_guardian',id:'park_mascot_1117',height:8.2,r:4.1,damage:20,picture:'plush',tile:'plush-cloth',colour:0xe8a157},
+ jester:{kind:'park_string_guardian',id:'park_clown_1117',height:7.6,r:3.25,damage:17,picture:'marionette',tile:'jester-cloth',colour:0x92cbe6}
+};
+const PARK_GUARDIAN_TEXTURES_1120=new Map();
+for(const [type,q] of Object.entries(PARK_GUARDIAN_1120)){
+ const source=PARK_TOYS[type==='plush'?'park_mascot':'park_clown'];
+ PARK_TOYS[q.kind]=S8K[q.kind]={...source,mid:q.id,r:q.r,dmg:q.damage};
+ PARK_TOY_HEIGHT[q.kind]=q.height;
+}
+function parkGuardianTexture1120(file){
+ if(!PARK_GUARDIAN_TEXTURES_1120.has(file)){
+  const tex=new THREE.TextureLoader().load('assets/park-1120/'+file+'.webp');
+  tex.wrapS=tex.wrapT=THREE.RepeatWrapping;
+  tex.anisotropy=Math.min(4,R.capabilities.getMaxAnisotropy());
+  PARK_GUARDIAN_TEXTURES_1120.set(file,tex);
+ }
+ return PARK_GUARDIAN_TEXTURES_1120.get(file);
+}
+function parkGuardianFabric1120(e,art){
+ const materials=[],tex=parkGuardianTexture1120(art.tile);
+ e.mesh.traverseVisible(mesh=>{
+  if(!mesh.isSkinnedMesh||!mesh.material)return;
+  const geo=mesh.geometry;geo.computeBoundingBox();
+  const origin=geo.boundingBox.min.clone(),size=geo.boundingBox.getSize(new V3());
+  const patch=base=>{
+   if(!base)return base;
+   const m=base.clone(),before=base.onBeforeCompile,prior=base.customProgramCacheKey();
+   m.roughness=Math.max(m.roughness||0,.78);
+   m.metalness=Math.min(m.metalness||0,.13);
+   m.onBeforeCompile=function(shader,r){
+    before?.call(this,shader,r);
+    shader.uniforms.parkWeave1120={value:tex};
+    shader.uniforms.parkOrigin1120={value:origin};
+    shader.uniforms.parkSpan1120={value:size};
+    shader.vertexShader='varying vec3 parkClothRest1120;\n'+shader.vertexShader.replace('#include <begin_vertex>',
+      '#include <begin_vertex>\nparkClothRest1120=position;');
+    const weight=art.picture==='plush'?
+      'float keep=smoothstep(.27,.50,diffuseColor.g); float bow=(1.0-smoothstep(.11,.25,abs(p.x-.50)))*smoothstep(.56,.65,p.y); float weight=cloth*(1.0-.79*keep)*(1.0-.91*bow)*.58;':
+      'float trim=smoothstep(.48,.70,diffuseColor.r)*smoothstep(.37,.56,diffuseColor.g); float weight=cloth*(1.0-.85*trim)*.86;';
+    const stitches=art.picture==='plush'?
+      'float front=smoothstep(.59,.73,p.z); float seam=0.0; for(int k=0;k<4;k++){vec2 a=(p.xy-vec2(.433+.050*float(k),.415+.012*float(k)))*vec2(1.0,1.48);float w=1.0-smoothstep(.0035,.0065,min(abs(a.x-a.y),abs(a.x+a.y))); seam=max(seam,w*(1.0-smoothstep(.014,.020,max(abs(a.x),abs(a.y)))));}\n'+
+      'float bib=smoothstep(.17,.34,diffuseColor.g)*(1.0-smoothstep(.13,.22,abs(p.x-.50))); diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.141,.040,.014),front*bib*seam*.87);\n'+
+      'float knot=smoothstep(.58,.63,p.y)*(1.0-smoothstep(.71,.76,p.y))*(1.0-smoothstep(.15,.23,abs(p.x-.50)));float red=smoothstep(.47,.69,(diffuseColor.r-diffuseColor.g)/max(.035,diffuseColor.r));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.58,.029,.039)*depth,front*knot*red*.63);\n':'';
+    shader.fragmentShader='uniform sampler2D parkWeave1120;uniform vec3 parkOrigin1120;uniform vec3 parkSpan1120;varying vec3 parkClothRest1120;\n'+shader.fragmentShader.replace(
+      '#include <map_fragment>','#include <map_fragment>\n{vec3 p=(parkClothRest1120-parkOrigin1120)/max(parkSpan1120,vec3(.001));\n'+
+      'float cloth=smoothstep(.29,.40,p.y)*(1.0-smoothstep(.64,.73,p.y));\n'+weight+'\n'+
+      'vec2 uv=vec2(p.x*2.05+p.z*.29,p.y*2.60);vec3 fiber=pow(max(texture2D(parkWeave1120,uv).rgb,vec3(.003)),vec3(2.2));\n'+
+      'float depth=.56+.44*clamp(max(diffuseColor.r,max(diffuseColor.g,diffuseColor.b))*2.7,0.0,1.0);diffuseColor.rgb=mix(diffuseColor.rgb,fiber*depth,weight);\n'+stitches+'}');
+   };
+   m.customProgramCacheKey=()=>prior+'|parkWeave1120-'+art.picture;
+   materials.push(m);return m;
+  };
+  mesh.material=Array.isArray(mesh.material)?mesh.material.map(patch):patch(mesh.material);
+ });
+ return {materials,tex};
+}
+function parkGuardianStrings1120(e){
+ const bones={};
+ e.mesh.traverse(o=>{if(o.isBone)bones[o.name]=o;});
+ const root=new THREE.Group();root.name='park-marionette-cross';
+ const wood=new THREE.MeshStandardMaterial({color:0x825436,roughness:.85});
+ const brass=new THREE.MeshStandardMaterial({color:0xd4a760,roughness:.52,metalness:.45});
+ const bars=[new THREE.BoxGeometry(5.25,.15,.23),new THREE.BoxGeometry(.20,.16,3.10)];
+ bars.forEach((g,i)=>{const bar=new THREE.Mesh(g,i?brass:wood);root.add(bar);});
+ const ends=[[-2.47,0,-.04],[2.47,0,-.04],[0,0,1.45],[0,0,-1.44]];
+ const material=new THREE.MeshBasicMaterial({color:0xe3c6a3,transparent:true,opacity:.84});
+ const lineGeom=new THREE.CylinderGeometry(.022,.026,1,6),axis=new V3(0,1,0);
+ const cables=['bone_28','bone_9','bone_5','bone_2'].map((key,i)=>{
+  if(!bones[key])return null;
+  const rope=new THREE.Mesh(lineGeom,material);rope.name='park-marionette-string';e.mesh.add(rope);
+  return {rope,bone:bones[key],top:new V3(...ends[i])};
+ }).filter(Boolean);
+ e.mesh.add(root);
+ return {root,cables,materials:[wood,brass,material], geometries:[...bars,lineGeom],axis};
+}
+function parkGuardianStringsStep1120(e,q){
+ const s=q.strings;if(!s)return;
+ s.root.position.set(.34*Math.sin(e.t*2.05),q.art.height+3.12+.29*Math.sin(e.t*2.6),-.31);
+ s.root.rotation.set(.10*Math.sin(e.t*2.4),.16*Math.sin(e.t*1.1),.17*Math.sin(e.t*2.2));
+ e.mesh.updateWorldMatrix(true,true);
+ const a=new V3(),b=new V3(),d=new V3();
+ for(const {rope,bone,top} of s.cables){
+  e.mesh.worldToLocal(s.root.localToWorld(a.copy(top)));
+  e.mesh.worldToLocal(bone.getWorldPosition(b));
+  d.subVectors(a,b);const len=d.length();
+  rope.position.copy(a).lerp(b,.5);rope.scale.y=len;
+  if(len>1e-3)rope.quaternion.setFromUnitVectors(s.axis,d.multiplyScalar(1/len));
+ }
+}
+function parkGuardianSpawn1120(a,type,x,z,name,hk,delay=0){
+ const art=PARK_GUARDIAN_1120[type],e=s8Spawn(art.kind,x,z,undefined,{boss:(type==='plush'?'🧸 ':'🎭 ')+name,hk});
+ if(!e)return null;
+ const g=e.mesh;
+ g.name='park-guardian-'+type;
+ const q=e.parkGuardian1120={area:a,type,art,phase:'idle',age:0,clock:1.15+delay,origin:g.position.clone(),target:new V3(),
+  fabric:parkGuardianFabric1120(e,art),strings:type==='jester'?parkGuardianStrings1120(e):null};
+ e.die=type==='plush'?'……もう、眠ってもいい？':'……最後の糸が、切れた。';
+ const bubble=parkPiece(g,PARK.hoop,new THREE.MeshBasicMaterial({color:0xffbf6a,transparent:true,opacity:.62}),0,e.hc,0,e.r+1.6,e.r+1.6,e.r+1.6);
+ bubble.name='park:shield';bubble.castShadow=false;bubble.visible=!a.switches.every(s=>s.on);q.shield=bubble;
+ if(g.userData.mix)g.userData.mix.parkGuardian1120=e;
+ a.guardians.push(e);
+ parkGuardianStringsStep1120(e,q);
+ return e;
+}
+function parkGuardianIntro1120(e,name){
+ if(!e||state!=='play'||window.NOCINE)return;
+ const area=e.parkGuardian1120.area,guardians=area.guardians,paired=guardians.length>1;
+ const id='park-guardian-intro-'+area.i,view={p:new V3(),t:new V3()};
+ const prior={view:window.CAMOV,p:cam.position.clone(),q:cam.quaternion.clone(),look:camLook.clone(),fov:cam.fov};
+ const art=document.createElement('aside');
+ art.id='parkGuardianPortrait1120';
+ art.style.cssText='position:absolute;left:0;right:0;bottom:clamp(54px,13vh,105px);z-index:28;pointer-events:none;display:flex;justify-content:center;gap:12px;padding:0 12px';
+ for(const actor of guardians){
+  const q=actor.parkGuardian1120,g=actor.mesh,p=g.position;
+  g.rotation.y=Math.atan2(P.pos.x-p.x,P.pos.z-p.z);
+  const face=document.createElement('figure'),pic=document.createElement('img'),caption=document.createElement('figcaption');
+  face.style.cssText='margin:0;display:flex;align-items:center;gap:6px;color:#fbe9cf;font:bold clamp(11px,2.5vw,16px) sans-serif;text-shadow:0 2px 4px #140b06;max-width:48%;background:#1d1827e0;border:1px solid #b4916a;border-radius:7px;padding:4px 7px';
+  pic.style.cssText='width:clamp(45px,9vw,63px);height:clamp(45px,9vw,63px);border-radius:4px;object-fit:cover;flex:none';
+  pic.src='assets/park-1120/'+q.art.picture+'.webp';pic.alt='';
+  caption.textContent=actor===e?name:actor.boss.replace(/^\S+\s/,'');
+  face.append(pic,caption);art.appendChild(face);
+ }
+ let time=0;const duration=paired?2.55:2.12;
+ const hideWave=()=>{
+  for(const key of ['wvfx','wvred']){const node=$(key);if(node)node.className='';}
+  bannerT=0;$('banner').style.opacity=0;cutT=0;$('cutin').style.display='none';
+ };
+ const focus=guardians.reduce((p,o)=>p.add(o.mesh.position),new V3()).multiplyScalar(1/guardians.length);
+ const facing=new V3(clamp((P.pos.x-focus.x)/Math.max(27,Math.abs(P.pos.z-focus.z)),-.19,.19),0,1);
+ if(facing.lengthSq()<.01)facing.set(0,0,1);else facing.normalize();
+ const narrow=cam.aspect<.72;
+ const angle=paired?(narrow?.96:.42):.24,side=new V3(facing.z,0,-facing.x);
+ const direction=facing.clone().multiplyScalar(Math.cos(angle)).addScaledVector(side,Math.sin(angle));
+ const tick=dt=>{
+  time+=dt;hideWave();
+  if(state!=='play'||PARK.current!==area||time>=duration){presentationEnd(id);return;}
+  const aspect=Math.max(.42,cam.aspect),fov=paired?55:48;
+  const ratio=Math.max(1,(paired?.70:.73)/aspect);
+  const travel=(paired?31:15.4)*ratio+(1-rigSm(time/duration))*3.4;
+  view.t.copy(focus);view.t.y+=paired?5.7:e.parkGuardian1120.art.height*(e.parkGuardian1120.type==='jester'?.75:.56);
+  view.p.copy(view.t).addScaledVector(direction,travel);view.p.y+=paired?5.4:2.6;
+  view.p.z=Math.min(view.p.z,area.plan.gate[1]-7);
+  view.p.y=Math.max(view.p.y,floorAt(view.p.x,view.p.z)+2);
+  for(const actor of guardians){const p=actor.mesh.position;actor.mesh.rotation.y=Math.atan2(view.p.x-p.x,view.p.z-p.z);}
+  cam.fov=fov;cam.updateProjectionMatrix();
+ };
+ const finish=()=>{
+  art.remove();area.intro=null;
+  if(window.CAMOV===view)window.CAMOV=prior.view;
+  cam.position.copy(prior.p);cam.quaternion.copy(prior.q);camLook.copy(prior.look);cam.fov=prior.fov;cam.updateProjectionMatrix();
+ };
+ if(!presentationBegin(id,{letterbox:true,next:false,tick,finish}))return;
+ area.intro=id;
+ document.body.appendChild(art);
+ hideWave();window.CAMOV=view;tick(0);
+ cam.position.copy(view.p);cam.lookAt(view.t);cam.updateMatrixWorld(true);
+ sfx('roar',e.mesh.position,.44);
+}
+
+function parkGuardianWarning1120(e,q){
+ if(q.warning)return;
+ const material=new THREE.MeshBasicMaterial({color:q.art.colour,transparent:true,opacity:.68,side:THREE.DoubleSide,depthWrite:false});
+ const group=new THREE.Group();group.name='park-guardian-telegraph';
+ if(q.type==='plush'){
+  const ring=new THREE.Mesh(new THREE.RingGeometry(q.radius-.40,q.radius,44),material);
+  ring.rotation.x=-Math.PI*.5;ring.position.copy(q.target);ring.position.y+=.25;group.add(ring);
+ }else{
+  const direction=q.target.clone().sub(e.mesh.position).setY(0),len=direction.length();direction.normalize();
+  const slices=Math.max(1,Math.ceil(len/6));
+  for(let i=0;i<slices;i++){
+   const p=e.mesh.position.clone().addScaledVector(direction,len*(i+.5)/slices);
+   const quad=new THREE.Mesh(PARK.runway,material);
+   quad.scale.set(5,len/slices+.04,1);quad.position.set(p.x,floorAt(p.x,p.z)+.27,p.z);
+   quad.rotation.set(-Math.PI*.5,Math.atan2(direction.x,direction.z),0,'YXZ');group.add(quad);
+  }
+ }
+ scene.add(group);
+ q.warning={group,material};
+}
+function parkGuardianWarnClear1120(q){
+ if(!q.warning)return;
+ const {group,material}=q.warning;scene.remove(group);
+ if(q.type==='plush')group.children[0].geometry.dispose();
+ material.dispose();q.warning=null;
+}
+function parkGuardianAttack1120(e,q,p){
+ const aim=q.target,dist=Math.hypot(P.pos.x-aim.x,P.pos.z-aim.z);
+ if(q.type==='plush'){
+  if(dist<q.radius&&P.pos.y-C.gOff-aim.y<8)hurt(e.dmg);
+  shock(aim,0xdcb178,q.radius);
+  burst(aim.clone().add(new V3(0,.45,0)),24,[0xeac091,0xb28c65,0xd7a271],2.5,17,.54);
+  sfx('crash',aim,.72);
+ }else{
+  const from=p.clone().add(new V3(0,e.hc*.96,0)),to=q.strikeTo;
+  const geom=new THREE.BufferGeometry().setFromPoints([from,to]);
+  const silk=new THREE.Line(geom,new THREE.LineBasicMaterial({color:0xcbe7fc,transparent:true,opacity:1}));
+  fxAdd(silk,.41,(o,k)=>{o.material.opacity=1-k;});
+  const seg=new THREE.Line3(from,to);
+  if(seg.closestPointToPoint(P.pos,true,new V3()).distanceTo(P.pos)<3.3)hurt(e.dmg);
+  shock(aim,0x8fbee7,5);sfx('zap',from,.53);
+ }
+}
+function parkGuardianAI1120(e,dt){
+ const q=e.parkGuardian1120,p=e.mesh.position;
+ if(!(dt>0)||e.powerHeld||e.powerBound||BTK.on)return;
+ e.t+=dt;e.hitT=Math.max(0,(e.hitT||0)-dt);e.flT=Math.max(0,(e.flT||0)-dt);
+ const hasPower=q.area.switches.every(s=>s.on),dx=P.pos.x-p.x,dz=P.pos.z-p.z,distance=Math.hypot(dx,dz);
+ const stage=q.area.i;
+ if(q.phase==='idle'){
+  faceP(e);q.clock-=dt;q.moving=false;
+  if(hasPower&&distance>(q.type==='plush'?13.5:18)&&distance<57&&p.distanceToSquared(q.origin)<40**2){
+   const px=p.x,pz=p.z;
+   walk(e,P.pos.x,P.pos.z,q.type==='plush'?6.1:5.1,dt);q.moving=Math.hypot(p.x-px,p.z-pz)>.003;
+  }
+  if(q.clock<=0&&distance<(q.type==='plush'?26:64)){
+   q.phase='warning';q.age=0;q.moving=false;q.radius=stage===2?9.7:10.8;
+   q.target.copy(P.pos);
+   if(q.type==='plush'){
+    const dir=q.target.clone().sub(p).setY(0);
+    if(dir.length()>16)dir.setLength(16);
+    q.target.copy(p).add(dir);
+   }
+   q.target.y=floorAt(q.target.x,q.target.z)+.14;
+   q.strikeTo=P.pos.clone();
+   if(q.type==='jester')q.strikeTo.addScaledVector(q.strikeTo.clone().sub(p).normalize(),4);
+   parkGuardianWarning1120(e,q);
+  }
+ }else{
+  q.age+=dt;
+  if(q.phase==='warning'){
+   const delay=q.type==='plush'?1.08:.97;
+   if(q.warning)q.warning.material.opacity=.40+.39*clamp(q.age/delay,0,1);
+   if(q.age>=delay){
+    q.phase='impact';q.age=0;parkGuardianWarnClear1120(q);parkGuardianAttack1120(e,q,p);
+   }
+  }else if(q.age>.65){q.phase='idle';q.age=0;q.clock=q.type==='plush'?1.55:1.76;}
+ }
+ p.y=floorAt(p.x,p.z)+(q.type==='jester'?.9+.30*Math.sin(e.t*3.2)+(q.phase==='impact'?.46:0):0);
+}
+function parkGuardianMix1120(o,dt){
+ const e=o.parkGuardian1120,q=e.parkGuardian1120;
+ const clip=q.phase==='idle'?(q.moving?o.loco:o.idle||o.loco):o.hit||o.loco;
+ const a=o.acts[clip.name];
+ if(a!==o.cur){o.cur.stop();a.reset().play();o.cur=a;}
+ a.paused=q.phase!=='idle';
+ if(a.paused){
+  const lead=q.type==='plush'?1.08:.97;
+  const progress=q.phase==='warning'?.10+.47*clamp(q.age/lead,0,1):.57+.39*clamp(q.age/.65,0,1);
+  a.time=clip.duration*progress;
+ }else a.setEffectiveTimeScale(q.moving?.93:.76);
+ o.mx.update(dt);
+ parkGuardianStringsStep1120(e,q);
+}
+function parkGuardianRelease1120(e,full){
+ const q=e?.parkGuardian1120;if(!q)return;
+ parkGuardianWarnClear1120(q);
+ if(!full||q.released)return;q.released=true;
+ q.shield?.material.dispose();
+ q.fabric.materials.forEach(m=>m.dispose());
+ q.strings?.materials.forEach(m=>m.dispose());
+ q.strings?.geometries.forEach(g=>g.dispose());
+}
+
+for(const key of ['park_entry','park_ride','park_control']){
+ const list=MOBILE_DEPS.stages[key]||[];
+ MOBILE_DEPS.stages[key]=[...new Set([...list,PARK_GUARDIAN_1120.plush.id,PARK_GUARDIAN_1120.jester.id])];
+}
+{const before=killEnemy;killEnemy=function(e,quiet){if(e?.parkGuardian1120)parkGuardianRelease1120(e,false);return before.apply(this,arguments);};}
 function parkFitActor(e,key){
  const g=e.mesh,holder=g.children.at(-1);
  if(!holder?.isGroup||!e.mesh.userData.mix)return;
@@ -26360,7 +26638,7 @@ function archangelSacredWeaponDispose(o){
 const PARK_EXPANSION_1117={root:null,instances:[],colliders:[],counts:{}};
 function parkExpansionArt(parent,id,x,z,height,yaw,collide=true){
  if(!MODEL[id])return null;
- const root=new THREE.Group();root.name='parkExpansion:'+id;root.position.set(x,H(x,z),z);root.rotation.y=yaw;
+ const root=new THREE.Group();root.name='parkExpansion:'+id;const ground=parkSceneryBase1120(id,x,z,height,yaw);if(id==='park_coaster_support_1117')height=Math.max(8,height-(ground-H(x,z)));root.position.set(x,ground,z);root.rotation.y=yaw;
  if(!parkRideArt(root,id,height,false))return null;
  parent.add(root);root.updateWorldMatrix(true,true);const b=new THREE.Box3().setFromObject(root),size=b.getSize(new V3()),center=b.getCenter(new V3());
  if(collide&&size.x>0&&size.z>0){const col={t:1,x:center.x,z:center.z,c:1,s:0,hw:size.x*.42,hd:size.z*.42,y0:b.min.y,y1:b.max.y,wk:1};COLS.push(col);PARK_EXPANSION_1117.colliders.push(col);}
@@ -26469,15 +26747,15 @@ function parkExpansionTrack(parent){
  PARK.current.track=parkCoasterTrain(parent,curve);
 }
 function parkExpansionSetup(){
- const root=new THREE.Group();root.name='parkExpansion:root';PARK_EXPANSION_1117.root=root;PARK_EXPANSION_1117.instances=[];PARK_EXPANSION_1117.colliders=[];PARK_EXPANSION_1117.counts={};const windows=new THREE.InstancedMesh(PARK.cube,new THREE.MeshBasicMaterial({color:0xffbe72}),48);windows.name='parkExpansion:warmWindow';windows.count=0;windows.frustumCulled=false;root.add(windows);PARK_EXPANSION_1117.windows=windows;
+ const root=new THREE.Group();root.name='parkExpansion:root';PARK_EXPANSION_1117.root=root;PARK_EXPANSION_1117.instances=[];PARK_EXPANSION_1117.colliders=[];PARK_EXPANSION_1117.counts={};parkSceneryBegin1120(root);const windows=new THREE.InstancedMesh(PARK.cube,new THREE.MeshBasicMaterial({color:0xffbe72}),48);windows.name='parkExpansion:warmWindow';windows.count=0;windows.frustumCulled=false;root.add(windows);PARK_EXPANSION_1117.windows=windows;
  for(const side of [-1,1])for(let j=0;j<4;j++){
-  const x=side*158,z=55-j*70,height=32+(j%3)*6;
+  const x=side*390,z=55-j*70,height=38+(j%3)*6;
   const art=parkExpansionArt(root,'park_ruined_facade_1117',x,z,height,side<0?Math.PI/2:-Math.PI/2,true);parkExpansionWindows(root,art,side);
  }
- parkExpansionArt(root,'park_clockcastle_1117',0,-230,115,0,true);
+ parkExpansionArt(root,'park_clockcastle_1117',0,-230,(PARK.current.i===2?144:PARK.current.i===1?132:128),0,true);
  parkExpansionArt(root,'park_coaster_station_1117',-157,128,40,Math.PI/2,true);
- parkExpansionArt(root,'park_carnival_theatre_1117',157,-225,46,-Math.PI/2,true);
- parkExpansionArt(root,'park_carnival_theatre_1117',-157,-225,40,Math.PI/2,true);
+ parkExpansionArt(root,'park_carnival_theatre_1117',245,-255,52,-Math.PI/2,true);
+ parkExpansionArt(root,'park_carnival_theatre_1117',-245,-255,48,Math.PI/2,true);
  parkExpansionTrack(root);
  if(PARK.glass.emissive){PARK.glass.emissive.setHex(0xf49b46);PARK.glass.emissiveIntensity=.8;}
  s8Add(root);
@@ -26634,7 +26912,7 @@ for(const s of PARK_STAGES)Object.assign(s.ter,{grass:0x5d5a60,hill:0x56535d,sno
 const PARK_HORIZON_1117={active:false};
 {const before=updGlint;updGlint=function(){const r=before.apply(this,arguments);if(SCN===11&&TER.park)for(const m of SRINGS)m.visible=false;return r;};}
 {const before=updMood;updMood=function(){const r=before.apply(this,arguments);
- if(SCN===11&&TER.park){scene.fog.near=200;scene.fog.far=650;PARK_HORIZON_1117.active=true;}
+ if(SCN===11&&TER.park){scene.fog.near=250;scene.fog.far=1050;PARK_HORIZON_1117.active=true;}
  else if(PARK_HORIZON_1117.active){scene.fog.near=TER.forest?70:SCN===2?380:220;scene.fog.far=TER.forest?560:SCN===2?1500:1150;PARK_HORIZON_1117.active=false;}
  return r;
 };}
@@ -27448,11 +27726,11 @@ function parkDensityPlace1117(root,id,places){
   model.traverse(part=>{if(!part.isMesh||!part.geometry||!part.material)return;
    const mesh=new THREE.InstancedMesh(part.geometry,part.material,places.length);mesh.name='parkDensity:'+id;mesh.frustumCulled=false;
    const local=new THREE.Matrix4().makeTranslation(-center.x,-center.y,-center.z).multiply(part.matrixWorld);
-   places.forEach(([x,z,h,yaw],i)=>{const k=h/size.y,pos=new THREE.Vector3(x,H(x,z),z),quat=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),yaw),scale=new THREE.Vector3(k,k,k),m=new THREE.Matrix4().compose(pos,quat,scale).multiply(local);mesh.setMatrixAt(i,m);});
+   places.forEach(([x,z,h,yaw],i)=>{const k=h/size.y,pos=new THREE.Vector3(x,parkSceneryBase1120(id,x,z,h,yaw),z),quat=new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),yaw),scale=new THREE.Vector3(k,k,k),m=new THREE.Matrix4().compose(pos,quat,scale).multiply(local);mesh.setMatrixAt(i,m);});
    mesh.instanceMatrix.needsUpdate=true;root.add(mesh);PARK_EXPANSION_1117.instances.push(mesh);PARK_DENSITY_1117.groups++;
   });
   if(['park_drop_tower_1117','park_pirate_ride_1117','park_haunted_mansion_1117','park_mirror_house_1117','park_arcade_hall_1117','park_doll_shop_1117','park_substation_1117'].includes(id))for(const [x,z,h,yaw] of places){
-   const k=h/size.y,m=new THREE.Matrix4().compose(new THREE.Vector3(x,H(x,z),z),new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),yaw),new THREE.Vector3(k,k,k)).multiply(new THREE.Matrix4().makeTranslation(-center.x,-center.y,-center.z)),b=box.clone().applyMatrix4(m),c=b.getCenter(new THREE.Vector3()),d=b.getSize(new THREE.Vector3()),col={t:1,x:c.x,z:c.z,c:1,s:0,hw:d.x*.42,hd:d.z*.42,y0:b.min.y,y1:b.max.y,wk:1};COLS.push(col);PARK_EXPANSION_1117.colliders.push(col);
+   const k=h/size.y,m=new THREE.Matrix4().compose(new THREE.Vector3(x,parkSceneryBase1120(id,x,z,h,yaw),z),new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),yaw),new THREE.Vector3(k,k,k)).multiply(new THREE.Matrix4().makeTranslation(-center.x,-center.y,-center.z)),b=box.clone().applyMatrix4(m),c=b.getCenter(new THREE.Vector3()),d=b.getSize(new THREE.Vector3()),col={t:1,x:c.x,z:c.z,c:1,s:0,hw:d.x*.42,hd:d.z*.42,y0:b.min.y,y1:b.max.y,wk:1};COLS.push(col);PARK_EXPANSION_1117.colliders.push(col);
   }
   PARK_DENSITY_1117.counts[id]=places.length;
 }
@@ -31246,6 +31524,113 @@ body.arena-intro-1120 #presentationPanel strong{display:none}body.arena-intro-11
 #story #stPic[src*="worm-arena-1120/arena-"]{object-fit:contain!important;object-position:center!important;width:100%!important;height:100%!important;inset:0!important;transform:none!important}
 `;document.head.appendChild(style);}
 /* END_ARENA_ENTRANCE_1120 */
+
+/* PARK_SCENERY_1120 */
+// The main promenade and the generators stay clear. Buildings form side streets;
+// large rides are grouped beside the existing powered attraction, not in the arena.
+const PARK_SCENERY_1120={rows:{},proof:null,bases:new Map()};
+function parkSceneryPlan1120(index){
+ const base=PARK_DENSITY_LAYOUT_1117,rows={};
+ for(const id of ['park_broken_gondola_1117','park_coaster_car_1117','park_bumper_car_1117','park_stone_bench_1117','park_direction_sign_1117','park_cable_reel_1117'])rows[id]=base[id].map(p=>p.slice());
+ const put=(id,...places)=>rows[id]=places;
+ const large=[
+  [ ['park_haunted_mansion_1117',-109,7,42,1.0],['park_mirror_house_1117',108,16,38,-1.0],['park_arcade_hall_1117',111,84,26,-.08],['park_doll_shop_1117',-110,68,30,.20],['park_drop_tower_1117',-163,-120,86,.18],['park_pirate_ride_1117',162,-101,38,0],['park_carousel_roof_1117',186,10,25,0],['park_music_organ_1117',-76,-118,21,.25],['park_dry_fountain_1117',86,123,14,0] ],
+  [ ['park_haunted_mansion_1117',-111,6,44,.95],['park_mirror_house_1117',111,3,41,-.90],['park_arcade_hall_1117',110,84,27,-.08],['park_doll_shop_1117',-110,67,32,.20],['park_drop_tower_1117',-165,-120,90,.12],['park_pirate_ride_1117',164,-102,36,0],['park_carousel_roof_1117',186,10,24,0],['park_music_organ_1117',-76,-117,22,.18],['park_dry_fountain_1117',-83,122,14,0] ],
+  [ ['park_haunted_mansion_1117',-112,5,45,.95],['park_mirror_house_1117',111,8,42,-.90],['park_arcade_hall_1117',109,86,27,-.08],['park_doll_shop_1117',-110,70,33,.20],['park_drop_tower_1117',-166,-120,94,.12],['park_pirate_ride_1117',166,-102,37,0],['park_music_organ_1117',-76,-118,23,.20],['park_dry_fountain_1117',84,129,15,0],['park_substation_1117',-173,-177,26,0] ]
+ ][index];
+ const districts=[
+ [['park_haunted_mansion_1117',-230,-35,56,.03],['park_haunted_mansion_1117',-230,-145,54,-.02],['park_mirror_house_1117',250,-50,50,-.03],['park_mirror_house_1117',235,-145,48,.02],['park_arcade_hall_1117',235,104,50,-.02],['park_arcade_hall_1117',-280,210,46,.01],['park_doll_shop_1117',-230,65,40,.03],['park_doll_shop_1117',194,220,38,-.03]],
+ [['park_haunted_mansion_1117',-235,-35,58,.03],['park_haunted_mansion_1117',-235,-145,56,-.02],['park_mirror_house_1117',252,-50,52,-.03],['park_mirror_house_1117',235,-145,50,.02],['park_arcade_hall_1117',240,104,52,-.02],['park_arcade_hall_1117',-285,213,50,.01],['park_doll_shop_1117',-235,65,42,.03],['park_doll_shop_1117',194,220,40,-.03]],
+ [['park_haunted_mansion_1117',-240,-35,60,.03],['park_haunted_mansion_1117',-240,-145,58,-.02],['park_mirror_house_1117',254,-50,54,-.03],['park_mirror_house_1117',240,-145,52,.02],['park_arcade_hall_1117',245,104,52,-.02],['park_arcade_hall_1117',-290,215,50,.01],['park_doll_shop_1117',-240,65,44,.03],['park_doll_shop_1117',194,220,42,-.03]]
+ ][index];
+ const buildings=new Set(['park_haunted_mansion_1117','park_mirror_house_1117','park_arcade_hall_1117','park_doll_shop_1117']);
+ for(const [id,x,z,h,yaw] of [...large.filter(p=>!buildings.has(p[0])),...districts]){(rows[id]??=[]).push([x,z,h,yaw]);}
+ if(index===0||index===1){const x=186,z=10;put('park_carousel_horse_1117',[x-12,z-11,7,.7],[x+12,z-11,7,-.4],[x-12,z+11,7,2],[x+12,z+11,7,3]);}
+ put('park_mask_stall_1117',[-66,70,14,.2],[66,68,14,-.2],[-68,-18,13,.3],[66,-20,13,-.3]);
+ put('park_popcorn_cart_1117',[-48,80,11,.15],[48,80,11,-.15],[-49,-133,10,.2],[49,-133,10,-.2]);
+ put('park_street_clock_1117',[-45,-12,20,.2],[45,-12,20,-.2]);
+ put('park_jester_statue_1117',[-92,-181,23,.25],[94,-183,23,-.25]);
+ put('park_parade_float_1117',[-55,-140,18,-.25],[59,123,18,.25]);
+ put('park_ivy_arch_1117',[-86,155,25,Math.PI/2],[86,155,25,-Math.PI/2]);
+ // Paired smaller ticket halls frame the approach without filling the promenade.
+ put('park_ticketbooth_1117',[-78,102,18,.1],[78,101,18,-.1],[-98,-158,14,.2],[54,-136,14,-.2]);
+ return rows;
+}
+for(let i=0;i<3;i++){
+ const key=PARK_STAGES[i].key,rows=parkSceneryPlan1120(i);PARK_SCENERY_1120.rows[key]=rows;
+ MOBILE_DEPS.stages[key]=[...new Set([...(MOBILE_DEPS.stages[key]||[]),...Object.keys(rows)])];
+}
+parkDensityBuild1117=function(root){
+ PARK_DENSITY_1117.counts={};PARK_DENSITY_1117.groups=0;parkSceneryBegin1120(root);
+ const key=STAGES[stage]?.key,rows=PARK_SCENERY_1120.rows[key];if(!rows)return;
+ const pending=[];
+ for(const [id,places] of Object.entries(rows)){
+  if(MODEL[id])parkDensityPlace1117(root,id,places);
+  else {pending.push(id);mobileLateArt(id,root,()=>{if(root===PARK_EXPANSION_1117.root)parkDensityPlace1117(root,id,places);});mobileWant(id,60);}
+ }
+ PARK_SCENERY_1120.proof={key,requested:Object.fromEntries(Object.entries(rows).map(([id,p])=>[id,p.length])),pending};
+};
+window.parkSceneryProof1120=()=>{
+ const key=STAGES[stage]?.key,rows=PARK_SCENERY_1120.rows[key],items=[];
+ if(rows)for(const [id,places] of Object.entries(rows))for(const [x,z,h,yaw] of places){
+  if(!MODEL[id])continue;const model=MODEL[id].scene.clone(true);model.rotation.y=MODEL[id].rot||0;model.updateMatrixWorld(true);const b=new THREE.Box3().setFromObject(model),size=b.getSize(new V3()),k=h/size.y,co=Math.cos(yaw),si=Math.sin(yaw),w=(Math.abs(co)*size.x+Math.abs(si)*size.z)*k,d=(Math.abs(si)*size.x+Math.abs(co)*size.z)*k;
+  const terrain=[[-w/2,-d/2],[-w/2,d/2],[w/2,-d/2],[w/2,d/2]].map(([dx,dz])=>H(x+dx,z+dz));
+  items.push({id,x,z,h,w,d,ground:H(x,z),base:PARK_SCENERY_1120.bases.get(id+':'+x+':'+z),cornerRange:Math.max(...terrain)-Math.min(...terrain),centerLane:w>8&&Math.abs(x)-w/2<31&&z>-130&&z<120,switchClear:Math.min(...PARK.current.switches.map(q=>Math.hypot(Math.max(0,Math.abs(q.x-x)-w/2),Math.max(0,Math.abs(q.z-z)-d/2))))});
+ }
+ return {key,counts:{...PARK_DENSITY_1117.counts},items,pending:PARK_SCENERY_1120.proof?.pending||[],foundations:PARK_SCENERY_1120.pads?.count||0};
+};
+const PARK_SCENERY_BUILDINGS_1120=new Set(['park_haunted_mansion_1117','park_mirror_house_1117','park_arcade_hall_1117','park_doll_shop_1117']);
+function parkSceneryBegin1120(root){
+ if(PARK_SCENERY_1120.root===root)return;PARK_SCENERY_1120.root=root;PARK_SCENERY_1120.bases.clear();
+ const pads=new THREE.InstancedMesh(PARK.cube,(PARK_SCENERY_1120.foundationMaterial??=new THREE.MeshLambertMaterial({color:0x59564f})),128);pads.name='parkSceneryFoundations1120';pads.count=0;pads.frustumCulled=false;root.add(pads);PARK_EXPANSION_1117.instances.push(pads);PARK_SCENERY_1120.pads=pads;
+}
+function parkSceneryBase1120(id,x,z,h,yaw){
+
+ const key=id+':'+x+':'+z,known=PARK_SCENERY_1120.bases.get(key);if(known)return known.base;
+ const model=MODEL[id].scene.clone(true);model.rotation.y=MODEL[id].rot||0;model.updateMatrixWorld(true);const b=new THREE.Box3().setFromObject(model),s=b.getSize(new V3()),k=h/s.y,co=Math.cos(yaw),si=Math.sin(yaw),w=(Math.abs(co)*s.x+Math.abs(si)*s.z)*k,d=(Math.abs(si)*s.x+Math.abs(co)*s.z)*k;
+ const samples=[];for(const xx of [-.5,0,.5])for(const zz of [-.5,0,.5])samples.push(H(x+w*xx,z+d*zz));
+ const lo=Math.min(...samples),hi=Math.max(...samples),range=hi-lo,foundation=PARK_SCENERY_BUILDINGS_1120.has(id)||range>.45;
+ const base=foundation?hi+.08:H(x,z),bottom=lo-.25;
+ if(foundation){const pads=PARK_SCENERY_1120.pads,m=new THREE.Matrix4().compose(new V3(x,(base+bottom)/2,z),new THREE.Quaternion(),new V3(w,base-bottom,d));pads.setMatrixAt(pads.count++,m);pads.instanceMatrix.needsUpdate=true;}
+ PARK_SCENERY_1120.bases.set(key,{base,range,w,d,foundation});return base;
+}
+{const before=clearWorld;clearWorld=function(){PARK_SCENERY_1120.root=null;PARK_SCENERY_1120.pads=null;PARK_SCENERY_1120.bases.clear();PARK_SCENERY_1120.proof=null;return before.apply(this,arguments);};}
+/* END_PARK_SCENERY_1120 */
+
+/* RUINED_PARK_STORY_1120 */
+{
+ const chapters={
+  park_entry:[
+   ['lamplight','割れた切符売り場の向こうで、止まった観覧車が夕空をふさいでいた。'],
+   ['plush','売店だと思った茶色の山が起き上がった。赤い蝶ネクタイをした、巨大なぬいぐるみだ。']
+  ],
+  park_ride:[
+   ['lamplight','古びた店の列を抜けると、音の消えた回転木馬が見えた。'],
+   ['marionette','舞台の上で糸が一本、ぴんと張る。白い顔の道化が片足を上げ、赤い竜におじぎした。']
+  ],
+  park_control:[
+   ['control','「まもなく閉園です」。時計塔の声に合わせて、ぬいぐるみと大きな操り人形がこちらを向いた。'],
+   ['marionette','糸は塔の梁まで続いている。竜は、観覧車と木馬へ伸びる二本の電線を見つけた。']
+  ]
+ };
+ const root='assets/park-1120/';
+ Object.assign(SBI,{'巨大ぬいぐるみの門番':root+'plush.webp','糸吊りマリオネット':root+'marionette.webp','閉園を操るマリオネット':root+'control.webp'});
+ SCI[11]={d:'廃墟の遊園地に明かりを戻そう。観覧車の下には巨大なぬいぐるみ。回転木馬の先では糸で吊られた道化が待っている。',b:[['巨大ぬいぐるみの門番'],['糸吊りマリオネット'],['閉園を操るマリオネット']]};
+ for(const stage of PARK_STAGES)stage.story=chapters[stage.key].map(cut=>cut[1]);
+ const art=storyImageV2;storyImageV2=function(key){
+  if(typeof key==='string'&&key.startsWith('ruined-park:'))return root+key.slice(12)+'.webp';
+  return art.apply(this,arguments);
+ };
+ const deck=storyArt1120Deck;
+ storyArt1120Deck=function(key,lines){
+  const result=deck.apply(this,arguments);
+  if(SCN!==11)return result;
+  if(key==='end')return result.map(line=>({...line,img:'ruined-park:lamplight'}));
+  const cuts=chapters[key];
+  if(!cuts)return result;
+  return result.map(line=>{const cut=cuts.find(([,text])=>text===line.l);return cut?{...line,img:'ruined-park:'+cut[0]}:line;});
+ };
+}
 
 </script>
 </body>
