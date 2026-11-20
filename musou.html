@@ -912,7 +912,13 @@ body.presentation-event #story #stPic[src*="sc1-encounters-1120/"]{object-fit:co
 }
 
 </style>
-</head>
+<style id="wormArenaPaper">body.presentation-event #story #stPic[src*="worm-arena-1120/"]{object-fit:contain!important;object-position:center!important;inset:0!important;width:100%!important;height:100%!important}
+@media (orientation:portrait),(min-height:501px){
+ body.presentation-event #story:has(#stPic[src*="worm-arena-1120/"]){--paper:min(92vw,86dvh,900px);--paper-top:max(56px,calc((100dvh - var(--paper)*.666667 - 142px)/2))}
+ body.presentation-event #story#story:has(#stPic[src*="worm-arena-1120/"]) .kami{aspect-ratio:3/2!important}
+ body.presentation-event #story#story:has(#stPic[src*="worm-arena-1120/"]) #presentationPanel{top:calc(var(--paper-top) + var(--paper)*.666667 + 14px);min-height:0;max-height:calc(100dvh - var(--paper-top) - var(--paper)*.666667 - 23px)}
+}
+</style></head>
 <body>
 <div id="hud">
   <canvas id="spd"></canvas>
@@ -5673,6 +5679,179 @@ function easyAimClear(to){
 const P={pos:new V3(0,40,120),vel:new V3(),vy:0,melT:0,melCd:0,yaw:Math.PI,pitch:-0.05,hp:260,maxHp:260,en:100,fireCd:0,dashT:0,dashHit:0,inv:0,roll:0,lastYaw:Math.PI,onGround:false,tgt:null,firing:false};
 /* SANDWORM_SHAPE_1120 */
 let sandwormResources1120;
+/* WORM_ARENA_CONTROLS_1120 */
+function wormArenaBuried1120(){
+ return state==='play'&&charKey==='ground'&&!!D?.worm&&!!D.wormBuried1120;
+}
+function wormArenaFloor1120(x,z){
+ return CAVE.on?Math.max(CAVE.y,floorAt(x,z)):powerGround(x,z);
+}
+function wormArenaCanRise1120(x,z){
+ return powerOpen(x,z,5)&&!EN.some(e=>!e.dead&&!e.fly&&Math.hypot(e.mesh.position.x-x,e.mesh.position.z-z)<e.r+3);
+}
+function wormArenaToggle1120(){
+ if(state!=='play'||charKey!=='ground'||!D?.worm||PAUSED||LVUP||POWERS.burrow||presentationHold()||D.wormToggleCd1120>0)return false;
+ if(D.wormBuried1120){
+  const safe=D.wormHome1120;
+  let landing=wormArenaCanRise1120(P.pos.x,P.pos.z)?P.pos:null;
+  for(const r of [6,12,20,30]){
+   if(landing)break;
+   for(let i=0;i<12;i++){
+    const a=i*Math.PI/6,x=P.pos.x+Math.cos(a)*r,z=P.pos.z+Math.sin(a)*r;
+    if(wormArenaCanRise1120(x,z)){landing={x,z};break;}
+   }
+  }
+  if(!landing&&safe&&wormArenaCanRise1120(safe.x,safe.z))landing=safe;
+  if(!landing){banner('ここでは浮上できない。広い場所へ',1.3);return false;}
+  P.pos.set(landing.x,wormArenaFloor1120(landing.x,landing.z)+C.gOff,landing.z);
+  P.vel.set(0,0,0);P.vy=0;P.onGround=true;D.erupt=.56;
+  D.wormBuried1120=false;
+ }else{
+  D.wormHome1120=wormArenaCanRise1120(P.pos.x,P.pos.z)?P.pos.clone():null;
+  D.wormBuried1120=true;
+  P.dashT=0;P.firing=false;P.tgt=null;
+  P.melA=0;P.melT=0;
+ }
+ D.wormToggleCd1120=.40;
+ sfx('small',P.pos,.42);
+ return true;
+}
+function wormArenaTick1120(dt){
+ const body=D,button=$('wormBurrow1120');
+ if(button){
+  button.hidden=state!=='play'||PAUSED||LVUP;
+  const text=body.wormBuried1120?'浮上':'潜る';
+  if(button.textContent!==text)button.textContent=text;
+ }
+ if(state!=='play')return;
+ body.wormToggleCd1120=Math.max(0,(body.wormToggleCd1120||0)-dt);
+ const want=body.wormBuried1120?1:0;
+ body.wormDepth1120=(body.wormDepth1120||0)+(want-(body.wormDepth1120||0))*Math.min(1,dt*13);
+ if(!want)return;
+ body.wormDust1120=(body.wormDust1120||0)-dt;
+ if(dt>0&&body.wormDust1120<=0){
+  body.wormDust1120=.15;
+  const at=new V3(P.pos.x,wormArenaFloor1120(P.pos.x,P.pos.z)+.28,P.pos.z);
+  burst(at,4,[0x9f794b,0xcfa979],.7,6,.29);
+ }
+}
+function wormArenaStoryJoin1120(enemy){
+ if(!storyDragon()||state!=='play'||STAGES[stage]?.key!=='valley'||PETS.some(p=>p.storyMiniWorm1120))return;
+ const p=wormArenaAddPet1120(true);
+ if(p){
+  p.g.position.copy(enemy.mesh.position);
+  p.g.position.y=wormArenaFloor1120(p.g.position.x,p.g.position.z)+.02;
+  p.wormStoryCard1120=true;updLvHud();
+ }
+}
+function wormArenaAddPet1120(story=false){
+ if(story?PETS.some(p=>p.storyMiniWorm1120):PETS.filter(p=>p.miniWorm1120).length>=3)return;
+ const worm=makeSandworm1120({detail:false,scale:.30}),g=worm.root;
+ g.position.set(P.pos.x,wormArenaFloor1120(P.pos.x,P.pos.z)+.02,P.pos.z);
+ const pet={g,id:'ground',mid:'sandworm_1120',fly:false,cd:.35,ph:PETS.length,hp:70,max:70,hitT:0,miniWorm1120:worm,storyMiniWorm1120:story,rest:0};
+ scene.add(g);PETS.push(pet);return pet;
+}
+function wormArenaPetTick1120(p,dt,t,i){
+ const root=p.g,a=P.yaw+.72*(i%2?1:-1),gap=10+3.5*i;
+ const x=P.pos.x-Math.sin(a)*gap,z=P.pos.z-Math.cos(a)*gap;
+ root.position.x+=(x-root.position.x)*Math.min(1,dt*5.6);
+ root.position.z+=(z-root.position.z)*Math.min(1,dt*5.6);
+ root.position.y=wormArenaFloor1120(root.position.x,root.position.z)+.02-(wormArenaBuried1120()?1.8:0);
+ const aim=P.tgt;root.rotation.y=aim?Math.atan2(aim.x-root.position.x,aim.z-root.position.z):P.yaw;
+ if(p.rest>0){
+  p.rest=Math.max(0,p.rest-dt);
+  if(!p.rest){p.hp=p.max;p.g.visible=true;updLvHud();}
+  return;
+ }
+ p.cd-=dt;
+ if(aim&&p.cd<=0&&!wormArenaBuried1120()){
+  p.cd=1.7;
+  const mouth=p.miniWorm1120.mouth.getWorldPosition(new V3());
+  shoot(mouth,aim.clone().sub(mouth).normalize().multiplyScalar(105),
+   {from:'p',geo:'rock',mat:MAT.rock,size:.7,r:1.2,splash:3.5,dmg:CH.ground.br.dmg*.85*POW(),life:.9,col:CH.ground.br.col});
+ }
+ poseSandworm1120(p.miniWorm1120,{time:t+i*.6,move:.6,bite:p.cd>1.44?Math.max(0,(p.cd-1.44)/.26):0,length:1.28,covered:.65});
+ for(const e of EN)if(!e.dead&&e.dmg&&cpos(e).distanceTo(root.position)<e.r+3)petHurt(p,e.dmg*dt*.7,true);
+}
+document.addEventListener('DOMContentLoaded',()=>{
+ const button=document.createElement('button');
+ button.id='wormBurrow1120';button.className='btn sm';button.type='button';
+ button.textContent='潜る';button.hidden=true;button.title='Vキーで潜る・浮上';
+ if(!SANDWORM_MUSOU_1120)button.disabled=true;
+ button.style.cssText='position:fixed;right:12px;bottom:122px;z-index:35;min-height:44px;min-width:58px;touch-action:manipulation';
+ if(MOBK.on)button.style.bottom='235px';
+ document.body.appendChild(button);
+ const css=document.createElement('style');
+ css.textContent='body.presentation-event #wormBurrow1120{display:none}';
+ document.head.appendChild(css);
+ button.addEventListener('pointerdown',event=>event.stopPropagation());
+ button.addEventListener('click',event=>{event.stopPropagation();wormArenaToggle1120();});
+ addEventListener('keydown',event=>{
+  if(event.code!=='KeyV'||event.repeat||event.target?.matches?.('input,textarea,select,[contenteditable]'))return;
+  if(wormArenaToggle1120()){event.preventDefault();event.stopImmediatePropagation();}
+ },true);
+ const attack=playerAttackBlocked;
+ playerAttackBlocked=function(){
+  return wormArenaBuried1120()||attack.apply(this,arguments);
+ };
+ const damage=hurt;
+ hurt=function(){if(!wormArenaBuried1120())return damage.apply(this,arguments);};
+ const previous=setupStage;
+ setupStage=function(){
+  if(D?.worm){D.wormBuried1120=false;D.wormDepth1120=0;D.wormHome1120=null;}
+  const result=previous.apply(this,arguments);
+  if(storyDragon()&&stage>=1){
+   const p=PETS.find(p=>p.storyMiniWorm1120)||wormArenaAddPet1120(true);
+   if(p){p.g.position.set(P.pos.x,wormArenaFloor1120(P.pos.x,P.pos.z),P.pos.z);p.hp=p.max;p.rest=0;p.g.visible=true;updLvHud();}
+  }
+  return result;
+ };
+ const beforePetHurt=petHurt;
+ petHurt=function(p,n){
+  if(!p.storyMiniWorm1120)return beforePetHurt.apply(this,arguments);
+  if(p.rest>0)return;
+  p.hp=Math.max(1,p.hp-n);
+  if(p.hp===1){p.rest=10;p.g.visible=false;updLvHud();}
+ };
+ const beforeHud=updLvHud;
+ updLvHud=function(){
+  const result=beforeHud.apply(this,arguments),mini=PETS.find(p=>p.storyMiniWorm1120);
+  if(storyDragon()&&mini){
+   const el=$('allyhud'),text=mini.rest>0?'ミニワーム：回復中':'ミニワーム';
+   el.textContent=el.hidden?'仲間：'+text:el.textContent+' ／ '+text;el.hidden=false;
+  }
+  return result;
+ };
+ const beforeExtra=skExtra;
+ skExtra=function(){
+  const text=beforeExtra.apply(this,arguments);
+  return storyDragon()?text.replace('緑のワイバーン1体だけ。第1章の模擬戦後に必ず加入し、最後まで同行。倒れると10秒休んで復帰する。','第1章でミニワームと緑のワイバーンが順に仲間になる。倒れると10秒休んで復帰する。'):text;
+ };
+ const beforeImage=storyImageV2;
+ storyImageV2=function(key){
+  if(key==='worm-arena-mini-joins')return 'assets/worm-arena-1120/mini-joins.webp';
+  return beforeImage.apply(this,arguments);
+ };
+ const beforeWave=startWave;
+ startWave=function(i){
+  const p=storyDragon()&&STAGES[stage]?.key==='valley'&&i>0&&PETS.find(p=>p.storyMiniWorm1120&&p.wormStoryCard1120);
+  if(!p)return beforeWave.apply(this,arguments);
+  p.wormStoryCard1120=false;
+  const context=this,args=arguments;
+  midKami([{img:'worm-arena-mini-joins',ch:'第1章　竜の谷',t:'小さな道連れ',
+   l:'砂の下から、小さなワームが顔を出した。赤い竜のあとを、ちょこちょことついてくる。'}],
+   ()=>beforeWave.apply(context,args));
+ };
+ const select=setChar;
+ setChar=function(){
+  button.hidden=true;
+  return select.apply(this,arguments);
+ };
+ PETJA.sandworm_1120='ミニワーム';
+ PETM.ground=[['sandworm_1120',0]];
+}, {once:true});
+window.wormArenaProof1120=()=>({buried:wormArenaBuried1120(),figure:!!D?.worm,
+ position:P.pos.toArray(),safe:wormArenaCanRise1120(P.pos.x,P.pos.z),pets:PETS.filter(p=>p.miniWorm1120).length,storyPets:PETS.filter(p=>p.storyMiniWorm1120).length});
 function sandwormParts1120() {
  if(sandwormResources1120)return sandwormResources1120;
  const skin=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.91,metalness:.07});
@@ -5711,8 +5890,8 @@ function makeSandworm1120(options={}) {
    const seam=shifted-Math.floor(shifted),plate=Math.min(seam/.27,(1-seam)/.73);
    const edge=Math.max(0,1-Math.abs(seam-.29)*6.5),belly=Math.max(0,-radialSin[j]);
    const marbling=.48+.10*Math.cos(a*3-t*24)+.06*Math.cos(a*5+t*38);
-   const light=.29+marbling*.25+plate*.16+edge*.07+ridge*.026+fleck*.022-belly*.108;
-   pigment.setHSL(.071+.025*edge+fleck*.012,.54-belly*.17,light).convertSRGBToLinear();
+   const light=.29+marbling*.22+plate*.18+edge*.07+ridge*.026+fleck*.025-belly*.11;
+   pigment.setHSL(.101+.021*edge+fleck*.009,.49-belly*.15,light).convertSRGBToLinear();
    pigment.toArray(colors,(i*radial+j)*3);
    profiles.push(.89+.16*plate+ridge*(.038+.029*plate)+fleck*.012);
    if(i===longitudinal-1)continue;
@@ -5726,14 +5905,80 @@ function makeSandworm1120(options={}) {
  const body=new THREE.Mesh(bodyGeometry,p.skin);
  body.name='砂蟲・連続甲殻';body.frustumCulled=false;root.add(body,head);
  function mesh(geometry,material,parent){const o=new THREE.Mesh(geometry,material);parent.add(o);return o;}
- const lip=mesh(p.ring,p.rim,head);lip.scale.set(.96,.96,1.1);lip.position.z=.08;
- const collar=mesh(p.ring,p.bronze,head);collar.scale.set(1.09,1.09,.95);collar.position.z=-.16;
- const dish=mesh(p.dish,p.throat,head);dish.rotation.x=-Math.PI/2;dish.scale.set(.91,.75,.91);
+ /* SANDWORM_FACE_ARMOR_1120 */
+ p.faceArmor||=new Map();
+ let face=p.faceArmor.get(detail);
+ if(!face){
+  const material=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.82,metalness:.18});
+  const recessed=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.88,side:THREE.DoubleSide});
+  const ochres=[0x977046,0xbe8d53,0xc89d61,0x9c7144,0xb58950];
+  const cheek=new THREE.BufferGeometry(),pos=[],rgb=[],ix=[],coat=new THREE.Color();
+  const shells=detail?12:9,arc=detail?6:4,sections=[[.99,-.76],[1.15,-.56],[1.33,-.30],[1.43,.02],[1.39,.22],[1.22,.40],[1.055,.43]];
+  for(let tooth=0;tooth<shells;tooth++){
+   const base=pos.length/3,angle=tooth*Math.PI*2/shells;
+   for(let band=0;band<sections.length;band++){
+    const [radius,z]=sections[band];
+    for(let side=0;side<=arc;side++){
+     const u=2*side/arc-1,ridge=1-Math.abs(u);
+     const a=angle+u*Math.PI/shells*(band<2?.90:1.06);
+     const r=radius+ridge*.11*Math.sin(Math.PI*band/(sections.length-1));
+     pos.push(r*Math.cos(a),r*Math.sin(a),z+ridge*(band<3?-.09:.07));
+     const gain=(.68+ridge*.33+(band===4?.13:0))*(band===0?.83:1);
+     coat.setHex(ochres[(tooth*7+3)%ochres.length]).convertSRGBToLinear().multiplyScalar(gain);
+     rgb.push(coat.r,coat.g,coat.b);
+     if(band<sections.length-1&&side<arc){
+      const i=base+band*(arc+1)+side,j=i+arc+1;
+      ix.push(i,i+1,j,j,i+1,j+1);
+     }
+    }
+   }
+  }
+  cheek.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
+  cheek.setAttribute('color',new THREE.Float32BufferAttribute(rgb,3));
+  cheek.setIndex(ix);cheek.computeVertexNormals();
+
+  const opening=[[.20,-.57],[.44,-.42],[.63,-.14],[.79,.11],[.97,.36],[1.055,.42]];
+  const socket=new THREE.LatheGeometry(opening.map(([r,z])=>new THREE.Vector2(r,z)),detail?36:24);
+  socket.rotateX(Math.PI*.5);
+  const sock=socket.attributes.position,shade=[];
+  for(let i=0;i<sock.count;i++){
+   const angle=Math.atan2(sock.getY(i),sock.getX(i)),z=sock.getZ(i);
+   coat.setHex(z>.31?0x6d302e:z>-.08?0x492121:0x241517).convertSRGBToLinear().multiplyScalar(.87+.13*Math.cos(angle*18));
+   shade.push(coat.r,coat.g,coat.b);
+  }
+  socket.setAttribute('color',new THREE.Float32BufferAttribute(shade,3));
+
+  const outline=new THREE.Shape();
+  outline.moveTo(-.31,.24);outline.lineTo(.30,.27);outline.lineTo(.32,.05);outline.lineTo(.26,-.17);
+  outline.lineTo(.11,-.44);outline.lineTo(-.035,-.61);outline.lineTo(-.13,-.43);outline.lineTo(-.23,-.25);
+  outline.lineTo(-.27,-.07);outline.closePath();
+  const mandible=new THREE.ExtrudeGeometry(outline,{depth:.15,bevelEnabled:true,bevelSegments:1,steps:1,bevelSize:.045,bevelThickness:.05,curveSegments:1});
+  const blade=mandible.attributes.position,metal=[];
+  for(let i=0;i<blade.count;i++){
+   const x=blade.getX(i),y=blade.getY(i),u=Math.max(0,1-(y+.61)/.88);
+   blade.setZ(i,blade.getZ(i)+.18+.36*u+.13*u*u);
+   coat.setHex(u>.55?0xc5a06e:0x987247).convertSRGBToLinear().multiplyScalar(.72+.34*(x+.34)/.69);
+   metal.push(coat.r,coat.g,coat.b);
+  }
+  mandible.setAttribute('color',new THREE.Float32BufferAttribute(metal,3));mandible.computeVertexNormals();
+  const enamel=new THREE.MeshStandardMaterial({color:0xf3dfb6,roughness:.73,emissive:0x3c2f1b,emissiveIntensity:.18});
+  face={material,recessed,cheek,socket,mandible,enamel};
+  p.faceArmor.set(detail,face);
+ }
+ const collar=mesh(face.cheek,face.material,head);
+ collar.name='砂蟲・黄土の頭甲';
+ const socket=mesh(face.socket,face.recessed,head);
+ socket.name='砂蟲・円口の奥';
+ const lip=mesh(p.ring,p.rim,head);
+ lip.scale.set(.96,.96,.99);lip.position.z=.32;
+ const dish=mesh(p.dish,p.throat,head);
+ dish.rotation.x=-Math.PI/2;dish.position.z=-.045;dish.scale.set(.91,.75,.91);
+ const teeth=new THREE.Group();teeth.name='砂蟲・同心の歯';teeth.position.z=.24;head.add(teeth);
  const rows=[];
- for(const [row,count] of [[0,detail?20:14],[1,detail?16:10]]){
+ for(const [row,count] of [[0,detail?22:16],[1,detail?16:12]]){
   for(let i=0;i<count;i++){
-   const angle=(i+row*.5)*Math.PI*2/count, t=mesh(p.tooth,p.ivory,head), width=(row?.087:.10)*(1+(i%3-1)*.12);
-   t.scale.set(width,(row?.36:.46)*(1+(i%4-1.5)*.082),width);
+   const angle=(i+row*.5)*Math.PI*2/count, t=mesh(p.tooth,face.enamel,teeth), width=(row?.095:.119)*(1+(i%3-1)*.10);
+   t.scale.set(width,(row?.37:.56)*(1+(i%4-1.5)*.078),width);
    t.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),new THREE.Vector3(-Math.cos(angle),-Math.sin(angle),.32).normalize());
    rows.push({t,a:angle,row});
   }
@@ -5741,7 +5986,7 @@ function makeSandworm1120(options={}) {
  const mandibles=[];
  for(let i=0;i<3;i++){
   const pivot=new THREE.Group();pivot.rotation.z=i*Math.PI*2/3+.33;head.add(pivot);
-  const plate=mesh(p.claw,p.bronze,pivot);mandibles.push({pivot,plate});
+  const plate=mesh(face.mandible,face.material,pivot);plate.name='砂蟲・三方の顎';mandibles.push({pivot,plate});
  }
  mouth.position.z=.82;head.add(mouth);
  const worm={root,body,head,mouth,lip,collar,dish,rows,mandibles,positions,longitudinal,radial,radialCos,radialSin,shellRadius,profiles,aim:new THREE.Vector3(),previousX:NaN};
@@ -5751,17 +5996,17 @@ function makeSandworm1120(options={}) {
  return worm;
 }
 // Model space is ground-relative and faces +Z. tilt is the head's upward lift, not a rotation of the whole animal.
-function poseSandworm1120(worm,{time=0,move=0,turn=0,bite=0,emerge=0,burrow=0,collapse=0,ground=null}={}) {
+function poseSandworm1120(worm,{time=0,move=0,turn=0,bite=0,emerge=0,burrow=0,collapse=0,ground=null,length=1.65,covered=0}={}) {
  const {root,body,head,lip,dish,rows,mandibles,positions,longitudinal,radial,radialCos,radialSin,shellRadius,profiles}=worm;
  move=Math.max(0,Math.min(1,move));turn=Math.max(-1,Math.min(1,turn));bite=Math.max(0,Math.min(1,bite));
  const phase=time*(2.4+move*.5),osc=move*.77+.13,width=1-collapse*.25,rise=emerge*(1-collapse);
  let headX=0,headY=0,headZ=0,headPitch=0;
  for(let i=0;i<longitudinal;i++){
   const t=i/(longitudinal-1), uplift=(1-t)**4,neck=(1-t)**5,tail=t*t,r=shellRadius[i];
-  const z=2.12-13.7*t+neck*bite*.83-uplift*rise*2.92+tail*move*.22*Math.sin(phase-t*14);
+  const z=2.12-13.7*length*t+neck*bite*.83-uplift*rise*2.92+tail*move*.22*Math.sin(phase-t*14);
   const x=width*(Math.sin(phase-t*7.8)*osc*(.19+t*.59)+turn*t*t*3.65)+collapse*t*2.8+rise*uplift*.92;
   const y=Math.max(.12,r*.88)+(1-t)**3*(1.00+rise*.52)*(1-collapse*.92)+uplift*rise*4.15+neck*(bite*.25-burrow*3.48)
-        +move*(.12+tail*.20)*Math.sin(phase-t*11.4)+(ground?ground(x,z):0);
+        +move*(.12+tail*.20)*Math.sin(phase-t*11.4)+(ground?ground(x,z):0)-covered*(.60+(1-(1-t)**16)*4.45);
   const basePitch=neck*(.34-.29*bite-.94*burrow)*(1-collapse);
   const standing=Math.atan2(16.6*rise*(1-t)**3,13.7-11.68*rise*(1-t)**3);
   const pitch=Math.min(.93,basePitch+standing),tangent=turn*t*.51+Math.cos(phase-t*7.8)*osc*.3-uplift*rise*.13;
@@ -5797,6 +6042,7 @@ function makePlayerSandworm1120() {
 }
 function animatePlayerSandworm1120(dt, yawRate) {
  const play=state==='play', worm=D.worm;
+ wormArenaTick1120(dt);
  const moving=play?Math.min(1,Math.hypot(P.vel.x,P.vel.z)/Math.max(1,C.spd)):.23;
  D.phase+=Math.min(.05,dt);
  D.turn+=((play?Math.max(-1,Math.min(1,yawRate*.30)):0)-D.turn)*Math.min(1,dt*5);
@@ -5813,7 +6059,8 @@ function animatePlayerSandworm1120(dt, yawRate) {
   const c=Math.cos(P.yaw),s=Math.sin(P.yaw),scale=worm.root.scale.x,base=P.pos.y-C.gOff;
   ground=(x,z)=>Math.max(-1.65,Math.min(1.75,(floorAt(P.pos.x+(x*c+z*s)*scale,P.pos.z+(z*c-x*s)*scale)-base)/scale));
  }
- poseSandworm1120(worm,{time:D.phase,move:moving,turn:play?D.turn:-.65,bite:attack,emerge:play?(D.erupt>0?Math.sin(Math.PI*D.erupt/.56):0):.84,burrow:bury,ground});
+ poseSandworm1120(worm,{time:D.phase,move:moving,turn:play?D.turn:-.65,bite:attack,emerge:play?(D.erupt>0?Math.sin(Math.PI*D.erupt/.56):0):.84,burrow:Math.max(bury,D.wormBuried1120?.8:0),ground,covered:play?1:0});
+ worm.root.position.y=-C.gOff-(D.wormDepth1120||0)*5;
  if(play&&dt>0&&P.onGround&&moving>.48&&!q&&D.dust<=0){
   D.dust=P.dashT>0?.07:.17;
   const at=new V3(-Math.sin(P.yaw)*5,-C.gOff+.34,-Math.cos(P.yaw)*5).add(P.pos);
@@ -5900,7 +6147,7 @@ const UPS=[{k:'multi',ic:'🔥',nm:'弾の数 +1',ds:'弾が扇のように広�
   {k:'pet',ic:'🤝',mx:3},{k:'hp',ic:'❤️',nm:'体力アップ',ds:'体力の上限が15%ふえて、全部回復',mx:9}];
 let LV=1,XP=0,UP={},LVUP=false,LVQ=0,LVOPT=[],PAUSED=false;const PETS=[];
 const xpNeed=()=>90+LV*60+LV*LV*10,RATE=()=>Math.pow(1.07,UP.rate||0),SZM=()=>Math.pow(1.1,UP.size||0),POW=()=>Math.pow(1.15,UP.pow||0),SPM=()=>Math.pow(1.3,UP.sp||0)*(EASY?1:0.7)*SKTM,SPC=()=>40-5*(UP.sp||0);
-function resetLv(){LV=1;XP=0;UP={};P.t1=P.t2=1;LVUP=false;LVQ=0;$('lvup').style.display='none';PETS.forEach(p=>scene.remove(p.g));PETS.length=0;updLvHud();}
+function resetLv(){LV=1;XP=0;UP={};P.t1=P.t2=1;LVUP=false;LVQ=0;$('lvup').style.display='none';PETS.forEach(p=>{p.miniWorm1120?.body.geometry.dispose();scene.remove(p.g);});PETS.length=0;updLvHud();}
 function updLvHud(){
   $('xpb').style.width=Math.min(100,XP/xpNeed()*100)+'%';
   $('lvl').textContent='⭐ Lv '+LV+'　'+UPS.filter(u=>u.k!=='pet'&&UP[u.k]).map(u=>u.ic+UP[u.k]).join(' ');
@@ -5974,7 +6221,7 @@ function petEntry(key,count){
   const roster=PETM[key]||PETM.dragon;
   return roster[count%roster.length];
 }
-function petName(key,mid){return (key==='hero'||key==='gwizard')&&mid==='soldier'?'戦士':PETJA[mid]||'仲間';}
+function petName(key,mid){if(mid==='sandworm_1120')return 'ミニワーム';return (key==='hero'||key==='gwizard')&&mid==='soldier'?'戦士':PETJA[mid]||'仲間';}
 function petOffer(key=charKey,count=PETS.length){
   const group=PET_GROUPS[key];if(group)return group;
   const [mid,fly]=key==='hero'&&key===charKey&&count===PETS.length?heroPartyEntry():petEntry(key,count),name=petName(key,mid),amount='1'+(PET_COUNTER[mid]||'人');
@@ -5999,7 +6246,7 @@ function petCard(u,i,dl){
     <div class="nm">${title}</div><div class="ds" style="animation-delay:${dl+0.45}s">${offer.description}</div>
     <div class="num" style="animation-delay:${dl+0.7}s">${petProgress(offer,u.mx)}</div><div class="mx" aria-hidden="true">${pips}</div></div>`;
 }
-function addPet(){if(storyWyvernMode())return storyWyvernAdd(null,false);if(charKey==='redcap'&&PETS.length>=3)return;if(squadKind(charKey))return addSquad(charKey);const heroParty=charKey==='hero';
+function addPet(){if(D?.worm&&charKey==='ground')return wormArenaAddPet1120();if(storyWyvernMode())return storyWyvernAdd(null,false);if(charKey==='redcap'&&PETS.length>=3)return;if(squadKind(charKey))return addSquad(charKey);const heroParty=charKey==='hero';
   if(heroParty&&PETS.filter(p=>p.id==='hero').length>=PETM.hero.length)return;
   const [mid,isFlying]=heroParty?heroPartyEntry():petEntry(charKey,PETS.length),fly=!!isFlying;let g;
   if(mid==='redcap'&&charKey==='redcap')g=new THREE.Group();
@@ -6023,7 +6270,7 @@ function addPet(){if(storyWyvernMode())return storyWyvernAdd(null,false);if(char
   if(heroParty&&D?.riding==='hero')heroPartyMove(p,0,true);
   if(mid==='redcap'&&charKey==='redcap'){p.rideBuddy=true;rideBuddySync(p);}
 }
-function updPets(dt,t){const n=PETS.length;PETS.forEach((p,i)=>{if(storyWyvernTick(p,dt,t))return;if(p.squad){squadTick(p,dt,t);return;}if(revisionPetTick(p,dt,t))return;if(p.rideBuddy){rideBuddySync(p);rideBuddyMove(p,dt,t,i);}else if(p.party)heroPartyMove(p,dt);else if(p.royalSlot!==undefined)royalRetinueMove(p,dt);else if(p.escortSlot!==undefined&&charKey==='bomber')placeBomberEscort(p,dt);else{const a=t*1.3+i*Math.PI*2/n;tmp3.set(P.pos.x+Math.cos(a)*9,P.pos.y+4+Math.sin(t*2.2+i)*1.2,P.pos.z+Math.sin(a)*9);
+function updPets(dt,t){const n=PETS.length;PETS.forEach((p,i)=>{if(p.miniWorm1120){wormArenaPetTick1120(p,dt,t,i);return;}if(storyWyvernTick(p,dt,t))return;if(p.squad){squadTick(p,dt,t);return;}if(revisionPetTick(p,dt,t))return;if(p.rideBuddy){rideBuddySync(p);rideBuddyMove(p,dt,t,i);}else if(p.party)heroPartyMove(p,dt);else if(p.royalSlot!==undefined)royalRetinueMove(p,dt);else if(p.escortSlot!==undefined&&charKey==='bomber')placeBomberEscort(p,dt);else{const a=t*1.3+i*Math.PI*2/n;tmp3.set(P.pos.x+Math.cos(a)*9,P.pos.y+4+Math.sin(t*2.2+i)*1.2,P.pos.z+Math.sin(a)*9);
   if(!p.fly)tmp3.y=floorAt(tmp3.x,tmp3.z)+0.3;else if(!C.fly)tmp3.y=Math.max(tmp3.y,floorAt(tmp3.x,tmp3.z)+5);p.g.position.lerp(tmp3,1-Math.exp(-6*dt));
   if(p.id==='gwizard'&&!p.fly)p.g.position.y=floorAt(p.g.position.x,p.g.position.z)+0.04;
   else if(krakenFishAlly(p))p.g.position.y=powerGround(p.g.position.x,p.g.position.z)+0.04;
@@ -6034,7 +6281,7 @@ function updPets(dt,t){const n=PETS.length;PETS.forEach((p,i)=>{if(storyWyvernTi
   for(const e of EN){if(e.dead||!e.dmg||e.s8==='fighter'||e.s8==='bomber')continue;if(cpos(e).distanceTo(p.g.position)<e.r+3)petHurt(p,e.dmg*dt*0.7,true);}
   if(p.hitT>0){p.hitT-=dt;p.g.scale.setScalar(1+Math.sin(p.hitT*40)*0.12);}else p.g.scale.setScalar(1);});
   for(let i=PETS.length-1;i>=0;i--)if(PETS[i].hp<=0&&!PETS[i].storyWyvern){const q=PETS[i];if(!q.fleet){burst(q.g.position,24,FIRE,2.5,22,0.6);smoke(q.g.position,4,3,1.2,0x5a5a5a,2);}sfx('small',q.g.position,0.6);
-    ono(q.g.position.clone().add(new V3(0,3,0)),q.fleet?'護衛飛空艇が撃沈された…':q.squad?'援軍が全滅した…':petName(q.id,q.mid)+'がやられた…','#ffb0a0',24);if(q.royalSlot!==undefined)royalRetinueFell(q);if(q.party)heroPartyRelease(q);if(q.squad||q.revision||q.rideBuddy||q.party)rideRelease(q.g);scene.remove(q.g);PETS.splice(i,1);if(!(q.royalSlot<2))UP.pet=Math.max(0,(UP.pet||0)-1);updLvHud();}}
+    ono(q.g.position.clone().add(new V3(0,3,0)),q.fleet?'護衛飛空艇が撃沈された…':q.squad?'援軍が全滅した…':petName(q.id,q.mid)+'がやられた…','#ffb0a0',24);q.miniWorm1120?.body.geometry.dispose();if(q.royalSlot!==undefined)royalRetinueFell(q);if(q.party)heroPartyRelease(q);if(q.squad||q.revision||q.rideBuddy||q.party)rideRelease(q.g);scene.remove(q.g);PETS.splice(i,1);if(!(q.royalSlot<2))UP.pet=Math.max(0,(UP.pet||0)-1);updLvHud();}}
 /* ---- 子分：レアカード＋シナリオ1ではワイバーンに勝つと自然に付く（pet_wyv.py） ---- */
 const PETRARE=0.25,EASY_PETRARE=0.45,EASY_MULTIRARE=0.5;let PETG=0;
 {const st=document.createElement('style');st.textContent='.lvc.rare{padding:5px;background:linear-gradient(135deg,#fffbe0,#ffd23a 25%,#c98a00 50%,#fff0a0 75%,#ffc400);box-shadow:0 10px 26px #000a,0 0 0 1px #000,0 0 22px #ffd23acc;animation:lvcard .55s cubic-bezier(.2,1.3,.4,1) forwards,petrare 1.6s ease-in-out .6s infinite}'
@@ -6802,7 +7049,7 @@ function addEnemy(type,x,z,y,o={}){
     thrower:type==='soldier'&&Math.random()<0.35,dashSeen:0,dead:false,perch:!!o.perch,bld:o.bld||null,inv:false,guard:false};
   enemyActionHealth(e,o);if(storyDragon()&&type==='drak'&&!o.model&&!o.mesh){e.hp=e.maxHp=sc1EasyDrak1120()?690:EASY?1800:2400;e.storyArmor1119=true;}EN.push(e);if(type==='bigslime')e.sc=8.8;{const z=o.model?0:{ship:1.5,battleship:1.4,airship:1.3,bigairship:2.3,hero:0.65,priest:0.7,goblin:0.72,drak:2.0,orccart:0.8,orctank:0.52,kraken:1.05}[type];if(z){e.sc=z;e.r*=z;e.hc*=z;}}if(s.boss&&state==='play'){cutin(PTE[type]||s.ic,s.boss.replace(/^\S+\s/,''),'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');bossZoom(e);}return e;
 }
-function hitEnemy(e,n){if(e.dead||e.slimeDigestHeld)return;
+function hitEnemy(e,n){if(e.dead||e.slimeDigestHeld||e.type==='sandworm'&&e.wormPhase==='burrow'&&e.wormTime>.48)return;
   if(e.type==='sandworm'&&n>0)n=Math.min(n,e.maxHp*.19);
   if(e.storyArmor1119&&n>0)n=sc1EasyDrak1120()&&e.type==='drak'?Math.min(n*(sc1DrakOpen1120(e)?1.85:1),e.maxHp*.36):Math.min(n*.65,e.maxHp*.26);if(sc1EasyGolem1120()&&e.type==='biggolem'&&e.boss&&e.paceSlamUntil1120>e.t&&n>0)n*=1.4;
   if(e.inv||BTK.on){burst(cpos(e),3,GOLD,2,8,0.2);sfx('clang',e.mesh.position,0.5);return;}
@@ -8849,7 +9096,7 @@ function doorSeals(){const zf=DUN.z0,gy=DUN.y,from=new V3((DUN.x0+DUN.x1)/2,gy+3
 // 扉のむこうへ：広間を「魔王の間」に建てかえる（白く光ってから切りかわる）
 function maouRoom(){flashV=1.2;shake(0.8);sfx('boom',null,1);dunBuild({cx:0,cz:50,w:240,d:180,h:80,kind:'maou'});P.pos.set(0,DUN.y+(C.fly?12:C.gOff),118);P.yaw=P.lastYaw=Math.PI;P.vel.set(0,0,0);moodT=MOODS[8];updMood(0,true);}
 /* ---- 画面の並び（見本に合わせる）：左上の顔、右下の技の丸いボタン3つ（左＝スペースの動き／まん中＝必殺技1／右＝必殺技2） ---- */
-function updHud2(){const f=$('pface');if(!f)return;if(f.dataset.k!==charKey){f.dataset.k=charKey;f.src='chara/'+charKey+'.webp?v='+ASSET_V;}
+function updHud2(){const f=$('pface');if(!f)return;if(f.dataset.k!==charKey){f.dataset.k=charKey;f.src=(C.portrait||('chara/'+charKey+'.webp'))+'?v='+ASSET_V;}
   const A=$('sk1'),B=$('sk2'),Z=$('sk0'),ia=SKINFO[P.sp],ib=SKINFO[P.sp2];
   if(A.dataset.k!==P.sp){A.dataset.k=P.sp;skIc(A,'sk_'+P.sp,ia&&ia.img);A.title=ia?ia.n:'';A.dataset.nm=ia?ia.n:'';}
   if(B.dataset.k!==P.sp2){B.dataset.k=P.sp2;skIc(B,'sk_'+P.sp2,ib&&ib.img);B.title=ib?ib.n:'';B.dataset.nm=ib?ib.n:'';}
@@ -9068,7 +9315,7 @@ const SKV={el:null,open:false,from:null};
 const SKV_NEW_1120={archangel:['sp','sp2'],gwizard:['sp','sp2','sp3'],necromancer:['sp2','sp3'],cube:['sp','sp2','sp3'],seaking:['sp','sp2','sp3'],dragonking:['sp','sp2','sp3'],hero:['sp3']};
 function skvMedia(k,s){
  if(SANDWORM_MUSOU_1120&&k==='ground'&&['sp','sp2','sp3'].includes(s)){
-  const url='assets/sandworm-1120/ground_'+s;
+  const url='assets/worm-arena-1120/ground_'+s;
   return {image:url+'.webp',video:url+'.mp4'};
  }
  const id=k==='cube_swarm_1117'&&s!=='sp3'?'cube':k;
@@ -10433,9 +10680,9 @@ function frame(now){
       {const ox=P.pos.x,oz=P.pos.z,nx=ox+P.vel.x*dt,nz=oz+P.vel.z*dt;if(seaKingWaterEdgeBlocked(ox,oz,nx,nz)){P.vel.x*=.3;P.vel.z*=.3;}else if(charKey!=='kraken'&&!(charKey==='seaking'&&(!TER.lava&&!TER.sky||seaFieldAt(nx,nz)))&&wBlk(nx,nz,fx,fz)&&!wBlk(ox,oz,fx,fz)){if(!wBlk(nx,oz,fx,fz)){P.pos.x=nx;P.vel.z*=0.3;}else if(!wBlk(ox,nz,fx,fz)){P.pos.z=nz;P.vel.x*=0.3;}else{P.vel.x*=-0.2;P.vel.z*=-0.2;}if(!P.wHint||P.wHint<t){P.wHint=t+(charKey==='ground'?60:4);ono(P.pos.clone().add(new V3(0,5,0)),charKey==='ground'?'この先は深い':'水だ！ 橋をさがそう','#9fdcff',charKey==='ground'?18:22);}}else{P.pos.x=nx;P.pos.z=nz;}}P.pos.y+=P.vy*dt;
       dunPush();const ws=wadeStep(dt),gh=dunBodyY()+C.gOff-ws*C.gOff*0.5;if(P.pos.y<=gh){if(!P.onGround&&P.vy<-12){shake(0.3);smoke(tmp.set(P.pos.x,gh-C.gOff,P.pos.z),6,4,1.2,0x9a8a68,4);sfx('small',null,0.5);}P.pos.y=gh;P.vy=0;P.onGround=true;}else P.onGround=false;
       P.vel.y=P.vy;
-      bldBlock(dt);if(P.onGround&&!(P.wadeS>0.5)&&Math.random()<0.15)smoke(tmp.set(P.pos.x,gh-C.gOff+0.5,P.pos.z),1,1.4,0.6,0xa8987a,1.5);
+      if(!wormArenaBuried1120())bldBlock(dt);if(P.onGround&&!(P.wadeS>0.5)&&Math.random()<0.15)smoke(tmp.set(P.pos.x,gh-C.gOff+0.5,P.pos.z),1,1.4,0.6,0xa8987a,1.5);
     }
-    if(!SEA_KING_MOVE.ride)collide(dt);
+    if(!SEA_KING_MOVE.ride&&!wormArenaBuried1120())collide(dt);
     if(charKey==='slime')slimeJumpLanding();
     if(banking&&P.bankT===0)endBank();
     if(P.pos.y>240&&!SEA_KING_MOVE.ride)P.pos.y=240;const pr=Math.hypot(P.pos.x,P.pos.z);if(pr>470){P.pos.x*=470/pr;P.pos.z*=470/pr;}if(DUN.on){P.pos.x=clamp(P.pos.x,DUN.x0+DUN.xm,DUN.x1-DUN.xm);let zl=dunExitLimit(previousExitZ);for(const q of DUN.gates)if(q.open<1&&(P.pos.z>q.z||(TER.gimmickCastle&&previousExitZ>q.z)))zl=Math.max(zl,q.z+7);P.pos.z=clamp(P.pos.z,zl,DUN.z1-8);{const tp=dunFlightCeiling(),lo=Math.min(tp-0.5,DUN.y+(charKey==='wyvern'?12.5:C.model?12:9));if(P.pos.y>tp){P.pos.y=tp;if((charKey==='redcap'||charKey==='slime')&&P.vy>0)P.vel.y=P.vy=0;}if(false&&C.fly&&P.pos.y<lo){P.pos.y+=Math.max((lo-P.pos.y)*0.35,Math.min(lo-P.pos.y,0.9));if(P.vel.y<0)P.vel.y=0;P.onGround=false;}}}if(CAVE.on){const dx=P.pos.x-CAVE.x,dz=P.pos.z-CAVE.z,d=Math.hypot(dx,dz),m=CAVE.R-14;if(d>m){P.pos.x=CAVE.x+dx*m/d;P.pos.z=CAVE.z+dz*m/d;}const top=Math.min(caveTop(Math.min(d,m))-5,CAVE.y+15);if(P.pos.y>top){P.pos.y=top;if((charKey==='redcap'||charKey==='slime')&&P.vy>0)P.vel.y=P.vy=0;}}if(TER.sky&&P.pos.y<WATER+5)P.pos.y=WATER+5;
@@ -10446,7 +10693,7 @@ function frame(now){
     P.melCd-=dt;if(P.melT>0)P.melT-=dt;playerAttackAdvance(dt);
     if(charKey==='orctank')orcAttackTick(dt);
     if(charKey!=='bomber'&&charKey!=='airship'&&charKey!=='cube'&&P.melCd<=0&&!playerAttackBlocked('melee')&&!(CINE.k===4&&cvOn())&&(maouGiant()||charKey==='slime'||gimmickMeleeTarget()||treeMeleeTarget(P.pos,aimDir(),C.mel.r)||(charKey==='orctank'?(!orcTank()&&!ORCATT.queue.length&&EN.some(e=>orcInReach(e,P.pos,orcDir(),8,0.10,5))):ufoMech()?EN.some(ufoBladeNear):EN.some(e=>{if(e.dead)return false;const c=cpos(e);return Math.hypot(c.x-P.pos.x,c.z-P.pos.z)<C.mel.r+e.r&&Math.abs(c.y-P.pos.y)<12+e.r;}))))melee();
-    let tg=maouGiant()?null:autoTarget();if(tg&&CINE.k===4&&cvOn())tg=null;if(tg&&refHallQuiet())tg=null;P.tgt=tg?tg.clone():null;P.firing=!!tg&&!playerAttackBlocked('auto');
+    let tg=maouGiant()?null:autoTarget();if(tg&&CINE.k===4&&cvOn())tg=null;if(tg&&refHallQuiet())tg=null;P.tgt=tg?tg.clone():null;P.firing=!!tg&&!wormArenaBuried1120()&&!playerAttackBlocked('auto');
     if(P.firing){let k=0;while(P.fireCd<=0&&k<4){P.fireCd+=C.br.cd/RATE();breathe(tg.clone());k++;}}else P.fireCd=Math.max(P.fireCd,0);P.fireCd=Math.max(P.fireCd,charKey==='golem'?0:-C.br.cd);
     P.en=Math.min(100,P.en+(EASY?17:6.5)*dt);easyRecover(dt);
     if(comboT>0){comboT-=dt;if(comboT<=0){combo=0;$('combo').style.opacity=0;}}
@@ -24695,9 +24942,7 @@ function colTheater(kind){
   const ang=i*Math.PI/6,r=84,x=r*Math.sin(ang),z=r*Math.cos(ang);
   put('cream',x,floorAt(x,z)+.12,z,4,.24,.45,ang);
  }
- if(kind===0){colBuildGate(g,rows,put,colors,43,0);colBuildGate(g,rows,put,colors,-35,1);}
- else{
-  colArchModel(g,-105,36);
+ if(kind!==0){ // Open arena floor: entrance exists only during the introduction.
   for(const x of [-70,70])for(const z of [-31,31]){
    put('shadow',x,floor+1.15,z,12,2.3,8,0);put('cream',x,floor+2.68,z,11.7,.78,7.65,0);
   }
@@ -24861,7 +25106,7 @@ function colTick(dt){
  else if(a.bout)colFinalTick(dt);
  else colNote('決闘 · 鉄門の門衛 1体');
  const guarded=a.flags.length?a.flag<3:a.bout&&a.bout.open<=0;
- e.colShield.visible=!!guarded;e.gimmickProtected=!!guarded;
+ e.colShield.visible=false;e.gimmickProtected=false;
  if(guarded){e.colShield.rotation.y+=dt*.7;e.colShield.material.opacity=.15+.12*Math.sin(e.t*4)**2;}
 }
 function colWave(kind,round){
@@ -24879,7 +25124,7 @@ function colWave(kind,round){
 {const before=hitEnemy;hitEnemy=function(e,n){
  if(!colActive()||e!==COL_ARENA.boss||e.dead||!(n>0))return before.apply(this,arguments);
  const a=COL_ARENA;
- const cap=a.flags.length?e.maxHp*([.75,.51,.28,0][a.flag]):a.bout&&a.bout.open<=0?e.hp:0;
+ const cap=0;n*=1+(a.flags.length?a.flag*.20:a.bout?.open>0?.50:0);
  const damage=Math.max(0,Math.min(n,e.hp-cap));
  if(damage>0)before.call(this,e,damage);
 };}
@@ -26623,7 +26868,7 @@ const STORY_WYVERN={join:null,pending:false};
 function storyWyvernRemove(p){rideRelease(p.g);scene.remove(p.g);const i=PETS.indexOf(p);if(i>=0)PETS.splice(i,1);}
 function storyWyvernAdd(enemy,celebrate=false){
  if(!storyWyvernMode()||!PETG)return null;
- for(const p of [...PETS])if(!p.storyWyvern)storyWyvernRemove(p);
+ for(const p of [...PETS])if(!p.storyWyvern&&!p.storyMiniWorm1120)storyWyvernRemove(p);
  UP.pet=0;
  let p=PETS.find(p=>p.storyWyvern);if(p)return p;
  const c=CH.wyvern,d=makeDragon(c.col[0],c.col[1],1.7,{eye:0x60f0ff});attachModel(d.g,'wyvern2');
@@ -28936,9 +29181,36 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!$('musouEntryLink')) return;
   const selection = $('select');
   const wingedMaou = MAOUF[0].id === 'demon';
-  if (wingedMaou) {
-    const thumb = selection.querySelector('#cards .card[data-k="maou"] .pti');
-    if (thumb) thumb.src = 'assets/sc1-polish-1120/face-demon.webp';
+  /* MUSOU_PORTRAITS_1120 */
+  function portraitSources(key, mode) {
+    if (key === 'ufo' && mode === 'mech') {
+      return ['chara/ic/ctx_ufo_1_sp.webp','chara/ic/ctx_ufo_1_sp2.webp'];
+    }
+    if (key === 'army') {
+      return ['chara/ic/ctx_army_0_sp3.webp','chara/ic/ctx_army_0_sp2.webp'];
+    }
+    if (key === 'dragonking') {
+      return ['chara/ic/ctx_dragonking_0_sp2.webp','chara/ic/ctx_dragonking_0_sp3.webp'];
+    }
+    if (key === 'dragonknight') {
+      return ['chara/ic/ctx_dragonknight_0_sp3.webp','chara/ic/ctx_dragonknight_0_sp.webp'];
+    }
+    if (key === 'ground' && CH[key].portrait) {
+      return [CH[key].portrait,'assets/sandworm-1120/emerge.webp'];
+    }
+    const actual = key === 'maou' && wingedMaou ? 'demon' : key;
+    return [CH[key].portrait || `assets/sc1-polish-1120/face-${actual}.webp`,`chara/${actual}.webp`];
+  }
+  function showPortrait(image,key,mode) {
+    const [artwork,fallback] = portraitSources(key,mode);
+    image.onerror = () => {
+      if (image.getAttribute('src') === artwork && fallback && fallback !== artwork) image.src = fallback;
+    };
+    image.src = artwork;
+  }
+  for (const card of selection.querySelectorAll('#cards .card[data-k]')) {
+    const thumb = card.querySelector('.pti');
+    if (thumb) showPortrait(thumb,card.dataset.k,'character');
   }
   const review = document.createElement('section');
   review.id = 'musouCharacterReview';
@@ -28958,11 +29230,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const picture = review.querySelector('img');
   const panel = review.querySelector('.musou-model');
   const status = review.querySelector('.musou-preview-status');
-  let portraitKey = '';
-  picture.addEventListener('error', () => {
-    const fallback = `chara/${portraitKey}.webp`;
-    if (!picture.getAttribute('src').startsWith('chara/')) picture.src = fallback;
-  });
+  let portraitKey = '', shownPortrait = '';
 
   const studio = new THREE.Scene();
   studio.background = new THREE.Color(0x283241);
@@ -29133,9 +29401,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (portraitKey !== charKey) {
       portraitKey = charKey;
       heading.textContent = C.name;
-      picture.alt = `${C.name}のイラスト`;
-      const illustration = charKey === 'maou' && wingedMaou ? 'demon' : charKey;
-      picture.src = C.portrait || `assets/sc1-polish-1120/face-${illustration}.webp`;
+      shownPortrait = '';
     }
     const rect = panel.getBoundingClientRect();
     this.getSize(size);
@@ -29143,6 +29409,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const x = Math.round(rect.left), y = Math.round(size.y - rect.bottom);
     if (w <= 0 || h <= 0) return render.apply(this, args);
     const shot = previewFrame(root);
+    const portraitMode = charKey === 'ufo' && shot.mode === 'mech' ? 'mech' : 'character';
+    if (shownPortrait !== portraitMode) {
+      shownPortrait = portraitMode;
+      picture.alt = portraitMode === 'mech' ? 'UFOの大型ロボ形態のイラスト' : `${C.name}のイラスト`;
+      showPortrait(picture,charKey,portraitMode);
+    }
     const asset = selectedAsset();
     const loading = asset && mobileKnown(asset) && !MODEL[asset] && !mobileArt.failed.has(asset);
     const visible = fit(shot.subject, asset, w, h);
@@ -29154,6 +29426,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const shown = ready ? portraitKey : '';
     if (panel.dataset.model !== shown) panel.dataset.model = shown;
+    if (panel.dataset.asset !== (ready ? asset : '')) panel.dataset.asset = ready ? asset : '';
     panel.dataset.preview = shot.mode;
     panel.dataset.action = preview.action ? 'clip' : shot.action ? 'pose' : 'idle';
     const oldAlpha = this.getClearAlpha();
@@ -29968,6 +30241,7 @@ function sc1BossArtTick1120(dt){
  if(kind&&kind!=='wyvern'&&!SC1_BOSS_ART_1120.down){
   sc1BossBeginDown1120(kind,e,()=>{
    if(kind==='sandworm'){
+    wormArenaStoryJoin1120(e);
     before.call(this,e,true);
     WV.maj=WV.majT=null;waveWait=999;
     document.body.classList.add('escape-paper-cut');
@@ -30638,22 +30912,46 @@ window.sc1PlayerLoss1120=()=>{
 const COL_INTRO_1120={active:null,serial:0,completed:0,seen:[]};
 function colIntroName1120(e){return String(e.nm||e.boss||({ogre:'大槌の剣闘士',soldier:'兵士の剣闘士',archer:'弓の剣闘士',hero:'入場の剣闘士'})[e.type]||firstplayName(e)).replace(/^[^\p{L}\p{N}]+/u,'');}
 function colIntroRestoreActor1120(a){a.e.mesh.rotation.copy(a.rotation);const m=a.e.mesh.userData.mix;if(a.action){a.action.stop();if(m){m.once=a.once;m.cur=a.cur;a.cur?.play();}}}
-function colIntroFinish1120(completed=false){const S=COL_INTRO_1120,q=S.active;if(!q)return;S.active=null;q.actors.forEach(a=>{colIntroRestoreActor1120(a);a.e.inv=a.inv;});q.hidden.forEach(([g,v])=>g.visible=v);if(window.CAMOV===q.view)window.CAMOV=q.camera;presentationEnd(q.id);firstplayResetInput();if(completed)S.completed++;}
-function colIntroCamera1120(q,a,u){const p=a.e.mesh.position,b=a.bounds,size=a.size,aspect=Math.max(.35,cam.aspect),tan=Math.tan(cam.fov*Math.PI/360),distance=Math.max(8,size.y/(2*tan*.62),Math.max(size.x,size.z)/(2*tan*aspect*.76))*1.15;
- const angle=.29+.13*Math.sin(u*Math.PI),axis=new V3(Math.sin(angle),0,Math.cos(angle));q.view.t.copy(p);q.view.t.y+=b.min.y+size.y*.48;q.view.p.copy(q.view.t).addScaledVector(axis,distance);q.view.p.y+=distance*.12;
-}
-function colIntroTick1120(dt){const q=COL_INTRO_1120.active;if(!q||PAUSED||LVUP||document.hidden)return;if(!colActive()||stage!==q.stage||state!=='play'){colIntroFinish1120();return;}q.time+=Math.min(.05,Math.max(0,dt));colGateAnimate(dt);
- const index=Math.min(q.actors.length-1,Math.floor(q.time/q.beat)),a=q.actors[index],u=clamp((q.time-index*q.beat)/q.beat,0,1);
- if(index!==q.index){if(q.index>=0)colIntroRestoreActor1120(q.actors[q.index]);q.index=index;COL_INTRO_1120.seen.push(a.name);const m=a.e.mesh.userData.mix;
-  if(m?.hit){a.cur=m.cur;a.once=m.once;a.action=m.acts[m.hit.name];a.action.reset();a.action.setLoop(THREE.LoopOnce,1);a.action.clampWhenFinished=true;a.action.timeScale=.9;a.action.play();m.cur=a.action;m.once=a.action;}
+function colIntroFinish1120(completed=false){const S=COL_INTRO_1120,q=S.active;if(!q)return;S.active=null;
+ q.actors.forEach(a=>{colIntroRestoreActor1120(a);a.e.mesh.position.copy(a.destination1120);a.e.mesh.visible=a.visible1120;a.e.inv=a.inv;});
+ q.hidden.forEach(([g,v])=>g.visible=v);if(window.CAMOV===q.view)window.CAMOV=q.camera;
+ if(q.entrance1120){q.entrance1120.parent?.remove(q.entrance1120);for(const o of q.resources1120){COL_ARENA.owned.delete(o);o.dispose();}}
+ document.body.classList.remove('arena-intro-1120');presentationEnd(q.id);firstplayResetInput();
+ if(completed){S.completed++;const e=q.actors.find(a=>!a.e.dead)?.e;
+  if(e){const target=cpos(e),delta=target.clone().sub(P.pos);P.yaw=P.lastYaw=Math.atan2(delta.x,delta.z);P.pitch=clamp(Math.atan2(delta.y,Math.hypot(delta.x,delta.z)),-.35,.35);P.roll=0;
+   ARENA_REVEAL_1120.enemy=e;ARENA_REVEAL_1120.until=performance.now()+2800;
+   const forward=new V3(Math.sin(P.yaw),0,Math.cos(P.yaw));cam.position.copy(P.pos).addScaledVector(forward,-(cam.aspect<.85?48:34)).add(new V3(0,cam.aspect<.85?30:22,0));camLook.copy(target);cam.lookAt(camLook);cam.updateMatrixWorld();
+  }
  }
- a.e.mesh.rotation.y=a.rotation.y+.08*Math.sin(u*Math.PI);colIntroCamera1120(q,a,u);
- const owner=PRESENTATION.owner;if(owner?.id===q.id){owner.label=a.name;owner.text=`対戦者 ${index+1} / ${q.actors.length}　${a.name}。`+(index===q.actors.length-1?'紹介が終わると、試合開始！':'続いて、次の対戦者。');}
- if(q.time>=q.actors.length*q.beat+.25)colIntroFinish1120(true);
 }
-function colIntroBegin1120(enemies){if(!colActive()||state!=='play'||!enemies.length||COL_INTRO_1120.active)return;
+
+function colIntroCamera1120(q,a,u){
+ const p=a.e.mesh.position,center=q.view.t,b=a.bounds,size=a.size;
+ center.copy(b.getCenter(new V3())).applyAxisAngle(new V3(0,1,0),a.e.mesh.rotation.y).add(p);
+ const tan=Math.tan(cam.fov*Math.PI/360),distance=Math.max(4.2,size.y/(2*tan*.63),Math.max(size.x,size.z)/(2*tan*Math.max(.35,cam.aspect)*.72))*1.2;
+ q.view.p.copy(center).add(new V3(distance*.37,distance*.17,distance*.93));
+}
+
+function colIntroTick1120(dt){const q=COL_INTRO_1120.active;if(!q||PAUSED||LVUP||document.hidden)return;if(!colActive()||stage!==q.stage||state!=='play'){colIntroFinish1120();return;}
+ q.time+=Math.min(.05,Math.max(0,dt));colGateAnimate(dt);
+ const open=rigSm(clamp(q.time/.7,0,1));for(const {leaf,side} of q.leaves1120)leaf.rotation.y=-side*open*Math.PI*.52;
+ if(q.time<.8){q.view.t.copy(q.door1120).add(new V3(0,5,0));q.view.p.copy(q.view.t).add(new V3(8,4,25));return;}
+ const age=q.time-.8,index=Math.min(q.actors.length-1,Math.floor(age/q.beat)),a=q.actors[index],u=clamp((age-index*q.beat)/q.beat,0,1);
+ if(index!==q.index){if(q.index>=0){const old=q.actors[q.index];colIntroRestoreActor1120(old);old.e.mesh.position.copy(old.destination1120);}q.index=index;COL_INTRO_1120.seen.push(a.name);a.e.mesh.visible=true;}
+ const k=rigSm(clamp(u/.76,0,1)),from=q.door1120.clone().add(new V3(0,0,-5));from.y=a.destination1120.y;
+ const exit=q.door1120.clone().add(new V3(0,0,5));exit.y=a.destination1120.y;
+ const approach=u<.28,leg=approach?rigSm(u/.28):rigSm(clamp((u-.28)/.48,0,1)),toward=approach?exit:a.destination1120;
+ a.e.mesh.position.lerpVectors(approach?from:exit,toward,leg);
+ const heading=approach?exit.clone().sub(from):a.destination1120.clone().sub(exit);
+ a.e.mesh.rotation.y=u<.76?Math.atan2(heading.x,heading.z):a.rotation.y;
+ colIntroCamera1120(q,a,u);
+ const owner=PRESENTATION.owner;if(owner?.id===q.id){owner.label=a.name;owner.text=`${index+1}/${q.actors.length}　${a.name}`+(u>.78?' ─ 入場完了':' ─ 入場');}
+ if(age>=q.actors.length*q.beat+.18)colIntroFinish1120(true);
+}
+
+function colIntroBegin1120(enemies){if(!colActive()||state!=='play'||!enemies.length||COL_INTRO_1120.active||PRESENTATION.owner)return;
  const actors=enemies.filter(e=>!e.dead).map(e=>{if(e.sc)e.mesh.scale.setScalar(e.sc);e.mesh.updateMatrixWorld(true);const bounds=posedModelBounds(e.mesh),scale=Math.max(Math.abs(e.mesh.scale.x),Math.abs(e.mesh.scale.y),Math.abs(e.mesh.scale.z));bounds.min.multiplyScalar(scale);bounds.max.multiplyScalar(scale);const size=bounds.getSize(new V3());return {e,name:colIntroName1120(e),rotation:e.mesh.rotation.clone(),inv:e.inv,bounds,size,action:null};});if(!actors.length)return;
- const q={id:'colosseum-opponents-'+(++COL_INTRO_1120.serial),stage,time:0,beat:1.8,index:-1,actors,camera:window.CAMOV,view:{p:new V3(),t:new V3()},hidden:[]};
+ const q={id:'colosseum-opponents-'+(++COL_INTRO_1120.serial),stage,time:0,beat:3.1,index:-1,actors,camera:window.CAMOV,view:{p:new V3(),t:new V3()},hidden:[]};arenaEntrancePrepare1120(q);
  if(!presentationBegin(q.id,{label:'対戦者紹介',text:'一人ずつ、対戦者を紹介します。',letterbox:true,next:false,tick:colIntroTick1120}))return;
  COL_INTRO_1120.active=q;bannerT=0;$('banner').style.opacity='0';if($('wvfx'))$('wvfx').className='';if($('wvred'))$('wvred').className='';actors.forEach(a=>a.e.inv=true);for(const g of [D.g,...PETS.map(p=>p.g)]){q.hidden.push([g,g.visible]);g.visible=false;}
  for(let i=PROJ.length-1;i>=0;i--){scene.remove(PROJ[i].m);PROJ.splice(i,1);}presentationClearInput();window.CAMOV=q.view;colIntroTick1120(0);
@@ -30767,7 +31065,7 @@ function sandwormFight1120(e,dt){
   burrow=Math.min(1,t/.48);speed=Math.min(17,distance/dt);move=1;
   e.wormDust-=dt;
   if(e.wormDust<=0){e.wormDust=.32;debris(pos,3,wormPalette1120,.65);}
-  if(t>=1.85)sandwormPhase1120(e,'warn');
+  if(t>=3.65)sandwormPhase1120(e,'warn');
   break;
  case 'warn':
   burrow=1-t*.32;
@@ -30792,8 +31090,8 @@ function sandwormFight1120(e,dt){
  const bx=pos.x-CAVE.x,bz=pos.z-CAVE.z;
  const bound=Math.min(1,(CAVE.R-24)/(Math.hypot(bx,bz)||1));
  pos.x=CAVE.x+bx*bound;pos.z=CAVE.z+bz*bound;
- pos.y=sandwormFloor1120(pos)-burrow*1.9;
- poseSandworm1120(e.wormRig,{time:e.t,turn:clamp(turn,-1,1),move,emerge,burrow,bite});
+ pos.y=sandwormFloor1120(pos)-burrow*4.2;
+ poseSandworm1120(e.wormRig,{time:e.t,turn:clamp(turn,-1,1),move,emerge,burrow,bite,covered:1,length:1.72});
 }
 {const before=R.render;R.render=function(world,lens){
  if(world===scene&&lens===cam&&CAVE.on&&state==='play'&&!CINE.k&&!window.CAMOV&&!presentationHold()){
@@ -30906,6 +31204,52 @@ window.encounterReadability1120=()=>({caveFX:solEncounter?.readablePainted1120??
   return line.img==='story-sealed-door'?{...line,img:'sealed-gate'}:line;
  });
 };}
+
+/* ARENA_ENTRANCE_1120 */
+const ARENA_REVEAL_1120={enemy:null,until:0};
+{const before=colCameraAim;colCameraAim=function(target){const r=before.apply(this,arguments),e=ARENA_REVEAL_1120.enemy;if(colCameraEnabled()&&e&&!e.dead&&performance.now()<ARENA_REVEAL_1120.until)target.lerp(cpos(e),.82);return r;};}
+function arenaEntrancePrepare1120(q){
+ const root=q.entrance1120=new THREE.Group();root.name='arenaOpponentEntrance1120';COL_ARENA.root.add(root);
+ const z=q.actors.reduce((n,a)=>n+a.e.mesh.position.z,0)/q.actors.length-13;
+ q.door1120=new V3(-31,floorAt(-31,z),z);root.position.copy(q.door1120);
+ const old=new Set(COL_ARENA.owned),stone=colOwn(new THREE.MeshLambertMaterial({color:0xa89170})),iron=colOwn(new THREE.MeshLambertMaterial({color:0x45434a})),trim=colOwn(new THREE.MeshLambertMaterial({color:0xb99b60}));
+ const height=Math.max(12,...q.actors.map(a=>a.size.y+2)),half=Math.max(5,...q.actors.map(a=>Math.max(a.size.x,a.size.z)*.55));
+ for(const side of [-1,1])colBox(root,stone,side*(half+1),height*.5,0,2,height,3);
+ colBox(root,stone,0,height+.6,0,half*2+4,1.7,3.5);
+ q.leaves1120=[];for(const side of [-1,1]){const leaf=new THREE.Group();leaf.position.x=side*half;root.add(leaf);q.leaves1120.push({leaf,side});
+ colBox(leaf,iron,-side*half*.5,height*.47,0,half,height*.94,.7);for(let i=1;i<5;i++)colBox(leaf,trim,-side*half*i/5,height*.47,.42,.17,height*.94,.16);}
+ q.resources1120=[...COL_ARENA.owned].filter(o=>!old.has(o));
+ q.actors.forEach(a=>{a.destination1120=a.e.mesh.position.clone();a.visible1120=a.e.mesh.visible;a.e.mesh.visible=false;});
+ document.body.classList.add('arena-intro-1120');
+ for(const gate of COL_ARENA.gates)gate.target=1;
+}
+{const before=storyImageV2;storyImageV2=function(key){if(key==='arena-gate'||key==='arena-bosses')return 'assets/worm-arena-1120/'+key+'.webp';return before.apply(this,arguments);};}
+{const before=showStory;showStory=function(i,ending){const r=before.apply(this,arguments);if(!ending&&colActive()){
+ const key=STAGES[stage]?.key,stories={
+ col_gate:['鉄扉が開く。砂を踏み、最初の剣闘士が日の下へ出た。','門衛の向こうに、三色の旗を背負う石の旗手。最後に待つのは、黒い甲冑の王者だ。'],
+ col_trial:['歓声がやみ、次の鉄扉が開く。重い足音が、砂の上へ響いた。','三色の旗を背負う石の旗手。岩の拳を握り、挑戦者を静かに見すえた。'],
+ col_final:['最後の鉄扉が開く。客席の視線が、一人の挑戦者へ集まった。','黒い甲冑の王者が剣を掲げた。夕日の闘技場に、最後の決闘の合図が響く。']};
+ const lines=stories[key]||stories.col_gate;KAMI.sl=[{img:'arena-gate',ch:'コロセウム',t:'強敵たちの闘技場',l:lines[0]},{img:'arena-bosses',ch:'コロセウム',t:'門衛、石の旗手、黒い王者',l:lines[1]}];KAMI.i=0;kamiShow();
+ }return r;};}
+{const before=colRulesData;colRulesData=function(){if(!colActive())return before.apply(this,arguments);const key=STAGES[stage].key;
+ return {title:key==='col_gate'?'入場が終わったら、自由に戦おう':'ボス集 ─ 強敵との決闘',win:'勝利条件：目の前の相手を倒す',steps:[['sword','移動・炎・必殺技で戦う','紹介が終わると操作できます。相手には、いつでも攻撃が通ります。'],['flags','旗や床は任意の作戦',key==='col_trial'?'好きな旗の円で0.7秒待つと、攻撃が20%ずつ強くなります。':'王者の緑の床で衝撃波を避けると、短い間、攻撃が50%強くなります。'],['crown','倒すと次の試合へ','門を通る必要はありません。次の相手も、一体ずつ紹介します。']],warning:'旗や回避の成功は必須ではありません。通常の攻撃だけでも勝てます。'};
+};}
+colBoundary=function(){const p=P.pos,r=Math.hypot(p.x,p.z),limit=COL_ARENA.radius-3.5;if(r>limit){const nx=p.x/r,nz=p.z/r,v=Math.max(0,nx*P.vel.x+nz*P.vel.z);p.x=nx*limit;p.z=nz*limit;P.vel.x-=nx*v;P.vel.z-=nz*v;}P.bpx=p.x;P.bpz=p.z;};
+colFlagTick=function(dt){const a=COL_ARENA;for(const q of a.flags){if(q.arenaTaken1120)continue;const near=Math.hypot(P.pos.x-q.p.position.x,P.pos.z-q.p.position.z)<=q.radius;q.hold=near?Math.min(.65,q.hold+dt):0;if(q.hold>=.65){q.arenaTaken1120=true;a.flag++;q.beacon.visible=false;q.ring.material.opacity=.2;shock(q.p.position,0xefcf88,13);sfx('heal',q.p.position,.5);}}};
+colGuideUpdate=function(){colGuidePrepare();colPointer.hidden=true;if(!colActive()||state!=='play'||presentationHold()||PAUSED||LVUP){colHud.hidden=true;return;}const a=COL_ARENA,e=a.boss;
+ colGuideWrite(e?.boss?String(e.boss).replace(/^\S+\s/,''):'闘技場 ─ 自由に戦おう',a.flags.length?`旗 ${a.flag}/3本（任意） · 攻撃 +${a.flag*20}%`:a.bout?`いつでも攻撃可能${a.bout.open>0?' · 弱点：攻撃 +50%':' · 緑の床への回避で攻撃強化'}`:'相手を倒すと、次の試合へ');
+};
+SCI[12].d='強敵たちのボス集。相手が一体ずつ扉から入場し、紹介後は自由に戦える。旗は好きな順で取ると攻撃強化、王者の衝撃波を緑の床で避けると一時的に攻撃強化。どちらも任意で、通常攻撃だけでも勝利できる。';
+{const style=document.createElement('style');style.textContent=`
+#hud.col-arena #colArenaStatus{left:12px;right:auto;top:116px;bottom:auto;transform:none;width:min(255px,calc(100vw - 126px));max-width:none;padding:6px 8px;text-align:left;font-size:11px;line-height:1.3}
+#hud.col-arena #boss{top:208px!important;left:50%!important;transform:translateX(-50%)!important;width:min(360px,calc(100vw - 24px))!important}
+#hud.col-arena #colArenaStatus strong{font-size:12px}#hud.col-arena #colArenaStatus span{font-size:10px}#hud.col-arena #colRulesHelp{font-size:10px;min-height:28px;margin-top:4px}
+body.arena-intro-1120 #presentationPanel{top:auto!important;bottom:18px!important;left:12px!important;right:12px!important;width:auto!important;max-height:76px;min-height:0;height:auto!important;max-width:none!important;transform:none!important;margin:0!important;padding:8px 12px!important;display:block!important}
+body.arena-intro-1120 #presentationPanel .presentation-face,body.arena-intro-1120 #presentationNext,body.arena-intro-1120 #colArenaStatus,body.arena-intro-1120 #colTargetPointer{display:none!important}
+body.arena-intro-1120 #presentationPanel strong{display:none}body.arena-intro-1120 #presentationPanel p{margin:2px 0;font-size:14px;height:auto!important;max-height:none;overflow:visible}body.arena-intro-1120 #fpMission,body.arena-intro-1120 #fpTarget,body.arena-intro-1120 #banner{display:none!important}
+#story #stPic[src*="worm-arena-1120/arena-"]{object-fit:contain!important;object-position:center!important;width:100%!important;height:100%!important;inset:0!important;transform:none!important}
+`;document.head.appendChild(style);}
+/* END_ARENA_ENTRANCE_1120 */
 
 </script>
 <script>/* MUSOU_ENTRY_1118 */
