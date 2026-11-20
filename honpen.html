@@ -254,7 +254,7 @@ body.lbx #hud::before,body.lbx #hud::after{height:9vh}
 #waza .wbox{width:100%;max-width:1180px;margin:0 auto}
 #waza .wh{display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:-16px;background:#0a0612;padding:10px 0 8px;z-index:1}
 #waza h2{margin:0;font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:clamp(22px,4vw,32px);color:#ffcf4a}
-#waza .wsub{font-size:13px;opacity:.85;margin:0 0 10px}
+#waza .waza-choice{display:flex;align-items:center;gap:10px;margin:8px 0 14px}#wazaWho{max-width:65vw;padding:6px 10px;font:inherit}#wazaG{grid-template-columns:minmax(0,640px)}#wazaG .wc[hidden]{display:none}#waza .wsub{font-size:13px;opacity:.85;margin:0 0 10px}
 #waza .wg{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;padding-bottom:20px}
 .wc{background:#1d1626;border:2px solid #3a2f47;border-radius:14px;padding:10px 12px}
 .wc.on{border-color:#ffb030;box-shadow:0 0 14px #ff9a3a66}
@@ -755,7 +755,8 @@ body.honpen.mob #select .select-menu{display:flex;justify-content:center}
 body.honpen #select .select-menu a{display:none!important}
 #hud .painted-control img,#paused .painted-control img,.painted-control img{display:block;margin:auto;height:1.05em;width:auto;max-width:100%;object-fit:contain;pointer-events:none}
 #touch .b.painted-control img{width:84%;height:auto;max-height:30%}
-.ono img{display:block;width:3.1em;max-height:1.5em;object-fit:contain}
+body.escape-paper-cut::after{content:'';position:fixed;inset:0;z-index:99999;background:#090807;pointer-events:auto}
+.ono img{display:block;width:clamp(76px,3.6em,138px);height:1.5em;object-fit:contain}
 #ult .nm.painted-control img,#cutin .nm.painted-control img{height:1.4em;max-width:80vw}
 
 </style>
@@ -943,7 +944,7 @@ body.musou-selection #select .select-menu { flex-wrap: wrap; }
 </div>
 <div id="story" class="ov"><div class="box"><div class="kstage"><div class="kami" id="kami"><div class="kz" id="kz"><img id="stPic" alt="" fetchpriority="high"><div class="kink" id="kink"></div></div><div class="kvig"></div></div></div><div class="kside"><div class="khd" id="khd"><div class="ch" id="stCh"></div><h2 id="stT"></h2><svg class="kbrush" viewBox="0 0 400 16" preserveAspectRatio="none" aria-hidden="true"><path d="M3 9 C40 4 90 11 150 7 C210 3 280 10 340 6 C365 5 385 7 397 9 C380 11 360 10 330 11 C270 14 200 9 140 12 C80 15 30 11 3 9Z" fill="#b3261e"/><path d="M60 13 C120 10 190 14 260 12" stroke="#b3261e" stroke-width="1.3" fill="none" opacity=".55"/></svg></div><div id="stL"></div><div class="kfoot"><i></i><div class="kdots" id="stN"></div><button class="btn" id="storyGo">出撃！</button></div></div></div><button class="btn sm" id="storySkip">スキップ ▶▶</button></div>
 <div id="paused" class="ov"><div class="box"><h1>一時停止</h1><div class="sub">Esc か P キーでも、つづきにもどれる</div><div class="gos"><button class="btn" id="resume">つづける</button><button class="btn sm" id="wazaBtn2">📖 技の一覧</button><button class="btn sm" id="quit">本編メニューに戻る</button></div></div></div>
-<div id="waza" class="ov"><div class="wbox"><div class="wh"><h2>技の一覧</h2><button class="btn sm" id="wazaX">とじる ✕</button></div><div class="wsub" id="wazaSub"></div><div class="wg" id="wazaG"></div></div></div>
+<div id="waza" class="ov"><div class="wbox"><div class="wh"><h2>技の一覧</h2><button class="btn sm" id="wazaX">とじる ✕</button></div><div class="wsub" id="wazaSub"></div><label class="waza-choice">キャラクター<select id="wazaWho"></select></label><div class="wg" id="wazaG"></div></div></div>
 <div id="scp" class="ov" role="dialog" aria-modal="true" aria-labelledby="scpH"><div class="sbox"><div class="sh"><h2 id="scpH">シナリオの概要</h2><button class="btn" id="scpGo2">▶ このシナリオで遊ぶ</button><button class="btn sm" id="scpX" aria-label="とじる">✕ とじる</button></div><div class="tabs" id="scpTabs" role="tablist"></div><div class="cols"><div><div class="pic" id="scpPic"><img id="scpA" alt=""><img id="scpB" alt=""><video id="scpV" muted playsinline preload="none" aria-label="ゲームの動画"></video><div class="cap" id="scpCap"></div><div class="bd" id="scpBd">ゲーム画面</div></div><div class="dots" id="scpDots"></div></div><div class="info"><h3 class="nm" id="scpNm"></h3><p class="ds" id="scpDs"></p><div class="st">章の並び</div><ul class="chs" id="scpChs"></ul><div class="st">ボス</div><div class="bs" id="scpBs"></div><p class="len">🔰 初心者モードでは、敵が弱まり、次の波へ早く進みます。</p><div class="gos"><button class="btn" id="scpGo">このシナリオで遊ぶ</button></div></div></div></div></div>
 <div id="over" class="ov">
   <div class="box"><h1 id="ovT">やられた…</h1><div class="sub" id="ovS"></div><div class="res" id="ovR"></div><button class="btn" id="again">本編メニューに戻る</button></div>
@@ -1530,7 +1531,7 @@ async function mobileManifest(){
     if(!response.ok)throw new Error('model manifest HTTP '+response.status);
     const data=await response.json();
     if(!data||Array.isArray(data)||typeof data!=='object')throw new Error('invalid model manifest');
-    mobileArt.manifest=data;mobileArt.manifestError=false;return data;
+    Object.assign(data,{"cave_party_shield_1120":{"file":"../assets/sc1-motion-party/cave_party_shield_1120.glb","h":1,"ja":"赤竜本編の戦士の大盾","rot":0,"bytes":110472,"version":"603ca191d47973a6","mobileFile":"../assets/sc1-motion-party/cave_party_shield_1120.glb","mobileBytes":110472,"mobileVersion":"603ca191d47973a6"}});mobileArt.manifest=data;mobileArt.manifestError=false;return data;
    }catch(_){if(n===0)await new Promise(r=>setTimeout(r,250));}
    finally{clearTimeout(t);}
   }
@@ -4715,7 +4716,13 @@ function kamiShow(){const k=KAMI,sd=k.sl[k.i],n=k.sl.length,last=k.i>=n-1;
   ['x0','y0','s0','x1','y1','s1'].forEach((q,j)=>kz.style.setProperty('--'+q,v[j]+(j%3===2?'':'%')));
   kz.style.animation=strip?'kbz 16s ease-in-out both':'';
   im.className=(crop||strip)?'kcrop':'';im.style.transformOrigin=KFOC[key]||'';ki.style.display='none';ki.innerHTML='';im.style.visibility='';
-  if(KBAD[key]){kink(ki,key);im.style.visibility='hidden';}
+  if(paperMotionDrawing1120()){
+   const loaded=PAPER_MOTION_1120.active.image;
+   if(loaded){
+    loaded.id=im.id;loaded.className=im.className;loaded.style.cssText=im.style.cssText;
+    loaded.alt=im.alt;im.replaceWith(loaded);
+   }else{kink(ki,key);im.style.visibility='hidden';}
+  }else if(KBAD[key]){kink(ki,key);im.style.visibility='hidden';}
   else{im.dataset.fb='';im.onload=null;
    im.onerror=()=>{if(KAMI!==k||k.i!==idx)return;if(!im.dataset.fb){im.dataset.fb='1';im.src=(typeof P8FB!=='undefined'&&P8FB[key])?storyImageV2(P8FB[key]):`story/${key}.jpg`;}else{KBAD[key]=1;kink(ki,key);im.style.visibility='hidden';}};
    im.src=storyImageV2(key);}
@@ -6535,7 +6542,7 @@ kr8hit=function(){const r=D&&D.krig;if(!r)return kr8hit0();
 // 今つけている技（P.sp＝左クリック・P.sp2＝右クリック）を出す。どの枠にどの技が入っていても同じ
 function useSkill(k){if(UFO_SKILLS.has(k)){if(charKey==='ufo')ufoLaserSkill(k);return;}if(charKey==='orctank'){orcUseSkill(k);return;}if(ORCONLY.has(k))return;if(state!=='play'||P.en<SPC()||LVUP||PAUSED||!SKINFO[k])return;
   if(k==='quake'&&!P.onGround&&charKey!=='slime'&&charKey!=='cube'&&!maouGiant())return;
-  const gap=skillGap();if(ultT>0||gap<SKGAP)return;const quick=gap<SKQUICK,powerStamp=POWERS.stamp;
+  const gap=skillGap();if(ultT>0||gap<SKGAP)return;const quick=gap<SKQUICK,powerStamp=POWERS.stamp,cutStamp=SC1_CUT_GUARD_1120.epoch;
   spendSpecialEnergy();CINE.skip=(k==='bombs'||k==='bonehound'||charKey==='bomber'&&k==='broadside');const tr=charKey==='airship'&&k==='bombs'?1:skTier(k),run=()=>{SKTM=tr===1?1:tr===2?0.75:0.7;try{if(powerStamp!==POWERS.stamp)return;if(powersSkill(k))return;if(TKSK[k])TKSK[k]();else if(SKB[k])skillB(k);else skillA(k);}finally{SKTM=1;}};
   const buddyStamp=RIDE_BUDDY_STAMP,red=charKey==='redcap',rain=red&&k==='rcrain'?rcRainPlan():null;
   const valid=()=>!red||(charKey==='redcap'&&buddyStamp===RIDE_BUDDY_STAMP&&P.hp>0);
@@ -6544,7 +6551,7 @@ function useSkill(k){if(UFO_SKILLS.has(k)){if(charKey==='ufo')ufoLaserSkill(k);r
     if(rain){rcRainCast(rain,tr);return;}
     if(red)rideBuddySkill(k);
     run();
-    for(let q=1;q<tr;q++)setTimeout(()=>{if(valid()&&state==='play'&&!PAUSED&&!LVUP)run();},q*420);
+    for(let q=1;q<tr;q++)setTimeout(()=>{if(valid()&&state==='play'&&!PAUSED&&!LVUP&&sc1CutFollowup1120(cutStamp))run();},q*420);
   };if(quick||maouGiant()||(charKey==='kraken'&&(k==='krvortex'||k==='kr8hit'))){fire();skQuick(k);return;}
   ult(skName(k),ULTL[k],fire);try{if(k==='bigfire'||k==='flamering'||k==='thunder'||k==='discharge')fxCharge(k);}catch(_){}}
 function special(){useSkill(P.sp);}
@@ -8338,7 +8345,7 @@ function valleyRoyalPatrol(){
    const t=clamp((time-a.start)/(20/5.5),0,1),p=a.e.mesh.position;
    p.lerpVectors(a.from,a.to,t);
    const spread=rigSm((time-3.4)/1.2);
-   p.x+=Math.sign(a.row.lane)*(a.row.type==='soldier'?4:a.row.type==='archer'?8:2)*spread;
+   p.x+=Math.sign(a.row.lane)*(marchScope1120()?(a.row.type==='soldier'?1.2:a.row.type==='archer'?2:.8):(a.row.type==='soldier'?4:a.row.type==='archer'?8:2))*spread;
    p.y=floorAt(p.x,p.z);if(t>0&&t<1){a.e.t+=dt;animWalk(a.e,5.5);}
   }
   valleyRoyalView(actors,view,f,side,time);
@@ -8805,7 +8812,7 @@ const TALKPIC={valley:2,town:2,castle:2,sea:1,demon:2,peak:2};
 // 掛け合いの1行ごとの絵（w＝章の始まり／c＝クリア後／c1＝シナリオ1のクリア後）と、エピローグの絵。無い所は今までどおりの絵
 const KIMG={maou:{w:['maou_t1','maou_t2'],c:['maou_c1','maou_c2','maou_c3','maou_c']},valley:{c1:['valley_c','valley_c2']}},ENDIMG={1:['end1_1','end1_2','end1_3','end_g'],2:[null,null,null,'end_g']};
 function kimg(D,A){if(A)D.forEach((q,j)=>{if(A[j])q.img=A[j];});return D;}
-function showStory(i,ending,fromClear){state='story';TK.q.length=0;TK.cur=null;const S=STAGES[i];
+function showStory(i,ending,fromClear){document.body.classList.remove('escape-paper-cut');state='story';TK.q.length=0;TK.cur=null;const S=STAGES[i];
   const ch=ending?'エピローグ':S.ch+'　'+S.place,t=ending?(ENDT[SCN]||'空の王'):S.title,key=ending?'end':S.key,L=ending?(ENDS[SCN]||ENDING):(S.storyN&&!caveOK()?S.storyN:S.story);
   let sl=L.map((l,j)=>({img:(SCN>=11?S.key+'_1':null)||(!ending&&L===S.story&&S.simg&&S.simg[j])||(ending&&ENDIMG[SCN]&&ENDIMG[SCN][j])||key+'_'+Math.min(j+1,3),ch,t,l}));
   const dlg=(L2,img,ch2,t2)=>L2.map(([who,l])=>({img,ch:ch2,t:t2,l,who}));
@@ -8842,25 +8849,28 @@ function clearGap(fn){if(PAC.bc)return;PAC.bc=1;waveWait=1e3;const k=pacK();
 
 // 技の一覧表：7人ぶんの「左クリック・右クリック・スペース」の技を、絵と一言でまとめて見せる
 function showWaza(v){const w=$('waza');if(!v){w.style.display='none';return;}const touch=matchMedia('(pointer:coarse)').matches,K=touch?['右下の丸ボタン①','右下の丸ボタン②','右下の丸ボタン③']:['左クリック','右クリック','スペース'];
-  $('wazaSub').textContent=touch?'画面の右下の丸いボタンで出す。炎や弾は、前の敵へ自動で出る。見本の絵を押すと、大きく表示できる。':'炎や弾は、前の敵へ自動で出る。必殺技はゲージが40たまると出せる。見本の絵を押すと、大きく表示できる。';
-  $('wazaG').innerHTML=['dragon'].map(k=>{const c=CH[k],R=[['sp',c.spN,c.spD],['sp2',c.sp2N,c.sp2D],['sp3',c.dashN,c.dashD]];
+  $('wazaSub').textContent=touch?'画面の右下の丸いボタンで出す。炎や弾は、前の敵へ自動で出る。技を押すと、発動から効果まで動画で見られる。':'炎や弾は、前の敵へ自動で出る。必殺技はゲージが40たまると出せる。技を押すと、発動から効果まで動画で見られる。';
+  $('wazaG').innerHTML=['dragon'].map(k=>{const c=CH[k],R=[['sp',c.spN,c.spD],['sp2',c.sp2N,c.sp2D],['sp3',k==='ufo'?'バリア':c.dashN,k==='ufo'?'円盤の周囲にバリアを展開する。':c.dashD]];
     return `<div class="wc${k===charKey?' on':''}"><div class="wn"><img src="chara/${k}.webp?v=${ASSET_V}" alt=""><div><b>${c.name}</b><span>${c.tag}</span></div></div>`+R.map((r,i)=>`<div class="wr skv"${skvExampleAttrs(k,r[0])}><span class="vth">${skvPreview(k,r[0])}</span><div><span class="k">${K[i]}</span><b>${r[1]||''}</b><p>${r[2]||''}</p></div></div>`).join('')+`</div>`;}).join('');
-  w.style.display='flex';w.scrollTop=0;}
+  const chooser=$('wazaWho'),cards=Array.from($('wazaG').children);
+  chooser.replaceChildren(...cards.map(card=>{const key=card.querySelector('[data-skv]').dataset.skv.split('|')[0];return new Option(CH[key].name,key);}));
+  chooser.value=charKey;const filter=()=>cards.forEach((card,i)=>card.hidden=i!==chooser.selectedIndex);
+  chooser.onchange=filter;filter();w.style.display='flex';w.scrollTop=0;}
 $('wazaBtn').addEventListener('click',()=>showWaza(true));$('wazaBtn2').addEventListener('click',()=>showWaza(true));$('wazaX').addEventListener('click',()=>showWaza(false));
 // 技の絵を押すと、動画の窓（sk_video.py）。窓の中身は最初に押した時に作る
 const SKV={el:null,open:false,from:null};
-const CURRENT_SKV={
- 'hero|sp3':'hero_sp3_current_1117.webp',
- 'seaking|sp':'seaking_sp_current_1117.webp','seaking|sp2':'seaking_sp2_current_1117.webp','seaking|sp3':null,
- 'gwizard|sp':'gwizard_sp_current_1117.webp','gwizard|sp2':'gwizard_sp2_current_1117.webp',
- 'cube|sp':'cube_sp_current_1117.webp','cube|sp2':'cube_sp2_current_1117.webp','cube|sp3':null,
- 'dragonking|sp':null,'dragonking|sp2':null,'dragonking|sp3':null
-};
-function skvMedia(k,s){const custom=CURRENT_SKV[k+'|'+s];return custom===undefined?{image:k+'_'+s+'.webp',video:true}:custom?{image:custom,video:false}:null;}
+/* MUSOU_SKILL_MOVIES_1120 */
+const SKV_NEW_1120={archangel:['sp','sp2'],gwizard:['sp','sp2','sp3'],necromancer:['sp2','sp3'],cube:['sp','sp2','sp3'],seaking:['sp','sp2','sp3'],dragonking:['sp','sp2','sp3'],hero:['sp3']};
+function skvMedia(k,s){
+ const id=k==='cube_swarm_1117'&&s!=='sp3'?'cube':k;
+ const name=id+'_'+s;
+ if(SKV_NEW_1120[id]?.includes(s))return {image:'assets/sc1-skill-video-1120/'+name+'.webp',video:'assets/sc1-skill-video-1120/'+name+'.mp4'};
+ return {image:'chara/sk/'+name+'.webp',video:'chara/sk/v/'+name+'.mp4'};
+}
 function skvExampleAttrs(k,s){return skvMedia(k,s)?` data-skv="${k}|${s}" role="button" tabindex="0"`:'';}
 function skvPreview(k,s,eager=false){
  const m=skvMedia(k,s);
- return m?`<img ${eager?'decoding="async" fetchpriority="high"':'loading="lazy"'} src="chara/sk/${m.image}?v=${ASSET_V}" alt="" onerror="this.style.visibility='hidden'">${m.video?'<i class="pl"></i>':''}`:'';
+ return m?`<img ${eager?'decoding="async" fetchpriority="high"':'loading="lazy"'} src="${m.image}?v=${ASSET_V}" alt="" onerror="this.style.visibility='hidden'">${m.video?'<i class="pl"></i>':''}`:'';
 }
 function skvInfo(k,s){
  const match=/^cube_(swarm|man|dragon)_1117$/.exec(k);
@@ -8880,10 +8890,10 @@ function skvOpen(k,s,from){const I=skvInfo(k,s),media=skvMedia(k,s);if(!I||!medi
     d.addEventListener('click',e=>{if(e.target===d||e.target.closest('.x'))skvClose();});
     d.querySelector('video').addEventListener('error',()=>{d.querySelector('video').style.display='none';});}
   const d=SKV.el,v=d.querySelector('video'),im=d.querySelector('img');
-  im.src='chara/sk/'+media.image+'?v='+ASSET_V;im.alt=I.n+'のようす';
-  d.querySelector('.k').textContent=I.key;d.querySelector('b').textContent=I.n||'';d.querySelector('p').textContent=I.d||'';d.querySelector('.who').textContent=I.who+(!media.video&&k==='gwizard'?'（巨大化中）':'');
+  im.src=media.image+'?v='+ASSET_V;im.alt=I.n+'のようす';
+  d.querySelector('.k').textContent=I.key;d.querySelector('b').textContent=k==='ufo'&&s==='sp3'?'バリア':I.n||'';d.querySelector('p').textContent=I.d||'';d.querySelector('.who').textContent=I.who+(k==='gwizard'&&s!=='sp3'?'（巨大化中）':'');
   if(media.video){
-   v.style.display='';v.muted=true;v.loop=true;v.autoplay=true;v.src='chara/sk/v/'+k+'_'+s+'.mp4?v='+ASSET_V;
+   v.style.display='';v.muted=true;v.loop=true;v.autoplay=true;v.src=media.video+'?v='+ASSET_V;
   }else{v.pause();v.removeAttribute('src');v.style.display='none';}
   d.classList.add('on');SKV.open=true;SKV.from=from||null;
   if(media.video)try{const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{});}catch(e){}
@@ -9931,7 +9941,7 @@ function headTop(e){try{_hb.setFromObject(e.mesh);const h=_hb.max.y-e.mesh.posit
 function bubble(e,t,kind,life=1.8){if(state!=='play')return;if(B2.filter(b=>b.bub).length>=5){const o=B2.find(b=>b.bub);o.life=0;}
   const d=document.createElement('div');d.className='bub '+(kind||'');d.textContent=t;$('fx2d').appendChild(d);B2.push({d,e,bub:1,life,top:headTop(e),tt:0.4});}
 function ono(pos,t,col,size){if(state!=='play')return;const q=scr(pos);if(!q)return;
-  const nw=performance.now();if(nw-ultQ<1800){if(nw-ultOnoT<700)return;ultOnoT=nw;size=(size||44)*0.7;q[1]=Math.min(q[1],innerHeight*0.2);}const d=document.createElement('div');d.className='ono';d.textContent=t;paintDragonWord(d,t);
+  const nw=performance.now();if(nw-ultQ<1800&&t!=='ドガァァン！'){if(nw-ultOnoT<700)return;ultOnoT=nw;size=(size||44)*0.7;q[1]=Math.min(q[1],innerHeight*0.2);}const d=document.createElement('div');d.className='ono';d.textContent=t;paintDragonWord(d,t);
   if(q[0]<-120||q[0]>innerWidth+120||q[1]<-120||q[1]>innerHeight+120)return;d.style.color=col||'#ffd23a';d.style.fontSize=Math.min(36,Math.round((size||44)*0.6))+'px';d.style.left=q[0]+'px';d.style.top=q[1]+'px';$('fx2d').appendChild(d);{const w=d.offsetWidth,h=d.offsetHeight;d.style.left=Math.min(Math.max(q[0],w/2+4),innerWidth-w/2-4)+'px';d.style.top=Math.min(Math.max(q[1],h/2+4),innerHeight-h/2-4)+'px';}B2.push({d,life:0.9});}
 let cutT=0;
 const PTS=['orctank','orcking','dragon','wyvern','ground','hero','army','golem','airship','king','demon','rival','elder','wizard','engineer','villager'],PTE={orctank:'orctank',hero:'hero',demon:'demon',rival:'rival',elder:'elder',walker:'king',wooddragon:'engineer',drak:'drak',cerberus:'cerberus',biggolem:'biggolem',battleship:'captain',bigairship:'airgeneral'};
@@ -10036,7 +10046,7 @@ Object.assign(CH,{nurarihyon:{name:'ぬらりひょん',em:'👺',tag:'地上・
 // 指で触る画面かどうかを body に印（キャラ選びの並べ方を変える）。操作の説明もスマホ用に
 if(matchMedia('(pointer:coarse)').matches){document.body.classList.add('mob');const h=document.querySelector('#select .how');if(h)h.textContent='👆 画面をなぞって移動　🔥 炎は前の敵へ自動　⭕ 右下の丸ボタンで技　画面の端の矢印＝敵のいる方向';
   {const l=document.createElement('link');l.rel='preload';l.as='image';l.href='ui/icons.webp?v='+ASSET_V;document.head.appendChild(l);}}
-function clearWorld(){orcWolfClear();treeReset();swClear();ringsClear();dunClear();ranksClear();caveClear();FALL.forEach(o=>scene.remove(o.e.mesh));FALL.length=0;EN.forEach(e=>scene.remove(e.mesh));EN.length=0;PROJ.forEach(p=>scene.remove(p.m));PROJ.length=0;PILL.forEach(q=>{scene.remove(q.rm);if(q.cm)scene.remove(q.cm);});PILL.length=0;
+function clearWorld(){document.body.classList.remove('escape-paper-cut');orcWolfClear();treeReset();swClear();ringsClear();dunClear();ranksClear();caveClear();FALL.forEach(o=>scene.remove(o.e.mesh));FALL.length=0;EN.forEach(e=>scene.remove(e.mesh));EN.length=0;PROJ.forEach(p=>scene.remove(p.m));PROJ.length=0;PILL.forEach(q=>{scene.remove(q.rm);if(q.cm)scene.remove(q.cm);});PILL.length=0;
   EMIT.length=0;DEB.forEach(d=>scene.remove(d.m));DEBN=0;DEB.length=0;BLD.forEach(b=>{scene.remove(b.g);if(b.rub)scene.remove(b.rub);});BLD.length=0;S3.q.length=0;S3.fort=null;wave=-1;}
 // 章のはじめの強さ（レベルと強化）を覚えておく。やられても、ページを開き直しても、その章のはじめの強さで続けられる
 let CKPT=null,combo=0,comboT=0,maxCombo=0,best=0;try{best=+localStorage.getItem('dragon_honpen_best')||0;}catch(e){}
@@ -10107,7 +10117,7 @@ function updEasy(){
 $('easy').addEventListener('click',()=>{EASY=!EASY;try{localStorage.setItem('dragon_honpen_easy',EASY?'1':'0');}catch(e){}updEasy();});updEasy();
 $('first').addEventListener('click',()=>{reached=0;CKPT=null;saveGame();startGame(0);});
 $('again').addEventListener('click',()=>{$('over').style.display='none';setupStage(reached);state='select';$('select').style.display='flex';setChar(charKey);updGo();});
-function die(){state='dead';ltStop();GSH.visible=false;deadT=1.8;burst(P.pos,60,FIRE,6,40,1.2);smoke(P.pos,10,6,3);sfx('boom');shake(1);TS=0.35;tsT=1.2;}
+function die(){state='dead';ltStop();GSH.visible=false;deadT=1.8;if(sc1PlayerLossEnding1120())return;burst(P.pos,60,FIRE,6,40,1.2);smoke(P.pos,10,6,3);sfx('boom');shake(1);TS=0.35;tsT=1.2;}
 function showEnd(win){state=win?'clear':'over';
   const sec=Math.round((performance.now()-startTime)/1000);
   $('ovT').textContent=win?'完全勝利！':'やられた…';
@@ -10316,7 +10326,7 @@ const EMI={"🛡":0,"⚔":1,"🐉":2,"💀":3,"👑":4,"😇":5,"🔥":6,"🐲":
   scan(document.body);}
 /* ---- story_mogi.py：シナリオ1の物語（模擬戦のワイバーン・封印ごしの魔王）。文はこのゲームの言葉 ---- */
 // 戦いの途中にはさむ紙芝居。終わると cb を呼んで戦いにもどる（スキップでも同じ）
-function midKami(sl,cb){state='story';TK.q.length=0;TK.cur=null;KAMI={sl,i:0,end:false,mid:cb||(()=>{})};kamiShow();
+function midKami(sl,cb){document.body.classList.remove('escape-paper-cut');state='story';TK.q.length=0;TK.cur=null;KAMI={sl,i:0,end:false,mid:cb||(()=>{})};kamiShow();
   $('storyGo').dataset.end='';$('story').style.display='flex';}
 {const se=storyEnd;storyEnd=function(){if(KAMI&&KAMI.mid){const cb=KAMI.mid;KAMI.mid=null;initAudio();voStop();$('story').style.display='none';state='play';cb();return;}se();};}
 const wyvNm=()=>charKey==='wyvern'?'青のワイバーン':'緑のワイバーン';
@@ -10326,10 +10336,10 @@ TPT['緑のワイバーン']='wyvern';TPT['青のワイバーン']='npc_wyvern_b
   if(wv)wv.msg='🐉 模擬戦、一本勝負！ ワイバーンが低く突っこんできた！';
   const fight=()=>{wd();const n=wyvNm(),e=EN.find(q=>q.wyv&&!q.dead);if(e)e.die='……参りました、若。お見事です';
     TK.q.length=0;TK.cur=null;talk([[n,'参ります、若！'],['ME','……模擬戦で、本気の突進をするやつがあるか'],['💡 ヒント','ワイバーンは突進と風の弾で来る。横によけて、炎を当てよう']]);};
-  wyvDuel=function(){if(window.__mogiSkip||state!=='play'){fight();return;}try{pacFade(1,0.01);setTimeout(()=>pacFade(0,0.9),150);}catch(_){}const n=wyvNm(),D={ch:'第1章　竜の谷',t:'模擬戦'};
+  wyvDuel=function(){if(window.__mogiSkip||state!=='play'){fight();return;}if(!document.body.classList.contains('escape-paper-cut')){pacFade(1,0.01);setTimeout(()=>pacFade(0,0.9),150);}const n=wyvNm(),D={ch:'第1章　竜の谷',t:'模擬戦'};
     midKami([
       {img:'valley_c2',l:'勇者の一行が逃げたあと。ねぐらの入り口に、ひとつの影がおりてきた。'},
-      {img:'valley_c2',who:n,l:'見つけましたよ、若。千年の寝ぼうとは、あきれた竜です'},
+      {img:storyDragon()?'wyv_greeting':'valley_c2',who:n,l:'見つけましたよ、若。千年の寝ぼうとは、あきれた竜です'},
       {img:'wyv_k_br',who:'ME',l:'……だれだ。目覚ましを頼んだ覚えは、ない'},
       {img:'wyv_k_bl',who:n,l:'若の目付け役です。千年、ここで目覚めを待っておりました'},
       {img:'wyv_k_br',who:'ME',l:'（この体には、世話係がいたのか。……福利厚生は、前世よりいいな）'},
@@ -11972,7 +11982,7 @@ function msfPost(dt,rdt){const S=MSF;if(!S.on||!S.g)return;const e=S.e,t=DUN.t,s
 /* ---- s1_meri.py：シナリオ1のメリハリ（紙芝居を毎回・勝った後の順番・章の題の1枚）／魔王は「封印を解いてくれ」の紙芝居 ---- */
 const S1M={t0:-1e9,g:0,c:0,until:0,p:0};
 // B ワイバーンに勝った後：勝負あり → 子分 → 掛け合い → クリア → 紙芝居
-{const k1=killEnemy;killEnemy=function(e,quiet){const w=!!(e&&e.wyv&&!e.dead&&!quiet&&SCN===1&&state==='play'&&STAGES[stage]&&STAGES[stage].key==='valley');
+{const k1=killEnemy;killEnemy=function(e,quiet){const w=!!(e&&e.wyv&&!e.dead&&!quiet&&SCN===1&&state==='play'&&STAGES[stage]&&STAGES[stage].key==='valley'&&!marchScope1120());
   if(w){TK.q.length=0;TK.cur=null;S1M.t0=performance.now();S1M.g=0;S1M.c=0;S1M.until=S1M.t0+9500;}
   const r=k1.apply(this,arguments);
   if(w)setTimeout(()=>{if(state!=='play')return;talk([[wyvNm(),'今日から、若のおそばに置いていただきます。……目付け役として、です'],['ME','……世話係に、子分まで付いた。前世より、待遇がいい']]);},3000);
@@ -23212,13 +23222,8 @@ for(const [i,k] of ['cubeCraft','cubeCast'].entries()){
   for(const [i,slot] of ['sp','sp2','sp3'].entries()){
    const row=rows[i],q=i<2?CUBE_KIT[form][i]:{n:C.dashN,d:C.dashD};if(!row)continue;
    row.querySelector('.sn').textContent=q.n;row.querySelector('.sd').textContent=q.d;
-   if(form||i===2){
-    row.dataset.skv=media+'|'+slot;row.setAttribute('role','button');row.tabIndex=0;
-    row.querySelector('.si').innerHTML=skvPreview(media,slot,true);
-   }else{
-    row.querySelector('img').src=cubeSkillIcon(q.k);row.querySelector('img').alt=q.n;
-    row.querySelector('.pl')?.remove();row.removeAttribute('data-skv');row.removeAttribute('role');row.removeAttribute('tabindex');
-   }
+   row.dataset.skv=media+'|'+slot;row.setAttribute('role','button');row.tabIndex=0;
+   row.querySelector('.si').innerHTML=skvPreview(media,slot,true);
   }
  }
  return r;
@@ -26632,7 +26637,7 @@ function solCaveFX(q,rdt){
  if(q.phase===2){
   const {e,m,axis,side}=q,u=q.progress,hero=e.mesh;
   const ward=cpos(m).clone().addScaledVector(axis,-2.65).add(new V3(0,.4,0));
-  const shield=q.shield.getWorldPosition(new V3());
+  const worn=storyDragon()?partyWarriorShield(q.k):null;if(worn)q.shield.visible=false;const shield=(worn||q.shield).getWorldPosition(new V3());
   if(u>=.13&&!q.guarded){
    q.guarded=true;q.guardTime=q.time;e.guard=true;for(const enemy of [e,q.k,m])enemy.barT=2.6;
    const guardFace=axis.clone().negate().addScaledVector(side,-.41);
@@ -27500,7 +27505,7 @@ body.ref-scene #talk:not([style*="none"])~#banner{bottom:110px!important}
 const PRESENTATION={owner:null,held:false,ui:null,toast:null,storyAdvance:false,blockedKeys:new Set()};
 function presentationEventLine(line){return !!line&&line.presentationEvent!==false;}
 function presentationMsfPhase(){return MSF.on&&([0,2,3].includes(MSF.ph)||MSF.ph===4&&MSF.ult?.second);}
-function presentationHold(){
+function presentationHold(){if(document.body.classList.contains('escape-paper-cut'))return true;
  if(state==='story')return true;
  if(state!=='play')return false;
  return !!(PRESENTATION.owner||BTK.on||presentationEventLine(TK.cur)||TK.q.some(presentationEventLine)||
@@ -27544,7 +27549,7 @@ function presentationLetterbox(){
 }
 function presentationNext(){
  if(PAUSED||LVUP)return;
- if(state==='story'){if(presentationStoryPanel()&&STORY_PANELS.index===0){STORY_PANELS.index=1;presentationStoryPanel();presentationUI(0);return;}PRESENTATION.storyAdvance=true;try{$('storyGo').click();}finally{PRESENTATION.storyAdvance=false;}presentationControls();return;}
+ if(state==='story'){if(paperMotionPending1120())return;if(presentationStoryPanel()&&STORY_PANELS.index===0){STORY_PANELS.index=1;presentationStoryPanel();presentationUI(0);paperMotionSlide1120();return;}PRESENTATION.storyAdvance=true;try{$('storyGo').click();}finally{PRESENTATION.storyAdvance=false;}presentationControls();return;}
  if(state!=='play'||!TK.cur)return;
  // Complete one line first; the next click advances exactly that one line.
  const text=TK.cur[1];
@@ -27575,8 +27580,8 @@ Object.assign(PRESENTATION_FACES,{
  seaking:[3.2,54,42],slime:[1.8,51,50],ufo:[2.2,51,44]
 });
 function presentationStoryPanel(reset=false){
- const line=state==='story'?KAMI.sl[KAMI.i]:null,strip=!!line&&KSTRIP.test(line.img);
- const key=line?KAMI.i+'|'+line.img:null;
+ const line=state==='story'?paperMotionLine1120():null,strip=!!line&&KSTRIP.test(line.img);
+ const key=line?(paperMotionPending1120()?PAPER_MOTION_1120.shown.index:KAMI.i)+'|'+line.img:null;
  if(reset||key!==STORY_PANELS.key){STORY_PANELS.key=key;STORY_PANELS.index=0;}
  $('story').classList.toggle('single-panel',strip);
  $('story').classList.toggle('wide-panel',!!line&&/^pg_[1-7]$/.test(line.img));
@@ -27589,10 +27594,10 @@ function presentationStoryPanel(reset=false){
 function presentationUI(rdt){
  const u=presentationNodes(),hold=presentationControls(),isStory=state==='story';
  if(u.panel.parentNode!==(isStory?$('story'):document.body))(isStory?$('story'):document.body).appendChild(u.panel);
- const line=isStory?KAMI.sl[KAMI.i]:null,who=line?.who||TK.cur?.[0]||PRESENTATION.owner?.label||'';
- const text=isStory?(line?.l||$('stL').textContent):TK.cur?$('talk').querySelector('.tt').textContent:(PRESENTATION.owner?.text||'');
+ const line=isStory?paperMotionLine1120():null,who=line?.who||TK.cur?.[0]||PRESENTATION.owner?.label||'';
+ const text=isStory?(line?.l||(paperMotionPending1120()?'':$('stL').textContent)):TK.cur?$('talk').querySelector('.tt').textContent:(PRESENTATION.owner?.text||'');
  // A cinematic can hold gameplay without inventing an empty dialogue box.
- u.panel.hidden=!hold||!String(text).trim()&&!(TK.cur&&TK.cur[1]);
+ u.panel.hidden=!hold||!String(text).trim()&&!(TK.cur&&TK.cur[1])&&!(isStory&&paperMotionPending1120());
  if(hold){
   const speaker=who==='ME'?C.name:(isStory?who:TK.cur?$('talk').querySelector('.tn').textContent:who);
   u.speaker.textContent=who==='N'?'':speaker;u.text.textContent=text;
@@ -27602,7 +27607,7 @@ function presentationUI(rdt){
   u.face.hidden=!src;u.panel.classList.toggle('no-face',!src);
   if(src&&u.portrait.getAttribute('src')!==src){u.portrait.src=src;u.portrait.alt=speaker+'の顔';}
   
-  u.next.disabled=!(isStory||TK.cur)||PAUSED||LVUP;
+  u.next.disabled=!(isStory||TK.cur)||PAUSED||LVUP;if(isStory&&SCN===1&&paperMotionPending1120())u.next.setAttribute('aria-disabled','true');else u.next.removeAttribute('aria-disabled');
   if(isStory){presentationStoryPanel();$('story').style.setProperty('--presentation-height',u.panel.getBoundingClientRect().height+'px');}
   u.toast.hidden=true;
  }else{
@@ -27651,7 +27656,7 @@ addEventListener('keydown',e=>{
 addEventListener('keyup',e=>{PRESENTATION.blockedKeys.delete(e.code);keys[e.code]=false;},true);
 function presentationPointerGuard(e){
  if(PRESENTATION.storyAdvance&&e.target?.id==='storyGo')return;
- if(presentationHold()&&!e.target.closest?.('#presentationNext,#pause,#resume,#quit,#mute,#fs')){e.preventDefault();e.stopImmediatePropagation();}
+ if(presentationHold()&&!e.target.closest?.('#presentationNext,#pause,#resume,#quit,#mute,#fs,#colRules')){e.preventDefault();e.stopImmediatePropagation();}
 }
 addEventListener('pointerdown',presentationPointerGuard,true);
 addEventListener('click',presentationPointerGuard,true);
@@ -28091,11 +28096,24 @@ Object.defineProperty(window,'OKU_VARIANT_STATUS_1120',{get:()=>okuAppearances.a
 /* END_OKU_VARIANTS_1120 */
 
 
+/* SC1_ESCAPE_PAPER_1120 */
+const combatWordArt1120=new Map();
+for(const key of ['boom','crash','slash']){
+ const img=new Image();img.src='assets/sc1-polish-1120/'+key+'.webp';
+ img.decode().catch(()=>{});combatWordArt1120.set(key,img);
+}
 function paintDragonWord(el,word){
  const words={'⏸ 止める':'pause','一時停止':'pause','つづける':'resume','⛶ 全画面':'fullscreen','大火球':'bigfire','炎の渦':'flamering','突進':'charge','ドカーン':'boom','ズドーン':'crash','バシィッ':'slash'};
  const normalized=String(word).trim().replace(/[!！]+$/,'');
- const key=words[normalized]||({'止める':'pause','全画面':'fullscreen','▶ つづける':'resume'})[normalized];
+ const impact=el.classList.contains('ono');
+ const aliases={'ドガァァン':'boom','ドゴォン':'boom','ドォン':'boom','ドカッ':'boom','ズドォォン':'crash','ズドン':'crash','ドドーン':'crash'};
+ const key=words[normalized]||(impact&&aliases[normalized])||({'止める':'pause','全画面':'fullscreen','▶ つづける':'resume'})[normalized];
  if(!key)return;
+ if(impact&&combatWordArt1120.has(key)){
+  const img=combatWordArt1120.get(key).cloneNode();img.alt=word;
+  img.onerror=()=>{el.textContent=word;};
+  el.replaceChildren(img);return;
+ }
  const img=new Image();
  img.alt=word;img.src='assets/sc1-polish-1120/'+key+'.webp';
  img.onload=()=>{if(el.textContent.trim()!==word.trim())return;if(el.matches('#tdash,#tsp,#tsp2'))el.dataset.nm=word.trim();el.replaceChildren(img);el.classList.add('painted-control');};
@@ -28177,7 +28195,7 @@ function drakStrike1120(e,dt,hd,d3){
 
 
 /* SC1_PARTY_POLISH_1120 */
-const PARTY1120_HEIGHT={hero:3.8,soldier:3.7,priest:3.55};
+const PARTY1120_HEIGHT={hero:3.8,soldier:4.75,priest:3.55};
 const PARTY1120_RETREAT='sc1-party-retreat-1120';
 function party1120Fit(e){
  const actor=e.mesh;
@@ -28186,11 +28204,11 @@ function party1120Fit(e){
  if(!model||e.party1120?.model===model)return e.party1120;
  const box=posedModelBounds(model),height=box.max.y-box.min.y;
  if(!Number.isFinite(height)||height<.01)return null;
- const scale=PARTY1120_HEIGHT[e.type]/Math.max(.15,e.sc||1)/height;
+ const warrior=e.type==='soldier',scale=PARTY1120_HEIGHT[e.type]/Math.max(.15,e.sc||1)/height/(warrior?Math.abs(model.scale.y):1);
  model.scale.multiplyScalar(scale);
- model.position.y-=box.min.y*scale;
+ if(warrior){model.scale.x*=1.08;model.scale.z*=1.08;model.position.y=-box.min.y*model.scale.y;}else model.position.y-=box.min.y*scale;
  const bones={};
- model.traverse(node=>{if(node.isBone)bones[node.name.split(':').at(-1)]=node;});
+ model.traverse(node=>{if(node.isBone)bones[node.name.split(':').at(-1).replace(/^mixamorig/i,'')]=node;});
  e.party1120={model,y:model.position.y,bones,
   hips:[bones.LeftUpLeg?.rotation.x||0,bones.RightUpLeg?.rotation.x||0],samples:dinoFootSamples(model)};
  return e.party1120;
@@ -28207,11 +28225,11 @@ function party1120Ground(e){
 }
 {const old=mobileWaveIds;mobileWaveIds=function(i,n){
  const ids=old.apply(this,arguments);
- return storyDragon()&&STAGES[i]?.key==='valley'&&n===0?[...new Set([...ids,'wizard'])]:ids;
+ return storyDragon()&&STAGES[i]?.key==='valley'&&n===0?[...new Set([...ids,'wizard','cave_party_shield_1120'])]:ids;
 };}
 {const old=mobileStageIds;mobileStageIds=function(i){
  const ids=old.apply(this,arguments);
- return storyDragon()&&STAGES[i]?.key==='valley'?[...new Set([...ids,'wizard'])]:ids;
+ return storyDragon()&&STAGES[i]?.key==='valley'?[...new Set([...ids,'wizard','cave_party_shield_1120'])]:ids;
 };}
 {const old=caveParty;caveParty=function(){
  const result=old.apply(this,arguments);
@@ -28226,11 +28244,11 @@ function party1120Ground(e){
 {const old=updMix;updMix=function(dt){
  const result=old.apply(this,arguments);
  if(CAVE.on&&storyDragon())for(const e of EN)
-  if(e.cave&&!e.dead&&PARTY1120_HEIGHT[e.type])party1120Ground(e);
+  if(e.cave&&!e.dead&&PARTY1120_HEIGHT[e.type]){if(e.type==='soldier')partyWarriorFitLive(e,dt);party1120Ground(e);if(e.type==='soldier')partyWarriorShield(e);}
  return result;
 };}
 {const old=solShield;solShield=function(q){
- const shield=old.apply(this,arguments);
+ if(storyDragon()&&partyWarriorShield(q.k))return solProp(q,q.k.mesh,new THREE.Object3D()); const shield=old.apply(this,arguments);
  if(storyDragon()){
   q.k.mesh.add(shield);
   shield.position.set(-.64,1.87,1.08);
@@ -28240,7 +28258,7 @@ function party1120Ground(e){
 };}
 {const old=solParty;solParty=function(q,heroSide,wizardSide,knightSide){
  if(storyDragon()){
-  knightSide=Math.max(2.35,knightSide+.75);
+  knightSide=Math.max(2.6,knightSide+.9);
   wizardSide=wizardSide<0?Math.min(-4.8,wizardSide-.55):Math.max(5.3,wizardSide+.85);
  }
  return old.call(this,q,heroSide,wizardSide,knightSide);
@@ -28253,7 +28271,7 @@ function party1120Ground(e){
  const span=Math.max(...party.map(e=>Math.abs(e.mesh.position.clone().sub(center).dot(q.side))))+2.6;
  const fov=portrait?61:54, halfHorizontal=Math.tan(fov*Math.PI/360)*cam.aspect;
  const distance=Math.max(portrait?17:13,span/Math.max(.15,halfHorizontal)*1.15);
- CINE.p.copy(center).addScaledVector(q.axis,distance).addScaledVector(q.side,portrait?-.85:-3.4);
+ if(q.phase===2&&q.k.partyWornShield1120){CINE.p.copy(center).addScaledVector(q.axis,-distance*.62).addScaledVector(q.side,distance*.84);}else CINE.p.copy(center).addScaledVector(q.axis,distance).addScaledVector(q.side,portrait?-.85:-3.4);
  CINE.p.y=CAVE.y+(portrait?6.6:5.6);
  CINE.l.copy(center);CINE.l.y=CAVE.y+2.8;
  CINE.fov=q.fov=fov;
@@ -28294,15 +28312,21 @@ function party1120Flee(){
   const width=Math.max(...actors.map(e=>Math.abs(e.mesh.position.x-center.x)));
   const cameraSide=P.pos.x>=center.x?-1:1;
   view.p.copy(center).add(new V3(cameraSide*(cam.aspect<1?10.5:9),6.0,-9-width));
-  view.t.copy(center).add(new V3(0,1.95,-1.5));
+  view.t.copy(center).add(new V3(0,1.95,-1.5));partyWarriorRetreatFrame(view,actors,cameraSide);
   if(motion<1)return;
   CAVE.out=true;
+  // Hold the cut across an asynchronous wave asset gate.
+  document.body.classList.add('escape-paper-cut');
   for(const e of actors){
    if(e.dead)continue;
    scene.remove(e.mesh);e.dead=true;score+=e.val;
    const at=EN.indexOf(e);if(at>=0)EN.splice(at,1);
   }
   presentationEnd(PARTY1120_RETREAT);
+  WV.maj=WV.majT=null;WV.warn=0;
+  P.hp=Math.min(P.maxHp,P.hp+P.maxHp*(EASY?.50:.35));
+  waveWait=0;
+  startWave(nextCombatWave(wave));
  }});
 }
 {const old=caveFlee;caveFlee=function(){
@@ -28392,13 +28416,14 @@ function sc1GroundUpdate(){
 
 /* SC1_WYVERN_POLISH_1120 */
 const WYVERN_POLISH_1120={active:null,result:null,serial:0,victories:0,losses:0};
-const WYVERN_PAPER_1120={valley_c2:'wyv_s_tr',wyv_k_bl:'wyv_k_bl',wyv_k_br:'wyv_k_br',wyv_k_tl:'wyv_k_br',wyv_k_tr:'wyv_k_tr',wyv_s_tr:'wyv_s_tr',wyv_s_bl:'wyv_s_tr',wyv_m1:'wyv_s_tr',wyv_m2:'wyv_k_tr'};
-{const before=storyImageV2;storyImageV2=function(key){return before.call(this,storyDragon()?(WYVERN_PAPER_1120[key]||key):key);};}
-{const before=presentationStoryPanel;presentationStoryPanel=function(){const r=before.apply(this,arguments),key=state==='story'?KAMI.sl[KAMI.i]?.img:null;$('story').classList.toggle('wyvern-paper-1120',storyDragon()&&!!WYVERN_PAPER_1120[key]);return r;};}
+/* SC1_WYVERN_CARDS_1120 */
+const WYVERN_PAPER_1120={valley_c2:'arrival',wyv_greeting:'greeting',wyv_k_bl:'greeting',wyv_k_br:'red',wyv_k_tl:'red',wyv_k_tr:'ally',wyv_s_tr:'challenge',wyv_s_bl:'dive',wyv_m1:'arrival',wyv_m2:'ally'};
+{const before=storyImageV2;storyImageV2=function(key){const art=storyDragon()&&WYVERN_PAPER_1120[key];return art?'assets/sc1-motion-1120/'+art+'.webp':before.call(this,key);};}
+{const before=presentationStoryPanel;presentationStoryPanel=function(){const r=before.apply(this,arguments),key=state==='story'?paperMotionLine1120()?.img:null;$('story').classList.toggle('wyvern-paper-1120',storyDragon()&&!!WYVERN_PAPER_1120[key]);return r;};}
 {const style=document.createElement('style');style.id='wyvern-paper-1120';style.textContent=`
 body.presentation-event #story.wyvern-paper-1120 .box{width:min(100%,var(--story-art-height),720px)!important}
 body.presentation-event #story.wyvern-paper-1120 .kami{aspect-ratio:1}
-body.presentation-event #story.wyvern-paper-1120 #stPic{width:150%;height:100%;left:-25%;top:0;object-fit:fill;transform:none!important}
+body.presentation-event #story.wyvern-paper-1120 #stPic{width:100%;height:100%;left:0;top:0;object-fit:contain;transform:none!important}
 `;document.head.appendChild(style);}
 function wyvernPolishEligible1120(){return storyDragon()&&STAGES[stage]?.key==='valley';}
 function wyvernPolishWorldMin1120(root){
@@ -28475,10 +28500,6 @@ function wyvernPolishAbort1120(){const S=WYVERN_POLISH_1120,q=S.active;S.active=
 {const before=bossFall;bossFall=function(e){if(e?.wyvernOutcomeResolved1120){scene.remove(e.mesh);return;}return before.apply(this,arguments);};}
 {const before=die;die=function(){
  if(wyvernPolishEligible1120()&&WYVERN_POLISH_1120.active)return;
- if(wyvernPolishEligible1120()&&state==='play'&&!WYVERN_POLISH_1120.active){
-  const enemy=EN.find(e=>e.wyv&&!e.dead)||null;
-  if(wyvernPolishBegin1120('loss',enemy,()=>{before.call(this);deadT=.05;}))return;
- }
  return before.apply(this,arguments);
 };}
 {const before=showEnd;showEnd=function(win){const r=before.apply(this,arguments),q=WYVERN_POLISH_1120.result;if(!win&&q){D.g.visible=true;$('ovT').textContent=q.enemy?'模擬戦で敗北':'レッドドラゴンの敗北';$('ovS').textContent=(q.enemy?'緑のワイバーンとの模擬戦に負けました。':'レッドドラゴンはこの戦いで力尽きました。')+' この章のはじめから、レベルと強化を戻して再挑戦できます。';}return r;};}
@@ -28744,7 +28765,97 @@ document.addEventListener('DOMContentLoaded', () => {
   const backdrop = new THREE.Color(0x151a24);
   let cachedRoot, cachedBody, cachedModel, cachedTemplate;
 
+  /* MUSOU_STUDIO_MOTION_1120 */
+  const restMotion=matchMedia('(prefers-reduced-motion: reduce)');
+  const preview={root:null,clock:0,last:0,cycle:-1,detail:false,form:0,action:null};
+  const caption=panel.querySelector('figcaption');
+
+  function previewStop(){
+    const shot=preview.action;
+    if(!shot)return;
+    preview.action=null;
+    if(shot.mix.once!==shot.clip)return;
+    shot.clip.stop();
+    shot.mix.once=null;
+    shot.back.stopFading().setEffectiveWeight(1).play();
+    shot.mix.mx.update(0);
+  }
+
+  function previewAttack(subject){
+    let mix=null;
+    subject.traverseVisible(o=>{
+      const m=o.userData.mix;
+      if(!mix&&m?.hit&&m.cur&&!m.once&&!m.pegasus&&!m.wy3&&!m.rig&&!m.g2&&!m.arch&&!m.court&&!m.maouFlight)
+        mix=m;
+    });
+    if(!mix)return false;
+    const clip=mix.acts[mix.hit.name],back=mix.cur;
+    const range=HITW[mix.hit.name]||[0,mix.hit.duration,1.6];
+    if(!clip||clip===back)return false;
+    const speed=Math.max(1,range[2]);
+    clip.reset().setLoop(THREE.LoopOnce,1);
+    clip.clampWhenFinished=true;
+    clip.time=range[0];
+    clip.setEffectiveWeight(1).setEffectiveTimeScale(speed).play();
+    back.crossFadeTo(clip,.09,false);
+    mix.once=clip;
+    preview.action={mix,clip,back,end:preview.clock+Math.min(1.45,(range[1]-range[0])/speed)};
+    return true;
+  }
+
+  function previewFrame(root){
+    const now=performance.now(),reduced=restMotion.matches;
+    if(root!==preview.root){
+      previewStop();preview.root=root;preview.clock=0;preview.last=now;preview.cycle=-1;
+    }
+    preview.clock+=Math.min(.05,(now-preview.last)/1000);
+    preview.last=now;
+    if(preview.action&&(reduced||preview.action.end<=preview.clock))previewStop();
+    const phase=preview.clock%8;
+    const oldYaw=root.rotation.y,oldPitch=root.rotation.x;
+    root.rotation.y=.32+(reduced?0:preview.clock*.23);
+    const hidden=[];
+    const hide=o=>{hidden.push([o,o.visible]);o.visible=false;};
+    let subject=root,mode='character',label='3Dモデル';
+    preview.form=0;
+    preview.detail=false;
+    if(charKey==='ufo'&&D.forms){
+      const form=MODEL[UFOF[1].id]&&Math.floor(preview.clock/5)%2?1:0;
+      preview.form=form;
+      subject=D.forms[form];
+      for(const [i,object] of D.forms.entries()){
+        hidden.push([object,object.visible]);object.visible=i===form;
+      }
+      mode=form?'mech':'saucer';
+      label=form?'大型ロボ':'円盤';
+    }else if((charKey==='army'||charKey==='dragonknight')&&D.units?.length){
+      const focus=charKey==='army'?D.units[2]:D.units[0];
+      if(focus&&(reduced||phase<5.8)){
+        preview.detail=true;
+        subject=focus.m;
+        for(const unit of D.units)if(unit!==focus)hide(unit.m);
+        for(const gun of D.guns)hide(gun);
+        mode='detail';
+        label=charKey==='army'?'前衛の兵士':'先頭の竜騎士';
+      }else{mode='formation';label=charKey==='army'?'部隊全体':'編隊全体';}
+    }
+    if(caption.textContent!==label)caption.textContent=label;
+    const cycle=Math.floor(preview.clock/8);
+    if(!reduced&&phase>=2.2&&phase<3.35&&cycle!==preview.cycle){
+      preview.cycle=cycle;
+      previewAttack(subject);
+    }
+    const action=!reduced&&!preview.action&&phase>=2.2&&phase<3.35;
+    if(action)root.rotation.x+=.21*Math.sin(Math.PI*(phase-2.2)/1.15);
+    return {subject,mode,action,restore(){
+      root.rotation.y=oldYaw;root.rotation.x=oldPitch;
+      for(const [object,visible] of hidden)object.visible=visible;
+    }};
+  }
+
+
   function selectedAsset() {
+    if (charKey === 'ufo') return UFOF[preview.form]?.id;
     if (charKey === 'maou') return MAOUF[D.mf || 0]?.id;
     return PMODEL[charKey] || CH[charKey]?.model?.id || charKey;
   }
@@ -28761,7 +28872,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (bounds.isEmpty()) return false;
     root.localToWorld(bounds.getCenter(lookAt));
-    direction.set(.61, .25, 1).applyAxisAngle(skyward, root.rotation.y).normalize();
+    direction.set(.36, preview.detail ? .11 : .21, 1).normalize();
     right.crossVectors(skyward, direction).normalize();
     above.crossVectors(direction, right);
     const aspect = width / height;
@@ -28795,6 +28906,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const root = D?.g;
     if (state !== 'select' || !root?.parent || args[0] !== scene || args[1] !== cam ||
         this.getRenderTarget() || this.getContext().isContextLost() || !selection.offsetWidth) {
+      if (state !== 'select') previewStop();
       return render.apply(this, args);
     }
     if (portraitKey !== charKey) {
@@ -28809,9 +28921,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const w = Math.round(rect.width), h = Math.round(rect.height);
     const x = Math.round(rect.left), y = Math.round(size.y - rect.bottom);
     if (w <= 0 || h <= 0) return render.apply(this, args);
+    const shot = previewFrame(root);
     const asset = selectedAsset();
     const loading = asset && mobileKnown(asset) && !MODEL[asset] && !mobileArt.failed.has(asset);
-    const visible = fit(root, asset, w, h);
+    const visible = fit(shot.subject, asset, w, h);
     const ready = visible && !loading;
     if (status.hidden !== ready) status.hidden = ready;
     if (!ready) {
@@ -28820,6 +28933,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const shown = ready ? portraitKey : '';
     if (panel.dataset.model !== shown) panel.dataset.model = shown;
+    panel.dataset.preview = shot.mode;
+    panel.dataset.action = preview.action ? 'clip' : shot.action ? 'pose' : 'idle';
     const oldAlpha = this.getClearAlpha();
     const oldScissorTest = this.getScissorTest();
     this.getClearColor(oldColor);
@@ -28848,6 +28963,7 @@ document.addEventListener('DOMContentLoaded', () => {
       studio.add(root);
       return render.call(this, studio, lens);
     } finally {
+      shot.restore();
       for (const object of skinned) object.frustumCulled = true;
       if (root.parent === studio) {
         parent.add(root);
@@ -29002,7 +29118,10 @@ function valleyPaceRetreatBegin1120(){const s=VALLEY_PACE_1120;if(!s.pending||s.
 function valleyPaceRetreatTick1120(dt){const s=VALLEY_PACE_1120,q=s.retreat;if(!q||PAUSED||LVUP||document.hidden)return;if(!valleyPaceScope1120()||state!=='play'){valleyPaceRetreatAbort1120();return;}q.time+=Math.min(.05,Math.max(0,dt));
  for(const a of q.actors){const e=a.e,p=e.mesh.position;p.copy(a.start).addScaledVector(a.dir,Math.min(q.time,q.duration)*8.5);p.y=floorAt(p.x,p.z);e.mesh.rotation.y=Math.atan2(a.dir.x,a.dir.z);e.t+=dt;animWalk(e,8.5);}
  if(q.time>=q.duration-.5&&!q.dark){q.dark=true;pacFade(1,.5);}
- if(q.time>=q.duration){for(const a of q.actors){a.e.dead=true;a.e.inv=a.inv;scene.remove(a.e.mesh);const at=EN.indexOf(a.e);if(at>=0)EN.splice(at,1);}s.retreated+=q.count;s.retreat=null;WV.majT='隊長を撃破！ 王国軍は谷から撤退した';waveWait=0;presentationEnd(q.id);}
+ if(q.time>=q.duration){for(const a of q.actors){a.e.dead=true;a.e.inv=a.inv;scene.remove(a.e.mesh);const at=EN.indexOf(a.e);if(at>=0)EN.splice(at,1);}s.retreated+=q.count;s.retreat=null;WV.maj=WV.majT=null;waveWait=1e3;presentationEnd(q.id);
+  document.body.classList.add('escape-paper-cut');
+  const next=stage+1;reached=next;P.hp=Math.min(P.maxHp,P.hp+P.maxHp*.5);
+  mobileNextStage(next,()=>{setupStage(next);showStory(next,false,true);pacFade(0,0);});}
 }
 function valleyPaceRetreatAbort1120(){const s=VALLEY_PACE_1120,q=s.retreat;s.pending=false;s.retreat=null;if(q){q.actors.forEach(a=>{a.e.inv=a.inv;a.e.royalRetreat1120=false;});presentationEnd(q.id);}}
 {const before=killEnemy;killEnemy=function(e,quiet){const was=!!e?.dead,r=before.apply(this,arguments);if(!quiet&&!was&&e?.dead&&e.valleyPaceCaptain1120&&valleyPaceScope1120()&&state==='play'){VALLEY_PACE_1120.pending=true;valleyPaceRetreatBegin1120();}return r;};}
@@ -29178,6 +29297,820 @@ function heroWindowPause1120(){const q=HERO_WINDOW_1120.last;if(q)q.last=null;}
 {const before=clearWorld;clearWorld=function(){heroWindowPause1120();return before.apply(this,arguments);};}
 window.heroWindowState1120=()=>{const q=HERO_WINDOW_1120.last;return q?{seconds:q.seconds,finished:q.finished,softened:q.softened,hp:q.e.hp,maxHp:q.e.maxHp,earlyDamageWindow:q.seconds<30,lateOpening:q.seconds>=50&&q.seconds%5<3}:null;};
 /* END_SC1_HERO_WINDOW_1120 */
+
+
+/* SC1_PAPER_MOTION_1120 */
+const PAPER_MOTION_1120={active:null,shown:null,motion:null};
+function paperMotionPending1120(){
+ const job=PAPER_MOTION_1120.active;
+ return SCN===1&&state==='story'&&job?.deck===KAMI&&job.index===KAMI.i&&!job.drawing;
+}
+function paperMotionDrawing1120(){return SCN===1&&PAPER_MOTION_1120.active?.drawing;}
+function paperMotionLine1120(){
+ if(!paperMotionPending1120())return KAMI.sl[KAMI.i];
+ const shown=PAPER_MOTION_1120.shown;
+ return shown?.deck===KAMI?shown.line:null;
+}
+function paperMotionSlide1120(){
+ if(SCN!==1)return;
+ const s=PAPER_MOTION_1120;
+ s.motion?.cancel();s.motion=null;
+ if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ s.motion=$('kz').animate([{translate:'100% 0'},{translate:'0 0'}],
+  {duration:400,easing:'cubic-bezier(.18,.75,.33,1)'});
+}
+async function paperMotionLoad1120(key){
+ const primary=storyImageV2(key),fallback=(typeof P8FB!=='undefined'&&P8FB[key])?storyImageV2(P8FB[key]):`story/${key}.jpg`;
+ for(const src of new Set([primary,fallback])){
+  const pic=new Image();
+  let timer;
+  let expired=false;
+  pic.src=src;
+  try{
+   await Promise.race([pic.decode(),new Promise((_,reject)=>{
+    timer=setTimeout(()=>{expired=true;reject(new Error('story image timeout'));},2200);
+   })]);
+   return pic;
+  }catch(_){if(expired)pic.removeAttribute('src');}
+  finally{clearTimeout(timer);}
+ }
+ return null;
+}
+{const before=kamiShow;kamiShow=function(){
+ if(SCN!==1)return before.apply(this,arguments);
+ const s=PAPER_MOTION_1120,deck=KAMI,index=deck.i,line=deck.sl[index];
+ if(!line)return before.apply(this,arguments);
+ const job={deck,index,line,drawing:false,image:null};
+ s.active=job;
+ const story=$('story');
+ story.classList.add('paper-motion-1120');
+ story.setAttribute('aria-busy','true');
+ if(s.shown?.deck!==deck){
+  s.motion?.cancel();s.motion=null;
+  $('kz').style.visibility='hidden';
+  $('stL').textContent='';
+  const card=$('kcard');if(card)card.style.display='none';
+ }
+ paperMotionLoad1120(line.img).then(image=>{
+  if(s.active!==job)return;
+  if(state!=='story'||KAMI!==deck||deck.i!==index){
+   s.active=null;story.removeAttribute('aria-busy');return;
+  }
+  job.image=image;job.drawing=true;
+  try{
+   before();
+   s.shown=job;
+   $('kz').style.visibility='';
+   presentationUI(0);
+   paperMotionSlide1120();
+  }finally{s.active=null;story.removeAttribute('aria-busy');}
+ });
+};}
+{const story=$('story');
+ story.addEventListener('click',e=>{
+  if(paperMotionPending1120()&&e.target.closest('#storyGo,#kami,#presentationNext')){
+   e.stopImmediatePropagation();e.preventDefault();
+  }
+ },true);
+ const before=showStory;showStory=function(){
+  if(SCN!==1){story.classList.remove('paper-motion-1120');story.removeAttribute('aria-busy');$('kz').style.visibility='';}
+  return before.apply(this,arguments);
+ };
+ const style=document.createElement('style');
+ style.textContent=`
+ body.presentation-event #story.paper-motion-1120 #presentationPanel{
+  display:grid;min-height:min(136px,36dvh);padding-right:104px;position:absolute
+ }
+ body.presentation-event #story.paper-motion-1120 #presentationPanel[hidden]{display:none}
+ body.presentation-event #story.paper-motion-1120 #presentationNext{
+  position:absolute;top:12px;right:12px;margin:0
+ }
+ body.presentation-event #story.paper-motion-1120 #presentationPanel:not(.no-face){grid-template-columns:clamp(48px,14vw,80px) minmax(0,1fr)}
+ body.presentation-event #story.paper-motion-1120 #presentationPanel.no-face{grid-template-columns:minmax(0,1fr)}
+ body.presentation-event #story.paper-motion-1120 #presentationPanel.no-face p{grid-column:1}
+ body.presentation-event #story.paper-motion-1120 #presentationNext[aria-disabled=true]{opacity:.7}
+ @media(max-height:500px) and (orientation:landscape){
+  body.presentation-event #story.paper-motion-1120 #presentationPanel{position:relative}
+ }`;
+ document.head.appendChild(style);
+}
+
+</script>
+<script>
+/* SC1_PARTY_WARRIOR_1120 */
+'use strict';
+
+function partyWarriorFitLive(actor, dt) {
+  const art = party1120Fit(actor);
+  if (!art || art.liveFit || !(dt > 0)) return;
+  art.fitTime = (art.fitTime || 0) + dt;
+  if (art.fitTime < .12) return;
+  const model = art.model, box = posedModelBounds(model);
+  const current = (box.max.y - box.min.y) * model.getWorldScale(new V3()).y;
+  if (!(current > .25)) return;
+  model.scale.multiplyScalar(PARTY1120_HEIGHT.soldier / current);
+  art.y = model.position.y = -box.min.y * model.scale.y;
+  art.liveFit = true;
+}
+
+function partyWarriorShield(actor) {
+  const rig = party1120Fit(actor);
+  const wrist = rig?.bones.LeftHand, elbow = rig?.bones.LeftForeArm;
+  if (!wrist || !elbow) return null;
+  const root = actor.mesh;
+  let shield = actor.partyWornShield1120;
+  if (!shield) {
+    const armor = cloneModel('cave_party_shield_1120');
+    if (!armor) return null;
+    shield = new THREE.Group();
+    shield.name = 'caveWarriorWornShield1120';
+    armor.scale.setScalar(2.45);
+    shield.add(armor);
+    // The original plate has a bevel and raised heraldry. Add two rear grips.
+    const leather = new THREE.MeshStandardMaterial({color: 0x3e2419, roughness: .91});
+    const grip = new THREE.CylinderGeometry(.06, .06, .40, 10);
+    for (const x of [-.27, .27]) {
+      const loop = new THREE.Mesh(grip, leather);
+      loop.rotation.x = -.14;
+      loop.position.set(x, .26, -.29);
+      shield.add(loop);
+    }
+    root.add(shield);
+    actor.partyWornShield1120 = shield;
+  }
+  const hand = root.worldToLocal(wrist.getWorldPosition(new V3()));
+  const forearm = root.worldToLocal(elbow.getWorldPosition(new V3()));
+  const arm = hand.clone().sub(forearm);
+  shield.position.copy(hand).addScaledVector(arm, -.14);
+  shield.position.y -= .28;
+  shield.position.z += .30;
+  shield.rotation.set(
+    .08 + clamp(arm.z * .28, -.24, .24),
+    .16 + clamp(arm.z * .18, -.25, .25),
+    -.08 + clamp(arm.y * .27, -.31, .31),
+  );
+  return shield;
+}
+
+function partyWarriorRetreatFrame(view, actors, side) {
+  if (!actors.some(actor => actor.partyWornShield1120)) return;
+  const profile = cam.aspect < .85;
+  const forward = new V3(side * .54, 0, -.84).normalize();
+  const right = new V3(-forward.z, 0, forward.x);
+  const horizontal = Math.tan(Math.min(cam.fov, 61) * Math.PI / 360) * cam.aspect;
+  const fromCenter = new V3();
+  let distance = profile ? 23 : 17;
+  for (const actor of actors) {
+    fromCenter.subVectors(actor.mesh.position, view.t);
+    const extent = (Math.abs(fromCenter.dot(right)) + 2.1) / Math.max(.16, horizontal * .82);
+    distance = Math.max(distance, fromCenter.dot(forward) + extent + 2.6);
+  }
+  view.p.copy(view.t).addScaledVector(forward, distance);
+  view.p.y += profile ? 7 : 5;
+}
+
+/* TITLE_MOTION_1120 */
+(()=>{
+ const title=document.getElementById('title'),cover=title?.querySelector('.kv');if(!cover)return;
+ const media=matchMedia('(prefers-reduced-motion:reduce)'),nodes=[],S={off:false,errors:[]};window.TITLE_MOTION_1120=S;
+ for(const [which,path] of [['v1','story/kv_tl2.mp4'],['v2','story/kv_br2.mp4']]){
+  let v=cover.querySelector('video.'+which);if(!v){v=document.createElement('video');v.className=which;v.setAttribute('aria-hidden','true');cover.prepend(v);}
+  v.dataset.go='1';v.dataset.src=path;v.muted=true;v.defaultMuted=true;v.loop=true;v.playsInline=true;v.autoplay=true;v.preload='auto';v.setAttribute('muted','');v.setAttribute('playsinline','');v.setAttribute('webkit-playsinline','');nodes.push(v);
+  v.addEventListener('playing',()=>v.classList.add('on'));v.addEventListener('error',()=>{S.errors.push({video:which,code:v.error?.code||0});v.classList.remove('on');});
+ }
+ const active=()=>!S.off&&!title.dataset.off&&!document.hidden&&!media.matches&&getComputedStyle(title).display!=='none';
+ const play=()=>{if(!active()){nodes.forEach(v=>v.pause());return;}for(const v of nodes){if(!v.getAttribute('src')){v.src=v.dataset.src+'?v='+ASSET_V;v.load();}if(v.paused){const p=v.play();if(p?.catch)p.catch(()=>{});}}};
+ for(const v of nodes)for(const event of ['loadeddata','canplay'])v.addEventListener(event,play);
+ document.addEventListener('visibilitychange',play);media.addEventListener?.('change',play);
+ const retry=()=>{if(active())play();};for(const event of ['pointerdown','touchstart'])title.addEventListener(event,retry,{passive:true,capture:true});
+ const observer=new MutationObserver(()=>{if(title.dataset.off||getComputedStyle(title).display==='none'){S.off=true;nodes.forEach(v=>v.pause());observer.disconnect();}});observer.observe(title,{attributes:true,attributeFilter:['data-off','style']});
+ S.state=()=>nodes.map(v=>({video:v.className,src:v.currentSrc||v.src,time:v.currentTime,paused:v.paused,ready:v.readyState,width:v.videoWidth,height:v.videoHeight,frames:v.getVideoPlaybackQuality?.().totalVideoFrames||0,error:v.error?.code||0}));play();
+})();
+/* END_TITLE_MOTION_1120 */
+
+
+/* SC1_BOSS_ART_1120 */
+const SC1_BOSS_ART_1120={down:null,hit:null,images:new Map(),ui:null,last:null};
+const SC1_BOSS_NAMES_1120={wyvern:'緑のワイバーン',drak:'よろいの竜人',golem:'岩の巨人ゴーレム',demon:'魔王'};
+function sc1BossKind1120(e){
+ if(!storyDragon()||state!=='play'||!e?.boss)return null;
+ const chapter=STAGES[stage]?.key;
+ if(chapter==='valley'&&e.wyv)return 'wyvern';
+ if(chapter==='dungeon'&&e.type==='drak')return 'drak';
+ if(chapter==='golem'&&e.type==='biggolem')return 'golem';
+ if(chapter==='maou'&&e.type==='demon')return 'demon';
+ return null;
+}
+function sc1BossImage1120(kind,beat){
+ const images=SC1_BOSS_ART_1120.images,key=kind+'-'+beat;
+ if(!images.has(key)){
+  const pic=new Image();const entry={pic,ready:false,done:false};
+  pic.src='assets/sc1-motion-1120/'+key+'.webp';
+  pic.decode().then(()=>{entry.ready=true;entry.done=true;},()=>{entry.done=true;});
+  images.set(key,entry);
+ }
+ return images.get(key);
+}
+function sc1BossNodes1120(){
+ if(SC1_BOSS_ART_1120.ui)return SC1_BOSS_ART_1120.ui;
+ const hit=document.createElement('aside'),down=document.createElement('dialog');
+ hit.id='sc1BossHit1120';hit.hidden=true;hit.setAttribute('aria-hidden','true');
+ down.id='sc1BossDown1120';down.setAttribute('aria-labelledby','sc1BossTitle1120');
+ down.innerHTML='<figure><div class="sc1-boss-picture"></div><figcaption id="sc1BossTitle1120"></figcaption></figure>';
+ down.addEventListener('cancel',event=>event.preventDefault());
+ document.body.append(hit,down);
+ const style=document.createElement('style');
+ style.textContent=`
+ #sc1BossHit1120{position:fixed;z-index:34;top:clamp(80px,14dvh,145px);right:12px;width:clamp(110px,24vw,260px);pointer-events:none;border:1px solid #bd9861;background:#150d0a;box-shadow:0 4px 20px #0008}
+ #sc1BossHit1120 img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover}
+ #sc1BossDown1120{position:fixed;inset:0;margin:auto;max-width:none;max-height:none;width:100vw;height:100dvh;padding:12px;border:0;box-sizing:border-box;background:#0b0808ef;color:#fff4d7}
+ #sc1BossDown1120:not([open]){display:none}
+ #sc1BossDown1120[open]{display:grid;place-items:center}
+ #sc1BossDown1120::backdrop{background:#080607}
+ #sc1BossDown1120 figure{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:12px;width:min(100%,920px);height:min(82dvh,720px);margin:0;text-align:center}
+ #sc1BossDown1120 .sc1-boss-picture{display:grid;place-items:center;min-height:0}
+ #sc1BossDown1120 img{width:100%;height:100%;min-height:0;object-fit:contain}
+ #sc1BossDown1120 figcaption{font:700 clamp(17px,4vw,26px)/1.3 system-ui,sans-serif}
+ @media(prefers-reduced-motion:no-preference){#sc1BossDown1120 img,#sc1BossHit1120 img{animation:sc1BossEnter1120 .2s ease-out both}@keyframes sc1BossEnter1120{from{opacity:0;translate:0 8px}to{opacity:1;translate:0 0}}}
+ `;
+ document.head.appendChild(style);
+ return SC1_BOSS_ART_1120.ui={hit,down,picture:down.querySelector('figure div'),title:down.querySelector('figcaption')};
+}
+function sc1BossHideHit1120(){
+ const s=SC1_BOSS_ART_1120;
+ if(s.ui){s.ui.hit.hidden=true;s.ui.hit.replaceChildren();}
+ s.hit=null;
+}
+function sc1BossEndDown1120(run){
+ const s=SC1_BOSS_ART_1120,q=s.down;
+ if(!q)return;
+ if(q.pose&&!q.pose.closed)sc1BossClosePose1120(q);
+ s.down=null;q.enemy.inv=q.oldInv;
+ if(s.ui.down.open)s.ui.down.close();
+ s.ui.picture.replaceChildren();
+ presentationControls();
+ if(run&&state==='play'&&q.stage===stage&&!q.enemy.dead){
+  const cineBefore=CINE.tg;
+  q.finish();
+  if(q.pose){
+   const fall=FALL.find(entry=>entry.e===q.enemy);
+   if(fall?.staged){fall.t=1.54;fall.d=1.86;}
+   if(fall?.staged&&CINE.k===3&&CINE.tg!==cineBefore)cineEnd();
+  }
+ }
+}
+function sc1BossBeginDown1120(kind,enemy,finish){
+ const s=SC1_BOSS_ART_1120;
+ if(s.down)return;
+ sc1BossHideHit1120();
+ const ui=sc1BossNodes1120(),name=SC1_BOSS_NAMES_1120[kind];
+ const root=enemy.mesh,pose=kind==='wyvern'||!root?.parent?null:{
+  root,initial:root.position.clone(),rotation:root.rotation.clone(),prior:window.CAMOV,
+  view:{p:new V3(),t:new V3()},time:0,closed:false
+ };
+ s.down={kind,stage,enemy,oldInv:enemy.inv,finish,pose,entry:sc1BossImage1120(kind,'down'),elapsed:0,shown:0,painted:false};
+ enemy.inv=true;
+ ui.title.textContent=kind==='wyvern'?name+'との模擬戦、決着':name+'を撃破';
+ if(pose){window.CAMOV=pose.view;sc1BossPose1120(s.down,0);}
+ else ui.down.showModal();
+ presentationControls();firstplayResetInput();
+}
+function sc1BossPose1120(q,dt){
+ const p=q.pose,e=q.enemy,root=p.root;
+ p.time=Math.min(1.05,p.time+dt);
+ const f=rigSm(clamp((p.time-.10)/.85,0,1)),recoil=Math.sin(Math.PI*clamp(p.time/.36,0,1));
+ const axis=P.pos.clone().sub(p.initial).setY(0);
+ if(axis.lengthSq()<.001)axis.set(0,0,1);
+ axis.normalize();
+ const side=new V3(-axis.z,0,axis.x);
+ root.position.copy(p.initial).addScaledVector(axis,-f*e.r*.32);
+ const floor=floorAt(root.position.x,root.position.z);
+ const drop=q.kind==='demon'?Math.max(3,(p.initial.y-floor)*.65):e.r*(q.kind==='golem'?.38:.48);
+ root.position.y=Math.max(floor-Math.min(.35,e.r*.04),p.initial.y-f*drop);
+ root.rotation.copy(p.rotation);
+ root.rotation.x+=q.kind==='drak'?.61*f:q.kind==='golem'?.36*f:-.40*recoil+.25*f;
+ root.rotation.z+=(q.kind==='demon'?.58:.24)*f;
+ if(q.kind==='demon'&&e===MSF.e)sc1MaouFinishingFire(p.fire||(p.fire={e,t:0}));
+ if(p.fire)p.fire.t=p.time;
+ const size=Math.max(e.hc*1.85,e.r*1.8,7);
+ const dist=size*(cam.aspect<.85?2.25:1.65);
+ p.view.t.copy(root.position);p.view.t.y+=Math.max(1.5,e.hc*(1-f*.33));
+ p.view.p.copy(p.view.t).addScaledVector(axis,dist*.82).addScaledVector(side,-dist*.54);
+ p.view.p.y=Math.max(p.view.t.y+size*.13,floorAt(p.view.p.x,p.view.p.z)+1.8);
+ SC1_BOSS_ART_1120.last={kind:q.kind,phase:'model',seconds:p.time,position:root.position.toArray(),rotation:root.rotation.toArray(),camera:p.view.p.toArray(),visible:root.visible&&!!root.parent};
+}
+function sc1BossClosePose1120(q){
+ const p=q.pose;
+ p.closed=true;
+ p.root.position.copy(p.initial);p.root.rotation.copy(p.rotation);
+ if(window.CAMOV===p.view)window.CAMOV=p.prior;
+ if(SC1_BOSS_ART_1120.last)SC1_BOSS_ART_1120.last.phase='art';
+}
+window.sc1BossDefeat1120=()=>SC1_BOSS_ART_1120.last;
+function sc1BossArtTick1120(dt){
+ const s=SC1_BOSS_ART_1120,q=s.down;
+ if(!q)return;
+ if(state!=='play'||q.stage!==stage||q.enemy.dead){sc1BossEndDown1120(false);return;}
+ if(document.hidden||PAUSED||LVUP)return;
+ if(q.pose&&!q.pose.closed){
+  sc1BossPose1120(q,dt);
+  if(q.pose.time>=1.05){
+   sc1BossClosePose1120(q);
+   s.ui.down.showModal();
+  }
+  return;
+ }
+ q.elapsed+=dt;
+ if(q.entry.ready&&!q.painted){
+  s.ui.picture.replaceChildren(q.entry.pic);q.painted=true;return;
+ }
+ if(q.painted||q.entry.done||q.elapsed>=3.5)q.shown+=dt;
+ if(q.shown>=1.8)sc1BossEndDown1120(true);
+}
+{const before=presentationHold;presentationHold=function(){
+ return (state==='play'&&!!SC1_BOSS_ART_1120.down)||before.apply(this,arguments);
+};}
+{const before=presentationUI;presentationUI=function(dt){
+ const hit=SC1_BOSS_ART_1120.hit;
+ if(hit){
+  hit.time-=dt||0;
+  if(hit.time<=0||state!=='play'||presentationHold())sc1BossHideHit1120();
+ }
+ return before.apply(this,arguments);
+};}
+{const before=presentationFrame;presentationFrame=function(dt){
+ sc1BossArtTick1120(dt);return before.apply(this,arguments);
+};}
+{const before=presentationNext;presentationNext=function(){
+ if(SC1_BOSS_ART_1120.down)return;
+ return before.apply(this,arguments);
+};}
+{const before=hitEnemy;hitEnemy=function(e,n){
+ const kind=sc1BossKind1120(e),hp=e?.hp;
+ const result=before.apply(this,arguments);
+ if(kind&&e.hp<hp&&e.hp>0&&!e.dead&&!presentationHold()&&(e.artHit1120??-Infinity)+6<=e.t){
+  const entry=sc1BossImage1120(kind,'hit');
+  if(entry.ready){
+   e.artHit1120=e.t;
+   const s=SC1_BOSS_ART_1120,ui=sc1BossNodes1120();
+   ui.hit.replaceChildren(entry.pic);ui.hit.hidden=false;s.hit={time:1};
+  }
+ }
+ return result;
+};}
+{const before=killEnemy;killEnemy=function(e,quiet){
+ if(SC1_BOSS_ART_1120.down?.enemy===e&&!quiet)return;
+ const kind=!quiet&&!e?.dead&&sc1BossKind1120(e);
+ if(kind&&kind!=='wyvern'&&!SC1_BOSS_ART_1120.down){
+  sc1BossBeginDown1120(kind,e,()=>before.call(this,e,quiet));return;
+ }
+ return before.apply(this,arguments);
+};}
+{const before=wyvernPolishBegin1120;wyvernPolishBegin1120=function(kind,e,finish){
+ if(kind==='victory'&&sc1BossKind1120(e)==='wyvern'){
+  const played=before.call(this,kind,e,()=>sc1BossBeginDown1120('wyvern',e,finish));
+  if(!played&&state==='play'&&!SC1_BOSS_ART_1120.down){
+   sc1BossBeginDown1120('wyvern',e,finish);return true;
+  }
+  return played;
+ }
+ return before.apply(this,arguments);
+};}
+{const before=startWave;startWave=function(){
+ if(storyDragon()){
+  const kind={valley:'wyvern',dungeon:'drak',golem:'golem',maou:'demon'}[STAGES[stage]?.key];
+  if(kind){sc1BossImage1120(kind,'hit');sc1BossImage1120(kind,'down');}
+ }
+ return before.apply(this,arguments);
+};}
+{const before=clearWorld;clearWorld=function(){
+ sc1BossHideHit1120();sc1BossEndDown1120(false);return before.apply(this,arguments);
+};}
+// Approach from above, then meet the original position and pose at the cut.
+{const before=solWyvern;solWyvern=function(q,u,dt){
+ const result=before.apply(this,arguments);
+ if(storyDragon()&&q.kind==='wyvern'&&q.phase===1){
+  const root=q.e.mesh,descent=1-rigSm(u);
+  root.position.y+=7*descent;
+  root.rotation.x+=.29*descent;
+  root.rotation.z-=.20*Math.sin(Math.PI*u);
+ }
+ return result;
+};}
+{const before=solEncounterCamera;solEncounterCamera=function(q){
+ const result=before.apply(this,arguments);
+ if(storyDragon()&&q.kind==='wyvern'&&q.phase===1){
+  const u=q.progress,descent=1-rigSm(u),enemy=q.e.mesh.position;
+  const head=enemy.clone().add(new V3(0,2.0,0));
+  const near=q.center.clone().addScaledVector(q.axis,10-5*u).addScaledVector(q.side,-(cam.aspect<.85?33:22));
+  near.y=Math.max(floorAt(near.x,near.z)+2.8,q.low+6);
+  CINE.p.lerp(near,descent*.86);
+  CINE.l.lerp(head,descent*.76);
+ }
+ return result;
+};}
+
+/* SC1_DENSE_MARCH_1120 */
+const DENSE_MARCH_1120={hidden:null,handoffs:0};
+function marchScope1120(){return SCN===1&&charKey==='dragon'&&EASY&&STAGES[stage]?.key==='valley';}
+function marchWarm1120(){if(marchScope1120())mobileGroup('march1120',['soldier','archer','captain','bigcannon'],85);}
+{const before=setupStage;setupStage=function(){const r=before.apply(this,arguments);marchWarm1120();return r;};}
+{const before=valleyRoyalColumns;valleyRoyalColumns=function(){const rows=before.apply(this,arguments);if(!marchScope1120())return rows;let foot=0,bows=0,guns=0;return rows.map(row=>{
+ if(row.model==='captain')return {...row,depth:32,lane:0};
+ if(row.type==='soldier'){const i=foot++;return {...row,depth:38+Math.floor(i/4)*3.5,lane:[-1.5,-.5,.5,1.5][i%4]*3.8};}
+ if(row.type==='archer'){const i=bows++;return {...row,depth:55.5+Math.floor(i/4)*3.5,lane:[-1.5,-.5,.5,1.5][i%4]*4.2};}
+ if(row.type==='cannon')return {...row,depth:70,lane:(guns++-.5)*14};return row;
+ });};}
+function marchRestore1120(){const s=DENSE_MARCH_1120.hidden;if(!s)return;DENSE_MARCH_1120.hidden=null;s.forEach(([g,visible])=>{if(g)g.visible=visible;});}
+{const before=valleyRoyalPatrol;valleyRoyalPatrol=function(){const r=before.apply(this,arguments);if(!marchScope1120())return r;const q=PRESENTATION.owner;if(q?.id==='valley-kingdom-march'){
+ for(let i=PROJ.length-1;i>=0;i--)if(PROJ[i].from!=='p'){scene.remove(PROJ[i].m);PROJ.splice(i,1);}
+ const all=[D.g,...PETS.filter(p=>p.storyWyvern).map(p=>p.g)];DENSE_MARCH_1120.hidden=all.map(g=>[g,g.visible]);all.forEach(g=>g.visible=false);
+ const finish=q.finish;q.finish=function(){try{return finish?.apply(this,arguments);}finally{marchRestore1120();}};
+ }return r;};}
+// A join may finish midway through the ordinary update frame. Block that
+// frame's remaining combat work as well as the following presentation frames.
+function marchHeld1120(){return marchScope1120()&&PRESENTATION.owner?.id==='valley-kingdom-march';}
+{const before=updEnemies;updEnemies=function(){if(marchHeld1120())return;return before.apply(this,arguments);};}
+{const before=updProj;updProj=function(){if(marchHeld1120())return;return before.apply(this,arguments);};}
+{const before=updPets;updPets=function(){if(marchHeld1120())return;return before.apply(this,arguments);};}
+// Low front-row close-up, then pull gently back to reveal every rank and rear gun.
+// Fixed geometry: no per-frame bounds search or camera fitting loop.
+{const before=valleyRoyalView;valleyRoyalView=function(actors,view,f,side,time){if(!marchScope1120())return before.apply(this,arguments);
+ let shot=view.denseMarch1120;if(!shot){shot={captain:actors.find(a=>a.row.model==='captain')||actors[0]};view.denseMarch1120=shot;}
+ const lead=shot.captain.e.mesh.position,u=rigSm(clamp((time-1.15)/3.65,0,1)),portrait=cam.aspect<.8;
+ const distance=15+(portrait?18:12)*u,height=3.1+(portrait?7.4:4.6)*u;
+ view.p.set(lead.x-3+6*u,floorAt(lead.x,lead.z+distance)+height,lead.z+distance);
+ view.t.set(lead.x,lead.y+2.25,lead.z-5-11*u);view.densePhase=time<1.15?'shield-close':u<1?'reveal-ranks':'whole-army';
+};}
+// Once the real green companion has joined, enter the march directly instead of
+// showing the generic wave-clear celebration or a second legacy joining exchange.
+function marchHandoff1120(){if(!marchScope1120()||state!=='play'||wave!==1||!PETG||STORY_WYVERN.join||PRESENTATION.owner||TK.cur||TK.q.length||PAUSED||LVUP||EN.some(e=>!e.dead))return false;
+ const waves=curWaves();if(!waves[2]?.royalPatrol)return false;S1M.until=0;S1M.p=0;waveWait=0;DENSE_MARCH_1120.handoffs++;startWave(2);return true;
+}
+{const before=storyWyvernBeat;storyWyvernBeat=function(){const r=before.apply(this,arguments);marchHandoff1120();return r;};}
+{const before=cineWave;cineWave=function(){if(marchScope1120()&&curWaves()[wave]?.royalPatrol)return;return before.apply(this,arguments);};}
+{const before=clearWorld;clearWorld=function(){marchRestore1120();mobileGroup('march1120',[],0);return before.apply(this,arguments);};}
+window.denseMarchState1120=()=>({scope:marchScope1120(),handoffs:DENSE_MARCH_1120.handoffs,owner:PRESENTATION.owner?.id||null,hiddenPlayer:!!DENSE_MARCH_1120.hidden});
+/* END_SC1_DENSE_MARCH_1120 */
+
+
+/* SC1_SPECIAL_CUT_GUARD_1120 */
+const SC1_CUT_GUARD_1120={blocking:false,epoch:0};
+function sc1CutScripted1120(){
+ if(SCN!==1)return false;
+ if(state==='story')return true;
+ if(state!=='play')return false;
+ return presentationHold()||CINE.k>1||CINE.k!==1&&cineOn;
+}
+function sc1CutNewSkill1120(){
+ return sc1CutScripted1120()||SCN===1&&state==='play'&&CINE.k===1;
+}
+function sc1CutFollowup1120(epoch){
+ return SCN!==1||epoch===SC1_CUT_GUARD_1120.epoch&&!sc1CutScripted1120();
+}
+function sc1CutSync1120(){
+ const s=SC1_CUT_GUARD_1120,blocking=sc1CutScripted1120();
+ if(blocking&&!s.blocking){
+  s.epoch++;
+  presentationClearInput();
+ }
+ s.blocking=blocking;
+ if(blocking&&(ultFn||ultT>0)){
+  ultFn=null;ultT=0;
+  clearTimeout(ultTm);ultTm=0;
+  $('ult').style.display='none';
+  if(CINE.k<=1){TS=1;tsT=0;}
+ }
+ return blocking;
+}
+{const before=presentationControls;presentationControls=function(){
+ const result=before.apply(this,arguments);sc1CutSync1120();return result;
+};}
+{const before=cine;cine=function(){
+ const result=before.apply(this,arguments);sc1CutSync1120();return result;
+};}
+{const before=useSkill;useSkill=function(){
+ if(sc1CutNewSkill1120())return;
+ return before.apply(this,arguments);
+};}
+{const before=ult;ult=function(){
+ if(sc1CutNewSkill1120())return;
+ return before.apply(this,arguments);
+};}
+{const before=updUlt;updUlt=function(){
+ if(sc1CutSync1120())return;
+ return before.apply(this,arguments);
+};}
+{const before=playerAttackBlocked;playerAttackBlocked=function(mode){
+ if(sc1CutScripted1120()||mode==='skill'&&sc1CutNewSkill1120())return true;
+ return before.apply(this,arguments);
+};}
+// Existing presentation guards continue to handle story navigation and fixed Next.
+function sc1CutInputBlocked1120(){
+ return SCN===1&&state==='play'&&!presentationHold()&&sc1CutScripted1120();
+}
+addEventListener('keydown',event=>{
+ if(!sc1CutInputBlocked1120()||['Escape','KeyP','KeyM'].includes(event.code))return;
+ PRESENTATION.blockedKeys.add(event.code);keys[event.code]=false;
+ event.preventDefault();event.stopImmediatePropagation();
+},true);
+for(const type of ['pointerdown','mousedown','touchstart','click','contextmenu']){
+ addEventListener(type,event=>{
+  if(!sc1CutInputBlocked1120()||event.target.closest?.('#pause,#resume,#quit,#mute,#fs'))return;
+  event.preventDefault();event.stopImmediatePropagation();
+ },{capture:true,passive:false});
+}
+
+</script>
+<script>
+/* SC1_PLAYER_DEFEAT_1120 */
+'use strict';
+
+const SC1_LOSS_1120 = {owner: 'sc1-player-defeat-1120', active: null, result: null, completing: false};
+const SC1_LOSS_LOCAL_1120 = new V3();
+const SC1_LOSS_XF_1120 = new V3();
+const SC1_LOSS_BND_1120 = new THREE.Box3();
+
+function sc1PlayerLossEnding1120() {
+  return SC1_LOSS_1120.completing;
+}
+
+function sc1LossSite1120(position, pad) {
+  if (DUN.on) {
+    position.x = clamp(position.x, DUN.x0 + pad, DUN.x1 - pad);
+    position.z = clamp(position.z, DUN.z0 + pad, DUN.z1 - pad);
+  } else if (CAVE.on) {
+    const x = position.x-CAVE.x, z = position.z-CAVE.z;
+    const distance = Math.hypot(x,z), radius = CAVE.R-pad;
+    if (distance > radius) {
+      position.x = CAVE.x+x*radius/distance;
+      position.z = CAVE.z+z*radius/distance;
+    }
+  }
+  return position;
+}
+
+function sc1LossBones1120(q, amount, settle=0) {
+  const f = q.rig;
+  if (f?.rig) {
+    for (const [bone,start,rest] of q.bones) bone.quaternion.copy(start).slerp(rest,settle);
+    for (const wing of f.wings) {
+      const joints = wing.j, side = wing.sd;
+      const heavy = side === q.roll ? .17 : .28;
+      rigRot(joints[0], side*(-.38-heavy)*amount, side*(.78*amount+.62*settle));
+      rigRot(joints[2], side*(-.20-heavy)*amount);
+      rigRot(joints[3], side*(-.30-heavy)*amount, side*(.46*amount+.30*settle));
+      rigRot(joints[5], -side*.18*amount);
+    }
+    for (const joint of f.neck) rigRot(joint,.18*amount);
+    for (const joint of f.head) rigRot(joint,.33*amount);
+    for (const joint of [...f.legF,...f.legH]) rigRot(joint,-.25*amount);
+    f.holder.position.y = q.holderY;
+  } else if (q.parts) {
+    q.parts.wr.rotation.z = q.parts.wrStart-.88*amount;
+    q.parts.wl.rotation.z = q.parts.wlStart+.76*amount;
+  }
+}
+
+function sc1LossSample1120(root) {
+  const bounds = SC1_LOSS_BND_1120.makeEmpty();
+  let lift = -Infinity;
+  root.updateWorldMatrix(true,true);
+  root.updateMatrixWorld(true);
+  root.traverseVisible(mesh => {
+    if (!mesh.isMesh || !mesh.geometry.attributes.position || mesh.material?.visible === false) return;
+    const points = mesh.geometry.attributes.position;
+    if (mesh.isSkinnedMesh) mesh.skeleton.update();
+    for (let i = 0; i < points.count; i++) {
+      const v = SC1_LOSS_LOCAL_1120.fromBufferAttribute(points,i);
+      if (mesh.isSkinnedMesh) mesh.boneTransform(i,v);
+      v.applyMatrix4(mesh.matrixWorld);
+      bounds.expandByPoint(v);
+      lift = Math.max(lift,sc1GroundSurface(v.x,v.z)+.10-v.y);
+    }
+  });
+  return {bounds,lift};
+}
+
+function sc1LossFit1120(q) {
+  const box = q.box;
+  if (box.isEmpty()) return;
+  const target = box.getCenter(q.look);
+  if (q.grounded) target.y -= .6;
+  const corners = [];
+  for (const x of [box.min.x,box.max.x]) {
+    for (const y of [box.min.y,box.max.y]) {
+      for (const z of [box.min.z,box.max.z]) corners.push(new V3(x,y,z));
+    }
+  }
+  const fov = cam.aspect < .85 ? 67 : 57;
+  function place(direction, angle) {
+    const vertical = Math.tan(angle*Math.PI/360), horizontal = vertical*Math.max(.35,cam.aspect);
+    const right = new V3().crossVectors(MSV.up,direction).normalize();
+    const up = new V3().crossVectors(direction,right);
+    let distance = 13;
+    for (const vertex of corners) {
+      const p = SC1_LOSS_XF_1120.copy(vertex).sub(target);
+      distance = Math.max(distance,p.dot(direction)+
+        Math.max(Math.abs(p.dot(right))/horizontal,Math.abs(p.dot(up))/vertical)*1.22);
+    }
+    cam.position.copy(target).addScaledVector(direction,distance);
+    sc1LossSite1120(cam.position,5);
+    cam.position.y = Math.max(cam.position.y,sc1GroundSurface(cam.position.x,cam.position.z)+4);
+    if (DUN.on) cam.position.y = Math.min(cam.position.y,DUN.y+DUN.h-4);
+    cam.fov = angle;
+    cam.updateProjectionMatrix();
+    cam.lookAt(target);
+    cam.updateMatrixWorld(true);
+    let extent = 0;
+    for (const vertex of corners) {
+      const p = SC1_LOSS_XF_1120.copy(vertex).project(cam);
+      extent = Math.max(extent,Math.abs(p.x),Math.abs(p.y),p.z<1&&p.z>-1?0:4);
+    }
+    return extent;
+  }
+  let view = q.direction, angle = fov;
+  let extent = place(view,angle);
+  if (extent > .94) {
+    for (const spread of [.8,-.8,1.65,-1.65,3.14]) {
+      const direction = q.direction.clone().applyAxisAngle(MSV.up,spread);
+      const size = place(direction,Math.min(82,fov+10));
+      if (size < extent) {
+        view = direction; angle = Math.min(82,fov+10); extent = size;
+      }
+      if (extent < .88) break;
+    }
+    extent = place(view,angle);
+    if (extent < .94) q.direction.copy(view);
+  }
+  q.extent = extent;
+  q.framed = q.grounded&&extent < .985;
+}
+
+function sc1LossPose1120(q) {
+  const root = q.root, time = q.time;
+  if (q.locked) {
+    root.visible = true;
+    root.position.copy(q.locked);
+    root.rotation.copy(q.lockedRotation);
+    sc1LossBones1120(q,1,1);
+    return;
+  }
+  const falling = rigSm((time-.24)/q.drop), down = rigSm((time-.15)/(q.drop*.68));
+  const settle = rigSm((time-q.touch)/.46);
+  root.visible = true;
+  root.rotation.order = 'YXZ';
+  root.rotation.set(
+    (1-down)*q.pitch+.38*down-.17*settle,
+    q.yaw+q.roll*.15*down,
+    (1-down)*q.bank+q.roll*(.12*rigSm(time/.24)+.43*down+.77*settle),
+    'YXZ',
+  );
+  root.position.copy(q.start).lerp(q.land,falling);
+  root.position.y = q.start.y+(q.land.y-q.start.y)*falling;
+  sc1LossBones1120(q,down,settle);
+  const {bounds,lift} = sc1LossSample1120(root);
+  const amount = Number.isFinite(lift) ? (q.grounded ? lift : Math.max(0,lift)) : 0;
+  root.position.y += amount;
+  root.updateWorldMatrix(true,true);
+  root.updateMatrixWorld(true);
+  bounds.translate(new V3(0,amount,0));
+  q.box.copy(bounds);
+  q.gap = Number.isFinite(lift) ? amount-lift+.10 : null;
+  if (SC1_LOSS_1120.result === q) {
+    q.locked = root.position.clone();
+    q.lockedRotation = root.rotation.clone();
+  }
+}
+
+function sc1LossTick1120(q, dt) {
+  if (!q.root.parent) { sc1LossClear1120(); return; }
+  q.time += Math.max(0,Math.min(.05,dt));
+  if (!MSF.on) updParts(dt);
+  if (q.time >= q.touch && !q.grounded) {
+    q.grounded = true;
+    const at = q.land.clone();
+    at.y = sc1GroundSurface(at.x,at.z)+.4;
+    smoke(at,5,2.4,.86,0x655347,3);
+    shock(at,0xc2a88d,11);
+    sfx('small',at,.40);
+  }
+  if (q.time < q.duration || !q.framed) return;
+  SC1_LOSS_1120.active = null;
+  SC1_LOSS_1120.result = q;
+  P.pos.copy(q.root.position);
+  if (q.duel) WYVERN_POLISH_1120.losses++;
+  presentationEnd(SC1_LOSS_1120.owner);
+  SC1_LOSS_1120.completing = true;
+  try { q.finish(); } finally { SC1_LOSS_1120.completing = false; }
+  showEnd(false);
+  q.root.visible = true;
+  $('ovT').textContent = q.duel ? '模擬戦で敗北' : 'レッドドラゴンの敗北';
+  $('ovS').textContent = 'レッドドラゴンは力尽きた。この章のはじめから再挑戦できます。';
+}
+
+function sc1LossBegin1120(finish) {
+  const root = D?.g;
+  if (!root?.parent || PRESENTATION.owner) return false;
+  const f = root.userData.flap;
+  const yaw = root.rotation.y;
+  const motion = new V3(P.vel.x,0,P.vel.z);
+  const step = motion.length() > 2 ? motion.normalize() : motion.set(Math.sin(yaw),0,Math.cos(yaw));
+  const start = root.position.clone();
+  const floor = sc1GroundSurface(start.x,start.z);
+  const airborne = !P.onGround && start.y-floor>5;
+  const landingMargin = DUN.on ? Math.max(18,DUN.xm+7) : 19;
+  const land = sc1LossSite1120(start.clone().addScaledVector(step,airborne?7:2),landingMargin);
+  land.y = sc1GroundSurface(land.x,land.z)+1.4;
+  const drop = airborne ? clamp(.85+Math.max(0,start.y-floor)/35,1.1,1.95) : .74;
+  const roll = P.roll >= 0 ? 1 : -1, skin = !!f?.rig;
+  const direction = new V3(-.8*roll,.42,1).applyAxisAngle(MSV.up,yaw).normalize();
+  const q = {root, rig:f, start, land, yaw, pitch:root.rotation.x, bank:root.rotation.z,
+    holderY:f?.holder?.position.y||0, roll, direction, airborne, finish,
+    bones:skin?f.all.map(item=>[item.b,item.b.quaternion.clone(),item.base.clone()]):[],
+    parts:!skin&&D.wr&&D.wl?{wr:D.wr,wl:D.wl,wrStart:D.wr.rotation.z,wlStart:D.wl.rotation.z}:null,
+    drop, touch:.24+drop, duration:1.36+drop, time:0, grounded:false, framed:false,
+    box:new THREE.Box3(),look:new V3(), previousFov:cam.fov,
+    duel:STAGES[stage]?.key==='valley'&&EN.some(e=>e.wyv&&!e.dead)};
+  TK.cur = null;
+  TK.q.length = 0;
+  voStop();
+  if (!presentationBegin(SC1_LOSS_1120.owner,{next:false,letterbox:true,tick:dt=>sc1LossTick1120(q,dt)})) return false;
+  SC1_LOSS_1120.active = q;
+  firstplayResetInput();
+  P.vel.set(0,0,0);
+  P.firing = false;
+  P.tgt = null;
+  sfx('hit',root.position,.38);
+  burst(root.position,9,[0xffc46e,0xff8a52],1.3,13,.4);
+  return true;
+}
+
+function sc1LossClear1120() {
+  const q = SC1_LOSS_1120.active || SC1_LOSS_1120.result;
+  SC1_LOSS_1120.active = SC1_LOSS_1120.result = null;
+  if (!q) return;
+  presentationEnd(SC1_LOSS_1120.owner);
+  cam.fov = q.previousFov;
+  cam.updateProjectionMatrix();
+}
+
+{const before=die;die=function(){
+  if(!storyDragon()||state!=='play')return before.apply(this,arguments);
+  if(SC1_LOSS_1120.active||SC1_LOSS_1120.result)return;
+  if(solEncounterActive())solEncounterAbort();
+  if(!sc1LossBegin1120(()=>before.apply(this,arguments)))return before.apply(this,arguments);
+};}
+{const before=R.render;R.render=function(...args){
+  const q=SC1_LOSS_1120.active||SC1_LOSS_1120.result;
+  if(q&&args[0]===scene&&args[1]===cam){sc1LossPose1120(q);sc1LossFit1120(q);}
+  return before.apply(this,args);
+};}
+{const before=clearWorld;clearWorld=function(){sc1LossClear1120();return before.apply(this,arguments);};}
+window.sc1PlayerLoss1120=()=>{
+  const q=SC1_LOSS_1120.active||SC1_LOSS_1120.result;
+  if(!q)return null;
+  return {phase:SC1_LOSS_1120.result?'result':q.grounded?'fallen':q.time<.24?'hit':'descending',
+    time:q.time,touch:q.touch,airborne:q.airborne,grounded:q.grounded,framed:q.framed,gap:q.gap,extent:q.extent,
+    wings:q.rig?.wings?.map(w=>w.j[0]?.b.quaternion.toArray())||[],
+    bounds:{min:q.box.min.toArray(),max:q.box.max.toArray()},
+    position:q.root.position.toArray(),bank:q.root.rotation.z,camera:cam.position.toArray(),fov:cam.fov,
+    legacy:WYVERN_POLISH_1120.active?.kind||null,state};
+};
+
+/* COLOSSEUM_INTRO_1120 */
+const COL_INTRO_1120={active:null,serial:0,completed:0,seen:[]};
+function colIntroName1120(e){return String(e.nm||e.boss||({ogre:'大槌の剣闘士',soldier:'兵士の剣闘士',archer:'弓の剣闘士',hero:'入場の剣闘士'})[e.type]||firstplayName(e)).replace(/^[^\p{L}\p{N}]+/u,'');}
+function colIntroRestoreActor1120(a){a.e.mesh.rotation.copy(a.rotation);const m=a.e.mesh.userData.mix;if(a.action){a.action.stop();if(m){m.once=a.once;m.cur=a.cur;a.cur?.play();}}}
+function colIntroFinish1120(completed=false){const S=COL_INTRO_1120,q=S.active;if(!q)return;S.active=null;q.actors.forEach(a=>{colIntroRestoreActor1120(a);a.e.inv=a.inv;});q.hidden.forEach(([g,v])=>g.visible=v);if(window.CAMOV===q.view)window.CAMOV=q.camera;presentationEnd(q.id);firstplayResetInput();if(completed)S.completed++;}
+function colIntroCamera1120(q,a,u){const p=a.e.mesh.position,b=a.bounds,size=a.size,aspect=Math.max(.35,cam.aspect),tan=Math.tan(cam.fov*Math.PI/360),distance=Math.max(8,size.y/(2*tan*.62),Math.max(size.x,size.z)/(2*tan*aspect*.76))*1.15;
+ const angle=.29+.13*Math.sin(u*Math.PI),axis=new V3(Math.sin(angle),0,Math.cos(angle));q.view.t.copy(p);q.view.t.y+=b.min.y+size.y*.48;q.view.p.copy(q.view.t).addScaledVector(axis,distance);q.view.p.y+=distance*.12;
+}
+function colIntroTick1120(dt){const q=COL_INTRO_1120.active;if(!q||PAUSED||LVUP||document.hidden)return;if(!colActive()||stage!==q.stage||state!=='play'){colIntroFinish1120();return;}q.time+=Math.min(.05,Math.max(0,dt));colGateAnimate(dt);
+ const index=Math.min(q.actors.length-1,Math.floor(q.time/q.beat)),a=q.actors[index],u=clamp((q.time-index*q.beat)/q.beat,0,1);
+ if(index!==q.index){if(q.index>=0)colIntroRestoreActor1120(q.actors[q.index]);q.index=index;COL_INTRO_1120.seen.push(a.name);const m=a.e.mesh.userData.mix;
+  if(m?.hit){a.cur=m.cur;a.once=m.once;a.action=m.acts[m.hit.name];a.action.reset();a.action.setLoop(THREE.LoopOnce,1);a.action.clampWhenFinished=true;a.action.timeScale=.9;a.action.play();m.cur=a.action;m.once=a.action;}
+ }
+ a.e.mesh.rotation.y=a.rotation.y+.08*Math.sin(u*Math.PI);colIntroCamera1120(q,a,u);
+ const owner=PRESENTATION.owner;if(owner?.id===q.id){owner.label=a.name;owner.text=`対戦者 ${index+1} / ${q.actors.length}　${a.name}。`+(index===q.actors.length-1?'紹介が終わると、試合開始！':'続いて、次の対戦者。');}
+ if(q.time>=q.actors.length*q.beat+.25)colIntroFinish1120(true);
+}
+function colIntroBegin1120(enemies){if(!colActive()||state!=='play'||!enemies.length||COL_INTRO_1120.active)return;
+ const actors=enemies.filter(e=>!e.dead).map(e=>{if(e.sc)e.mesh.scale.setScalar(e.sc);e.mesh.updateMatrixWorld(true);const bounds=posedModelBounds(e.mesh),scale=Math.max(Math.abs(e.mesh.scale.x),Math.abs(e.mesh.scale.y),Math.abs(e.mesh.scale.z));bounds.min.multiplyScalar(scale);bounds.max.multiplyScalar(scale);const size=bounds.getSize(new V3());return {e,name:colIntroName1120(e),rotation:e.mesh.rotation.clone(),inv:e.inv,bounds,size,action:null};});if(!actors.length)return;
+ const q={id:'colosseum-opponents-'+(++COL_INTRO_1120.serial),stage,time:0,beat:1.8,index:-1,actors,camera:window.CAMOV,view:{p:new V3(),t:new V3()},hidden:[]};
+ if(!presentationBegin(q.id,{label:'対戦者紹介',text:'一人ずつ、対戦者を紹介します。',letterbox:true,next:false,tick:colIntroTick1120}))return;
+ COL_INTRO_1120.active=q;bannerT=0;$('banner').style.opacity='0';if($('wvfx'))$('wvfx').className='';if($('wvred'))$('wvred').className='';actors.forEach(a=>a.e.inv=true);for(const g of [D.g,...PETS.map(p=>p.g)]){q.hidden.push([g,g.visible]);g.visible=false;}
+ for(let i=PROJ.length-1;i>=0;i--){scene.remove(PROJ[i].m);PROJ.splice(i,1);}presentationClearInput();window.CAMOV=q.view;colIntroTick1120(0);
+}
+{const before=colWave;colWave=function(){const old=new Set(EN),r=before.apply(this,arguments);colIntroBegin1120(EN.filter(e=>!old.has(e)));return r;};}
+{const before=banner;banner=function(){if(COL_INTRO_1120.active)return;return before.apply(this,arguments);};}
+{const before=cineWave;cineWave=function(){if(COL_INTRO_1120.active)return;return before.apply(this,arguments);};}
+{const before=updPets;updPets=function(){if(COL_INTRO_1120.active)return;return before.apply(this,arguments);};}
+{const before=presentationNext;presentationNext=function(){if(COL_INTRO_1120.active)return;return before.apply(this,arguments);};}
+{const before=presentationUI;presentationUI=function(){const r=before.apply(this,arguments);if(COL_INTRO_1120.active){const u=presentationNodes();u.next.disabled=true;u.next.textContent='紹介中';}return r;};}
+{const before=clearWorld;clearWorld=function(){colIntroFinish1120();return before.apply(this,arguments);};}
+window.colIntroState1120=()=>({active:COL_INTRO_1120.active?{time:COL_INTRO_1120.active.time,index:COL_INTRO_1120.active.index,names:COL_INTRO_1120.active.actors.map(a=>a.name)}:null,completed:COL_INTRO_1120.completed,seen:[...COL_INTRO_1120.seen]});
+/* END_COLOSSEUM_INTRO_1120 */
 
 {
  const previous=storyEnd;
