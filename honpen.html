@@ -5615,7 +5615,7 @@ function wvFx(cls,big,small){try{let d=$('wvfx');if(!d){const par=$('banner').pa
   if(cls==='warn'){const r=$('wvred');r.className='';void r.offsetWidth;r.className='on';}}catch(_){}}
 function wvClear(W){const last=wave>=W.length-1;WV.warn=0;wvFx('clr',last?'🏆 章クリア！':'撃破！',last?'':'第'+combatWaveNumber(wave)+'波 クリア　❤ '+(EASY?'体力回復':'体力が少し回復'));
   if(!cineOn){TS=0.3;tsT=0.45;}flashV=Math.max(flashV,0.3);sfx('lvup',null,0.7);shake(0.3);}
-function waveClearDelay(last,major){
+function waveClearDelay(last,major){if(sc1MaouPace())return last?1.8:1.4;
   if(!EASY)return last?(major?6.0:3.2):(major?7.0:3.4);
   if(kingdomChapter())return last||major?1.8:1.2;
   return last?2.4:major?2.6:1.8;
@@ -5699,7 +5699,7 @@ function updFeel(dt,v,t){updHitFx(dt);updAir(dt,v);
 function aimPoint(){const cc=ccam(),o=cc?P.pos:cineOn?GCAM:cam.position,dir=cc?tmp3.copy(aimDir()):tmp3.subVectors(camLook,o).normalize();
   for(let s=10;s<340;s+=6){tmp.copy(o).addScaledVector(dir,s);if(tmp.y<floorAt(tmp.x,tmp.z))return tmp.clone();}
   return o.clone().addScaledVector(dir,340);}
-function autoTarget(){
+function autoTarget(){const pacedTarget=sc1MaouTarget();if(pacedTarget)return pacedTarget;
    if(charKey==='orctank'&&!orcTank())return null;
    const ad=aimDir(),range=C.range*easyShotGain(),side=EASY?.90:.55,down=EASY?.95:.60,up=EASY?1.48:1.35;
    let best=null,bs=1e9;
@@ -6628,10 +6628,10 @@ function addEnemy(type,x,z,y,o={}){
   const e={type,mesh:m,dr,hp:s.hp*(EASY?(s.boss?0.38:0.46):(s.boss?0.62:0.75)),maxHp:s.hp*(EASY?(s.boss?0.38:0.46):(s.boss?0.62:0.75)),r:s.r,hc:s.hc,val:s.val,dmg:s.dmg,fly:!!s.fly,boss:s.boss,t:rnd(0,5),cd:rnd(1,3),vy:0,vel:new V3(),cp:new V3(),
     seed:rnd(0,9),hx:0,hz:0,lx:0,lz:0,dvx:0,dvz:0,mv:'run',mt:1.5,state:'chase',ang:rnd(0,6.3),sum:8,met:6,st:0,sub:0,cnt:0,hitT:0,flyT:0,dodgeCd:2,
     thrower:type==='soldier'&&Math.random()<0.35,dashSeen:0,dead:false,perch:!!o.perch,bld:o.bld||null,inv:false,guard:false};
-  enemyActionHealth(e,o);if(storyDragon()&&type==='drak'&&!o.model&&!o.mesh){e.hp=e.maxHp=EASY?1800:2400;e.storyArmor1119=true;}EN.push(e);if(type==='bigslime')e.sc=8.8;{const z=o.model?0:{ship:1.5,battleship:1.4,airship:1.3,bigairship:2.3,hero:0.65,priest:0.7,goblin:0.72,drak:2.0,orccart:0.8,orctank:0.52,kraken:1.05}[type];if(z){e.sc=z;e.r*=z;e.hc*=z;}}if(s.boss&&state==='play'){cutin(PTE[type]||s.ic,s.boss.replace(/^\S+\s/,''),'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');bossZoom(e);}return e;
+  enemyActionHealth(e,o);if(storyDragon()&&type==='drak'&&!o.model&&!o.mesh){e.hp=e.maxHp=sc1EasyDungeon1120()?690:EASY?1800:2400;e.storyArmor1119=true;}EN.push(e);if(type==='bigslime')e.sc=8.8;{const z=o.model?0:{ship:1.5,battleship:1.4,airship:1.3,bigairship:2.3,hero:0.65,priest:0.7,goblin:0.72,drak:2.0,orccart:0.8,orctank:0.52,kraken:1.05}[type];if(z){e.sc=z;e.r*=z;e.hc*=z;}}if(s.boss&&state==='play'){cutin(PTE[type]||s.ic,s.boss.replace(/^\S+\s/,''),'があらわれた！');TS=0.3;tsT=0.9;shake(0.5);document.body.classList.add('lbx');bossZoom(e);}return e;
 }
 function hitEnemy(e,n){if(e.dead||e.slimeDigestHeld)return;
-  if(e.storyArmor1119&&n>0)n=Math.min(n*.65,e.maxHp*.26);
+  if(e.storyArmor1119&&n>0)n=sc1EasyDungeon1120()&&e.type==='drak'?Math.min(n*(sc1DrakOpen1120(e)?1.85:1),e.maxHp*.36):Math.min(n*.65,e.maxHp*.26);if(sc1EasyGolem1120()&&e.type==='biggolem'&&e.boss&&e.paceSlamUntil1120>e.t&&n>0)n*=1.4;
   if(e.inv||BTK.on){burst(cpos(e),3,GOLD,2,8,0.2);sfx('clang',e.mesh.position,0.5);return;}
   if(e.guard){n*=0.15;burst(cpos(e),3,[0x80c0ff,0xffffff],2.5,8,0.25);sfx('clang',e.mesh.position,0.4);}
   if(e.type==='bigslime'&&n>=1.5&&!(e.spT>e.t)){e.spT=e.t+(e.spCd||0.2);slimeSpawn(e,n>=30?7:n>=10?5:3);}if(e.barT>0){n*=0.25;if(Math.random()<0.3)burst(cpos(e),3,GOLD,2.5,8,0.25);}if(e.cave&&e.type==='hero'&&!CAVE.flee&&e.hp-n<e.maxHp*0.3){e.hp=e.maxHp*0.3;caveFlee();return;}e.hp-=n;e.hitT=0.14;
@@ -6767,7 +6767,7 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);if(dt>0&&!BTK.on)o
       const w=e.mesh.userData.w,a=Math.sin(e.t*18)*0.9;w.R.rotation.z=a;w.L.rotation.z=-a;if(e.mesh.userData.bh)s1Flap(e,a);
       if(e.type==='imp'&&e.cd<=0&&hd<90){e.cd=rnd(3,5);shootAtP(p.clone(),70,{mat:MAT.dfire,size:0.8,r:1.2,dmg:6,life:3,trail:PURP,col:PURP});}
       if(d3<e.r+4)hurt(e.dmg*dt,true);break;}
-    case 'drak':case 'ogre':case 'gdrake':{if(e.king||e.gen){orcBossAI(e,dt,dx,dz,hd,d3);break;}if(storyDragon()&&DUN.on&&e.type==='drak'&&drakStrike1120(e,dt,hd,d3))break;grav(e,dt);walk(e,P.pos.x,P.pos.z,hd>22?(e.type==='gdrake'?17:6.5):0,dt);animWalk(e,4);
+    case 'drak':case 'ogre':case 'gdrake':{if(e.king||e.gen){orcBossAI(e,dt,dx,dz,hd,d3);break;}if(storyDragon()&&DUN.on&&e.type==='drak'&&drakStrike1120(e,dt,hd,d3))break;grav(e,dt);walk(e,P.pos.x,P.pos.z,hd>(e.type==='drak'&&sc1EasyDungeon1120()?15:22)?(e.type==='gdrake'?17:e.type==='drak'&&sc1EasyDungeon1120()?11:6.5):0,dt);animWalk(e,4);
       if(e.cd<=0&&hd<150){e.cd=rnd(3.5,5);const f=cpos(e).clone();f.y+=7*(e.type==='drak'?1.3:1);shoot(f,lob(f,tmp2.copy(P.pos).addScaledVector(P.vel,0.8),55,30),{geo:'rock',mat:MAT.rock,size:1.8*(e.type==='drak'?1.3:1),r:2.2,splash:6,dmg:16,grav:30,life:6,col:[0x999080,0xbbaa90]});if(e.mesh.userData.armR)e.mesh.userData.armR.rotation.x=-2.5;else bubble(e,e.type==='gdrake'?'ガオーッ！':'ウガー！','shout',1);}
       if(e.mesh.userData.armR)e.mesh.userData.armR.rotation.x*=Math.max(0,1-dt*3);
       if(d3<e.r+5*(e.type==='drak'?1.3:1))hurt(e.dmg*dt,true);break;}
@@ -6825,7 +6825,7 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);if(dt>0&&!BTK.on)o
       if(d3<e.r+4)hurt(e.dmg*dt,true);break;}
     case 'biggolem':case 'bigskel':{const K=e.gk||1;grav(e,dt);
       if(e.state==='wind'){faceP(e);e.st-=dt;if(!e.pun&&e.st<0.27){e.pun=1;mixOnce(e.mesh.userData.mix,1.5);}teleSet(e,34*K,1-Math.max(0,e.st)/1.25,0xff4020);if(Math.random()<0.4)smoke(p,1,5,1.5,0x9a8a68,2);
-        if(e.st<=0){teleOff(e);e.state='chase';e.cd=rnd(2.4,3.4);const g=new V3(p.x,floorAt(p.x,p.z),p.z);shock(g,0xd8c090,34*K);shock(g,0xff7040,22*K);shake(0.8);sfx('boom',p,0.7);debris(p,12,[0x7a7468,0x9a8a72],2);smoke(g,8,8,2,0x9a8a68,4);ono(g,'ドゴォン！','#ffd23a',56);
+        if(e.st<=0){teleOff(e);e.state='chase';e.cd=rnd(2.4,3.4);if(sc1EasyGolem1120()&&e.type==='biggolem'&&e.boss)sc1GolemExpose1120(e);const g=new V3(p.x,floorAt(p.x,p.z),p.z);shock(g,0xd8c090,34*K);shock(g,0xff7040,22*K);shake(0.8);sfx('boom',p,0.7);debris(p,12,[0x7a7468,0x9a8a72],2);smoke(g,8,8,2,0x9a8a68,4);ono(g,'ドゴォン！','#ffd23a',56);
           if(Math.hypot(P.pos.x-p.x,P.pos.z-p.z)<34*K&&P.pos.y-g.y<14*K)hurt(e.dmg+4);}}
       else{walk(e,P.pos.x,P.pos.z,hd>16*K?7:0,dt);
         if(e.cd<=0&&hd<44*K&&Math.abs(P.pos.y-p.y)<18*K){e.state='wind';e.st=1.25;e.pun=0;sfx('roar',p,0.5);if(!(e.mesh.userData.mix&&e.mesh.userData.mix.hit))e.atkT=0.35;}
@@ -7299,12 +7299,12 @@ const STAGES=[
    waves:[
     {name:'小鬼とスライム',msg:'👺 小鬼とスライムが、わいて出た！',mood:7,go(){if(storyDragon()){refHallAmbush();return;}for(let i=0;i<12;i++){const e=addEnemy('goblin',...dunPos(-28,70));e.thrower=i%3===0;}for(let i=0;i<8;i++)addEnemy('slime',...dunPos(-28,60));}},
     {name:'骸骨の番兵',msg:'💀 骸骨の番兵と、石を投げる小鬼が来る！',mood:7,go(){for(let i=0;i<8;i++){const [x,z]=dunPos(-165,-55);addEnemy('bat',x,z,DUN.y+rnd(8,22));}for(let i=0;i<(storyDragon()?7:8);i++)addEnemy('skel',...dunPos(-165,-55));for(let i=0;i<(storyDragon()?9:8);i++){const e=addEnemy('goblin',...dunPos(-165,-60));e.thrower=true;}}},
-    {name:'よろいの竜人',msg:'🐲 奥の扉の前に、よろいの竜人が立ちふさがる！',mood:7,go(){addEnemy('drak',0,-250);for(let i=0;i<4;i++)addEnemy('skel',...dunPos(-265,-190));for(let i=0;i<6;i++){const e=addEnemy('goblin',...dunPos(-265,-190));e.thrower=i%2===0;}}}]},
+    {name:'よろいの竜人',msg:'🐲 奥の扉の前に、よろいの竜人が立ちふさがる！',mood:7,go(){addEnemy('drak',0,-250);if(sc1EasyDungeon1120())return;for(let i=0;i<4;i++)addEnemy('skel',...dunPos(-265,-190));for(let i=0;i<6;i++){const e=addEnemy('goblin',...dunPos(-265,-190));e.thrower=i%2===0;}}}]},
   {key:'golem',ch:'第3章',title:'ゴーレム決戦',place:'巨人の間',
    ter:{amp:0,ox:0,oz:0,flats:[[0,0,330,3,1]],dirt:[],grass:0x3a3a48,hill:0x3a3a48,rock:0x44444e,sand:0x3a3a48,dirtC:0x33333e,trees:0,rocks:0,start:[0,120]},
    story:['迷宮のいちばん奥、巨人の間。岩のかたまりが、ゆっくりと立ち上がる。','封印の扉を守るために作られた、岩の巨人ゴーレム。千年、ここで待っていたらしい。','番人ごくろう。……退職の手続きは、火でする。'],
    waves:[
-    {name:'岩の巨人ゴーレム',msg:'🗿 岩の巨人が、目をさました！',mood:7,go(){const b=addEnemy('biggolem',0,22);b.boss='🗿 岩の巨人ゴーレム';b.hp=b.maxHp=b.maxHp*1.25;b.sc=(b.sc||1)*1.25;b.r*=1.2;b.hc*=1.25;b.gk=0.5;b.sc*=b.gk;b.r*=b.gk;b.hc*=b.gk;poseSet(b,1);b.val=1500;for(let i=0;i<2;i++)addEnemy('golem',(i?1:-1)*62,44);}}]},
+    {name:'岩の巨人ゴーレム',msg:'🗿 岩の巨人が、目をさました！',mood:7,go(){const b=addEnemy('biggolem',0,sc1EasyGolem1120()?DUN.z0+47:22);b.boss='🗿 岩の巨人ゴーレム';b.hp=b.maxHp=sc1EasyGolem1120()?1350:b.maxHp*1.25;b.sc=(b.sc||1)*1.25;b.r*=1.2;b.hc*=1.25;b.gk=0.5;b.sc*=b.gk;b.r*=b.gk;b.hc*=b.gk;poseSet(b,1);b.val=1500;if(sc1EasyGolem1120())return;for(let i=0;i<2;i++)addEnemy('golem',(i?1:-1)*62,44);}}]},
   {key:'maou',ch:'最終章',title:'封印の扉',place:'魔王の間',
    ter:{amp:0,ox:0,oz:0,flats:[[0,0,330,3,1]],dirt:[],grass:0x3a3a48,hill:0x3a3a48,rock:0x44444e,sand:0x3a3a48,dirtC:0x33333e,trees:0,rocks:0,start:[0,120]},
    story:['巨人が崩れたその先に、鎖でしばられた大きな扉があった。','扉には赤い封印。千年前、だれかが魔王を閉じこめた。竜が眠ったのも、同じころだ。','封印の石をこわせば、扉は開く。開けて、焼く。それで全部、終わる。'],
@@ -8358,7 +8358,7 @@ function valleyRoyalPatrol(){
 const WGRN=[0x7dff6a,0xc8ffb0,0x2fd060,0xffffff];
 function wyvTint(g){g.traverse(o=>{if(!o.isMesh||!o.visible||!o.material||o.material.isMeshBasicMaterial)return;o.material=o.material.clone();o.material.color.setRGB(0.8,1.5,0.42);});}
 function wyvDuel(){if(CAVE.on)caveFront();const a=P.yaw,fx=Math.sin(a),fz=Math.cos(a),inC=CAVE.on,dd0=storyDragon()?34:(inC?Math.min(S1R.wyvD,CAVE.R-34):S1R.wyvD);let x=P.pos.x+fx*dd0,z=P.pos.z+fz*dd0;if(inC){const ox=x-CAVE.x,oz=z-CAVE.z,od=Math.hypot(ox,oz),mm=CAVE.R-30;if(od>mm){x=CAVE.x+ox*mm/od;z=CAVE.z+oz*mm/od;}}{const d=Math.hypot(x,z);if(d>300){x*=300/d;z*=300/d;}}
-  const blue=charKey==='wyvern',gm=!blue&&!!MODEL.wyvern2,e=addEnemy('rival',x,z,floorAt(x,z)+9,{model:gm?'wyvern2':'wyvern'});e.wyv=1;e.boss=blue?'🐉 青のワイバーン':'🐉 緑のワイバーン';e.hp=e.maxHp=storyDragon()?(EASY?1100:3400):(EASY?260:380);e.dmg=14;e.val=900;e.p2=1;e.r=7;
+  const blue=charKey==='wyvern',gm=!blue&&!!MODEL.wyvern2,e=addEnemy('rival',x,z,floorAt(x,z)+9,{model:gm?'wyvern2':'wyvern'});e.wyv=1;e.boss=blue?'🐉 青のワイバーン':'🐉 緑のワイバーン';e.hp=e.maxHp=storyDragon()?(EASY?(valleyPaceScope1120()?650:1100):3400):(EASY?260:380);e.dmg=14;e.val=900;e.p2=1;e.r=7;
   if(!MAT.wind)MAT.wind=new THREE.MeshBasicMaterial({color:0x8dff7a});if(!blue&&!gm)wyvTint(e.mesh);
   const dx=P.pos.x-x,dz=P.pos.z-z,dd=Math.hypot(dx,dz)||1;e.state='charge';e.st=1.7;e.done=false;e.vel.set(dx/dd*(storyDragon()?16:60),0,dz/dd*(storyDragon()?16:60));e.cd=2.5;e.mesh.rotation.y=Math.atan2(dx,dz);
   $('cutin').style.display='none';cutT=0;
@@ -8628,12 +8628,12 @@ function updDun(dt,rdt){if(storyBanterHold())return;if(!DUN.on)return;DUN.t+=rdt
   else if(!D.open&&wave>=0&&wave===curWaves().length-1&&EN.length===0){D.open=0.01;sfx('boom',null,0.5);shake(0.3);}
   if(D.open>0&&D.open<1){D.open=Math.min(1,D.open+rdt*0.7);D.L.rotation.y=-D.open*1.3;D.R.rotation.y=D.open*1.3;if(D.md)D.md.position.y=D.my-D.open*58;}}
 // 最終章：封印の石4つ（鎖で扉につながる）と、守りの魔物
-function doorSeals(){const zf=DUN.z0,gy=DUN.y,from=new V3((DUN.x0+DUN.x1)/2,gy+31,zf+7);if(DUN.door)DUN.door.arm=1;
-  [[-70,gy+15,zf+26],[70,gy+15,zf+26],[-74,gy+11,zf+130],[74,gy+11,zf+130]].forEach(([x,y,z])=>{const e=addEnemy('seal',x,z,y);e.mesh.position.y=y;const to=new V3(x,y,z),len=from.distanceTo(to);
+function doorSeals(){const zf=DUN.z0,gy=DUN.y,from=new V3((DUN.x0+DUN.x1)/2,gy+31,zf+7);if(DUN.door)DUN.door.arm=1;const paced=sc1MaouPace(),guardPos=(lo,hi)=>paced?[rnd(-36,36),rnd(zf+lo,zf+hi)]:dunPos(zf+lo,zf+hi);
+  (paced?[[-12,gy+10,zf+107],[14,gy+12,zf+87],[-16,gy+14,zf+65],[18,gy+15,zf+42]]:[[-70,gy+15,zf+26],[70,gy+15,zf+26],[-74,gy+11,zf+130],[74,gy+11,zf+130]]).forEach(([x,y,z])=>{const e=addEnemy('seal',x,z,y);e.mesh.position.y=y;if(paced){e.hp=e.maxHp=Math.round(e.maxHp*.72);e.sc=1.2;e.r*=1.2;e.mesh.scale.setScalar(e.sc);}const to=new V3(x,y,z),len=from.distanceTo(to);
     const m=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,len,6),new THREE.MeshBasicMaterial({color:0xff4a38,transparent:true,opacity:0.9}));m.position.copy(from).lerp(to,0.5);m.quaternion.setFromUnitVectors(UPV,to.clone().sub(from).normalize());DUN.g.add(m);DUN.ch.push({m,e});});
-  for(let i=0;i<8;i++){const [x,z]=dunPos(zf+30,zf+150);addEnemy('imp',x,z,gy+rnd(10,28));}
-  for(let i=0;i<8;i++){const e=addEnemy('goblin',...dunPos(zf+40,zf+160));e.thrower=i%2===0;}
-  for(let i=0;i<4;i++)addEnemy('skel',...dunPos(zf+50,zf+150));if(SCN!==1)addEnemy('ogre',0,zf+75);}
+  for(let i=0;i<(paced?5:8);i++){const [x,z]=guardPos(30,paced?106:150);addEnemy('imp',x,z,gy+rnd(10,28));}
+  for(let i=0;i<(paced?4:8);i++){const e=addEnemy('goblin',...guardPos(40,paced?105:160));e.thrower=i%2===0;}
+  for(let i=0;i<(paced?2:4);i++)addEnemy('skel',...guardPos(50,paced?105:150));if(SCN!==1)addEnemy('ogre',0,zf+75);}
 // 扉のむこうへ：広間を「魔王の間」に建てかえる（白く光ってから切りかわる）
 function maouRoom(){flashV=1.2;shake(0.8);sfx('boom',null,1);dunBuild({cx:0,cz:50,w:240,d:180,h:80,kind:'maou'});P.pos.set(0,DUN.y+(C.fly?12:C.gOff),118);P.yaw=P.lastYaw=Math.PI;P.vel.set(0,0,0);moodT=MOODS[8];updMood(0,true);}
 /* ---- 画面の並び（見本に合わせる）：左上の顔、右下の技の丸いボタン3つ（左＝スペースの動き／まん中＝必殺技1／右＝必殺技2） ---- */
@@ -10776,7 +10776,7 @@ function camE(){if(!s1CamOK()){CAME.w=Math.max(0,CAME.w-0.08);if(CAME.w<=0){CAME
 const S1S={drakD:75,dungeon:[92,8],golem:[82,8,32],maou:[84,8,100]};  // maou の3つ目＝魔王の間（2つ目の波）で竜を置く z（魔王は z=56 に立つ。前は 116 で、60 はなれていた）
 {const sw0=startWave;startWave=function(i){const K=S1S[(STAGES[stage]||{}).key];if(K&&i===0&&SCN===1&&DUN.on&&(charKey==='dragon'||charKey==='wyvern'||charKey==='ground')&&P.pos.z>K[0]+6){P.pos.z=K[0];P.pos.y=DUN.y+K[1]+(charKey==='dragon'?3:0);P.vel.set(0,0,0);}
   const r=sw0.apply(this,arguments);try{if(i===2&&SCN===1&&DUN.on&&(STAGES[stage]||{}).key==='dungeon'){const g=EN.find(e=>e.type==='drak');const distance=storyDragon()?18:S1S.drakD;if(g&&g.mesh.position.z<P.pos.z-distance)g.mesh.position.z=Math.max(-250,P.pos.z-distance);}
-  if(i===1&&SCN===1&&DUN.on&&(STAGES[stage]||{}).key==='maou'&&(charKey==='dragon'||charKey==='wyvern'||charKey==='ground')&&P.pos.z>S1S.maou[2]+6){P.pos.z=S1S.maou[2];P.vel.set(0,0,0);}if(K&&K[2]&&i===0&&SCN===1&&DUN.on&&(STAGES[stage]||{}).key==='golem'){const g=EN.find(e=>e.type==='biggolem');if(g&&g.mesh.position.z<K[2])g.mesh.position.z=K[2];}}catch(_){}return r;};}
+  if(i===1&&SCN===1&&DUN.on&&(STAGES[stage]||{}).key==='maou'&&(charKey==='dragon'||charKey==='wyvern'||charKey==='ground')&&P.pos.z>S1S.maou[2]+6){P.pos.z=S1S.maou[2];P.vel.set(0,0,0);}if(K&&K[2]&&i===0&&SCN===1&&DUN.on&&(STAGES[stage]||{}).key==='golem'){const g=EN.find(e=>e.type==='biggolem');if(g&&!sc1EasyGolem1120()&&g.mesh.position.z<K[2])g.mesh.position.z=K[2];}}catch(_){}return r;};}
 
 /* ---- castle_look2.py：燃える城壁・攻城やぐら・隊列・軍旗（Tripo）と、奥の城の置き直し ---- */
 // モデル1つを「高さ th」に合わせる（長い向きを x に）。形（fit）と、中の mesh の組を返す
@@ -11841,7 +11841,7 @@ function msfStart(){const dm=EN.find(e=>e.type==='demon'&&!e.dead);if(!dm||!DUN.
   Object.assign(S,{on:true,ph:0,t:0,e:dm,g:null,cx,az,ay,H,pos:new V3(cx,ay+1.2,az),vel:new V3(),ang:0,yF:ay+H*0.5+(storyDragon()?7:3),cd:2.2,alt:false,poseT:0,hot:0,ord:[2,3,0,1],ff:0,a:0,c:0,d:0,u:0,u2:0,h1:0,h2:0,ult:null,
     ct:new V3(cx+14,ay+10,az+42),cq:new V3(cx,ay+15,az)});
   dm.sc=MSC.sc;dm.mesh.scale.setScalar(dm.sc);dm.r=4*1.5*MSC.sc/1.7;dm.hc=H*0.2;dm.inv=false;dm.boss='😈 魔王（半身封印）';dm.vel.set(0,0,0);dm.mesh.position.copy(S.pos);dm.mesh.rotation.y=0;try{maouSkin(dm);}catch(_){}sc1MaouBindLate(dm);
-  if(EASY)dm.hp=dm.maxHp=Math.round(dm.maxHp*MSC.hpE);S.seal0=S.seal=dm.maxHp*MSC.sealK;dm.cd=9;dm.sum=9;dm.met=9;
+  if(EASY)dm.hp=dm.maxHp=Math.round(dm.maxHp*(sc1MaouPace()? .84 : MSC.hpE));S.seal0=S.seal=dm.maxHp*(sc1MaouPace()? .26 : MSC.sealK);dm.cd=9;dm.sum=9;dm.met=9;
   P.pos.x=cx;P.pos.z=DUN.z0+MSC.pz;P.vel.set(0,0,0);P.yaw=P.lastYaw=Math.PI;
   msfBuild(S);if(storyDragon())sc1MaouCuffs(S);BTK.on=true;BTK.t=1;msfUi(true,1);}
 // 封印がくだける見せ場を始める
@@ -11914,7 +11914,7 @@ function msfTick(dt){if(presentationHold()&&!presentationMsfPhase())return;const
       if(!S.h2){S.h2=1;bubble(e,'つい、手が出たわ！','boss',2.2);}}
     const k=S.seal/S.seal0,n=k<=0.25?3:k<=0.5?2:k<=0.75?1:0;for(let i=0;i<n;i++)msfCut(S,S.ord[i]);
     if(!S.hint&&S.t>10&&k>0.8){S.hint=1;banner('魔王に攻撃すると、封印の鎖がこわれる',2.6);}
-    if(S.seal<=0||S.ff>1||S.t>(EASY?MSC.sealTE:MSC.sealT))msfBreak(S);}
+    if(S.seal<=0||S.ff>1||S.t>(sc1MaouPace()?12:EASY?MSC.sealTE:MSC.sealT))msfBreak(S);}
   else if(S.ph===2){BTK.on=true;BTK.t=1;if(S.ff>2)S.skip=1;const T=MSC.brk,t=S.skip?T:S.t;
     for(const c of S.cq2)if(!c.d&&t>=c.t){c.d=1;msfCut(S,c.i,1);}
     if(!S.b1&&t>=0.6){S.b1=1;msfShatter(S);}
@@ -11930,7 +11930,7 @@ function msfTick(dt){if(presentationHold()&&!presentationMsfPhase())return;const
     else if(S.c&&!S.u&&S.t>1.6&&idle){S.u=1;msfUlt(S);}
     else if(S.u&&!S.d){S.d=1;S.t=0;talk([['魔王','どうだ。骨も残るまい……'],['ME','……いい術だ。組み立ても、形も、出し方も、見たことがない。もう少し、見せてくれるか'],['魔王','な……効いておらんのか!?']]);}
     else if(S.d&&(S.ff>3||S.t>1.2&&idle)){if(storyArt1120Flight(S))return;S.ph=4;S.t=0;BTK.on=false;e.cd=1.6;e.sum=EASY?16:9;e.met=6;banner('⚔ 魔王が、全身で向かってくる！',2.2);sfx('roar',null,0.6);}}
-  else if(S.ph===4){S.ang+=dt*0.4;const tx=S.cx+Math.sin(S.ang*1.2)*26,tz=clamp(Math.min(DUN.z0+48+Math.cos(S.ang)*9,P.pos.z-30),DUN.z0+14,DUN.z1-20),tg=MSV.a.set(tx,DUN.y+dunSt(q.x,q.z)+S.H*0.5+(storyDragon()?7.5:2.5)+Math.sin(S.t*1.3)*1.5,tz),v=MSV.b.subVectors(tg,q),d=v.length();
+  else if(S.ph===4){S.ang+=dt*0.4;const paced=sc1MaouPace(),tx=S.cx+Math.sin(S.ang*1.2)*(paced?17:26),tz=clamp(Math.min(DUN.z0+(paced?69:48)+Math.cos(S.ang)*9,P.pos.z-(paced?24:30)),DUN.z0+14,DUN.z1-20),tg=MSV.a.set(tx,DUN.y+dunSt(q.x,q.z)+S.H*0.5+(storyDragon()?7.5:2.5)+Math.sin(S.t*1.3)*1.5,tz),v=MSV.b.subVectors(tg,q),d=v.length();
     if(d>0.01)v.multiplyScalar(Math.min(22,d*2)/d);S.vel.lerp(v,Math.min(1,dt*1.5));if(!S.hold)q.addScaledVector(S.vel,dt);
     if(e.mt1&&!S.u2t)S.u2t=S.t;
     if(S.ult)msfUltTick(S,dt);else if(S.u2t&&!S.u2&&idle&&!CINE.k){S.u2=1;msfUlt(S,storyDragon());}
@@ -28141,15 +28141,18 @@ function drakSwingClip1120(e){
  return {mixer,action};
 }
 function drakStrike1120(e,dt,hd,d3){
+ const pace=sc1EasyDungeon1120();
+ if(pace&&sc1DrakOpen1120(e))return true;
+ if(pace&&e.paceWeakUntil1120){e.paceWeakUntil1120=0;glowOff(e);}
  if(e.axeAge==null){
-  if(e.cd>0||hd>e.r+25||Math.abs(P.pos.y-cpos(e).y)>e.hc+13)return false;
+  if(e.cd>0||hd>e.r+(pace?30:25)||Math.abs(P.pos.y-cpos(e).y)>e.hc+(pace?20:13))return false;
   if(!e.axeAnimation)e.axeAnimation=drakSwingClip1120(e);
   if(!e.axeAnimation)return false;
   e.axeAge=0;e.axeHit=false;e.axeYaw=Math.atan2(P.pos.x-e.mesh.position.x,P.pos.z-e.mesh.position.z);
   e.mesh.rotation.y=e.axeYaw;
   e.axeAnimation.action.reset().play();sfx('whoosh',e.mesh.position,.45);
  }
- const old=e.axeAge;e.axeAge+=dt;
+ const old=e.axeAge;e.axeAge+=dt;if(pace&&old<.48)sc1DrakAimWindup1120(e,Math.min(dt,.48-old));
  if(e.axeAge>=.58&&e.axeAge<=.8){
    const p=e.mesh.position,step=Math.min(dt,.8-old)*18;
    p.x=clamp(p.x+Math.sin(e.axeYaw)*step,DUN.x0+DUN.xm,DUN.x1-DUN.xm);
@@ -28165,7 +28168,7 @@ function drakStrike1120(e,dt,hd,d3){
    burst(tip,5,[0xffcf81,0xff7844],4,11,.32);
    if(d3<e.r+19&&facing>-.1)hurt(e.dmg*1.15);
  }
- if(e.axeAge>=1.27){e.axeAge=null;e.cd=2.1;}
+ if(e.axeAge>=1.27){e.axeAge=null;e.cd=2.1;if(pace)sc1DrakExpose1120(e);}
  return true;
 }
 {const original=updMix;updMix=function(dt){original.apply(this,arguments);
@@ -28977,6 +28980,166 @@ function wingedMaouArt(root, dt, flight, folded) {
   }
   return result;
 };}
+
+/* SC1_VALLEY_PACE_1120 */
+const VALLEY_PACE_1120={combat:{hero:0,wyvern:0,army:0},retreat:null,pending:false,retreated:0,captain:null,serial:0};
+function valleyPaceScope1120(){return SCN===1&&charKey==='dragon'&&EASY&&STAGES[stage]?.key==='valley';}
+function valleyPaceHealth1120(e,hp){e.hp=e.maxHp=hp;}
+// Keep the complete hero encounter, including guard/healer/escape choreography.
+{const before=caveParty;caveParty=function(){const r=before.apply(this,arguments);if(valleyPaceScope1120())for(const e of EN)if(e.cave&&!e.dead&&e.type==='hero')valleyPaceHealth1120(e,1200);return r;};}
+// Keep 35 actors and the original march; put the captain twenty metres ahead of the first rank.
+{const before=valleyRoyalColumns;valleyRoyalColumns=function(){const rows=before.apply(this,arguments);return valleyPaceScope1120()?rows.map(row=>row.model==='captain'?{...row,depth:30}:row):rows;};}
+{const before=valleyRoyalPatrol;valleyRoyalPatrol=function(){const n=EN.length,r=before.apply(this,arguments);if(valleyPaceScope1120()){
+ const actors=EN.slice(n).filter(e=>e.royalPatrol),rows=valleyRoyalColumns();
+ actors.forEach((e,i)=>{const row=rows[i];e.valleyPaceRoyal1120=true;if(row?.model==='captain'){e.valleyPaceCaptain1120=true;VALLEY_PACE_1120.captain=e;valleyPaceHealth1120(e,480);}else valleyPaceHealth1120(e,e.type==='cannon'?180:e.type==='archer'?85:110);});
+ }return r;};}
+function valleyPaceRetreatBegin1120(){const s=VALLEY_PACE_1120;if(!s.pending||s.retreat||!valleyPaceScope1120()||state!=='play'||PRESENTATION.owner)return false;
+ const actors=EN.filter(e=>!e.dead&&e.valleyPaceRoyal1120).map(e=>{const dir=e.mesh.position.clone().sub(P.pos).setY(0);if(dir.lengthSq()<.01)dir.set(0,0,-1);dir.normalize();return {e,start:e.mesh.position.clone(),dir,inv:e.inv};});
+ const q={id:'valley-army-retreat-'+(++s.serial),time:0,duration:3.4,actors,count:actors.length,dark:false};
+ if(!presentationBegin(q.id,{label:'王国軍、撤退',text:`隊長が倒れた！ 残る${q.count}体は武器を下げ、谷の外へ退いていく。`,letterbox:true,next:false,tick:valleyPaceRetreatTick1120}))return false;
+ s.pending=false;s.retreat=q;for(let i=PROJ.length-1;i>=0;i--)if(PROJ[i].from!=='p'){scene.remove(PROJ[i].m);PROJ.splice(i,1);}actors.forEach(a=>{a.e.inv=true;a.e.royalRetreat1120=true;});presentationClearInput();P.firing=false;return true;
+}
+function valleyPaceRetreatTick1120(dt){const s=VALLEY_PACE_1120,q=s.retreat;if(!q||PAUSED||LVUP||document.hidden)return;if(!valleyPaceScope1120()||state!=='play'){valleyPaceRetreatAbort1120();return;}q.time+=Math.min(.05,Math.max(0,dt));
+ for(const a of q.actors){const e=a.e,p=e.mesh.position;p.copy(a.start).addScaledVector(a.dir,Math.min(q.time,q.duration)*8.5);p.y=floorAt(p.x,p.z);e.mesh.rotation.y=Math.atan2(a.dir.x,a.dir.z);e.t+=dt;animWalk(e,8.5);}
+ if(q.time>=q.duration-.5&&!q.dark){q.dark=true;pacFade(1,.5);}
+ if(q.time>=q.duration){for(const a of q.actors){a.e.dead=true;a.e.inv=a.inv;scene.remove(a.e.mesh);const at=EN.indexOf(a.e);if(at>=0)EN.splice(at,1);}s.retreated+=q.count;s.retreat=null;WV.majT='隊長を撃破！ 王国軍は谷から撤退した';waveWait=0;presentationEnd(q.id);}
+}
+function valleyPaceRetreatAbort1120(){const s=VALLEY_PACE_1120,q=s.retreat;s.pending=false;s.retreat=null;if(q){q.actors.forEach(a=>{a.e.inv=a.inv;a.e.royalRetreat1120=false;});presentationEnd(q.id);}}
+{const before=killEnemy;killEnemy=function(e,quiet){const was=!!e?.dead,r=before.apply(this,arguments);if(!quiet&&!was&&e?.dead&&e.valleyPaceCaptain1120&&valleyPaceScope1120()&&state==='play'){VALLEY_PACE_1120.pending=true;valleyPaceRetreatBegin1120();}return r;};}
+{const before=updEnemies;updEnemies=function(dt){if(valleyPaceScope1120()&&state==='play'){
+ if(VALLEY_PACE_1120.pending&&valleyPaceRetreatBegin1120())return;
+ const key=EN.some(e=>!e.dead&&e.cave&&e.type==='hero')?'hero':EN.some(e=>!e.dead&&e.wyv)?'wyvern':EN.some(e=>!e.dead&&e.valleyPaceRoyal1120)?'army':null;if(key)VALLEY_PACE_1120.combat[key]+=Math.max(0,dt);
+ }return before.apply(this,arguments);};}
+{const before=presentationFrame;presentationFrame=function(){if(VALLEY_PACE_1120.pending&&!PRESENTATION.owner)valleyPaceRetreatBegin1120();return before.apply(this,arguments);};}
+{const before=waveClearDelay;waveClearDelay=function(last,major){return valleyPaceScope1120()?(last?1.2:1):before.apply(this,arguments);};}
+{const before=firstplayName;firstplayName=function(e){return valleyPaceScope1120()&&e?.valleyPaceCaptain1120?'王国の隊長':before.apply(this,arguments);};}
+{const before=firstplayMission;firstplayMission=function(){if(valleyPaceScope1120()&&curWaves()[wave]?.royalPatrol){if(VALLEY_PACE_1120.retreat)return `隊長を撃破！ 残る${VALLEY_PACE_1120.retreat.count}体が谷の外へ撤退中`;if(VALLEY_PACE_1120.captain&&!VALLEY_PACE_1120.captain.dead)return '目的：王国の隊長を倒す。隊長が倒れると残兵は撤退する';}return before.apply(this,arguments);};}
+{const before=clearWorld;clearWorld=function(){valleyPaceRetreatAbort1120();VALLEY_PACE_1120.captain=null;return before.apply(this,arguments);};}
+{const before=setupStage;setupStage=function(i){if(i===0&&SCN===1&&charKey==='dragon'&&EASY){VALLEY_PACE_1120.combat={hero:0,wyvern:0,army:0};VALLEY_PACE_1120.retreated=0;}return before.apply(this,arguments);};}
+window.valleyPaceState1120=()=>({eligible:valleyPaceScope1120(),combatSeconds:{...VALLEY_PACE_1120.combat},retreat:VALLEY_PACE_1120.retreat?{time:VALLEY_PACE_1120.retreat.time,count:VALLEY_PACE_1120.retreat.count}:null,retreated:VALLEY_PACE_1120.retreated,captainAlive:!!(VALLEY_PACE_1120.captain&&!VALLEY_PACE_1120.captain.dead),targets:{chapterSeconds:150,heroSeconds:[30,60]},hp:{hero:1200,wyvern:650,captain:480,soldier:110,archer:85,cannon:180}});
+/* END_SC1_VALLEY_PACE_1120 */
+
+
+/* SC1_DUNGEON_PACE_1120 */
+function sc1EasyDungeon1120(){return EASY&&storyDragon()&&STAGES[stage]?.key==='dungeon';}
+function sc1EasyGolem1120(){return EASY&&storyDragon()&&STAGES[stage]?.key==='golem';}
+function sc1DrakOpen1120(e){
+ return sc1EasyDungeon1120()&&e.type==='drak'&&(e.paceWeakUntil1120||0)>e.t;
+}
+function sc1DrakExpose1120(e){
+ e.paceWeakUntil1120=e.t+2.6;
+ glowSet(e,0x57eaff,0,e.hc/Math.max(.3,e.mesh.scale.y),.9,2.1);
+ banner('斧を振り下ろした！　胸が光るうちに反撃',2.6);
+}
+function sc1GolemExpose1120(e){
+ e.paceSlamUntil1120=e.t+2.4;
+ banner('地ならしの直後！　岩の巨人に反撃',2.4);
+}
+function sc1DrakAimWindup1120(e,dt){
+ const p=e.mesh.position;
+ const aim=Math.atan2(P.pos.x-p.x,P.pos.z-p.z);
+ const angle=Math.atan2(Math.sin(aim-e.axeYaw),Math.cos(aim-e.axeYaw));
+ e.axeYaw+=clamp(angle,-dt*2.2,dt*2.2);
+ e.mesh.rotation.y=e.axeYaw;
+}
+{const before=nextCombatWave;nextCombatWave=function(i){
+ return sc1EasyDungeon1120()&&i===0?2:before.apply(this,arguments);
+};}
+{const before=combatWaveNumber;combatWaveNumber=function(i){
+ return sc1EasyDungeon1120()&&i>=2?i:before.apply(this,arguments);
+};}
+{const before=combatWaveTalk;combatWaveTalk=function(lines,i){
+ const talk=before.apply(this,arguments);
+ if(!sc1EasyDungeon1120()||i!==2||!talk)return talk;
+ return [...talk,['💡 ヒント','斧をかわし、胸の光が消える前に炎や必殺技で反撃しよう。']];
+};}
+{const before=refHallAmbush;refHallAmbush=function(){
+ if(!sc1EasyDungeon1120())return before.apply(this,arguments);
+ const front=DUN.z1-111;
+ [3,4,3,4].forEach((count,row)=>{
+  const type=['goblin','slime','skel','goblin'][row];
+  for(let col=0;col<count;col++){
+   const enemy=addEnemy(type,(col-(count-1)/2)*5.5,front-row*5);
+   if(type==='slime')slBlue(enemy);
+   if(type==='goblin'&&row===3)enemy.thrower=col%2===0;
+  }
+ });
+};}
+
+</script>
+<script>
+/* SC1_MAOU_PACING_1120 */
+'use strict';
+
+function sc1MaouPace() {
+  return EASY && storyDragon() && STAGES[stage]?.key === 'maou';
+}
+
+function sc1MaouAim(enemies, limit, facing) {
+  const origin = P.pos;
+  let nearest = null;
+  let distance = Math.min(C.range * easyShotGain(), limit) ** 2;
+  for (const enemy of enemies) {
+    if (enemy.dead || enemy.inv || enemy.powerHeld) continue;
+    const point = cpos(enemy);
+    const x = point.x - origin.x, z = point.z - origin.z;
+    const angle = Math.atan2(x, z) - P.yaw;
+    const rise = Math.atan2(point.y - origin.y, Math.max(.1, Math.hypot(x, z))) - P.pitch;
+    const candidate = origin.distanceToSquared(point);
+    if (candidate >= distance || Math.cos(angle) < facing || rise < -1.12 || rise > 1.48 ||
+        !easyAimClear(point)) continue;
+    distance = candidate;
+    nearest = point.clone();
+  }
+  return nearest;
+}
+
+function sc1MaouNearestSeal() {
+  if (!sc1MaouPace() || state !== 'play' || wave !== 0 || !DUN.on || !DUN.door?.arm) return null;
+  return sc1MaouAim(DUN.ch.map(link => link.e), 110, .24);
+}
+
+function sc1MaouTarget() {
+  if (!sc1MaouPace() || state !== 'play' || !DUN.on) return null;
+  if (wave === 0 && DUN.door?.arm) {
+    return sc1MaouNearestSeal() || sc1MaouAim(EN.filter(e => e.type !== 'seal'), 88, .06);
+  }
+  if (wave === 1 && MSF.on && MSF.e && !MSF.ult && (MSF.ph === 1 || MSF.ph === 4)) {
+    return sc1MaouAim([MSF.e], 100, .24);
+  }
+  return null;
+}
+
+/* SC1_VALLEY_MOBILE_CAMERA_1120 */
+{const cache=new WeakMap(),before=valleyRoyalView;valleyRoyalView=function(actors,view,f,side,time){
+ const result=before.apply(this,arguments);
+ if(!(SCN===1&&charKey==='dragon'&&EASY&&cam.aspect<.8)||!actors.length)return result;
+ const lead=actors[0].e.mesh.position,centreX=actors[0].from.x-actors[0].row.lane;
+ const bucket=Math.floor(time*4),saved=cache.get(view);
+ if(saved&&saved.bucket===bucket&&saved.aspect===cam.aspect){const delta=lead.clone().sub(saved.lead);view.p.copy(saved.p).add(delta);view.t.copy(saved.t).add(delta);view.framing=saved.framing;return result;}
+ const remember=()=>cache.set(view,{bucket,aspect:cam.aspect,lead:lead.clone(),p:view.p.clone(),t:view.t.clone(),framing:view.framing});
+ const h=window.innerHeight||844,rect=document.getElementById('presentationPanel')?.getBoundingClientRect();
+ const panelTop=rect?.height>0?rect.top:h-150;
+ const safeBottom=1-2*Math.max(80,panelTop-18)/h,safeTop=.86,centerNdc=(safeBottom+safeTop)*.5;
+ const tan=Math.tan(cam.fov*Math.PI/360),base=27+2*rigSm(Math.min(time/4.5,1));
+ // Keep the existing low frontal angle and approach. Back up only as far as the
+ // nearest captain, outer columns, rear guns and dialogue-safe frame require.
+ for(let distance=base;distance<=base+100;distance+=2){
+  view.p.set(centreX+4,floorAt(centreX+4,lead.z+distance)+7.2+(distance-base),lead.z+distance);
+  view.t.set(centreX,lead.y+1.7,lead.z-13);
+  for(let j=0;j<7;j++){
+   const b=valleyRoyalScreenBounds(actors,view.p,view.t,tan,cam.aspect);
+   const shift=(b.left+b.right)*.5*distance*tan*cam.aspect*.8;
+   view.t.x+=b.rx*shift;view.t.z+=b.rz*shift;
+   view.t.y+=((b.bottom+b.top)*.5-centerNdc)*distance*tan*.8;
+  }
+  const b=valleyRoyalScreenBounds(actors,view.p,view.t,tan,cam.aspect);
+  view.framing={...b,safeBottom,safeTop,distance,mobileCamera1120:true,cacheHz:4};
+  if(b.left>=-.86&&b.right<=.86&&b.bottom>=safeBottom&&b.top<=safeTop){remember();return result;}
+ }
+ remember();return result;
+};}
+/* END_SC1_VALLEY_MOBILE_CAMERA_1120 */
 
 {
  const previous=storyEnd;
