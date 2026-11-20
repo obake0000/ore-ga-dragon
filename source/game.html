@@ -1296,7 +1296,7 @@ const MODEL=new Proxy({}, {get(target,id){mobileModelGet(id);return Reflect.get(
 // 自分のキャラだけ別のモデルを使う時の対応（ワイバーン＝緑の方）。読めなかった時は元のモデルにもどる
 const PMODEL={wyvern:'wyvern2',bomber:'p8bomber',slime:'slime2',necromancer:'skelmage'};
 // 3Dモデルの版。モデルを作り直したら数字を変える（古い版がブラウザに残らないように）
-const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVFDRKUIFRDKFGLWFIfPRSFmNCDHYRsFKLUNSWCBRWSAFBMOMGGXVUJFhpyvcLGMTCFsgrbkSjHumHHrSunAwGpuFairynNFjMTEBYSCPGWSchVTNhSPaQICON1117LPIAAR2SeaFMOBILE1117ART2LUNA4GRAPHICS1117_KINGDOM_BARRACKS_1117MUSIC5COLCAM1118COLGUIDE1118RULEART1118FIRSTPLAY1118WYVERNFIX1118Sa140mr1119'/* ARCHANGEL_ICON_CACHE_1117 *//* ICON_ART_CACHE_1117 */;let LOADED=0,LOADN=0,READY=false;
+const ASSET_V='1116aazxb152xy9abcdmvwgystpqcrfxAhBCTYMKAcoDspgfSswBUWCsDNnnLPabbcKLQRSTUVWXYZ0ABCDEFGHIJKLMNOPQRMTNOOUVPWQXRAFTADGPACBVFDRKUIFRDKFGLWFIfPRSFmNCDHYRsFKLUNSWCBRWSAFBMOMGGXVUJFhpyvcLGMTCFsgrbkSjHumHHrSunAwGpuFairynNFjMTEBYSCPGWSchVTNhSPaQICON1117LPIAAR2SeaFMOBILE1117ART2LUNA4GRAPHICS1117_KINGDOM_BARRACKS_1117MUSIC5COLCAM1118COLGUIDE1118RULEART1118FIRSTPLAY1118WYVERNFIX1118Sa140mr1119oku67'/* ARCHANGEL_ICON_CACHE_1117 *//* ICON_ART_CACHE_1117 */;let LOADED=0,LOADN=0,READY=false;
 function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%';const b=$('ldp');if(b)b.style.width=k;const n=$('ldn');if(n)n.textContent=k;}
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
@@ -7544,7 +7544,7 @@ function s5Spawn(kind,x,z,y){let e;const rig=id=>MODEL[id]?id:(MODEL.rival?'riva
   else if(kind==='earth'){e=addEnemy('gdrake',x,z,undefined,{model:MODEL.ground2?'ground2':'ground'});e.sc=1.15;e.r=ST.gdrake.r*1.15;s5Tint(e.mesh,0.62,0.66,0.8);}
   else if(kind==='king'){e=addEnemy('dking',x,z,y,{model:MODEL.dragonking?'dragonking':'elder'});e.rking=1;e.sc=4.0;e.r=ST.dking.r*4.0;e.hc=0;e.mesh.rotation.order='YXZ';}
   if(e&&kind!=='keep'&&kind!=='king'){const fit=sc=>{const rt=sc/(e.sc||1);e.sc=sc;e.r*=rt;e.hc*=rt;};fit((e.sc||1)*(kind==='earth'?0.67:0.53));
-    setTimeout(()=>{if(e.dead||!e.mesh||!e.mesh.parent)return;e.mesh.updateMatrixWorld(true);const k0=e.mesh.scale.x||1,hh=new THREE.Box3().setFromObject(e.mesh).getSize(new V3()).y/k0;if(hh>2)fit(14.4/hh);},600);}
+    setTimeout(()=>{if(e.dead||!e.mesh||!e.mesh.parent)return;e.mesh.updateMatrixWorld(true);const k0=e.mesh.scale.x||1,hh=new THREE.Box3().setFromObject(e.mesh).getSize(new V3()).y/k0;if(hh>2)fit(14.4/hh);okuFittedDragon(e,kind);},600);}
   if(e)s5Mark(e,kind==='king'?0xffa030:null);return e;}
 // 竜王：体力が3分の2で親衛を呼ぶ／3分の1で本気（動きが速くなる）。親衛は、竜王が倒れたら消える
 function kingStep(e,dt){const p=e.mesh.position,f=e.hp/e.maxHp;
@@ -10880,7 +10880,7 @@ function s8Rex(e,dt,p,dx,dz,hd,d3,half){const on=grav(e,dt),dy=P.pos.y-p.y,m=e.m
     if(!e.done&&k>0.25&&hd<e.r+22&&Math.abs(dy)<18){e.done=1;hurt(e.dmg);shake(0.6);ono(P.pos.clone().add(new V3(0,5,0)),'バシィッ！','#ffd23a',54);sfx('crash',p);}
     if(e.st<=0){m.rotation.y=e.ry0;e.state='chase';e.cd=half?1.4:2.2;}return;}
   if(e.state==='wind'){faceP(e);s8Tilt(e,e.act==='roar'?-0.18+0.03*Math.sin(e.t*40):e.act==='leap'?0.22:-0.08,dt);teleSet(e,e.wR,1-Math.max(0,e.st)/e.wT,0xff4020);if(Math.random()<0.5)smoke(p,1,5,1.2,0x8a7a58,5);
-    if(e.st<=0){teleOff(e);
+    if(e.st<=0){teleOff(e);if(e.mesh.userData.okuAppearance==='dino_rockback_rex_1117')mixOnce(e.mesh.userData.mix);
       if(e.act==='leap'){s8Leap(e,dx,dz,Math.max(0,dy),5,80);e.state='leap';sfx('roar',p,0.8);}
       else if(e.act==='tail'){e.state='tail';e.st=0.6;e.ry0=m.rotation.y;e.done=0;sfx('whoosh',p,0.9);}
       else{e.state='chase';e.cd=half?1.8:2.8;const y=floorAt(p.x,p.z),rm=new THREE.Mesh(new THREE.RingGeometry(0.93,1,72),new THREE.MeshBasicMaterial({color:0xffe9b0,transparent:true,opacity:0.8,side:THREE.DoubleSide,depthWrite:false}));
@@ -10890,7 +10890,7 @@ function s8Rex(e,dt,p,dx,dz,hd,d3,half){const on=grav(e,dt),dy=P.pos.y-p.y,m=e.m
   s8Tilt(e,e.rw&&e.rw.r<60?-0.18+0.03*Math.sin(e.t*40):(d3<e.r+9?0.18+0.16*Math.sin(e.t*7):0),dt);   // ほえている間はのけぞる／近い時は、かみつくように首をふる
   walk(e,P.pos.x,P.pos.z,hd>e.r+5?(half?17:13):0,dt);
   if(e.cd<=0&&hd<200&&!e.rw){const near=hd<e.r+20&&Math.abs(dy)<16,act=near?(e.nat++%2?'leap':'tail'):(['leap','roar','rock','leap'])[e.nat++%4];
-    if(act==='rock'){e.cd=half?1.6:2.4;const f=cpos(e).clone();f.y+=3;shoot(f,lob(f,tmp2.copy(P.pos).addScaledVector(P.vel,0.8),60,30),{geo:'rock',mat:MAT.rock,size:4,r:4,splash:12,dmg:22,grav:30,life:6,col:[0x999080,0xbbaa90]});smoke(p,6,6,1.4,0x8a7a58,6);sfx('small',p,0.8);}
+    if(act==='rock'){if(e.mesh.userData.okuAppearance==='dino_rockback_rex_1117')mixOnce(e.mesh.userData.mix);e.cd=half?1.6:2.4;const f=cpos(e).clone();f.y+=3;shoot(f,lob(f,tmp2.copy(P.pos).addScaledVector(P.vel,0.8),60,30),{geo:'rock',mat:MAT.rock,size:4,r:4,splash:12,dmg:22,grav:30,life:6,col:[0x999080,0xbbaa90]});smoke(p,6,6,1.4,0x8a7a58,6);sfx('small',p,0.8);}
     else if(act==='leap'&&(dy>58||hd>105)){e.cd=0.4;}
     else{e.state='wind';e.act=act;e.wT=e.st=act==='roar'?0.9:0.7;e.wR=act==='tail'?e.r+20:act==='roar'?26:e.r*1.2;sfx('roar',p,0.5);}}
   if(half&&!e.p2){e.p2=1;bubble(e,'グルルル……！','boss',2);sfx('roar',p,1);shake(0.7);for(let k=0;k<s8N(9);k++){const [x,z]=ringPos(60,130);s8Spawn('raptor',x,z);}banner('🦖 暴君竜のほえ声に、小型竜が集まってきた！',2);}
@@ -12783,7 +12783,7 @@ function rexJaw(sc){try{sc.updateMatrixWorld(true);let sm=null;sc.traverse(o=>{i
   const ji=sk.bones.length;sk.bones.push(jaw);sk.boneInverses.push(new THREE.Matrix4().copy(jaw.matrixWorld).invert());sk.boneMatrices=new Float32Array(sk.bones.length*16);if(sk.boneTexture){sk.boneTexture.dispose();sk.boneTexture=undefined;}
   let c=0;for(const a of F)if(a[2]<hm){si.setXYZW(a[0],ji,0,0,0);sw.setXYZW(a[0],1,0,0,0);c++;}si.needsUpdate=true;sw.needsUpdate=true;
   const side=new V3().crossVectors(f,new V3(0,1,0)).normalize();REXJAW={ax:side.transformDirection(new THREE.Matrix4().copy(jaw.matrixWorld).invert()),n:c};console.log('REX の下あご',c);}catch(e){console.warn('rexjaw',e);}}
-function rexTick(dt){for(const e of EN){if(e.dead||e.s8!=='rex')continue;let r=e.rxb;
+function rexTick(dt){for(const e of EN){if(e.dead||e.s8!=='rex'||e.mesh.userData.okuAppearance==='dino_rockback_rex_1117')continue;let r=e.rxb;
   if(!r){r=e.rxb={};e.mesh.traverse(o=>{if(o.isBone){const k=o.name.replace(/[:.]/g,'');if(['L_Thigh','R_Thigh','L_Calf','R_Calf','rexjaw'].includes(k))r[k]={b:o,q:o.quaternion.clone()};}});
     const mx=e.mesh.userData.mix;if(mx){try{mx.mx.stopAllAction();mx.mx.update(0);}catch(_){}const i=MIX.indexOf(mx);if(i>=0)MIX.splice(i,1);}e.mesh.traverse(o=>{if(o.isSkinnedMesh&&o.skeleton)o.skeleton.pose();});for(const k in r)r[k].q.copy(r[k].b.quaternion);r.ph=0;r.lp=e.mesh.position.clone();r.jt=0;r.rr=rnd(3,6);}
   const p=e.mesh.position,sp=Math.hypot(p.x-r.lp.x,p.z-r.lp.z)/Math.max(dt,1e-3);r.lp.copy(p);r.ph+=dt*Math.min(9,1.2+sp*0.22);const w=Math.min(1,sp/6),Q=new THREE.Quaternion(),X=new V3(1,0,0);
@@ -19933,7 +19933,7 @@ function seaKingAddSharks(q){
  if(!MODEL.shark)return;
  for(let i=0;i<5;i++){
   const g=makeProxy(5.2,3.5,12.8,0x3c7188,true);
-  if(!attachModel(g,'shark'))continue;
+  const seaAlly=i===2&&MODEL.sea_ray_ally_1117?.skin?'sea_ray_ally_1117':'shark';if(!attachModel(g,seaAlly))continue;
   g.visible=false;scene.add(g);q.sharks.push({g,i,cd:.42+i*.32,ready:false,leap:null});
  }
 }
@@ -27717,8 +27717,6 @@ function okuActorChoice1119(role){
  const move=A.find(a=>/^move$/i.test(a.name));if(!move)return A;
  const alias=move.clone();alias.name='walk';return [...A,alias];
 };}
-// The received rock dragon faces -X; +90 degrees aligns its head with the game's +Z.
-{const before=attachModel;attachModel=function(g,id,er=0,fitHeight=false){return before.call(this,g,id,er+(id===OKU_ACTOR_IDS_1119.earth?Math.PI/2:0),fitHeight);};}
 function okuActorTag1119(e,d){if(!e||!d.selected)return e;
  e.okuActor1119={id:d.id,role:d.role,serial:++OKU_ACTOR_1119.serial,generation:OKU_ACTOR_1119.generation};
  e.mesh.userData.okuActorId1119=d.id;
@@ -27770,6 +27768,145 @@ Object.defineProperty(window,'OKU_ACTOR_STATUS_1119',{get:okuActorRead1119});
 /* MAOU_DEFENCE_ENDING_1119: request -> failed defence -> ashes. */
 ENDS[1]=['竜の必殺技が、魔王の守りを打ち砕いた。炎は、翼も魔法も、たちまち包み込む。','炎が消えると、そこには灰だけが残っていた。竜は首をかしげた。『……守りの術は、苦手だったのか』'];
 ENDIMG[1]=['maou_burn_1119','maou_ash_1119'];ENDT[1]='魔王、灰になる';
+/* OKU_VARIANTS_1120: existing actors own their movement, attacks, health and collision. */
+const OKU_VARIANT_DATA_1120={"models":{"storm_wyvern_variant_1117":{"speed":null,"mode":"air_or_water","sourceDirection":"Flight forward Blender -Y = glTF +Z","rotationDeg":0,"role":"appearance"},"moss_drake_variant_1117":{"speed":0.09225646895390949,"mode":"ground","sourceDirection":"Blender -X = glTF -X","rotationDeg":90,"role":"appearance"},"ember_whelp_variant_1117":{"speed":null,"mode":"air_or_water","sourceDirection":"Blender +X = glTF +X","rotationDeg":-90,"role":"appearance"},"crystal_drake_variant_1117":{"speed":0.10675480615700787,"mode":"ground","sourceDirection":"Blender XY angle -90 degrees; glTF vector (0.00000, 0, 1.00000)","rotationDeg":-0.0,"role":"appearance"},"water_drake_variant_1117":{"speed":0.09514958701992349,"mode":"ground","sourceDirection":"Blender XY angle 180 degrees; glTF vector (-1.00000, 0, -0.00000)","rotationDeg":90.0,"role":"appearance"},"kingdom_spear_veteran_1117":{"speed":0.17568608593988488,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"kingdom_bow_scout_1117":{"speed":0.13333336241899627,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"kingdom_shield_guard_1117":{"speed":0.13333333535683087,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"kingdom_crossbow_guard_1117":{"speed":0.17568526144021143,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"kingdom_banner_captain_1117":{"speed":0.11829936874041434,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"kingdom_mounted_lancer_1117":{"speed":0.06024484744038494,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"mounted_lancer"},"kingdom_drake_rider_1117":{"speed":0.0,"mode":"air_or_water","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"kingdom_battle_priest_1117":{"speed":0.20747191378660168,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"kingdom_court_mage_1117":{"speed":0.2074162914542285,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"kingdom_siege_engineer_1117":{"speed":0.17570082190381317,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"artillery_engineer"},"orc_hammer_guard_1117":{"speed":0.1758677515252435,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"orc_spear_hunter_1117":{"speed":0.17564900937079087,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"orc_crossbow_raider_1117":{"speed":0.17575579734964958,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"orc_shield_brute_1117":{"speed":0.17560797311829832,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"orc_wolf_rider_1117":{"speed":0.07491481775320867,"mode":"ground","sourceDirection":"Blender +X = glTF +X; preserve existing game facing convention","rotationDeg":-90,"role":"appearance"},"orc_drum_shaman_1117":{"speed":0.17540406744510104,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"drum_shaman"},"orc_armored_warrior_1117":{"speed":0.17576345058829082,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"orc_siege_chief_1117":{"speed":0.17614531993611537,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"sea_trident_guard_1117":{"speed":0.17561740111376076,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"sea_shell_shield_1117":{"speed":0.17574848157484205,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"sea_coral_archer_1117":{"speed":0.17527349561225586,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"sea_deep_mage_1117":{"speed":0.17537052740084655,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"sea_mage"},"sea_hammerhead_ally_1117":{"speed":null,"mode":"air_or_water","sourceDirection":"Blender -X = glTF -X","rotationDeg":90,"role":"appearance"},"sea_ray_ally_1117":{"speed":null,"mode":"air_or_water","sourceDirection":"Blender -Y = glTF +Z","rotationDeg":0,"role":"swimming_ray"},"sea_reef_crab_1117":{"speed":0.12628763418585573,"mode":"ground","sourceDirection":"Blender XY angle 0 degrees; glTF vector (1.00000, 0, -0.00000)","rotationDeg":-90.0,"role":"appearance"},"sea_armored_serpent_1117":{"speed":null,"mode":"air_or_water","sourceDirection":"Blender -X = glTF -X","rotationDeg":90,"role":"appearance"},"heaven_lance_guard_1117":{"speed":0.17559623695652193,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"heaven_bow_guard_1117":{"speed":0.1756998738791286,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z","rotationDeg":0,"role":"appearance"},"heaven_shield_angel_1117":{"speed":0.1757794207208271,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"heaven_choir_mage_1117":{"speed":0.1757942865721791,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"heaven_sun_knight_1117":{"speed":0.17539365978574387,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"heaven_light_giant_1117":{"speed":0.17564720933479527,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"war_rifle_officer_1117":{"speed":0.17545065172490834,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"war_machinegun_crew_1117":{"speed":0.10109696039179566,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z","rotationDeg":0,"role":"appearance"},"war_air_defence_crew_1117":{"speed":null,"mode":"air_or_water","sourceDirection":"stationary emplacement; yaw only","rotationDeg":0,"role":"appearance"},"war_medic_1117":{"speed":0.1754802916165908,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"medic"},"war_recon_plane_1117":{"speed":1.533386291405288,"mode":"air_or_water","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"war_escort_fighter_1117":{"speed":4.003340560553659,"mode":"air_or_water","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"war_armored_scout_1117":{"speed":0.6048744230405534,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"cyber_patrol_android_1117":{"speed":0.17559061396506548,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"cyber_shield_android_1117":{"speed":0.17545310547807252,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"cyber_repair_robot_1117":{"speed":0.17545607104584965,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"cyber_sentry_drone_1117":{"speed":0.0,"mode":"air_or_water","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"cyber_laser_walker_1117":{"speed":0.20638299818368752,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"cyber_missile_mech_1117":{"speed":0.17541138491666128,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z","rotationDeg":0,"role":"appearance"},"cyber_transform_scout_1117":{"speed":0.22103305471265514,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z","rotationDeg":0,"role":"appearance"},"cyber_dogu_guardian_1117":{"speed":0.17556701278839046,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"dino_trike_matriarch_1117":{"speed":0.11505935717994777,"mode":"ground","sourceDirection":"Blender XY angle -110 degrees; glTF vector (-0.34202, 0, 0.93969)","rotationDeg":20.000043641130233,"role":"appearance"},"dino_trike_juvenile_1117":{"speed":0.08359951101395792,"mode":"ground","sourceDirection":"Blender XY angle -132 degrees; glTF vector (-0.66913, 0, 0.74314)","rotationDeg":42.00015918333197,"role":"appearance"},"dino_feather_raptor_1117":{"speed":0.14186340194033203,"mode":"ground","sourceDirection":"Blender XY angle 180 degrees; glTF vector (-1.00000, 0, -0.00000)","rotationDeg":90.0,"role":"appearance"},"dino_crested_ptera_1117":{"speed":null,"mode":"air_or_water","sourceDirection":"Blender -Y = glTF +Z","rotationDeg":0,"role":"appearance"},"dino_rockback_rex_1117":{"speed":0.16214377878178682,"mode":"ground","sourceDirection":"Blender XY angle -152 degrees; glTF vector (-0.88295, 0, 0.46947)","rotationDeg":62.000143808901726,"role":"appearance"},"yokai_paper_guard_1117":{"speed":0.1757587410107757,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"yokai_gear_samurai_1117":{"speed":0.1754949824599536,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"yokai_lantern_sentinel_1117":{"speed":0.1757397745963931,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"yokai_bronze_colossus_1117":{"speed":0.17561455526948405,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"yokai_tengu_scout_1117":{"speed":0.17582585987171165,"mode":"ground","sourceDirection":"Blender -Y = glTF +Z; preserve existing game facing convention","rotationDeg":0,"role":"appearance"},"black_dragon_variant_1117":{"speed":null,"role":"appearance","mode":"air_or_water"},"bone_dragon_1117":{"speed":null,"role":"appearance","mode":"air_or_water"},"ice_dragon_1117":{"speed":null,"role":"appearance","mode":"air_or_water"},"rock_wyrm_variant_1117":{"speed":null,"role":"appearance","mode":"ground"},"thunder_dragon_1117":{"speed":null,"role":"appearance","mode":"air_or_water"}},"routes":{"valley":{"soldier":["kingdom_spear_veteran_1117","kingdom_shield_guard_1117","kingdom_mounted_lancer_1117"],"archer":["kingdom_bow_scout_1117","kingdom_crossbow_guard_1117"],"captain":["kingdom_banner_captain_1117"],"priest":["kingdom_battle_priest_1117"],"wizard":["kingdom_court_mage_1117"],"dknight":["kingdom_drake_rider_1117"],"cannon":["kingdom_siege_engineer_1117"]},"town":{"soldier":["kingdom_spear_veteran_1117","kingdom_shield_guard_1117","kingdom_mounted_lancer_1117"],"archer":["kingdom_bow_scout_1117","kingdom_crossbow_guard_1117"],"captain":["kingdom_banner_captain_1117"],"priest":["kingdom_battle_priest_1117"],"wizard":["kingdom_court_mage_1117"],"dknight":["kingdom_drake_rider_1117"],"cannon":["kingdom_siege_engineer_1117"]},"castle":{"soldier":["kingdom_spear_veteran_1117","kingdom_shield_guard_1117","kingdom_mounted_lancer_1117"],"archer":["kingdom_bow_scout_1117","kingdom_crossbow_guard_1117"],"captain":["kingdom_banner_captain_1117"],"priest":["kingdom_battle_priest_1117"],"wizard":["kingdom_court_mage_1117"],"dknight":["kingdom_drake_rider_1117"],"cannon":["kingdom_siege_engineer_1117"]},"orcwood":{"orc":["orc_hammer_guard_1117","orc_spear_hunter_1117","orc_shield_brute_1117","orc_armored_warrior_1117","orc_drum_shaman_1117"],"orcknight":["orc_wolf_rider_1117"],"dogrider":["orc_wolf_rider_1117"],"orcgeneral":["orc_siege_chief_1117"]},"orcfort":{"orc":["orc_hammer_guard_1117","orc_spear_hunter_1117","orc_shield_brute_1117","orc_armored_warrior_1117","orc_drum_shaman_1117"],"orcknight":["orc_wolf_rider_1117"],"dogrider":["orc_wolf_rider_1117"],"orcgeneral":["orc_siege_chief_1117"]},"orcking":{"orc":["orc_hammer_guard_1117","orc_spear_hunter_1117","orc_shield_brute_1117","orc_armored_warrior_1117","orc_drum_shaman_1117"],"orcknight":["orc_wolf_rider_1117"],"dogrider":["orc_wolf_rider_1117"],"orcgeneral":["orc_siege_chief_1117"]},"peak":{"ground":["moss_drake_variant_1117","ember_whelp_variant_1117","water_drake_variant_1117"],"ground2":["moss_drake_variant_1117","ember_whelp_variant_1117","water_drake_variant_1117"],"wyvern":["storm_wyvern_variant_1117","crystal_drake_variant_1117"]},"dragongrave":{"ground":["moss_drake_variant_1117","ember_whelp_variant_1117","water_drake_variant_1117","rock_wyrm_variant_1117"],"ground2":["moss_drake_variant_1117","ember_whelp_variant_1117","water_drake_variant_1117","rock_wyrm_variant_1117"],"wyvern":["storm_wyvern_variant_1117","crystal_drake_variant_1117","black_dragon_variant_1117"],"icedrake":["ice_dragon_1117"],"thundrake":["thunder_dragon_1117"],"bonedrake":["bone_dragon_1117"]},"dragonking":{"ground":["moss_drake_variant_1117","ember_whelp_variant_1117","water_drake_variant_1117","rock_wyrm_variant_1117"],"ground2":["moss_drake_variant_1117","ember_whelp_variant_1117","water_drake_variant_1117","rock_wyrm_variant_1117"],"wyvern":["storm_wyvern_variant_1117","crystal_drake_variant_1117","black_dragon_variant_1117"],"icedrake":["ice_dragon_1117"],"thundrake":["thunder_dragon_1117"],"bonedrake":["bone_dragon_1117"]},"skygate":{"angel":["heaven_lance_guard_1117","heaven_shield_angel_1117"],"angelarcher":["heaven_bow_guard_1117"],"angelsword":["heaven_sun_knight_1117"],"angelgeneral":["heaven_light_giant_1117"]},"skytemple":{"angel":["heaven_lance_guard_1117","heaven_shield_angel_1117"],"angelarcher":["heaven_bow_guard_1117"],"angelsword":["heaven_sun_knight_1117"],"angelgeneral":["heaven_light_giant_1117"]},"archangel":{"angel":["heaven_lance_guard_1117","heaven_shield_angel_1117"],"angelarcher":["heaven_bow_guard_1117"],"angelsword":["heaven_sun_knight_1117"],"angelgeneral":["heaven_light_giant_1117"]},"coralsea":{"fishman":["sea_trident_guard_1117","sea_shell_shield_1117"],"fishbow":["sea_coral_archer_1117","sea_deep_mage_1117"],"shark":["sea_hammerhead_ally_1117"],"crab":["sea_reef_crab_1117"],"leviathan":["sea_armored_serpent_1117"]},"deepsea":{"fishman":["sea_trident_guard_1117","sea_shell_shield_1117"],"fishbow":["sea_coral_archer_1117","sea_deep_mage_1117"],"shark":["sea_hammerhead_ally_1117"],"crab":["sea_reef_crab_1117"],"leviathan":["sea_armored_serpent_1117"]},"seaking":{"fishman":["sea_trident_guard_1117","sea_shell_shield_1117"],"fishbow":["sea_coral_archer_1117","sea_deep_mage_1117"],"shark":["sea_hammerhead_ally_1117"],"crab":["sea_reef_crab_1117"],"leviathan":["sea_armored_serpent_1117"]},"p8war":{"p8rifle":["war_rifle_officer_1117","war_machinegun_crew_1117","war_medic_1117"],"p8flak":["war_air_defence_crew_1117"],"p8fighter":["war_recon_plane_1117","war_escort_fighter_1117"],"p8tank":["war_armored_scout_1117"]},"p8robo":{"p8robot":["cyber_patrol_android_1117","cyber_shield_android_1117","cyber_repair_robot_1117"],"p8drone":["cyber_sentry_drone_1117"],"p8mech":["cyber_laser_walker_1117","cyber_missile_mech_1117","cyber_transform_scout_1117","cyber_dogu_guardian_1117"]},"p8dino":{"p8trike":["dino_trike_matriarch_1117","dino_trike_juvenile_1117"],"p8raptor":["dino_feather_raptor_1117"],"p8ptera":["dino_crested_ptera_1117"],"p8rex":["dino_rockback_rex_1117"]},"y9town":{"y_onisamurai":["yokai_gear_samurai_1117"],"y_clockwork":["yokai_lantern_sentinel_1117"],"y_tengu":["yokai_tengu_scout_1117"],"y_oni":["yokai_paper_guard_1117"]},"y9castle":{"y_onisamurai":["yokai_gear_samurai_1117"],"y_clockwork":["yokai_lantern_sentinel_1117"],"y_tengu":["yokai_tengu_scout_1117"],"y_oni":["yokai_paper_guard_1117"]},"y9lord":{"y_onisamurai":["yokai_gear_samurai_1117"],"y_clockwork":["yokai_lantern_sentinel_1117"],"y_tengu":["yokai_tengu_scout_1117"],"y_oni":["yokai_paper_guard_1117"],"y_fierywarrior":["yokai_bronze_colossus_1117"]}}};
+const okuAppearances={depth:0,special:null,deferAppearance:false,counts:new Map(),attached:[]};
+
+function okuWithSpawn(spawn,receiver,args,special){
+ const old=okuAppearances.special;
+ okuAppearances.depth++;
+ if(special)okuAppearances.special=special;
+ try{return spawn.apply(receiver,args);}
+ finally{okuAppearances.depth--;okuAppearances.special=old;}
+}
+{const prev=addEnemy;addEnemy=function(type){
+ const priest=type==='priest'&&arguments[4]?.model==='soldier';
+ const roster=OKU_VARIANT_DATA_1120.routes[STAGES[stage]?.key];
+ const actor=okuWithSpawn(prev,this,arguments,priest&&roster?.priest?{soldier:roster.priest}:null);
+ // The working field cannon bypasses the ordinary model attachment. Keep its
+ // recoil and barrel rig intact and add the engineer once the cannon exists.
+ if(type==='cannon'&&actor?.mesh){
+  const stageKey=STAGES[stage]?.key;
+  const variant=okuSelect(stageKey,'cannon',OKU_VARIANT_DATA_1120.routes[stageKey]?.cannon);
+  if(variant){
+   if(MODEL[variant]?.skin){
+    const holder=makeProxy(1.5,3.1,1.5,0x765c3a);
+    if(attachModel(holder,variant,0,true)){
+     holder.position.x=-2.4;actor.mesh.add(holder);
+     okuRecord(actor.mesh,holder,stageKey,'cannon',variant);
+    }
+   }else mobileWant(variant,60);
+  }
+ }
+ return actor;
+};}
+{const prev=addOrc;addOrc=function(x,z,options){return okuWithSpawn(prev,this,arguments,options?.arch?{orc:['orc_crossbow_raider_1117']}:null);};}
+function okuOriginalActor(spawn,receiver,args){
+ const previous=okuAppearances.deferAppearance;
+ okuAppearances.deferAppearance=true;
+ try{return spawn.apply(receiver,args);}
+ finally{okuAppearances.deferAppearance=previous;}
+}
+{const prev=s5Spawn;s5Spawn=function(){return okuOriginalActor(prev,this,arguments);};}
+function okuFittedDragon(actor,kind){
+ const group=actor.mesh;
+ if(group.userData.okuActorId1119)return;
+ const base=group.userData.mid;
+ const permitted={ice:['icedrake'],thun:['thundrake'],bone:['bonedrake'],wybl:['wyvern'],guard:['wyvern'],earth:['ground','ground2']};
+ if(!permitted[kind]?.includes(base))return;
+ okuAfterFit(group,base,false);
+}
+function okuAfterFit(group,base,fitHeight){
+ const stageKey=STAGES[stage]?.key;
+ const variant=okuSelect(stageKey,base,OKU_VARIANT_DATA_1120.routes[stageKey]?.[base]);
+ if(!variant)return;
+ if(!MODEL[variant]?.skin){mobileWant(variant,60);return;}
+ const original=group.userData.mix;
+ if(!attachModel(group,variant,0,fitHeight))return;
+ okuRecord(group,group,stageKey,base,variant);
+ if(original&&original!==group.userData.mix){
+  const index=MIX.indexOf(original);
+  if(index>=0){MIX.splice(index,1);original.mx.stopAllAction();}
+ }
+}
+{const prev=s6Spawn;s6Spawn=function(kind){return okuWithSpawn(prev,this,arguments,kind==='lightangel'?{angel:['heaven_choir_mage_1117']}:null);};}
+{const prev=s7Add;s7Add=function(){return okuWithSpawn(prev,this,arguments);};}
+{const prev=s8Spawn;s8Spawn=function(kind){
+ if(kind!=='rifle')return okuWithSpawn(prev,this,arguments);
+ // S8 derives the rifleman's hitbox from the original posed human height.
+ const actor=okuOriginalActor(prev,this,arguments);
+ if(actor?.mesh.userData.mid==='p8rifle')okuAfterFit(actor.mesh,'p8rifle',true);
+ return actor;
+};}
+
+function okuSelect(stageKey,base,pool){
+ if(!pool?.length)return null;
+ const counterKey=stageKey+'|'+base;
+ const count=okuAppearances.counts.get(counterKey)||0;
+ okuAppearances.counts.set(counterKey,count+1);
+ return pool[count%(pool.length+1)];
+}
+function okuRecord(group,holder,stageKey,base,variant){
+ group.userData.okuAppearance=variant;
+ if(holder.userData.mix)holder.userData.mix.okuModel=OKU_VARIANT_DATA_1120.models[variant];
+ okuAppearances.attached.push({stage:stageKey,base,variant});
+ if(okuAppearances.attached.length>128)okuAppearances.attached.shift();
+}
+{const prev=attachModel;attachModel=function(group,base,extraRotation=0,fitHeight=false){
+ if(!okuAppearances.depth||okuAppearances.deferAppearance||base==='cannon')return prev.apply(this,arguments);
+ const stageKey=STAGES[stage]?.key;
+ const pool=okuAppearances.special?.[base]||OKU_VARIANT_DATA_1120.routes[stageKey]?.[base];
+ const role=base==='soldier'&&pool===OKU_VARIANT_DATA_1120.routes[stageKey]?.priest?'priest':base;
+ const variant=okuSelect(stageKey,role,pool);
+ if(!variant)return prev.apply(this,arguments);
+ if(!MODEL[variant]?.skin){mobileWant(variant,60);return prev.apply(this,arguments);}
+ if(!prev.call(this,group,variant,extraRotation,fitHeight))return prev.apply(this,arguments);
+ okuRecord(group,group,stageKey,base,variant);
+ return true;
+};}
+
+// The existing mixer looks for walk, run or fly. Preserve the supplied move clip as well.
+{const prev=animsFor;animsFor=function(id){
+ const clips=prev.apply(this,arguments);
+ if(!OKU_VARIANT_DATA_1120.models[id]||clips.some(c=>/walk|run|fly/i.test(c.name)))return clips;
+ const move=clips.find(c=>c.name==='move');
+ if(!move)return clips;
+ const alias=move.clone();alias.name='walk';
+ return [...clips,alias];
+};}
+{const prev=s3Tint;s3Tint=function(e){if(!e?.mesh?.userData.okuAppearance)return prev.apply(this,arguments);};}
+{const prev=s2White;s2White=function(e){if(e?.mesh?.userData.okuAppearance!=='kingdom_battle_priest_1117')return prev.apply(this,arguments);};}
+{const prev=s5Tint;s5Tint=function(g){if(!g?.userData.okuAppearance)return prev.apply(this,arguments);};}
+{const prev=updMix;updMix=function(dt){
+ prev.apply(this,arguments);
+ for(const mixer of MIX){
+  const m=mixer.okuModel;
+  if(!m||m.mode!=='ground'||!(m.speed>0)||mixer.once||mixer.dieA||!mixer.cur)continue;
+  if(mixer.idle&&mixer.cur===mixer.acts[mixer.idle.name])continue;
+  mixer.cur.timeScale=clamp((mixer.v||0)/(m.speed*Math.max(.01,mixer.h||1)),.15,2.5);
+ }
+};}
+{const authoredWave=mobileWaveIds;mobileWaveIds=function(stageIndex,waveNumber){
+  const key=STAGES[stageIndex]?.key;
+  const routes=OKU_VARIANT_DATA_1120.routes[key];
+  const waveIds=authoredWave.apply(this,arguments);
+  if(!routes)return waveIds;
+  // The valley opens in the cave. Its returning army first appears in wave 2.
+  if(key==='valley'&&waveNumber<2)return waveIds;
+  const bases=new Set(waveIds);
+  if(key==='town'&&(waveNumber===0||waveNumber===2))bases.add('priest');
+  if(key==='y9lord'&&waveNumber===1)bases.add('y_fierywarrior');
+  if(bases.has('bigcannon')||bases.has('field_cannon_1116'))bases.add('cannon');
+  const variants=[...bases].flatMap(id=>routes[id]||[]);
+  if(bases.has('orc')&&['orcwood','orcfort','orcking'].includes(key))variants.push('orc_crossbow_raider_1117');
+  if(bases.has('angel')&&['skygate','skytemple','archangel'].includes(key))variants.push('heaven_choir_mage_1117');
+  return [...new Set([...waveIds,...variants])];
+};}
+MOBILE_DEPS.characters.seaking=[...new Set([...(MOBILE_DEPS.characters.seaking||[]),'sea_ray_ally_1117'])];
+{const prev=clearWorld;clearWorld=function(){const r=prev.apply(this,arguments);okuAppearances.counts.clear();okuAppearances.attached.length=0;return r;};}
+Object.defineProperty(window,'OKU_VARIANT_STATUS_1120',{get:()=>okuAppearances.attached.slice()});
+/* END_OKU_VARIANTS_1120 */
+
 </script>
 </body>
 </html>

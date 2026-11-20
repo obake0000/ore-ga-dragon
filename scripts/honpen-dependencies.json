@@ -1,4 +1,20 @@
 {
-  "dynamic_ids": ["soldier", "archer", "field_cannon_1116"],
-  "intentional_fallback_ids": ["slime"]
+  "dynamic_ids": [
+    "archer",
+    "field_cannon_1116",
+    "kingdom_banner_captain_1117",
+    "kingdom_battle_priest_1117",
+    "kingdom_bow_scout_1117",
+    "kingdom_court_mage_1117",
+    "kingdom_crossbow_guard_1117",
+    "kingdom_drake_rider_1117",
+    "kingdom_mounted_lancer_1117",
+    "kingdom_shield_guard_1117",
+    "kingdom_siege_engineer_1117",
+    "kingdom_spear_veteran_1117",
+    "soldier"
+  ],
+  "intentional_fallback_ids": [
+    "slime"
+  ]
 }
