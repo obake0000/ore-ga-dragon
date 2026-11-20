@@ -128,6 +128,17 @@ def patch_game(data):
         s = s.replace(old, f"'dragon_honpen_{key}'")
     for old, new in FIRST_BATTLE_EDITS.items():
         s = unique(s, old, new)
+    s = unique(s, "let EASY=false;try{EASY=localStorage.getItem('dragon_honpen_easy')==='1';}catch(e){}", """const storyEntryUrl=new URL(location.href);
+let EASY=storyEntryUrl.searchParams.get('easy')==='1';
+try {
+  if(EASY){
+    localStorage.setItem('dragon_honpen_easy','1');
+    storyEntryUrl.searchParams.delete('easy');
+    history.replaceState(history.state,'',storyEntryUrl);
+  }else{
+    EASY=localStorage.getItem('dragon_honpen_easy')==='1';
+  }
+}catch(e){}""")
     s = unique(s, 'function mobileWaveIds(i,n){', FIRST_BATTLE_DEPS+'\nfunction mobileWaveIds(i,n){')
     s = unique(s, '</script>\n</body>\n</html>', FIRST_BATTLE_END+'\n</script>\n</body>\n</html>')
     return unique(s, 'function loadGame(){try{', MIGRATION+'function loadGame(){try{migrateHonpenSave();')

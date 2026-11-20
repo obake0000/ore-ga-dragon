@@ -7,7 +7,27 @@
 <meta name="description" content="レッドドラゴンの物語と、さまざまなキャラで戦う無双編。">
 <title>俺がドラゴン。｜ゲームを選ぶ</title>
 <style>
-*{box-sizing:border-box}html{background:#180b09;color:#fff8ed;font-family:"Yu Gothic UI","Hiragino Sans",Meiryo,sans-serif}body{margin:0}main{max-width:1280px;margin:auto;min-height:100vh;display:grid;grid-template-columns:minmax(0,1.18fr) minmax(330px,.82fr);align-items:center;gap:clamp(24px,4vw,58px);padding:clamp(22px,4vw,56px)}.cover img{display:block;width:100%;height:auto}.cover{margin:0}.content{max-width:520px}h1{font-size:1.1rem;color:#e9bb70;margin:0 0 14px}h2{font-size:clamp(1.7rem,3vw,2.45rem);line-height:1.35;margin:0 0 26px;text-wrap:balance}.mode{padding:0 0 22px;margin:0 0 22px;border-bottom:1px solid #735447}.mode h3{font-size:1.25rem;margin:0 0 7px}.mode p{font-size:.94rem;line-height:1.7;margin:0 0 14px;color:#f0e1d2}.button{display:flex;align-items:center;justify-content:space-between;gap:15px;min-height:52px;padding:12px 18px;border-radius:5px;color:#fff;text-decoration:none;font-weight:800;background:#a93419}.button.secondary{background:#33231f;border:1px solid #aa8a6b}.button:hover{filter:brightness(1.17)}a:focus-visible{outline:3px solid #ffe098;outline-offset:3px}.book{color:#f5d59f;font-size:.9rem;text-underline-offset:4px}@media(max-width:760px){main{display:block;padding:0 0 30px}.cover img{width:100%}.content{padding:24px 22px 0;margin:auto}h2{margin-bottom:22px}.mode{margin-bottom:18px;padding-bottom:18px}}@media(max-height:500px) and (min-width:650px){main{grid-template-columns:minmax(0,1fr) minmax(300px,1fr);padding:18px 24px;gap:24px;align-items:start}.content{padding:0}h1{margin-bottom:5px}h2{font-size:1.4rem;margin-bottom:12px}.mode{margin-bottom:10px;padding-bottom:10px}.mode p{margin-bottom:6px;line-height:1.45}.button{min-height:44px;padding:8px 14px}}
+*{box-sizing:border-box}
+html{background:#180b09;color:#fff8ed;font-family:"Yu Gothic UI","Hiragino Sans",Meiryo,sans-serif}
+body{margin:0}
+main{min-height:100svh;max-width:1280px;margin:auto;padding:clamp(20px,4vw,56px);display:grid;grid-template-columns:minmax(0,1.3fr) minmax(290px,.7fr);gap:clamp(22px,4vw,56px);align-items:center}
+.cover{display:block;width:100%;height:auto}
+nav{display:grid;gap:14px}
+.button{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px;padding:14px 20px;border:1px solid #a64b30;border-radius:6px;background:#a93419;color:white;text-decoration:none;font-size:clamp(1.1rem,2vw,1.4rem);font-weight:700}
+.mode{font-size:.82rem;font-weight:600;white-space:nowrap}
+.secondary{background:#33231f;border-color:#aa8a6b}
+.button:hover{filter:brightness(1.15)}
+.button:focus-visible{outline:3px solid #ffe098;outline-offset:4px}
+@media(max-width:700px){main{max-width:520px;grid-template-columns:1fr;align-content:center;padding:18px;gap:22px}}
 </style>
 </head>
-<body><main><figure class="cover"><img src="assets/cover.webp" width="1280" height="720" alt="赤いドラゴンと冒険を描いた『俺がドラゴン。』のキービジュアル"></figure><div class="content"><h1>俺がドラゴン。</h1><h2>どちらの戦いへ？</h2><section class="mode" aria-labelledby="story-title"><h3 id="story-title">本編</h3><p>レッドドラゴンとなり、シナリオ1の全4章へ。敵を倒し、勇者から魔王へと挑む。</p><a class="button" href="honpen.html">本編を遊ぶ <span aria-hidden="true">→</span></a></section><section class="mode" aria-labelledby="musou-title"><h3 id="musou-title">無双編</h3><p>さまざまなキャラで、各世界の戦場へ。シナリオ2〜12を遊ぼう。</p><a class="button secondary" href="musou.html">無双編を遊ぶ <span aria-hidden="true">→</span></a></section><a class="book" href="zukan.html">図鑑を見る →</a></div></main></body></html>
+<body>
+<main>
+  <img class="cover" src="assets/cover.webp" width="1280" height="720" alt="俺がドラゴン。">
+  <nav aria-label="ゲームを選ぶ">
+    <a class="button" href="honpen.html?easy=1"><span>本編で遊ぶ</span><span class="mode">簡単モード ON</span></a>
+    <a class="button secondary" href="musou.html">無双編で遊ぶ</a>
+  </nav>
+</main>
+</body>
+</html>

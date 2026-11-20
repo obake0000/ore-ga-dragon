@@ -5636,7 +5636,17 @@ function melee(){if(ufoMech()){ufoBladeStart();return;}if(charKey==='orctank'){o
   if(charKey==='army'){armyThrustFx(ad);sfx('whoosh',null,0.5);}else if(charKey==='golem')robotPunch(ad,n,golemImpact);else if(!C.human&&!C.model){clawFx(ad,n,charKey==='wyvern'?0x9fe6ff:charKey==='ground'?0xffc070:0xff7a30);sfx('slash',null,0.8);}else{slashFx(charKey==='wyvern'?0xc8f0ff:charKey==='hero'?0xfff2a0:0xffffff);sfx('slash',null,0.7);}
   if(n){ono(tmp2.copy(P.pos).addScaledVector(ad,6).setY(P.pos.y+3),C.mel.ono,'#fff',40);shake(0.12);}}
 let charKey='dragon',C=CH.dragon,D=null;
-let EASY=false;try{EASY=localStorage.getItem('dragon_honpen_easy')==='1';}catch(e){}
+const storyEntryUrl=new URL(location.href);
+let EASY=storyEntryUrl.searchParams.get('easy')==='1';
+try {
+  if(EASY){
+    localStorage.setItem('dragon_honpen_easy','1');
+    storyEntryUrl.searchParams.delete('easy');
+    history.replaceState(history.state,'',storyEntryUrl);
+  }else{
+    EASY=localStorage.getItem('dragon_honpen_easy')==='1';
+  }
+}catch(e){}
 const EASY_DAMAGE_RATE=.32,EASY_RECOVERY_DELAY=5,EASY_RECOVERY_LIMIT=.55,EASY_RECOVERY_RATE=.0325;
 function easyRecover(dt){
   if(!EASY||dt<=0||state!=='play'||PAUSED||LVUP||P.hp<=0)return;
