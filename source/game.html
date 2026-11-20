@@ -29124,6 +29124,44 @@ function sc1MaouTarget() {
 };}
 /* END_SC1_VALLEY_MOBILE_CAMERA_1120 */
 
+/* SC1_HERO_WINDOW_1120 */
+const HERO_WINDOW_1120={actors:new WeakMap(),last:null};
+function heroWindowScope1120(e){return SCN===1&&charKey==='dragon'&&EASY&&STAGES[stage]?.key==='valley'&&e?.cave&&e.type==='hero'&&!e.dead;}
+function heroWindowGet1120(e){let q=HERO_WINDOW_1120.actors.get(e);if(!q){q={e,seconds:0,last:null,finished:null,softened:false};HERO_WINDOW_1120.actors.set(e,q);}HERO_WINDOW_1120.last=q;return q;}
+function heroWindowPause1120(){const q=HERO_WINDOW_1120.last;if(q)q.last=null;}
+// Count time when control and attacks are available, excluding scripted scenes,
+// pause and level choices. This is real elapsed time, independent of hit-stop TS.
+{const before=updEnemies;updEnemies=function(dt){const e=EN.find(heroWindowScope1120),q=e?heroWindowGet1120(e):null;
+ if(q&&!CAVE.flee&&state==='play'&&!PAUSED&&!LVUP&&!document.hidden&&!presentationHold()){
+  const now=performance.now();if(q.last!==null)q.seconds+=Math.max(0,Math.min(.25,(now-q.last)/1000));q.last=now;
+ }else if(q)q.last=null;
+ const r=before.apply(this,arguments);
+ if(q&&heroWindowScope1120(e)&&!CAVE.flee&&q.seconds>=50&&q.seconds%5<3){
+  // A visible three-second opening in every five seconds. The hero still moves
+  // and attacks through the existing AI; only prolonged guarding is interrupted.
+  q.softened=true;e.guard=false;if(e.mv==='guard'){e.mv='run';e.mt=Math.min(e.mt||.6,.6);}e.barT=Math.min(e.barT||0,.1);
+  if(e.mesh.userData.shield)e.mesh.userData.shield.visible=false;
+ }
+ return r;
+};}
+{const before=hitEnemy;hitEnemy=function(e,n){if(heroWindowScope1120(e)&&state==='play'&&!CAVE.flee&&n>0){const q=heroWindowGet1120(e);
+ if(q.seconds<30){
+  // Spread the existing health loss over the opening exchange. Every successful
+  // attack can spend the newly available damage budget; no invulnerability flag,
+  // pose lock, auto-damage, forced flee or fixed HP restoration is introduced.
+  const floor=e.maxHp*(1-.7*Math.max(0,Math.min(1,q.seconds/30)));
+  const reduction=(e.guard?.15:1)*(e.barT>0?.25:1);
+  n=Math.min(n,Math.max(0,e.hp-floor)/reduction);
+ }else if(q.seconds>=50)n*=q.seconds>=65?2.1:1.65;
+ }return before.call(this,e,n);};}
+{const before=caveFlee;caveFlee=function(){const e=EN.find(heroWindowScope1120),q=e?heroWindowGet1120(e):null,r=before.apply(this,arguments);if(q&&CAVE.flee&&q.finished===null){q.finished=q.seconds;q.last=null;}return r;};}
+{const before=presentationFrame;presentationFrame=function(){heroWindowPause1120();return before.apply(this,arguments);};}
+{const before=setPause;setPause=function(){heroWindowPause1120();return before.apply(this,arguments);};}
+{const before=showLv;showLv=function(){heroWindowPause1120();return before.apply(this,arguments);};}
+{const before=clearWorld;clearWorld=function(){heroWindowPause1120();return before.apply(this,arguments);};}
+window.heroWindowState1120=()=>{const q=HERO_WINDOW_1120.last;return q?{seconds:q.seconds,finished:q.finished,softened:q.softened,hp:q.e.hp,maxHp:q.e.maxHp,earlyDamageWindow:q.seconds<30,lateOpening:q.seconds>=50&&q.seconds%5<3}:null;};
+/* END_SC1_HERO_WINDOW_1120 */
+
 </script>
 </body>
 </html>
