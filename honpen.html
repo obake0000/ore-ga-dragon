@@ -725,7 +725,175 @@ body.presentation-event #story.single-panel #stPic{object-fit:fill;width:200%;he
 @media(max-width:600px){#presentationPanel{gap:4px 9px;padding:10px}#presentationPanel p{font-size:16px}#presentationNext{width:64px;padding:10px 6px}#presentationPanel .presentation-face{width:48px;height:48px}#presentationPanel{grid-template-columns:48px minmax(0,1fr) auto}}
 @media(max-height:500px) and (orientation:landscape){body.presentation-event #story{flex-direction:row!important;gap:14px}body.presentation-event #story .box{width:min(55vw,calc((100dvh - 32px)*1.5))!important}body.presentation-event #story.single-panel .box{width:min(48vw,calc(100dvh - 32px))!important}body.presentation-event #story #presentationPanel{width:min(40vw,480px);max-height:85dvh}#presentationPanel p{max-height:60dvh}#presentationShout{max-width:calc(100vw - 180px)}}
 
-</style></head>
+</style><style>/* Keep the page frame and the advance button anchored between story slides. */
+body.presentation-event #story .kami,body.presentation-event #story #kz,body.presentation-event #story .box,body.presentation-event #story #stPic,body.presentation-event #story #presentationPanel{animation:none!important;transition:none!important}
+body.presentation-event #story .kpaper{display:none!important}
+@media (orientation:portrait),(min-height:501px){
+ body.presentation-event #story{--paper:min(92vw,55dvh,530px);--paper-top:max(12px,calc((100dvh - var(--paper) - 120px)/2))}
+ body.presentation-event #story#story .box{position:absolute!important;top:var(--paper-top);width:var(--paper)!important;left:50%;transform:translateX(-50%)!important;margin:0}
+ body.presentation-event #story:is(.single-panel,.wide-panel,:not(.single-panel)) .kami{aspect-ratio:1!important}
+ body.presentation-event #story #presentationPanel{position:absolute;left:50%;top:calc(var(--paper-top) + var(--paper) + 10px);transform:translateX(-50%);width:min(94vw,600px);max-height:calc(100dvh - var(--paper-top) - var(--paper) - 22px);align-items:start}
+ body.presentation-event #story #presentationPanel{bottom:auto;height:max-content}
+ body.presentation-event #story #presentationNext{align-self:start;grid-row:1/span 2}
+ body.presentation-event #story #presentationPanel p{max-height:min(23dvh,128px);line-break:strict;word-break:normal;overflow-y:auto}
+}
+#presentationPanel .presentation-face img{inset:0;transform:none;object-fit:cover}
+#presentationPanel:not(.no-face){grid-template-columns:clamp(62px,15vw,80px) minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:start}
+#presentationPanel:not(.no-face) .presentation-face{grid-column:1;grid-row:1;justify-self:center;width:clamp(50px,12vw,64px);height:clamp(50px,12vw,64px)}
+#presentationPanel:not(.no-face) strong{grid-column:1;grid-row:2;text-align:center;align-self:start;max-width:100%;font-size:clamp(14px,3.6vw,17px);line-height:1.25}
+#presentationPanel:not(.no-face) p{grid-column:2;grid-row:1/span 2;font-size:clamp(17px,4.2vw,21px);line-height:1.5}
+#presentationPanel.narration.no-face{grid-template-rows:auto}
+body.presentation-event #story #presentationPanel.narration.no-face #presentationNext{grid-row:1}
+#story .kold,#story .kpull,#story .kpaper{display:none!important}
+body.honpen #select:is(.ov) :is(.select-rail,#cards,#seld,#fpIntro,.select-info,#wazaBtn,#zukanBtn,#scn){display:none!important}
+body.honpen #select .ttl{order:0;margin:0 0 16px!important}
+body.honpen #select .gos{order:1;margin:0!important}
+body.honpen #select .ttl .logo img{width:min(340px,75vw)!important}
+body.honpen #select{justify-content:safe center!important;gap:12px}
+body.honpen #select .select-menu{order:-1}
+body.honpen.mob #select .select-menu{display:flex;justify-content:center}
+body.honpen #select .select-menu a{display:none!important}
+#hud .painted-control img,#paused .painted-control img,.painted-control img{display:block;margin:auto;height:1.05em;width:auto;max-width:100%;object-fit:contain;pointer-events:none}
+#touch .b.painted-control img{width:84%;height:auto;max-height:30%}
+.ono img{display:block;width:3.1em;max-height:1.5em;object-fit:contain}
+#ult .nm.painted-control img,#cutin .nm.painted-control img{height:1.4em;max-width:80vw}
+
+</style>
+<!-- MUSOU_SELECTION_1120 -->
+<style>
+body.musou-selection #select {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  padding: max(6px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+  background: none;
+}
+body.musou-selection #select::before { display: none; }
+body.musou-selection #select .ttl { display: none; }
+
+body.musou-selection #musouCharacterReview {
+  flex: none;
+  width: 100%;
+  max-width: 870px;
+  margin: 0 auto 2px;
+  color: #fff5de;
+}
+#musouCharacterReview header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 5px;
+}
+#musouCharacterReview h2 {
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  margin: 0;
+}
+#musouCharacterReview header span {
+  color: #f8d681;
+  font-size: 13px;
+  white-space: nowrap;
+}
+#musouCharacterReview .musou-views {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  gap: 8px;
+  height: clamp(170px, 38vh, 335px);
+}
+#musouCharacterReview figure {
+  position: relative;
+  margin: 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid #677083;
+  border-radius: 8px;
+}
+#musouCharacterReview .musou-art {
+  background: #283241;
+}
+#musouCharacterReview .musou-model {
+  background: transparent;
+}
+#musouCharacterReview img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+#musouCharacterReview figcaption {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  background: #171d27;
+  color: #fff5de;
+  font-size: 11px;
+  line-height: 1.3;
+  pointer-events: none;
+}
+#musouCharacterReview .musou-preview-status {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  color: #f4ead7;
+  background: #283241;
+  font-size: 13px;
+}
+
+body.musou-selection #seld {
+  width: 100%;
+  max-width: 870px;
+  grid-template-columns: minmax(0, 1fr);
+  padding: 2px 0;
+  margin: 0;
+  border: 0;
+  box-shadow: none;
+  background: none;
+}
+body.musou-selection #seld :is(.pti, .nm, .sts) { display: none; }
+body.musou-selection #seld .ds {
+  grid-column: 1;
+  font-size: 13px;
+  line-height: 1.35;
+  margin: 0;
+  color: #eee5d2;
+}
+body.musou-selection #select .cards {
+  order: 0;
+  flex: none;
+  min-height: 0;
+}
+body.musou-selection #select .select-info,
+body.musou-selection #select .gos { max-width: 870px; }
+body.musou-selection #select .select-info summary { min-height: 36px; }
+body.musou-selection #select .select-menu { flex-wrap: wrap; }
+
+@media (max-width: 640px) {
+  #musouCharacterReview .musou-views {
+    height: clamp(155px, 27vh, 225px);
+    grid-template-columns: minmax(0, .91fr) minmax(0, 1.09fr);
+    gap: 6px;
+  }
+  #musouCharacterReview h2 { font-size: 19px; }
+  body.musou-selection #select .select-menu { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  body.musou-selection #musouEntryLink { grid-column: 1/-1; }
+}
+@media (orientation: landscape) and (max-height: 540px) {
+  #musouCharacterReview .musou-views {
+    height: clamp(115px, 36vh, 195px);
+  }
+}
+
+</style>
+</head>
 <body class="honpen">
 <div id="hud">
   <canvas id="spd"></canvas>
@@ -1309,7 +1477,7 @@ function loadStep(){LOADED++;const k=Math.round(LOADED/Math.max(1,LOADN)*100)+'%
 function loadDone(){if(READY)return;READY=true;$('title').classList.add('ready');$('press').textContent='クリック／タップではじめる';}
 // 遊んでいる間に自分のキャラのモデルが届いたら、その場で箱から本物に替える
 /* MOBILE_LOADING_1117 */
-const MOBILE_DEPS={"stages":{"valley":["tree_pine","tree_oak","jungle_rockspire_1116","rock_big","col_broken","cliff_waterfall","crag_peak","aqueduct","ruin","house2","house","mill","well","stall","warehouse","watchtower","rocktorii","royalbanner"],"dungeon":["tree_pine","tree_oak","gdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hprops","hrubble","hstatue","dwall","dstairs","portcullis"],"golem":["tree_pine","tree_oak","gdoor","sealdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hstatue","hrubble","hprops","dwall"],"maou":["tree_pine","tree_oak","gdoor","sealdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hprops","hstatue","dwall","hrubble"],"town":["tree_pine","tree_oak","jungle_rockspire_1116","house2","house","warehouse","smithy","inn","church","well","stall","logwall","watchtower","royalbanner"],"castle":["tree_pine","tree_oak","jungle_rockspire_1116","castle_wall","castle_tower","castle_keep","castle_gate","castle_wall_burning","siege_tower","kingdom_barracks_1117","war_banner","catapult","house","warehouse","house2","inn","smithy","church","mill","watchtower","royalcastle","royalcastle2","royalbanner"],"sea":["tree_pine","tree_oak","jungle_rockspire_1116","house","house2","warehouse","well","watchtower","lighthouse","seaspire","buoy"],"orcwood":["tree_pine","tree_oak","jungle_rockspire_1116","orctent","logwall","watchtower","wardrum","bonfire","weaponrack","orchut"],"orcfort":["tree_pine","tree_oak","jungle_rockspire_1116","orcfort","logwall","orcwall","siege_tower","orctower","orctent","wardrum","weaponrack","bonfire","watchtower","orchut"],"orcking":["tree_pine","tree_oak","jungle_rockspire_1116","dragonskull","war_banner","orcthrone","orctotem","orctent","logwall","wardrum","bonfire","weaponrack","watchtower","orchut"],"hellgate":["tree_pine","tree_oak","jungle_rockspire_1116","dgate","dtower","dcastle","ruin","lavaspire","bonefence","deadtree","royalbanner","hrubble","tombstones","bonearch","demonhut"],"bonefield":["tree_pine","tree_oak","bonearch","dcastle","tombstones","deadtree","bonefence","royalbanner","ribcage","hrubble","demonhut","bonehut"],"maoujo":["tree_pine","tree_oak","gdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hbrazier","hstatue","hrubble","dthrone","dtower","lavaspire","bonefence","hprops","demonhut","throne_dais_1117","maou_castle_1116"],"peak":["tree_pine","tree_oak","jungle_rockspire_1116","ruin","dragonskull","skytemple","bonehut"],"dragongrave":["tree_pine","tree_oak","jungle_rockspire_1116","dragonskull","dragonskel","ribcage","ruin","tombstones","deadtree","royalbanner","bonehut"],"dragonking":["tree_pine","tree_oak","jungle_rockspire_1116","dkthrone","obelisk","ruin","dragonskull","dragonskel","royalbanner","bonehut"],"skygate":["tree_pine","tree_oak","skyisle","cloudgate","angelstatue","skytower","ruin","skytemple","skypillar","angelfountain","holycrystal","colonnade","house","skychapel"],"skytemple":["tree_pine","tree_oak","skyisle","skytower","colonnade","angelstatue","skytemple","ruin","skyfort","skypillar","angelfountain","holycrystal","skystairs","house","skychapel"],"archangel":["tree_pine","tree_oak","skyisle","colonnade","angelstatue","ruin","skytemple","skypillar","holycrystal","skytower","house","angelfountain","skychapel"],"coralsea":["tree_pine","tree_oak","jungle_rockspire_1116","house","house2","fishhut","shelltower","coralreef","clam","seaarch","lighthouse","seaspire","buoy"],"deepsea":["tree_pine","tree_oak","jungle_rockspire_1116","shipwreck","searuin","coralreef","clam","shelltower","seaarch","lighthouse","seaspire","buoy","fishhut"],"seaking":["tree_pine","tree_oak","jungle_rockspire_1116","seapalace","shellthrone","shelltower","searuin","coralreef","clam","lighthouse","seaspire","buoy","fishhut"],"p8war":["tree_pine","tree_oak","sandbags","hedgehog","tankwreck","p8battleship","deadtree","p8ruin","p8watertower","p8apart","p8factory","p8shop","military_freight_1117"],"p8robo":["tree_pine","tree_oak","container","neonlamp","cyber_factory_1117","p8tower","p8neonbldg","deb_metal","p8kiosk"],"p8dino":["tree_pine","dino_canopy_small_1116","jungle_rockspire_1116","rock_big","fern","dino_canopy_1116","dino_fern_1116","volcano","volcanic_basalt_1117","p8bones"],"p8anc":["tree_pine","tree_oak","dogu_city_tower_1116","anc_dogutemple"],"p8poly":["tree_pine","tree_oak","poly_cube_district_1117"],"y9town":["tree_pine","tree_oak","jungle_rockspire_1116","y_toro","rocktorii","lavaspire","volcano","y_demonstatue","y_tenshu","y_pagoda","y_machiya1","y_machiya2","y_lanternpole"],"y9castle":["tree_pine","tree_oak","jungle_rockspire_1116","y_toro","y_machiya1","field_cannon_1116","y_pagoda","y_tenshu","y_machiya2"],"y9lord":["tree_pine","tree_oak","jungle_rockspire_1116","y_toro","rocktorii","y_demonstatue","y_tenshu","y_pagoda","y_machiya2","y_lotus","y_bronzebell","y_machiya1"],"fairywood":["fairy_root_bridge_1117","fairy_tree_stair_1117","fairy_root_1117","tree_pine","tree_oak","fairy_treehouse_1117","fairy_treetower_1117","fairy_giantflower_1117","dino_canopy_small_1116","dino_fern_1116","fairy_blossom_1116"],"fairylake":["fairy_flower_bridge_1117","tree_pine","tree_oak","fairy_treehouse_1117","fairy_treetower_1117","fairy_giantflower_1117","fairy_blossom_1116","dino_fern_1116"],"fairypalace":["fairy_hollow_gate_1117","tree_pine","tree_oak","fairy_treehouse_1117","fairy_treetower_1117","fairy_giantflower_1117","fairy_blossom_1116","dino_fern_1116"],"park_entry":["tree_pine","tree_oak","park_generator_1117","park_ferris_wheel_1117","hpillar","park_ironfence_1117","park_ticketbooth_1117","park_rustlamp_1117","dino_fern_1116","park_ruined_facade_1117","park_clockcastle_1117","park_coaster_station_1117","park_carnival_theatre_1117","park_coaster_track_1117","park_coaster_support_1117","orctent","stall"],"park_ride":["tree_pine","tree_oak","park_generator_1117","park_carousel_1117","hpillar","park_ironfence_1117","park_ticketbooth_1117","park_rustlamp_1117","dino_fern_1116","park_ruined_facade_1117","park_clockcastle_1117","park_coaster_station_1117","park_carnival_theatre_1117","park_coaster_track_1117","park_coaster_support_1117","stall","orctent"],"park_control":["tree_pine","tree_oak","park_generator_1117","park_ferris_wheel_1117","park_carousel_1117","hpillar","park_ironfence_1117","park_ticketbooth_1117","park_rustlamp_1117","dino_fern_1116","park_ruined_facade_1117","park_clockcastle_1117","park_coaster_station_1117","park_carnival_theatre_1117","park_coaster_track_1117","park_coaster_support_1117","orctent","stall","p8tower"],"col_gate":["tree_pine","tree_oak","jungle_rockspire_1116","colosseum_seats_1117","anc_villager_crowd_lod_1117","colosseum_arch_1117","portcullis"],"col_trial":["tree_pine","tree_oak","jungle_rockspire_1116","colosseum_seats_1117","anc_villager_crowd_lod_1117","colosseum_arch_1117"],"col_final":["tree_pine","tree_oak","jungle_rockspire_1116","colosseum_seats_1117","anc_villager_crowd_lod_1117","colosseum_arch_1117"]},"characters":{"dragon":["dragon"],"wyvern":["wyvern3","wyvern2"],"ground":["ground2"],"hero":["hero","hero_pegasus_game_1116","pegasus"],"army":["shieldman","soldier","archer","angelarcher","redcap","fishbow","field_cannon_1116"],"golem":["golem"],"orctank":["kingtank","orcking"],"airship":["airship"],"redcap":["redcap","redcap_hawk_game_1116"],"kraken":["kraken2","kraken"],"archangel":["archangel_sacred_1117"],"dragonknight":["wyvern2","blackknight"],"seaking":["seaking_royal_1116"],"bomber":["p8bomber","bomber_modern_bomb","p8fighter"],"maou":["blackknight"],"ufo":["p8ufo","p8mech"],"gwizard":["wizard","gwizard"],"cube":["cube_module_1117"],"slime":["slime2"],"dragonking":["dragonking_winged_1116"],"necromancer":["skelmage","necrobonehound_1116","skel","skeleton"],"nurarihyon":["nurarihyon","y_origami","y_oni","yokai_lantern_1116","y_firetoad","y_kirin","y_bronzebell"]},"waves":{"valley":[["cstalag","chest","choard","cbones","dunarch","hbrazier","crystalc","bgolem","golem","bgolem2","bigcannon","orctank","slime2","hero","captain","merchant","roardragon","slime","bat"],["wyvern2","wyvern3","bgolem","golem","bgolem2","slime2","kingtank","orctank","ogre","slime","bat"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bat"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","kingtank","ogre","bat"]],"dungeon":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","goblin","slime","skeleton"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bat","skeleton","goblin","redcap"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","drak","skeleton","goblin"]],"golem":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2"]],"maou":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","sealstone","imp","goblin","skeleton","ogre"],["gdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hbrazier","hrubble","bgolem","golem","bgolem2","bigcannon","orctank","slime2","demon","imp","anc_darkdemon","dwall","seal_pillar_1117","hstatue"]],"town":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","shieldman","soldier","archer","field_cannon_1116"],["shieldman","bgolem","golem","bgolem2","bigcannon","orctank","slime2","soldier","archer","field_cannon_1116","catapult","captain","airship","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","captain","shieldman","soldier","field_cannon_1116","catapult","airship","wizard"],["dslayer","bgolem","golem","bgolem2","shieldman","bigcannon","orctank","slime2","soldier","field_cannon_1116","airship","dknight","wizard"]],"castle":[["soldier","bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","shieldman","archer","field_cannon_1116","catapult","airship"],["bgolem","golem","bgolem2","captain","bigcannon","orctank","slime2","dknight","shieldman","soldier","wizard","airship"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","hero","soldier","shieldman","field_cannon_1116","captain","dknight","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","walker","airship","dknight","field_cannon_1116","shieldman"]],"sea":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","ship","airship","wizard","archer"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","ship","airship","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","battleship","ship","dknight","airship","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bigairship","airship","dknight","ship","wizard"]],"orcwood":[["orc","bgolem","golem","bgolem2","dogrider"],["hawkrider","bgolem","golem","bgolem2","dogrider","orcknight","orc","troll","ogre","bigcannon","orctank","slime2","redcap"],["orcgeneral","bgolem","golem","bgolem2","ogre","orc","troll","hawkrider","dogrider"]],"orcfort":[["orc","ballista","hawkrider","dogrider"],["orc","ballista","wooddragon","hawkrider","dogrider"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","redcap","gianttank","orcgeneral","troll","orc","hawkrider","dogrider"]],"orcking":[["orc","bgolem","golem","bgolem2","orcgeneral","ogre","bigwolf","troll","hawkrider","dogrider","orctank","ballista"],["orcgeneral","bgolem","golem","bgolem2","ogre","orc","hawkrider","dogrider"],["orcking","bgolem","golem","bgolem2","ogre","orc"]],"hellgate":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","devilsoldier","skeleton","skelmage","imp","ogre","catapult","field_cannon_1116","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","skelmage","skeleton","devilsoldier","imp","ogre"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","imp","bat","griffin"],["bgolem","golem","bgolem2","ogre","devilsoldier","bigcannon","orctank","slime2","skeleton","skelmage","imp"]],"bonefield":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bigskeleton","skeleton","skelmage","devilsoldier","catapult","field_cannon_1116","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bigskeleton","skeleton","skelmage","devilsoldier"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","archer","skelmage","skeleton"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bigskeleton","skeleton","skelmage","devilsoldier"]],"maoujo":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","cerberus","devilsoldier","skeleton","skelmage","catapult","field_cannon_1116","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","blackknight","skeleton","skelmage"],["bgolem","golem","bgolem2","ogre","bigcannon","orctank","slime2","bigskeleton","skelmage"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","demon","imp","skelmage"]],"peak":[["bgolem","golem","bgolem2","wyvern","bigcannon","orctank","slime2","rival"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","elder"]],"dragongrave":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","ground2","wyvern2","catapult","field_cannon_1116","icedrake","thundrake","ballista"],["wyvern2","bgolem","golem","bgolem2","wyvern","ground2","bigcannon","orctank","slime2","icedrake"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","ground2","wyvern2","icedrake","thundrake"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","ground2","bonedrake"]],"dragonking":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","bonedrake","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","catapult","field_cannon_1116","bonedrake","thundrake"],["blackknight","bgolem","golem","bgolem2","wyvern"]],"skygate":[["bgolem","golem","bgolem2","angel","angelsword","angelarcher","pegasus","bigcannon","orctank","slime2","griffin","skychariot","dknight","ballista","godballista"],["bgolem","golem","bgolem2","pegasus","bigcannon","orctank","slime2","griffin","angel","angelsword","angelarcher","catapult","field_cannon_1116","skychariot","dknight"],["bgolem","golem","bgolem2","pegasus","angel","angelarcher","angelsword","bigcannon","orctank","slime2","griffin","skychariot","dknight","godballista"]],"skytemple":[["bgolem","golem","bgolem2","angel","angelsword","angelarcher","pegasus","bigcannon","orctank","slime2","griffin","catapult","field_cannon_1116","skychariot","dknight","ballista","godballista"],["bgolem","golem","bgolem2","angelgeneral","angel","pegasus","bigcannon","orctank","slime2","griffin","angelarcher","skychariot","dknight","angelsword","godballista"],["bgolem","golem","bgolem2","angel","pegasus","angelarcher","angelsword","bigcannon","orctank","slime2","griffin","skychariot","dknight","godballista"]],"archangel":[["bgolem","golem","bgolem2","angel","pegasus","angelarcher","angelsword","catapult","field_cannon_1116","skychariot","dknight","ballista","godballista"],["bgolem","golem","bgolem2","pegasus","bigcannon","orctank","slime2","griffin","angel","angelarcher","skychariot","dknight","angelsword","godballista"],["archangel_sacred_1117","bgolem","golem","bgolem2","angel","pegasus","angelarcher","bigcannon","orctank","slime2","griffin","skychariot","dknight","angelsword","archangel","godballista"]],"coralsea":[["bgolem","golem","bgolem2","fishman","fishbow","shark","ogre","crab","leviathan","seaserpent","bigcannon","orctank","slime2","dknight","catapult","field_cannon_1116","slime","ballista"],["bgolem","golem","bgolem2","ogre","crab","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","griffin","airship","slime"],["bgolem","golem","bgolem2","ogre","crab","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","dknight","griffin"]],"deepsea":[["bgolem","golem","bgolem2","shark","leviathan","seaserpent","fishman","fishbow","bigcannon","orctank","slime2","griffin","catapult","field_cannon_1116","slime","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","kraken","leviathan","seaserpent","shark","fishman","fishbow","ogre","crab","dknight","airship"],["bgolem","golem","bgolem2","leviathan","seaserpent","shark","fishman","fishbow","ogre","crab","bigcannon","orctank","slime2","dknight","griffin","airship"]],"seaking":[["bgolem","golem","bgolem2","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","dknight","ballista"],["bgolem","golem","bgolem2","ogre","crab","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","griffin","airship","catapult","field_cannon_1116","slime"],["bgolem","golem","bgolem2","seakingman","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","dknight","griffin","airship"]],"p8war":[["bgolem","golem","bgolem2","p8rifle","field_cannon_1116","p8flak","dknight","p8fighter"],["bgolem","golem","bgolem2","p8tank","p8rifle","dknight","p8fighter","p8bomber"],["bgolem","golem","bgolem2","p8supertank","p8tank","p8rifle","field_cannon_1116","p8flak","dknight","p8fighter"],["bgolem","golem","bgolem2","p8train","p8traincar","p8rifle","dknight","p8fighter"]],"p8robo":[["bgolem","golem","bgolem2","p8robot","p8drone","p8car","p8ufo"],["bgolem","golem","bgolem2","p8mech","p8robot","p8drone","p8futank","p8car","p8ufo"],["bgolem","golem","bgolem2","p8titan","p8robot","p8drone"],["bgolem","golem","bgolem2","p8mothership","p8ufo","p8futank"]],"p8dino":[["bgolem","golem","bgolem2","p8raptor","p8ptera","p8ufo"],["bgolem","golem","bgolem2","p8trike","p8raptor","p8ptera"],["bgolem","golem","bgolem2","p8rex","p8raptor","p8ptera"]],"p8anc":[["bgolem","golem","bgolem2","anc_dogu","anc_haniwa","anc_tribal","anc_dogustatue","anc_dragonfly","anc_doguhead","anc_crow","anc_shaman","anc_haniwabird","anc_wolf"],["bgolem","golem","bgolem2","anc_mammoth","anc_boar","anc_bear","anc_dogu","anc_dragonfly","anc_palanquin","anc_spiritbear","anc_wolf","anc_haniwabird"],["bgolem","golem","bgolem2","anc_sunking","anc_chief","anc_dogu","anc_haniwa","anc_shaman","anc_haniwabird"],["bgolem","golem","bgolem2"]],"p8poly":[["bgolem","golem","bgolem2","p8face"],["bgolem","golem","bgolem2","p8goddess","p8face"],["bgolem","golem","bgolem2"],["bgolem","golem","bgolem2","p8supertank"],["bgolem","golem","bgolem2","p8titan"],["bgolem","golem","bgolem2","p8rex"],["bgolem","golem","bgolem2","anc_sunking"],["bgolem","golem","bgolem2","p8goddess","p8face"]],"y9town":[["bgolem","golem","bgolem2","y_oni","y_clockwork","bat","y_origami","y_samuraihunter","y_tengu","y_ninja","y_karasu","y_oboro"],["bgolem","golem","bgolem2","y_samuraihunter","y_crystalmonk","y_oni","bat","y_origami","y_mikoarcher","y_onmyoji","y_ninjakite","y_warcart"],["bgolem","golem","bgolem2","y_firetoad","y_oni","bat","y_origami","y_samuraihunter","y_onispider","y_tengu","y_karasu"]],"y9castle":[[],[],[]],"y9lord":[["bgolem","golem","bgolem2","y_whitefox","y_kirin","ogre","y_fierywarrior","y_oni","y_samuraihunter","y_kyubi","y_foxsorc","y_karasu"],["bgolem","golem","bgolem2","ogre","y_fierywarrior","y_oni","y_firetoad","y_samuraihunter","bat","y_origami","y_heli","y_gasha","y_tsuchigumo","y_toadlord","y_tengu"],["bgolem","golem","bgolem2","nurarihyon","y_whitefox","y_kirin","y_samuraihunter","y_onisamurai","y_onmyoji","y_karasu","y_ninjakite"]],"fairywood":[["bgolem","golem","bgolem2","angel","anc_tribal"],["fairy_blossom_1116","bgolem","golem","bgolem2","anc_spiritbear","anc_tribal"]],"fairylake":[["bgolem","golem","bgolem2","anc_dragonfly","angel"],["fairy_blossom_1116","bgolem","golem","bgolem2","leviathan","anc_dragonfly"]],"fairypalace":[["bgolem","golem","bgolem2","anc_tribal","angel"],["fairy_blossom_1116","bgolem","golem","bgolem2","p8goddess","angel"]],"park_entry":[["park_marionette_1117","park_toysoldier_1117","park_mascot_1117"],["park_mascot_1117"]],"park_ride":[["park_marionette_1117","park_clown_1117","park_toysoldier_1117","park_android_1117"],["park_clown_1117","park_toysoldier_1117","park_marionette_1117"]],"park_control":[["park_marionette_1117","park_clown_1117","park_toysoldier_1117","park_android_1117","park_mascot_1117"],["park_android_1117","park_toysoldier_1117","park_marionette_1117","park_mascot_1117"]],"col_gate":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","hero"],["bgolem","golem","bgolem2","ogre","bigcannon","orctank","slime2","soldier","archer"],["bgolem","golem","bgolem2","ogre","bigcannon","orctank","slime2"]],"col_trial":[["golem"]],"col_final":[["blackknight"]]}};
+const MOBILE_DEPS={"stages":{"valley":["tree_pine","tree_oak","jungle_rockspire_1116","rock_big","col_broken","cliff_waterfall","crag_peak","aqueduct","ruin","house2","house","mill","well","stall","warehouse","watchtower","rocktorii","royalbanner"],"dungeon":["tree_pine","tree_oak","gdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hprops","hrubble","hstatue","dwall","dstairs","portcullis"],"golem":["tree_pine","tree_oak","gdoor","sealdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hstatue","hrubble","hprops","dwall"],"maou":["tree_pine","tree_oak","gdoor","sealdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hprops","hstatue","dwall","hrubble"],"town":["tree_pine","tree_oak","jungle_rockspire_1116","house2","house","warehouse","smithy","inn","church","well","stall","logwall","watchtower","royalbanner"],"castle":["tree_pine","tree_oak","jungle_rockspire_1116","castle_wall","castle_tower","castle_keep","castle_gate","castle_wall_burning","siege_tower","kingdom_barracks_1117","war_banner","catapult","house","warehouse","house2","inn","smithy","church","mill","watchtower","royalcastle","royalcastle2","royalbanner"],"sea":["tree_pine","tree_oak","jungle_rockspire_1116","house","house2","warehouse","well","watchtower","lighthouse","seaspire","buoy"],"orcwood":["tree_pine","tree_oak","jungle_rockspire_1116","orctent","logwall","watchtower","wardrum","bonfire","weaponrack","orchut"],"orcfort":["tree_pine","tree_oak","jungle_rockspire_1116","orcfort","logwall","orcwall","siege_tower","orctower","orctent","wardrum","weaponrack","bonfire","watchtower","orchut"],"orcking":["tree_pine","tree_oak","jungle_rockspire_1116","dragonskull","war_banner","orcthrone","orctotem","orctent","logwall","wardrum","bonfire","weaponrack","watchtower","orchut"],"hellgate":["tree_pine","tree_oak","jungle_rockspire_1116","dgate","dtower","dcastle","ruin","lavaspire","bonefence","deadtree","royalbanner","hrubble","tombstones","bonearch","demonhut"],"bonefield":["tree_pine","tree_oak","bonearch","dcastle","tombstones","deadtree","bonefence","royalbanner","ribcage","hrubble","demonhut","bonehut"],"maoujo":["tree_pine","tree_oak","gdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hbrazier","hstatue","hrubble","dthrone","dtower","lavaspire","bonefence","hprops","demonhut","throne_dais_1117","maou_castle_1116"],"peak":["tree_pine","tree_oak","jungle_rockspire_1116","ruin","dragonskull","skytemple","bonehut"],"dragongrave":["tree_pine","tree_oak","jungle_rockspire_1116","dragonskull","dragonskel","ribcage","ruin","tombstones","deadtree","royalbanner","bonehut"],"dragonking":["tree_pine","tree_oak","jungle_rockspire_1116","dkthrone","obelisk","ruin","dragonskull","dragonskel","royalbanner","bonehut"],"skygate":["tree_pine","tree_oak","skyisle","cloudgate","angelstatue","skytower","ruin","skytemple","skypillar","angelfountain","holycrystal","colonnade","house","skychapel"],"skytemple":["tree_pine","tree_oak","skyisle","skytower","colonnade","angelstatue","skytemple","ruin","skyfort","skypillar","angelfountain","holycrystal","skystairs","house","skychapel"],"archangel":["tree_pine","tree_oak","skyisle","colonnade","angelstatue","ruin","skytemple","skypillar","holycrystal","skytower","house","angelfountain","skychapel"],"coralsea":["tree_pine","tree_oak","jungle_rockspire_1116","house","house2","fishhut","shelltower","coralreef","clam","seaarch","lighthouse","seaspire","buoy"],"deepsea":["tree_pine","tree_oak","jungle_rockspire_1116","shipwreck","searuin","coralreef","clam","shelltower","seaarch","lighthouse","seaspire","buoy","fishhut"],"seaking":["tree_pine","tree_oak","jungle_rockspire_1116","seapalace","shellthrone","shelltower","searuin","coralreef","clam","lighthouse","seaspire","buoy","fishhut"],"p8war":["tree_pine","tree_oak","sandbags","hedgehog","tankwreck","p8battleship","deadtree","p8ruin","p8watertower","p8apart","p8factory","p8shop","military_freight_1117"],"p8robo":["tree_pine","tree_oak","container","neonlamp","cyber_factory_1117","p8tower","p8neonbldg","deb_metal","p8kiosk"],"p8dino":["tree_pine","dino_canopy_small_1116","jungle_rockspire_1116","rock_big","fern","dino_canopy_1116","dino_fern_1116","volcano","volcanic_basalt_1117","p8bones"],"p8anc":["tree_pine","tree_oak","dogu_city_tower_1116","anc_dogutemple"],"p8poly":["tree_pine","tree_oak","poly_cube_district_1117"],"y9town":["tree_pine","tree_oak","jungle_rockspire_1116","y_toro","rocktorii","lavaspire","volcano","y_demonstatue","y_tenshu","y_pagoda","y_machiya1","y_machiya2","y_lanternpole"],"y9castle":["tree_pine","tree_oak","jungle_rockspire_1116","y_toro","y_machiya1","field_cannon_1116","y_pagoda","y_tenshu","y_machiya2"],"y9lord":["tree_pine","tree_oak","jungle_rockspire_1116","y_toro","rocktorii","y_demonstatue","y_tenshu","y_pagoda","y_machiya2","y_lotus","y_bronzebell","y_machiya1"],"fairywood":["fairy_root_bridge_1117","fairy_tree_stair_1117","fairy_root_1117","tree_pine","tree_oak","fairy_treehouse_1117","fairy_treetower_1117","fairy_giantflower_1117","dino_canopy_small_1116","dino_fern_1116","fairy_blossom_1116"],"fairylake":["fairy_flower_bridge_1117","tree_pine","tree_oak","fairy_treehouse_1117","fairy_treetower_1117","fairy_giantflower_1117","fairy_blossom_1116","dino_fern_1116"],"fairypalace":["fairy_hollow_gate_1117","tree_pine","tree_oak","fairy_treehouse_1117","fairy_treetower_1117","fairy_giantflower_1117","fairy_blossom_1116","dino_fern_1116"],"park_entry":["tree_pine","tree_oak","park_generator_1117","park_ferris_wheel_1117","hpillar","park_ironfence_1117","park_ticketbooth_1117","park_rustlamp_1117","dino_fern_1116","park_ruined_facade_1117","park_clockcastle_1117","park_coaster_station_1117","park_carnival_theatre_1117","park_coaster_track_1117","park_coaster_support_1117","orctent","stall"],"park_ride":["tree_pine","tree_oak","park_generator_1117","park_carousel_1117","hpillar","park_ironfence_1117","park_ticketbooth_1117","park_rustlamp_1117","dino_fern_1116","park_ruined_facade_1117","park_clockcastle_1117","park_coaster_station_1117","park_carnival_theatre_1117","park_coaster_track_1117","park_coaster_support_1117","stall","orctent"],"park_control":["tree_pine","tree_oak","park_generator_1117","park_ferris_wheel_1117","park_carousel_1117","hpillar","park_ironfence_1117","park_ticketbooth_1117","park_rustlamp_1117","dino_fern_1116","park_ruined_facade_1117","park_clockcastle_1117","park_coaster_station_1117","park_carnival_theatre_1117","park_coaster_track_1117","park_coaster_support_1117","orctent","stall","p8tower"],"col_gate":["tree_pine","tree_oak","jungle_rockspire_1116","colosseum_seats_1117","anc_villager_crowd_lod_1117","colosseum_arch_1117","portcullis"],"col_trial":["tree_pine","tree_oak","jungle_rockspire_1116","colosseum_seats_1117","anc_villager_crowd_lod_1117","colosseum_arch_1117"],"col_final":["tree_pine","tree_oak","jungle_rockspire_1116","colosseum_seats_1117","anc_villager_crowd_lod_1117","colosseum_arch_1117"]},"characters":{"dragon":["dragon"],"wyvern":["wyvern3","wyvern2"],"ground":["ground2"],"hero":["hero","hero_pegasus_game_1116","pegasus"],"army":["shieldman","soldier","archer","angelarcher","redcap","fishbow","field_cannon_1116"],"golem":["golem"],"orctank":["kingtank","orcking"],"airship":["airship"],"redcap":["redcap","redcap_hawk_game_1116"],"kraken":["kraken2","kraken"],"archangel":["archangel_sacred_1117"],"dragonknight":["wyvern2","blackknight"],"seaking":["seaking_royal_1116"],"bomber":["p8bomber","bomber_modern_bomb","p8fighter"],"maou":["demon"],"ufo":["p8ufo","p8mech"],"gwizard":["wizard","gwizard"],"cube":["cube_module_1117"],"slime":["slime2"],"dragonking":["dragonking_winged_1116"],"necromancer":["skelmage","necrobonehound_1116","skel","skeleton"],"nurarihyon":["nurarihyon","y_origami","y_oni","yokai_lantern_1116","y_firetoad","y_kirin","y_bronzebell"]},"waves":{"valley":[["cstalag","chest","choard","cbones","dunarch","hbrazier","crystalc","bgolem","golem","bgolem2","bigcannon","orctank","slime2","hero","captain","merchant","roardragon","slime","bat","wizard"],["wyvern2","wyvern3","bgolem","golem","bgolem2","slime2","kingtank","orctank","ogre","slime","bat"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bat"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","kingtank","ogre","bat"]],"dungeon":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","goblin","slime","skeleton"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bat","skeleton","goblin","redcap"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","drak","skeleton","goblin"]],"golem":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2"]],"maou":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","sealstone","imp","goblin","skeleton","ogre"],["gdoor","dunarch","hpillar","htorch","hbanner","hwindow","hstairs","hbrazier","hrubble","bgolem","golem","bgolem2","bigcannon","orctank","slime2","demon","imp","anc_darkdemon","dwall","seal_pillar_1117","hstatue"]],"town":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","shieldman","soldier","archer","field_cannon_1116"],["shieldman","bgolem","golem","bgolem2","bigcannon","orctank","slime2","soldier","archer","field_cannon_1116","catapult","captain","airship","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","captain","shieldman","soldier","field_cannon_1116","catapult","airship","wizard"],["dslayer","bgolem","golem","bgolem2","shieldman","bigcannon","orctank","slime2","soldier","field_cannon_1116","airship","dknight","wizard"]],"castle":[["soldier","bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","shieldman","archer","field_cannon_1116","catapult","airship"],["bgolem","golem","bgolem2","captain","bigcannon","orctank","slime2","dknight","shieldman","soldier","wizard","airship"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","hero","soldier","shieldman","field_cannon_1116","captain","dknight","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","walker","airship","dknight","field_cannon_1116","shieldman"]],"sea":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","ship","airship","wizard","archer"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","dknight","ship","airship","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","battleship","ship","dknight","airship","wizard"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bigairship","airship","dknight","ship","wizard"]],"orcwood":[["orc","bgolem","golem","bgolem2","dogrider"],["hawkrider","bgolem","golem","bgolem2","dogrider","orcknight","orc","troll","ogre","bigcannon","orctank","slime2","redcap"],["orcgeneral","bgolem","golem","bgolem2","ogre","orc","troll","hawkrider","dogrider"]],"orcfort":[["orc","ballista","hawkrider","dogrider"],["orc","ballista","wooddragon","hawkrider","dogrider"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","redcap","gianttank","orcgeneral","troll","orc","hawkrider","dogrider"]],"orcking":[["orc","bgolem","golem","bgolem2","orcgeneral","ogre","bigwolf","troll","hawkrider","dogrider","orctank","ballista"],["orcgeneral","bgolem","golem","bgolem2","ogre","orc","hawkrider","dogrider"],["orcking","bgolem","golem","bgolem2","ogre","orc"]],"hellgate":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","devilsoldier","skeleton","skelmage","imp","ogre","catapult","field_cannon_1116","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","skelmage","skeleton","devilsoldier","imp","ogre"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","imp","bat","griffin"],["bgolem","golem","bgolem2","ogre","devilsoldier","bigcannon","orctank","slime2","skeleton","skelmage","imp"]],"bonefield":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bigskeleton","skeleton","skelmage","devilsoldier","catapult","field_cannon_1116","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bigskeleton","skeleton","skelmage","devilsoldier"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","archer","skelmage","skeleton"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","bigskeleton","skeleton","skelmage","devilsoldier"]],"maoujo":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","cerberus","devilsoldier","skeleton","skelmage","catapult","field_cannon_1116","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","blackknight","skeleton","skelmage"],["bgolem","golem","bgolem2","ogre","bigcannon","orctank","slime2","bigskeleton","skelmage"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","demon","imp","skelmage"]],"peak":[["bgolem","golem","bgolem2","wyvern","bigcannon","orctank","slime2","rival"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","elder"]],"dragongrave":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","ground2","wyvern2","catapult","field_cannon_1116","icedrake","thundrake","ballista"],["wyvern2","bgolem","golem","bgolem2","wyvern","ground2","bigcannon","orctank","slime2","icedrake"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","ground2","wyvern2","icedrake","thundrake"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","ground2","bonedrake"]],"dragonking":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","bonedrake","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","wyvern","catapult","field_cannon_1116","bonedrake","thundrake"],["blackknight","bgolem","golem","bgolem2","wyvern"]],"skygate":[["bgolem","golem","bgolem2","angel","angelsword","angelarcher","pegasus","bigcannon","orctank","slime2","griffin","skychariot","dknight","ballista","godballista"],["bgolem","golem","bgolem2","pegasus","bigcannon","orctank","slime2","griffin","angel","angelsword","angelarcher","catapult","field_cannon_1116","skychariot","dknight"],["bgolem","golem","bgolem2","pegasus","angel","angelarcher","angelsword","bigcannon","orctank","slime2","griffin","skychariot","dknight","godballista"]],"skytemple":[["bgolem","golem","bgolem2","angel","angelsword","angelarcher","pegasus","bigcannon","orctank","slime2","griffin","catapult","field_cannon_1116","skychariot","dknight","ballista","godballista"],["bgolem","golem","bgolem2","angelgeneral","angel","pegasus","bigcannon","orctank","slime2","griffin","angelarcher","skychariot","dknight","angelsword","godballista"],["bgolem","golem","bgolem2","angel","pegasus","angelarcher","angelsword","bigcannon","orctank","slime2","griffin","skychariot","dknight","godballista"]],"archangel":[["bgolem","golem","bgolem2","angel","pegasus","angelarcher","angelsword","catapult","field_cannon_1116","skychariot","dknight","ballista","godballista"],["bgolem","golem","bgolem2","pegasus","bigcannon","orctank","slime2","griffin","angel","angelarcher","skychariot","dknight","angelsword","godballista"],["archangel_sacred_1117","bgolem","golem","bgolem2","angel","pegasus","angelarcher","bigcannon","orctank","slime2","griffin","skychariot","dknight","angelsword","archangel","godballista"]],"coralsea":[["bgolem","golem","bgolem2","fishman","fishbow","shark","ogre","crab","leviathan","seaserpent","bigcannon","orctank","slime2","dknight","catapult","field_cannon_1116","slime","ballista"],["bgolem","golem","bgolem2","ogre","crab","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","griffin","airship","slime"],["bgolem","golem","bgolem2","ogre","crab","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","dknight","griffin"]],"deepsea":[["bgolem","golem","bgolem2","shark","leviathan","seaserpent","fishman","fishbow","bigcannon","orctank","slime2","griffin","catapult","field_cannon_1116","slime","ballista"],["bgolem","golem","bgolem2","bigcannon","orctank","slime2","kraken","leviathan","seaserpent","shark","fishman","fishbow","ogre","crab","dknight","airship"],["bgolem","golem","bgolem2","leviathan","seaserpent","shark","fishman","fishbow","ogre","crab","bigcannon","orctank","slime2","dknight","griffin","airship"]],"seaking":[["bgolem","golem","bgolem2","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","dknight","ballista"],["bgolem","golem","bgolem2","ogre","crab","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","griffin","airship","catapult","field_cannon_1116","slime"],["bgolem","golem","bgolem2","seakingman","fishman","fishbow","shark","leviathan","seaserpent","bigcannon","orctank","slime2","dknight","griffin","airship"]],"p8war":[["bgolem","golem","bgolem2","p8rifle","field_cannon_1116","p8flak","dknight","p8fighter"],["bgolem","golem","bgolem2","p8tank","p8rifle","dknight","p8fighter","p8bomber"],["bgolem","golem","bgolem2","p8supertank","p8tank","p8rifle","field_cannon_1116","p8flak","dknight","p8fighter"],["bgolem","golem","bgolem2","p8train","p8traincar","p8rifle","dknight","p8fighter"]],"p8robo":[["bgolem","golem","bgolem2","p8robot","p8drone","p8car","p8ufo"],["bgolem","golem","bgolem2","p8mech","p8robot","p8drone","p8futank","p8car","p8ufo"],["bgolem","golem","bgolem2","p8titan","p8robot","p8drone"],["bgolem","golem","bgolem2","p8mothership","p8ufo","p8futank"]],"p8dino":[["bgolem","golem","bgolem2","p8raptor","p8ptera","p8ufo"],["bgolem","golem","bgolem2","p8trike","p8raptor","p8ptera"],["bgolem","golem","bgolem2","p8rex","p8raptor","p8ptera"]],"p8anc":[["bgolem","golem","bgolem2","anc_dogu","anc_haniwa","anc_tribal","anc_dogustatue","anc_dragonfly","anc_doguhead","anc_crow","anc_shaman","anc_haniwabird","anc_wolf"],["bgolem","golem","bgolem2","anc_mammoth","anc_boar","anc_bear","anc_dogu","anc_dragonfly","anc_palanquin","anc_spiritbear","anc_wolf","anc_haniwabird"],["bgolem","golem","bgolem2","anc_sunking","anc_chief","anc_dogu","anc_haniwa","anc_shaman","anc_haniwabird"],["bgolem","golem","bgolem2"]],"p8poly":[["bgolem","golem","bgolem2","p8face"],["bgolem","golem","bgolem2","p8goddess","p8face"],["bgolem","golem","bgolem2"],["bgolem","golem","bgolem2","p8supertank"],["bgolem","golem","bgolem2","p8titan"],["bgolem","golem","bgolem2","p8rex"],["bgolem","golem","bgolem2","anc_sunking"],["bgolem","golem","bgolem2","p8goddess","p8face"]],"y9town":[["bgolem","golem","bgolem2","y_oni","y_clockwork","bat","y_origami","y_samuraihunter","y_tengu","y_ninja","y_karasu","y_oboro"],["bgolem","golem","bgolem2","y_samuraihunter","y_crystalmonk","y_oni","bat","y_origami","y_mikoarcher","y_onmyoji","y_ninjakite","y_warcart"],["bgolem","golem","bgolem2","y_firetoad","y_oni","bat","y_origami","y_samuraihunter","y_onispider","y_tengu","y_karasu"]],"y9castle":[[],[],[]],"y9lord":[["bgolem","golem","bgolem2","y_whitefox","y_kirin","ogre","y_fierywarrior","y_oni","y_samuraihunter","y_kyubi","y_foxsorc","y_karasu"],["bgolem","golem","bgolem2","ogre","y_fierywarrior","y_oni","y_firetoad","y_samuraihunter","bat","y_origami","y_heli","y_gasha","y_tsuchigumo","y_toadlord","y_tengu"],["bgolem","golem","bgolem2","nurarihyon","y_whitefox","y_kirin","y_samuraihunter","y_onisamurai","y_onmyoji","y_karasu","y_ninjakite"]],"fairywood":[["bgolem","golem","bgolem2","angel","anc_tribal"],["fairy_blossom_1116","bgolem","golem","bgolem2","anc_spiritbear","anc_tribal"]],"fairylake":[["bgolem","golem","bgolem2","anc_dragonfly","angel"],["fairy_blossom_1116","bgolem","golem","bgolem2","leviathan","anc_dragonfly"]],"fairypalace":[["bgolem","golem","bgolem2","anc_tribal","angel"],["fairy_blossom_1116","bgolem","golem","bgolem2","p8goddess","angel"]],"park_entry":[["park_marionette_1117","park_toysoldier_1117","park_mascot_1117"],["park_mascot_1117"]],"park_ride":[["park_marionette_1117","park_clown_1117","park_toysoldier_1117","park_android_1117"],["park_clown_1117","park_toysoldier_1117","park_marionette_1117"]],"park_control":[["park_marionette_1117","park_clown_1117","park_toysoldier_1117","park_android_1117","park_mascot_1117"],["park_android_1117","park_toysoldier_1117","park_marionette_1117","park_mascot_1117"]],"col_gate":[["bgolem","golem","bgolem2","bigcannon","orctank","slime2","hero"],["bgolem","golem","bgolem2","ogre","bigcannon","orctank","slime2","soldier","archer"],["bgolem","golem","bgolem2","ogre","bigcannon","orctank","slime2"]],"col_trial":[["golem"]],"col_final":[["blackknight"]]}};
 const mobileArt={
  manifest:null,manifestState:null,jobs:new Map(),ready:new Map(),failed:new Map(),groups:new Map(),retired:new Set(),
  pending:new Map(),active:0,serial:0,scope:null,stageSerial:0,wave:null,start:null,preview:0,titleOpen:false,
@@ -1615,7 +1783,7 @@ function mobileCoreCharIds(key){
  return [PMODEL[key],CH[key]?.model?.id,key].filter(mobileKnown);
 }
 function mobileCharIds(key){
- const forms=key==='maou'?[MAOUF[1].id,MAOUF[2].id]:[];
+ const forms=key==='maou'?MAOUF.map(f=>f.id):[];
  return [...mobileCoreCharIds(key),...(MOBILE_DEPS.characters?.[key]||[]),...(mobileArt.characterDeps.get(key)||[]),...forms].filter(mobileKnown);
 }
 function mobileStageIds(i){const key=STAGES[i]?.key,ids=MOBILE_DEPS.stages?.[key]||[];return SCN===1&&charKey==='dragon'&&i>=1?[...ids,'wyvern2']:ids;}
@@ -4539,7 +4707,7 @@ function kamiShow(){const k=KAMI,sd=k.sl[k.i],n=k.sl.length,last=k.i>=n-1;
   {const hd=$('khd'),sig=sd.ch+'|'+sd.t;if(hd.dataset.k!==sig){hd.dataset.k=sig;hd.classList.remove('kre');void hd.offsetWidth;hd.classList.add('kre');}}
   // 前の1枚を、横へ引きぬく（はじめの1枚は幕あけ）
   $('story').scrollTop=0;ka.style.display='';ka.classList.remove('kfirst');
-  if(live)kpull(ka,kz);else{void ka.offsetWidth;ka.classList.add('kfirst');}
+  /* Story pages turn in place. */
   kclap(live?1:2);
   // 絵：向きを変えながらゆっくり寄る／流れる
   const strip=KSTRIP.test(key),crop=KCROP.test(key),bd=KBD[idx%KBD.length],sw=idx%2?-1:1,v=strip?[16*sw,0,1,-16*sw,0,1]:crop?[0,0,1,0,-0.6,1.05]:bd;
@@ -5892,7 +6060,7 @@ function bossFall(e){const q=e.mesh.position,c=cpos(e),T={x:c.x,y:c.y,z:c.z,r:e.
   T.staged=staged;e.fall=1;FALL.push({e,t:0,d:staged?2.5:1.4,staged,nx:0,x:q.x,y:q.y,z:q.z,rz:e.mesh.rotation.z});cine(3,staged?2.6:1.55,T);if(!e.boss&&CINE.k===3){TS=0.25;tsT=1.4;}
   if(CINE.k===3&&CINE.tg===T){let best=1e9,bs=1,bh=0;const B=new V3(c.x,c.y,c.z);for(const [sg,hi] of [[1,0],[-1,0],[1,1],[-1,1]]){T.sg=sg;T.hi=hi;cinePose();const n=cineBlock(CINE.p,P.pos)+cineBlock(CINE.p,B);if(n<best){best=n;bs=sg;bh=hi;}}T.sg=bs;T.hi=bh;}}
 function storyBossCollapse(o,i,rk){
-  const {e,t}=o,m=e.mesh,delay=.36,impact=1.68;
+  const {e,t}=o,m=e.mesh,delay=.36,impact=1.68;if(e===MSF.e&&storyDragon())sc1MaouFinishingFire(o);
   // 止まってから崩し、衝撃のあと煙だけを残す。
   const k=clamp((t-delay)/(impact-delay),0,1),down=k*k;
   if(t<impact){m.position.y=o.y-down*e.r*(e.fly?1.4:.45);m.rotation.z=o.rz+down*.42;}
@@ -6479,7 +6647,7 @@ function killEnemy(e,quiet){if(e.dead)return;if(!quiet&&state==='play'&&orcWolfD
   if(['golem','bigcannon','wooddragon','siegecart','walker','airship','ship','battleship','bigairship'].includes(e.type)){debris(c,e.boss?24:10,[0x7a7468,0x6a4a2a,0x9a8a72],e.boss?3:1.5);smoke(c,8,e.boss?10:5,3,0x5a5248,e.boss?8:3);burst(c,e.fall?10:30,FIRE,e.fall?3:e.boss?8:5,30,1);}
   if(e.boss){TS=0.25;tsT=1.4;say(e.boss.replace(/^\S+\s/,''),e.die||DIE[e.type]);if(!storyBossFall(e)){shake(1);banner(e.boss.replace(/^\S+\s/,'')+' をたおした！',2.4);addEmit(new V3(c.x,floorAt(c.x,c.z),c.z),6,2);}}}
 function walk(e,tx,tz,spd,dt){const p=e.mesh.position;if(e.s7&&spd)spd*=H(p.x,p.z)<WATER-0.3?1.5:0.65;else if(spd&&e.r>=2.6&&!DUN.on&&!CAVE.on&&H(p.x,p.z)<WATER-0.3)spd*=0.6;const dx=tx-p.x,dz=tz-p.z,d=Math.hypot(dx,dz);if(d>0.5&&spd){let ux=dx/d,uz=dz/d;if(!e.s7&&e.r<2.6&&!DUN.on&&!CAVE.on&&H(p.x,p.z)>=WATER-0.8){const wt=(vx,vz)=>H(p.x+vx*0.9,p.z+vz*0.9)<WATER-0.25||H(p.x+vx*2.6,p.z+vz*2.6)<WATER-0.25;if(wt(ux,uz)){const sd=e.wsd||(e.wsd=Math.random()<0.5?1:-1);let ok=0;for(const a of [0.9*sd,1.6*sd,2.3*sd,-0.9*sd,-1.6*sd,-2.3*sd]){const c=Math.cos(a),q=Math.sin(a),vx=ux*c-uz*q,vz=ux*q+uz*c;if(!wt(vx,vz)){if(a*sd<0)e.wsd=-sd;ux=vx;uz=vz;ok=1;break;}}if(!ok)ux=uz=0;}}p.x+=ux*spd*dt;p.z+=uz*spd*dt;}e.mesh.rotation.y=Math.atan2(dx,dz);return d;}
-function grav(e,dt,g=40){const p=e.mesh.position;if(e.perch)return true;const gh=Math.max(H(p.x,p.z),WATER-1.2)+(DUN.on?dunSt(p.x,p.z):0);e.vy-=g*dt;p.y+=e.vy*dt;if(p.y<=gh){p.y=gh;e.vy=0;return true;}return false;}
+function grav(e,dt,g=40){const p=e.mesh.position;if(e.perch)return true;const gh=SCN===1&&DUN.on&&e.type==='goblin'?sc1GoblinFloor(p.x,p.z):Math.max(H(p.x,p.z),WATER-1.2)+(DUN.on?dunSt(p.x,p.z):0);e.vy-=g*dt;p.y+=e.vy*dt;if(p.y<=gh){p.y=gh;e.vy=0;return true;}return false;}
 function fly(e,target,spd,dt,k=2){tmp.subVectors(target,e.mesh.position);const d=tmp.length();if(d>0.01)tmp.multiplyScalar(spd/d);e.vel.lerp(tmp,Math.min(1,dt*k));e.mesh.position.addScaledVector(e.vel,dt);
   const p=e.mesh.position,gh=floorAt(p.x,p.z)+3+e.r*0.5;if(p.y<gh)p.y=gh;}
 // 海の上をすべる（陸には上がらない）。向きは少しずつ変える
@@ -6599,7 +6767,7 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);if(dt>0&&!BTK.on)o
       const w=e.mesh.userData.w,a=Math.sin(e.t*18)*0.9;w.R.rotation.z=a;w.L.rotation.z=-a;if(e.mesh.userData.bh)s1Flap(e,a);
       if(e.type==='imp'&&e.cd<=0&&hd<90){e.cd=rnd(3,5);shootAtP(p.clone(),70,{mat:MAT.dfire,size:0.8,r:1.2,dmg:6,life:3,trail:PURP,col:PURP});}
       if(d3<e.r+4)hurt(e.dmg*dt,true);break;}
-    case 'drak':case 'ogre':case 'gdrake':{if(e.king||e.gen){orcBossAI(e,dt,dx,dz,hd,d3);break;}grav(e,dt);walk(e,P.pos.x,P.pos.z,hd>22?(e.type==='gdrake'?17:6.5):0,dt);animWalk(e,4);
+    case 'drak':case 'ogre':case 'gdrake':{if(e.king||e.gen){orcBossAI(e,dt,dx,dz,hd,d3);break;}if(storyDragon()&&DUN.on&&e.type==='drak'&&drakStrike1120(e,dt,hd,d3))break;grav(e,dt);walk(e,P.pos.x,P.pos.z,hd>22?(e.type==='gdrake'?17:6.5):0,dt);animWalk(e,4);
       if(e.cd<=0&&hd<150){e.cd=rnd(3.5,5);const f=cpos(e).clone();f.y+=7*(e.type==='drak'?1.3:1);shoot(f,lob(f,tmp2.copy(P.pos).addScaledVector(P.vel,0.8),55,30),{geo:'rock',mat:MAT.rock,size:1.8*(e.type==='drak'?1.3:1),r:2.2,splash:6,dmg:16,grav:30,life:6,col:[0x999080,0xbbaa90]});if(e.mesh.userData.armR)e.mesh.userData.armR.rotation.x=-2.5;else bubble(e,e.type==='gdrake'?'ガオーッ！':'ウガー！','shout',1);}
       if(e.mesh.userData.armR)e.mesh.userData.armR.rotation.x*=Math.max(0,1-dt*3);
       if(d3<e.r+5*(e.type==='drak'?1.3:1))hurt(e.dmg*dt,true);break;}
@@ -6637,13 +6805,13 @@ function updEnemies(dt){btkTick(dt);wkClipTick(dt);s3Tick(dt);if(dt>0&&!BTK.on)o
     case 'orctank':case 'orccart':tankAI(e,dt,dx,dz,hd,d3);break;
     case 'demon':{e.ang+=dt*0.45;tmp2.set(P.pos.x+Math.cos(e.ang)*65,P.pos.y+16+Math.sin(e.t)*5,P.pos.z+Math.sin(e.ang)*65);fly(e,tmp2,32,dt,1.5);faceP(e);
       const w=e.mesh.userData.w,a=Math.sin(e.t*5)*0.6+0.3;if(w&&w.R&&w.L){w.R.rotation.z=a;w.L.rotation.z=-a;}
-      if(half&&!e.p2){e.p2=1;say('魔王','小癪な…！ 星よ、降りそそげ！');sfx('roar',p);}
+      if(half&&!e.p2&&!(storyDragon()&&e===MSF.e)){e.p2=1;say('魔王','小癪な…！ 星よ、降りそそげ！');sfx('roar',p);}
       if(e.cd<=0){e.cd=half?1.5:2.3;const f=p.clone();f.y+=3;e.alt=!e.alt;
         if(e.alt){const base=tmp.subVectors(P.pos,f).normalize();for(const a2 of [-0.18,0,0.18])shoot(f,base.clone().applyAxisAngle(new V3(0,1,0),a2).multiplyScalar(72),{mat:MAT.dfire,size:1.5,r:2,dmg:12*gimmickDemonPower(e),life:4,trail:PURP,col:PURP});}
         else{for(const s of [-1,1]){const v=tmp.subVectors(P.pos,f).normalize().multiplyScalar(38);v.x+=s*20;shoot(f,v,{mat:MAT.dfire,size:2,r:2.4,dmg:14*gimmickDemonPower(e),life:7,homing:true,trail:PURP,col:PURP});}}
         sfx('zap',p,0.5);}
       e.sum-=dt;if(e.sum<=0){e.sum=12;for(let k=0;k<3;k++)addEnemy('imp',p.x+rnd(-10,10),p.z+rnd(-10,10),p.y);burst(p,30,PURP,5,25,0.8);}
-      if(half){e.met-=dt;if(e.met<=0){e.met=6;for(let k=0;k<7;k++){const f=new V3(P.pos.x+rnd(-35,35),P.pos.y+90,P.pos.z+rnd(-35,35));shoot(f,new V3(rnd(-4,4),-65,rnd(-4,4)),{mat:MAT.dfire,size:2.2,r:2.6,splash:9,dmg:14*gimmickDemonPower(e),life:5,trail:PURP,col:PURP});}banner('隕石の雨！ 動いてよけろ',1.4);}}
+      if(half&&!(storyDragon()&&e===MSF.e)){e.met-=dt;if(e.met<=0){e.met=6;for(let k=0;k<7;k++){const f=new V3(P.pos.x+rnd(-35,35),P.pos.y+90,P.pos.z+rnd(-35,35));shoot(f,new V3(rnd(-4,4),-65,rnd(-4,4)),{mat:MAT.dfire,size:2.2,r:2.6,splash:9,dmg:14*gimmickDemonPower(e),life:5,trail:PURP,col:PURP});}banner('隕石の雨！ 動いてよけろ',1.4);}}
       if(d3<e.r+4)hurt(e.dmg*dt,true);break;}
     case 'bigslime':{const on=grav(e,dt),b=e.mesh.userData.b;
       if(on&&e.air){e.air=false;const gp=new V3(p.x,floorAt(p.x,p.z),p.z);shock(gp,e.blue?0x2f8cff:0x55d040,26);shake(0.35);sfx('small',p,0.7);burst(gp,10,e.blue?SGOO:GOO,4,16,0.5);
@@ -7885,7 +8053,7 @@ function s1Cave(){const g=CAVE.g;if(!g||!MODEL.cstalag&&!MODEL.cbones&&!MODEL.ch
   // かべぎわの太い柱 → 背の高い岩の柱
   if(MODEL.cstalag&&pil){let n=0;for(let i=0;i<pil.count;i++){const q=pos(pil,i),hh=Math.min(52,q.sy*0.62);const o=s1Put(g,'cstalag',q.x,q.z,hh,i*1.7);if(o){add.push(o);n++;}}if(n)hide.push(pil);}
   // 金の山 → 金貨と宝の山（正面を一行のほう＝-z へ）
-  if(MODEL.choard&&mound){const o=s1Put(g,'choard',cx,cz+18,0,Math.PI,24);if(o){add.push(o);hide.push(mound);}}
+  if(MODEL.choard&&mound){const o=s1Put(g,'choard',cx,cz+18,0,Math.PI,24);if(o){o.userData.sc1Hoard=true;add.push(o);hide.push(mound);}}
   // 骨 → 巨大な獣の骨（入口の通り道と金の山をよけた3か所）
   if(MODEL.cbones&&bn){const sel=[];for(let i=0;i<bn.count&&sel.length<3;i++){const q=pos(bn,i),d=Math.hypot(q.x-cx,q.z-cz);if(d<52||Math.hypot(q.x-cx,q.z-cz-18)<30)continue;if(Math.abs(q.x-cx)<34&&q.z<cz+10)continue;if(sel.some(a=>Math.hypot(a.x-q.x,a.z-q.z)<34))continue;sel.push(q);}
     let n=0;sel.forEach((q,i)=>{const o=s1Put(g,'cbones',q.x,q.z,0,Math.atan2(cx-q.x,cz-q.z)+(i-1)*0.9,24);if(o){add.push(o);n++;}});if(n){hide.push(bn);if(sk)hide.push(sk);if(rb)hide.push(rb);}}
@@ -7932,7 +8100,7 @@ function s1Flap(e,a){const h=e.mesh.userData.bh;if(!h)return;const b=h.userData.
 function caveParty(){caveBuild();moodT=MOODS[6];updMood(0,true);const cx=CAVE.x,cz=CAVE.z-13;if(C.fly)P.pos.y=CAVE.y+8;P.yaw=Math.PI;P.pitch=0;
   const h=addEnemy('hero',cx,cz);h.cave=1;h.hp=h.maxHp=storyDragon()?(EASY?2800:3600):h.maxHp*0.5;h.dmg*=0.5;h.sum1=1;h.p2=1;h.said=1;h.mt=3.6;h.sc=0.7;h.r=ST.hero.r*0.7;h.hc=ST.hero.hc*0.7;
   const k=addEnemy('soldier',cx+4.6,cz+2,undefined,{model:'captain'});k.cave=1;k.hp=k.maxHp=EASY?90:150;k.sc=1;k.thrower=true;k.val=120;k.cd=4.5;
-  const m=addEnemy('priest',cx-4.2,cz+0.6,undefined,{model:'merchant'});m.hop=MODEL.merchant?m.mesh.children[m.mesh.children.length-1]:null;m.cave=1;m.hp=m.maxHp=EASY?55:90;m.val=120;m.cd=5.5;m.sc=0.95;
+  const m=addEnemy('priest',cx-4.2,cz+0.6,undefined,{model:storyDragon()?'wizard':'merchant'});m.hop=!storyDragon()&&MODEL.merchant?m.mesh.children[m.mesh.children.length-1]:null;m.cave=1;m.hp=m.maxHp=EASY?55:90;m.val=120;m.cd=5.5;m.sc=0.95;
   [h,k,m].forEach(e=>{e.mesh.rotation.y=0;});$('cutin').style.display='none';cutT=0;
   talk([['勇者','いたぞ、千年竜だ！ 眠っているうちに討つはずが……起きたか！'],['ME','……人のねぐらに、土足で三人。朝めしの前に、まず客から焼くか。'],['勇者','盾を前へ！ 魔法使いは結界を！ 行くぞ！'],['💡 ヒント','うしろの魔法使いが、勇者を回復して結界を張る。先に倒そう']]);}
 // ねぐらを静かに出る（壁は破らない）：画面を暗くして、そのあいだに洞窟を片付け、谷に出たところで明るくする
@@ -8121,30 +8289,30 @@ function valleyRoyalPatrolBase1119(){
 /* dragon-kingdom-march-flat-1119: stage order and combat systems are retained. */
 function valleyRoyalColumns(){
  if(!storyDragon())return valleyRoyalColumnsBase1119();
- const rows=[],foot=EASY?4:6,bows=EASY?3:4;
- for(let i=0;i<foot;i++)for(const side of [-1,1])rows.push({type:'soldier',group:0,depth:65+i*8.5,lane:side*6});
- for(let i=0;i<bows;i++)for(const side of [-1,1])rows.push({type:'archer',group:1,depth:65+foot*8.5+i*8.5,lane:side*9});
- for(let i=0;i<(EASY?2:3);i++)rows.push({type:'cannon',group:2,depth:65+(foot+bows)*8.5+10,lane:(i-((EASY?2:3)-1)/2)*18});
- rows.push({type:'soldier',group:0,depth:77,lane:0,model:'captain'});return rows;
+ const rows=[],foot=EASY?5:6,bows=EASY?3:4;
+ for(let i=0;i<foot;i++)for(const side of [-1.5,-.5,.5,1.5])rows.push({type:'soldier',group:0,depth:50+i*6,lane:side*5.4});
+ for(let i=0;i<bows;i++)for(const side of [-1.5,-.5,.5,1.5])rows.push({type:'archer',group:1,depth:50+foot*6+i*6,lane:side*6});
+ for(let i=0;i<(EASY?2:3);i++)rows.push({type:'cannon',group:2,depth:50+(foot+bows)*6+7,lane:(i-((EASY?2:3)-1)/2)*18});
+ rows.push({type:'soldier',group:0,depth:46,lane:0,model:'captain'});return rows;
 }
 function valleyRoyalFormation(rows){
  if(!storyDragon())return valleyRoyalFormationBase1119(rows);
  const origin=new V3(150,0,230),f=new V3(0,0,-1),side=new V3(1,0,0);
  const slots=rows.map(row=>{
   const to=origin.clone().addScaledVector(f,row.depth).addScaledVector(side,row.lane);
-  const from=to.clone().addScaledVector(f,66);from.y=floorAt(from.x,from.z);to.y=floorAt(to.x,to.z);
+  const from=to.clone().addScaledVector(f,20);from.y=floorAt(from.x,from.z);to.y=floorAt(to.x,to.z);
   return {row,from,to};
  });return {slots,f,side,origin};
 }
 function valleyRoyalView(actors,view,f,side,time){
  if(!storyDragon())return valleyRoyalViewBase1119(actors,view,f,side,time);
  const lead=actors[0].e.mesh.position;
- const progress=rigSm(Math.min(time/16,1));
+ const progress=rigSm(Math.min(time/4.5,1));
  const centreX=actors[0].from.x-actors[0].row.lane;
- const distance=(cam.aspect<.8?29:23)+2*progress;
- view.p.set(centreX+3,0,lead.z+distance);
- view.p.y=floorAt(view.p.x,view.p.z)+5.2;
- view.t.set(centreX,lead.y+1.4,lead.z-13);
+ const distance=(cam.aspect<.8?27:21)+2*progress;
+ view.p.set(centreX+4,0,lead.z+distance);
+ view.p.y=floorAt(view.p.x,view.p.z)+7.2;
+ view.t.set(centreX,lead.y+1.7,lead.z-13);
 }
 function valleyRoyalPatrol(){
  if(!storyDragon())return valleyRoyalPatrolBase1119();
@@ -8162,19 +8330,19 @@ function valleyRoyalPatrol(){
  });
  const view={p:new V3(),t:new V3(),phase:'march'};let time=0,spoken=false;
  const arrived=()=>{if(spoken)return;spoken=true;view.phase='arrival';talk([
-  ['王国の隊長','前衛、左右へ開け！ 弓隊と砲隊は後ろから続け！'],['ME','遠くからご苦労。……この平地なら、まとめて相手をしてやる']
+  ['王国の隊長','前衛、展開！\n弓隊と砲隊は後へ！'],['ME','ここまで追ってきたか。\nなら、まとめて相手をしてやる。']
  ]);};
  const tick=dt=>{
   time+=dt;
   for(const a of actors){
-   const t=clamp((time-a.start)/(66/4.2),0,1),p=a.e.mesh.position;
+   const t=clamp((time-a.start)/(20/5.5),0,1),p=a.e.mesh.position;
    p.lerpVectors(a.from,a.to,t);
-   const spread=rigSm((time-16.5)/2.0);
+   const spread=rigSm((time-3.4)/1.2);
    p.x+=Math.sign(a.row.lane)*(a.row.type==='soldier'?4:a.row.type==='archer'?8:2)*spread;
-   p.y=floorAt(p.x,p.z);if(t>0&&t<1){a.e.t+=dt;animWalk(a.e,4.2);}
+   p.y=floorAt(p.x,p.z);if(t>0&&t<1){a.e.t+=dt;animWalk(a.e,5.5);}
   }
   valleyRoyalView(actors,view,f,side,time);
-  if(time>=18.5)arrived();if(spoken&&!TK.cur&&!TK.q.length)presentationEnd(owner);
+  if(time>=5.2)arrived();if(spoken&&!TK.cur&&!TK.q.length)presentationEnd(owner);
  };
  const finish=()=>{
   for(const a of actors){a.e.cd=Math.max(1.8,a.e.cd);a.e.royalMarch1119=false;}
@@ -8184,7 +8352,7 @@ function valleyRoyalPatrol(){
   tick(0);window.CAMOV=view;
  }else{for(const a of actors)a.e.mesh.position.copy(a.to);finish();arrived();}
  window.royalMarch1119=()=>({scenario:SCN,stage:STAGES[stage]?.key,wave,time,phase:view.phase,framing:view.framing,
-  player:P.pos.toArray(),units:actors.map(a=>({type:a.e.type,model:a.row.model||null,hp:a.e.hp,maxHp:a.e.maxHp,dead:a.e.dead,marching:a.e.royalMarch1119,position:a.e.mesh.position.toArray(),floor:floorAt(a.e.mesh.position.x,a.e.mesh.position.z),cd:a.e.cd})),speed:4.2,approachDuration:66/4.2});
+  player:P.pos.toArray(),units:actors.map(a=>({type:a.e.type,model:a.row.model||null,hp:a.e.hp,maxHp:a.e.maxHp,dead:a.e.dead,marching:a.e.royalMarch1119,position:a.e.mesh.position.toArray(),floor:floorAt(a.e.mesh.position.x,a.e.mesh.position.z),cd:a.e.cd})),speed:5.5,approachDuration:20/5.5});
 }
 
 const WGRN=[0x7dff6a,0xc8ffb0,0x2fd060,0xffffff];
@@ -8384,7 +8552,7 @@ function dunDeco(g,o,c){const w=c.w,h=c.h,gy=c.gy,z0=c.z0,z1=c.z1,cx=c.cx,MA=c.M
   if(MA&&MODEL.hbrazier){const bh=24,sw=Math.max(46,w*0.4),pts=[[sw/2+15,z0+16],[w/2-10,z0+9],[w/2-10,z1-10]];
     for(const sx of [-1,1])pts.forEach(([px,pz])=>{if(dunPut(g,'hbrazier',cx+sx*px,gy+0.5,pz,{h:bh,t:1.1}))fire(new V3(cx+sx*px,gy+0.5+bh*0.93,pz),1.5);});}}
 function dunBuild(o){dunClear();const g=new THREE.Group(),cx=o.cx,cz=o.cz,w=o.w,d=o.d,h=o.h,gy=floorAt(cx,cz),x0=cx-w/2,x1=cx+w/2,z0=cz-d/2,z1=cz+d/2;
-  const MA=o.kind==='maou',castle=o.castle||0;Object.assign(DUN,{on:true,g,x0,x1,z0,z1,y:gy,top:gy+12,t:0,tor:[],ch:[],door:null,mc:null,maou:MA,castle,gates:[],bid:(DUN.bid||0)+1,zmin:z0+36,xm:castle?w/2-(castle===2?156:132):w/2-22,h,lat:w<140?0.6:0.79});
+  const MA=o.kind==='maou',castle=o.castle||0;Object.assign(DUN,{on:true,g,x0,x1,z0,z1,y:gy,top:gy+12,t:0,tor:[],ch:[],door:null,mc:null,maou:MA,castle,gates:[],bid:(DUN.bid||0)+1,zmin:z0+36,xm:castle?w/2-(castle===2?156:132):w/2-22,h,lat:w<140?0.6:0.79});DUN.space1120=o._sc1Space||null;if(DUN.space1120){DUN.xm=22;DUN.top=gy+h-12;}
   const T=(k,a,b)=>{const t=dunTex(k).clone();t.needsUpdate=true;t.repeat.set(a,b);return t;},LM=(k,a,b,col,em)=>new THREE.MeshLambertMaterial({map:T(k,a,b),color:col,emissive:em});
   const add=(m,x,y,z)=>{m.position.set(x,y,z);g.add(m);return m;};let m;
   // 床・かべ4枚・天井（内がわだけ見える）
@@ -8394,7 +8562,7 @@ function dunBuild(o){dunClear();const g=new THREE.Group(),cx=o.cx,cz=o.cz,w=o.w,
   m=add(new THREE.Mesh(new THREE.PlaneGeometry(w,h),wm(w)),cx,gy+h/2,z1);m.rotation.y=Math.PI;
   m=add(new THREE.Mesh(new THREE.PlaneGeometry(d,h),wm(d)),x0,gy+h/2,cz);m.rotation.y=Math.PI/2;
   m=add(new THREE.Mesh(new THREE.PlaneGeometry(d,h),wm(d)),x1,gy+h/2,cz);m.rotation.y=-Math.PI/2;
-  m=add(new THREE.Mesh(new THREE.PlaneGeometry(w,d),new THREE.MeshBasicMaterial({color:0x0b0b13})),cx,gy+h,cz);m.rotation.x=Math.PI/2;
+  m=add(new THREE.Mesh(new THREE.PlaneGeometry(w,d),new THREE.MeshBasicMaterial({color:0x0b0b13})),cx,gy+h,cz);m.rotation.x=Math.PI/2;m.name='sc1HallCeiling';
   // 柱の列・たいまつ・旗・はり
   const pm=LM('wall',0.4,h*0.8/22,0xbcbcd0,0x16161f),n=Math.max(3,Math.floor(d/42)),stp=(d-40)/n,tm=new THREE.MeshBasicMaterial({color:0x3a2a1a}),bm=new THREE.MeshLambertMaterial({map:dunTex('banner'),emissive:0x380a0a,side:THREE.DoubleSide}),PW=w<140?11.5:14,AR=dunArchInfo(h,stp);
   for(let i=0;i<=n;i++){const z=z0+20+i*stp;for(const sx of [-1,1]){const x=cx+sx*(w/2-16);
@@ -8465,7 +8633,7 @@ function doorSeals(){const zf=DUN.z0,gy=DUN.y,from=new V3((DUN.x0+DUN.x1)/2,gy+3
     const m=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,len,6),new THREE.MeshBasicMaterial({color:0xff4a38,transparent:true,opacity:0.9}));m.position.copy(from).lerp(to,0.5);m.quaternion.setFromUnitVectors(UPV,to.clone().sub(from).normalize());DUN.g.add(m);DUN.ch.push({m,e});});
   for(let i=0;i<8;i++){const [x,z]=dunPos(zf+30,zf+150);addEnemy('imp',x,z,gy+rnd(10,28));}
   for(let i=0;i<8;i++){const e=addEnemy('goblin',...dunPos(zf+40,zf+160));e.thrower=i%2===0;}
-  for(let i=0;i<4;i++)addEnemy('skel',...dunPos(zf+50,zf+150));addEnemy('ogre',0,zf+75);}
+  for(let i=0;i<4;i++)addEnemy('skel',...dunPos(zf+50,zf+150));if(SCN!==1)addEnemy('ogre',0,zf+75);}
 // 扉のむこうへ：広間を「魔王の間」に建てかえる（白く光ってから切りかわる）
 function maouRoom(){flashV=1.2;shake(0.8);sfx('boom',null,1);dunBuild({cx:0,cz:50,w:240,d:180,h:80,kind:'maou'});P.pos.set(0,DUN.y+(C.fly?12:C.gOff),118);P.yaw=P.lastYaw=Math.PI;P.vel.set(0,0,0);moodT=MOODS[8];updMood(0,true);}
 /* ---- 画面の並び（見本に合わせる）：左上の顔、右下の技の丸いボタン3つ（左＝スペースの動き／まん中＝必殺技1／右＝必殺技2） ---- */
@@ -8646,7 +8814,7 @@ function showStory(i,ending,fromClear){state='story';TK.q.length=0;TK.cur=null;c
   if(!ending&&i===0&&SCN===1)sl=PROLOGUE.concat(sl);
   // 前の章をクリアした直後なら、その章のしめの会話を先に見せる（絵は <章>_c）
   if(fromClear){const PS=STAGES[ending?i:i-1],cl=PS&&((SCN===1&&(TALKS[PS.key]||{}).clear1)||(TALKS[PS.key]||{}).clear);if(cl)sl=kimg(dlg(cl,PS.key+'_c',PS.ch+'　'+PS.place,'クリア！'),(KIMG[PS.key]||{})[cl===(TALKS[PS.key]||{}).clear1?'c1':'c']).concat(sl);}
-  KAMI={sl,i:0,end:!!ending};kamiShow();
+  sl=storyArt1120Deck(key,sl);KAMI={sl,i:0,end:!!ending};kamiShow();
   $('storyGo').dataset.end=ending?'1':'';
   $('story').style.display='flex';$('select').style.display='none';$('over').style.display='none';
   }
@@ -9763,7 +9931,7 @@ function headTop(e){try{_hb.setFromObject(e.mesh);const h=_hb.max.y-e.mesh.posit
 function bubble(e,t,kind,life=1.8){if(state!=='play')return;if(B2.filter(b=>b.bub).length>=5){const o=B2.find(b=>b.bub);o.life=0;}
   const d=document.createElement('div');d.className='bub '+(kind||'');d.textContent=t;$('fx2d').appendChild(d);B2.push({d,e,bub:1,life,top:headTop(e),tt:0.4});}
 function ono(pos,t,col,size){if(state!=='play')return;const q=scr(pos);if(!q)return;
-  const nw=performance.now();if(nw-ultQ<1800){if(nw-ultOnoT<700)return;ultOnoT=nw;size=(size||44)*0.7;q[1]=Math.min(q[1],innerHeight*0.2);}const d=document.createElement('div');d.className='ono';d.textContent=t;
+  const nw=performance.now();if(nw-ultQ<1800){if(nw-ultOnoT<700)return;ultOnoT=nw;size=(size||44)*0.7;q[1]=Math.min(q[1],innerHeight*0.2);}const d=document.createElement('div');d.className='ono';d.textContent=t;paintDragonWord(d,t);
   if(q[0]<-120||q[0]>innerWidth+120||q[1]<-120||q[1]>innerHeight+120)return;d.style.color=col||'#ffd23a';d.style.fontSize=Math.min(36,Math.round((size||44)*0.6))+'px';d.style.left=q[0]+'px';d.style.top=q[1]+'px';$('fx2d').appendChild(d);{const w=d.offsetWidth,h=d.offsetHeight;d.style.left=Math.min(Math.max(q[0],w/2+4),innerWidth-w/2-4)+'px';d.style.top=Math.min(Math.max(q[1],h/2+4),innerHeight-h/2-4)+'px';}B2.push({d,life:0.9});}
 let cutT=0;
 const PTS=['orctank','orcking','dragon','wyvern','ground','hero','army','golem','airship','king','demon','rival','elder','wizard','engineer','villager'],PTE={orctank:'orctank',hero:'hero',demon:'demon',rival:'rival',elder:'elder',walker:'king',wooddragon:'engineer',drak:'drak',cerberus:'cerberus',biggolem:'biggolem',battleship:'captain',bigairship:'airgeneral'};
@@ -9824,7 +9992,7 @@ Object.assign(CH,{maou:{name:'魔王',em:'😈',tag:'リングで二段階変身
   br:{mat:new THREE.MeshBasicMaterial({color:0xc060ff}),geo:'bolt',dmg:46,cd:0.7,spd:150,life:1.6,size:1.5,splash:7,col:[0xc060ff,0x8020ff,0xffffff],trail:[0xc060ff,0x6010c0],flash:0xb040ff},
   sp:'thunder',spN:'天罰の雷',spD:'敵の頭の上に、紫の雷を落とす',sp2:'gbeam',sp2N:'闇の光線',sp2D:'前へ太い光線を放つ',dash:'guard',dashN:'闇の守り',dashD:'その場で守りをかため、受けるダメージをへらす',mel:{r:12,dmg:90,cd:0.6,ono:'ドゴッ！'},
   model:{id:'blackknight',w:3,h:6,d:2.4,mouth:[0,1.5,1.6]},camB:24,camU:9,gOff:3,stat:[4,3,4]}});
-const MAOUF=[{id:'blackknight',w:3,h:6,d:2.4,nm:'人の姿',spd:17,dmg:1},{id:'demon',w:6,h:10,d:5,nm:'牛の魔物',spd:15,dmg:1.35},{id:'anc_darkdemon',w:9,h:15,d:7,nm:'黒い煙の魔人',spd:19,dmg:1.8,black:1}];
+const MAOUF=[{id:'demon',w:3,h:6,d:2.4,nm:'人の姿',spd:17,dmg:1},{id:'demon',w:6,h:10,d:5,nm:'牛の魔物',spd:15,dmg:1.35},{id:'anc_darkdemon',w:9,h:15,d:7,nm:'黒い煙の魔人',spd:19,dmg:1.8,black:1}];
 // UFOは陸に降りると大型ロボになり、離陸するまで地上で戦う。
 Object.assign(CH,{ufo:{name:'UFO',em:'🛸',tag:'空と地上・大型ロボに変形',ds:'地面まで降りるか、屋外の金のリングをくぐって着陸すると大型ロボに変形。地上では細いレーザー弾で一斉射撃し、近くの敵はレーザーブレードで斬る。空中のスペース／操作ボタンはバリア。地上では同じボタンで離陸して円盤に戻る。',hp:370,spd:43,turn:2.1,fly:true,range:220,
   br:{mat:new THREE.MeshBasicMaterial({color:0x70f6ff}),geo:'ufoLaser',dmg:34,cd:0.34,spd:220,life:1.35,size:1,splash:3,col:[0x70f6ff,0xb0ffff,0xffffff]},
@@ -9893,7 +10061,7 @@ function startGame(from){initAudio();
   for(let i=0;i<(UP.pet||0);i++)addPet();if(CKPT.ch===charKey){if(charKey==='orctank')orcLoad(CKPT);else if(charKey==='ufo')ufoLaserLoad(CKPT);else if(charKey==='cube')Object.assign(P,cubeLoadSkills(CKPT));else if(charKey==='necromancer')Object.assign(P,necroLoadSkills(CKPT));else Object.assign(P,fixedSkillSave([C.sp,C.sp2],CKPT));}}
   skUI();$('enl').textContent=`⚡ 必殺ゲージ（${SPC()}で必殺技）`;updLvHud();showStory(st);}
 function updSeld(){const b=$('seld'),c=document.querySelector('#cards .card.on')||document.querySelector('#cards .card[data-k="'+charKey+'"]');if(!b||!c)return;const x=c.cloneNode(true);const st=[...x.querySelectorAll('.st')];const w=document.createElement('div');w.className='sts';st.forEach(e=>w.appendChild(e));x.appendChild(w);b.innerHTML=x.innerHTML;}
-function updGo(){setTimeout(updSeld,0);$('go').textContent=reached?`${C.name}で${STAGES[reached].ch}から`:`${C.name}で出撃`;$('first').style.display=reached?'inline-block':'none';renderSk();}
+function updGo(){setTimeout(updSeld,0);$('go').textContent=reached?`${C.name}で${STAGES[reached].ch}から`:(document.body.classList.contains('honpen')?'物語をはじめる':C.name+'で出撃');$('first').style.display=reached?'inline-block':'none';renderSk();}
 // 選んでいるキャラの技3つ（小さな絵・操作・名前・ひとこと）。絵が読めなくても文字だけで分かる
 // 11/16 ふみさん「キャラ選択画面で、変身（上級技）や仲間も表示」
 function skExtra(){try{
@@ -10196,11 +10364,9 @@ TPT['緑のワイバーン']='wyvern';TPT['青のワイバーン']='npc_wyvern_b
     ['ME','約束だ。古い魔法を見せろ。……出しおしみは、するな'],
     ['魔王','よかろう。見物料は、おぬしの命だ！']];
   if(M.clear&&M.clear.length)M.clear[M.clear.length-1]=['ME','竜だ。……次は、守りの術も見せてくれ。……灰になったか。残念だ'];
-  const T1=[['ME','今のは、さっきのより雑だ。……ていねいに頼む'],['魔王','注文をつけるな！ ただ見ておるだけか、おぬしは！']],
-    T2=[['ME','次を頼む。まだあるだろう、いちばん強いのが'],['魔王','なんなのだ、こやつは……！ ならば受けよ、千年みがいた奥義を！']];
-  const he=hitEnemy;hitEnemy=function(e,n){he(e,n);
-    if(e&&e.type==='demon'&&!e.dead&&state==='play'&&SCN===1&&STAGES[stage]&&STAGES[stage].key==='maou'){const k=e.hp/e.maxHp;
-      if(k<0.66&&!e.mt1){e.mt1=1;talk(T1);}else if(k<0.33&&!e.mt2){e.mt2=1;talk(T2);}}};}
+  const T1=[['ME','今のは、さっきのより雑だ。……ていねいに頼む'],['魔王','注文をつけるな！ ただ見ておるだけか、おぬしは！']];
+  const he=hitEnemy;hitEnemy=function(e,n){if(sc1MaouFighting(e)&&!MSF.u2&&n>0)n=Math.min(n,Math.max(0,e.hp-e.maxHp*.6));he(e,n);
+    if(e&&e.type==='demon'&&!e.dead&&state==='play'&&SCN===1&&STAGES[stage]&&STAGES[stage].key==='maou'){const k=e.hp/e.maxHp;if(k<0.66&&!e.mt1&&sc1MaouFighting(e)){e.mt1=1;talk(T1);}}};}
 
 /* ---- maou_flow.py：シナリオ1の最終章。魔王は半身で頼む → 封印が解けて全身 → 必殺技（効かない）→ 戦い → 「つづく」 ---- */
 const MSL={on:false,ph:0,t:0,e:null,k:0};
@@ -11672,12 +11838,12 @@ function msfStart(){const dm=EN.find(e=>e.type==='demon'&&!e.dead);if(!dm||!DUN.
   if(typeof MSL!=='undefined')MSL.on=false;   // 前の流れ（mslTick）は、ここからは使わない
   msfClean();const S=MSF,cx=(DUN.x0+DUN.x1)/2,az=DUN.z0+MSC.az,ay=DUN.y+Math.max(0,dunSt(cx,az)),H=14.2*MSC.sc;
   for(const k of Object.keys(S))if(k!=='tx')delete S[k];
-  Object.assign(S,{on:true,ph:0,t:0,e:dm,g:null,cx,az,ay,H,pos:new V3(cx,ay+1.2,az),vel:new V3(),ang:0,yF:ay+H*0.5+3,cd:2.2,alt:false,poseT:0,hot:0,ord:[2,3,0,1],ff:0,a:0,c:0,d:0,u:0,u2:0,h1:0,h2:0,ult:null,
+  Object.assign(S,{on:true,ph:0,t:0,e:dm,g:null,cx,az,ay,H,pos:new V3(cx,ay+1.2,az),vel:new V3(),ang:0,yF:ay+H*0.5+(storyDragon()?7:3),cd:2.2,alt:false,poseT:0,hot:0,ord:[2,3,0,1],ff:0,a:0,c:0,d:0,u:0,u2:0,h1:0,h2:0,ult:null,
     ct:new V3(cx+14,ay+10,az+42),cq:new V3(cx,ay+15,az)});
-  dm.sc=MSC.sc;dm.mesh.scale.setScalar(dm.sc);dm.r=4*1.5*MSC.sc/1.7;dm.hc=H*0.2;dm.inv=false;dm.boss='😈 魔王（半身封印）';dm.vel.set(0,0,0);dm.mesh.position.copy(S.pos);dm.mesh.rotation.y=0;try{maouSkin(dm);}catch(_){}
+  dm.sc=MSC.sc;dm.mesh.scale.setScalar(dm.sc);dm.r=4*1.5*MSC.sc/1.7;dm.hc=H*0.2;dm.inv=false;dm.boss='😈 魔王（半身封印）';dm.vel.set(0,0,0);dm.mesh.position.copy(S.pos);dm.mesh.rotation.y=0;try{maouSkin(dm);}catch(_){}sc1MaouBindLate(dm);
   if(EASY)dm.hp=dm.maxHp=Math.round(dm.maxHp*MSC.hpE);S.seal0=S.seal=dm.maxHp*MSC.sealK;dm.cd=9;dm.sum=9;dm.met=9;
   P.pos.x=cx;P.pos.z=DUN.z0+MSC.pz;P.vel.set(0,0,0);P.yaw=P.lastYaw=Math.PI;
-  msfBuild(S);BTK.on=true;BTK.t=1;msfUi(true,1);}
+  msfBuild(S);if(storyDragon())sc1MaouCuffs(S);BTK.on=true;BTK.t=1;msfUi(true,1);}
 // 封印がくだける見せ場を始める
 function msfBreak(S){S.ph=2;S.t=0;S.seal=0;S.y0=S.pos.y;S.b1=0;S.b2=0;S.skip=0;BTK.on=true;BTK.t=1;S.e.pose=2;
   banner('🔓 最後の封印が、くだけた！',2.4);shake(0.7);sfx('boom',null,1);msfUi(false);msfCam(true);msfSkipBtn(true);
@@ -11690,7 +11856,7 @@ function msfShatter(S){const c=new V3(S.cx,S.ay+1,S.az);flashV=0.4;shake(1.0);sf
   const im=new THREE.InstancedMesh(tg,new THREE.MeshBasicMaterial({color:0xffa040,transparent:true,opacity:0.9,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}),16);im.frustumCulled=false;S.g.add(im);
   S.shd={im,t:0,L:[]};for(let i=0;i<16;i++){const a=i/16*6.283+rnd(-0.2,0.2),r=rnd(3,12);S.shd.L.push({p:new V3(S.cx+Math.sin(a)*r,S.ay+0.6,S.az+Math.cos(a)*r),v:new V3(Math.sin(a)*rnd(6,16),rnd(10,24),Math.cos(a)*rnd(6,16)+4),e:new THREE.Euler(rnd(0,6),rnd(0,6),rnd(0,6)),w:rnd(2,6),z:rnd(0.8,1.9)});}}
 // 魔王の必殺技：手にためる → 紫の光の帯が自分へ走る → 直撃（体力3%）
-function msfUlt(S){const staged=storyDragon();S.ult={t:0,b:0,h:0,staged,cast:staged?1.14:.7};S.e.pose=1;if(staged&&S.ph===3&&!CINE.k)cine(9,S.ult.cast+1.8,S);sfx('roar',S.e.mesh.position,0.8);if(!staged)ono(cpos(S.e).clone().add(new V3(0,8,0)),'滅びよ！','#d080ff',54);}
+function msfUlt(S,second=false){const staged=storyDragon();S.ult={t:0,b:0,h:0,staged,second,cast:second?1.45:staged?1.14:.7};if(second)sc1MaouClearFire(S);S.e.pose=1;if(staged&&(S.ph===3||second)&&!CINE.k)cine(9,S.ult.cast+1.8,S);sfx('roar',S.e.mesh.position,0.8);if(!staged)ono(cpos(S.e).clone().add(new V3(0,8,0)),'滅びよ！','#d080ff',54);}
 function msfUltCamera(S,p,l){
   const b=S.e?.mesh.position||S.pos,dz=P.pos.z-b.z,dx=P.pos.x-b.x,h=Math.hypot(dx,dz)||1,fx=dx/h,fz=dz/h;
   const portrait=cam.aspect<1,back=(portrait?35:24)-3*rigSm((CINE.t-.5)/.65),side=portrait?5:10;
@@ -11710,7 +11876,7 @@ function msfUltTick(S,dt){const U=S.ult,e=S.e;if(dt<=0)return;U.t+=dt;const a=ms
   if(!U.b){U.b=1;sfx('zap',a,0.9);const mk=(col,op)=>new THREE.Mesh(new THREE.CylinderGeometry(1,1,1,10,1,true),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:op,blending:THREE.AdditiveBlending,depthWrite:false}));
     const G=new THREE.Group();G.add(mk(0xb040ff,0.55));G.add(mk(0xff90e8,0.6));
     fxAdd(G,0.85,(o,k)=>{if(!S.e||!S.on){o.visible=false;return;}const from=msfHand(S),to=MSV.a.copy(P.pos);to.y+=2;const gk=Math.min(1,k/0.28),d=MSV.b.subVectors(to,from),L=d.length()*gk||0.01;d.normalize();o.position.copy(from).addScaledVector(d,L/2);o.quaternion.setFromUnitVectors(MSV.up,d);
-      const w=(k<0.28?1:Math.max(0,1-(k-0.28)/0.72))*(1+0.15*Math.sin(k*90));o.children[0].scale.set(3.2*w,L,3.2*w);o.children[1].scale.set(1.3*w,L,1.3*w);});}
+      const w=(k<0.28?1:Math.max(0,1-(k-0.28)/0.72))*(1+0.15*Math.sin(k*90));const strength=U.second?1.4:1;o.children[0].scale.set(3.2*w*strength,L,3.2*w*strength);o.children[1].scale.set(1.3*w*strength,L,1.3*w*strength);});}
   if(!U.h&&U.t>=U.cast+0.24){U.h=1;const b=P.pos.clone();b.y+=2;flashV=0.4;shake(1.2);sfx('boom',null,1);shock(b,0xb040ff,44);shock(b,0xff40c0,28);burst(b,56,PURP,7,40,1.1);glowFlash(b,0xc060ff,30,0.6);
     ono(b.clone().add(new V3(0,6,0)),'ズドォォン!!','#d080ff',64);hurt(Math.max(2,P.maxHp*0.03));S.orbK=1;}
   if(U.t>=U.cast+1.8){S.ult=null;e.pose=2;}}
@@ -11731,9 +11897,9 @@ function msfTick(dt){if(presentationHold()&&!presentationMsfPhase())return;const
   if(state!=='play')return;
   if(S.ph<5&&(!e||e.dead||!EN.includes(e))){if(S.ph<4)BTK.on=false;S.ph=5;msfCam(false);msfUi(false);msfSkipBtn(false);S.ult=null;
     [S.c1,S.pil,S.bg,S.orb,S.k1,S.k2,S.shl,S.fc,S.im].concat(S.rg,S.st.map(o=>o.m),S.chn.map(c=>c.gl)).forEach(o=>{if(o)o.visible=false;});return;}
-  if(S.ph>=5)return;
+  if(S.ph>=5)return;if(S.ph===4&&S.ult?.second){msfUltTick(S,dt);return;}
   S.t+=dt;const idle=!TK.cur&&!TK.q.length,q=S.pos;
-  if(S.ph!==1&&S.ph!==4)e.mesh.rotation.y=Math.atan2(P.pos.x-q.x,P.pos.z-q.z);
+  if(S.ph!==1&&(S.ph!==4||storyDragon()))e.mesh.rotation.y=Math.atan2(P.pos.x-q.x,P.pos.z-q.z);
   if(S.ph===0){BTK.on=true;BTK.t=1;
     if(S.ff>0){TK.q.length=0;if(TK.cur)TK.t=1e3;S.a=1;}
     if(S.t>1.2&&!S.a){S.a=1;S.t=1.2;const D8={ch:'最終章　魔王の間',t:'封印の中の魔王'};try{pacFade(1,0.01);setTimeout(()=>pacFade(0,0.9),150);}catch(_){}midKami([{img:'maou_t1',l:'扉のむこうは、広い封印の間だった。祭だんの上、赤い光の輪の中から、だれかが、こちらを見ている。'},{img:'maou_t2',who:'魔王',l:'よくぞ、扉の封印を破ってくれたな、竜。千年ぶりの客だ。わしは、ここに封じられた魔王よ'},{img:'maou_2',who:'魔王',l:'ついでだ。わしをしばる、この最後の封印も、解いてくれぬか。どうせ古びて、いずれは解ける。礼に、金は好きなだけやろう'},{img:'maou_t1',who:'ME',l:'ことわる。封印は、おれが張り直しておく。寝床の下に、危険物は置けない'},{img:'maou_2',who:'魔王',l:'ま、待て！ わしを封じたのは、千年前の連中だ。今の世に、恨みは無い！'},{img:'maou_t1',who:'ME',l:'信用できないな。そう言うやつを、前世で山ほど見た'},{img:'maou_t2',who:'魔王',l:'な、ならば、千年前にほろんだ古い魔法を教えてやる！ ……いや、竜が魔法など、興味ないわな……'},{img:'maou_3',who:'ME',l:'……古い魔法。見せろ。いま、解く'},{img:'maou_3',who:'魔王',l:'え'}].map(o=>Object.assign(o,D8)),()=>{S.t=3;});}
@@ -11741,7 +11907,7 @@ function msfTick(dt){if(presentationHold()&&!presentationMsfPhase())return;const
     else if(S.a&&(S.ff>0||S.t>2.6&&idle)){S.ph=1;S.t=0;S.cd=2.4;BTK.on=false;banner('🔓 封印の鎖を、焼き切れ！ 魔王は、まだ動けない',3);sfx('roar',null,0.5);}}
   else if(S.ph===1){e.cd=9;e.sum=9;e.met=9;msfUi(true,S.seal/S.seal0);
     if(S.poseT>0){S.poseT-=dt;if(S.poseT<=0)e.pose=2;}
-    S.cd-=dt;if(S.cd<=0){S.cd=EASY?3.4:2.5;S.alt=!S.alt;const f=msfHand(S);e.pose=1;S.poseT=0.5;glowFlash(f.clone(),0xff40c0,8,0.3);sfx('zap',f,0.5);
+    S.cd-=dt;if(!storyDragon()&&S.cd<=0){S.cd=EASY?3.4:2.5;S.alt=!S.alt;const f=msfHand(S);e.pose=1;S.poseT=0.5;glowFlash(f.clone(),0xff40c0,8,0.3);sfx('zap',f,0.5);
       const v=new V3().subVectors(P.pos,f).normalize();
       if(S.alt)shoot(f,v.multiplyScalar(46),{mat:MAT.dfire,size:1.2,r:1.8,dmg:6,life:3.2,trail:PURP,col:PURP});
       else shoot(f,v.multiplyScalar(30),{mat:MAT.dfire,size:1.7,r:2.2,dmg:8,life:5,homing:true,trail:PURP,col:PURP});
@@ -11763,14 +11929,14 @@ function msfTick(dt){if(presentationHold()&&!presentationMsfPhase())return;const
     else if(!S.c&&S.t>0.4){S.c=1;talk([['魔王','ほ、本当に解きおった……！ 解いてくれて、ありがとよ、竜'],['魔王','古い魔法だったな。礼は――これだ。千年前、国をひとつ消した術よ！']]);}
     else if(S.c&&!S.u&&S.t>1.6&&idle){S.u=1;msfUlt(S);}
     else if(S.u&&!S.d){S.d=1;S.t=0;talk([['魔王','どうだ。骨も残るまい……'],['ME','……いい術だ。組み立ても、形も、出し方も、見たことがない。もう少し、見せてくれるか'],['魔王','な……効いておらんのか!?']]);}
-    else if(S.d&&(S.ff>3||S.t>1.2&&idle)){S.ph=4;S.t=0;BTK.on=false;e.cd=1.6;e.sum=EASY?16:9;e.met=6;banner('⚔ 魔王が、全身で向かってくる！',2.2);sfx('roar',null,0.6);}}
-  else if(S.ph===4){S.ang+=dt*0.4;const tx=S.cx+Math.sin(S.ang*1.2)*26,tz=clamp(Math.min(DUN.z0+48+Math.cos(S.ang)*9,P.pos.z-30),DUN.z0+14,DUN.z1-20),tg=MSV.a.set(tx,DUN.y+dunSt(q.x,q.z)+S.H*0.5+2.5+Math.sin(S.t*1.3)*1.5,tz),v=MSV.b.subVectors(tg,q),d=v.length();
+    else if(S.d&&(S.ff>3||S.t>1.2&&idle)){if(storyArt1120Flight(S))return;S.ph=4;S.t=0;BTK.on=false;e.cd=1.6;e.sum=EASY?16:9;e.met=6;banner('⚔ 魔王が、全身で向かってくる！',2.2);sfx('roar',null,0.6);}}
+  else if(S.ph===4){S.ang+=dt*0.4;const tx=S.cx+Math.sin(S.ang*1.2)*26,tz=clamp(Math.min(DUN.z0+48+Math.cos(S.ang)*9,P.pos.z-30),DUN.z0+14,DUN.z1-20),tg=MSV.a.set(tx,DUN.y+dunSt(q.x,q.z)+S.H*0.5+(storyDragon()?7.5:2.5)+Math.sin(S.t*1.3)*1.5,tz),v=MSV.b.subVectors(tg,q),d=v.length();
     if(d>0.01)v.multiplyScalar(Math.min(22,d*2)/d);S.vel.lerp(v,Math.min(1,dt*1.5));if(!S.hold)q.addScaledVector(S.vel,dt);
-    if(e.mt2&&!S.u2t)S.u2t=S.t;
-    if(S.ult)msfUltTick(S,dt);else if(S.u2t&&!S.u2&&(idle||S.t>S.u2t+4)){S.u2=1;msfUlt(S);}
+    if(e.mt1&&!S.u2t)S.u2t=S.t;
+    if(S.ult)msfUltTick(S,dt);else if(S.u2t&&!S.u2&&idle&&!CINE.k){S.u2=1;msfUlt(S,storyDragon());}
     msfClash(S,dt);}}
 // 魔王の場所と、まわり・部屋の光（updDun の後に毎コマ呼ばれる。広間の「空の敵を低くおさえる」決まりの後で、場所を書きもどす）
-function msfPost(dt,rdt){const S=MSF;if(!S.on||!S.g)return;const e=S.e,t=DUN.t,sn=Math.sin;
+function msfPost(dt,rdt){const S=MSF;if(!S.on||!S.g)return;const e=S.e,t=DUN.t,sn=Math.sin;if(storyDragon()){sc1MaouCuffPose(S);S.orb.visible=!!S.ult&&S.ult.t<S.ult.cast+.24;}
   if(S.ph<5&&e&&!e.dead){e.mesh.position.copy(S.pos);e.vel.set(0,0,0);const q=S.pos,fr=S.ph>=2;
     S.bg.position.set(q.x,q.y+(fr?2:8),q.z-1.5);S.bg.material.opacity=0.26+0.06*sn(t*2.3);
     S.rg.forEach((r,i)=>{r.rotation.z+=rdt*(i?-1.5:1.1);r.rotation.y+=rdt*0.4;if(fr){r.position.set(q.x,q.y-S.H*(i?0.36:0.2),q.z);r.scale.setScalar(0.72);}else r.position.set(S.cx,S.ay+(i?9.5:4.5),S.az);r.material.opacity=0.45+0.15*sn(t*3+i*2);});
@@ -12828,7 +12994,7 @@ function polyGlitchTick(dt,t){for(const g of GLT){if(g.b.dead){g.m.visible=false
 {const su3=setupStage;setupStage=function(i){MRX.g=null;GLT.length=0;const r=su3.apply(this,arguments);try{if(STAGES[i]&&STAGES[i].key==='p8poly'){polyRain();polyGlitch();}}catch(e){console.warn('poly',e);}return r;};}
 {const ut13=updTheme;updTheme=function(dt,t){ut13.apply(this,arguments);try{polyRainTick(dt);polyGlitchTick(dt,t);}catch(_){}};}
 // ---- 11/16 ふみさん「（Tripo の煙の魔人を）封印の魔王に使い、色を黒にしたら」：見た目だけ黒い煙の魔人にかえる（当たり判定・動きはそのまま） ----
-function maouSkin(dm){if(storyDragon()&&dm.mesh.userData.mix&&MODEL.demon)return;if(!MODEL.anc_darkdemon||dm.mskin)return;dm.mesh.updateMatrixWorld(true);const bb=new THREE.Box3().setFromObject(dm.mesh),h=Math.max(6,bb.max.y-bb.min.y);
+function maouSkin(dm){if(storyDragon()&&dm===MSF.e)return;if(!MODEL.anc_darkdemon||dm.mskin)return;dm.mesh.updateMatrixWorld(true);const bb=new THREE.Box3().setFromObject(dm.mesh),h=Math.max(6,bb.max.y-bb.min.y);
   const m=cloneModel('anc_darkdemon');if(!m)return;m.updateMatrixWorld(true);const b2=new THREE.Box3().setFromObject(m),sz=b2.getSize(new V3()),k=h*1.05/Math.max(sz.y,1e-3);m.scale.multiplyScalar(k);m.updateMatrixWorld(true);
   const b3=new THREE.Box3().setFromObject(m),c=b3.getCenter(new V3());m.position.x-=c.x;m.position.z-=c.z;m.position.y-=b3.min.y;
   m.traverse(o=>{if(o.isMesh&&o.material){const L=Array.isArray(o.material)?o.material:[o.material];o.material=L.map(mt=>{const q=mt.clone();if(q.color)q.color.multiplyScalar(0.22);if('emissive' in q){q.emissive=new THREE.Color(0x2a0838);q.emissiveIntensity=0.6;}return q;});if(o.material.length===1)o.material=o.material[0];}});
@@ -12883,7 +13049,7 @@ function maouLateBodyArt(body,id){
   else body.userData.maouStrike.rebind=true;
 }
 function maouForm(i,show){if(charKey!=='maou'||!D||!D.body)return;const F=MAOUF[i];if(!F||D.mf===i)return;D.mf=i;
-  const inner=D.inner,old=D.body;inner.remove(old);const body=makeProxy(F.w,F.h,F.d,0x6a4a7a,false);attachModel(body,F.id);inner.add(body);D.body=body;if(D.units&&D.units[0])D.units[0].m=body;
+  const inner=D.inner,old=D.body;inner.remove(old);const body=makeProxy(F.w,F.h,F.d,0x6a4a7a,false);attachModel(body,F.id,0,i===0);inner.add(body);D.body=body;if(D.units&&D.units[0])D.units[0].m=body;
   if(F.black)maouDarkMaterial(body);
   C.gOff=F.h/2;inner.position.y=-C.gOff;C.fly=true;if(state==='play'){P.vy=Math.max(P.vy||0,10);P.onGround=false;}D.mouth.position.set(0,F.h*0.25,F.d*0.7);C.camB=18+F.h*1.2;C.camU=6+F.h*0.4;C.spd=F.spd;P.sp=C.sp;P.maouK=F.dmg;C.mel.r=8+F.w*1.2;
   if(show&&state==='play'){P.hp=Math.min(P.maxHp,P.hp+P.maxHp*0.2);P.inv=Math.max(P.inv,1.5);glowFlash(P.pos.clone(),0xb040ff,50,0.8);burst(P.pos,60,[0xb040ff,0x200030,0xffffff],6,40,1);shake(0.9);sfx('roar',null,1);
@@ -14144,7 +14310,7 @@ function prepPlaneProps(sc,id){
 
 // 描画に使うカメラと雲一枚ごとの大きさで、手前を覆う雲を消す。
 function fadeClouds(){
-  const hidden=TER.lava||S8.nc||SCN===10||SCN===11,orc=SCN===3,kingdom=SCN===2,anc=S8.key==='p8anc',dino=S8.key==='p8dino',routeSky=!!TER.gimmickClearSky;
+  const hidden=DUN.on||CAVE.on||TER.lava||S8.nc||SCN===10||SCN===11,orc=SCN===3,kingdom=SCN===2,anc=S8.key==='p8anc',dino=S8.key==='p8dino',routeSky=!!TER.gimmickClearSky;
   for(const group of clouds){
     const near=THEME.near.includes(group),hide=hidden||(near&&(CAVE.on||kingdom||routeSky));
     const density=routeSky?0.42:kingdom?0.2:orc?(near?0.24:0.45):anc?(near?0.14:0.27):dino?(near?0.14:0.34):1;
@@ -21048,7 +21214,7 @@ function gimmickCastleThrone(g){
   const key=STAGES[stage]?.key;
   if(key==='maoujo')o={...o,castle:2,cz:52,w:400,d:380,h:118};
   else if(key==='maou')o={...o,castle:1,w:352,h:112};
-  const result=prev.call(this,o);if(DUN.castle===2)DUN.zmin=DUN.z0+8;return result;
+  const result=prev.call(this,sc1SpaceOptions(o));if(DUN.castle===2)DUN.zmin=DUN.z0+8;return result;
  };
 }
 function gimmickCastle(){
@@ -27165,7 +27331,7 @@ function refHallBattleView(target,dt){
    v.axis.subVectors(b,a);v.axis.y=0;v.axis.normalize();v.side.set(-v.axis.z,0,v.axis.x);
    v.aim.copy(a).lerp(b,.48);v.aim.y+=.6;
    v.eye.copy(v.aim).addScaledVector(v.side,cam.aspect<1?14:18).addScaledVector(v.axis,cam.aspect<1?-29:-12);
-   v.eye.x=clamp(v.eye.x,-15,15);v.eye.z=clamp(v.eye.z,DUN.z0+5,DUN.z1-5);
+   v.eye.x=clamp(v.eye.x,sc1SpaceActive()?DUN.x0+25:-15,sc1SpaceActive()?DUN.x1-25:15);v.eye.z=clamp(v.eye.z,DUN.z0+5,DUN.z1-5);
    v.eye.y=Math.max(dunFloorY(v.eye.x,v.eye.z)+3.5,v.aim.y+1);
   }
   target.lerp(v.eye,v.weight);return v;
@@ -27192,14 +27358,14 @@ function refHallPose(T){
  const a=P.pos;
  if(T.kind==='dungeon'&&!T.e){
   const wide=cam.aspect>=1;
-  CINE.p.set(clamp(a.x+(wide?9:6),-12,12),Math.max(DUN.y+9,a.y-2.2),a.z-(wide?21:31));
+  CINE.p.set(clamp(a.x+(wide?9:6),sc1SpaceActive()?DUN.x0+25:-12,sc1SpaceActive()?DUN.x1-25:12),Math.max(DUN.y+9,a.y-2.2),a.z-(wide?21:31));
   CINE.l.set(a.x-4.6,a.y+3,a.z+(wide?5:3));CINE.fov=wide?57:64;return true;
  }
  if(T.kind==='dungeon'&&T.e?.type==='drak'&&!T.e.dead){
   const b=cpos(T.e),wide=cam.aspect>=1,v=new V3(b.x-a.x,0,b.z-a.z),gap=Math.max(.01,v.length());v.multiplyScalar(1/gap);
   const side=new V3(-v.z,0,v.x);CINE.l.copy(a).lerp(b,.57);CINE.l.y+=(wide?1.4:1);
   CINE.p.copy(CINE.l).addScaledVector(side,wide?16:17).addScaledVector(v,wide?-6:-21);
-  CINE.p.x=clamp(CINE.p.x,-17,17);CINE.p.y=Math.max(DUN.y+3.9,CINE.l.y-.8);CINE.fov=wide?55:64;return true;
+  CINE.p.x=clamp(CINE.p.x,sc1SpaceActive()?DUN.x0+25:-17,sc1SpaceActive()?DUN.x1-25:17);CINE.p.y=Math.max(DUN.y+3.9,CINE.l.y-.8);CINE.fov=wide?55:64;return true;
  }
  if(T.kind==='maou'&&DUN.castle===1&&T.e&&!T.e.dead){
   const b=cpos(T.e),a=P.pos,v=new V3(b.x-a.x,0,b.z-a.z);
@@ -27333,12 +27499,12 @@ body.ref-scene #talk:not([style*="none"])~#banner{bottom:110px!important}
 // Event UI owns the simulation gate. Only explicit presentation clocks run here.
 const PRESENTATION={owner:null,held:false,ui:null,toast:null,storyAdvance:false,blockedKeys:new Set()};
 function presentationEventLine(line){return !!line&&line.presentationEvent!==false;}
-function presentationMsfPhase(){return MSF.on&&[0,2,3].includes(MSF.ph);}
+function presentationMsfPhase(){return MSF.on&&([0,2,3].includes(MSF.ph)||MSF.ph===4&&MSF.ult?.second);}
 function presentationHold(){
  if(state==='story')return true;
  if(state!=='play')return false;
  return !!(PRESENTATION.owner||BTK.on||presentationEventLine(TK.cur)||TK.q.some(presentationEventLine)||
-  solEncounterActive()||STORY_WYVERN.join||STORY_WYVERN.pending||CINE.k>1||FORM_INTRO.active);
+  solEncounterActive()||STORY_WYVERN.join||STORY_WYVERN.pending||CINE.k>1||FORM_INTRO.active||MSF.on&&MSF.ult?.second);
 }
 function presentationBegin(owner,options={}){
  if(!owner||PRESENTATION.owner&&PRESENTATION.owner.id!==owner)return false;
@@ -27432,10 +27598,10 @@ function presentationUI(rdt){
   u.speaker.textContent=who==='N'?'':speaker;u.text.textContent=text;
   u.panel.classList.toggle('narration',!u.speaker.textContent);
   const key=who==='ME'?charKey:TPT[who],crop=PRESENTATION_FACES[key];
-  const src=crop?'chara/'+key+'.webp':'';
+  const src=crop?'assets/sc1-polish-1120/face-'+key+'.webp':'';
   u.face.hidden=!src;u.panel.classList.toggle('no-face',!src);
   if(src&&u.portrait.getAttribute('src')!==src){u.portrait.src=src;u.portrait.alt=speaker+'の顔';}
-  if(crop){u.portrait.style.setProperty('--face-zoom',crop[0]);u.portrait.style.setProperty('--face-x',-crop[1]+'%');u.portrait.style.setProperty('--face-y',-crop[2]+'%');}
+  
   u.next.disabled=!(isStory||TK.cur)||PAUSED||LVUP;
   if(isStory){presentationStoryPanel();$('story').style.setProperty('--presentation-height',u.panel.getBoundingClientRect().height+'px');}
   u.toast.hidden=true;
@@ -27454,7 +27620,7 @@ function presentationFrame(rdt){
    for(const e of EN)if(!e.dead&&e.type==='walker'&&e.intro===1)wkIntroTick(e,rdt);
    // These are existing scripted presentations, not enemy AI or projectiles.
    formIntroTick(rdt);updFall(rdt);updMix(rdt);
-   if(MSF.on){const visualDt=presentationMsfPhase()?rdt:0;DUN.t+=visualDt;msfPost(visualDt,visualDt);}
+   if(MSF.on){const visualDt=presentationMsfPhase()?rdt:0;DUN.t+=visualDt;msfPost(visualDt,visualDt);if(storyDragon())updParts(rdt);}
    updPose();cineCam(rdt);updFX(rdt);
   }
  }
@@ -27923,6 +28089,894 @@ MOBILE_DEPS.characters.seaking=[...new Set([...(MOBILE_DEPS.characters.seaking||
 {const prev=clearWorld;clearWorld=function(){const r=prev.apply(this,arguments);okuAppearances.counts.clear();okuAppearances.attached.length=0;return r;};}
 Object.defineProperty(window,'OKU_VARIANT_STATUS_1120',{get:()=>okuAppearances.attached.slice()});
 /* END_OKU_VARIANTS_1120 */
+
+
+function paintDragonWord(el,word){
+ const words={'⏸ 止める':'pause','一時停止':'pause','つづける':'resume','⛶ 全画面':'fullscreen','大火球':'bigfire','炎の渦':'flamering','突進':'charge','ドカーン':'boom','ズドーン':'crash','バシィッ':'slash'};
+ const normalized=String(word).trim().replace(/[!！]+$/,'');
+ const key=words[normalized]||({'止める':'pause','全画面':'fullscreen','▶ つづける':'resume'})[normalized];
+ if(!key)return;
+ const img=new Image();
+ img.alt=word;img.src='assets/sc1-polish-1120/'+key+'.webp';
+ img.onload=()=>{if(el.textContent.trim()!==word.trim())return;if(el.matches('#tdash,#tsp,#tsp2'))el.dataset.nm=word.trim();el.replaceChildren(img);el.classList.add('painted-control');};
+}
+for(const el of document.querySelectorAll('#pause,#fs,#paused h1,#resume,#tdash,#tsp,#tsp2,#ult .nm,#cutin .nm')){
+ const update=()=>{if(!el.querySelector('img'))paintDragonWord(el,el.textContent);};
+ update();new MutationObserver(update).observe(el,{childList:true});
+}
+
+
+/* The knight and his axe share the character's existing right-hand skeleton. */
+const DRAK_AXE_1120={model:null,loading:null};
+function drakAxe1120(e){
+ const holder=e.mesh.userData.hallAxe;
+ if(!holder||holder.userData.requested)return;
+ holder.userData.requested=true;
+ DRAK_AXE_1120.loading ||=new Promise((resolve,reject)=>new THREE.GLTFLoader().load('assets/sc1-polish-1120/drak-axe.glb',g=>resolve(g.scene),undefined,reject));
+ DRAK_AXE_1120.loading.then(original=>{
+   if(!e.mesh.parent||e.dead)return;
+   const axe=original.clone(true),bounds=new THREE.Box3().setFromObject(axe),size=bounds.getSize(new V3());
+   const h=e.hc*2,scale=h/size.y;
+   axe.scale.setScalar(scale);
+   // Align the lower, straight grip with the palm. The blade is left of the shaft.
+   axe.position.set(-(bounds.min.x+.58*size.x)*scale,-(bounds.min.y+.31*size.y)*scale,0);
+   holder.children.forEach(c=>c.visible=false);
+   holder.add(axe);holder.userData.generated=true;
+ }).catch(()=>{DRAK_AXE_1120.loading=null;});
+}
+{const original=refHallKnightAxe;refHallKnightAxe=function(e){original(e);drakAxe1120(e);};}
+function drakSwingClip1120(e){
+ let arm,fore,spine;
+ e.mesh.traverse(o=>{if(!o.isBone)return;const key=o.name.replace(/^mixamorig:?/,'');if(key==='RightArm')arm=o;else if(key==='RightForeArm')fore=o;else if(key==='Spine')spine=o;});
+ if(!arm)return null;
+ const times=[0,.32,.58,.76,.92,1.27];
+ function track(bone,poses){return new THREE.QuaternionKeyframeTrack(bone.uuid+'.quaternion',times,poses.flatMap(([x,y,z])=>new THREE.Quaternion().setFromEuler(new THREE.Euler(x,y,z,'YXZ')).toArray()));}
+ const tracks=[track(arm,[[0,0,0],[-.9,-.22,-.75],[-1.34,-.37,-.96],[.74,.48,.76],[.88,.48,.62],[0,0,0]])];
+ if(fore)tracks.push(track(fore,[[0,0,0],[-.25,.4,-.2],[-.56,.58,-.3],[.18,-.5,.23],[.25,-.25,.12],[0,0,0]]));
+ if(spine)tracks.push(track(spine,[[0,0,0],[0,-.3,-.09],[.08,-.53,-.17],[-.12,.57,.12],[-.04,.34,0],[0,0,0]]));
+ const mixer=new THREE.AnimationMixer(e.mesh);
+ const clip=new THREE.AnimationClip('竜人の斧・踏み込み斬り',1.27,tracks,THREE.AdditiveAnimationBlendMode);
+ const action=mixer.clipAction(clip);
+ action.setLoop(THREE.LoopOnce,1);
+ return {mixer,action};
+}
+function drakStrike1120(e,dt,hd,d3){
+ if(e.axeAge==null){
+  if(e.cd>0||hd>e.r+25||Math.abs(P.pos.y-cpos(e).y)>e.hc+13)return false;
+  if(!e.axeAnimation)e.axeAnimation=drakSwingClip1120(e);
+  if(!e.axeAnimation)return false;
+  e.axeAge=0;e.axeHit=false;e.axeYaw=Math.atan2(P.pos.x-e.mesh.position.x,P.pos.z-e.mesh.position.z);
+  e.mesh.rotation.y=e.axeYaw;
+  e.axeAnimation.action.reset().play();sfx('whoosh',e.mesh.position,.45);
+ }
+ const old=e.axeAge;e.axeAge+=dt;
+ if(e.axeAge>=.58&&e.axeAge<=.8){
+   const p=e.mesh.position,step=Math.min(dt,.8-old)*18;
+   p.x=clamp(p.x+Math.sin(e.axeYaw)*step,DUN.x0+DUN.xm,DUN.x1-DUN.xm);
+   p.z=clamp(p.z+Math.cos(e.axeYaw)*step,DUN.z0+6,DUN.z1-6);
+   p.y=floorAt(p.x,p.z);
+ }
+ if(!e.axeHit&&e.axeAge>=.72){
+   e.axeHit=true;
+   const p=e.mesh.position,dx=P.pos.x-p.x,dz=P.pos.z-p.z;
+   const facing=(Math.sin(e.axeYaw)*dx+Math.cos(e.axeYaw)*dz)/Math.max(1,Math.hypot(dx,dz));
+   sfx('clang',p,.7);
+   const tip=new V3();e.mesh.userData.hallAxe?.getWorldPosition(tip);
+   burst(tip,5,[0xffcf81,0xff7844],4,11,.32);
+   if(d3<e.r+19&&facing>-.1)hurt(e.dmg*1.15);
+ }
+ if(e.axeAge>=1.27){e.axeAge=null;e.cd=2.1;}
+ return true;
+}
+{const original=updMix;updMix=function(dt){original.apply(this,arguments);
+ if(storyDragon()&&DUN.on&&state==='play')for(const e of EN)if(e.axeAnimation&&!e.dead)e.axeAnimation.mixer.update(dt);
+};}
+
+
+/* SC1_PARTY_POLISH_1120 */
+const PARTY1120_HEIGHT={hero:3.8,soldier:3.7,priest:3.55};
+const PARTY1120_RETREAT='sc1-party-retreat-1120';
+function party1120Fit(e){
+ const actor=e.mesh;
+ const rig=actor.userData.mix?.mx?.getRoot();
+ const model=rig?.parent?.parent===actor?rig.parent:null;
+ if(!model||e.party1120?.model===model)return e.party1120;
+ const box=posedModelBounds(model),height=box.max.y-box.min.y;
+ if(!Number.isFinite(height)||height<.01)return null;
+ const scale=PARTY1120_HEIGHT[e.type]/Math.max(.15,e.sc||1)/height;
+ model.scale.multiplyScalar(scale);
+ model.position.y-=box.min.y*scale;
+ const bones={};
+ model.traverse(node=>{if(node.isBone)bones[node.name.split(':').at(-1)]=node;});
+ e.party1120={model,y:model.position.y,bones,
+  hips:[bones.LeftUpLeg?.rotation.x||0,bones.RightUpLeg?.rotation.x||0],samples:dinoFootSamples(model)};
+ return e.party1120;
+}
+function party1120Ground(e){
+ const art=party1120Fit(e);
+ if(!art)return;
+ art.model.position.y=art.y;
+ if(!art.samples.length)return;
+ const root=e.mesh,base=Math.max(CAVE.y,floorAt(root.position.x,root.position.z));
+ if(root.position.y>base+.8)return;
+ const need=dinoFootMin(root,art.samples),up=root.matrixWorld.elements[5];
+ if(up>.15)art.model.position.y+=Math.min(.48,need/up);
+}
+{const old=mobileWaveIds;mobileWaveIds=function(i,n){
+ const ids=old.apply(this,arguments);
+ return storyDragon()&&STAGES[i]?.key==='valley'&&n===0?[...new Set([...ids,'wizard'])]:ids;
+};}
+{const old=mobileStageIds;mobileStageIds=function(i){
+ const ids=old.apply(this,arguments);
+ return storyDragon()&&STAGES[i]?.key==='valley'?[...new Set([...ids,'wizard'])]:ids;
+};}
+{const old=caveParty;caveParty=function(){
+ const result=old.apply(this,arguments);
+ if(storyDragon())for(const e of EN){
+  if(!e.cave||!PARTY1120_HEIGHT[e.type])continue;
+  e.mesh.scale.setScalar(e.sc||1);
+  party1120Fit(e);
+  if(e.type==='priest'&&e.mesh.userData.mix)mixOnce(e.mesh.userData.mix,1);
+ }
+ return result;
+};}
+{const old=updMix;updMix=function(dt){
+ const result=old.apply(this,arguments);
+ if(CAVE.on&&storyDragon())for(const e of EN)
+  if(e.cave&&!e.dead&&PARTY1120_HEIGHT[e.type])party1120Ground(e);
+ return result;
+};}
+{const old=solShield;solShield=function(q){
+ const shield=old.apply(this,arguments);
+ if(storyDragon()){
+  q.k.mesh.add(shield);
+  shield.position.set(-.64,1.87,1.08);
+  shield.scale.setScalar(.66);
+ }
+ return shield;
+};}
+{const old=solParty;solParty=function(q,heroSide,wizardSide,knightSide){
+ if(storyDragon()){
+  knightSide=Math.max(2.35,knightSide+.75);
+  wizardSide=wizardSide<0?Math.min(-4.8,wizardSide-.55):Math.max(5.3,wizardSide+.85);
+ }
+ return old.call(this,q,heroSide,wizardSide,knightSide);
+};}
+{const old=solEncounterCamera;solEncounterCamera=function(q){
+ const result=old.apply(this,arguments);
+ if(!storyDragon()||q.kind!=='cave'||q.phase===3)return result;
+ const portrait=cam.aspect<.85, party=[q.e,q.k,q.m];
+ const center=party.reduce((p,e)=>p.addScaledVector(e.mesh.position,1/party.length),new V3());
+ const span=Math.max(...party.map(e=>Math.abs(e.mesh.position.clone().sub(center).dot(q.side))))+2.6;
+ const fov=portrait?61:54, halfHorizontal=Math.tan(fov*Math.PI/360)*cam.aspect;
+ const distance=Math.max(portrait?17:13,span/Math.max(.15,halfHorizontal)*1.15);
+ CINE.p.copy(center).addScaledVector(q.axis,distance).addScaledVector(q.side,portrait?-.85:-3.4);
+ CINE.p.y=CAVE.y+(portrait?6.6:5.6);
+ CINE.l.copy(center);CINE.l.y=CAVE.y+2.8;
+ CINE.fov=q.fov=fov;
+ return result;
+};}
+function party1120Flee(){
+ const actors=EN.filter(e=>e.cave&&!e.dead);
+ if(!actors.length)return;
+ const previous=window.CAMOV,view={p:new V3(),t:new V3()};
+ let time=0,starts=null;
+ const finish=()=>{if(window.CAMOV===view)window.CAMOV=previous;};
+ presentationBegin(PARTY1120_RETREAT,{label:'勇者一行、退却',next:false,finish,tick(dt){
+  if(!CAVE.on||state!=='play'){presentationEnd(PARTY1120_RETREAT);return;}
+  if(TK.cur||TK.q.length)return;
+  if(!starts){
+   starts=actors.map(e=>e.mesh.position.clone());
+   for(const e of actors)e.mesh.rotation.set(0,Math.PI,0);
+   window.CAMOV=view;
+  }
+  time+=dt;
+  const motion=clamp((time-.82)/2.9,0,1),center=new V3();
+  actors.forEach((e,i)=>{
+   const from=starts[i], p=e.mesh.position,art=party1120Fit(e);
+   p.x=from.x+(i-(actors.length-1)*.5)*3.6*motion;
+   p.z=from.z-39*motion;
+   p.y=Math.max(CAVE.y,floorAt(p.x,p.z));
+   if(art){
+    const rise=rigSm(time/.82),step=Math.sin(time*18+i*.6);
+    e.mesh.rotation.x=.44*(1-rise)+.12*motion;
+    if(e.type==='priest'){
+     ['LeftUpLeg','RightUpLeg'].forEach((name,j)=>{
+      const bone=art.bones[name];if(bone)bone.rotation.x=art.hips[j]+step*(j?-1:1)*.28*Number(motion>0);
+     });
+    }
+   }
+   center.addScaledVector(p,1/actors.length);
+  });
+  const width=Math.max(...actors.map(e=>Math.abs(e.mesh.position.x-center.x)));
+  const cameraSide=P.pos.x>=center.x?-1:1;
+  view.p.copy(center).add(new V3(cameraSide*(cam.aspect<1?10.5:9),6.0,-9-width));
+  view.t.copy(center).add(new V3(0,1.95,-1.5));
+  if(motion<1)return;
+  CAVE.out=true;
+  for(const e of actors){
+   if(e.dead)continue;
+   scene.remove(e.mesh);e.dead=true;score+=e.val;
+   const at=EN.indexOf(e);if(at>=0)EN.splice(at,1);
+  }
+  presentationEnd(PARTY1120_RETREAT);
+ }});
+}
+{const old=caveFlee;caveFlee=function(){
+ const was=CAVE.flee,result=old.apply(this,arguments);
+ if(!was&&CAVE.flee&&storyDragon())party1120Flee();
+ return result;
+};}
+
+/* SC1_GROUND_1120: contact from visible geometry; no HP, input, clock or RNG changes. */
+const SC1_GROUND={cache:new WeakMap(),hoard:null,v:new V3(),inv:new THREE.Matrix4(),ray:new THREE.Raycaster(),last:null};
+function sc1GroundFloor(x,z){
+ if(DUN.on)return dunFloorY(x,z)+.12;
+ if(CAVE.on)return Math.max(floorAt(x,z),CAVE.y-4)+.32;
+ return floorAt(x,z);
+}
+function sc1GroundHoard(){
+ if(!CAVE.on||!CAVE.g){SC1_GROUND.hoard=null;return null;}
+ const root=(CAVE.s1||[]).find(o=>o.userData.sc1Hoard);
+ if(!root){SC1_GROUND.hoard=null;return null;}
+ if(SC1_GROUND.hoard?.root===root)return SC1_GROUND.hoard;
+ root.updateWorldMatrix(true,true);const bounds=new THREE.Box3().setFromObject(root),step=.5;
+ const width=Math.ceil((bounds.max.x-bounds.min.x)/step)+1,depth=Math.ceil((bounds.max.z-bounds.min.z)/step)+1,grid=new Float32Array(width*depth);grid.fill(-Infinity);
+ // Rasterize a conservative top envelope once. Triangle-cell maxima cover the real mesh.
+ root.traverseVisible(m=>{if(!m.isMesh||!m.geometry?.attributes.position)return;
+  const a=m.geometry.attributes.position,index=m.geometry.index,n=index?index.count:a.count,pts=[new V3(),new V3(),new V3()];
+  for(let k=0;k<n;k+=3){for(let j=0;j<3;j++)pts[j].fromBufferAttribute(a,index?index.getX(k+j):k+j).applyMatrix4(m.matrixWorld);
+   const x0=Math.max(0,Math.floor((Math.min(...pts.map(v=>v.x))-bounds.min.x)/step)),x1=Math.min(width-1,Math.floor((Math.max(...pts.map(v=>v.x))-bounds.min.x)/step));
+   const z0=Math.max(0,Math.floor((Math.min(...pts.map(v=>v.z))-bounds.min.z)/step)),z1=Math.min(depth-1,Math.floor((Math.max(...pts.map(v=>v.z))-bounds.min.z)/step));
+   const top=Math.max(...pts.map(v=>v.y));for(let z=z0;z<=z1;z++)for(let x=x0;x<=x1;x++)grid[z*width+x]=Math.max(grid[z*width+x],top);
+  }
+ });
+ return SC1_GROUND.hoard={root,bounds,step,width,depth,grid};
+}
+function sc1GroundSurface(x,z){
+ let y=sc1GroundFloor(x,z);const h=SC1_GROUND.hoard;
+ if(h&&x>=h.bounds.min.x&&x<=h.bounds.max.x&&z>=h.bounds.min.z&&z<=h.bounds.max.z){const ix=Math.floor((x-h.bounds.min.x)/h.step),iz=Math.floor((z-h.bounds.min.z)/h.step);y=Math.max(y,h.grid[iz*h.width+ix]);}
+ // The original procedural hoard remains a safe fallback while the real model loads.
+ if(CAVE.on&&!h){const r=Math.hypot((x-CAVE.x)/13,(z-CAVE.z-18)/11);if(r<1)y=Math.max(y,CAVE.y+6.2*Math.sqrt(1-r*r));}
+ return y;
+}
+function sc1GroundPrepare(root){
+ root.updateWorldMatrix(true,true);root.updateMatrixWorld(true);const meshes=[];root.traverseVisible(m=>{if(m.isMesh&&m.geometry?.attributes.position)meshes.push(m);});
+ const signature=meshes.map(m=>m.uuid+':'+m.geometry.uuid).join('|'),old=SC1_GROUND.cache.get(root);if(old?.signature===signature)return old;
+ const inverse=new THREE.Matrix4().copy(root.matrixWorld).invert(),all=[],bounds=new THREE.Box3(),v=new V3();
+ for(const m of meshes){if(m.isSkinnedMesh)m.skeleton.update();const a=m.geometry.attributes.position,points=[];
+  for(let i=0;i<a.count;i++){v.fromBufferAttribute(a,i);if(m.isSkinnedMesh)m.boneTransform(i,v);v.applyMatrix4(m.matrixWorld).applyMatrix4(inverse);points.push([v.x,v.y,v.z]);bounds.expandByPoint(v);}
+  all.push({m,points});
+ }
+ const size=bounds.getSize(new V3()),directions=[];
+ for(const pitch of [-.95,-.7,-.45,-.2,0,.2,.45,.7,.95])for(const roll of [-.7,-.35,0,.35,.7])directions.push(new V3(0,1,0).applyQuaternion(new THREE.Quaternion().setFromEuler(new THREE.Euler(pitch,0,roll,'YXZ')).invert()));
+ const samples=[];let count=0,total=0;
+ for(const {m,points} of all){const ids=new Set(),grid=new Map();total+=points.length;
+  for(const dir of directions){let id=-1,min=Infinity;for(let i=0;i<points.length;i++){const p=points[i],dot=p[0]*dir.x+p[1]*dir.y+p[2]*dir.z;if(dot<min){min=dot;id=i;}}if(id>=0)ids.add(id);}
+  // Lower-envelope samples also detect a heap between the feet, not just a flat floor.
+  for(let i=0;i<points.length;i++){const p=points[i],key=Math.floor((p[0]-bounds.min.x)/Math.max(.001,size.x/28))+':'+Math.floor((p[2]-bounds.min.z)/Math.max(.001,size.z/28));let ends=grid.get(key);if(!ends){ends=[i,i,i,i,i,i];grid.set(key,ends);}for(let axis=0;axis<3;axis++){if(p[axis]<points[ends[axis*2]][axis])ends[axis*2]=i;if(p[axis]>points[ends[axis*2+1]][axis])ends[axis*2+1]=i;}}
+  for(const ends of grid.values())for(const i of ends)ids.add(i);if(ids.size){samples.push({m,ids:[...ids]});count+=ids.size;}
+ }
+ const q={signature,samples,meshes,count,total,radius:Math.max(bounds.min.length(),bounds.max.length())};SC1_GROUND.cache.set(root,q);return q;
+}
+function sc1GroundActor(root,physical){
+ const q=sc1GroundPrepare(root);if(!q.samples.length)return 0;
+ root.updateWorldMatrix(true,true);root.updateMatrixWorld(true);
+ const h=SC1_GROUND.hoard;let maxSurface=-Infinity;
+ for(const dx of [-q.radius,0,q.radius])for(const dz of [-q.radius,0,q.radius])maxSurface=Math.max(maxSurface,sc1GroundFloor(root.position.x+dx,root.position.z+dz));
+ maxSurface=h?Math.max(maxSurface,h.bounds.max.y):maxSurface+(CAVE.on?6.2:0);
+ if(root.position.y-q.radius>maxSurface+.4)return 0;
+ const nearHoard=h&&root.position.x+q.radius>=h.bounds.min.x&&root.position.x-q.radius<=h.bounds.max.x&&root.position.z+q.radius>=h.bounds.min.z&&root.position.z-q.radius<=h.bounds.max.z;
+ let lift=0;const v=SC1_GROUND.v,parts=nearHoard?q.meshes.map(m=>({m,ids:null})):q.samples;
+ for(const {m,ids} of parts){if(m.isSkinnedMesh)m.skeleton.update();const a=m.geometry.attributes.position,n=ids?ids.length:a.count;
+  for(let j=0;j<n;j++){const i=ids?ids[j]:j;v.fromBufferAttribute(a,i);if(m.isSkinnedMesh)m.boneTransform(i,v);v.applyMatrix4(m.matrixWorld);lift=Math.max(lift,sc1GroundSurface(v.x,v.z)+.25-v.y);}
+ }
+ if(lift>0){root.position.y+=lift;root.updateWorldMatrix(true,true);root.updateMatrixWorld(true);
+  if(physical&&!PAUSED&&!LVUP){P.pos.y+=lift;if(P.vel.y<0)P.vel.y=0;P.vy=Math.max(0,P.vy||0);}
+ }
+ SC1_GROUND.last={actor:physical?'player':'roar',lift,samples:nearHoard?q.total:q.count,vertices:q.total,fullHoardCheck:!!nearHoard};return lift;
+}
+function sc1GroundUpdate(){
+ if(SCN!==1||charKey!=='dragon'||state!=='play'||!D?.g?.parent)return;
+ sc1GroundHoard();
+ if(D.g.visible)sc1GroundActor(D.g,true);
+ if(ROAR.on&&ROAR.g?.visible)sc1GroundActor(ROAR.g,false);
+ if(CINE.k===1){const minimum=sc1GroundSurface(cam.position.x,cam.position.z)+1.4;if(cam.position.y<minimum){cam.position.y=minimum;cam.lookAt(CINE.l);cam.updateMatrixWorld(true);}}
+}
+{const base=cineCam;cineCam=function(dt){const result=base.apply(this,arguments);sc1GroundUpdate();return result;};}
+/* END_SC1_GROUND_1120 */
+
+
+/* SC1_WYVERN_POLISH_1120 */
+const WYVERN_POLISH_1120={active:null,result:null,serial:0,victories:0,losses:0};
+const WYVERN_PAPER_1120={valley_c2:'wyv_s_tr',wyv_k_bl:'wyv_k_bl',wyv_k_br:'wyv_k_br',wyv_k_tl:'wyv_k_br',wyv_k_tr:'wyv_k_tr',wyv_s_tr:'wyv_s_tr',wyv_s_bl:'wyv_s_tr',wyv_m1:'wyv_s_tr',wyv_m2:'wyv_k_tr'};
+{const before=storyImageV2;storyImageV2=function(key){return before.call(this,storyDragon()?(WYVERN_PAPER_1120[key]||key):key);};}
+{const before=presentationStoryPanel;presentationStoryPanel=function(){const r=before.apply(this,arguments),key=state==='story'?KAMI.sl[KAMI.i]?.img:null;$('story').classList.toggle('wyvern-paper-1120',storyDragon()&&!!WYVERN_PAPER_1120[key]);return r;};}
+{const style=document.createElement('style');style.id='wyvern-paper-1120';style.textContent=`
+body.presentation-event #story.wyvern-paper-1120 .box{width:min(100%,var(--story-art-height),720px)!important}
+body.presentation-event #story.wyvern-paper-1120 .kami{aspect-ratio:1}
+body.presentation-event #story.wyvern-paper-1120 #stPic{width:150%;height:100%;left:-25%;top:0;object-fit:fill;transform:none!important}
+`;document.head.appendChild(style);}
+function wyvernPolishEligible1120(){return storyDragon()&&STAGES[stage]?.key==='valley';}
+function wyvernPolishWorldMin1120(root){
+ root.updateWorldMatrix(true,true);root.updateMatrixWorld(true);let low=Infinity;const v=new V3();
+ root.traverseVisible(o=>{if(!o.isMesh||!o.geometry?.attributes.position)return;if(o.material&&!Array.isArray(o.material)&&o.material.visible===false)return;
+  const a=o.geometry.attributes.position;if(o.isSkinnedMesh)o.skeleton.update();
+  for(let i=0;i<a.count;i++){v.fromBufferAttribute(a,i);if(o.isSkinnedMesh)o.boneTransform(i,v);v.applyMatrix4(o.matrixWorld);low=Math.min(low,v.y);}
+ });return low;
+}
+function wyvernPolishGround1120(root){
+ const low=wyvernPolishWorldMin1120(root);
+ if(Number.isFinite(low))root.position.y+=floorAt(root.position.x,root.position.z)+.08-low;
+}
+function wyvernPolishCamera1120(){
+ const S=WYVERN_POLISH_1120,q=S.active||S.result;if(!q)return;
+ if(q.frozen){q.root.position.copy(q.frozen.position);q.root.rotation.copy(q.frozen.rotation);q.root.visible=true;}
+ // The outcome belongs to the fallen actor. Frame it closely enough to read its
+ // head and feet, instead of shrinking both opponents to fit a distant wide shot.
+ const center=q.root.position.clone();center.y+=3.7;
+ const aspect=Math.max(.35,cam.aspect),fov=54;
+ const distance=Math.max(30,18/(2*Math.tan(fov*Math.PI/360)*Math.min(1,aspect)))*1.2;
+ const direction=q.side.clone().multiplyScalar(.88).addScaledVector(q.axis,-.62).normalize();
+ cam.position.copy(center).addScaledVector(direction,distance);cam.position.y+=distance*.29;
+ cam.fov=fov;cam.updateProjectionMatrix();cam.lookAt(center);cam.updateMatrixWorld(true);
+}
+function wyvernPolishBegin1120(kind,enemy,finish){
+ const S=WYVERN_POLISH_1120;if(S.active)return false;
+ const root=kind==='victory'?enemy.mesh:D.g,axis=(enemy?enemy.mesh.position.clone().sub(P.pos):new V3(Math.sin(P.yaw),0,Math.cos(P.yaw))).setY(0).normalize();
+ if(axis.lengthSq()<.01)axis.set(0,0,1);
+ const q={id:'wyvern-outcome-'+(++S.serial),kind,enemy,root,axis,side:new V3(-axis.z,0,axis.x),time:0,duration:3.8,minimum:2.8,phase:'stagger',start:root.position.clone(),rotation:root.rotation.clone(),finish,grounded:false,oldInv:enemy?.inv,frame:0};
+ if(solEncounterActive())solEncounterAbort();
+ TK.cur=null;TK.q.length=0;voStop();S.result=null;S.active=q;
+ if(enemy)enemy.inv=true;
+ const label=kind==='victory'?'緑のワイバーン':'レッドドラゴン';
+ if(!presentationBegin(q.id,{label,text:kind==='victory'?'模擬戦、決着。緑のワイバーンが体勢を崩した。':'攻撃を受けきれず、レッドドラゴンは力尽きた。',letterbox:true,tick:wyvernPolishTick1120})){S.active=null;if(enemy)enemy.inv=q.oldInv;return false;}
+ firstplayResetInput();P.vel.set(0,0,0);P.firing=false;return true;
+}
+function wyvernPolishTick1120(dt){
+ const q=WYVERN_POLISH_1120.active;if(!q||PAUSED||LVUP||document.hidden)return;
+ if(!wyvernPolishEligible1120()||!q.root.parent){wyvernPolishAbort1120();return;}
+ q.time+=Math.min(.05,Math.max(0,dt));q.frame++;
+ const k=clamp(q.time/1.65,0,1),ease=k*k*(3-2*k),root=q.root;
+ root.visible=true;root.rotation.order='YXZ';root.rotation.y=q.rotation.y;
+ root.rotation.x=q.rotation.x+ease*(q.kind==='victory'?.26:.36);
+ root.rotation.z=q.rotation.z+ease*(q.kind==='victory'?.24:.55);
+ root.position.copy(q.start).addScaledVector(q.axis,q.kind==='victory'?ease*3:-ease*2);
+ const floor=floorAt(root.position.x,root.position.z);
+ root.position.y=q.start.y+(floor+2-q.start.y)*ease;
+ if(q.frame%3===0)wyvernPolishGround1120(root);
+ const motion=root.userData.mv;if(motion)Object.assign(motion,{gnd:k>.68,vx:0,vz:0,vy:0});
+ q.phase=q.time<.65?'stagger':q.time<1.65?'landing':q.time<2.45?'bow':'result';
+ if(q.time>=1.65&&!q.grounded){q.grounded=true;sfx('small',root.position,.35);}
+ const owner=PRESENTATION.owner;
+ if(owner?.id===q.id)owner.text=q.kind==='victory'?(q.time<1.65?'模擬戦、決着。緑のワイバーンが着地する。':'緑のワイバーンの負け。翼を下ろし、若に頭を下げた。'):(q.time<1.65?'レッドドラゴンは体勢を崩し、地面に倒れた。':'レッドドラゴンの敗北。この章のはじめから、もう一度挑戦できる。');
+ if(q.time>=q.duration)wyvernPolishFinish1120();
+}
+function wyvernPolishFinish1120(){
+ const S=WYVERN_POLISH_1120,q=S.active;if(!q)return;
+ S.active=null;if(q.enemy)q.enemy.inv=q.oldInv;
+ if(q.kind==='loss'){P.pos.copy(q.root.position);q.frozen={position:q.root.position.clone(),rotation:q.root.rotation.clone()};S.result=q;S.losses++;}else S.victories++;
+ presentationEnd(q.id);q.finish();
+}
+function wyvernPolishAbort1120(){const S=WYVERN_POLISH_1120,q=S.active;S.active=null;S.result=null;if(q){if(q.enemy)q.enemy.inv=q.oldInv;presentationEnd(q.id);}}
+// Preserve enemy rewards, stage progression and the guaranteed green companion exactly once.
+{const before=killEnemy;killEnemy=function(e,quiet){
+ if(WYVERN_POLISH_1120.active?.kind==='victory'&&WYVERN_POLISH_1120.active.enemy===e)return;
+ if(!quiet&&wyvernPolishEligible1120()&&state==='play'&&e?.wyv&&!e.dead&&!e.wyvernOutcome1120){
+  e.wyvernOutcome1120=true;
+  if(wyvernPolishBegin1120('victory',e,()=>{e.wyvernOutcomeResolved1120=true;before.call(this,e,false);} ))return;
+ }
+ return before.apply(this,arguments);
+};}
+// The dedicated visible landing already played; do not replay the generic exploding fall.
+{const before=bossFall;bossFall=function(e){if(e?.wyvernOutcomeResolved1120){scene.remove(e.mesh);return;}return before.apply(this,arguments);};}
+{const before=die;die=function(){
+ if(wyvernPolishEligible1120()&&WYVERN_POLISH_1120.active)return;
+ if(wyvernPolishEligible1120()&&state==='play'&&!WYVERN_POLISH_1120.active){
+  const enemy=EN.find(e=>e.wyv&&!e.dead)||null;
+  if(wyvernPolishBegin1120('loss',enemy,()=>{before.call(this);deadT=.05;}))return;
+ }
+ return before.apply(this,arguments);
+};}
+{const before=showEnd;showEnd=function(win){const r=before.apply(this,arguments),q=WYVERN_POLISH_1120.result;if(!win&&q){D.g.visible=true;$('ovT').textContent=q.enemy?'模擬戦で敗北':'レッドドラゴンの敗北';$('ovS').textContent=(q.enemy?'緑のワイバーンとの模擬戦に負けました。':'レッドドラゴンはこの戦いで力尽きました。')+' この章のはじめから、レベルと強化を戻して再挑戦できます。';}return r;};}
+{const before=presentationNext;presentationNext=function(){const q=WYVERN_POLISH_1120.active;if(q){if(q.time>=q.minimum&&!PAUSED&&!LVUP)wyvernPolishFinish1120();return;}return before.apply(this,arguments);};}
+{const before=presentationUI;presentationUI=function(){const r=before.apply(this,arguments),q=WYVERN_POLISH_1120.active;if(q){const u=presentationNodes();u.next.disabled=q.time<q.minimum||PAUSED||LVUP;u.next.textContent=q.time<q.minimum?'演出中':'次へ';}else presentationNodes().next.textContent='次へ';return r;};}
+// Retain the existing seven-second physical duel; add readable anticipation and recovery.
+{const before=solWyvern;solWyvern=function(q,u,dt){const r=before.apply(this,arguments);if(q.kind==='wyvern'&&storyDragon()){
+ const beat=Math.sin(Math.PI*clamp(u,0,1)),m=q.e.mesh;
+ if(q.phase===1)m.rotation.x-=.12*beat;
+ if(q.phase===2)m.rotation.z+=.16*beat;
+ if(q.phase===4)m.rotation.x+=.12*beat;
+}return r;};}
+{const before=cineCam;cineCam=function(){const r=before.apply(this,arguments);wyvernPolishCamera1120();return r;};}
+{const before=R.render;R.render=function(){if(arguments[0]===scene&&arguments[1]===cam){
+ const q=WYVERN_POLISH_1120.active||WYVERN_POLISH_1120.result;
+ // Mixers are advanced after the event tick. Align the final posed vertices just
+ // before drawing, and retain that position under the defeat result screen.
+ if(q?.grounded){if(q.frozen){q.root.position.copy(q.frozen.position);q.root.rotation.copy(q.frozen.rotation);}wyvernPolishGround1120(q.root);if(q.frozen)q.frozen.position.copy(q.root.position);}
+ wyvernPolishCamera1120();}return before.apply(this,arguments);};}
+{const before=clearWorld;clearWorld=function(){wyvernPolishAbort1120();return before.apply(this,arguments);};}
+window.wyvernPolishState1120=()=>({active:WYVERN_POLISH_1120.active?{kind:WYVERN_POLISH_1120.active.kind,phase:WYVERN_POLISH_1120.active.phase,time:WYVERN_POLISH_1120.active.time,grounded:WYVERN_POLISH_1120.active.grounded}:null,result:WYVERN_POLISH_1120.result?.kind||null,victories:WYVERN_POLISH_1120.victories,losses:WYVERN_POLISH_1120.losses});
+/* END_SC1_WYVERN_POLISH_1120 */
+
+
+/* SC1_SINGLE_GOLEM_GATEKEEPER_1120 */
+{
+ const texts={
+  dungeon:[
+   '竜は洞窟の奥へ進み、古い石段を下りた。地下には小鬼や骸骨が住みついていた。',
+   '広間には、古いよろいを着た竜人がいた。迷宮を通った先には、仲間を失った戦場があるという。',
+   '竜人は長いあいだ、その戦場に戻る者を追い返してきた。赤い竜は、話を聞くため広間へ進んだ。'
+  ],
+  golem:[
+   '竜人が示した通路を抜けると、鎖で閉ざされた封印の扉が見えた。',
+   '扉の前で岩のかたまりが起き上がる。魔王を閉じこめた者たちが残した、番人ゴーレムだ。',
+   '岩の番人が道をふさぐ。竜は、胸にともる青い光を見すえた。'
+  ],
+  maou:[
+   'ゴーレムが崩れ、竜は封印の扉へたどり着いた。',
+   '四つの赤い石から伸びた鎖が、扉を固く閉ざしている。石のそばには小悪魔が集まっていた。',
+   '竜は鎖をたどった。四つの石を壊せば、魔王の間に入れる。'
+  ]
+ };
+ for(const [key,lines] of Object.entries(texts)){
+  const room=ALLST.find(item=>item.key===key);
+  const old=Object.getOwnPropertyDescriptor(room,'story');
+  Object.defineProperty(room,'story',{configurable:true,enumerable:true,get(){
+   return SCN===1?lines:(old.get?old.get.call(this):old.value);
+  }});
+ }
+ const dungeon=ALLST.find(room=>room.key==='dungeon');
+ const drak=dungeon.waves.find(beat=>beat.name==='よろいの竜人');
+ const msg=drak.msg;
+ Object.defineProperty(drak,'msg',{configurable:true,enumerable:true,get(){
+  return SCN===1?'🐲 古いよろいの竜人が、石の広間で道をふさぐ！':msg;
+ }});
+ const dialogue=(table,field,lines)=>{
+  const old=table[field];
+  Object.defineProperty(table,field,{configurable:true,enumerable:true,get(){return SCN===1?lines:old;}});
+ };
+ dialogue(TALKS.dungeon.w,2,[
+  ['よろいの竜人','ここで仲間を失った。あの扉を目指す者は、いつも帰ってこない。竜でも止めねばならん。'],
+  ['ME','心配してくれているのか。……なら、おれが戻ったときに、話の続きを聞かせてくれ。'],
+  ['よろいの竜人','そこまで言うか。ならば、このよろいを越えてみせろ。']
+ ]);
+ dialogue(TALKS.dungeon,'clear',[
+  ['よろいの竜人','見事だ。奥の通路は開けておく。封印の扉の前には、石の番人がいる。'],
+  ['ME','道を教えてくれて助かった。お前はここで休んでいろ。']
+ ]);
+ dialogue(TALKS.golem.w,0,[
+  ['岩の巨人ゴーレム','命令を受けた。封印の扉を守る。ここを通すわけにはいかない。'],
+  ['ME','千年もの間か。……この仕事は、ここで終わらせる。']
+ ]);
+ dialogue(TALKS.golem,'clear',[
+  ['ME','石の番人は倒れた。鎖をつないでいる赤い石に、まだ光が残っている。']
+ ]);
+ dialogue(TALKS.maou.w,0,[
+  ['ME','番人はもういない。鎖をつなぐ赤い石を壊すぞ。'],
+  ['魔王','フフ……閉ざされた扉の向こうまで、お前の声は聞こえている。']
+ ]);
+}
+{const original=firstplayMission;firstplayMission=function(){
+ if(SCN===1&&STAGES[stage]?.key==='golem'&&EN.some(e=>e.type==='biggolem'&&!e.dead))
+  return '目的：封印の扉の番人ゴーレムを倒す';
+ return original.apply(this,arguments);
+};}
+
+/* SC1_SPACE_1120: resize generated architecture, not the scene/camera alone. */
+function sc1SpaceOptions(o){
+ if(SCN!==1)return o;
+ const key=STAGES[stage]?.key;
+ if(!['dungeon','golem','maou'].includes(key))return o;
+ const before={w:o.w,d:o.d,h:o.h,cx:o.cx,cz:o.cz};
+ // Keep the corridor length and all existing battle/door z anchors. The
+ // golem room grows behind the original entry, retaining its altar wall.
+ const d=key==='golem'?o.d*2.5:o.d;
+ return {...o,w:o.w*2.5,h:o.h*2.5,d,cz:o.cz+(d-o.d)/2,
+  _sc1Space:{key,before,scale:2.5}};
+}
+function sc1SpaceActive(){return SCN===1&&DUN.on&&!!DUN.space1120;}
+{
+ const prior=dunFlightCeiling;
+ dunFlightCeiling=function(){
+  if(!sc1SpaceActive())return prior();
+  const b=DUN.space1120.before;
+  const old=Math.max(12,Math.min(b.h*.5,DUN.castle===1?38:26));
+  return DUN.y+Math.min(DUN.h-12,old*2.5);
+ };
+}
+// The hall model floor is at y+.5; the old goblin gravity used exterior H,
+// losing the room's absolute height and placing its feet under the floor.
+// Measure the animated feet, including actual skin deformation, after enemy
+// pose/scaling updates. Only living grounded SC1 goblins are eligible.
+const SC1_GOBLIN_V=new V3(),SC1_GOBLIN_FOOT=new WeakMap();
+function sc1GoblinFloor(x,z){return dunFloorY(x,z)+(dunSt(x,z)>=1?.02:.52);}
+function sc1GoblinFeet(e){
+ const root=e.mesh;root.updateWorldMatrix(true,true);root.updateMatrixWorld(true);
+ let low=Infinity;
+ root.traverseVisible(m=>{
+  if(!m.isMesh||!m.geometry?.attributes.position)return;
+  if(m.isSkinnedMesh)m.skeleton.update();
+  const p=m.geometry.attributes.position;let indices=SC1_GOBLIN_FOOT.get(m.geometry);
+  if(!indices){
+   let lo=Infinity,hi=-Infinity;for(let i=0;i<p.count;i++){lo=Math.min(lo,p.getY(i));hi=Math.max(hi,p.getY(i));}
+   indices=[];for(let i=0;i<p.count;i++)if(p.getY(i)<=lo+(hi-lo)*.2)indices.push(i);
+   SC1_GOBLIN_FOOT.set(m.geometry,indices);
+  }
+  for(const i of indices){
+   SC1_GOBLIN_V.fromBufferAttribute(p,i);
+   if(m.isSkinnedMesh)m.boneTransform(i,SC1_GOBLIN_V);
+   SC1_GOBLIN_V.applyMatrix4(m.matrixWorld);
+   low=Math.min(low,SC1_GOBLIN_V.y);
+  }
+ });
+ return low;
+}
+function sc1GoblinContact(){
+ if(SCN!==1||!DUN.on||state!=='play')return;
+ for(const e of EN){
+  if(e.dead||e.type!=='goblin'||e.perch||e.fly)continue;
+  const p=e.mesh.position,floor=sc1GoblinFloor(p.x,p.z);
+  if(p.y>floor+5)continue;
+  const low=sc1GoblinFeet(e),lift=floor-low;
+  if(Number.isFinite(lift)&&lift>0){p.y+=lift;if(e.vy<0)e.vy=0;}
+ }
+}
+const SC1_CLOUD_STATE={indoor:false};
+function sc1IndoorClouds(){
+ const inside=!!(DUN.on||CAVE.on);
+ if(inside){for(const group of clouds)group.visible=false;}
+ else if(SC1_CLOUD_STATE.indoor)fadeClouds();
+ SC1_CLOUD_STATE.indoor=inside;
+}
+{
+ const before=cineCam;
+ cineCam=function(){const result=before.apply(this,arguments);sc1GoblinContact();sc1IndoorClouds();return result;};
+}
+
+/* SC1_OPENING_1120 */
+const OPENING_1120={paper:false,pending:false,active:null,serial:0,hidden:false,oldVisibility:'',build:0};
+function openingScope1120(){return SCN===1&&charKey==='dragon';}
+function openingCover1120(hide){const s=OPENING_1120;if(hide&&!s.hidden){s.oldVisibility=R.domElement.style.visibility;s.hidden=true;R.domElement.style.visibility='hidden';}else if(!hide&&s.hidden){R.domElement.style.visibility=s.oldVisibility;s.hidden=false;}}
+// Hide before asynchronous preparation starts, and keep the new scene hidden throughout paper.
+{const before=clearGap;clearGap=function(fn){if(!openingScope1120())return before.apply(this,arguments);return before.call(this,()=>{openingCover1120(true);fn();});};}
+{const before=setupStage;setupStage=function(){OPENING_1120.build++;try{return before.apply(this,arguments);}finally{OPENING_1120.build--;}};}
+{const before=showStory;showStory=function(i,ending){if(openingScope1120()){openingCover1120(true);OPENING_1120.paper=true;OPENING_1120.pending=!ending;}return before.apply(this,arguments);};}
+function openingFinish1120(runWave=true){const s=OPENING_1120,q=s.active;if(!q)return;s.active=null;q.root.rotation.copy(q.rotation);presentationEnd(q.id);if(runWave&&state==='play'&&stage===q.stage&&openingScope1120())q.begin();}
+function openingCamera1120(){const q=OPENING_1120.active;if(!q)return;const u=clamp(q.time/q.duration,0,1),yaw=P.yaw+.24*(1-u),axis=new V3(Math.sin(yaw),0,Math.cos(yaw)),side=new V3(axis.z,0,-axis.x),target=P.pos.clone().addScaledVector(axis,8);target.y+=4;const scale=cam.aspect<.8?1.4:1;cam.position.copy(P.pos).addScaledVector(axis,-34*scale).addScaledVector(side,17*scale);cam.position.y+=18*scale;cam.fov=58;cam.updateProjectionMatrix();cam.lookAt(target);cam.updateMatrixWorld(true);}
+function openingTick1120(dt){const q=OPENING_1120.active;if(!q||PAUSED||LVUP||document.hidden)return;if(state!=='play'||stage!==q.stage||!openingScope1120()){openingFinish1120(false);return;}q.time+=Math.min(.05,Math.max(0,dt));const u=clamp(q.time/q.duration,0,1),beat=Math.sin(u*Math.PI);q.root.rotation.x=q.rotation.x-.065*beat;q.root.rotation.z=q.rotation.z+.025*beat;openingCamera1120();if(q.time>=q.duration)openingFinish1120();}
+// The first wave begins after the establishing shot; no actor AI runs underneath it.
+{const before=startWave;startWave=function(i){const s=OPENING_1120;if(!openingScope1120()||i!==0||!s.pending)return before.apply(this,arguments);s.pending=false;s.paper=false;openingCover1120(false);const context=this,args=arguments,root=D.g;root.position.copy(P.pos);root.visible=true;const S=STAGES[stage],q={id:'chapter-opening-'+(++s.serial),stage,time:0,duration:2.6,root,rotation:root.rotation.clone(),begin:()=>before.apply(context,args)};s.active=q;
+ if(!presentationBegin(q.id,{label:S.ch+'　'+S.place,text:S.title,letterbox:true,tick:openingTick1120})){s.active=null;return before.apply(context,args);}presentationClearInput();pacFade(0,.75);pacMus(.25,.8);openingCamera1120();};}
+{const before=cineCam;cineCam=function(){const r=before.apply(this,arguments);openingCamera1120();return r;};}
+{const before=R.render;R.render=function(){if(arguments[0]===scene&&arguments[1]===cam)openingCamera1120();return before.apply(this,arguments);};}
+{const before=presentationNext;presentationNext=function(){if(OPENING_1120.active)return;return before.apply(this,arguments);};}
+{const before=presentationUI;presentationUI=function(){const r=before.apply(this,arguments);if(OPENING_1120.active){const u=presentationNodes();u.next.disabled=true;u.next.textContent='舞台を見渡す';}return r;};}
+{const before=clearWorld;clearWorld=function(){openingFinish1120(false);if(!OPENING_1120.build){OPENING_1120.pending=false;OPENING_1120.paper=false;openingCover1120(false);}return before.apply(this,arguments);};}
+window.openingState1120=()=>({paper:OPENING_1120.paper,pending:OPENING_1120.pending,canvasHidden:OPENING_1120.hidden,active:OPENING_1120.active?{stage:OPENING_1120.active.stage,time:OPENING_1120.active.time,duration:OPENING_1120.active.duration}:null});
+/* END_SC1_OPENING_1120 */
+
+
+/* SC1_STORY_ART_1120 */
+const SC1_ART_1120=new Set(['story-dragonkin','story-golem-gate','story-sealed-door','story-demon-flight']);
+{const old=storyImageV2;storyImageV2=function(key){
+ if(SC1_ART_1120.has(key))return 'assets/sc1-polish-1120/'+key+'.webp?v='+ASSET_V;
+ return old.apply(this,arguments);
+};}
+function storyArt1120Deck(key,lines){
+ if(SCN!==1||!(key==='dungeon'||key==='golem'||key==='maou'))return lines;
+ const substitutes={
+  dungeon:{dungeon_2:'story-dragonkin',dungeon_3:'story-dragonkin'},
+  golem:{dungeon_c:'story-dragonkin',golem_1:'story-golem-gate'},
+  maou:{maou_1:'golem_c',maou_2:'story-sealed-door',maou_3:'story-sealed-door',maou_t1:'story-sealed-door'}
+ }[key];
+ return lines.map(line=>substitutes[line.img]?{...line,img:substitutes[line.img]}:line);
+}
+{const old=midKami;midKami=function(lines,cb){
+ const pictures=SCN===1?lines.map(line=>line.t==='封印の中の魔王'&&line.img==='maou_3'?{...line,img:'maou_t2'}:line):lines;
+ return old.call(this,pictures,cb);
+};}
+function storyArt1120Flight(S){
+ if(SCN!==1||S.ff||!S.e||S.e.storyWing1120)return false;
+ S.e.storyWing1120=true;
+ midKami([{img:'story-demon-flight',ch:'最終章　魔王の間',t:'翼を広げる魔王',
+   l:'封印を解かれた魔王は、大きな翼を広げて飛び上がった。赤い竜も、翼をひらいて迎え撃つ。'}]);
+ return true;
+}
+
+</script>
+<script>
+'use strict';
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (!$('musouEntryLink')) return;
+  const selection = $('select');
+  const wingedMaou = MAOUF[0].id === 'demon';
+  if (wingedMaou) {
+    const thumb = selection.querySelector('#cards .card[data-k="maou"] .pti');
+    if (thumb) thumb.src = 'assets/sc1-polish-1120/face-demon.webp';
+  }
+  const review = document.createElement('section');
+  review.id = 'musouCharacterReview';
+  review.setAttribute('aria-labelledby', 'musouCharacterName');
+  review.innerHTML = `
+    <header><span>無双編</span><h2 id="musouCharacterName" aria-live="polite"></h2></header>
+    <div class="musou-views">
+      <figure class="musou-art"><img alt=""><figcaption>イラスト</figcaption></figure>
+      <figure class="musou-model" aria-label="選択中キャラクターのゲーム内3Dモデル">
+        <p class="musou-preview-status" role="status">3Dモデルを読み込み中…</p><figcaption>3Dモデル</figcaption>
+      </figure>
+    </div>`;
+  selection.prepend(review);
+  document.body.classList.add('musou-selection');
+
+  const heading = review.querySelector('h2');
+  const picture = review.querySelector('img');
+  const panel = review.querySelector('.musou-model');
+  const status = review.querySelector('.musou-preview-status');
+  let portraitKey = '';
+  picture.addEventListener('error', () => {
+    const fallback = `chara/${portraitKey}.webp`;
+    if (!picture.getAttribute('src').startsWith('chara/')) picture.src = fallback;
+  });
+
+  const studio = new THREE.Scene();
+  studio.background = new THREE.Color(0x283241);
+  const lens = new THREE.PerspectiveCamera(38, 1, .1, 500);
+  const ambient = new THREE.HemisphereLight(0xe5edff, 0x806d65, 1.17);
+  const key = new THREE.DirectionalLight(0xffedd4, 1.22);
+  const rim = new THREE.DirectionalLight(0xbbd7ff, .75);
+  studio.add(ambient, key, key.target, rim, rim.target);
+  const skyward = new V3(0, 1, 0);
+  const direction = new V3();
+  const right = new V3();
+  const above = new V3();
+  const lookAt = new V3();
+  const corner = new V3();
+  const bounds = new THREE.Box3();
+  const size = new THREE.Vector2();
+  const oldViewport = new THREE.Vector4();
+  const oldScissor = new THREE.Vector4();
+  const oldColor = new THREE.Color();
+  const backdrop = new THREE.Color(0x151a24);
+  let cachedRoot, cachedBody, cachedModel, cachedTemplate;
+
+  function selectedAsset() {
+    if (charKey === 'maou') return MAOUF[D.mf || 0]?.id;
+    return PMODEL[charKey] || CH[charKey]?.model?.id || charKey;
+  }
+
+  function fit(root, asset, width, height) {
+    const template = MODEL[asset];
+    const model = D.body?.userData?.mix || root.userData.mix;
+    if (cachedRoot !== root || cachedBody !== D.body || cachedModel !== model || cachedTemplate !== template) {
+      bounds.copy(posedModelBounds(root));
+      cachedRoot = root;
+      cachedBody = D.body;
+      cachedModel = model;
+      cachedTemplate = template;
+    }
+    if (bounds.isEmpty()) return false;
+    root.localToWorld(bounds.getCenter(lookAt));
+    direction.set(.61, .25, 1).applyAxisAngle(skyward, root.rotation.y).normalize();
+    right.crossVectors(skyward, direction).normalize();
+    above.crossVectors(direction, right);
+    const aspect = width / height;
+    const tan = Math.tan(THREE.MathUtils.degToRad(lens.fov * .5));
+    let radius = 1, distance = 1;
+    for (const x of [bounds.min.x, bounds.max.x]) {
+      for (const y of [bounds.min.y, bounds.max.y]) {
+        for (const z of [bounds.min.z, bounds.max.z]) {
+          root.localToWorld(corner.set(x, y, z)).sub(lookAt);
+          const spread = Math.max(Math.abs(corner.dot(right)) / aspect, Math.abs(corner.dot(above)));
+          distance = Math.max(distance, corner.dot(direction) + spread / (tan * .93));
+          radius = Math.max(radius, corner.length());
+        }
+      }
+    }
+    lens.aspect = aspect;
+    lens.near = Math.max(.05, (distance - radius) * .32);
+    lens.far = distance + radius * 3 + 10;
+    lens.position.copy(lookAt).addScaledVector(direction, distance);
+    lens.lookAt(lookAt);
+    lens.updateProjectionMatrix();
+    key.target.position.copy(lookAt);
+    key.position.copy(lookAt).addScaledVector(right, -radius).addScaledVector(direction, radius).addScaledVector(skyward, radius * 1.5);
+    rim.target.position.copy(lookAt);
+    rim.position.copy(lookAt).addScaledVector(right, radius).addScaledVector(direction, -radius).addScaledVector(skyward, radius);
+    return true;
+  }
+
+  const render = R.render;
+  R.render = function (...args) {
+    const root = D?.g;
+    if (state !== 'select' || !root?.parent || args[0] !== scene || args[1] !== cam ||
+        this.getRenderTarget() || this.getContext().isContextLost() || !selection.offsetWidth) {
+      return render.apply(this, args);
+    }
+    if (portraitKey !== charKey) {
+      portraitKey = charKey;
+      heading.textContent = C.name;
+      picture.alt = `${C.name}のイラスト`;
+      const illustration = charKey === 'maou' && wingedMaou ? 'demon' : charKey;
+      picture.src = `assets/sc1-polish-1120/face-${illustration}.webp`;
+    }
+    const rect = panel.getBoundingClientRect();
+    this.getSize(size);
+    const w = Math.round(rect.width), h = Math.round(rect.height);
+    const x = Math.round(rect.left), y = Math.round(size.y - rect.bottom);
+    if (w <= 0 || h <= 0) return render.apply(this, args);
+    const asset = selectedAsset();
+    const loading = asset && mobileKnown(asset) && !MODEL[asset] && !mobileArt.failed.has(asset);
+    const visible = fit(root, asset, w, h);
+    const ready = visible && !loading;
+    if (status.hidden !== ready) status.hidden = ready;
+    if (!ready) {
+      const message = loading ? '3Dモデルを読み込み中…' : '3Dモデルを準備中…';
+      if (status.textContent !== message) status.textContent = message;
+    }
+    const shown = ready ? portraitKey : '';
+    if (panel.dataset.model !== shown) panel.dataset.model = shown;
+    const oldAlpha = this.getClearAlpha();
+    const oldScissorTest = this.getScissorTest();
+    this.getClearColor(oldColor);
+    this.getViewport(oldViewport);
+    this.getScissor(oldScissor);
+
+    const parent = root.parent;
+    const index = parent.children.indexOf(root);
+    const skinned = [];
+    try {
+      this.setScissorTest(false);
+      this.setClearColor(backdrop, 1);
+      this.clear(true, true, true);
+      if (!ready || x + w <= 0 || y + h <= 0 || x >= size.x || y >= size.y) return;
+      this.setViewport(x, y, w, h);
+      this.setScissor(Math.max(x, 0), Math.max(y, 0),
+        Math.min(size.x, x + w) - Math.max(x, 0), Math.min(size.y, y + h) - Math.max(y, 0));
+      this.setScissorTest(true);
+      // The view is fitted to the skinned pose, while r128 culls against the rest geometry.
+      root.traverseVisible(object => {
+        if (object.isSkinnedMesh && object.frustumCulled) {
+          object.frustumCulled = false;
+          skinned.push(object);
+        }
+      });
+      studio.add(root);
+      return render.call(this, studio, lens);
+    } finally {
+      for (const object of skinned) object.frustumCulled = true;
+      if (root.parent === studio) {
+        parent.add(root);
+        parent.children.splice(index, 0, parent.children.pop());
+      }
+      this.setViewport(oldViewport);
+      this.setScissor(oldScissor);
+      this.setScissorTest(oldScissorTest);
+      this.setClearColor(oldColor, oldAlpha);
+    }
+  };
+}, {once: true});
+
+</script>
+<script>
+/* WINGED_MAOU_1120 */
+'use strict';
+
+function sc1MaouFighting(enemy) {
+  return storyDragon() && MSF.on && MSF.ph === 4 && enemy && enemy === MSF.e && !enemy.dead;
+}
+
+function sc1MaouBindLate(enemy) {
+  if (!storyDragon() || MODEL.demon) return;
+  mobileWant('demon', 70);
+  mobileLateArt('demon', enemy.mesh, () => {
+    if (!MSF.on || enemy !== MSF.e || enemy.dead) return;
+    if (!enemy.poseB) poseSet(enemy, enemy.pose || 2);
+  });
+}
+
+function sc1MaouCuffs(seal) {
+  const iron = new THREE.MeshStandardMaterial({
+    color: 0xc09a4a, metalness: .45, roughness: .65, emissive: 0x5d1d09, emissiveIntensity: .65,
+  });
+  const ring = new THREE.TorusGeometry(.9, .19, 6, 16);
+  const link = new THREE.CylinderGeometry(.14, .14, 1, 6);
+  seal.wristLocks = ['LeftHand', 'RightHand'].map((name, index) => {
+    const cuff = new THREE.Mesh(ring, iron);
+    const strap = new THREE.Mesh(link, iron);
+    cuff.visible = strap.visible = false;
+    seal.g.add(cuff, strap);
+    return {name, index, cuff, strap};
+  });
+}
+
+function sc1MaouCuffPose(seal) {
+  if (!seal.wristLocks) return;
+  const hand = new V3(), direction = new V3();
+  for (const {name, index, cuff, strap} of seal.wristLocks) {
+    const bone = seal.e?.poseB?.[name], chain = seal.chn[index];
+    cuff.visible = strap.visible = !!bone && !chain.cut && seal.ph < 2;
+    if (!cuff.visible) continue;
+    bone.getWorldPosition(hand);
+    cuff.position.copy(hand);
+    direction.subVectors(chain.a, hand).normalize();
+    cuff.quaternion.setFromUnitVectors(MSV.up, direction);
+    cuff.rotateX(Math.PI / 2);
+    direction.subVectors(chain.b, hand);
+    const length = direction.length();
+    strap.position.copy(hand).addScaledVector(direction, .5);
+    strap.scale.y = Math.max(.001, length);
+    if (length) strap.quaternion.setFromUnitVectors(MSV.up, direction.normalize());
+  }
+}
+
+function sc1MaouClearFire(seal) {
+  P.firing = false;
+  P.tgt = null;
+  seal.kw = 0;
+  for (const mesh of [seal.k1, seal.k2, seal.shl, seal.fc]) if (mesh) mesh.visible = false;
+}
+
+function sc1MaouFinishingFire(fall) {
+  if (fall.t < .25 || fall.t >= 1.28 || fall.t < (fall.maouFireNext || 0)) return;
+  fall.maouFireNext = fall.t + .075;
+  const from = mouthPos();
+  const to = cpos(fall.e);
+  const span = new V3().subVectors(to, from);
+  if (span.lengthSq() > 170 * 170) return;
+  for (let i = 0; i < 6; i++) {
+    const k = .27 + .73 * (i + .5) / 6;
+    const at = from.clone().addScaledVector(span, k);
+    flame(at, 2, 1.9 + 3.2 * k, .24, null, 0, 4);
+  }
+}
+
+function wingedMaouArt(root, dt, flight, folded) {
+  if (!root) return;
+  let wings = root.userData.wingedMaou1120;
+  if (!wings) {
+    let mesh;
+    root.traverseVisible(object => {
+      if (object.isSkinnedMesh && object.name.includes('9508cfe2')) mesh = object;
+    });
+    if (!mesh || mesh.material.isMaterial !== true) return;
+    const base = mesh.material;
+    const painted = base.clone();
+    const flap = {value: new THREE.Vector2()};
+    painted.onBeforeCompile = function (shader, renderer) {
+      base.onBeforeCompile.call(this, shader, renderer);
+      shader.uniforms.wingedMaou = flap;
+      shader.vertexShader = shader.vertexShader
+        .replace('#include <common>', '#include <common>\nuniform vec2 wingedMaou;')
+        .replace('#include <begin_vertex>', `#include <begin_vertex>
+          float wingWidth = smoothstep(.155,.42,abs(position.x));
+          float wingTop = smoothstep(.38,.57,position.y);
+          float wingBack = 1.0-smoothstep(-.115,-.04,position.z);
+          float wing = wingWidth*wingTop*wingBack;
+          transformed.y += wing*wingedMaou.x;
+          transformed.z += wing*wingedMaou.y;`);
+    };
+    const program = base.customProgramCacheKey();
+    painted.customProgramCacheKey = () => program + '|winged-maou-1120';
+    mesh.material = painted;
+    wings = root.userData.wingedMaou1120 = {flap, time: 0};
+  }
+  wings.time += dt;
+  const lift = flight ? Math.sin(wings.time * 5.2) : 0;
+  wings.flap.value.set(folded ? -.025 : .074 * lift, folded ? -.095 : .042 * lift);
+}
+
+{const before = updMix; updMix = function (dt) {
+  const result = before.apply(this, arguments);
+  if (charKey === 'maou' && D?.mf < 2) {
+    wingedMaouArt(D.body, dt, state === 'select' || !P.onGround, false);
+  }
+  if (MSF.on && MSF.ph < 5 && storyDragon() && !MSF.e?.dead) {
+    wingedMaouArt(MSF.e?.mesh, dt, MSF.ph >= 2, MSF.ph < 2);
+  }
+  return result;
+};}
 
 {
  const previous=storyEnd;
